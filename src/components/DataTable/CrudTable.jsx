@@ -4,9 +4,10 @@ import {
 } from 'antd';
 import {
     PlusOutlined, EditOutlined, DeleteOutlined,
-    SearchOutlined, DownloadOutlined, ReloadOutlined
+    SearchOutlined, DownloadOutlined, ReloadOutlined, UploadOutlined
 } from '@ant-design/icons';
 import { useSupabaseCrud } from '../../hooks/useSupabase';
+import CsvImportModal from './CsvImportModal';
 
 export default function CrudTable({ tableName, title, columns, formFields, searchField }) {
     const { data, loading, total, fetchData, createRecord, updateRecord, deleteRecord } = useSupabaseCrud(tableName);
@@ -14,6 +15,7 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
     const [editingRecord, setEditingRecord] = useState(null);
     const [search, setSearch] = useState('');
     const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
+    const [importModalOpen, setImportModalOpen] = useState(false);
     const [form] = Form.useForm();
 
     const loadData = useCallback(() => {
@@ -132,6 +134,9 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
                     <Tooltip title="รีเฟรช">
                         <Button icon={<ReloadOutlined />} onClick={loadData} className="export-btn" />
                     </Tooltip>
+                    <Button icon={<UploadOutlined />} onClick={() => setImportModalOpen(true)} className="export-btn">
+                        Import CSV
+                    </Button>
                     <Button icon={<DownloadOutlined />} onClick={handleExportCSV} className="export-btn">
                         Export CSV
                     </Button>
@@ -174,6 +179,14 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
                     {formFields}
                 </Form>
             </Modal>
+
+            <CsvImportModal
+                open={importModalOpen}
+                onClose={() => setImportModalOpen(false)}
+                tableName={tableName}
+                columns={columns}
+                onSuccess={loadData}
+            />
         </div>
     );
 }

@@ -1,18 +1,84 @@
-import { Layout, Avatar, Dropdown, Button } from 'antd';
-import { UserOutlined, LogoutOutlined, LoginOutlined } from '@ant-design/icons';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Layout, Avatar, Dropdown, Button, Breadcrumb } from 'antd';
+import {
+    UserOutlined, LogoutOutlined, LoginOutlined,
+    MenuOutlined, HomeOutlined
+} from '@ant-design/icons';
+import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { supabase } from '../../supabaseClient';
+import { useSessionTimeout } from '../../hooks/useSessionTimeout.jsx';
 
 const { Header, Content } = Layout;
 
+// Route → Thai label mapping
+const routeLabels = {
+    dashboard: 'แดชบอร์ด',
+    admin: 'ฝ่ายบริหารทั่วไป',
+    personnel: 'ข้อมูลบุคลากร',
+    assets: 'พัสดุ/ครุภัณฑ์',
+    budgets: 'งบประมาณ',
+    strategy: 'ยุทธศาสตร์ฯ',
+    'farmer-registry': 'ทะเบียนเกษตรกร',
+    gis: 'พิกัด GIS',
+    disasters: 'ภัยพิบัติ',
+    kpi: 'แผน/KPI',
+    production: 'ส่งเสริมการผลิต',
+    'large-plots': 'แปลงใหญ่',
+    'learning-centers': 'ศพก.',
+    certifications: 'มาตรฐาน GAP',
+    'crop-production': 'ผลผลิตพืช',
+    development: 'ส่งเสริมเกษตรกร',
+    'community-enterprises': 'วิสาหกิจชุมชน',
+    'smart-farmers': 'เกษตรกรรุ่นใหม่',
+    'farmer-groups': 'กลุ่มแม่บ้าน/ยุวฯ',
+    'agri-tourism': 'ท่องเที่ยวเกษตร',
+    protection: 'อารักขาพืช',
+    'pest-outbreaks': 'พื้นที่ระบาด',
+    'pest-centers': 'ศจช.',
+    biocontrol: 'ชีวภัณฑ์',
+    'fire-hotspots': 'จุดเฝ้าระวัง PM2.5',
+};
+
+function buildBreadcrumbs(pathname) {
+    const segments = pathname.split('/').filter(Boolean);
+    const items = [{ title: <Link to="/dashboard"><HomeOutlined /> แดชบอร์ด</Link> }];
+
+    if (segments.length <= 1) return items; // dashboard root
+
+    let path = '';
+    for (let i = 1; i < segments.length; i++) {
+        const seg = segments[i];
+        path += '/' + seg;
+        const label = routeLabels[seg] || seg;
+
+        if (i === segments.length - 1) {
+            items.push({ title: label });
+        } else {
+            items.push({ title: label });
+        }
+    }
+
+    return items;
+}
+
 export default function AppLayout({ user }) {
     const navigate = useNavigate();
+    const location = useLocation();
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const { WarningModal } = useSessionTimeout();
+
+    // ปิด sidebar เมื่อเปลี่ยนหน้า (มือถือ)
+    useEffect(() => {
+        setMobileOpen(false);
+    }, [location.pathname]);
 
     const handleLogout = async () => {
         await supabase.auth.signOut();
         navigate('/');
     };
+
+    const breadcrumbItems = buildBreadcrumbs(location.pathname);
 
     const userMenuItems = [
         {
@@ -32,18 +98,30 @@ export default function AppLayout({ user }) {
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            <Sidebar user={user} />
+            <Sidebar
+                user={user}
+                mobileOpen={mobileOpen}
+                onMobileClose={() => setMobileOpen(false)}
+            />
             <Layout>
                 <Header className="app-header">
                     <div className="header-left">
-                        <span className="page-title">ระบบฐานข้อมูลกลาง</span>
+                        <Button
+                            className="mobile-menu-btn"
+                            type="text"
+                            icon={<MenuOutlined />}
+                            onClick={() => setMobileOpen(true)}
+                        />
+                        <div className="header-breadcrumb">
+                            <Breadcrumb items={breadcrumbItems} />
+                        </div>
                     </div>
                     <div className="header-right">
                         {user ? (
                             <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
                                 <div className="user-info">
                                     <Avatar size={34} icon={<UserOutlined />} style={{ backgroundColor: '#1a7f37' }} />
-                                    <div>
+                                    <div className="user-info-text">
                                         <div className="user-name">{user?.email || 'เจ้าหน้าที่'}</div>
                                         <div className="user-group">เกษตรจังหวัดนครปฐม</div>
                                     </div>
@@ -65,6 +143,7 @@ export default function AppLayout({ user }) {
                     <Outlet />
                 </Content>
             </Layout>
+            <WarningModal />
         </Layout>
     );
 }

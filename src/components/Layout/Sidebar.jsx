@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Layout, Menu, Modal } from 'antd';
+import { Layout, Menu, Drawer } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
     DashboardOutlined,
@@ -90,47 +90,27 @@ const menuItems = [
     },
 ];
 
-export default function Sidebar({ user }) {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const [collapsed, setCollapsed] = useState(false);
+const bottomMenuItems = [
+    { key: 'home', icon: <HomeOutlined />, label: 'กลับหน้าหลัก' },
+    { key: 'logout', icon: <LogoutOutlined />, label: 'ออกจากระบบ', danger: true },
+];
 
-    const handleMenuClick = ({ key }) => {
-        navigate(key);
-    };
-
-    const handleLogout = async () => {
-        await supabase.auth.signOut();
-        navigate('/');
-    };
-
+function SidebarContent({ user, onMenuClick, location }) {
     const openKeys = menuItems
         .filter(item => item.children)
         .filter(item => item.children.some(child => location.pathname.startsWith(child.key)))
         .map(item => item.key);
 
     return (
-        <Sider
-            className="sidebar"
-            width={260}
-            collapsible
-            collapsed={collapsed}
-            onCollapse={setCollapsed}
-            breakpoint="lg"
-            trigger={null}
-        >
+        <>
             <div className="sidebar-header">
-                {!collapsed ? (
-                    <div className="sidebar-brand">
-                        <span className="brand-icon">🌾</span>
-                        <div>
-                            <div>สนง.เกษตรจังหวัด</div>
-                            <div style={{ fontSize: 12, fontWeight: 400, opacity: 0.6 }}>นครปฐม</div>
-                        </div>
+                <div className="sidebar-brand">
+                    <span className="brand-icon">🌾</span>
+                    <div>
+                        <div>สนง.เกษตรจังหวัด</div>
+                        <div style={{ fontSize: 12, fontWeight: 400, opacity: 0.6 }}>นครปฐม</div>
                     </div>
-                ) : (
-                    <div style={{ textAlign: 'center', fontSize: 28 }}>🌾</div>
-                )}
+                </div>
             </div>
 
             <Menu
@@ -138,20 +118,91 @@ export default function Sidebar({ user }) {
                 selectedKeys={[location.pathname]}
                 defaultOpenKeys={openKeys}
                 items={menuItems}
-                onClick={handleMenuClick}
+                onClick={onMenuClick}
             />
 
-            <div style={{ position: 'absolute', bottom: 60, width: '100%', padding: '0 8px' }}>
+            <div className="sidebar-bottom-menu">
                 <Menu
                     mode="inline"
                     selectable={false}
-                    items={[
-                        { key: 'home', icon: <HomeOutlined />, label: 'กลับหน้าหลัก', onClick: () => navigate('/') },
-                        { key: 'logout', icon: <LogoutOutlined />, label: 'ออกจากระบบ', danger: true, onClick: handleLogout },
-                    ]}
+                    items={bottomMenuItems}
+                    onClick={({ key }) => onMenuClick({ key })}
                     style={{ background: 'transparent', border: 'none' }}
                 />
             </div>
-        </Sider>
+        </>
+    );
+}
+
+export default function Sidebar({ user, mobileOpen, onMobileClose }) {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [collapsed, setCollapsed] = useState(false);
+
+    const handleMenuClick = async ({ key }) => {
+        if (key === 'logout') {
+            await supabase.auth.signOut();
+            navigate('/');
+        } else if (key === 'home') {
+            navigate('/');
+        } else {
+            navigate(key);
+        }
+        // ปิด drawer ถ้าอยู่ในมือถือ
+        if (onMobileClose) onMobileClose();
+    };
+
+    return (
+        <>
+            {/* Desktop Sidebar */}
+            <Sider
+                className="sidebar sidebar-desktop"
+                width={260}
+                collapsible
+                collapsed={collapsed}
+                onCollapse={setCollapsed}
+                breakpoint="lg"
+                trigger={null}
+            >
+                {collapsed ? (
+                    <div className="sidebar-header">
+                        <div style={{ textAlign: 'center', fontSize: 28 }}>🌾</div>
+                    </div>
+                ) : null}
+                {!collapsed && (
+                    <SidebarContent
+                        user={user}
+                        onMenuClick={handleMenuClick}
+                        location={location}
+                    />
+                )}
+                {collapsed && (
+                    <>
+                        <Menu
+                            mode="inline"
+                            selectedKeys={[location.pathname]}
+                            items={menuItems}
+                            onClick={handleMenuClick}
+                        />
+                    </>
+                )}
+            </Sider>
+
+            {/* Mobile Drawer */}
+            <Drawer
+                placement="left"
+                open={mobileOpen}
+                onClose={onMobileClose}
+                width={280}
+                className="mobile-sidebar-drawer"
+                styles={{ body: { padding: 0, background: '#0d1117' } }}
+            >
+                <SidebarContent
+                    user={user}
+                    onMenuClick={handleMenuClick}
+                    location={location}
+                />
+            </Drawer>
+        </>
     );
 }
