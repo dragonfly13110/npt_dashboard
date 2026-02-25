@@ -1,6 +1,32 @@
 import { useState, useCallback } from 'react';
 import { supabase } from '../supabaseClient';
-import { message } from 'antd';
+import { notification } from 'antd';
+import {
+    CheckCircleOutlined,
+    CloseCircleOutlined,
+    InfoCircleOutlined,
+} from '@ant-design/icons';
+
+const notify = {
+    success: (title, desc) => {
+        notification.success({
+            message: title,
+            description: desc,
+            placement: 'topRight',
+            duration: 3,
+            style: { borderLeft: '4px solid #1a7f37' },
+        });
+    },
+    error: (title, desc) => {
+        notification.error({
+            message: title,
+            description: desc,
+            placement: 'topRight',
+            duration: 5,
+            style: { borderLeft: '4px solid #cf222e' },
+        });
+    },
+};
 
 export function useSupabaseCrud(tableName) {
     const [data, setData] = useState([]);
@@ -29,7 +55,7 @@ export function useSupabaseCrud(tableName) {
             setData(rows || []);
             setTotal(count || 0);
         } catch (err) {
-            message.error('โหลดข้อมูลไม่สำเร็จ: ' + err.message);
+            notify.error('โหลดข้อมูลไม่สำเร็จ', err.message);
         } finally {
             setLoading(false);
         }
@@ -39,10 +65,10 @@ export function useSupabaseCrud(tableName) {
         try {
             const { error } = await supabase.from(tableName).insert([record]);
             if (error) throw error;
-            message.success('เพิ่มข้อมูลสำเร็จ');
+            notify.success('เพิ่มข้อมูลสำเร็จ', 'บันทึกข้อมูลใหม่เรียบร้อยแล้ว');
             return true;
         } catch (err) {
-            message.error('เพิ่มข้อมูลไม่สำเร็จ: ' + err.message);
+            notify.error('เพิ่มข้อมูลไม่สำเร็จ', err.message);
             return false;
         }
     }, [tableName]);
@@ -51,10 +77,10 @@ export function useSupabaseCrud(tableName) {
         try {
             const { error } = await supabase.from(tableName).update(record).eq('id', id);
             if (error) throw error;
-            message.success('แก้ไขข้อมูลสำเร็จ');
+            notify.success('แก้ไขข้อมูลสำเร็จ', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
             return true;
         } catch (err) {
-            message.error('แก้ไขข้อมูลไม่สำเร็จ: ' + err.message);
+            notify.error('แก้ไขข้อมูลไม่สำเร็จ', err.message);
             return false;
         }
     }, [tableName]);
@@ -63,10 +89,10 @@ export function useSupabaseCrud(tableName) {
         try {
             const { error } = await supabase.from(tableName).delete().eq('id', id);
             if (error) throw error;
-            message.success('ลบข้อมูลสำเร็จ');
+            notify.success('ลบข้อมูลสำเร็จ', 'ลบข้อมูลออกจากระบบเรียบร้อยแล้ว');
             return true;
         } catch (err) {
-            message.error('ลบข้อมูลไม่สำเร็จ: ' + err.message);
+            notify.error('ลบข้อมูลไม่สำเร็จ', err.message);
             return false;
         }
     }, [tableName]);
@@ -80,7 +106,7 @@ export function useSupabaseCrud(tableName) {
             if (error) throw error;
             return rows || [];
         } catch (err) {
-            message.error('โหลดข้อมูลไม่สำเร็จ: ' + err.message);
+            notify.error('โหลดข้อมูลไม่สำเร็จ', err.message);
             return [];
         }
     }, [tableName]);
