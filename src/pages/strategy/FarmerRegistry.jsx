@@ -23,6 +23,12 @@ const formFields = (
     </>
 );
 
+const districts = ['เมืองนครปฐม', 'นครชัยศรี', 'สามพราน', 'ดอนตูม', 'บางเลน', 'กำแพงแสน', 'พุทธมณฑล'];
+
+const filterConfig = [
+    { key: 'district', label: 'อำเภอ', options: districts },
+];
+
 export default function FarmerRegistry() {
-    return <CrudTable tableName="farmer_registry" title="ทะเบียนเกษตรกร" columns={columns} formFields={formFields} searchField="district" />;
+    return <CrudTable tableName="farmer_registry" title="ทะเบียนเกษตรกร" columns={columns} formFields={formFields} searchField="district" filterConfig={filterConfig} />;
 }

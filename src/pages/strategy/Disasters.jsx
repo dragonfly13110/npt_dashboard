@@ -21,6 +21,13 @@ const formFields = (
         <Form.Item name="notes" label="หมายเหตุ"><Input.TextArea rows={2} /></Form.Item>
     </>
 );
+const districts = ['เมืองนครปฐม', 'นครชัยศรี', 'สามพราน', 'ดอนตูม', 'บางเลน', 'กำแพงแสน', 'พุทธมณฑล'];
+
+const filterConfig = [
+    { key: 'district', label: 'อำเภอ', options: districts },
+    { key: 'disaster_type', label: 'ประเภทภัย', options: ['น้ำท่วม', 'ภัยแล้ง', 'วาตภัย', 'ศัตรูพืชระบาด', 'อื่นๆ'] },
+];
+
 export default function Disasters() {
-    return <CrudTable tableName="disasters" title="ข้อมูลภัยพิบัติทางการเกษตร" columns={columns} formFields={formFields} searchField="district" />;
+    return <CrudTable tableName="disasters" title="ข้อมูลภัยพิบัติทางการเกษตร" columns={columns} formFields={formFields} searchField="district" filterConfig={filterConfig} />;
 }

@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { Skeleton, Empty, Tag } from 'antd';
+import { useEffect, useState, useRef } from 'react';
+import { Skeleton, Empty, Tag, Button, Tooltip } from 'antd';
 import {
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip, ResponsiveContainer,
     PieChart, Pie, Cell, Legend, AreaChart, Area
 } from 'recharts';
 import {
-    ClockCircleOutlined, PlusCircleOutlined, EditOutlined, DeleteOutlined
+    ClockCircleOutlined, FilePdfOutlined
 } from '@ant-design/icons';
 import { supabase } from '../supabaseClient';
 
@@ -102,6 +102,8 @@ export default function Dashboard() {
     const [trendLoading, setTrendLoading] = useState(true);
     const [activities, setActivities] = useState([]);
     const [activityLoading, setActivityLoading] = useState(true);
+    const [pdfExporting, setPdfExporting] = useState(false);
+    const dashRef = useRef(null);
 
     useEffect(() => {
         loadStats();
@@ -140,12 +142,43 @@ export default function Dashboard() {
         setActivityLoading(false);
     };
 
+    const handleExportPdf = async () => {
+        if (!dashRef.current) return;
+        setPdfExporting(true);
+        try {
+            const html2canvas = (await import('html2canvas')).default;
+            const { jsPDF } = await import('jspdf');
+            const canvas = await html2canvas(dashRef.current, {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#f6f8fa',
+            });
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('l', 'mm', 'a4'); // landscape
+            const pdfW = pdf.internal.pageSize.getWidth();
+            const pdfH = pdf.internal.pageSize.getHeight();
+            const imgW = canvas.width;
+            const imgH = canvas.height;
+            const ratio = Math.min(pdfW / imgW, pdfH / imgH);
+            const w = imgW * ratio;
+            const h = imgH * ratio;
+            const x = (pdfW - w) / 2;
+            pdf.addImage(imgData, 'PNG', x, 4, w, h);
+            pdf.save(`dashboard_${new Date().toISOString().slice(0, 10)}.pdf`);
+        } catch (err) {
+            console.error('PDF export error:', err);
+        } finally {
+            setPdfExporting(false);
+        }
+    };
+
     const barData = stats.filter(s => s.count > 0).map(s => ({ name: s.label, value: s.count }));
     const pieData = stats.filter(s => s.count > 0).map(s => ({ name: s.label, value: s.count }));
     const totalRecords = stats.reduce((sum, s) => sum + s.count, 0);
 
     return (
-        <div>
+        <div ref={dashRef}>
             <div className="dashboard-header">
                 <h2 style={{ fontSize: 22, fontWeight: 700, margin: 0 }}>📊 ภาพรวมข้อมูล</h2>
                 {!loading && (
@@ -153,6 +186,16 @@ export default function Dashboard() {
                         รวม {totalRecords.toLocaleString()} รายการ
                     </Tag>
                 )}
+                <div style={{ marginLeft: 'auto' }}>
+                    <Button
+                        icon={<FilePdfOutlined />}
+                        onClick={handleExportPdf}
+                        loading={pdfExporting}
+                        className="export-btn pdf-export-btn"
+                    >
+                        พิมพ์รายงาน PDF
+                    </Button>
+                </div>
             </div>
 
             {/* Stat Cards */}
@@ -184,7 +227,7 @@ export default function Dashboard() {
                                 <CartesianGrid strokeDasharray="3 3" stroke="#e8ecf0" />
                                 <XAxis dataKey="name" tick={{ fontSize: 12 }} angle={-20} textAnchor="end" height={60} />
                                 <YAxis tick={{ fontSize: 12 }} />
-                                <Tooltip />
+                                <RTooltip />
                                 <Bar dataKey="value" fill="#1a7f37" radius={[6, 6, 0, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
@@ -208,7 +251,7 @@ export default function Dashboard() {
                                         <Cell key={i} fill={COLORS[i % COLORS.length]} />
                                     ))}
                                 </Pie>
-                                <Tooltip />
+                                <RTooltip />
                             </PieChart>
                         </ResponsiveContainer>
                     </div>
@@ -233,7 +276,7 @@ export default function Dashboard() {
                                 <CartesianGrid strokeDasharray="3 3" stroke="#e8ecf0" />
                                 <XAxis dataKey="name" tick={{ fontSize: 12 }} />
                                 <YAxis tick={{ fontSize: 12 }} />
-                                <Tooltip />
+                                <RTooltip />
                                 <Area
                                     type="monotone"
                                     dataKey="รายการ"

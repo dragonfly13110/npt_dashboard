@@ -18,6 +18,13 @@ const formFields = (
         <Form.Item name="level" label="ระดับ"><Select options={['เข้มแข็ง', 'ปานกลาง', 'เริ่มต้น'].map(d => ({ label: d, value: d }))} /></Form.Item>
     </>
 );
+const districts = ['เมืองนครปฐม', 'นครชัยศรี', 'สามพราน', 'ดอนตูม', 'บางเลน', 'กำแพงแสน', 'พุทธมณฑล'];
+
+const filterConfig = [
+    { key: 'district', label: 'อำเภอ', options: districts },
+    { key: 'level', label: 'ระดับ', options: ['เข้มแข็ง', 'ปานกลาง', 'เริ่มต้น'] },
+];
+
 export default function CommunityEnterprises() {
-    return <CrudTable tableName="community_enterprises" title="วิสาหกิจชุมชน" columns={columns} formFields={formFields} searchField="enterprise_name" />;
+    return <CrudTable tableName="community_enterprises" title="วิสาหกิจชุมชน" columns={columns} formFields={formFields} searchField="enterprise_name" filterConfig={filterConfig} />;
 }

@@ -1,26 +1,29 @@
 import { useState, useEffect, useCallback } from 'react';
 import {
-    Table, Button, Input, Modal, Form, Space, Popconfirm, Tag, Tooltip, Empty
+    Table, Button, Input, Modal, Form, Space, Popconfirm, Tag, Tooltip, Empty, Select, Collapse
 } from 'antd';
 import {
     PlusOutlined, EditOutlined, DeleteOutlined,
-    SearchOutlined, DownloadOutlined, ReloadOutlined, UploadOutlined
+    SearchOutlined, DownloadOutlined, ReloadOutlined, UploadOutlined,
+    FileExcelOutlined, FilterOutlined
 } from '@ant-design/icons';
 import { useSupabaseCrud } from '../../hooks/useSupabase';
 import CsvImportModal from './CsvImportModal';
 
-export default function CrudTable({ tableName, title, columns, formFields, searchField }) {
-    const { data, loading, total, fetchData, createRecord, updateRecord, deleteRecord } = useSupabaseCrud(tableName);
+export default function CrudTable({ tableName, title, columns, formFields, searchField, filterConfig = [] }) {
+    const { data, loading, total, fetchData, createRecord, updateRecord, deleteRecord, fetchAll } = useSupabaseCrud(tableName);
     const [modalOpen, setModalOpen] = useState(false);
     const [editingRecord, setEditingRecord] = useState(null);
     const [search, setSearch] = useState('');
     const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
     const [importModalOpen, setImportModalOpen] = useState(false);
+    const [filters, setFilters] = useState({});
+    const [showFilters, setShowFilters] = useState(false);
     const [form] = Form.useForm();
 
     const loadData = useCallback(() => {
-        fetchData({ page: pagination.current, pageSize: pagination.pageSize, search, searchField });
-    }, [fetchData, pagination.current, pagination.pageSize, search, searchField]);
+        fetchData({ page: pagination.current, pageSize: pagination.pageSize, search, searchField, filters });
+    }, [fetchData, pagination.current, pagination.pageSize, search, searchField, filters]);
 
     useEffect(() => { loadData(); }, [loadData]);
 
@@ -69,6 +72,19 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
         setPagination({ ...pagination, current: 1 });
     };
 
+    const handleFilterChange = (key, value) => {
+        const newFilters = { ...filters, [key]: value };
+        setFilters(newFilters);
+        setPagination({ ...pagination, current: 1 });
+    };
+
+    const handleClearFilters = () => {
+        setFilters({});
+        setPagination({ ...pagination, current: 1 });
+    };
+
+    const activeFilterCount = Object.values(filters).filter(v => v !== undefined && v !== null && v !== '').length;
+
     const handleExportCSV = () => {
         if (!data.length) return;
         const headers = columns.filter(c => c.dataIndex).map(c => c.title);
@@ -84,6 +100,31 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
         link.download = `${tableName}_${new Date().toISOString().slice(0, 10)}.csv`;
         link.click();
         URL.revokeObjectURL(url);
+    };
+
+    const handleExportExcel = async () => {
+        try {
+            const allData = await fetchAll();
+            if (!allData.length) return;
+
+            const { utils, writeFile } = await import('xlsx');
+            const headers = columns.filter(c => c.dataIndex).map(c => c.title);
+            const keys = columns.filter(c => c.dataIndex).map(c => c.dataIndex);
+            const rows = allData.map(row => {
+                const obj = {};
+                keys.forEach((k, i) => { obj[headers[i]] = row[k] ?? ''; });
+                return obj;
+            });
+
+            const ws = utils.json_to_sheet(rows);
+            // Auto-width columns
+            ws['!cols'] = headers.map(h => ({ wch: Math.max(h.length * 2, 15) }));
+            const wb = utils.book_new();
+            utils.book_append_sheet(wb, ws, title.slice(0, 31));
+            writeFile(wb, `${tableName}_${new Date().toISOString().slice(0, 10)}.xlsx`);
+        } catch (err) {
+            console.error('Excel export error:', err);
+        }
     };
 
     const actionColumn = {
@@ -131,6 +172,17 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
                             prefix={<SearchOutlined />}
                         />
                     )}
+                    {filterConfig.length > 0 && (
+                        <Tooltip title="กรองข้อมูล">
+                            <Button
+                                icon={<FilterOutlined />}
+                                onClick={() => setShowFilters(!showFilters)}
+                                className={`export-btn ${activeFilterCount > 0 ? 'filter-active' : ''}`}
+                            >
+                                กรอง {activeFilterCount > 0 && `(${activeFilterCount})`}
+                            </Button>
+                        </Tooltip>
+                    )}
                     <Tooltip title="รีเฟรช">
                         <Button icon={<ReloadOutlined />} onClick={loadData} className="export-btn" />
                     </Tooltip>
@@ -140,11 +192,41 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
                     <Button icon={<DownloadOutlined />} onClick={handleExportCSV} className="export-btn">
                         Export CSV
                     </Button>
+                    <Button icon={<FileExcelOutlined />} onClick={handleExportExcel} className="export-btn export-excel-btn">
+                        Export Excel
+                    </Button>
                     <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd} className="add-btn">
                         เพิ่มข้อมูล
                     </Button>
                 </div>
             </div>
+
+            {/* Advanced Filter Bar */}
+            {filterConfig.length > 0 && showFilters && (
+                <div className="filter-bar">
+                    <div className="filter-bar-inner">
+                        {filterConfig.map(f => (
+                            <div key={f.key} className="filter-item">
+                                <label className="filter-label">{f.label}</label>
+                                <Select
+                                    placeholder={`เลือก${f.label}`}
+                                    allowClear
+                                    value={filters[f.key] || undefined}
+                                    onChange={val => handleFilterChange(f.key, val)}
+                                    style={{ width: 160 }}
+                                    size="small"
+                                    options={f.options.map(o => typeof o === 'object' ? o : { label: String(o), value: o })}
+                                />
+                            </div>
+                        ))}
+                        {activeFilterCount > 0 && (
+                            <Button size="small" onClick={handleClearFilters} style={{ alignSelf: 'flex-end' }}>
+                                ล้างตัวกรอง
+                            </Button>
+                        )}
+                    </div>
+                </div>
+            )}
 
             <Table
                 dataSource={data}

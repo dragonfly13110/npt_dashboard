@@ -36,7 +36,7 @@ export function useSupabaseCrud(tableName) {
     const fetchData = useCallback(async (params = {}) => {
         setLoading(true);
         try {
-            const { page = 1, pageSize = 10, search = '', searchField = '' } = params;
+            const { page = 1, pageSize = 10, search = '', searchField = '', filters = {} } = params;
             const from = (page - 1) * pageSize;
             const to = from + pageSize - 1;
 
@@ -45,6 +45,13 @@ export function useSupabaseCrud(tableName) {
             if (search && searchField) {
                 query = query.ilike(searchField, `%${search}%`);
             }
+
+            // Advanced filters
+            Object.entries(filters).forEach(([key, value]) => {
+                if (value !== undefined && value !== null && value !== '') {
+                    query = query.eq(key, value);
+                }
+            });
 
             query = query.range(from, to).order('created_at', { ascending: false });
 

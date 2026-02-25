@@ -24,6 +24,13 @@ const formFields = (
         <Form.Item name="notes" label="หมายเหตุ"><Input.TextArea rows={2} /></Form.Item>
     </>
 );
+const districts = ['เมืองนครปฐม', 'นครชัยศรี', 'สามพราน', 'ดอนตูม', 'บางเลน', 'กำแพงแสน', 'พุทธมณฑล'];
+
+const filterConfig = [
+    { key: 'district', label: 'อำเภอ', options: districts },
+    { key: 'severity', label: 'ระดับ', options: ['รุนแรง', 'ปานกลาง', 'เล็กน้อย'] },
+];
+
 export default function PestOutbreaks() {
-    return <CrudTable tableName="pest_outbreaks" title="พื้นที่การระบาดศัตรูพืช" columns={columns} formFields={formFields} searchField="pest_name" />;
+    return <CrudTable tableName="pest_outbreaks" title="พื้นที่การระบาดศัตรูพืช" columns={columns} formFields={formFields} searchField="pest_name" filterConfig={filterConfig} />;
 }

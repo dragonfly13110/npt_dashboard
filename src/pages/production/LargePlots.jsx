@@ -18,6 +18,12 @@ const formFields = (
         <Form.Item name="year" label="ปี"><InputNumber style={{ width: '100%' }} placeholder="2568" /></Form.Item>
     </>
 );
+const districts = ['เมืองนครปฐม', 'นครชัยศรี', 'สามพราน', 'ดอนตูม', 'บางเลน', 'กำแพงแสน', 'พุทธมณฑล'];
+
+const filterConfig = [
+    { key: 'district', label: 'อำเภอ', options: districts },
+];
+
 export default function LargePlots() {
-    return <CrudTable tableName="large_plots" title="ข้อมูลแปลงใหญ่" columns={columns} formFields={formFields} searchField="plot_name" />;
+    return <CrudTable tableName="large_plots" title="ข้อมูลแปลงใหญ่" columns={columns} formFields={formFields} searchField="plot_name" filterConfig={filterConfig} />;
 }

@@ -18,6 +18,12 @@ const formFields = (
         <Form.Item name="year" label="ปี"><InputNumber style={{ width: '100%' }} placeholder="2568" /></Form.Item>
     </>
 );
+const districts = ['เมืองนครปฐม', 'นครชัยศรี', 'สามพราน', 'ดอนตูม', 'บางเลน', 'กำแพงแสน', 'พุทธมณฑล'];
+
+const filterConfig = [
+    { key: 'district', label: 'อำเภอ', options: districts },
+];
+
 export default function CropProduction() {
-    return <CrudTable tableName="crop_production" title="ผลผลิตพืชเศรษฐกิจ" columns={columns} formFields={formFields} searchField="crop_name" />;
+    return <CrudTable tableName="crop_production" title="ผลผลิตพืชเศรษฐกิจ" columns={columns} formFields={formFields} searchField="crop_name" filterConfig={filterConfig} />;
 }

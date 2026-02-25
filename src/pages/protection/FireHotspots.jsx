@@ -24,6 +24,13 @@ const formFields = (
         <Form.Item name="notes" label="หมายเหตุ"><Input.TextArea rows={2} /></Form.Item>
     </>
 );
+const districts = ['เมืองนครปฐม', 'นครชัยศรี', 'สามพราน', 'ดอนตูม', 'บางเลน', 'กำแพงแสน', 'พุทธมณฑล'];
+
+const filterConfig = [
+    { key: 'district', label: 'อำเภอ', options: districts },
+    { key: 'risk_level', label: 'ระดับความเสี่ยง', options: ['สูง', 'ปานกลาง', 'ต่ำ'] },
+];
+
 export default function FireHotspots() {
-    return <CrudTable tableName="fire_hotspots" title="จุดเฝ้าระวังการเผา / PM2.5" columns={columns} formFields={formFields} searchField="spot_name" />;
+    return <CrudTable tableName="fire_hotspots" title="จุดเฝ้าระวังการเผา / PM2.5" columns={columns} formFields={formFields} searchField="spot_name" filterConfig={filterConfig} />;
 }
