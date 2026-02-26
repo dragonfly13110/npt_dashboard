@@ -1,11 +1,11 @@
-import { useEffect, useState, lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ConfigProvider, Spin } from 'antd';
 import thTH from 'antd/locale/th_TH';
-import { supabase } from './supabaseClient';
 import ErrorBoundary from './components/ErrorBoundary';
 import PageSkeleton from './components/PageSkeleton';
 import AppLayout from './components/Layout/AppLayout';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 // Lazy-loaded pages
 const Login = lazy(() => import('./pages/Login'));
@@ -17,52 +17,54 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 const Personnel = lazy(() => import('./pages/admin/Personnel'));
 const Assets = lazy(() => import('./pages/admin/Assets'));
 const Budgets = lazy(() => import('./pages/admin/Budgets'));
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
+const UserManagement = lazy(() => import('./pages/admin/UserManagement'));
+const AuditLog = lazy(() => import('./pages/admin/AuditLog'));
 
 // Strategy
 const FarmerRegistry = lazy(() => import('./pages/strategy/FarmerRegistry'));
 const GisAreas = lazy(() => import('./pages/strategy/GisAreas'));
 const Disasters = lazy(() => import('./pages/strategy/Disasters'));
 const KpiPlans = lazy(() => import('./pages/strategy/KpiPlans'));
+const StrategyDashboard = lazy(() => import('./pages/strategy/StrategyDashboard'));
 
 // Production
 const LargePlots = lazy(() => import('./pages/production/LargePlots'));
 const LearningCenters = lazy(() => import('./pages/production/LearningCenters'));
 const Certifications = lazy(() => import('./pages/production/Certifications'));
 const CropProduction = lazy(() => import('./pages/production/CropProduction'));
+const ProductionDashboard = lazy(() => import('./pages/production/ProductionDashboard'));
 
 // Development
 const CommunityEnterprises = lazy(() => import('./pages/development/CommunityEnterprises'));
 const SmartFarmers = lazy(() => import('./pages/development/SmartFarmers'));
 const FarmerGroups = lazy(() => import('./pages/development/FarmerGroups'));
 const AgriTourism = lazy(() => import('./pages/development/AgriTourism'));
+const DevelopmentDashboard = lazy(() => import('./pages/development/DevelopmentDashboard'));
 
 // Protection
 const PestOutbreaks = lazy(() => import('./pages/protection/PestOutbreaks'));
 const PestCenters = lazy(() => import('./pages/protection/PestCenters'));
 const BiocontrolStock = lazy(() => import('./pages/protection/BiocontrolStock'));
 const FireHotspots = lazy(() => import('./pages/protection/FireHotspots'));
+const ProtectionDashboard = lazy(() => import('./pages/protection/ProtectionDashboard'));
 
-function ProtectedRoute({ user, children }) {
+function ProtectedRoute({ children }) {
+  const { user, loading } = useAuth();
+  if (loading) return <PageSkeleton />;
   if (!user) return <Navigate to="/login" replace />;
   return children;
 }
 
-export default function App() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+function AdminRoute({ children }) {
+  const { isAdmin, loading } = useAuth();
+  if (loading) return <PageSkeleton />;
+  if (!isAdmin()) return <Navigate to="/dashboard" replace />;
+  return children;
+}
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
+function AppRoutes() {
+  const { user, loading } = useAuth();
 
   if (loading) {
     return (
@@ -72,6 +74,70 @@ export default function App() {
     );
   }
 
+  return (
+    <Suspense fallback={<PageSkeleton />}>
+      <Routes>
+        {/* Landing Page — PUBLIC */}
+        <Route path="/" element={<LandingPage />} />
+
+        {/* Login page */}
+        <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
+
+        {/* Admin area — PROTECTED */}
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <AppLayout />
+          </ProtectedRoute>
+        }>
+          <Route index element={<Dashboard />} />
+
+          {/* Admin */}
+          <Route path="admin/overview" element={<AdminDashboard />} />
+          <Route path="admin/personnel" element={<Personnel />} />
+          <Route path="admin/assets" element={<Assets />} />
+          <Route path="admin/budgets" element={<Budgets />} />
+
+          {/* Admin-only: User Management & Audit Log */}
+          <Route path="admin/users" element={<AdminRoute><UserManagement /></AdminRoute>} />
+          <Route path="admin/audit-log" element={<AdminRoute><AuditLog /></AdminRoute>} />
+
+          {/* Strategy */}
+          <Route path="strategy/overview" element={<StrategyDashboard />} />
+          <Route path="strategy/farmer-registry" element={<FarmerRegistry />} />
+          <Route path="strategy/gis" element={<GisAreas />} />
+          <Route path="strategy/disasters" element={<Disasters />} />
+          <Route path="strategy/kpi" element={<KpiPlans />} />
+
+          {/* Production */}
+          <Route path="production/overview" element={<ProductionDashboard />} />
+          <Route path="production/large-plots" element={<LargePlots />} />
+          <Route path="production/learning-centers" element={<LearningCenters />} />
+          <Route path="production/certifications" element={<Certifications />} />
+          <Route path="production/crop-production" element={<CropProduction />} />
+
+          {/* Development */}
+          <Route path="development/overview" element={<DevelopmentDashboard />} />
+          <Route path="development/community-enterprises" element={<CommunityEnterprises />} />
+          <Route path="development/smart-farmers" element={<SmartFarmers />} />
+          <Route path="development/farmer-groups" element={<FarmerGroups />} />
+          <Route path="development/agri-tourism" element={<AgriTourism />} />
+
+          {/* Protection */}
+          <Route path="protection/overview" element={<ProtectionDashboard />} />
+          <Route path="protection/pest-outbreaks" element={<PestOutbreaks />} />
+          <Route path="protection/pest-centers" element={<PestCenters />} />
+          <Route path="protection/biocontrol" element={<BiocontrolStock />} />
+          <Route path="protection/fire-hotspots" element={<FireHotspots />} />
+        </Route>
+
+        {/* 404 Not Found */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Suspense>
+  );
+}
+
+export default function App() {
   return (
     <ErrorBoundary>
       <ConfigProvider
@@ -85,56 +151,9 @@ export default function App() {
         }}
       >
         <BrowserRouter>
-          <Suspense fallback={<PageSkeleton />}>
-            <Routes>
-              {/* Landing Page — PUBLIC */}
-              <Route path="/" element={<LandingPage />} />
-
-              {/* Login page */}
-              <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
-
-              {/* Admin area — PROTECTED */}
-              <Route path="/dashboard" element={
-                <ProtectedRoute user={user}>
-                  <AppLayout user={user} />
-                </ProtectedRoute>
-              }>
-                <Route index element={<Dashboard />} />
-
-                {/* Admin */}
-                <Route path="admin/personnel" element={<Personnel />} />
-                <Route path="admin/assets" element={<Assets />} />
-                <Route path="admin/budgets" element={<Budgets />} />
-
-                {/* Strategy */}
-                <Route path="strategy/farmer-registry" element={<FarmerRegistry />} />
-                <Route path="strategy/gis" element={<GisAreas />} />
-                <Route path="strategy/disasters" element={<Disasters />} />
-                <Route path="strategy/kpi" element={<KpiPlans />} />
-
-                {/* Production */}
-                <Route path="production/large-plots" element={<LargePlots />} />
-                <Route path="production/learning-centers" element={<LearningCenters />} />
-                <Route path="production/certifications" element={<Certifications />} />
-                <Route path="production/crop-production" element={<CropProduction />} />
-
-                {/* Development */}
-                <Route path="development/community-enterprises" element={<CommunityEnterprises />} />
-                <Route path="development/smart-farmers" element={<SmartFarmers />} />
-                <Route path="development/farmer-groups" element={<FarmerGroups />} />
-                <Route path="development/agri-tourism" element={<AgriTourism />} />
-
-                {/* Protection */}
-                <Route path="protection/pest-outbreaks" element={<PestOutbreaks />} />
-                <Route path="protection/pest-centers" element={<PestCenters />} />
-                <Route path="protection/biocontrol" element={<BiocontrolStock />} />
-                <Route path="protection/fire-hotspots" element={<FireHotspots />} />
-              </Route>
-
-              {/* 404 Not Found */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
+          <AuthProvider>
+            <AppRoutes />
+          </AuthProvider>
         </BrowserRouter>
       </ConfigProvider>
     </ErrorBoundary>

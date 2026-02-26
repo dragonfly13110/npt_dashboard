@@ -6,6 +6,7 @@ import {
     CloseCircleOutlined,
     InfoCircleOutlined,
 } from '@ant-design/icons';
+import { logAction } from '../utils/auditLog';
 
 const notify = {
     success: (title, desc) => {
@@ -70,9 +71,12 @@ export function useSupabaseCrud(tableName) {
 
     const createRecord = useCallback(async (record) => {
         try {
-            const { error } = await supabase.from(tableName).insert([record]);
+            const { data: inserted, error } = await supabase.from(tableName).insert([record]).select();
             if (error) throw error;
             notify.success('เพิ่มข้อมูลสำเร็จ', 'บันทึกข้อมูลใหม่เรียบร้อยแล้ว');
+            // Audit log
+            const newRow = inserted?.[0];
+            logAction('CREATE', tableName, newRow?.id, null, newRow || record);
             return true;
         } catch (err) {
             notify.error('เพิ่มข้อมูลไม่สำเร็จ', err.message);
@@ -82,9 +86,13 @@ export function useSupabaseCrud(tableName) {
 
     const updateRecord = useCallback(async (id, record) => {
         try {
+            // ดึงข้อมูลเดิมก่อน update
+            const { data: oldRows } = await supabase.from(tableName).select('*').eq('id', id).single();
             const { error } = await supabase.from(tableName).update(record).eq('id', id);
             if (error) throw error;
             notify.success('แก้ไขข้อมูลสำเร็จ', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
+            // Audit log
+            logAction('UPDATE', tableName, id, oldRows, record);
             return true;
         } catch (err) {
             notify.error('แก้ไขข้อมูลไม่สำเร็จ', err.message);
@@ -94,9 +102,13 @@ export function useSupabaseCrud(tableName) {
 
     const deleteRecord = useCallback(async (id) => {
         try {
+            // ดึงข้อมูลเดิมก่อน delete
+            const { data: oldRows } = await supabase.from(tableName).select('*').eq('id', id).single();
             const { error } = await supabase.from(tableName).delete().eq('id', id);
             if (error) throw error;
             notify.success('ลบข้อมูลสำเร็จ', 'ลบข้อมูลออกจากระบบเรียบร้อยแล้ว');
+            // Audit log
+            logAction('DELETE', tableName, id, oldRows, null);
             return true;
         } catch (err) {
             notify.error('ลบข้อมูลไม่สำเร็จ', err.message);

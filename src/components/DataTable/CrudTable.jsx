@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import {
-    Table, Button, Input, Modal, Form, Space, Popconfirm, Tag, Tooltip, Empty, Select, Collapse
+    Table, Button, Input, Modal, Form, Space, Popconfirm, Tag, Tooltip, Empty, Select
 } from 'antd';
 import {
     PlusOutlined, EditOutlined, DeleteOutlined,
@@ -9,9 +9,11 @@ import {
 } from '@ant-design/icons';
 import { useSupabaseCrud } from '../../hooks/useSupabase';
 import CsvImportModal from './CsvImportModal';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function CrudTable({ tableName, title, columns, formFields, searchField, filterConfig = [] }) {
     const { data, loading, total, fetchData, createRecord, updateRecord, deleteRecord, fetchAll } = useSupabaseCrud(tableName);
+    const { canEdit, canDelete } = useAuth();
     const [modalOpen, setModalOpen] = useState(false);
     const [editingRecord, setEditingRecord] = useState(null);
     const [search, setSearch] = useState('');
@@ -20,6 +22,9 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
     const [filters, setFilters] = useState({});
     const [showFilters, setShowFilters] = useState(false);
     const [form] = Form.useForm();
+
+    const userCanEdit = canEdit();
+    const userCanDelete = canDelete();
 
     const loadData = useCallback(() => {
         fetchData({ page: pagination.current, pageSize: pagination.pageSize, search, searchField, filters });
@@ -117,7 +122,6 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
             });
 
             const ws = utils.json_to_sheet(rows);
-            // Auto-width columns
             ws['!cols'] = headers.map(h => ({ wch: Math.max(h.length * 2, 15) }));
             const wb = utils.book_new();
             utils.book_append_sheet(wb, ws, title.slice(0, 31));
@@ -127,33 +131,36 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
         }
     };
 
-    const actionColumn = {
+    // Action column — ซ่อนตาม role
+    const actionColumn = userCanEdit ? {
         title: 'จัดการ',
         key: 'actions',
-        width: 120,
+        width: userCanDelete ? 120 : 80,
         align: 'center',
         render: (_, record) => (
             <Space size={4}>
                 <Tooltip title="แก้ไข">
                     <Button className="action-btn edit" icon={<EditOutlined />} onClick={() => handleEdit(record)} />
                 </Tooltip>
-                <Popconfirm
-                    title="ยืนยันการลบ"
-                    description="คุณต้องการลบข้อมูลนี้ใช่หรือไม่?"
-                    onConfirm={() => handleDelete(record.id)}
-                    okText="ลบ"
-                    cancelText="ยกเลิก"
-                    okButtonProps={{ danger: true }}
-                >
-                    <Tooltip title="ลบ">
-                        <Button className="action-btn delete" icon={<DeleteOutlined />} />
-                    </Tooltip>
-                </Popconfirm>
+                {userCanDelete && (
+                    <Popconfirm
+                        title="ยืนยันการลบ"
+                        description="คุณต้องการลบข้อมูลนี้ใช่หรือไม่?"
+                        onConfirm={() => handleDelete(record.id)}
+                        okText="ลบ"
+                        cancelText="ยกเลิก"
+                        okButtonProps={{ danger: true }}
+                    >
+                        <Tooltip title="ลบ">
+                            <Button className="action-btn delete" icon={<DeleteOutlined />} />
+                        </Tooltip>
+                    </Popconfirm>
+                )}
             </Space>
         ),
-    };
+    } : null;
 
-    const allColumns = [...columns, actionColumn];
+    const allColumns = actionColumn ? [...columns, actionColumn] : [...columns];
 
     return (
         <div className="crud-container">
@@ -186,18 +193,22 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
                     <Tooltip title="รีเฟรช">
                         <Button icon={<ReloadOutlined />} onClick={loadData} className="export-btn" />
                     </Tooltip>
-                    <Button icon={<UploadOutlined />} onClick={() => setImportModalOpen(true)} className="export-btn">
-                        Import CSV
-                    </Button>
+                    {userCanEdit && (
+                        <Button icon={<UploadOutlined />} onClick={() => setImportModalOpen(true)} className="export-btn">
+                            Import CSV
+                        </Button>
+                    )}
                     <Button icon={<DownloadOutlined />} onClick={handleExportCSV} className="export-btn">
                         Export CSV
                     </Button>
                     <Button icon={<FileExcelOutlined />} onClick={handleExportExcel} className="export-btn export-excel-btn">
                         Export Excel
                     </Button>
-                    <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd} className="add-btn">
-                        เพิ่มข้อมูล
-                    </Button>
+                    {userCanEdit && (
+                        <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd} className="add-btn">
+                            เพิ่มข้อมูล
+                        </Button>
+                    )}
                 </div>
             </div>
 

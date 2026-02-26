@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Layout, Avatar, Dropdown, Button, Breadcrumb } from 'antd';
+import { Layout, Avatar, Dropdown, Button, Breadcrumb, Tag } from 'antd';
 import {
     UserOutlined, LogoutOutlined, LoginOutlined,
     MenuOutlined, HomeOutlined
@@ -8,8 +8,15 @@ import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { supabase } from '../../supabaseClient';
 import { useSessionTimeout } from '../../hooks/useSessionTimeout.jsx';
+import { useAuth } from '../../contexts/AuthContext';
 
 const { Header, Content } = Layout;
+
+const ROLE_BADGE = {
+    admin: { label: 'Admin', color: '#cf222e' },
+    editor: { label: 'Editor', color: '#0969da' },
+    viewer: { label: 'Viewer', color: '#8b949e' },
+};
 
 // Route → Thai label mapping
 const routeLabels = {
@@ -18,6 +25,9 @@ const routeLabels = {
     personnel: 'ข้อมูลบุคลากร',
     assets: 'พัสดุ/ครุภัณฑ์',
     budgets: 'งบประมาณ',
+    users: 'จัดการสิทธิ์ผู้ใช้',
+    'audit-log': 'ประวัติการแก้ไข',
+    overview: 'Dashboard กลุ่ม',
     strategy: 'ยุทธศาสตร์ฯ',
     'farmer-registry': 'ทะเบียนเกษตรกร',
     gis: 'พิกัด GIS',
@@ -62,11 +72,12 @@ function buildBreadcrumbs(pathname) {
     return items;
 }
 
-export default function AppLayout({ user }) {
+export default function AppLayout() {
     const navigate = useNavigate();
     const location = useLocation();
     const [mobileOpen, setMobileOpen] = useState(false);
     const { WarningModal } = useSessionTimeout();
+    const { user, role, profile } = useAuth();
 
     // ปิด sidebar เมื่อเปลี่ยนหน้า (มือถือ)
     useEffect(() => {
@@ -79,6 +90,7 @@ export default function AppLayout({ user }) {
     };
 
     const breadcrumbItems = buildBreadcrumbs(location.pathname);
+    const roleBadge = ROLE_BADGE[role] || ROLE_BADGE.viewer;
 
     const userMenuItems = [
         {
@@ -122,8 +134,18 @@ export default function AppLayout({ user }) {
                                 <div className="user-info">
                                     <Avatar size={34} icon={<UserOutlined />} style={{ backgroundColor: '#1a7f37' }} />
                                     <div className="user-info-text">
-                                        <div className="user-name">{user?.email || 'เจ้าหน้าที่'}</div>
-                                        <div className="user-group">เกษตรจังหวัดนครปฐม</div>
+                                        <div className="user-name">
+                                            {profile?.full_name || user?.email || 'เจ้าหน้าที่'}
+                                            <Tag
+                                                color={roleBadge.color}
+                                                style={{ marginLeft: 6, fontSize: 10, lineHeight: '16px', padding: '0 6px' }}
+                                            >
+                                                {roleBadge.label}
+                                            </Tag>
+                                        </div>
+                                        <div className="user-group">
+                                            {profile?.department || 'เกษตรจังหวัดนครปฐม'}
+                                        </div>
                                     </div>
                                 </div>
                             </Dropdown>

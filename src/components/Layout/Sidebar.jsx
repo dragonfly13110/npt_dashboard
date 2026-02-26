@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Layout, Menu, Drawer } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
@@ -23,22 +23,37 @@ import {
     FireOutlined,
     LogoutOutlined,
     HomeOutlined,
+    HistoryOutlined,
+    PieChartOutlined,
 } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
+import { useAuth } from '../../contexts/AuthContext';
 
 const { Sider } = Layout;
 
-const menuItems = [
+// กลุ่มงาน → group key สำหรับกรองตาม department
+const GROUP_KEYS = {
+    'ฝ่ายบริหารทั่วไป': 'admin',
+    'กลุ่มยุทธศาสตร์และสารสนเทศ': 'strategy',
+    'กลุ่มส่งเสริมและพัฒนาการผลิต': 'production',
+    'กลุ่มส่งเสริมและพัฒนาเกษตรกร': 'development',
+    'กลุ่มอารักขาพืช': 'protection',
+};
+
+// เมนูทั้งหมด (พร้อม group key)
+const allMenuItems = [
     {
         key: '/dashboard',
         icon: <DashboardOutlined />,
-        label: 'แดชบอร์ด',
+        label: 'แดชบอร์ดรวม',
     },
     {
         key: 'admin',
+        group: 'admin',
         icon: <TeamOutlined />,
         label: 'ฝ่ายบริหารทั่วไป',
         children: [
+            { key: '/dashboard/admin/overview', icon: <PieChartOutlined />, label: 'Dashboard กลุ่ม' },
             { key: '/dashboard/admin/personnel', icon: <TeamOutlined />, label: 'ข้อมูลบุคลากร' },
             { key: '/dashboard/admin/assets', icon: <CarOutlined />, label: 'พัสดุ/ครุภัณฑ์' },
             { key: '/dashboard/admin/budgets', icon: <DollarOutlined />, label: 'งบประมาณ' },
@@ -46,9 +61,11 @@ const menuItems = [
     },
     {
         key: 'strategy',
+        group: 'strategy',
         icon: <AimOutlined />,
         label: 'ยุทธศาสตร์ฯ',
         children: [
+            { key: '/dashboard/strategy/overview', icon: <PieChartOutlined />, label: 'Dashboard กลุ่ม' },
             { key: '/dashboard/strategy/farmer-registry', icon: <FileTextOutlined />, label: 'ทะเบียนเกษตรกร' },
             { key: '/dashboard/strategy/gis', icon: <GlobalOutlined />, label: 'พิกัด GIS' },
             { key: '/dashboard/strategy/disasters', icon: <ThunderboltOutlined />, label: 'ภัยพิบัติ' },
@@ -57,9 +74,11 @@ const menuItems = [
     },
     {
         key: 'production',
+        group: 'production',
         icon: <BankOutlined />,
         label: 'ส่งเสริมการผลิต',
         children: [
+            { key: '/dashboard/production/overview', icon: <PieChartOutlined />, label: 'Dashboard กลุ่ม' },
             { key: '/dashboard/production/large-plots', icon: <BankOutlined />, label: 'แปลงใหญ่' },
             { key: '/dashboard/production/learning-centers', icon: <BankOutlined />, label: 'ศพก.' },
             { key: '/dashboard/production/certifications', icon: <SafetyCertificateOutlined />, label: 'มาตรฐาน GAP' },
@@ -68,9 +87,11 @@ const menuItems = [
     },
     {
         key: 'development',
+        group: 'development',
         icon: <ShopOutlined />,
         label: 'ส่งเสริมเกษตรกร',
         children: [
+            { key: '/dashboard/development/overview', icon: <PieChartOutlined />, label: 'Dashboard กลุ่ม' },
             { key: '/dashboard/development/community-enterprises', icon: <ShopOutlined />, label: 'วิสาหกิจชุมชน' },
             { key: '/dashboard/development/smart-farmers', icon: <UserSwitchOutlined />, label: 'เกษตรกรรุ่นใหม่' },
             { key: '/dashboard/development/farmer-groups', icon: <UsergroupAddOutlined />, label: 'กลุ่มแม่บ้าน/ยุวฯ' },
@@ -79,9 +100,11 @@ const menuItems = [
     },
     {
         key: 'protection',
+        group: 'protection',
         icon: <BugOutlined />,
         label: 'อารักขาพืช',
         children: [
+            { key: '/dashboard/protection/overview', icon: <PieChartOutlined />, label: 'Dashboard กลุ่ม' },
             { key: '/dashboard/protection/pest-outbreaks', icon: <BugOutlined />, label: 'พื้นที่ระบาด' },
             { key: '/dashboard/protection/pest-centers', icon: <MedicineBoxOutlined />, label: 'ศจช.' },
             { key: '/dashboard/protection/biocontrol', icon: <ExperimentOutlined />, label: 'ชีวภัณฑ์' },
@@ -90,12 +113,46 @@ const menuItems = [
     },
 ];
 
+// เมนูสำหรับ admin เท่านั้น
+const adminOnlyItems = [
+    { type: 'divider' },
+    {
+        key: 'system',
+        icon: <SafetyCertificateOutlined />,
+        label: 'ระบบ',
+        children: [
+            { key: '/dashboard/admin/users', icon: <TeamOutlined />, label: 'จัดการสิทธิ์ผู้ใช้' },
+            { key: '/dashboard/admin/audit-log', icon: <HistoryOutlined />, label: 'ประวัติการแก้ไข' },
+        ],
+    },
+];
+
+function getFilteredMenuItems(role, department) {
+    // Admin เห็นทุกเมนู
+    if (role === 'admin') {
+        return [...allMenuItems, ...adminOnlyItems];
+    }
+
+    // editor/viewer เห็นเฉพาะ Dashboard รวม + กลุ่มงานตัวเอง
+    const userGroup = department ? GROUP_KEYS[department] : null;
+    const filtered = allMenuItems.filter(item => {
+        // Dashboard รวม เห็นเสมอ
+        if (item.key === '/dashboard') return true;
+        // กลุ่มงานของตัวเอง
+        if (item.group && item.group === userGroup) return true;
+        // ไม่มีกลุ่มงานก็เห็นทุกกลุ่ม (fallback)
+        if (!userGroup && item.group) return true;
+        return false;
+    });
+    return filtered;
+}
+
 const bottomMenuItems = [
     { key: 'home', icon: <HomeOutlined />, label: 'กลับหน้าหลัก' },
     { key: 'logout', icon: <LogoutOutlined />, label: 'ออกจากระบบ', danger: true },
 ];
 
-function SidebarContent({ user, onMenuClick, location }) {
+function SidebarContent({ user, onMenuClick, location, menuItems }) {
     const openKeys = menuItems
         .filter(item => item.children)
         .filter(item => item.children.some(child => location.pathname.startsWith(child.key)))
@@ -137,7 +194,10 @@ function SidebarContent({ user, onMenuClick, location }) {
 export default function Sidebar({ user, mobileOpen, onMobileClose }) {
     const navigate = useNavigate();
     const location = useLocation();
+    const { role, department } = useAuth();
     const [collapsed, setCollapsed] = useState(false);
+
+    const menuItems = getFilteredMenuItems(role, department);
 
     const handleMenuClick = async ({ key }) => {
         if (key === 'logout') {
@@ -148,7 +208,6 @@ export default function Sidebar({ user, mobileOpen, onMobileClose }) {
         } else {
             navigate(key);
         }
-        // ปิด drawer ถ้าอยู่ในมือถือ
         if (onMobileClose) onMobileClose();
     };
 
@@ -174,6 +233,7 @@ export default function Sidebar({ user, mobileOpen, onMobileClose }) {
                         user={user}
                         onMenuClick={handleMenuClick}
                         location={location}
+                        menuItems={menuItems}
                     />
                 )}
                 {collapsed && (
@@ -201,6 +261,7 @@ export default function Sidebar({ user, mobileOpen, onMobileClose }) {
                     user={user}
                     onMenuClick={handleMenuClick}
                     location={location}
+                    menuItems={menuItems}
                 />
             </Drawer>
         </>
