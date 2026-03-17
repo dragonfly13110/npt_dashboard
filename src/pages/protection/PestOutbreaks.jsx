@@ -62,5 +62,5 @@ const filterConfig = [
 ];
 
 export default function PestOutbreaks() {
-    return <CrudTable tableName="forecast_plots" title="แปลงพยากรณ์" columns={columns} formFields={formFields} searchField="owner_name" filterConfig={filterConfig} />;
+    return <CrudTable tableName="forecast_plots" title="แปลงพยากรณ์" columns={columns} formFields={formFields} searchFields={['owner_name', 'crop_type', 'variety', 'district', 'subdistrict']} filterConfig={filterConfig} />;
 }

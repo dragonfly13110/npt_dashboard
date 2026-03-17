@@ -11,7 +11,7 @@ import { useSupabaseCrud } from '../../hooks/useSupabase';
 import CsvImportModal from './CsvImportModal';
 import { useAuth } from '../../contexts/AuthContext';
 
-export default function CrudTable({ tableName, title, columns, formFields, searchField, filterConfig = [] }) {
+export default function CrudTable({ tableName, title, columns, formFields, searchField, searchFields, filterConfig = [] }) {
     const { data, loading, total, fetchData, createRecord, updateRecord, deleteRecord, fetchAll } = useSupabaseCrud(tableName);
     const { canEdit, canDelete } = useAuth();
     const [modalOpen, setModalOpen] = useState(false);
@@ -28,8 +28,8 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
     const userCanDelete = canDelete();
 
     const loadData = useCallback(() => {
-        fetchData({ page: pagination.current, pageSize: pagination.pageSize, search, searchField, filters, sortField: sorter.field, sortOrder: sorter.order });
-    }, [fetchData, pagination.current, pagination.pageSize, search, searchField, filters, sorter]);
+        fetchData({ page: pagination.current, pageSize: pagination.pageSize, search, searchField, searchFields, filters, sortField: sorter.field, sortOrder: sorter.order });
+    }, [fetchData, pagination.current, pagination.pageSize, search, searchField, searchFields, filters, sorter]);
 
     useEffect(() => { loadData(); }, [loadData]);
 
@@ -178,7 +178,7 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
                     <Tag className="crud-count">{total} รายการ</Tag>
                 </div>
                 <div className="crud-header-right">
-                    {searchField && (
+                    {(searchField || (searchFields && searchFields.length > 0)) && (
                         <Input.Search
                             placeholder="ค้นหา..."
                             allowClear
