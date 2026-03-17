@@ -244,13 +244,14 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
                 columns={allColumns}
                 rowKey="id"
                 loading={loading}
+                size="small"
                 pagination={{
                     current: pagination.current,
                     pageSize: pagination.pageSize,
                     total,
                     showSizeChanger: true,
                     showTotal: (t) => `ทั้งหมด ${t} รายการ`,
-                    pageSizeOptions: ['10', '20', '50'],
+                    pageSizeOptions: ['10', '20', '50', '100'],
                 }}
                 onChange={handleTableChange}
                 locale={{ emptyText: <Empty description="ยังไม่มีข้อมูล" /> }}
