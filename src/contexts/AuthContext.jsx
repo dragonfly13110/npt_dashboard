@@ -18,7 +18,7 @@ const GROUP_TABLES = {
     strategy: ['farmer_registry', 'gis_areas', 'disasters', 'kpi_plans'],
     production: ['large_plots', 'learning_centers', 'certifications', 'crop_production'],
     development: ['community_enterprises', 'smart_farmers', 'farmer_groups', 'agri_tourism'],
-    protection: ['pest_outbreaks', 'pest_centers', 'biocontrol_stock', 'fire_hotspots'],
+    protection: ['forecast_plots', 'pest_centers', 'biocontrol_stock', 'fire_hotspots'],
 };
 
 export function AuthProvider({ children }) {

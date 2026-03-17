@@ -34,7 +34,7 @@ const TABLE_LABELS = {
     smart_farmers: 'เกษตรกรรุ่นใหม่',
     farmer_groups: 'กลุ่มแม่บ้าน/ยุวฯ',
     agri_tourism: 'ท่องเที่ยวเกษตร',
-    pest_outbreaks: 'พื้นที่ระบาด',
+    forecast_plots: 'แปลงพยากรณ์',
     pest_centers: 'ศจช.',
     biocontrol_stock: 'ชีวภัณฑ์',
     fire_hotspots: 'จุดเฝ้าระวัง PM2.5',

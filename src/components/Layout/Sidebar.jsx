@@ -105,7 +105,7 @@ const allMenuItems = [
         label: 'อารักขาพืช',
         children: [
             { key: '/dashboard/protection/overview', icon: <PieChartOutlined />, label: 'Dashboard กลุ่ม' },
-            { key: '/dashboard/protection/pest-outbreaks', icon: <BugOutlined />, label: 'พื้นที่ระบาด' },
+            { key: '/dashboard/protection/pest-outbreaks', icon: <BugOutlined />, label: 'แปลงพยากรณ์' },
             { key: '/dashboard/protection/pest-centers', icon: <MedicineBoxOutlined />, label: 'ศจช.' },
             { key: '/dashboard/protection/biocontrol', icon: <ExperimentOutlined />, label: 'ชีวภัณฑ์' },
             { key: '/dashboard/protection/fire-hotspots', icon: <FireOutlined />, label: 'จุดเฝ้าระวัง PM2.5' },

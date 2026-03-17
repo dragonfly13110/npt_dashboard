@@ -37,14 +37,19 @@ export function useSupabaseCrud(tableName) {
     const fetchData = useCallback(async (params = {}) => {
         setLoading(true);
         try {
-            const { page = 1, pageSize = 10, search = '', searchField = '', filters = {} } = params;
+            const { page = 1, pageSize = 10, search = '', searchField = '', searchFields = [], filters = {}, sortField, sortOrder } = params;
             const from = (page - 1) * pageSize;
             const to = from + pageSize - 1;
 
             let query = supabase.from(tableName).select('*', { count: 'exact' });
 
-            if (search && searchField) {
-                query = query.ilike(searchField, `%${search}%`);
+            if (search) {
+                if (searchField) {
+                    query = query.ilike(searchField, `%${search}%`);
+                } else if (searchFields && searchFields.length > 0) {
+                    const orString = searchFields.map(field => `${field}.ilike.%${search}%`).join(',');
+                    query = query.or(orString);
+                }
             }
 
             // Advanced filters
@@ -54,7 +59,14 @@ export function useSupabaseCrud(tableName) {
                 }
             });
 
-            query = query.range(from, to).order('created_at', { ascending: false });
+            // Sorting
+            if (sortField && sortOrder) {
+                query = query.order(sortField, { ascending: sortOrder === 'ascend' });
+            } else {
+                query = query.order('created_at', { ascending: false });
+            }
+
+            query = query.range(from, to);
 
             const { data: rows, error, count } = await query;
 

@@ -20,7 +20,7 @@ const statConfig = [
     { table: 'farmer_registry', label: 'ทะเบียนเกษตรกร', icon: '📋', color: 'purple' },
     { table: 'large_plots', label: 'แปลงใหญ่', icon: '🌾', color: 'green' },
     { table: 'community_enterprises', label: 'วิสาหกิจชุมชน', icon: '🤝', color: 'blue' },
-    { table: 'pest_outbreaks', label: 'พื้นที่ระบาด', icon: '🐛', color: 'red' },
+    { table: 'forecast_plots', label: 'แปลงพยากรณ์', icon: '🌿', color: 'green' },
     { table: 'smart_farmers', label: 'Smart Farmer', icon: '🧑‍🌾', color: 'orange' },
 ];
 

@@ -21,14 +21,15 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
     const [importModalOpen, setImportModalOpen] = useState(false);
     const [filters, setFilters] = useState({});
     const [showFilters, setShowFilters] = useState(false);
+    const [sorter, setSorter] = useState({ field: null, order: null });
     const [form] = Form.useForm();
 
     const userCanEdit = canEdit();
     const userCanDelete = canDelete();
 
     const loadData = useCallback(() => {
-        fetchData({ page: pagination.current, pageSize: pagination.pageSize, search, searchField, filters });
-    }, [fetchData, pagination.current, pagination.pageSize, search, searchField, filters]);
+        fetchData({ page: pagination.current, pageSize: pagination.pageSize, search, searchField, filters, sortField: sorter.field, sortOrder: sorter.order });
+    }, [fetchData, pagination.current, pagination.pageSize, search, searchField, filters, sorter]);
 
     useEffect(() => { loadData(); }, [loadData]);
 
@@ -68,8 +69,11 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
         }
     };
 
-    const handleTableChange = (pag) => {
+    const handleTableChange = (pag, _filters, tableSorter) => {
         setPagination({ current: pag.current, pageSize: pag.pageSize });
+        if (tableSorter) {
+            setSorter({ field: tableSorter.field || tableSorter.columnKey, order: tableSorter.order || null });
+        }
     };
 
     const handleSearch = (value) => {
@@ -131,11 +135,15 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
         }
     };
 
+    // Auto-apply sorter to data columns
+    const sortableColumns = columns.map(col => col.dataIndex ? { ...col, sorter: true } : col);
+
     // Action column — ซ่อนตาม role
     const actionColumn = userCanEdit ? {
         title: 'จัดการ',
         key: 'actions',
-        width: userCanDelete ? 120 : 80,
+        width: userCanDelete ? 100 : 70,
+        fixed: 'right',
         align: 'center',
         render: (_, record) => (
             <Space size={4}>
@@ -160,7 +168,7 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
         ),
     } : null;
 
-    const allColumns = actionColumn ? [...columns, actionColumn] : [...columns];
+    const allColumns = actionColumn ? [...sortableColumns, actionColumn] : [...sortableColumns];
 
     return (
         <div className="crud-container">

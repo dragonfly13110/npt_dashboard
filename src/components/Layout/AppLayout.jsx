@@ -44,7 +44,7 @@ const routeLabels = {
     'farmer-groups': 'กลุ่มแม่บ้าน/ยุวฯ',
     'agri-tourism': 'ท่องเที่ยวเกษตร',
     protection: 'อารักขาพืช',
-    'pest-outbreaks': 'พื้นที่ระบาด',
+    'pest-outbreaks': 'แปลงพยากรณ์',
     'pest-centers': 'ศจช.',
     biocontrol: 'ชีวภัณฑ์',
     'fire-hotspots': 'จุดเฝ้าระวัง PM2.5',
