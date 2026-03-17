@@ -9,53 +9,72 @@ const { Dragger } = Upload;
 
 /**
  * Parse CSV text → array of objects
- * รองรับ UTF-8 + BOM, comma/semicolon, ค่าที่มี quotes
+ * รองรับ UTF-8 + BOM, comma/semicolon, ค่าที่มี quotes และขึ้นบรรทัดใหม่ในเซลล์
  */
 function parseCsv(text) {
     // Remove BOM
     const clean = text.replace(/^\uFEFF/, '');
-    const lines = clean.split(/\r?\n/).filter(line => line.trim());
-    if (lines.length < 2) return { headers: [], rows: [] };
+    if (!clean.trim()) return { headers: [], rows: [] };
 
-    // Detect delimiter
-    const delimiter = lines[0].includes(';') && !lines[0].includes(',') ? ';' : ',';
+    // Detect delimiter from first line
+    const firstLine = clean.split(/\r?\n/)[0];
+    const delimiter = firstLine.includes(';') && !firstLine.includes(',') ? ';' : ',';
 
-    const parseLine = (line) => {
-        const result = [];
-        let current = '';
-        let inQuotes = false;
+    const rowsData = [];
+    let currentRow = [];
+    let currentCell = '';
+    let inQuotes = false;
 
-        for (let i = 0; i < line.length; i++) {
-            const char = line[i];
-            if (char === '"') {
-                if (inQuotes && line[i + 1] === '"') {
-                    current += '"';
-                    i++;
-                } else {
-                    inQuotes = !inQuotes;
-                }
-            } else if (char === delimiter && !inQuotes) {
-                result.push(current.trim());
-                current = '';
+    for (let i = 0; i < clean.length; i++) {
+        const char = clean[i];
+        
+        if (char === '"') {
+            if (inQuotes && clean[i + 1] === '"') {
+                currentCell += '"';
+                i++; // skip escaped quote
             } else {
-                current += char;
+                inQuotes = !inQuotes;
             }
+        } else if (char === delimiter && !inQuotes) {
+            currentRow.push(currentCell.trim());
+            currentCell = '';
+        } else if ((char === '\n' || char === '\r') && !inQuotes) {
+            if (char === '\r' && clean[i + 1] === '\n') {
+                i++; // skip \n
+            }
+            if (currentCell !== '' || currentRow.length > 0) {
+                currentRow.push(currentCell.trim());
+                rowsData.push(currentRow);
+            }
+            currentRow = [];
+            currentCell = '';
+        } else {
+            currentCell += char;
         }
-        result.push(current.trim());
-        return result;
-    };
+    }
+    
+    // Push the last row if file doesn't end with a newline
+    if (currentCell !== '' || currentRow.length > 0) {
+        currentRow.push(currentCell.trim());
+        rowsData.push(currentRow);
+    }
+    
+    // Remove completely empty rows
+    const validRows = rowsData.filter(row => row.some(cell => cell.trim() !== ''));
 
-    const headers = parseLine(lines[0]);
+    if (validRows.length < 2) return { headers: [], rows: [] };
+
+    // Remove newlines from headers (handles Excel Alt+Enter, e.g. "แปลงใหญ่\nปี" -> "แปลงใหญ่ปี")
+    const headers = validRows[0].map(h => h.replace(/\r?\n/g, '').trim());
+    
     const rows = [];
-    for (let i = 1; i < lines.length; i++) {
-        const vals = parseLine(lines[i]);
-        // ข้ามแถวว่าง
-        if (vals.every(v => !v)) continue;
+    for (let i = 1; i < validRows.length; i++) {
+        const vals = validRows[i];
         const obj = {};
         headers.forEach((h, idx) => {
             obj[h] = vals[idx] || '';
         });
-        obj._rowNum = i + 1; // เก็บเลขแถวไว้ reference
+        obj._rowNum = i + 1; // Preserve logical row number for error reporting
         rows.push(obj);
     }
     return { headers, rows };

@@ -127,12 +127,18 @@ CREATE TABLE IF NOT EXISTS kpi_plans (
 
 CREATE TABLE IF NOT EXISTS large_plots (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  code TEXT,
   plot_name TEXT NOT NULL,
+  commodity_group TEXT,
   commodity TEXT,
+  secondary_commodity TEXT,
   district TEXT,
+  subdistrict TEXT,
+  phone TEXT,
   member_count INTEGER,
   area_rai NUMERIC,
   year INTEGER,
+  agency TEXT,
   notes TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()

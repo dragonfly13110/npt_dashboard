@@ -1,15 +1,17 @@
 import { useEffect, useState, useRef } from 'react';
-import { Skeleton, Empty, Tag, Button, Tooltip } from 'antd';
+import { Skeleton, Button, Tooltip } from 'antd';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip, ResponsiveContainer,
-    PieChart, Pie, Cell, Legend, AreaChart, Area
+    LineChart, Line, AreaChart, Area
 } from 'recharts';
 import {
-    ClockCircleOutlined, FilePdfOutlined
+    ClockCircleOutlined, FilePdfOutlined, CheckCircleOutlined,
+    TeamOutlined, RiseOutlined, EyeOutlined, DatabaseOutlined,
+    ScheduleOutlined
 } from '@ant-design/icons';
 import { supabase } from '../supabaseClient';
 
-const COLORS = ['#1a7f37', '#0969da', '#bf8700', '#8250df', '#cf222e', '#2da44e', '#218bff'];
+const AVATAR_COLORS = ['#43a047', '#1565c0', '#e65100', '#6a1b9a', '#c62828', '#00695c', '#ad1457'];
 
 const statConfig = [
     { table: 'personnel', label: 'บุคลากร', icon: '👥', color: 'green' },
@@ -22,6 +24,14 @@ const statConfig = [
     { table: 'smart_farmers', label: 'Smart Farmer', icon: '🧑‍🌾', color: 'orange' },
 ];
 
+// Top 4 stat cards config
+const topStatCards = [
+    { key: 'personnel', label: 'บุคลากร', iconComponent: TeamOutlined, iconColor: 'green', footerText: 'ข้อมูลบุคลากรทั้งหมด' },
+    { key: 'assets', label: 'พัสดุ/ครุภัณฑ์', iconComponent: DatabaseOutlined, iconColor: 'blue', footerText: 'รายการทรัพย์สินทั้งหมด' },
+    { key: 'farmer_registry', label: 'ทะเบียนเกษตรกร', iconComponent: EyeOutlined, iconColor: 'orange', footerText: 'ข้อมูลเกษตรกรในระบบ' },
+    { key: 'total', label: 'รายการทั้งหมด', iconComponent: RiseOutlined, iconColor: 'red', footerText: 'ข้อมูลรวมทุกหมวด' },
+];
+
 // สร้างข้อมูลแนวโน้มรายเดือนจาก created_at ของทุกตาราง
 async function fetchMonthlyTrend() {
     const months = [];
@@ -29,14 +39,13 @@ async function fetchMonthlyTrend() {
     for (let i = 5; i >= 0; i--) {
         const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
         months.push({
-            month: d.toLocaleDateString('th-TH', { month: 'short', year: '2-digit' }),
+            month: d.toLocaleDateString('th-TH', { month: 'short' }),
             start: d.toISOString(),
             end: new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59).toISOString(),
             count: 0,
         });
     }
 
-    // นับรวมทุกตาราง
     for (const cfg of statConfig) {
         for (const m of months) {
             try {
@@ -54,6 +63,15 @@ async function fetchMonthlyTrend() {
     return months.map(m => ({ name: m.month, รายการ: m.count }));
 }
 
+// สร้างข้อมูลสะสม (cumulative) จาก trend
+function makeCumulative(trendData) {
+    let sum = 0;
+    return trendData.map(d => {
+        sum += d['รายการ'];
+        return { name: d.name, สะสม: sum };
+    });
+}
+
 // ดึงกิจกรรมล่าสุด
 async function fetchRecentActivity() {
     const activities = [];
@@ -69,6 +87,7 @@ async function fetchRecentActivity() {
                     activities.push({
                         table: cfg.label,
                         icon: cfg.icon,
+                        color: cfg.color,
                         name: row.full_name || row.name || row.project_name || row.title || cfg.label,
                         created_at: row.created_at,
                     });
@@ -78,7 +97,6 @@ async function fetchRecentActivity() {
             // skip
         }
     }
-    // เรียงตามวันที่ล่าสุด
     activities.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     return activities.slice(0, 8);
 }
@@ -93,6 +111,12 @@ function formatTimeAgo(dateStr) {
     if (diff < 86400) return `${Math.floor(diff / 3600)} ชั่วโมงที่แล้ว`;
     if (diff < 2592000) return `${Math.floor(diff / 86400)} วันที่แล้ว`;
     return date.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function formatDate(dateStr) {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
 }
 
 export default function Dashboard() {
@@ -155,7 +179,7 @@ export default function Dashboard() {
                 backgroundColor: '#f6f8fa',
             });
             const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF('l', 'mm', 'a4'); // landscape
+            const pdf = new jsPDF('l', 'mm', 'a4');
             const pdfW = pdf.internal.pageSize.getWidth();
             const pdfH = pdf.internal.pageSize.getHeight();
             const imgW = canvas.width;
@@ -173,154 +197,276 @@ export default function Dashboard() {
         }
     };
 
-    const barData = stats.filter(s => s.count > 0).map(s => ({ name: s.label, value: s.count }));
-    const pieData = stats.filter(s => s.count > 0).map(s => ({ name: s.label, value: s.count }));
     const totalRecords = stats.reduce((sum, s) => sum + s.count, 0);
+    const barData = stats.filter(s => s.count > 0).map(s => ({ name: s.label, value: s.count }));
+    const cumulativeData = makeCumulative(trendData);
+
+    // get individual stat count by table name
+    const getStatCount = (tableName) => {
+        const s = stats.find(st => st.table === tableName);
+        return s ? s.count : 0;
+    };
 
     return (
         <div ref={dashRef}>
-            <div className="dashboard-header">
-                <h2 style={{ fontSize: 22, fontWeight: 700, margin: 0 }}>📊 ภาพรวมข้อมูล</h2>
-                {!loading && (
-                    <Tag color="green" style={{ fontSize: 14, padding: '4px 12px' }}>
-                        รวม {totalRecords.toLocaleString()} รายการ
-                    </Tag>
-                )}
-                <div style={{ marginLeft: 'auto' }}>
-                    <Button
-                        icon={<FilePdfOutlined />}
-                        onClick={handleExportPdf}
-                        loading={pdfExporting}
-                        className="export-btn pdf-export-btn"
-                    >
-                        พิมพ์รายงาน PDF
-                    </Button>
+            {/* Page Header + PDF Export */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
+                <div className="md-page-header" style={{ marginBottom: 0 }}>
+                    <h2>📊 Dashboard</h2>
+                    <p>ตรวจสอบข้อมูลและสถิติ ภาพรวมทั้งหมดของระบบ</p>
                 </div>
+                <Button
+                    icon={<FilePdfOutlined />}
+                    onClick={handleExportPdf}
+                    loading={pdfExporting}
+                    className="export-btn pdf-export-btn"
+                >
+                    พิมพ์รายงาน PDF
+                </Button>
             </div>
 
-            {/* Stat Cards */}
-            <div className="stat-cards">
+            {/* ===== Top Stat Cards ===== */}
+            <div className="md-stat-row">
                 {loading ? (
-                    [1, 2, 3, 4, 5, 6, 7, 8].map(i => (
-                        <div key={i} className="stat-card green">
+                    [1, 2, 3, 4].map(i => (
+                        <div key={i} className="md-stat-card">
                             <Skeleton active paragraph={{ rows: 1 }} />
                         </div>
                     ))
                 ) : (
-                    stats.map((s, i) => (
-                        <div key={i} className={`stat-card ${s.color}`}>
-                            <div className="stat-card-icon">{s.icon}</div>
-                            <div className="stat-card-value">{s.count.toLocaleString()}</div>
-                            <div className="stat-card-label">{s.label}</div>
-                        </div>
-                    ))
+                    topStatCards.map((card) => {
+                        const count = card.key === 'total' ? totalRecords : getStatCount(card.key);
+                        const IconComp = card.iconComponent;
+                        return (
+                            <div key={card.key} className="md-stat-card">
+                                <div className="md-stat-card-inner">
+                                    <div className="md-stat-card-top">
+                                        <div className={`md-stat-icon ${card.iconColor}`}>
+                                            <IconComp style={{ fontSize: 24 }} />
+                                        </div>
+                                        <div className="md-stat-info">
+                                            <div className="md-stat-label">{card.label}</div>
+                                            <div className="md-stat-value">{count.toLocaleString()}</div>
+                                        </div>
+                                    </div>
+                                    <div className="md-stat-footer">
+                                        <ScheduleOutlined />
+                                        <span>{card.footerText}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })
                 )}
             </div>
 
-            {/* Charts Row 1: Bar + Pie */}
-            {barData.length > 0 && (
-                <div className="chart-section">
-                    <div className="chart-card">
-                        <div className="chart-card-title">📊 สรุปจำนวนข้อมูลแต่ละหมวด</div>
-                        <ResponsiveContainer width="100%" height={320}>
-                            <BarChart data={barData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#e8ecf0" />
-                                <XAxis dataKey="name" tick={{ fontSize: 12 }} angle={-20} textAnchor="end" height={60} />
-                                <YAxis tick={{ fontSize: 12 }} />
-                                <RTooltip />
-                                <Bar dataKey="value" fill="#1a7f37" radius={[6, 6, 0, 0]} />
-                            </BarChart>
-                        </ResponsiveContainer>
+            {/* ===== Chart Cards Row ===== */}
+            <div className="md-chart-row">
+                {/* Chart 1: Bar — สรุปข้อมูลแต่ละหมวด */}
+                <div className="md-chart-card">
+                    <div className="md-chart-header green">
+                        {barData.length > 0 && (
+                            <ResponsiveContainer width="100%" height={180}>
+                                <BarChart data={barData} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
+                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.15)" />
+                                    <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.7)' }} angle={-20} textAnchor="end" height={40} />
+                                    <YAxis tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.7)' }} />
+                                    <RTooltip />
+                                    <Bar dataKey="value" fill="rgba(255,255,255,0.85)" radius={[4, 4, 0, 0]} />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        )}
                     </div>
-
-                    <div className="chart-card">
-                        <div className="chart-card-title">🥧 สัดส่วนข้อมูล</div>
-                        <ResponsiveContainer width="100%" height={320}>
-                            <PieChart>
-                                <Pie
-                                    data={pieData}
-                                    cx="50%"
-                                    cy="50%"
-                                    labelLine={false}
-                                    outerRadius={110}
-                                    fill="#8884d8"
-                                    dataKey="value"
-                                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                                >
-                                    {pieData.map((_, i) => (
-                                        <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                                    ))}
-                                </Pie>
-                                <RTooltip />
-                            </PieChart>
-                        </ResponsiveContainer>
+                    <div className="md-chart-body">
+                        <div className="md-chart-title">สรุปข้อมูลแต่ละหมวด</div>
+                        <div className="md-chart-subtitle">จำนวนรายการข้อมูลทั้งหมดในแต่ละหมวดหมู่</div>
+                        <div className="md-chart-footer">
+                            <ClockCircleOutlined /> อัปเดตล่าสุด
+                        </div>
                     </div>
                 </div>
-            )}
 
-            {/* Charts Row 2: Area Trend + Recent Activity */}
-            <div className="chart-section">
-                <div className="chart-card">
-                    <div className="chart-card-title">📈 แนวโน้มข้อมูลรายเดือน (6 เดือนย้อนหลัง)</div>
-                    {trendLoading ? (
-                        <Skeleton active paragraph={{ rows: 6 }} />
+                {/* Chart 2: Line — แนวโน้มรายเดือน */}
+                <div className="md-chart-card">
+                    <div className="md-chart-header dark">
+                        {trendLoading ? (
+                            <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.5)' }}>
+                                <Skeleton active paragraph={{ rows: 3 }} style={{ width: '100%' }} />
+                            </div>
+                        ) : (
+                            <ResponsiveContainer width="100%" height={180}>
+                                <LineChart data={trendData} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
+                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                                    <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.7)' }} />
+                                    <YAxis tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.7)' }} />
+                                    <RTooltip />
+                                    <Line type="monotone" dataKey="รายการ" stroke="#fff" strokeWidth={2} dot={{ r: 4, fill: '#fff' }} activeDot={{ r: 6 }} />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        )}
+                    </div>
+                    <div className="md-chart-body">
+                        <div className="md-chart-title">แนวโน้มรายเดือน</div>
+                        <div className="md-chart-subtitle">
+                            ข้อมูลที่เพิ่มขึ้นในแต่ละเดือน (6 เดือนย้อนหลัง)
+                        </div>
+                        <div className="md-chart-footer">
+                            <ScheduleOutlined /> อัปเดตอัตโนมัติ
+                        </div>
+                    </div>
+                </div>
+
+                {/* Chart 3: Area — ข้อมูลสะสม */}
+                <div className="md-chart-card">
+                    <div className="md-chart-header blue">
+                        {trendLoading ? (
+                            <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <Skeleton active paragraph={{ rows: 3 }} style={{ width: '100%' }} />
+                            </div>
+                        ) : (
+                            <ResponsiveContainer width="100%" height={180}>
+                                <AreaChart data={cumulativeData} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
+                                    <defs>
+                                        <linearGradient id="cumGrad" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="5%" stopColor="#ffffff" stopOpacity={0.3} />
+                                            <stop offset="95%" stopColor="#ffffff" stopOpacity={0} />
+                                        </linearGradient>
+                                    </defs>
+                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                                    <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.7)' }} />
+                                    <YAxis tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.7)' }} />
+                                    <RTooltip />
+                                    <Area type="monotone" dataKey="สะสม" stroke="#fff" strokeWidth={2} fill="url(#cumGrad)" dot={{ r: 4, fill: '#fff' }} />
+                                </AreaChart>
+                            </ResponsiveContainer>
+                        )}
+                    </div>
+                    <div className="md-chart-body">
+                        <div className="md-chart-title">ข้อมูลสะสม</div>
+                        <div className="md-chart-subtitle">จำนวนข้อมูลสะสมทั้งหมดใน 6 เดือน</div>
+                        <div className="md-chart-footer">
+                            <RiseOutlined /> ดูแนวโน้มการเติบโต
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* ===== Bottom Row: Projects Table + Activity Timeline ===== */}
+            <div className="md-bottom-row">
+                {/* Projects / Modules Table */}
+                <div className="md-projects-card">
+                    <div className="md-projects-header">
+                        <h3>📋 โมดูลในระบบ</h3>
+                        <p>
+                            <CheckCircleOutlined className="check-icon" />
+                            <span>{loading ? '...' : `${stats.filter(s => s.count > 0).length} จาก ${stats.length} หมวดมีข้อมูล`}</span>
+                        </p>
+                    </div>
+                    {loading ? (
+                        <div style={{ padding: '16px 24px' }}>
+                            <Skeleton active paragraph={{ rows: 6 }} />
+                        </div>
                     ) : (
-                        <ResponsiveContainer width="100%" height={300}>
-                            <AreaChart data={trendData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                                <defs>
-                                    <linearGradient id="colorTrend" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#1a7f37" stopOpacity={0.3} />
-                                        <stop offset="95%" stopColor="#1a7f37" stopOpacity={0} />
-                                    </linearGradient>
-                                </defs>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#e8ecf0" />
-                                <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                                <YAxis tick={{ fontSize: 12 }} />
-                                <RTooltip />
-                                <Area
-                                    type="monotone"
-                                    dataKey="รายการ"
-                                    stroke="#1a7f37"
-                                    strokeWidth={2}
-                                    fill="url(#colorTrend)"
-                                />
-                            </AreaChart>
-                        </ResponsiveContainer>
+                        <table className="md-projects-table">
+                            <thead>
+                                <tr>
+                                    <th>หมวดข้อมูล</th>
+                                    <th>สถานะ</th>
+                                    <th>จำนวน</th>
+                                    <th>สัดส่วน</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {stats.map((s, i) => {
+                                    const pct = totalRecords > 0 ? Math.round((s.count / totalRecords) * 100) : 0;
+                                    return (
+                                        <tr key={i}>
+                                            <td data-label="หมวดข้อมูล">
+                                                <div className="md-project-name">
+                                                    <div className="md-project-icon">{s.icon}</div>
+                                                    {s.label}
+                                                </div>
+                                            </td>
+                                            <td data-label="สถานะ">
+                                                <div className="md-project-members">
+                                                    {[...Array(Math.min(Math.max(1, Math.ceil(s.count / 10)), 5))].map((_, j) => (
+                                                        <div
+                                                            key={j}
+                                                            className="md-member-avatar"
+                                                            style={{ background: AVATAR_COLORS[(i + j) % AVATAR_COLORS.length] }}
+                                                        >
+                                                            {s.label.charAt(0)}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </td>
+                                            <td data-label="จำนวน">
+                                                <span className="md-project-budget">{s.count.toLocaleString()} รายการ</span>
+                                            </td>
+                                            <td data-label="สัดส่วน">
+                                                <div className="md-progress-wrap">
+                                                    <div className="md-progress-bar">
+                                                        <div
+                                                            className={`md-progress-fill ${s.color}`}
+                                                            style={{ width: `${pct}%` }}
+                                                        />
+                                                    </div>
+                                                    <span className="md-progress-label">{pct}%</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
                     )}
                 </div>
 
-                <div className="chart-card">
-                    <div className="chart-card-title">🕐 กิจกรรมล่าสุด</div>
+                {/* Activity Timeline */}
+                <div className="md-activity-card">
+                    <div className="md-activity-header">
+                        <h3>🕐 กิจกรรมล่าสุด</h3>
+                        <p>อัปเดตข้อมูลล่าสุดในระบบ</p>
+                    </div>
                     {activityLoading ? (
-                        <Skeleton active paragraph={{ rows: 5 }} />
-                    ) : activities.length > 0 ? (
-                        <div className="activity-list">
-                            {activities.map((act, i) => (
-                                <div key={i} className="activity-item">
-                                    <div className="activity-icon">{act.icon}</div>
-                                    <div className="activity-info">
-                                        <div className="activity-name">{act.name}</div>
-                                        <div className="activity-meta">
-                                            <Tag color="default" style={{ fontSize: 11 }}>{act.table}</Tag>
-                                            <span className="activity-time">
-                                                <ClockCircleOutlined /> {formatTimeAgo(act.created_at)}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
+                        <div style={{ padding: '0 24px 20px' }}>
+                            <Skeleton active paragraph={{ rows: 6 }} />
                         </div>
+                    ) : activities.length > 0 ? (
+                        <ul className="md-timeline">
+                            {activities.map((act, i) => {
+                                const dotColors = ['green', 'red', 'blue', 'orange', 'purple', 'pink'];
+                                return (
+                                    <li key={i} className="md-timeline-item">
+                                        <div className={`md-timeline-dot ${dotColors[i % dotColors.length]}`}>
+                                            {act.icon}
+                                        </div>
+                                        <div className="md-timeline-content">
+                                            <div className="md-timeline-title">
+                                                <strong>{act.table}</strong> — {act.name}
+                                            </div>
+                                            <div className="md-timeline-time">
+                                                <ClockCircleOutlined /> {formatDate(act.created_at)} · {formatTimeAgo(act.created_at)}
+                                            </div>
+                                        </div>
+                                    </li>
+                                );
+                            })}
+                        </ul>
                     ) : (
-                        <Empty description="ยังไม่มีกิจกรรม" />
+                        <div style={{ padding: '20px 24px', textAlign: 'center', color: '#8b949e' }}>
+                            ยังไม่มีกิจกรรม
+                        </div>
                     )}
                 </div>
             </div>
 
+            {/* Empty state */}
             {barData.length === 0 && !loading && (
-                <div className="chart-card" style={{ textAlign: 'center', padding: 60 }}>
-                    <p style={{ fontSize: 48, marginBottom: 12 }}>📭</p>
-                    <h3 style={{ color: '#656d76', fontWeight: 500 }}>ยังไม่มีข้อมูลในระบบ</h3>
-                    <p style={{ color: '#8b949e', fontSize: 14 }}>เริ่มเพิ่มข้อมูลผ่านเมนูด้านซ้ายได้เลยครับ</p>
+                <div className="md-empty-state">
+                    <div className="md-empty-icon">📭</div>
+                    <h3>ยังไม่มีข้อมูลในระบบ</h3>
+                    <p>เริ่มเพิ่มข้อมูลผ่านเมนูด้านซ้ายได้เลยครับ</p>
                 </div>
             )}
         </div>
