@@ -1,105 +1,50 @@
-import { useEffect, useState, useRef } from 'react';
-import { Skeleton, Button, Tooltip } from 'antd';
+import { useEffect, useState, useRef, useMemo } from 'react';
+import { Skeleton, Button, Row, Col, Card, Tag } from 'antd';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip, ResponsiveContainer,
-    LineChart, Line, AreaChart, Area
+    PieChart, Pie, Cell
 } from 'recharts';
 import {
-    ClockCircleOutlined, FilePdfOutlined, CheckCircleOutlined,
-    TeamOutlined, RiseOutlined, EyeOutlined, DatabaseOutlined,
+    ClockCircleOutlined, FilePdfOutlined,
+    AimOutlined, BankOutlined, TeamOutlined, AlertOutlined,
     ScheduleOutlined
 } from '@ant-design/icons';
 import { supabase } from '../supabaseClient';
 
-const AVATAR_COLORS = ['#43a047', '#1565c0', '#e65100', '#6a1b9a', '#c62828', '#00695c', '#ad1457'];
-
-const statConfig = [
-    { table: 'personnel', label: 'บุคลากร', icon: '👥', color: 'green' },
-    { table: 'assets', label: 'พัสดุ/ครุภัณฑ์', icon: '💻', color: 'blue' },
-    { table: 'budgets', label: 'โครงการงบประมาณ', icon: '💰', color: 'orange' },
-    { table: 'farmer_registry', label: 'ทะเบียนเกษตรกร', icon: '📋', color: 'purple' },
-    { table: 'large_plots', label: 'แปลงใหญ่', icon: '🌾', color: 'green' },
-    { table: 'community_enterprises', label: 'วิสาหกิจชุมชน', icon: '🤝', color: 'blue' },
-    { table: 'forecast_plots', label: 'แปลงพยากรณ์', icon: '🌿', color: 'green' },
-    { table: 'smart_farmers', label: 'Smart Farmer', icon: '🧑‍🌾', color: 'orange' },
+const PIE_COLORS = [
+    '#66bb6a', '#42a5f5', '#ffca28', '#ef5350', '#ab47bc',
+    '#26a69a', '#ff7043', '#8d6e63', '#78909c', '#5c6bc0',
+    '#ec407a', '#29b6f6', '#9ccc65', '#ffa726', '#7e57c2'
 ];
 
-// Top 4 stat cards config
-const topStatCards = [
-    { key: 'personnel', label: 'บุคลากร', iconComponent: TeamOutlined, iconColor: 'green', footerText: 'ข้อมูลบุคลากรทั้งหมด' },
-    { key: 'assets', label: 'พัสดุ/ครุภัณฑ์', iconComponent: DatabaseOutlined, iconColor: 'blue', footerText: 'รายการทรัพย์สินทั้งหมด' },
-    { key: 'farmer_registry', label: 'ทะเบียนเกษตรกร', iconComponent: EyeOutlined, iconColor: 'orange', footerText: 'ข้อมูลเกษตรกรในระบบ' },
-    { key: 'total', label: 'รายการทั้งหมด', iconComponent: RiseOutlined, iconColor: 'red', footerText: 'ข้อมูลรวมทุกหมวด' },
+// All tables grouped by section
+const groupConfig = [
+    { group: 'ยุทธศาสตร์ฯ', icon: '🎯', color: '#1565c0', tables: [
+        { table: 'agricultural_areas', label: 'พื้นที่การเกษตร' },
+        { table: 'learning_centers', label: 'ศพก.' },
+        { table: 'disasters', label: 'ภัยพิบัติ' },
+    ]},
+    { group: 'ส่งเสริมการผลิต', icon: '🌱', color: '#43a047', tables: [
+        { table: 'large_plots', label: 'แปลงใหญ่' },
+        { table: 'certifications', label: 'มาตรฐาน GAP' },
+        { table: 'crop_production', label: 'ผลผลิตพืช' },
+    ]},
+    { group: 'พัฒนาเกษตรกร', icon: '🤝', color: '#6a1b9a', tables: [
+        { table: 'community_enterprises', label: 'วิสาหกิจ' },
+        { table: 'smart_farmers', label: 'เกษตรกรรุ่นใหม่' },
+        { table: 'farmer_groups', label: 'กลุ่มแม่บ้าน' },
+        { table: 'farmer_institutes', label: 'สถาบันเกษตรกร' },
+        { table: 'agri_tourism', label: 'ท่องเที่ยวเกษตร' },
+    ]},
+    { group: 'อารักขาพืช', icon: '🛡️', color: '#e65100', tables: [
+        { table: 'forecast_plots', label: 'แปลงพยากรณ์' },
+        { table: 'pest_centers', label: 'ศจช.' },
+        { table: 'soil_fertilizer_centers', label: 'ศดปช.' },
+        { table: 'fire_hotspots', label: 'จุดเฝ้าระวัง PM2.5' },
+    ]},
 ];
 
-// สร้างข้อมูลแนวโน้มรายเดือนจาก created_at ของทุกตาราง
-async function fetchMonthlyTrend() {
-    const months = [];
-    const now = new Date();
-    for (let i = 5; i >= 0; i--) {
-        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-        months.push({
-            month: d.toLocaleDateString('th-TH', { month: 'short' }),
-            start: d.toISOString(),
-            end: new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59).toISOString(),
-            count: 0,
-        });
-    }
-
-    for (const cfg of statConfig) {
-        for (const m of months) {
-            try {
-                const { count, error } = await supabase
-                    .from(cfg.table)
-                    .select('*', { count: 'exact', head: true })
-                    .gte('created_at', m.start)
-                    .lte('created_at', m.end);
-                if (!error) m.count += (count ?? 0);
-            } catch {
-                // skip
-            }
-        }
-    }
-    return months.map(m => ({ name: m.month, รายการ: m.count }));
-}
-
-// สร้างข้อมูลสะสม (cumulative) จาก trend
-function makeCumulative(trendData) {
-    let sum = 0;
-    return trendData.map(d => {
-        sum += d['รายการ'];
-        return { name: d.name, สะสม: sum };
-    });
-}
-
-// ดึงกิจกรรมล่าสุด
-async function fetchRecentActivity() {
-    const activities = [];
-    for (const cfg of statConfig) {
-        try {
-            const { data, error } = await supabase
-                .from(cfg.table)
-                .select('*')
-                .order('created_at', { ascending: false })
-                .limit(2);
-            if (!error && data) {
-                data.forEach(row => {
-                    activities.push({
-                        table: cfg.label,
-                        icon: cfg.icon,
-                        color: cfg.color,
-                        name: row.full_name || row.name || row.project_name || row.title || cfg.label,
-                        created_at: row.created_at,
-                    });
-                });
-            }
-        } catch {
-            // skip
-        }
-    }
-    activities.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-    return activities.slice(0, 8);
-}
+const allTables = groupConfig.flatMap(g => g.tables.map(t => ({ ...t, group: g.group, groupIcon: g.icon, groupColor: g.color })));
 
 function formatTimeAgo(dateStr) {
     if (!dateStr) return '';
@@ -122,8 +67,9 @@ function formatDate(dateStr) {
 export default function Dashboard() {
     const [stats, setStats] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [trendData, setTrendData] = useState([]);
-    const [trendLoading, setTrendLoading] = useState(true);
+    const [agriData, setAgriData] = useState([]);
+    const [largePlots, setLargePlots] = useState([]);
+    const [fiData, setFiData] = useState([]);
     const [activities, setActivities] = useState([]);
     const [activityLoading, setActivityLoading] = useState(true);
     const [pdfExporting, setPdfExporting] = useState(false);
@@ -131,40 +77,133 @@ export default function Dashboard() {
 
     useEffect(() => {
         loadStats();
-        loadTrend();
+        loadChartData();
         loadActivities();
     }, []);
 
     const loadStats = async () => {
         setLoading(true);
         const results = [];
-        for (const cfg of statConfig) {
+        for (const tbl of allTables) {
             try {
                 const { count, error } = await supabase
-                    .from(cfg.table)
+                    .from(tbl.table)
                     .select('*', { count: 'exact', head: true });
-                results.push({ ...cfg, count: error ? 0 : (count ?? 0) });
+                results.push({ ...tbl, count: error ? 0 : (count ?? 0) });
             } catch {
-                results.push({ ...cfg, count: 0 });
+                results.push({ ...tbl, count: 0 });
             }
         }
         setStats(results);
         setLoading(false);
     };
 
-    const loadTrend = async () => {
-        setTrendLoading(true);
-        const data = await fetchMonthlyTrend();
-        setTrendData(data);
-        setTrendLoading(false);
+    const loadChartData = async () => {
+        try {
+            const [agri, lp, fi] = await Promise.all([
+                supabase.from('agricultural_areas').select('*'),
+                supabase.from('large_plots').select('*'),
+                supabase.from('farmer_institutes').select('*'),
+            ]);
+            setAgriData(agri.data || []);
+            setLargePlots(lp.data || []);
+            setFiData(fi.data || []);
+        } catch { /* skip */ }
     };
 
     const loadActivities = async () => {
         setActivityLoading(true);
-        const data = await fetchRecentActivity();
-        setActivities(data);
+        const acts = [];
+        for (const tbl of allTables) {
+            try {
+                const { data, error } = await supabase
+                    .from(tbl.table)
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(1);
+                if (!error && data?.length) {
+                    const row = data[0];
+                    acts.push({
+                        table: tbl.label,
+                        group: tbl.group,
+                        icon: tbl.groupIcon,
+                        name: row.name || row.full_name || row.project_name || row.center_name || row.district || tbl.label,
+                        created_at: row.created_at,
+                    });
+                }
+            } catch { /* skip */ }
+        }
+        acts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        setActivities(acts.slice(0, 8));
         setActivityLoading(false);
     };
+
+    // --- Charts ---
+    // Agricultural areas: Pie by crop type
+    const agriPie = useMemo(() => {
+        const fields = [
+            { key: 'rice_in_season_rai', label: 'ข้าวนาปี' },
+            { key: 'rice_off_season_rai', label: 'ข้าวนาปรัง' },
+            { key: 'field_crops_rai', label: 'พืชไร่' },
+            { key: 'horticulture_rai', label: 'พืชสวน' },
+            { key: 'fruit_trees_rai', label: 'ไม้ผล/ไม้ยืนต้น' },
+            { key: 'vegetables_rai', label: 'พืชผัก' },
+            { key: 'flowers_rai', label: 'ไม้ดอก/ไม้ประดับ' },
+            { key: 'herbs_spices_rai', label: 'สมุนไพร' },
+        ];
+        return fields.map(f => ({
+            name: f.label,
+            value: agriData.reduce((sum, row) => sum + (Number(row[f.key]) || 0), 0)
+        })).filter(d => d.value > 0);
+    }, [agriData]);
+
+    // Group summary bar
+    const groupBar = useMemo(() => {
+        return groupConfig.map(g => ({
+            name: g.group,
+            value: stats.filter(s => s.group === g.group).reduce((sum, s) => sum + s.count, 0),
+            color: g.color,
+        })).filter(d => d.value > 0);
+    }, [stats]);
+
+    // Large plots by commodity
+    const lpPie = useMemo(() => {
+        const map = {};
+        largePlots.forEach(p => {
+            const cg = p.commodity_group || 'ไม่ระบุ';
+            map[cg] = (map[cg] || 0) + 1;
+        });
+        return Object.entries(map).map(([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value);
+    }, [largePlots]);
+
+    // Highlights: meaningful stats
+    const highlights = useMemo(() => {
+        const totalAgriRai = agriData.reduce((sum, r) => sum + (Number(r.total_area_rai) || 0), 0);
+        const totalCropRai = agriData.reduce((sum, r) => sum + (Number(r.agri_crop_area_rai) || 0), 0);
+        const lpCount = largePlots.length;
+        const uniqueCommodities = [...new Set(largePlots.map(p => p.commodity_group).filter(Boolean))].length;
+        const getCount = (table) => stats.find(s => s.table === table)?.count || 0;
+
+        // Farmer institutes specific computes
+        const totalFiGroups = fiData.reduce((sum, r) => sum + (Number(r.total_groups) || 0), 0);
+        const totalHousewives = fiData.reduce((sum, r) => sum + (Number(r.housewives_groups) || 0), 0);
+        const totalYoungFarmers = fiData.reduce((sum, r) => sum + (Number(r.young_farmer_groups) || 0), 0);
+
+        return [
+            { icon: '🌾', label: 'พื้นที่เกษตรรวม', value: totalAgriRai.toLocaleString() + ' ไร่', bg: '#f0fdf4', iconBg: '#43a047' },
+            { icon: '🌿', label: 'พื้นที่ด้านพืช', value: totalCropRai.toLocaleString() + ' ไร่', bg: '#ecfdf5', iconBg: '#26a69a' },
+            { icon: '📦', label: 'แปลงใหญ่', value: lpCount + ' แปลง', bg: '#eff6ff', iconBg: '#1565c0' },
+            { icon: '🏷️', label: 'กลุ่มสินค้าแปลงใหญ่', value: uniqueCommodities + ' กลุ่ม', bg: '#f5f3ff', iconBg: '#6a1b9a' },
+            { icon: '🏫', label: 'ศูนย์เรียนรู้ (ศพก.)', value: getCount('learning_centers') + ' ศูนย์', bg: '#eff6ff', iconBg: '#1976d2' },
+            { icon: '🏥', label: 'ศูนย์จัดการศัตรูพืช (ศจช.)', value: getCount('pest_centers') + ' ศูนย์', bg: '#fff7ed', iconBg: '#e65100' },
+            { icon: '🧪', label: 'ศูนย์ดินปุ๋ย (ศดปช.)', value: getCount('soil_fertilizer_centers') + ' ศูนย์', bg: '#f0fdfa', iconBg: '#00695c' },
+            { icon: '🤝', label: 'สถาบันเกษตรกรรวม', value: totalFiGroups.toLocaleString() + ' กลุ่ม', bg: '#fdf2f8', iconBg: '#c2185b' },
+            { icon: '👩‍🌾', label: 'กลุ่มแม่บ้านเกษตรกร', value: totalHousewives.toLocaleString() + ' กลุ่ม', bg: '#f0fdf4', iconBg: '#1a7f37' },
+            { icon: '🧑‍🌾', label: 'กลุ่มยุวเกษตรกร', value: totalYoungFarmers.toLocaleString() + ' กลุ่ม', bg: '#fffbeb', iconBg: '#bf8700' },
+        ].filter(h => !h.value.startsWith('0'));
+    }, [agriData, largePlots, fiData, stats]);
+
+    const totalRecords = stats.reduce((sum, s) => sum + s.count, 0);
 
     const handleExportPdf = async () => {
         if (!dashRef.current) return;
@@ -173,47 +212,27 @@ export default function Dashboard() {
             const html2canvas = (await import('html2canvas')).default;
             const { jsPDF } = await import('jspdf');
             const canvas = await html2canvas(dashRef.current, {
-                scale: 2,
-                useCORS: true,
-                logging: false,
-                backgroundColor: '#f6f8fa',
+                scale: 2, useCORS: true, logging: false, backgroundColor: '#f6f8fa',
             });
             const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF('l', 'mm', 'a4');
             const pdfW = pdf.internal.pageSize.getWidth();
             const pdfH = pdf.internal.pageSize.getHeight();
-            const imgW = canvas.width;
-            const imgH = canvas.height;
-            const ratio = Math.min(pdfW / imgW, pdfH / imgH);
-            const w = imgW * ratio;
-            const h = imgH * ratio;
-            const x = (pdfW - w) / 2;
-            pdf.addImage(imgData, 'PNG', x, 4, w, h);
+            const ratio = Math.min(pdfW / canvas.width, pdfH / canvas.height);
+            const w = canvas.width * ratio;
+            const h = canvas.height * ratio;
+            pdf.addImage(imgData, 'PNG', (pdfW - w) / 2, 4, w, h);
             pdf.save(`dashboard_${new Date().toISOString().slice(0, 10)}.pdf`);
-        } catch (err) {
-            console.error('PDF export error:', err);
-        } finally {
-            setPdfExporting(false);
-        }
-    };
-
-    const totalRecords = stats.reduce((sum, s) => sum + s.count, 0);
-    const barData = stats.filter(s => s.count > 0).map(s => ({ name: s.label, value: s.count }));
-    const cumulativeData = makeCumulative(trendData);
-
-    // get individual stat count by table name
-    const getStatCount = (tableName) => {
-        const s = stats.find(st => st.table === tableName);
-        return s ? s.count : 0;
+        } catch (err) { console.error(err); }
+        finally { setPdfExporting(false); }
     };
 
     return (
         <div ref={dashRef}>
-            {/* Page Header + PDF Export */}
+            {/* Page Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
                 <div className="md-page-header" style={{ marginBottom: 0 }}>
-                    <h2>📊 Dashboard</h2>
-                    <p>ตรวจสอบข้อมูลและสถิติ ภาพรวมทั้งหมดของระบบ</p>
+                    <h2>📊 Dashboard ภาพรวม</h2>
                 </div>
                 <Button
                     icon={<FilePdfOutlined />}
@@ -221,37 +240,37 @@ export default function Dashboard() {
                     loading={pdfExporting}
                     className="export-btn pdf-export-btn"
                 >
-                    พิมพ์รายงาน PDF
+                    พิมพ์ PDF
                 </Button>
             </div>
 
-            {/* ===== Top Stat Cards ===== */}
+            {/* ===== Group Summary Cards ===== */}
             <div className="md-stat-row">
                 {loading ? (
                     [1, 2, 3, 4].map(i => (
-                        <div key={i} className="md-stat-card">
-                            <Skeleton active paragraph={{ rows: 1 }} />
-                        </div>
+                        <div key={i} className="md-stat-card"><Skeleton active paragraph={{ rows: 1 }} /></div>
                     ))
                 ) : (
-                    topStatCards.map((card) => {
-                        const count = card.key === 'total' ? totalRecords : getStatCount(card.key);
-                        const IconComp = card.iconComponent;
+                    groupConfig.map((g) => {
+                        const groupTotal = stats.filter(s => s.group === g.group).reduce((sum, s) => sum + s.count, 0);
+                        const IconMap = { 'ยุทธศาสตร์ฯ': AimOutlined, 'ส่งเสริมการผลิต': BankOutlined, 'พัฒนาเกษตรกร': TeamOutlined, 'อารักขาพืช': AlertOutlined };
+                        const IconComp = IconMap[g.group] || AimOutlined;
+                        const colorMap = { '#1565c0': 'blue', '#43a047': 'green', '#6a1b9a': 'purple', '#e65100': 'orange' };
                         return (
-                            <div key={card.key} className="md-stat-card">
+                            <div key={g.group} className="md-stat-card">
                                 <div className="md-stat-card-inner">
                                     <div className="md-stat-card-top">
-                                        <div className={`md-stat-icon ${card.iconColor}`}>
+                                        <div className={`md-stat-icon ${colorMap[g.color] || 'blue'}`}>
                                             <IconComp style={{ fontSize: 24 }} />
                                         </div>
                                         <div className="md-stat-info">
-                                            <div className="md-stat-label">{card.label}</div>
-                                            <div className="md-stat-value">{count.toLocaleString()}</div>
+                                            <div className="md-stat-label">{g.icon} {g.group}</div>
+                                            <div className="md-stat-value">{groupTotal.toLocaleString()}</div>
                                         </div>
                                     </div>
                                     <div className="md-stat-footer">
                                         <ScheduleOutlined />
-                                        <span>{card.footerText}</span>
+                                        <span>รายการข้อมูลรวม {g.tables.length} หมวด</span>
                                     </div>
                                 </div>
                             </div>
@@ -260,165 +279,85 @@ export default function Dashboard() {
                 )}
             </div>
 
-            {/* ===== Chart Cards Row ===== */}
-            <div className="md-chart-row">
-                {/* Chart 1: Bar — สรุปข้อมูลแต่ละหมวด */}
-                <div className="md-chart-card">
-                    <div className="md-chart-header green">
-                        {barData.length > 0 && (
-                            <ResponsiveContainer width="100%" height={180}>
-                                <BarChart data={barData} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.15)" />
-                                    <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.7)' }} angle={-20} textAnchor="end" height={40} />
-                                    <YAxis tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.7)' }} />
-                                    <RTooltip />
-                                    <Bar dataKey="value" fill="rgba(255,255,255,0.85)" radius={[4, 4, 0, 0]} />
-                                </BarChart>
-                            </ResponsiveContainer>
-                        )}
-                    </div>
-                    <div className="md-chart-body">
-                        <div className="md-chart-title">สรุปข้อมูลแต่ละหมวด</div>
-                        <div className="md-chart-subtitle">จำนวนรายการข้อมูลทั้งหมดในแต่ละหมวดหมู่</div>
-                        <div className="md-chart-footer">
-                            <ClockCircleOutlined /> อัปเดตล่าสุด
+            {/* ===== Charts ===== */}
+            <Row gutter={[20, 20]} style={{ marginBottom: 24 }}>
+                {/* Agricultural Areas Pie */}
+                <Col xs={24} lg={12}>
+                    <Card title="🌾 สัดส่วนพื้นที่เกษตรตามชนิดพืช" size="small" bordered style={{ borderRadius: 12 }}>
+                        <div style={{ height: 300 }}>
+                            {agriPie.length > 0 ? (
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <PieChart>
+                                        <Pie data={agriPie} cx="50%" cy="50%" innerRadius={50} outerRadius={90} paddingAngle={2} dataKey="value"
+                                            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
+                                            {agriPie.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
+                                        </Pie>
+                                        <RTooltip formatter={(val) => [val.toLocaleString() + ' ไร่', 'พื้นที่']} />
+                                    </PieChart>
+                                </ResponsiveContainer>
+                            ) : <EmptyChart label="พื้นที่การเกษตร" />}
                         </div>
-                    </div>
-                </div>
+                    </Card>
+                </Col>
 
-                {/* Chart 2: Line — แนวโน้มรายเดือน */}
-                <div className="md-chart-card">
-                    <div className="md-chart-header dark">
-                        {trendLoading ? (
-                            <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.5)' }}>
-                                <Skeleton active paragraph={{ rows: 3 }} style={{ width: '100%' }} />
-                            </div>
-                        ) : (
-                            <ResponsiveContainer width="100%" height={180}>
-                                <LineChart data={trendData} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                                    <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.7)' }} />
-                                    <YAxis tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.7)' }} />
-                                    <RTooltip />
-                                    <Line type="monotone" dataKey="รายการ" stroke="#fff" strokeWidth={2} dot={{ r: 4, fill: '#fff' }} activeDot={{ r: 6 }} />
-                                </LineChart>
-                            </ResponsiveContainer>
-                        )}
-                    </div>
-                    <div className="md-chart-body">
-                        <div className="md-chart-title">แนวโน้มรายเดือน</div>
-                        <div className="md-chart-subtitle">
-                            ข้อมูลที่เพิ่มขึ้นในแต่ละเดือน (6 เดือนย้อนหลัง)
+                {/* Large Plots Pie */}
+                <Col xs={24} lg={12}>
+                    <Card title="🌿 แปลงใหญ่ตามกลุ่มสินค้า" size="small" bordered style={{ borderRadius: 12 }}>
+                        <div style={{ height: 300 }}>
+                            {lpPie.length > 0 ? (
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <PieChart>
+                                        <Pie data={lpPie} cx="50%" cy="50%" innerRadius={50} outerRadius={90} paddingAngle={2} dataKey="value"
+                                            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
+                                            {lpPie.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
+                                        </Pie>
+                                        <RTooltip formatter={(val) => [val + ' แปลง', 'จำนวน']} />
+                                    </PieChart>
+                                </ResponsiveContainer>
+                            ) : <EmptyChart label="แปลงใหญ่" />}
                         </div>
-                        <div className="md-chart-footer">
-                            <ScheduleOutlined /> อัปเดตอัตโนมัติ
-                        </div>
-                    </div>
-                </div>
+                    </Card>
+                </Col>
+            </Row>
 
-                {/* Chart 3: Area — ข้อมูลสะสม */}
-                <div className="md-chart-card">
-                    <div className="md-chart-header blue">
-                        {trendLoading ? (
-                            <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <Skeleton active paragraph={{ rows: 3 }} style={{ width: '100%' }} />
-                            </div>
-                        ) : (
-                            <ResponsiveContainer width="100%" height={180}>
-                                <AreaChart data={cumulativeData} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
-                                    <defs>
-                                        <linearGradient id="cumGrad" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#ffffff" stopOpacity={0.3} />
-                                            <stop offset="95%" stopColor="#ffffff" stopOpacity={0} />
-                                        </linearGradient>
-                                    </defs>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                                    <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.7)' }} />
-                                    <YAxis tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.7)' }} />
-                                    <RTooltip />
-                                    <Area type="monotone" dataKey="สะสม" stroke="#fff" strokeWidth={2} fill="url(#cumGrad)" dot={{ r: 4, fill: '#fff' }} />
-                                </AreaChart>
-                            </ResponsiveContainer>
-                        )}
-                    </div>
-                    <div className="md-chart-body">
-                        <div className="md-chart-title">ข้อมูลสะสม</div>
-                        <div className="md-chart-subtitle">จำนวนข้อมูลสะสมทั้งหมดใน 6 เดือน</div>
-                        <div className="md-chart-footer">
-                            <RiseOutlined /> ดูแนวโน้มการเติบโต
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* ===== Bottom Row: Projects Table + Activity Timeline ===== */}
+            {/* ===== Bottom Row: Key Highlights + Activity ===== */}
             <div className="md-bottom-row">
-                {/* Projects / Modules Table */}
+                {/* Key Highlights */}
                 <div className="md-projects-card">
                     <div className="md-projects-header">
-                        <h3>📋 โมดูลในระบบ</h3>
-                        <p>
-                            <CheckCircleOutlined className="check-icon" />
-                            <span>{loading ? '...' : `${stats.filter(s => s.count > 0).length} จาก ${stats.length} หมวดมีข้อมูล`}</span>
-                        </p>
+                        <h3>⭐ ไฮไลท์ข้อมูลสำคัญ</h3>
+                        <p>ตัวเลขสำคัญจากข้อมูลจริงในระบบ</p>
                     </div>
                     {loading ? (
                         <div style={{ padding: '16px 24px' }}>
                             <Skeleton active paragraph={{ rows: 6 }} />
                         </div>
                     ) : (
-                        <table className="md-projects-table">
-                            <thead>
-                                <tr>
-                                    <th>หมวดข้อมูล</th>
-                                    <th>สถานะ</th>
-                                    <th>จำนวน</th>
-                                    <th>สัดส่วน</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {stats.map((s, i) => {
-                                    const pct = totalRecords > 0 ? Math.round((s.count / totalRecords) * 100) : 0;
-                                    return (
-                                        <tr key={i}>
-                                            <td data-label="หมวดข้อมูล">
-                                                <div className="md-project-name">
-                                                    <div className="md-project-icon">{s.icon}</div>
-                                                    {s.label}
-                                                </div>
-                                            </td>
-                                            <td data-label="สถานะ">
-                                                <div className="md-project-members">
-                                                    {[...Array(Math.min(Math.max(1, Math.ceil(s.count / 10)), 5))].map((_, j) => (
-                                                        <div
-                                                            key={j}
-                                                            className="md-member-avatar"
-                                                            style={{ background: AVATAR_COLORS[(i + j) % AVATAR_COLORS.length] }}
-                                                        >
-                                                            {s.label.charAt(0)}
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </td>
-                                            <td data-label="จำนวน">
-                                                <span className="md-project-budget">{s.count.toLocaleString()} รายการ</span>
-                                            </td>
-                                            <td data-label="สัดส่วน">
-                                                <div className="md-progress-wrap">
-                                                    <div className="md-progress-bar">
-                                                        <div
-                                                            className={`md-progress-fill ${s.color}`}
-                                                            style={{ width: `${pct}%` }}
-                                                        />
-                                                    </div>
-                                                    <span className="md-progress-label">{pct}%</span>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
+                        <div style={{ padding: '16px 24px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
+                            {highlights.map((h, i) => (
+                                <div key={i} style={{
+                                    background: h.bg, borderRadius: 12, padding: '18px 20px',
+                                    display: 'flex', alignItems: 'center', gap: 16,
+                                    border: '1px solid #f0f2f5', transition: 'transform 0.15s',
+                                }}>
+                                    <div style={{
+                                        width: 52, height: 52, borderRadius: 12,
+                                        background: h.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        fontSize: 26, flexShrink: 0, boxShadow: `0 4px 12px ${h.iconBg}40`
+                                    }}>
+                                        {h.icon}
+                                    </div>
+                                    <div style={{ minWidth: 0 }}>
+                                        <div style={{ fontSize: 24, fontWeight: 700, color: '#1f2328', lineHeight: 1.2 }}>
+                                            {h.value}
+                                        </div>
+                                        <div style={{ fontSize: 13, color: '#656d76', marginTop: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                            {h.label}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     )}
                 </div>
 
@@ -426,7 +365,7 @@ export default function Dashboard() {
                 <div className="md-activity-card">
                     <div className="md-activity-header">
                         <h3>🕐 กิจกรรมล่าสุด</h3>
-                        <p>อัปเดตข้อมูลล่าสุดในระบบ</p>
+                        <p>อัปเดตข้อมูลล่าสุดจากทุกกลุ่มงาน</p>
                     </div>
                     {activityLoading ? (
                         <div style={{ padding: '0 24px 20px' }}>
@@ -435,7 +374,7 @@ export default function Dashboard() {
                     ) : activities.length > 0 ? (
                         <ul className="md-timeline">
                             {activities.map((act, i) => {
-                                const dotColors = ['green', 'red', 'blue', 'orange', 'purple', 'pink'];
+                                const dotColors = ['green', 'blue', 'orange', 'purple', 'red', 'pink'];
                                 return (
                                     <li key={i} className="md-timeline-item">
                                         <div className={`md-timeline-dot ${dotColors[i % dotColors.length]}`}>
@@ -462,13 +401,22 @@ export default function Dashboard() {
             </div>
 
             {/* Empty state */}
-            {barData.length === 0 && !loading && (
+            {totalRecords === 0 && !loading && (
                 <div className="md-empty-state">
                     <div className="md-empty-icon">📭</div>
                     <h3>ยังไม่มีข้อมูลในระบบ</h3>
                     <p>เริ่มเพิ่มข้อมูลผ่านเมนูด้านซ้ายได้เลยครับ</p>
                 </div>
             )}
+        </div>
+    );
+}
+
+function EmptyChart({ label }) {
+    return (
+        <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#656d76', flexDirection: 'column', gap: 8 }}>
+            <span style={{ fontSize: 32 }}>📭</span>
+            <span>ยังไม่มีข้อมูล{label}</span>
         </div>
     );
 }
