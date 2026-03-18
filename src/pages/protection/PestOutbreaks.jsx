@@ -1,7 +1,25 @@
-import { Form, Input, InputNumber, Select } from 'antd';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { Form, Input, InputNumber, Select, Tag, Row, Col, Card, Spin } from 'antd';
+import { EnvironmentOutlined, PieChartOutlined, BarChartOutlined } from '@ant-design/icons';
+import {
+    PieChart, Pie, Cell,
+    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend,
+    ResponsiveContainer
+} from 'recharts';
 import CrudTable from '../../components/DataTable/CrudTable';
+import ForecastMap from '../../components/Map/ForecastMap';
+import { supabase } from '../../supabaseClient';
 
 const plotTypes = ['พื้นที่เสี่ยง', 'ศจช.', 'พื้นที่เฝ้าระวัง', 'ไม่ระบุ'];
+
+const PLOT_TYPE_COLORS = {
+    'พื้นที่เสี่ยง': '#cf222e',
+    'ศจช.': '#0969da',
+    'พื้นที่เฝ้าระวัง': '#bf8700',
+    'ไม่ระบุ': '#656d76',
+};
+
+const CHART_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658', '#4caf50', '#e91e63'];
 
 const columns = [
     { title: 'อำเภอ', dataIndex: 'district', key: 'district', width: 110, ellipsis: true },
@@ -61,6 +79,309 @@ const filterConfig = [
     { key: 'plot_type', label: 'ประเภทแปลง', options: plotTypes },
 ];
 
+const CustomBarTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+        const total = payload[0].payload.total || 0;
+        return (
+            <div style={{ backgroundColor: '#fff', padding: '10px 14px', border: '1px solid #e8ecf0', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+                <div style={{ margin: '0 0 8px 0', fontWeight: 600, color: '#1f2328' }}>อำเภอ{label}</div>
+                {payload.map((entry, index) => (
+                    <div key={`item-${index}`} style={{ margin: '4px 0', color: entry.color, fontSize: 13 }}>
+                        {entry.name} : {entry.value} แปลง
+                    </div>
+                ))}
+                <div style={{ margin: '8px 0 0 0', fontWeight: 600, color: '#1f2328', borderTop: '1px solid #e8ecf0', paddingTop: '8px', fontSize: 13 }}>
+                    รวมทั้งหมด : {total} แปลง
+                </div>
+            </div>
+        );
+    }
+    return null;
+};
+
 export default function PestOutbreaks() {
-    return <CrudTable tableName="forecast_plots" title="แปลงพยากรณ์" columns={columns} formFields={formFields} searchFields={['owner_name', 'crop_type', 'variety', 'district', 'subdistrict']} filterConfig={filterConfig} />;
+    const [mapData, setMapData] = useState([]);
+    const [mapLoading, setMapLoading] = useState(true);
+
+    // Global filters
+    const [filterDistrict, setFilterDistrict] = useState(null);
+    const [filterPlotType, setFilterPlotType] = useState(null);
+    const [filterCropType, setFilterCropType] = useState(null);
+
+    const loadData = useCallback(async () => {
+        setMapLoading(true);
+        try {
+            const { data, error } = await supabase
+                .from('forecast_plots')
+                .select('*')
+                .order('created_at', { ascending: false });
+            if (error) throw error;
+            setMapData(data || []);
+        } catch (err) {
+            console.error('Error loading data:', err);
+        } finally {
+            setMapLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        loadData();
+    }, [loadData]);
+
+    // Derive unique values for filter dropdowns
+    const districtOptions = useMemo(() => {
+        const unique = [...new Set(mapData.map(d => d.district).filter(Boolean))].sort();
+        return unique.map(d => ({ label: d, value: d }));
+    }, [mapData]);
+
+    const cropOptions = useMemo(() => {
+        const unique = [...new Set(mapData.map(d => d.crop_type).filter(Boolean))].sort();
+        return unique.map(d => ({ label: d, value: d }));
+    }, [mapData]);
+
+    const plotTypeOptions = useMemo(() => {
+        const unique = [...new Set(mapData.map(d => d.plot_type).filter(Boolean))].sort();
+        return unique.map(d => ({ label: d, value: d }));
+    }, [mapData]);
+
+    // Filtered data for children
+    const filteredData = useMemo(() => {
+        return mapData.filter(item => {
+            if (filterDistrict && item.district !== filterDistrict) return false;
+            if (filterPlotType && item.plot_type !== filterPlotType) return false;
+            if (filterCropType && item.crop_type !== filterCropType) return false;
+            return true;
+        });
+    }, [mapData, filterDistrict, filterPlotType, filterCropType]);
+
+    // Calculate Pie Chart Data (Crop Type)
+    const pieData = useMemo(() => {
+        const counts = {};
+        filteredData.forEach(item => {
+            const crop = item.crop_type || 'ไม่ระบุ';
+            counts[crop] = (counts[crop] || 0) + 1;
+        });
+        return Object.entries(counts)
+            .map(([name, value]) => ({ name, value }))
+            .sort((a, b) => b.value - a.value);
+    }, [filteredData]);
+
+    // Calculate Stacked Bar Chart Data (District & Plot Type)
+    const { barData, barGroups } = useMemo(() => {
+        const counts = {};
+        const typeSet = new Set();
+
+        filteredData.forEach(item => {
+            const dist = item.district || 'ไม่ระบุ';
+            const type = item.plot_type || 'ไม่ระบุ';
+
+            if (!counts[dist]) counts[dist] = { name: dist, total: 0 };
+            
+            counts[dist][type] = (counts[dist][type] || 0) + 1;
+            counts[dist].total += 1;
+            typeSet.add(type);
+        });
+
+        const sortedBarData = Object.values(counts).sort((a, b) => b.total - a.total);
+        const sortedTypeGroups = Array.from(typeSet).sort((a, b) => {
+            const order = { 'พื้นที่เสี่ยง': 1, 'ศจช.': 2, 'พื้นที่เฝ้าระวัง': 3, 'ไม่ระบุ': 4 };
+            return (order[a] || 9) - (order[b] || 9);
+        });
+        
+        return { barData: sortedBarData, barGroups: sortedTypeGroups };
+    }, [filteredData]);
+
+    const hasActiveFilter = filterDistrict || filterPlotType || filterCropType;
+
+    return (
+        <div>
+            {/* ===== Dashboard Section ===== */}
+            <div style={{
+                padding: 20,
+                background: '#fff',
+                borderRadius: 12,
+                border: '1px solid #e8ecf0',
+                marginBottom: 24
+            }}>
+                {/* Header */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+                    <PieChartOutlined style={{ fontSize: 18, color: '#1a7f37' }} />
+                    <span style={{ fontSize: 16, fontWeight: 700, color: '#1f2328' }}>สรุปข้อมูลการพยากรณ์</span>
+                    <Tag color="green">
+                        {hasActiveFilter
+                            ? `${filteredData.length} / ${mapData.length} แปลง`
+                            : `${mapData.length} แปลง`
+                        }
+                    </Tag>
+                </div>
+
+                {/* Unified Filters */}
+                <div style={{
+                    display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 20,
+                    padding: '12px 16px', background: '#f6f8fa', borderRadius: 8, border: '1px solid #e8ecf0'
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <span style={{ fontSize: 13, color: '#656d76', fontWeight: 500 }}>อำเภอ:</span>
+                        <Select
+                            value={filterDistrict}
+                            onChange={setFilterDistrict}
+                            options={districtOptions}
+                            placeholder="ทั้งหมด"
+                            allowClear
+                            style={{ minWidth: 150 }}
+                            size="small"
+                        />
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <span style={{ fontSize: 13, color: '#656d76', fontWeight: 500 }}>ประเภทแปลง:</span>
+                        <Select
+                            value={filterPlotType}
+                            onChange={setFilterPlotType}
+                            options={plotTypeOptions}
+                            placeholder="ทั้งหมด"
+                            allowClear
+                            style={{ minWidth: 140 }}
+                            size="small"
+                        />
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <span style={{ fontSize: 13, color: '#656d76', fontWeight: 500 }}>ชนิดพืช:</span>
+                        <Select
+                            value={filterCropType}
+                            onChange={setFilterCropType}
+                            options={cropOptions}
+                            placeholder="ทั้งหมด"
+                            allowClear
+                            style={{ minWidth: 140 }}
+                            size="small"
+                        />
+                    </div>
+                    {hasActiveFilter && (
+                        <a
+                            onClick={() => { setFilterDistrict(null); setFilterPlotType(null); setFilterCropType(null); }}
+                            style={{ fontSize: 13, cursor: 'pointer', alignSelf: 'center', color: '#cf222e' }}
+                        >
+                            ล้างตัวกรอง
+                        </a>
+                    )}
+                </div>
+
+                {/* Charts */}
+                {mapLoading ? (
+                    <div style={{ height: 300, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Spin tip="กำลังโหลดข้อมูลกราฟ..." />
+                    </div>
+                ) : (
+                    <Row gutter={[24, 24]}>
+                        <Col xs={24} lg={12}>
+                            <Card title="สรุปตามชนิดพืช" size="small" bordered={false} style={{ background: '#fafbfc' }}>
+                                <div style={{ height: 300 }}>
+                                    {pieData.length > 0 ? (
+                                        <ResponsiveContainer width="100%" height="100%">
+                                            <PieChart>
+                                                <Pie
+                                                    data={pieData}
+                                                    cx="50%"
+                                                    cy="50%"
+                                                    innerRadius={60}
+                                                    outerRadius={100}
+                                                    paddingAngle={3}
+                                                    dataKey="value"
+                                                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                                                >
+                                                    {pieData.map((entry, index) => (
+                                                        <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
+                                                    ))}
+                                                </Pie>
+                                                <RechartsTooltip formatter={(value) => [value + ' แปลง', 'จำนวน']} />
+                                            </PieChart>
+                                        </ResponsiveContainer>
+                                    ) : (
+                                        <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#656d76' }}>ไม่พบข้อมูล</div>
+                                    )}
+                                </div>
+                            </Card>
+                        </Col>
+                        <Col xs={24} lg={12}>
+                            <Card title="สรุปตามอำเภอ (แยกประเภทแปลง)" size="small" bordered={false} style={{ background: '#fafbfc' }}>
+                                <div style={{ height: 300 }}>
+                                    {barData.length > 0 ? (
+                                        <ResponsiveContainer width="100%" height="100%">
+                                            <BarChart data={barData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
+                                                <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#656d76' }} axisLine={{ stroke: '#e8ecf0' }} tickLine={false} />
+                                                <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
+                                                <RechartsTooltip cursor={{ fill: '#f6f8fa' }} content={<CustomBarTooltip />} />
+                                                <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
+                                                {barGroups.map((type) => (
+                                                    <Bar 
+                                                        key={type} 
+                                                        dataKey={type} 
+                                                        name={type}
+                                                        stackId="a" 
+                                                        fill={PLOT_TYPE_COLORS[type] || '#8250df'} 
+                                                        maxBarSize={50} 
+                                                    />
+                                                ))}
+                                            </BarChart>
+                                        </ResponsiveContainer>
+                                    ) : (
+                                        <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#656d76' }}>ไม่พบข้อมูล</div>
+                                    )}
+                                </div>
+                            </Card>
+                        </Col>
+                    </Row>
+                )}
+            </div>
+
+            {/* ===== ตาราง ===== */}
+            <CrudTable
+                tableName="forecast_plots"
+                title="ข้อมูลการพยากรณ์"
+                columns={columns}
+                formFields={formFields}
+                searchFields={['owner_name', 'crop_type', 'variety', 'district', 'subdistrict']}
+                filterConfig={filterConfig}
+            />
+
+            {/* ===== แผนที่ ===== */}
+            <div style={{
+                marginTop: 24,
+                padding: 20,
+                background: '#fff',
+                borderRadius: 12,
+                border: '1px solid #e8ecf0',
+            }}>
+                {/* Header */}
+                <div style={{
+                    display: 'flex', alignItems: 'center', gap: 8,
+                    marginBottom: 12,
+                }}>
+                    <EnvironmentOutlined style={{ fontSize: 18, color: '#1a7f37' }} />
+                    <span style={{ fontSize: 16, fontWeight: 700, color: '#1f2328' }}>
+                        แผนที่แสดงพิกัดแปลงพยากรณ์
+                    </span>
+                    <Tag color="green">
+                        {hasActiveFilter
+                            ? `${filteredData.length} / ${mapData.length} แปลง`
+                            : `${mapData.length} แปลง`
+                        }
+                    </Tag>
+                </div>
+
+                {/* Map */}
+                {mapLoading ? (
+                    <div style={{
+                        height: 700, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        background: '#f6f8fa', borderRadius: 12, border: '1px solid #e8ecf0',
+                    }}>
+                        <span style={{ color: '#656d76' }}>กำลังโหลดข้อมูลแผนที่...</span>
+                    </div>
+                ) : (
+                    <ForecastMap data={filteredData} />
+                )}
+            </div>
+        </div>
+    );
 }

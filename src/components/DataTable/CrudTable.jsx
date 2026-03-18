@@ -20,7 +20,7 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
     const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
     const [importModalOpen, setImportModalOpen] = useState(false);
     const [filters, setFilters] = useState({});
-    const [showFilters, setShowFilters] = useState(false);
+    const [showFilters, setShowFilters] = useState(true);
     const [sorter, setSorter] = useState({ field: null, order: null });
     const [form] = Form.useForm();
 

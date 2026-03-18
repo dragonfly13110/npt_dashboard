@@ -1,4 +1,12 @@
-import { Form, Input, InputNumber, Select } from 'antd';
+import { useState, useEffect, useMemo } from 'react';
+import { Form, Input, InputNumber, Select, Spin, Row, Col, Card } from 'antd';
+import { PieChartOutlined, BarChartOutlined } from '@ant-design/icons';
+import {
+    PieChart, Pie, Cell,
+    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend,
+    ResponsiveContainer
+} from 'recharts';
+import { supabase } from '../../supabaseClient';
 import CrudTable from '../../components/DataTable/CrudTable';
 
 const columns = [
@@ -52,6 +60,225 @@ const filterConfig = [
     { key: 'agency', label: 'หน่วยงาน', options: ['กรมส่งเสริมการเกษตร', 'กรมการข้าว', 'กรมประมง', 'กรมปศุสัตว์', 'กรมหม่อนไหม', 'การยางแห่งประเทศไทย'] },
 ];
 
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658', '#4caf50', '#e91e63'];
+
+const CustomBarTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+        const total = payload[0].payload.total || 0;
+        return (
+            <div style={{ backgroundColor: '#fff', padding: '10px 14px', border: '1px solid #e8ecf0', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+                <div style={{ margin: '0 0 8px 0', fontWeight: 600, color: '#1f2328' }}>{label}</div>
+                {payload.map((entry, index) => (
+                    <div key={`item-${index}`} style={{ margin: '4px 0', color: entry.color, fontSize: 13 }}>
+                        {entry.name} : {entry.value} แปลง
+                    </div>
+                ))}
+                <div style={{ margin: '8px 0 0 0', fontWeight: 600, color: '#1f2328', borderTop: '1px solid #e8ecf0', paddingTop: '8px', fontSize: 13 }}>
+                    รวมทั้งหมด : {total} แปลง
+                </div>
+            </div>
+        );
+    }
+    return null;
+};
+
 export default function LargePlots() {
-    return <CrudTable tableName="large_plots" title="ข้อมูลแปลงใหญ่" columns={columns} formFields={formFields} searchField="plot_name" filterConfig={filterConfig} />;
+    const [dashboardData, setDashboardData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // Filters for charts
+    const [filterYear, setFilterYear] = useState(null);
+    const [filterDistrict, setFilterDistrict] = useState(null);
+
+    useEffect(() => {
+        const loadDashboardData = async () => {
+            setLoading(true);
+            try {
+                const { data, error } = await supabase.from('large_plots').select('*');
+                if (error) throw error;
+                setDashboardData(data || []);
+            } catch (err) {
+                console.error('Error fetching large plots dash data', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadDashboardData();
+    }, []);
+
+    // Derived Filter Options
+    const yearOptions = useMemo(() => {
+        const unique = [...new Set(dashboardData.map(d => d.year).filter(Boolean))].sort();
+        return unique.map(y => ({ label: `ปี ${y}`, value: y }));
+    }, [dashboardData]);
+
+    const districtOptions = useMemo(() => {
+        const unique = [...new Set(dashboardData.map(d => d.district).filter(Boolean))].sort();
+        return unique.map(d => ({ label: d, value: d }));
+    }, [dashboardData]);
+
+    // Apply Filters for Charts
+    const filteredData = useMemo(() => {
+        return dashboardData.filter(item => {
+            if (filterYear && String(item.year) !== String(filterYear)) return false;
+            if (filterDistrict && item.district !== filterDistrict) return false;
+            return true;
+        });
+    }, [dashboardData, filterYear, filterDistrict]);
+
+    // Calculate Data for Pie Chart (Commodity Group)
+    const pieData = useMemo(() => {
+        const counts = {};
+        filteredData.forEach(item => {
+            const group = item.commodity_group || 'ไม่ระบุ';
+            counts[group] = (counts[group] || 0) + 1;
+        });
+        return Object.entries(counts)
+            .map(([name, value]) => ({ name, value }))
+            .sort((a, b) => b.value - a.value);
+    }, [filteredData]);
+
+    // Calculate Data for Stacked Bar Chart (District & Commodity Group)
+    const { barData, barGroups } = useMemo(() => {
+        const counts = {};
+        const groupSet = new Set();
+
+        filteredData.forEach(item => {
+            const dist = item.district || 'ไม่ระบุ';
+            const group = item.commodity_group || 'ไม่ระบุ';
+
+            if (!counts[dist]) counts[dist] = { name: dist, total: 0 };
+            
+            counts[dist][group] = (counts[dist][group] || 0) + 1;
+            counts[dist].total += 1;
+            groupSet.add(group);
+        });
+
+        const barDataArray = Object.values(counts).sort((a, b) => b.total - a.total);
+        const barGroupsArray = Array.from(groupSet).sort();
+        
+        return { barData: barDataArray, barGroups: barGroupsArray };
+    }, [filteredData]);
+
+
+    return (
+        <div>
+            {/* ===== Dashboard Section ===== */}
+            <div style={{
+                padding: 20,
+                background: '#fff',
+                borderRadius: 12,
+                border: '1px solid #e8ecf0',
+                marginBottom: 24
+            }}>
+                {/* Header */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+                    <PieChartOutlined style={{ fontSize: 18, color: '#1a7f37' }} />
+                    <span style={{ fontSize: 16, fontWeight: 700, color: '#1f2328' }}>สรุปข้อมูลแปลงใหญ่</span>
+                </div>
+
+                {/* Filters */}
+                <div style={{
+                    display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 20,
+                    padding: '12px 16px', background: '#f6f8fa', borderRadius: 8, border: '1px solid #e8ecf0'
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <span style={{ fontSize: 13, color: '#656d76', fontWeight: 500 }}>ปี:</span>
+                        <Select
+                            value={filterYear}
+                            onChange={setFilterYear}
+                            options={yearOptions}
+                            placeholder="ทั้งหมด"
+                            allowClear
+                            style={{ minWidth: 120 }}
+                            size="small"
+                        />
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <span style={{ fontSize: 13, color: '#656d76', fontWeight: 500 }}>อำเภอ:</span>
+                        <Select
+                            value={filterDistrict}
+                            onChange={setFilterDistrict}
+                            options={districtOptions}
+                            placeholder="ทั้งหมด"
+                            allowClear
+                            style={{ minWidth: 150 }}
+                            size="small"
+                        />
+                    </div>
+                </div>
+
+                {/* Charts */}
+                {loading ? (
+                    <div style={{ height: 300, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Spin tip="กำลังโหลดข้อมูลกราฟ..." />
+                    </div>
+                ) : (
+                    <Row gutter={[24, 24]}>
+                        <Col xs={24} lg={12}>
+                            <Card title="ภาพรวมสัดส่วนแต่ละกลุ่มสินค้า" size="small" bordered={false} style={{ background: '#fafbfc' }}>
+                                <div style={{ height: 300 }}>
+                                    {pieData.length > 0 ? (
+                                        <ResponsiveContainer width="100%" height="100%">
+                                            <PieChart>
+                                                <Pie
+                                                    data={pieData}
+                                                    cx="50%"
+                                                    cy="50%"
+                                                    innerRadius={60}
+                                                    outerRadius={100}
+                                                    paddingAngle={3}
+                                                    dataKey="value"
+                                                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                                                >
+                                                    {pieData.map((entry, index) => (
+                                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                                    ))}
+                                                </Pie>
+                                                <RechartsTooltip formatter={(value) => [value + ' แปลง', 'จำนวน']} />
+                                            </PieChart>
+                                        </ResponsiveContainer>
+                                    ) : (
+                                        <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#656d76' }}>ไม่พบข้อมูล</div>
+                                    )}
+                                </div>
+                            </Card>
+                        </Col>
+                        <Col xs={24} lg={12}>
+                            <Card title={filterDistrict ? `จำนวนแปลงใหญ่ใน ${filterDistrict}` : "จำนวนแปลงใหญ่แยกตามอำเภอ"} size="small" bordered={false} style={{ background: '#fafbfc' }}>
+                                <div style={{ height: 300 }}>
+                                    {barData.length > 0 ? (
+                                        <ResponsiveContainer width="100%" height="100%">
+                                            <BarChart data={barData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
+                                                <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#656d76' }} axisLine={{ stroke: '#e8ecf0' }} tickLine={false} />
+                                                <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
+                                                <RechartsTooltip cursor={{ fill: '#f6f8fa' }} content={<CustomBarTooltip />} />
+                                                <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
+                                                {barGroups.map((group, index) => (
+                                                    <Bar key={group} dataKey={group} stackId="a" fill={COLORS[index % COLORS.length]} maxBarSize={50} />
+                                                ))}
+                                            </BarChart>
+                                        </ResponsiveContainer>
+                                    ) : (
+                                        <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#656d76' }}>ไม่พบข้อมูล</div>
+                                    )}
+                                </div>
+                            </Card>
+                        </Col>
+                    </Row>
+                )}
+            </div>
+
+            {/* ===== Data Table Section ===== */}
+            <CrudTable
+                tableName="large_plots"
+                title="ข้อมูลแปลงใหญ่"
+                columns={columns}
+                formFields={formFields}
+                searchField="plot_name"
+                filterConfig={filterConfig}
+            />
+        </div>
+    );
 }
