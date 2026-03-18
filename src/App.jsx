@@ -22,15 +22,13 @@ const UserManagement = lazy(() => import('./pages/admin/UserManagement'));
 const AuditLog = lazy(() => import('./pages/admin/AuditLog'));
 
 // Strategy
-const FarmerRegistry = lazy(() => import('./pages/strategy/FarmerRegistry'));
-const GisAreas = lazy(() => import('./pages/strategy/GisAreas'));
 const Disasters = lazy(() => import('./pages/strategy/Disasters'));
-const KpiPlans = lazy(() => import('./pages/strategy/KpiPlans'));
+const AgriculturalAreas = lazy(() => import('./pages/strategy/AgriculturalAreas'));
+const LearningCenters = lazy(() => import('./pages/strategy/LearningCenters'));
 const StrategyDashboard = lazy(() => import('./pages/strategy/StrategyDashboard'));
 
 // Production
 const LargePlots = lazy(() => import('./pages/production/LargePlots'));
-const LearningCenters = lazy(() => import('./pages/production/LearningCenters'));
 const Certifications = lazy(() => import('./pages/production/Certifications'));
 const CropProduction = lazy(() => import('./pages/production/CropProduction'));
 const ProductionDashboard = lazy(() => import('./pages/production/ProductionDashboard'));
@@ -104,15 +102,13 @@ function AppRoutes() {
 
           {/* Strategy */}
           <Route path="strategy/overview" element={<StrategyDashboard />} />
-          <Route path="strategy/farmer-registry" element={<FarmerRegistry />} />
-          <Route path="strategy/gis" element={<GisAreas />} />
+          <Route path="strategy/agricultural-areas" element={<AgriculturalAreas />} />
+          <Route path="strategy/learning-centers" element={<LearningCenters />} />
           <Route path="strategy/disasters" element={<Disasters />} />
-          <Route path="strategy/kpi" element={<KpiPlans />} />
 
           {/* Production */}
           <Route path="production/overview" element={<ProductionDashboard />} />
           <Route path="production/large-plots" element={<LargePlots />} />
-          <Route path="production/learning-centers" element={<LearningCenters />} />
           <Route path="production/certifications" element={<Certifications />} />
           <Route path="production/crop-production" element={<CropProduction />} />
 

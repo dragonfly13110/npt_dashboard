@@ -93,7 +93,10 @@ export default function CsvImportModal({ open, onClose, tableName, columns, onSu
     // DB columns จาก columns prop (ตัดคอลัมน์ actions ออก)
     const dbColumns = columns
         .filter(c => c.dataIndex)
-        .map(c => ({ label: c.title, value: c.dataIndex }));
+        .map(c => ({ 
+            label: c.importHeader || (typeof c.title === 'string' ? c.title : c.dataIndex), 
+            value: c.dataIndex 
+        }));
 
     const reset = () => {
         setStep(0);
