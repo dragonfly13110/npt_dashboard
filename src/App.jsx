@@ -39,6 +39,7 @@ const ProductionDashboard = lazy(() => import('./pages/production/ProductionDash
 const CommunityEnterprises = lazy(() => import('./pages/development/CommunityEnterprises'));
 const SmartFarmers = lazy(() => import('./pages/development/SmartFarmers'));
 const FarmerGroups = lazy(() => import('./pages/development/FarmerGroups'));
+const FarmerInstitutes = lazy(() => import('./pages/development/FarmerInstitutes'));
 const AgriTourism = lazy(() => import('./pages/development/AgriTourism'));
 const DevelopmentDashboard = lazy(() => import('./pages/development/DevelopmentDashboard'));
 
@@ -120,6 +121,7 @@ function AppRoutes() {
           <Route path="development/community-enterprises" element={<CommunityEnterprises />} />
           <Route path="development/smart-farmers" element={<SmartFarmers />} />
           <Route path="development/farmer-groups" element={<FarmerGroups />} />
+          <Route path="development/farmer-institutes" element={<FarmerInstitutes />} />
           <Route path="development/agri-tourism" element={<AgriTourism />} />
 
           {/* Protection */}

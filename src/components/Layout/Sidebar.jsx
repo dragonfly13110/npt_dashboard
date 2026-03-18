@@ -95,6 +95,7 @@ const allMenuItems = [
             { key: '/dashboard/development/community-enterprises', icon: <ShopOutlined />, label: 'วิสาหกิจชุมชน' },
             { key: '/dashboard/development/smart-farmers', icon: <UserSwitchOutlined />, label: 'เกษตรกรรุ่นใหม่' },
             { key: '/dashboard/development/farmer-groups', icon: <UsergroupAddOutlined />, label: 'กลุ่มแม่บ้าน/ยุวฯ' },
+            { key: '/dashboard/development/farmer-institutes', icon: <UsergroupAddOutlined />, label: 'สถาบันเกษตรกร (รวม)' },
             { key: '/dashboard/development/agri-tourism', icon: <EnvironmentOutlined />, label: 'ท่องเที่ยวเกษตร' },
         ],
     },
