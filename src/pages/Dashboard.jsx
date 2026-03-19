@@ -10,6 +10,7 @@ import {
     ScheduleOutlined
 } from '@ant-design/icons';
 import { supabase } from '../supabaseClient';
+import { Link } from 'react-router-dom';
 
 const PIE_COLORS = [
     '#66bb6a', '#42a5f5', '#ffca28', '#ef5350', '#ab47bc',
@@ -363,9 +364,16 @@ export default function Dashboard() {
 
                 {/* Activity Timeline */}
                 <div className="md-activity-card">
-                    <div className="md-activity-header">
-                        <h3>🕐 กิจกรรมล่าสุด</h3>
-                        <p>อัปเดตข้อมูลล่าสุดจากทุกกลุ่มงาน</p>
+                    <div className="md-activity-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                        <div>
+                            <h3 style={{ margin: 0, marginBottom: 4 }}>🕐 กิจกรรมล่าสุด</h3>
+                            <p style={{ margin: 0 }}>อัปเดตข้อมูลล่าสุดจากทุกกลุ่มงาน</p>
+                        </div>
+                        <Link to="/dashboard/admin/recent-activities">
+                            <Button type="primary" size="small" style={{ borderRadius: 6 }}>
+                                ดูเพิ่มเติม
+                            </Button>
+                        </Link>
                     </div>
                     {activityLoading ? (
                         <div style={{ padding: '0 24px 20px' }}>

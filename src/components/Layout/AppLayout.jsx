@@ -27,6 +27,7 @@ const routeLabels = {
     budgets: 'งบประมาณ',
     users: 'จัดการสิทธิ์ผู้ใช้',
     'audit-log': 'ประวัติการแก้ไข',
+    'recent-activities': 'กิจกรรมล่าสุดทั้งหมด',
     overview: 'Dashboard กลุ่ม',
     strategy: 'ยุทธศาสตร์ฯ',
     'farmer-registry': 'ทะเบียนเกษตรกร',

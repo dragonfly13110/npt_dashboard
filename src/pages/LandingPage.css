@@ -63,6 +63,7 @@
     margin-bottom: 24px;
     letter-spacing: -0.02em;
     background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -195,6 +196,7 @@
     gap: 24px;
     grid-template-columns: repeat(3, 1fr);
     grid-template-areas:
+        "ag ag ag"
         "map map sf"
         "map map ce"
         "lp at fi";
@@ -206,10 +208,11 @@
     .bento-container {
         grid-template-columns: repeat(2, 1fr);
         grid-template-areas:
+            "ag ag"
             "map map"
             "sf ce"
             "lp at"
-            "fi fi";
+            "fi .";
     }
 }
 
@@ -217,6 +220,7 @@
     .bento-container {
         grid-template-columns: 1fr;
         grid-template-areas:
+            "ag"
             "map"
             "sf"
             "ce"

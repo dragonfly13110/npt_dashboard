@@ -79,6 +79,17 @@ export default function LandingPage() {
     const [instituteStats, setInstituteStats] = useState({
         total: 0, ce: 0, housewives: 0, young_grp: 0, career: 0, village: 0, sf: 0, ysf: 0
     });
+    
+    // Large Plots stats
+    const [lpStats, setLpStats] = useState({
+        total: 0, rice: 0, veg_herb: 0, fruit: 0, field_crop: 0, other: 0, members: 0, area: 0
+    });
+    
+    // Agri stats
+    const [agriStats, setAgriStats] = useState({
+        households: 0, total_area: 0, crop_area: 0, 
+        rice_pi: 0, rice_prung: 0, field_crops: 0, hort: 0, fruit: 0, veg: 0, flow: 0, herb: 0
+    });
 
     // Lists
     const [smartFarmers, setSmartFarmers] = useState({ list: [], count: 0 });
@@ -119,12 +130,13 @@ export default function LandingPage() {
             setMapData(mapPts);
 
             // Fetch Real Data Lists & Farmer Institutes data
-            const [sfData, ceData, atData, lpData, { data: instData }] = await Promise.all([
+            const [sfData, ceData, atData, { data: lpData }, { data: instData }, { data: agriAreaData }] = await Promise.all([
                 fetchWithCount('smart_farmers', 'id, full_name, district, main_product'),
                 fetchWithCount('community_enterprises', 'id, enterprise_name, district, product_type'),
                 fetchWithCount('agri_tourism', 'id, spot_name, district, spot_type'),
-                fetchWithCount('large_plots', 'id, plot_name, district, commodity'),
-                supabase.from('farmer_institutes').select('*')
+                supabase.from('large_plots').select('*'),
+                supabase.from('farmer_institutes').select('*'),
+                supabase.from('agricultural_areas').select('*').neq('district', 'รวม')
             ]);
             setSmartFarmers(sfData);
             setEnterprises(ceData);
@@ -148,10 +160,49 @@ export default function LandingPage() {
                 village: iVillage, sf: iSF, ysf: iYSF 
             });
 
+            // Compute Large Plots stats
+            let lRice = 0, lVegH = 0, lFruit = 0, lField = 0, lOther = 0, lMems = 0, lArea = 0;
+            (lpData || []).forEach(row => {
+                lMems += Number(row.member_count) || 0;
+                lArea += Number(row.area_rai) || 0;
+                const g = row.commodity_group;
+                if (g === 'ข้าว') lRice++;
+                else if (g === 'ผัก/สมุนไพร') lVegH++;
+                else if (g === 'ไม้ผล') lFruit++;
+                else if (g === 'พืชไร่') lField++;
+                else lOther++;
+            });
+            setLpStats({
+                total: lpData ? lpData.length : 0,
+                rice: lRice, veg_herb: lVegH, fruit: lFruit, field_crop: lField, other: lOther,
+                members: lMems, area: lArea
+            });
+
+            // Fetch and Compute Agri Areas Totals
+            let aHouse = 0, aTotal = 0, aCrop = 0, aRicePi = 0, aRicePrung = 0, aField = 0, aHort = 0, aFruit = 0, aVeg = 0, aFlow = 0, aHerb = 0;
+            (agriAreaData || []).forEach(row => {
+                aHouse += Number(row.farmer_households) || 0;
+                aTotal += Number(row.total_area_rai) || 0;
+                aCrop += Number(row.agri_crop_area_rai) || 0;
+                aRicePi += Number(row.rice_in_season_rai) || 0;
+                aRicePrung += Number(row.rice_off_season_rai) || 0;
+                aField += Number(row.field_crops_rai) || 0;
+                aHort += Number(row.horticulture_rai) || 0;
+                aFruit += Number(row.fruit_trees_rai) || 0;
+                aVeg += Number(row.vegetables_rai) || 0;
+                aFlow += Number(row.flowers_rai) || 0;
+                aHerb += Number(row.herbs_spices_rai) || 0;
+            });
+            setAgriStats({
+                households: aHouse, total_area: aTotal, crop_area: aCrop,
+                rice_pi: aRicePi, rice_prung: aRicePrung, field_crops: aField, 
+                hort: aHort, fruit: aFruit, veg: aVeg, flow: aFlow, herb: aHerb
+            });
+
             // Fetch ALL stats concurrently
             const tablesToCount = [
                 'personnel', 'assets', 'budgets',
-                'gis_areas', 'learning_centers', 'disasters',
+                'agricultural_areas', 'learning_centers', 'disasters',
                 'large_plots', 'certifications', 'crop_production',
                 'community_enterprises', 'smart_farmers', 'agri_tourism',
                 'forecast_plots', 'pest_centers', 'soil_fertilizer_centers', 'fire_hotspots'
@@ -237,7 +288,7 @@ export default function LandingPage() {
                         <div className="dept-icon">📋</div>
                         <h3>ยุทธศาสตร์และสารสนเทศ</h3>
                         <ul>
-                            <li><span>พื้นที่การเกษตร (GIS)</span> <strong>{allStats.gis_areas || 0}</strong></li>
+                            <li><span>พื้นที่การเกษตร (ข้อมูล)</span> <strong>{allStats.agricultural_areas || 0} แห่ง</strong></li>
                             <li><span>ศูนย์ ศพก.</span> <strong>{allStats.learning_centers || 0}</strong></li>
                             <li><span>รายงานภัยพิบัติ</span> <strong>{allStats.disasters || 0}</strong></li>
                         </ul>
@@ -353,19 +404,53 @@ export default function LandingPage() {
                             <h3>🌾 แปลงใหญ่</h3>
                         </div>
                         <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
-                            ทั้งหมด {plots.count} แปลง
+                            ทั้งหมด {lpStats.total} แปลง
                         </div>
                     </div>
-                    <div className="bento-card-body">
-                        {renderList(plots.list, 'รอเพิ่มข้อมูล...', (item) => (
-                            <div key={item.id} className="bento-list-item">
-                                <div className="bento-item-icon bg-green-100 text-green-600"><GlobalOutlined /></div>
-                                <div className="bento-item-content">
-                                    <h4>{item.plot_name}</h4>
-                                    <p>อ.{item.district || '-'} &bull; {item.commodity || 'ไม่ระบุ'}</p>
+                    <div className="bento-card-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px' }}>
+
+                        {/* Box 1: ประเภท (กลุ่ม) */}
+                        <div>
+                            <div style={{ fontSize: 12, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>กลุ่มสินค้าหลัก (แปลง)</div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#fef9c3', borderRadius: '6px' }}>
+                                    <span style={{ fontSize: 12, color: '#854d0e', fontWeight: 500 }}>ข้าว</span>
+                                    <span style={{ fontSize: 13, fontWeight: 700, color: '#ca8a04' }}>{lpStats.rice}</span>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#dcfce3', borderRadius: '6px' }}>
+                                    <span style={{ fontSize: 12, color: '#166534', fontWeight: 500 }}>ผัก/สมุนไพร</span>
+                                    <span style={{ fontSize: 13, fontWeight: 700, color: '#15803d' }}>{lpStats.veg_herb}</span>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#fef3c7', borderRadius: '6px' }}>
+                                    <span style={{ fontSize: 12, color: '#92400e', fontWeight: 500 }}>ไม้ผล</span>
+                                    <span style={{ fontSize: 13, fontWeight: 700, color: '#b45309' }}>{lpStats.fruit}</span>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f5f5f4', borderRadius: '6px' }}>
+                                    <span style={{ fontSize: 12, color: '#57534e', fontWeight: 500 }}>พืชไร่</span>
+                                    <span style={{ fontSize: 13, fontWeight: 700, color: '#44403c' }}>{lpStats.field_crop}</span>
+                                </div>
+                                <div style={{ gridColumn: 'span 2', display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f3e8ff', borderRadius: '6px' }}>
+                                    <span style={{ fontSize: 12, color: '#6b21a8', fontWeight: 500 }}>กลุ่มอื่นๆ (ปศุสัตว์/ประมง/...)</span>
+                                    <span style={{ fontSize: 13, fontWeight: 700, color: '#7e22ce' }}>{lpStats.other}</span>
                                 </div>
                             </div>
-                        ))}
+                        </div>
+
+                        {/* Box 2: สมาชิก/พื้นที่ */}
+                        <div>
+                            <div style={{ fontSize: 12, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>ปริมาณรวม (ราย/ไร่)</div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '8px' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                                    <span style={{ fontSize: 12, color: '#475569', fontWeight: 500 }}>จำนวนสมาชิกรวม</span>
+                                    <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>{lpStats.members.toLocaleString()}</span>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                                    <span style={{ fontSize: 12, color: '#475569', fontWeight: 500 }}>พื้นที่รวม (ไร่)</span>
+                                    <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>{lpStats.area.toLocaleString()}</span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -446,6 +531,85 @@ export default function LandingPage() {
                             </div>
                         </div>
 
+                    </div>
+                </div>
+
+                {/* 7. Agri Areas (New Added Card like Farmer Institutes) */}
+                <div className="bento-card" style={{ gridArea: 'ag' }}>
+                    <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #f8fafc', background: 'linear-gradient(to right, #f0fdf4, #ffffff)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                            <div style={{ width: 40, height: 40, background: '#dcfce3', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🪴</div>
+                            <h3 style={{ fontSize: 22, color: '#0f172a', margin: 0 }}>สรุปพื้นที่การเกษตร แยกตามชนิดพืช</h3>
+                        </div>
+                    </div>
+                    <div className="bento-card-body" style={{ padding: '24px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
+                            
+                            {/* Left Side: Overview */}
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                <div style={{ fontSize: 16, fontWeight: 700, color: '#16a34a', borderBottom: '2px solid #dcfce3', paddingBottom: 8, marginBottom: 4 }}>ภาพรวมหลัก</div>
+                                
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', background: '#f8fafc', borderLeft: '4px solid #3b82f6', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' }}>
+                                    <span style={{ fontSize: 16, color: '#475569', fontWeight: 600 }}>พื้นที่ทั้งหมด</span>
+                                    <span style={{ fontSize: 22, fontWeight: 800, color: '#1e3a8a' }}>{agriStats.total_area.toLocaleString()} <span style={{fontSize: 15, fontWeight: 600}}>ไร่</span></span>
+                                </div>
+                                
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', background: '#f8fafc', borderLeft: '4px solid #10b981', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' }}>
+                                    <span style={{ fontSize: 16, color: '#475569', fontWeight: 600 }}>พื้นที่ด้านพืชรวม</span>
+                                    <span style={{ fontSize: 22, fontWeight: 800, color: '#064e3b' }}>{agriStats.crop_area.toLocaleString()} <span style={{fontSize: 15, fontWeight: 600}}>ไร่</span></span>
+                                </div>
+
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', background: '#f8fafc', borderLeft: '4px solid #f59e0b', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' }}>
+                                    <span style={{ fontSize: 16, color: '#475569', fontWeight: 600 }}>ครัวเรือนเกษตรกร</span>
+                                    <span style={{ fontSize: 22, fontWeight: 800, color: '#78350f' }}>{agriStats.households.toLocaleString()} <span style={{fontSize: 15, fontWeight: 600}}>ครัวเรือน</span></span>
+                                </div>
+                            </div>
+
+                            {/* Right Side: Crop Types */}
+                            <div>
+                                <div style={{ fontSize: 16, fontWeight: 700, color: '#16a34a', borderBottom: '2px solid #dcfce3', paddingBottom: 8, marginBottom: 20 }}>พื้นที่เพาะปลูกพืชหลัก (ไร่)</div>
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                                    
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', background: '#fef9c3', borderRadius: '10px', border: '1px solid #fde047' }}>
+                                        <span style={{ fontSize: 15, color: '#854d0e', fontWeight: 600 }}>ข้าวนาปี</span>
+                                        <span style={{ fontSize: 18, fontWeight: 800, color: '#ca8a04' }}>{agriStats.rice_pi.toLocaleString()}</span>
+                                    </div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', background: '#fef3c7', borderRadius: '10px', border: '1px solid #fcd34d' }}>
+                                        <span style={{ fontSize: 15, color: '#92400e', fontWeight: 600 }}>ข้าวนาปรัง</span>
+                                        <span style={{ fontSize: 18, fontWeight: 800, color: '#d97706' }}>{agriStats.rice_prung.toLocaleString()}</span>
+                                    </div>
+
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', background: '#f5f5f4', borderRadius: '10px', border: '1px solid #e7e5e4' }}>
+                                        <span style={{ fontSize: 15, color: '#57534e', fontWeight: 600 }}>พืชไร่</span>
+                                        <span style={{ fontSize: 18, fontWeight: 800, color: '#44403c' }}>{agriStats.field_crops.toLocaleString()}</span>
+                                    </div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', background: '#dcfce3', borderRadius: '10px', border: '1px solid #bbf7d0' }}>
+                                        <span style={{ fontSize: 15, color: '#166534', fontWeight: 600 }}>พืชสวน</span>
+                                        <span style={{ fontSize: 18, fontWeight: 800, color: '#15803d' }}>{agriStats.hort.toLocaleString()}</span>
+                                    </div>
+
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', background: '#ecfdf5', borderRadius: '10px', border: '1px solid #a7f3d0' }}>
+                                        <span style={{ fontSize: 15, color: '#065f46', fontWeight: 600 }}>พืชผัก</span>
+                                        <span style={{ fontSize: 18, fontWeight: 800, color: '#047857' }}>{agriStats.veg.toLocaleString()}</span>
+                                    </div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', background: '#f0fdfa', borderRadius: '10px', border: '1px solid #99f6e4' }}>
+                                        <span style={{ fontSize: 15, color: '#115e59', fontWeight: 600 }}>ไม้ผลไม้ยืนต้น</span>
+                                        <span style={{ fontSize: 18, fontWeight: 800, color: '#0f766e' }}>{agriStats.fruit.toLocaleString()}</span>
+                                    </div>
+                                    
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', background: '#fce7f3', borderRadius: '10px', border: '1px solid #fbcfe8' }}>
+                                        <span style={{ fontSize: 15, color: '#9d174d', fontWeight: 600 }}>ไม้ดอกไม้ประดับ</span>
+                                        <span style={{ fontSize: 18, fontWeight: 800, color: '#be185d' }}>{agriStats.flow.toLocaleString()}</span>
+                                    </div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', background: '#f3f4f6', borderRadius: '10px', border: '1px solid #e5e7eb' }}>
+                                        <span style={{ fontSize: 15, color: '#374151', fontWeight: 600 }}>สมุนไพร/เครื่องเทศ</span>
+                                        <span style={{ fontSize: 18, fontWeight: 800, color: '#4b5563' }}>{agriStats.herb.toLocaleString()}</span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
 

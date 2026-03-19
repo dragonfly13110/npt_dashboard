@@ -20,6 +20,7 @@ const Budgets = lazy(() => import('./pages/admin/Budgets'));
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 const UserManagement = lazy(() => import('./pages/admin/UserManagement'));
 const AuditLog = lazy(() => import('./pages/admin/AuditLog'));
+const RecentActivities = lazy(() => import('./pages/admin/RecentActivities'));
 
 // Strategy
 const Disasters = lazy(() => import('./pages/strategy/Disasters'));
@@ -99,6 +100,7 @@ function AppRoutes() {
           {/* Admin-only: User Management & Audit Log */}
           <Route path="admin/users" element={<AdminRoute><UserManagement /></AdminRoute>} />
           <Route path="admin/audit-log" element={<AdminRoute><AuditLog /></AdminRoute>} />
+          <Route path="admin/recent-activities" element={<RecentActivities />} />
 
           {/* Strategy */}
           <Route path="strategy/overview" element={<StrategyDashboard />} />
