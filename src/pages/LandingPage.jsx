@@ -94,6 +94,7 @@ export default function LandingPage() {
     // Lists
     const [smartFarmers, setSmartFarmers] = useState({ list: [], count: 0 });
     const [enterprises, setEnterprises] = useState({ list: [], count: 0 });
+    const [ceDistrictStats, setCeDistrictStats] = useState({});
     const [tourism, setTourism] = useState({ list: [], count: 0 });
     const [plots, setPlots] = useState({ list: [], count: 0 });
     
@@ -132,14 +133,23 @@ export default function LandingPage() {
             // Fetch Real Data Lists & Farmer Institutes data
             const [sfData, ceData, atData, { data: lpData }, { data: instData }, { data: agriAreaData }] = await Promise.all([
                 fetchWithCount('smart_farmers', 'id, full_name, district, main_product'),
-                fetchWithCount('community_enterprises', 'id, enterprise_name, district, product_type'),
+                supabase.from('community_enterprises').select('id, district', { count: 'exact' }),
                 fetchWithCount('agri_tourism', 'id, spot_name, district, spot_type'),
                 supabase.from('large_plots').select('*'),
                 supabase.from('farmer_institutes').select('*'),
                 supabase.from('agricultural_areas').select('*').neq('district', 'รวม')
             ]);
             setSmartFarmers(sfData);
-            setEnterprises(ceData);
+            // Community Enterprises: count by district
+            const ceList = ceData.data || [];
+            const ceCount = ceData.count || ceList.length;
+            setEnterprises({ list: [], count: ceCount });
+            const distCounts = {};
+            ceList.forEach(r => {
+                const d = r.district || 'ไม่ระบุ';
+                distCounts[d] = (distCounts[d] || 0) + 1;
+            });
+            setCeDistrictStats(distCounts);
             setTourism(atData);
             setPlots(lpData);
 
@@ -308,7 +318,7 @@ export default function LandingPage() {
                     </div>
                 </div>
 
-                {/* 3. Community Enterprises */}
+                {/* 3. Community Enterprises — แยกตามอำเภอ */}
                 <div className="bento-card" style={{ gridArea: 'ce' }}>
                     <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div>
@@ -318,16 +328,27 @@ export default function LandingPage() {
                             ทั้งหมด {enterprises.count} แห่ง
                         </div>
                     </div>
-                    <div className="bento-card-body">
-                        {renderList(enterprises.list, 'รอเพิ่มข้อมูล...', (item) => (
-                            <div key={item.id} className="bento-list-item">
-                                <div className="bento-item-icon bg-blue-100 text-blue-600"><UsergroupAddOutlined /></div>
-                                <div className="bento-item-content">
-                                    <h4>{item.enterprise_name}</h4>
-                                    <p>อ.{item.district || '-'} &bull; {item.product_type || 'ไม่ระบุ'}</p>
-                                </div>
+                    <div className="bento-card-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px' }}>
+
+                        {/* จำนวนแยกตามอำเภอ */}
+                        <div>
+                            <div style={{ fontSize: 12, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>จำนวนตามอำเภอ (แห่ง)</div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                                {Object.entries(ceDistrictStats)
+                                    .sort((a, b) => b[1] - a[1])
+                                    .map(([dist, count]) => (
+                                        <div key={dist} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#e0f2fe', borderRadius: '6px', border: '1px solid #bae6fd' }}>
+                                            <span style={{ fontSize: 12, color: '#0369a1', fontWeight: 500 }}>{dist}</span>
+                                            <span style={{ fontSize: 13, fontWeight: 700, color: '#0369a1' }}>{count}</span>
+                                        </div>
+                                    ))
+                                }
+                                {Object.keys(ceDistrictStats).length === 0 && !loading && (
+                                    <div style={{ gridColumn: 'span 2', textAlign: 'center', color: '#94a3b8', fontSize: 13, padding: 8 }}>รอเพิ่มข้อมูล...</div>
+                                )}
                             </div>
-                        ))}
+                        </div>
+
                     </div>
                 </div>
 
