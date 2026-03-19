@@ -1,0 +1,387 @@
+/* ========================================================= */
+/* ================== BENTO DASHBOARD REDESIGN ============= */
+/* ========================================================= */
+
+.bento-theme {
+    background: #f8fafc;
+    color: #0f172a;
+    font-family: 'Inter', 'IBM Plex Sans Thai', -apple-system, sans-serif;
+    min-height: 100vh;
+}
+
+/* OVERLAP NAV FIX */
+.bento-theme .landing-nav {
+    background: rgba(2, 6, 23, 0.75);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.bento-theme .landing-nav::after {
+    display: none;
+}
+
+.bento-header {
+    position: relative;
+    padding: 140px 24px 60px; /* Reduced bottom padding so it doesn't need negative margin below */
+    text-align: center;
+    background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=2032&q=80') center/cover no-repeat;
+    overflow: hidden;
+}
+
+.bento-header-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(2, 6, 23, 0.85) 0%, rgba(15, 23, 42, 0.65) 100%);
+    backdrop-filter: blur(2px);
+}
+
+.bento-header-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bento-badge {
+    display: inline-flex;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e2e8f0;
+    padding: 8px 18px;
+    border-radius: 9999px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.bento-title {
+    color: #ffffff;
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.bento-subtitle {
+    color: #94a3b8;
+    font-size: 17px;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* --- 5 DEPARTMENTS STATS --- */
+.dept-stats-container {
+    max-width: 1240px;
+    margin: 40px auto; /* Removed negative top margin to prevent overlapping the background */
+    padding: 0 24px;
+    position: relative;
+    z-index: 10;
+}
+
+.dept-stats-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.dept-stats-header h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 6px;
+}
+
+.dept-stats-header p {
+    font-size: 15px;
+    color: #64748b;
+}
+
+.dept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.dept-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 4px 20px -10px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.dept-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--theme);
+}
+
+.dept-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px -10px rgba(0,0,0,0.12);
+}
+
+.dept-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--theme) 15%, transparent);
+    color: var(--theme);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 16px;
+}
+
+.dept-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 16px;
+}
+
+.dept-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dept-card li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #475569;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed #f1f5f9;
+}
+
+.dept-card li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.dept-card li strong {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    background: #f8fafc;
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+/* --- BENTO GRID SYSTEM --- */
+.bento-container {
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    padding: 0 24px;
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+        "map map sf"
+        "map map ce"
+        "lp at fi";
+    position: relative;
+    z-index: 10;
+}
+
+@media (max-width: 1024px) {
+    .bento-container {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas:
+            "map map"
+            "sf ce"
+            "lp at"
+            "fi fi";
+    }
+}
+
+@media (max-width: 768px) {
+    .bento-container {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "map"
+            "sf"
+            "ce"
+            "lp"
+            "at"
+            "fi";
+        margin-top: 0;
+    }
+}
+
+.bento-card {
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bento-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+}
+
+.bento-card-map {
+    min-height: 480px;
+}
+
+.bento-card-header {
+    padding: 24px 24px 16px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.bento-card-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+.bento-card-header span {
+    display: block;
+    font-size: 14px;
+    color: #64748b;
+    margin-top: 6px;
+}
+
+.bento-card-body {
+    flex: 1;
+    padding: 16px 24px 24px;
+}
+
+.bento-card-body.p-0 {
+    padding: 0;
+}
+
+.bento-map-wrapper {
+    height: 100%;
+    width: 100%;
+}
+
+.bento-map-wrapper .leaflet-container {
+    height: 400px !important;
+    border-radius: 0 0 24px 24px !important;
+    z-index: 1;
+}
+
+@media (min-width: 1025px) {
+    .bento-map-wrapper .leaflet-container {
+        height: 100% !important;
+        min-height: 520px;
+    }
+}
+
+/* LIST STYLES */
+.bento-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.bento-list-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px;
+    border-radius: 16px;
+    transition: background 0.2s ease;
+}
+
+.bento-list-item:hover {
+    background: #f8fafc;
+}
+
+.bento-item-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.bento-item-content h4 {
+    margin: 0 0 4px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+}
+
+.bento-item-content p {
+    margin: 0;
+    font-size: 13px;
+    color: #64748b;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+}
+
+/* UTILITY COLORS */
+.bg-orange-100 { background: #ffedd5; }
+.text-orange-600 { color: #ea580c; }
+.bg-blue-100 { background: #dbeafe; }
+.text-blue-600 { color: #2563eb; }
+.bg-green-100 { background: #dcfce3; }
+.text-green-600 { color: #16a34a; }
+.bg-purple-100 { background: #f3e8ff; }
+.text-purple-600 { color: #9333ea; }
+
+.bento-loading, .bento-empty {
+    padding: 40px 0;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.map-placeholder {
+    height: 100%;
+    min-height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    background: #f8fafc;
+    border-radius: 0 0 24px 24px;
+}
+
+/* Map popup badge */
+.badge {
+    font-size: 11px;
+    margin-top: 6px;
+    padding: 3px 8px;
+    border-radius: 8px;
+    display: inline-block;
+    font-weight: 600;
+}
+
+.badge.gis { background: #dbeafe; color: #2563eb; }
+.badge.tourism { background: #dcfce3; color: #16a34a; }

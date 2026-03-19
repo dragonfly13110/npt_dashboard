@@ -1,73 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-    PieChart, Pie, Cell
-} from 'recharts';
 import { supabase } from '../supabaseClient';
+import { EnvironmentOutlined, UsergroupAddOutlined, TeamOutlined, GlobalOutlined } from '@ant-design/icons';
+import './LandingPage.css'; // New dedicated styles
 
-const COLORS = ['#1a7f37', '#0969da', '#bf8700', '#8250df', '#cf222e', '#2da44e', '#218bff', '#d4a72c'];
-
-const statConfig = [
-    { table: 'personnel', label: 'บุคลากร', icon: '👥', color: 'green' },
-    { table: 'assets', label: 'พัสดุ/ครุภัณฑ์', icon: '💻', color: 'blue' },
-    { table: 'budgets', label: 'โครงการงบประมาณ', icon: '💰', color: 'orange' },
-    { table: 'farmer_registry', label: 'ทะเบียนเกษตรกร', icon: '📋', color: 'purple' },
-    { table: 'large_plots', label: 'แปลงใหญ่', icon: '🌾', color: 'green' },
-    { table: 'community_enterprises', label: 'วิสาหกิจชุมชน', icon: '🤝', color: 'blue' },
-    { table: 'forecast_plots', label: 'แปลงพยากรณ์', icon: '🌿', color: 'green' },
-    { table: 'smart_farmers', label: 'Smart Farmer', icon: '🧑‍🌾', color: 'orange' },
-];
-
-// กลุ่มงาน 5 กลุ่ม พร้อม sub-tables
-const groupDashConfig = [
-    {
-        icon: '🏢', title: 'ฝ่ายบริหารทั่วไป', color: '#1a7f37',
-        tables: [
-            { table: 'personnel', label: 'บุคลากร' },
-            { table: 'assets', label: 'พัสดุ' },
-            { table: 'budgets', label: 'งบประมาณ' },
-        ],
-    },
-    {
-        icon: '📊', title: 'ยุทธศาสตร์และสารสนเทศ', color: '#0969da',
-        tables: [
-            { table: 'farmer_registry', label: 'ทะเบียน' },
-            { table: 'gis_areas', label: 'GIS' },
-            { table: 'disasters', label: 'ภัยพิบัติ' },
-            { table: 'kpi_plans', label: 'KPI' },
-        ],
-    },
-    {
-        icon: '🌾', title: 'ส่งเสริมการผลิต', color: '#bf8700',
-        tables: [
-            { table: 'large_plots', label: 'แปลงใหญ่' },
-            { table: 'learning_centers', label: 'ศพก.' },
-            { table: 'certifications', label: 'GAP' },
-            { table: 'crop_production', label: 'ผลผลิต' },
-        ],
-    },
-    {
-        icon: '🤝', title: 'ส่งเสริมเกษตรกร', color: '#8250df',
-        tables: [
-            { table: 'community_enterprises', label: 'วิสาหกิจ' },
-            { table: 'smart_farmers', label: 'Smart Farmer' },
-            { table: 'farmer_groups', label: 'กลุ่มฯ' },
-            { table: 'agri_tourism', label: 'ท่องเที่ยว' },
-        ],
-    },
-    {
-        icon: '🔬', title: 'อารักขาพืช', color: '#cf222e',
-        tables: [
-            { table: 'forecast_plots', label: 'แปลงพยากรณ์' },
-            { table: 'pest_centers', label: 'ศจช.' },
-            { table: 'biocontrol_stock', label: 'ชีวภัณฑ์' },
-            { table: 'fire_hotspots', label: 'PM2.5' },
-        ],
-    },
-];
-
-// ========== MAP COMPONENT ==========
+// ========== MAP COMPONENT (Existing logic adapted) ==========
 function LandingMap({ mapData }) {
     const [MapComponents, setMapComponents] = useState(null);
 
@@ -90,23 +27,17 @@ function LandingMap({ mapData }) {
     }, []);
 
     if (!MapComponents) {
-        return <div style={{ height: 420, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#8b949e' }}>กำลังโหลดแผนที่...</div>;
+        return <div className="map-placeholder">กำลังโหลดแผนที่...</div>;
     }
 
-    const { MapContainer, TileLayer, Marker, Popup, CircleMarker } = MapComponents;
-
-    const markerTypes = [
-        { key: 'gis', label: 'พื้นที่ GIS', color: '#0969da', emoji: '📍' },
-        { key: 'tourism', label: 'ท่องเที่ยวเกษตร', color: '#1a7f37', emoji: '🌿' },
-        { key: 'fire', label: 'จุดเฝ้าระวัง PM2.5', color: '#cf222e', emoji: '🔥' },
-    ];
+    const { MapContainer, TileLayer, Popup, CircleMarker } = MapComponents;
 
     return (
-        <div className="landing-map-wrapper">
+        <div className="bento-map-wrapper">
             <MapContainer
                 center={[13.82, 100.06]}
                 zoom={10}
-                style={{ height: 420, borderRadius: 12 }}
+                style={{ height: '100%', width: '100%', borderRadius: 16 }}
                 scrollWheelZoom={false}
             >
                 <TileLayer
@@ -118,20 +49,16 @@ function LandingMap({ mapData }) {
                         key={idx}
                         center={[item.lat, item.lon]}
                         radius={8}
-                        fillColor={item.type === 'gis' ? '#0969da' : item.type === 'tourism' ? '#1a7f37' : '#cf222e'}
-                        fillOpacity={0.8}
+                        fillColor={item.type === 'gis' ? '#2563eb' : '#16a34a'}
+                        fillOpacity={0.85}
                         color="#fff"
                         weight={2}
                     >
                         <Popup>
                             <div style={{ fontFamily: 'inherit', minWidth: 160 }}>
                                 <strong>{item.name}</strong>
-                                {item.district && <div style={{ fontSize: 12, color: '#656d76', marginTop: 4 }}>อ.{item.district}</div>}
-                                <div style={{
-                                    fontSize: 11, marginTop: 4, padding: '2px 8px', borderRadius: 8, display: 'inline-block',
-                                    background: item.type === 'gis' ? '#ddf4ff' : item.type === 'tourism' ? '#dafbe1' : '#ffebe9',
-                                    color: item.type === 'gis' ? '#0969da' : item.type === 'tourism' ? '#1a7f37' : '#cf222e'
-                                }}>
+                                {item.district && <div style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>อ.{item.district}</div>}
+                                <div className={`badge ${item.type}`}>
                                     {item.typeLabel}
                                 </div>
                             </div>
@@ -139,114 +66,132 @@ function LandingMap({ mapData }) {
                     </CircleMarker>
                 ))}
             </MapContainer>
-            <div className="map-legend">
-                {markerTypes.map(t => (
-                    <div key={t.key} className="map-legend-item">
-                        <span className="map-legend-dot" style={{ background: t.color }}></span>
-                        <span>{t.emoji} {t.label}</span>
-                    </div>
-                ))}
-            </div>
         </div>
     );
 }
 
 export default function LandingPage() {
-    const [stats, setStats] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [groupStats, setGroupStats] = useState({});
-    const [groupLoading, setGroupLoading] = useState(true);
     const [mapData, setMapData] = useState([]);
-    const [mapLoading, setMapLoading] = useState(true);
+    
+    // Stats map
+    const [allStats, setAllStats] = useState({});
+    const [instituteStats, setInstituteStats] = useState({
+        total: 0, ce: 0, housewives: 0, young_grp: 0, career: 0, village: 0, sf: 0, ysf: 0
+    });
+
+    // Lists
+    const [smartFarmers, setSmartFarmers] = useState({ list: [], count: 0 });
+    const [enterprises, setEnterprises] = useState({ list: [], count: 0 });
+    const [tourism, setTourism] = useState({ list: [], count: 0 });
+    const [plots, setPlots] = useState({ list: [], count: 0 });
+    
     const navigate = useNavigate();
 
     useEffect(() => {
-        loadStats();
-        loadGroupStats();
-        loadMapData();
+        loadDashboardData();
     }, []);
 
-    const loadStats = async () => {
+    const fetchWithCount = async (table, selectStr = 'id') => {
+        const { data, count } = await supabase.from(table)
+            .select(selectStr, { count: 'exact' })
+            .order('id', { ascending: false })
+            .limit(3);
+        return { list: data || [], count: count || 0 };
+    };
+
+    const loadDashboardData = async () => {
         setLoading(true);
-        const results = [];
-        for (const cfg of statConfig) {
-            try {
-                const { count, error } = await supabase
-                    .from(cfg.table)
-                    .select('*', { count: 'exact', head: true });
-                results.push({ ...cfg, count: error ? 0 : (count ?? 0) });
-            } catch {
-                results.push({ ...cfg, count: 0 });
-            }
-        }
-        setStats(results);
-        setLoading(false);
-    };
-
-    const loadGroupStats = async () => {
-        setGroupLoading(true);
-        const result = {};
-        for (const group of groupDashConfig) {
-            const counts = {};
-            for (const t of group.tables) {
-                try {
-                    const { count, error } = await supabase
-                        .from(t.table)
-                        .select('*', { count: 'exact', head: true });
-                    counts[t.table] = error ? 0 : (count ?? 0);
-                } catch {
-                    counts[t.table] = 0;
-                }
-            }
-            result[group.title] = counts;
-        }
-        setGroupStats(result);
-        setGroupLoading(false);
-    };
-
-    const loadMapData = async () => {
-        setMapLoading(true);
-        const points = [];
         try {
-            // GIS Areas
-            const { data: gis } = await supabase.from('gis_areas').select('area_name, district, latitude, longitude');
+            // Map Data
+            const mapPts = [];
+            const [ { data: gis }, { data: tourMap } ] = await Promise.all([
+                supabase.from('gis_areas').select('area_name, district, latitude, longitude').not('latitude', 'is', null).limit(20),
+                supabase.from('agri_tourism').select('spot_name, district, latitude, longitude').not('latitude', 'is', null).limit(20)
+            ]);
+
             (gis || []).forEach(r => {
-                if (r.latitude && r.longitude) {
-                    points.push({ name: r.area_name, district: r.district, lat: r.latitude, lon: r.longitude, type: 'gis', typeLabel: 'พื้นที่ GIS' });
-                }
+                if (r.latitude && r.longitude) mapPts.push({ name: r.area_name, district: r.district, lat: r.latitude, lon: r.longitude, type: 'gis', typeLabel: 'พื้นที่ GIS' });
             });
-            // Agri Tourism
-            const { data: tourism } = await supabase.from('agri_tourism').select('spot_name, district, latitude, longitude');
-            (tourism || []).forEach(r => {
-                if (r.latitude && r.longitude) {
-                    points.push({ name: r.spot_name, district: r.district, lat: r.latitude, lon: r.longitude, type: 'tourism', typeLabel: 'ท่องเที่ยวเกษตร' });
-                }
+            (tourMap || []).forEach(r => {
+                if (r.latitude && r.longitude) mapPts.push({ name: r.spot_name, district: r.district, lat: r.latitude, lon: r.longitude, type: 'tourism', typeLabel: 'ท่องเที่ยวเกษตร' });
             });
-            // Fire Hotspots
-            const { data: fire } = await supabase.from('fire_hotspots').select('spot_name, district, latitude, longitude');
-            (fire || []).forEach(r => {
-                if (r.latitude && r.longitude) {
-                    points.push({ name: r.spot_name, district: r.district, lat: r.latitude, lon: r.longitude, type: 'fire', typeLabel: 'จุดเฝ้าระวัง PM2.5' });
-                }
+            setMapData(mapPts);
+
+            // Fetch Real Data Lists & Farmer Institutes data
+            const [sfData, ceData, atData, lpData, { data: instData }] = await Promise.all([
+                fetchWithCount('smart_farmers', 'id, full_name, district, main_product'),
+                fetchWithCount('community_enterprises', 'id, enterprise_name, district, product_type'),
+                fetchWithCount('agri_tourism', 'id, spot_name, district, spot_type'),
+                fetchWithCount('large_plots', 'id, plot_name, district, commodity'),
+                supabase.from('farmer_institutes').select('*')
+            ]);
+            setSmartFarmers(sfData);
+            setEnterprises(ceData);
+            setTourism(atData);
+            setPlots(lpData);
+
+            // Compute Farmer Institutes Totals
+            let iTotal = 0, iCE = 0, iHouse = 0, iYoungGrp = 0, iCareer = 0, iVillage = 0, iSF = 0, iYSF = 0;
+            (instData || []).forEach(row => {
+                iTotal += Number(row.total_groups) || 0;
+                iCE += Number(row.community_enterprise_groups) || 0;
+                iHouse += Number(row.housewives_groups) || 0;
+                iYoungGrp += Number(row.young_farmer_groups) || 0;
+                iCareer += Number(row.career_promotion_groups) || 0;
+                iVillage += Number(row.village_farmers_count) || 0;
+                iSF += Number(row.smart_farmer_count) || 0;
+                iYSF += Number(row.young_smart_farmer_count) || 0;
             });
-        } catch {
-            // skip
+            setInstituteStats({ 
+                total: iTotal, ce: iCE, housewives: iHouse, young_grp: iYoungGrp, career: iCareer, 
+                village: iVillage, sf: iSF, ysf: iYSF 
+            });
+
+            // Fetch ALL stats concurrently
+            const tablesToCount = [
+                'personnel', 'assets', 'budgets',
+                'gis_areas', 'learning_centers', 'disasters',
+                'large_plots', 'certifications', 'crop_production',
+                'community_enterprises', 'smart_farmers', 'agri_tourism',
+                'forecast_plots', 'pest_centers', 'soil_fertilizer_centers', 'fire_hotspots'
+            ];
+            
+            const countPromises = tablesToCount.map(table => 
+                supabase.from(table).select('id', { count: 'exact', head: true })
+            );
+            
+            const countResults = await Promise.all(countPromises);
+            const statsMap = {};
+            countResults.forEach((res, idx) => {
+                statsMap[tablesToCount[idx]] = res.count || 0;
+            });
+            setAllStats(statsMap);
+
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setLoading(false);
         }
-        setMapData(points);
-        setMapLoading(false);
     };
 
-    const barData = stats.filter(s => s.count > 0).map(s => ({ name: s.label, value: s.count }));
-    const pieData = stats.filter(s => s.count > 0).map(s => ({ name: s.label, value: s.count }));
-    const totalRecords = stats.reduce((sum, s) => sum + s.count, 0);
+    const renderList = (items, fallback, renderItem) => {
+        if (loading) return <div className="bento-loading">กำลังโหลดข้อมูล...</div>;
+        if (!items || items.length === 0) return <div className="bento-empty">{fallback}</div>;
+        return (
+            <div className="bento-list">
+                {items.map(renderItem)}
+            </div>
+        );
+    };
 
     return (
-        <div className="landing-page">
+        <div className="landing-page bento-theme">
             {/* ===== NAVBAR ===== */}
             <nav className="landing-nav">
-                <div className="landing-nav-inner">
+                <div className="landing-nav-inner padding-x">
                     <div className="landing-nav-brand">
-                        <span style={{ fontSize: 28 }}>🌾</span>
+                        <span style={{ fontSize: 24 }}>🌾</span>
                         <span>เกษตรจังหวัดนครปฐม</span>
                     </div>
                     <button className="landing-login-btn" onClick={() => navigate('/login')}>
@@ -255,158 +200,269 @@ export default function LandingPage() {
                 </div>
             </nav>
 
-            {/* ===== HERO ===== */}
-            <section className="landing-hero">
-                <div className="landing-hero-bg"></div>
-                <div className="landing-hero-content">
-                    <div className="landing-hero-badge">🏛️ สำนักงานเกษตรจังหวัดนครปฐม</div>
-                    <h1 className="landing-hero-title">
-                        ข้อมูลด้านการเกษตร<br />
-                        <span className="landing-hero-highlight">จังหวัดนครปฐม</span>
-                    </h1>
-                    <p className="landing-hero-subtitle">
-                        ระบบฐานข้อมูลกลางสำหรับการบริหารจัดการข้อมูลด้านการเกษตร<br />
-                        ครอบคลุมทุกกลุ่มงาน 5 กลุ่ม 7 อำเภอ
+            {/* ===== HEADER ===== */}
+            <header className="bento-header">
+                <div className="bento-header-bg"></div>
+                <div className="bento-header-content">
+                    <div className="bento-badge">🏛️ สำนักงานเกษตรจังหวัดนครปฐม</div>
+                    <h1 className="bento-title">ระบบฐานข้อมูลอัจฉริยะแบบบูรณาการ</h1>
+                    <p className="bento-subtitle" style={{ color: '#e2e8f0' }}>
+                        ครอบคลุมข้อมูลบุคลากร วิสาหกิจชุมชน พื้นที่ปลูก และการอารักขาพืช ในจังหวัดนครปฐม<br/>
+                        เชื่อมโยงทุกมิติเพื่อการพัฒนาการเกษตรที่ยั่งยืน
                     </p>
-                    <div className="landing-hero-stats">
-                        <div className="landing-hero-stat">
-                            <div className="landing-hero-stat-value">{loading ? '...' : totalRecords.toLocaleString()}</div>
-                            <div className="landing-hero-stat-label">รายการข้อมูล</div>
-                        </div>
-                        <div className="landing-hero-stat-divider" />
-                        <div className="landing-hero-stat">
-                            <div className="landing-hero-stat-value">5</div>
-                            <div className="landing-hero-stat-label">กลุ่มงาน</div>
-                        </div>
-                        <div className="landing-hero-stat-divider" />
-                        <div className="landing-hero-stat">
-                            <div className="landing-hero-stat-value">7</div>
-                            <div className="landing-hero-stat-label">อำเภอ</div>
-                        </div>
-                        <div className="landing-hero-stat-divider" />
-                        <div className="landing-hero-stat">
-                            <div className="landing-hero-stat-value">20</div>
-                            <div className="landing-hero-stat-label">ฐานข้อมูล</div>
-                        </div>
+                </div>
+            </header>
+
+            {/* ===== ALL 5 GROUPS OVERVIEW ===== */}
+            <section className="dept-stats-container">
+                <div className="dept-stats-header">
+                    <h2>📊 ภาพรวมข้อมูล 5 ยุทธศาสตร์</h2>
+                    <p>สถิติข้อมูลล่าสุดแยกตามกลุ่มงานภายในสำนักงาน</p>
+                </div>
+                
+                <div className="dept-grid">
+                    {/* Admin */}
+                    <div className="dept-card" style={{ '--theme': '#0ea5e9' }}>
+                        <div className="dept-icon">🏢</div>
+                        <h3>ฝ่ายบริหารทั่วไป</h3>
+                        <ul>
+                            <li><span>บุคลากร</span> <strong>{allStats.personnel || 0}</strong></li>
+                            <li><span>พัสดุ/ครุภัณฑ์</span> <strong>{allStats.assets || 0}</strong></li>
+                            <li><span>โครงการงบประมาณ</span> <strong>{allStats.budgets || 0}</strong></li>
+                        </ul>
+                    </div>
+
+                    {/* Strategy */}
+                    <div className="dept-card" style={{ '--theme': '#8b5cf6' }}>
+                        <div className="dept-icon">📋</div>
+                        <h3>ยุทธศาสตร์และสารสนเทศ</h3>
+                        <ul>
+                            <li><span>พื้นที่การเกษตร (GIS)</span> <strong>{allStats.gis_areas || 0}</strong></li>
+                            <li><span>ศูนย์ ศพก.</span> <strong>{allStats.learning_centers || 0}</strong></li>
+                            <li><span>รายงานภัยพิบัติ</span> <strong>{allStats.disasters || 0}</strong></li>
+                        </ul>
+                    </div>
+
+                    {/* Production */}
+                    <div className="dept-card" style={{ '--theme': '#f59e0b' }}>
+                        <div className="dept-icon">🌾</div>
+                        <h3>ส่งเสริมและพัฒนาการผลิต</h3>
+                        <ul>
+                            <li><span>แปลงใหญ่</span> <strong>{allStats.large_plots || 0}</strong></li>
+                            <li><span>มาตรฐาน GAP</span> <strong>{allStats.certifications || 0}</strong></li>
+                            <li><span>ผลผลิตพืช</span> <strong>{allStats.crop_production || 0}</strong></li>
+                        </ul>
+                    </div>
+
+                    {/* Dev */}
+                    <div className="dept-card" style={{ '--theme': '#10b981' }}>
+                        <div className="dept-icon">🤝</div>
+                        <h3>ส่งเสริมและพัฒนาเกษตรกร</h3>
+                        <ul>
+                            <li><span>วิสาหกิจชุมชน</span> <strong>{allStats.community_enterprises || 0}</strong></li>
+                            <li><span>Smart Farmer</span> <strong>{allStats.smart_farmers || 0}</strong></li>
+                            <li><span>กลุ่มสถาบันเกษตรกร</span> <strong>{instituteStats.total || 0}</strong></li>
+                            <li><span>ท่องเที่ยวเกษตร</span> <strong>{allStats.agri_tourism || 0}</strong></li>
+                        </ul>
+                    </div>
+
+                    {/* Protection */}
+                    <div className="dept-card" style={{ '--theme': '#ef4444' }}>
+                        <div className="dept-icon">🔬</div>
+                        <h3>อารักขาพืชและจัดการดินปุ๋ย</h3>
+                        <ul>
+                            <li><span>ระบาดศัตรูพืช</span> <strong>{allStats.forecast_plots || 0}</strong></li>
+                            <li><span>ศูนย์ ศจช.</span> <strong>{allStats.pest_centers || 0}</strong></li>
+                            <li><span>ศูนย์ ศดปช.</span> <strong>{allStats.soil_fertilizer_centers || 0}</strong></li>
+                            <li><span>จุดเฝ้าระวังไฟ/PM2.5</span> <strong>{allStats.fire_hotspots || 0}</strong></li>
+                        </ul>
                     </div>
                 </div>
             </section>
 
-            {/* ===== STAT CARDS ===== */}
-            <section className="landing-section">
-                <h2 className="landing-section-title">📊 ภาพรวมข้อมูล</h2>
-                <div className="stat-cards">
-                    {stats.map((s, i) => (
-                        <div key={i} className={`stat-card ${s.color}`}>
-                            <div className="stat-card-icon">{s.icon}</div>
-                            <div className="stat-card-value">{loading ? '...' : s.count.toLocaleString()}</div>
-                            <div className="stat-card-label">{s.label}</div>
-                        </div>
-                    ))}
+            {/* ===== BENTO GRID LATEST LISTS ===== */}
+            <div className="dept-stats-header" style={{ marginTop: 20 }}>
+                <h2>📅 ข้อมูลและกิจกรรมล่าสุด</h2>
+                <p>ตัวอย่างรายชื่อข้อมูลที่ถูกเพิ่มหรืออัปเดตเข้าระบบ</p>
+            </div>
+            <section className="bento-container" style={{ marginTop: 20 }}>
+                
+                {/* 1. Map Card (Large) */}
+                <div className="bento-card bento-card-map" style={{ gridArea: 'map' }}>
+                    <div className="bento-card-header">
+                        <h3>🗺️ แผนที่ข้อมูลการเกษตร</h3>
+                        <span>พิกัดพื้นที่เชิงเกษตร (GIS, ท่องเที่ยว)</span>
+                    </div>
+                    <div className="bento-card-body p-0">
+                        <LandingMap mapData={mapData} />
+                    </div>
                 </div>
-            </section>
 
-            {/* ===== MINI GROUP DASHBOARDS ===== */}
-            <section className="landing-section">
-                <h2 className="landing-section-title">🏢 สถิติรายกลุ่มงาน</h2>
-                <div className="group-dash-grid">
-                    {groupDashConfig.map((group, gi) => {
-                        const counts = groupStats[group.title] || {};
-                        const groupTotal = Object.values(counts).reduce((s, v) => s + v, 0);
-                        return (
-                            <div key={gi} className="group-dash-card" style={{ '--group-color': group.color }}>
-                                <div className="group-dash-header">
-                                    <span className="group-dash-icon">{group.icon}</span>
-                                    <div>
-                                        <div className="group-dash-title">{group.title}</div>
-                                        <div className="group-dash-total">
-                                            {groupLoading ? '...' : `${groupTotal.toLocaleString()} รายการ`}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="group-dash-stats">
-                                    {group.tables.map((t, ti) => (
-                                        <div key={ti} className="group-dash-stat-item">
-                                            <span className="group-dash-stat-label">{t.label}</span>
-                                            <span className="group-dash-stat-value">
-                                                {groupLoading ? '-' : (counts[t.table] ?? 0).toLocaleString()}
-                                            </span>
-                                        </div>
-                                    ))}
+                {/* (We removed the OVERALL STATS card from here because we now have the big 5 Dept-Stats section) */}
+
+                {/* 2. Smart Farmers */}
+                <div className="bento-card" style={{ gridArea: 'sf' }}>
+                    <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                            <h3>🧑‍🌾 Smart Farmer</h3>
+                        </div>
+                        <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
+                            ทั้งหมด {smartFarmers.count} ราย
+                        </div>
+                    </div>
+                    <div className="bento-card-body">
+                        {renderList(smartFarmers.list, 'รอเพิ่มข้อมูล...', (item) => (
+                            <div key={item.id} className="bento-list-item">
+                                <div className="bento-item-icon bg-orange-100 text-orange-600"><TeamOutlined /></div>
+                                <div className="bento-item-content">
+                                    <h4>{item.full_name}</h4>
+                                    <p>อ.{item.district || '-'} &bull; {item.main_product || 'ไม่ระบุสินค้า'}</p>
                                 </div>
                             </div>
-                        );
-                    })}
+                        ))}
+                    </div>
                 </div>
-            </section>
 
-            {/* ===== CHARTS ===== */}
-            {barData.length > 0 && (
-                <section className="landing-section">
-                    <div className="chart-section">
-                        <div className="chart-card">
-                            <div className="chart-card-title">📊 สรุปจำนวนข้อมูลแต่ละหมวด</div>
-                            <ResponsiveContainer width="100%" height={320}>
-                                <BarChart data={barData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="#e8ecf0" />
-                                    <XAxis dataKey="name" tick={{ fontSize: 12 }} angle={-20} textAnchor="end" height={60} />
-                                    <YAxis tick={{ fontSize: 12 }} />
-                                    <Tooltip />
-                                    <Bar dataKey="value" fill="#1a7f37" radius={[6, 6, 0, 0]} />
-                                </BarChart>
-                            </ResponsiveContainer>
+                {/* 3. Community Enterprises */}
+                <div className="bento-card" style={{ gridArea: 'ce' }}>
+                    <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                            <h3>🤝 วิสาหกิจชุมชน</h3>
                         </div>
-                        <div className="chart-card">
-                            <div className="chart-card-title">🥧 สัดส่วนข้อมูล</div>
-                            <ResponsiveContainer width="100%" height={320}>
-                                <PieChart>
-                                    <Pie data={pieData} cx="50%" cy="50%" labelLine={false} outerRadius={110} fill="#8884d8" dataKey="value"
-                                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
-                                        {pieData.map((_, i) => (<Cell key={i} fill={COLORS[i % COLORS.length]} />))}
-                                    </Pie>
-                                    <Tooltip />
-                                </PieChart>
-                            </ResponsiveContainer>
+                        <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
+                            ทั้งหมด {enterprises.count} แห่ง
                         </div>
                     </div>
-                </section>
-            )}
-
-            {/* ===== INTERACTIVE MAP ===== */}
-            <section className="landing-section">
-                <h2 className="landing-section-title">🗺️ แผนที่ข้อมูลการเกษตร</h2>
-                <div className="chart-card">
-                    {mapLoading ? (
-                        <div style={{ height: 420, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#8b949e' }}>
-                            กำลังโหลดข้อมูลแผนที่...
-                        </div>
-                    ) : mapData.length > 0 ? (
-                        <LandingMap mapData={mapData} />
-                    ) : (
-                        <div style={{ height: 420 }}>
-                            <LandingMap mapData={[]} />
-                            <p style={{ textAlign: 'center', color: '#8b949e', fontSize: 13, marginTop: -200, position: 'relative', zIndex: 1000 }}>
-                                ยังไม่มีข้อมูลพิกัดในระบบ — เพิ่มข้อมูล GIS, ท่องเที่ยวเกษตร หรือ จุด PM2.5 เพื่อแสดงบนแผนที่
-                            </p>
-                        </div>
-                    )}
+                    <div className="bento-card-body">
+                        {renderList(enterprises.list, 'รอเพิ่มข้อมูล...', (item) => (
+                            <div key={item.id} className="bento-list-item">
+                                <div className="bento-item-icon bg-blue-100 text-blue-600"><UsergroupAddOutlined /></div>
+                                <div className="bento-item-content">
+                                    <h4>{item.enterprise_name}</h4>
+                                    <p>อ.{item.district || '-'} &bull; {item.product_type || 'ไม่ระบุ'}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
+
+                {/* 4. Large Plots */}
+                <div className="bento-card" style={{ gridArea: 'lp' }}>
+                    <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                            <h3>🌾 แปลงใหญ่</h3>
+                        </div>
+                        <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
+                            ทั้งหมด {plots.count} แปลง
+                        </div>
+                    </div>
+                    <div className="bento-card-body">
+                        {renderList(plots.list, 'รอเพิ่มข้อมูล...', (item) => (
+                            <div key={item.id} className="bento-list-item">
+                                <div className="bento-item-icon bg-green-100 text-green-600"><GlobalOutlined /></div>
+                                <div className="bento-item-content">
+                                    <h4>{item.plot_name}</h4>
+                                    <p>อ.{item.district || '-'} &bull; {item.commodity || 'ไม่ระบุ'}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* 5. Agri Tourism */}
+                <div className="bento-card" style={{ gridArea: 'at' }}>
+                    <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                            <h3>🌿 แหล่งท่องเที่ยว</h3>
+                        </div>
+                        <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
+                            ทั้งหมด {tourism.count} แห่ง
+                        </div>
+                    </div>
+                    <div className="bento-card-body">
+                        {renderList(tourism.list, 'รอเพิ่มข้อมูล...', (item) => (
+                            <div key={item.id} className="bento-list-item">
+                                <div className="bento-item-icon bg-purple-100 text-purple-600"><EnvironmentOutlined /></div>
+                                <div className="bento-item-content">
+                                    <h4>{item.spot_name}</h4>
+                                    <p>อ.{item.district || '-'} &bull; {item.spot_type || 'ไม่ระบุ'}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* 6. Farmer Institutes (New Added Card) */}
+                <div className="bento-card" style={{ gridArea: 'fi' }}>
+                    <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                            <h3>👥 สถาบันเกษตรกร</h3>
+                        </div>
+                        <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
+                            ทั้งหมด {instituteStats.total} กลุ่ม
+                        </div>
+                    </div>
+                    <div className="bento-card-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px' }}>
+
+                        {/* Box 1: กลุ่ม */}
+                        <div>
+                            <div style={{ fontSize: 13, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>ประเภท (กลุ่ม)</div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#e0f2fe', borderRadius: '6px', border: '1px solid #bae6fd' }}>
+                                    <span style={{ fontSize: 12, color: '#0369a1', fontWeight: 500 }}>วิสาหกิจฯ</span>
+                                    <span style={{ fontSize: 13, fontWeight: 700, color: '#0369a1' }}>{instituteStats.ce}</span>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#dcfce3', borderRadius: '6px', border: '1px solid #bbf7d0' }}>
+                                    <span style={{ fontSize: 12, color: '#16a34a', fontWeight: 500 }}>แม่บ้านฯ</span>
+                                    <span style={{ fontSize: 13, fontWeight: 700, color: '#1a7f37' }}>{instituteStats.housewives}</span>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#fef3c7', borderRadius: '6px', border: '1px solid #fde68a' }}>
+                                    <span style={{ fontSize: 12, color: '#d97706', fontWeight: 500 }}>ยุวเกษตรฯ</span>
+                                    <span style={{ fontSize: 13, fontWeight: 700, color: '#b45309' }}>{instituteStats.young_grp}</span>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f3e8ff', borderRadius: '6px', border: '1px solid #e9d5ff' }}>
+                                    <span style={{ fontSize: 12, color: '#7e22ce', fontWeight: 500 }}>ส่งเสริมอาชีพ</span>
+                                    <span style={{ fontSize: 13, fontWeight: 700, color: '#6b21a8' }}>{instituteStats.career}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Box 2: บุคคล */}
+                        <div>
+                            <div style={{ fontSize: 13, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>สมาชิก/เกษตรกร (ราย)</div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0', gridColumn: 'span 2' }}>
+                                    <span style={{ fontSize: 12, color: '#475569', fontWeight: 500 }}>เกษตรกรทั่วไป (หมู่บ้าน)</span>
+                                    <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>{instituteStats.village}</span>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                                    <span style={{ fontSize: 12, color: '#475569', fontWeight: 500 }}>Smart Farmer</span>
+                                    <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>{instituteStats.sf}</span>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                                    <span style={{ fontSize: 12, color: '#475569', fontWeight: 500 }}>YSF</span>
+                                    <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>{instituteStats.ysf}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </section>
 
             {/* ===== FOOTER ===== */}
-            <footer className="landing-footer">
-                <div className="landing-footer-inner">
-                    <div>
+            <footer className="landing-footer" style={{ padding: '40px 0', borderTop: '1px solid #e2e8f0' }}>
+                <div className="landing-footer-content" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
+                    <div style={{ textAlign: 'center', opacity: 0.6 }}>
                         <strong>🌾 สำนักงานเกษตรจังหวัดนครปฐม</strong>
-                        <p style={{ marginTop: 6, opacity: 0.7, fontSize: 13 }}>
-                            131 ถนนทรงพล อำเภอเมือง จังหวัดนครปฐม 73000
+                        <p style={{ marginTop: 8, fontSize: 13, lineHeight: '1.6' }}>
+                            131 ถนนทรงพล อำเภอเมือง จังหวัดนครปฐม 73000<br/>
+                            โทร. 0 3425 3992 | E-mail: nakhonpathom@doae.go.th
                         </p>
-                        <p style={{ marginTop: 4, opacity: 0.7, fontSize: 13 }}>
-                            โทร. 0 3425 3992, 09 3314 4469 | E-mail: nakhonpathom@doae.go.th
+                        <p style={{ marginTop: 12, fontSize: 12 }}>
+                            © {new Date().getFullYear()} ระบบฐานข้อมูลกลางเพื่อการเกษตร
                         </p>
-                    </div>
-                    <div style={{ opacity: 0.5, fontSize: 13 }}>
-                        © {new Date().getFullYear()} ระบบฐานข้อมูลกลาง
                     </div>
                 </div>
             </footer>
