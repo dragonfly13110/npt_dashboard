@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 
@@ -57,6 +57,18 @@ export default function Login() {
                         </Button>
                     </Form.Item>
                 </Form>
+
+                <div style={{ textAlign: 'center', marginTop: 16 }}>
+                    <Button
+                        type="link"
+                        icon={<ArrowLeftOutlined />}
+                        onClick={() => navigate('/')}
+                        size="large"
+                        style={{ color: '#94a3b8', fontSize: 16 }}
+                    >
+                        กลับหน้าแรก
+                    </Button>
+                </div>
             </div>
         </div>
     );
