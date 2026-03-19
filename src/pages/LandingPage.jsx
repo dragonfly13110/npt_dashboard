@@ -264,72 +264,6 @@ export default function LandingPage() {
                 </div>
             </header>
 
-            {/* ===== ALL 5 GROUPS OVERVIEW ===== */}
-            <section className="dept-stats-container">
-                <div className="dept-stats-header">
-                    <h2>📊 ภาพรวมข้อมูล 5 ยุทธศาสตร์</h2>
-                    <p>สถิติข้อมูลล่าสุดแยกตามกลุ่มงานภายในสำนักงาน</p>
-                </div>
-                
-                <div className="dept-grid">
-                    {/* Admin */}
-                    <div className="dept-card" style={{ '--theme': '#0ea5e9' }}>
-                        <div className="dept-icon">🏢</div>
-                        <h3>ฝ่ายบริหารทั่วไป</h3>
-                        <ul>
-                            <li><span>บุคลากร</span> <strong>{allStats.personnel || 0}</strong></li>
-                            <li><span>พัสดุ/ครุภัณฑ์</span> <strong>{allStats.assets || 0}</strong></li>
-                            <li><span>โครงการงบประมาณ</span> <strong>{allStats.budgets || 0}</strong></li>
-                        </ul>
-                    </div>
-
-                    {/* Strategy */}
-                    <div className="dept-card" style={{ '--theme': '#8b5cf6' }}>
-                        <div className="dept-icon">📋</div>
-                        <h3>ยุทธศาสตร์และสารสนเทศ</h3>
-                        <ul>
-                            <li><span>พื้นที่การเกษตร (ข้อมูล)</span> <strong>{allStats.agricultural_areas || 0} แห่ง</strong></li>
-                            <li><span>ศูนย์ ศพก.</span> <strong>{allStats.learning_centers || 0}</strong></li>
-                            <li><span>รายงานภัยพิบัติ</span> <strong>{allStats.disasters || 0}</strong></li>
-                        </ul>
-                    </div>
-
-                    {/* Production */}
-                    <div className="dept-card" style={{ '--theme': '#f59e0b' }}>
-                        <div className="dept-icon">🌾</div>
-                        <h3>ส่งเสริมและพัฒนาการผลิต</h3>
-                        <ul>
-                            <li><span>แปลงใหญ่</span> <strong>{allStats.large_plots || 0}</strong></li>
-                            <li><span>มาตรฐาน GAP</span> <strong>{allStats.certifications || 0}</strong></li>
-                            <li><span>ผลผลิตพืช</span> <strong>{allStats.crop_production || 0}</strong></li>
-                        </ul>
-                    </div>
-
-                    {/* Dev */}
-                    <div className="dept-card" style={{ '--theme': '#10b981' }}>
-                        <div className="dept-icon">🤝</div>
-                        <h3>ส่งเสริมและพัฒนาเกษตรกร</h3>
-                        <ul>
-                            <li><span>วิสาหกิจชุมชน</span> <strong>{allStats.community_enterprises || 0}</strong></li>
-                            <li><span>Smart Farmer</span> <strong>{allStats.smart_farmers || 0}</strong></li>
-                            <li><span>กลุ่มสถาบันเกษตรกร</span> <strong>{instituteStats.total || 0}</strong></li>
-                            <li><span>ท่องเที่ยวเกษตร</span> <strong>{allStats.agri_tourism || 0}</strong></li>
-                        </ul>
-                    </div>
-
-                    {/* Protection */}
-                    <div className="dept-card" style={{ '--theme': '#ef4444' }}>
-                        <div className="dept-icon">🔬</div>
-                        <h3>อารักขาพืชและจัดการดินปุ๋ย</h3>
-                        <ul>
-                            <li><span>ระบาดศัตรูพืช</span> <strong>{allStats.forecast_plots || 0}</strong></li>
-                            <li><span>ศูนย์ ศจช.</span> <strong>{allStats.pest_centers || 0}</strong></li>
-                            <li><span>ศูนย์ ศดปช.</span> <strong>{allStats.soil_fertilizer_centers || 0}</strong></li>
-                            <li><span>จุดเฝ้าระวังไฟ/PM2.5</span> <strong>{allStats.fire_hotspots || 0}</strong></li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
 
             {/* ===== BENTO GRID LATEST LISTS ===== */}
             <div className="dept-stats-header" style={{ marginTop: 20 }}>
@@ -613,6 +547,73 @@ export default function LandingPage() {
                     </div>
                 </div>
 
+            </section>
+
+            {/* ===== ALL 5 GROUPS OVERVIEW (moved to bottom) ===== */}
+            <section className="dept-stats-container">
+                <div className="dept-stats-header">
+                    <h2>📊 ภาพรวมข้อมูล 5 ยุทธศาสตร์</h2>
+                    <p>สถิติข้อมูลล่าสุดแยกตามกลุ่มงานภายในสำนักงาน</p>
+                </div>
+                
+                <div className="dept-grid">
+                    {/* Admin */}
+                    <div className="dept-card" style={{ '--theme': '#0ea5e9' }}>
+                        <div className="dept-icon">🏢</div>
+                        <h3>ฝ่ายบริหารทั่วไป</h3>
+                        <ul>
+                            <li><span>บุคลากร</span> <strong>{allStats.personnel || 0}</strong></li>
+                            <li><span>พัสดุ/ครุภัณฑ์</span> <strong>{allStats.assets || 0}</strong></li>
+                            <li><span>โครงการงบประมาณ</span> <strong>{allStats.budgets || 0}</strong></li>
+                        </ul>
+                    </div>
+
+                    {/* Strategy */}
+                    <div className="dept-card" style={{ '--theme': '#8b5cf6' }}>
+                        <div className="dept-icon">📋</div>
+                        <h3>ยุทธศาสตร์และสารสนเทศ</h3>
+                        <ul>
+                            <li><span>พื้นที่การเกษตร (ข้อมูล)</span> <strong>{allStats.agricultural_areas || 0} แห่ง</strong></li>
+                            <li><span>ศูนย์ ศพก.</span> <strong>{allStats.learning_centers || 0}</strong></li>
+                            <li><span>รายงานภัยพิบัติ</span> <strong>{allStats.disasters || 0}</strong></li>
+                        </ul>
+                    </div>
+
+                    {/* Production */}
+                    <div className="dept-card" style={{ '--theme': '#f59e0b' }}>
+                        <div className="dept-icon">🌾</div>
+                        <h3>ส่งเสริมและพัฒนาการผลิต</h3>
+                        <ul>
+                            <li><span>แปลงใหญ่</span> <strong>{allStats.large_plots || 0}</strong></li>
+                            <li><span>มาตรฐาน GAP</span> <strong>{allStats.certifications || 0}</strong></li>
+                            <li><span>ผลผลิตพืช</span> <strong>{allStats.crop_production || 0}</strong></li>
+                        </ul>
+                    </div>
+
+                    {/* Dev */}
+                    <div className="dept-card" style={{ '--theme': '#10b981' }}>
+                        <div className="dept-icon">🤝</div>
+                        <h3>ส่งเสริมและพัฒนาเกษตรกร</h3>
+                        <ul>
+                            <li><span>วิสาหกิจชุมชน</span> <strong>{allStats.community_enterprises || 0}</strong></li>
+                            <li><span>Smart Farmer</span> <strong>{allStats.smart_farmers || 0}</strong></li>
+                            <li><span>กลุ่มสถาบันเกษตรกร</span> <strong>{instituteStats.total || 0}</strong></li>
+                            <li><span>ท่องเที่ยวเกษตร</span> <strong>{allStats.agri_tourism || 0}</strong></li>
+                        </ul>
+                    </div>
+
+                    {/* Protection */}
+                    <div className="dept-card" style={{ '--theme': '#ef4444' }}>
+                        <div className="dept-icon">🔬</div>
+                        <h3>อารักขาพืชและจัดการดินปุ๋ย</h3>
+                        <ul>
+                            <li><span>ระบาดศัตรูพืช</span> <strong>{allStats.forecast_plots || 0}</strong></li>
+                            <li><span>ศูนย์ ศจช.</span> <strong>{allStats.pest_centers || 0}</strong></li>
+                            <li><span>ศูนย์ ศดปช.</span> <strong>{allStats.soil_fertilizer_centers || 0}</strong></li>
+                            <li><span>จุดเฝ้าระวังไฟ/PM2.5</span> <strong>{allStats.fire_hotspots || 0}</strong></li>
+                        </ul>
+                    </div>
+                </div>
             </section>
 
             {/* ===== FOOTER ===== */}
