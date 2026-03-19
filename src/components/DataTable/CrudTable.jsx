@@ -28,8 +28,20 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
     const userCanDelete = canDelete();
 
     const loadData = useCallback(() => {
-        fetchData({ page: pagination.current, pageSize: pagination.pageSize, search, searchField, searchFields, filters, sortField: sorter.field, sortOrder: sorter.order });
-    }, [fetchData, pagination.current, pagination.pageSize, search, searchField, searchFields, filters, sorter]);
+        const transformedFilters = {};
+        Object.entries(filters).forEach(([key, val]) => {
+            if (val !== undefined && val !== null && val !== '') {
+                const conf = filterConfig?.find(c => c.key === key);
+                if (conf && conf.operator) {
+                    transformedFilters[key] = { operator: conf.operator, value: conf.operator === 'ilike' ? `%${val}%` : val };
+                } else {
+                    transformedFilters[key] = val;
+                }
+            }
+        });
+        fetchData({ page: pagination.current, pageSize: pagination.pageSize, search, searchField, searchFields, filters: transformedFilters, sortField: sorter.field, sortOrder: sorter.order });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fetchData, pagination.current, pagination.pageSize, search, searchField, searchFields, filters, sorter, JSON.stringify(filterConfig)]);
 
     useEffect(() => { loadData(); }, [loadData]);
 

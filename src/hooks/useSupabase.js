@@ -55,7 +55,12 @@ export function useSupabaseCrud(tableName) {
             // Advanced filters
             Object.entries(filters).forEach(([key, value]) => {
                 if (value !== undefined && value !== null && value !== '') {
-                    query = query.eq(key, value);
+                    if (typeof value === 'object' && !Array.isArray(value) && value.operator) {
+                        if (value.operator === 'ilike') query = query.ilike(key, value.value);
+                        else if (value.operator === 'contains') query = query.contains(key, value.value);
+                    } else {
+                        query = query.eq(key, value);
+                    }
                 }
             });
 
