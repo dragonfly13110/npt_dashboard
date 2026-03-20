@@ -199,8 +199,9 @@ export default function StrategyDashboard() {
                 if (area > 0) cropMap[f.label] = (cropMap[f.label] || 0) + area;
             });
         });
-        const topTypes = Object.entries(cropMap).sort((a,b) => b[1] - a[1]).slice(0, 4);
-        return { totalArea, topTypes };
+        const topTypes = Object.entries(cropMap).sort((a,b) => b[1] - a[1]);
+        const totalPlanted = topTypes.reduce((sum, [_, val]) => sum + val, 0);
+        return { totalArea, topTypes, totalPlanted };
     }, [agriData]);
 
     const learnStats = useMemo(() => {
@@ -263,16 +264,22 @@ export default function StrategyDashboard() {
                                     </div>
                                 </div>
                                 <div>
-                                    <div style={{ fontSize: 13, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>พืชที่มีพื้นที่เพาะปลูกมากที่สุด (ไร่)</div>
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '8px' }}>
+                                    <div style={{ fontSize: 13, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>พื้นที่เพาะปลูกรายพืช (ไร่)</div>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
                                         {agriStats.topTypes.map(([c, count], idx) => (
                                             <div key={c} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', background: idx % 2 === 0 ? '#f0fdf4' : '#f8fafc', borderRadius: '8px', border: '1px solid', borderColor: idx % 2 === 0 ? '#dcfce3' : '#e2e8f0' }}>
                                                 <span style={{ fontSize: 13, color: idx % 2 === 0 ? '#166534' : '#475569', fontWeight: 600 }}>{c}</span>
                                                 <span style={{ fontSize: 14, fontWeight: 700, color: idx % 2 === 0 ? '#15803d' : '#0f172a' }}>{count.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
                                             </div>
                                         ))}
+                                        {agriStats.topTypes.length > 0 && (
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', background: '#eef2ff', borderRadius: '8px', border: '1px solid #e0e7ff', gridColumn: 'span 2', marginTop: 4 }}>
+                                                <span style={{ fontSize: 13, color: '#4338ca', fontWeight: 700 }}>รวมพื้นที่เพาะปลูกทั้งหมด</span>
+                                                <span style={{ fontSize: 15, fontWeight: 800, color: '#3730a3' }}>{agriStats.totalPlanted.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
+                                            </div>
+                                        )}
                                         {agriStats.topTypes.length === 0 && (
-                                            <div style={{ textAlign: 'center', color: '#94a3b8', fontSize: 13, padding: 8 }}>รอเพิ่มข้อมูล...</div>
+                                            <div style={{ textAlign: 'center', color: '#94a3b8', fontSize: 13, padding: 8, gridColumn: 'span 2' }}>รอเพิ่มข้อมูล...</div>
                                         )}
                                     </div>
                                 </div>
