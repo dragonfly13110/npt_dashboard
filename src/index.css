@@ -2711,3 +2711,123 @@ body {
   justify-content: flex-end;
   margin-bottom: 8px;
 }
+
+/* ================== BENTO DASHBOARD REDESIGN (Global Utilities) ============= */
+
+.bento-card {
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 24px;
+}
+
+.bento-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+}
+
+.bento-card-header {
+    padding: 24px 24px 16px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.bento-card-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+.bento-card-header span {
+    display: block;
+    font-size: 14px;
+    color: #64748b;
+    margin-top: 6px;
+}
+
+.bento-card-body {
+    flex: 1;
+    padding: 16px 24px 24px;
+}
+
+.bento-card-body.p-0 {
+    padding: 0;
+}
+
+/* LIST STYLES */
+.bento-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.bento-list-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px;
+    border-radius: 16px;
+    transition: background 0.2s ease;
+}
+
+.bento-list-item:hover {
+    background: #f8fafc;
+}
+
+.bento-item-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.bento-item-content h4 {
+    margin: 0 0 4px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+}
+
+.bento-item-content p {
+    margin: 0;
+    font-size: 13px;
+    color: #64748b;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+}
+
+/* UTILITY COLORS */
+.bg-orange-100 { background: #ffedd5; }
+.text-orange-600 { color: #ea580c; }
+.bg-blue-100 { background: #dbeafe; }
+.text-blue-600 { color: #2563eb; }
+.bg-green-100 { background: #dcfce3; }
+.text-green-600 { color: #16a34a; }
+.bg-purple-100 { background: #f3e8ff; }
+.text-purple-600 { color: #9333ea; }
+.bg-yellow-100 { background: #fef9c3; }
+.text-yellow-600 { color: #ca8a04; }
+.bg-emerald-100 { background: #d1fae5; }
+.text-emerald-600 { color: #059669; }
+
+.bento-loading, .bento-empty {
+    padding: 40px 0;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 14px;
+}

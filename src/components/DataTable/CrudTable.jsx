@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import {
     Table, Button, Input, Modal, Form, Space, Popconfirm, Tag, Tooltip, Empty, Select
 } from 'antd';
@@ -106,10 +106,28 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
 
     const activeFilterCount = Object.values(filters).filter(v => v !== undefined && v !== null && v !== '').length;
 
+    // Filter out name columns for guest, except for presidents
+    const visibleColumns = useMemo(() => {
+        return columns.filter(col => {
+            if (role === 'guest') {
+                const dataIdx = String(col.dataIndex || '');
+                const titleStr = String(col.title || '');
+                
+                const isName = /name|ชื่อ|first_name|last_name|full_name/i.test(dataIdx) || /ชื่อ-สกุล|ชื่อ|สกุล/i.test(titleStr);
+                const isPresident = /president|chairman|ประธาน/i.test(dataIdx) || /ประธาน/i.test(titleStr);
+                
+                if (isName && !isPresident) {
+                    return false;
+                }
+            }
+            return true;
+        });
+    }, [columns, role]);
+
     const handleExportCSV = () => {
         if (!data.length) return;
-        const headers = columns.filter(c => c.dataIndex).map(c => c.title);
-        const keys = columns.filter(c => c.dataIndex).map(c => c.dataIndex);
+        const headers = visibleColumns.filter(c => c.dataIndex).map(c => c.title);
+        const keys = visibleColumns.filter(c => c.dataIndex).map(c => c.dataIndex);
         const csvContent = [
             headers.join(','),
             ...data.map(row => keys.map(k => `"${row[k] ?? ''}"`).join(','))
@@ -129,8 +147,8 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
             if (!allData.length) return;
 
             const { utils, writeFile } = await import('xlsx');
-            const headers = columns.filter(c => c.dataIndex).map(c => c.title);
-            const keys = columns.filter(c => c.dataIndex).map(c => c.dataIndex);
+            const headers = visibleColumns.filter(c => c.dataIndex).map(c => c.title);
+            const keys = visibleColumns.filter(c => c.dataIndex).map(c => c.dataIndex);
             const rows = allData.map(row => {
                 const obj = {};
                 keys.forEach((k, i) => { obj[headers[i]] = row[k] ?? ''; });
@@ -146,22 +164,6 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
             console.error('Excel export error:', err);
         }
     };
-
-    // Filter out name columns for guest, except for presidents
-    const visibleColumns = columns.filter(col => {
-        if (role === 'guest') {
-            const dataIdx = String(col.dataIndex || '');
-            const titleStr = String(col.title || '');
-            
-            const isName = /name|ชื่อ|first_name|last_name|full_name/i.test(dataIdx) || /ชื่อ-สกุล|ชื่อ|สกุล/i.test(titleStr);
-            const isPresident = /president|chairman|ประธาน/i.test(dataIdx) || /ประธาน/i.test(titleStr);
-            
-            if (isName && !isPresident) {
-                return false;
-            }
-        }
-        return true;
-    });
 
     // Auto-apply sorter to data columns
     const sortableColumns = visibleColumns.map(col => col.dataIndex ? { ...col, sorter: true } : col);
