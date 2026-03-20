@@ -26,6 +26,9 @@ const RecentActivities = lazy(() => import('./pages/admin/RecentActivities'));
 const Disasters = lazy(() => import('./pages/strategy/Disasters'));
 const AgriculturalAreas = lazy(() => import('./pages/strategy/AgriculturalAreas'));
 const LearningCenters = lazy(() => import('./pages/strategy/LearningCenters'));
+const FarmerRegistry = lazy(() => import('./pages/strategy/FarmerRegistry'));
+const GisAreas = lazy(() => import('./pages/strategy/GisAreas'));
+const KpiPlans = lazy(() => import('./pages/strategy/KpiPlans'));
 const StrategyDashboard = lazy(() => import('./pages/strategy/StrategyDashboard'));
 
 // Production
@@ -104,8 +107,11 @@ function AppRoutes() {
 
           {/* Strategy */}
           <Route path="strategy/overview" element={<StrategyDashboard />} />
+          <Route path="strategy/farmer-registry" element={<FarmerRegistry />} />
+          <Route path="strategy/gis" element={<GisAreas />} />
           <Route path="strategy/agricultural-areas" element={<AgriculturalAreas />} />
           <Route path="strategy/learning-centers" element={<LearningCenters />} />
+          <Route path="strategy/kpi" element={<KpiPlans />} />
           <Route path="strategy/disasters" element={<Disasters />} />
 
           {/* Production */}
