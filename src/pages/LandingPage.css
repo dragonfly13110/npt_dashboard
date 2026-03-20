@@ -197,9 +197,9 @@
     grid-template-columns: repeat(3, 1fr);
     grid-template-areas:
         "ag ag ag"
-        "map map sf"
-        "map map ce"
-        "lp at fi";
+        "map map map"
+        "sf ce lp"
+        "at fi .";
     position: relative;
     z-index: 10;
 }
@@ -248,7 +248,7 @@
 }
 
 .bento-card-map {
-    min-height: 480px;
+    min-height: 640px;
 }
 
 .bento-card-header {
@@ -389,3 +389,103 @@
 
 .badge.gis { background: #dbeafe; color: #2563eb; }
 .badge.tourism { background: #dcfce3; color: #16a34a; }
+
+/* --- DIST MAP TOOLTIP --- */
+.leaflet-tooltip.dist-tooltip-container {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.leaflet-tooltip.dist-tooltip-container::before,
+.leaflet-tooltip.dist-tooltip-container::after {
+    display: none !important; /* hide default tooltip arrow */
+}
+
+.dist-tooltip {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 14px 18px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0,0,0,0.06);
+    font-family: 'Inter', 'IBM Plex Sans Thai', sans-serif;
+    color: #0f172a;
+    min-width: 200px;
+}
+
+.dist-tooltip-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #1e293b;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 8px;
+}
+
+.dist-tooltip-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.dist-tooltip-row:last-child {
+    margin-bottom: 0;
+}
+
+.dist-label {
+    color: #475569;
+    font-weight: 500;
+}
+
+.dist-val {
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.dist-val.highlight {
+    color: #16a34a;
+}
+
+.dist-val small {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 500;
+    margin-left: 2px;
+}
+
+.dist-tooltip-divider {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    margin: 12px 0 8px;
+    padding-top: 10px;
+    border-top: 1px dashed #cbd5e1;
+    text-align: center;
+}
+
+.dist-tooltip-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 12px;
+}
+
+.dist-grid-item {
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8fafc;
+    padding: 4px 6px;
+    border-radius: 6px;
+}
+
+.dist-grid-item span {
+    color: #475569;
+}
+
+.dist-grid-item strong {
+    color: #0f172a;
+}

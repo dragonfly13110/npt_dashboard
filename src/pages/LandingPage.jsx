@@ -4,11 +4,17 @@ import { supabase } from '../supabaseClient';
 import { EnvironmentOutlined, UsergroupAddOutlined, TeamOutlined, GlobalOutlined } from '@ant-design/icons';
 import './LandingPage.css'; // New dedicated styles
 
-// ========== MAP COMPONENT (Existing logic adapted) ==========
-function LandingMap({ mapData }) {
+// ========== MAP COMPONENT (Extended with GeoJSON & Tooltips) ==========
+function LandingMap({ mapData, districtStats }) {
     const [MapComponents, setMapComponents] = useState(null);
+    const [geoJSONData, setGeoJSONData] = useState(null);
 
     useEffect(() => {
+        // Load GeoJSON data directly
+        import('../data/nakhon_pathom_districts.json').then(module => {
+            setGeoJSONData(module.default);
+        });
+
         // Dynamic import to avoid SSR issues
         Promise.all([
             import('leaflet'),
@@ -30,7 +36,7 @@ function LandingMap({ mapData }) {
         return <div className="map-placeholder">กำลังโหลดแผนที่...</div>;
     }
 
-    const { MapContainer, TileLayer, Popup, CircleMarker } = MapComponents;
+    const { MapContainer, TileLayer, Popup, CircleMarker, GeoJSON } = MapComponents;
 
     return (
         <div className="bento-map-wrapper">
@@ -44,6 +50,82 @@ function LandingMap({ mapData }) {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
+
+                {geoJSONData && Object.keys(districtStats).length > 0 && (
+                    <GeoJSON
+                        key={Object.keys(districtStats).length}
+                        data={geoJSONData}
+                        style={{
+                            color: '#3b82f6', // blue-500
+                            weight: 2,
+                            opacity: 0.7,
+                            fillColor: '#93c5fd', // blue-300
+                            fillOpacity: 0.15,
+                            dashArray: '5, 5'
+                        }}
+                        onEachFeature={(feature, layer) => {
+                            const distName = feature.properties?.amp_th;
+                            if (distName && districtStats[distName]) {
+                                const stats = districtStats[distName];
+                                const html = `
+                                    <div class="dist-tooltip">
+                                        <div class="dist-tooltip-title">🎯 อำเภอ${distName}</div>
+                                        <div class="dist-tooltip-row">
+                                            <span class="dist-label">🌱 พื้นที่การเกษตร</span>
+                                            <span class="dist-val highlight">${stats.area.toLocaleString()} <small>ไร่</small></span>
+                                        </div>
+                                        <div class="dist-tooltip-row">
+                                            <span class="dist-label">👨‍🌾 ครัวเรือนเกษตรกร</span>
+                                            <span class="dist-val">${stats.house.toLocaleString()} <small>ราย</small></span>
+                                        </div>
+                                        <div class="dist-tooltip-row">
+                                            <span class="dist-label">🤝 วิสาหกิจชุมชน</span>
+                                            <span class="dist-val">${stats.ce.toLocaleString()} <small>แห่ง</small></span>
+                                        </div>
+                                        <div class="dist-tooltip-row">
+                                            <span class="dist-label">🌾 แปลงใหญ่</span>
+                                            <span class="dist-val">${stats.lp.toLocaleString()} <small>แปลง</small></span>
+                                        </div>
+                                        <div class="dist-tooltip-divider">รายละเอียดพื้นที่ (ไร่)</div>
+                                        <div class="dist-tooltip-grid">
+                                            <div class="dist-grid-item"><span title="ข้าวนาปี">🌾 นาปี:</span> <strong>${stats.ricePi.toLocaleString()}</strong></div>
+                                            <div class="dist-grid-item"><span title="ข้าวนาปรัง">🌾 นาปรัง:</span> <strong>${stats.ricePrung.toLocaleString()}</strong></div>
+                                            <div class="dist-grid-item"><span title="พืชไร่">🌽 พืชไร่:</span> <strong>${stats.field.toLocaleString()}</strong></div>
+                                            <div class="dist-grid-item"><span title="ไม้ผล">🍎 ไม้ผล:</span> <strong>${stats.fruit.toLocaleString()}</strong></div>
+                                            <div class="dist-grid-item"><span title="ผัก/สมุนไพร">🥬 ผัก/สมุนไพร:</span> <strong>${(stats.veg + stats.herb).toLocaleString()}</strong></div>
+                                            <div class="dist-grid-item"><span title="ไม้ดอกไม้ประดับ">🌸 ไม้ดอก:</span> <strong>${stats.flow.toLocaleString()}</strong></div>
+                                        <div class="dist-tooltip-divider">กลุ่มและศูนย์การเรียนรู้</div>
+                                        <div class="dist-tooltip-grid">
+                                            <div class="dist-grid-item"><span title="กลุ่มแม่บ้านเกษตรกร">👩‍🌾 แม่บ้าน:</span> <strong>${stats.instHousewives.toLocaleString()}</strong></div>
+                                            <div class="dist-grid-item"><span title="กลุ่มยุวเกษตรกร">👦 ยุวเกษตร:</span> <strong>${stats.instYoung.toLocaleString()}</strong></div>
+                                            <div class="dist-grid-item"><span title="กลุ่มส่งเสริมอาชีพ">💼 อาชีพ:</span> <strong>${stats.instCareer.toLocaleString()}</strong></div>
+                                            <div class="dist-grid-item"><span title="ศูนย์เรียนรู้การเพิ่มประสิทธิภาพการผลิตสินค้าเกษตร">🏫 ศพก.:</span> <strong>${stats.lc.toLocaleString()}</strong></div>
+                                            <div class="dist-grid-item"><span title="ศูนย์จัดการศัตรูพืชชุมชน">🐛 ศจช.:</span> <strong>${stats.pc.toLocaleString()}</strong></div>
+                                            <div class="dist-grid-item"><span title="ศูนย์จัดการดินและปุ๋ยชุมชน">🌱 ศดปช.:</span> <strong>${stats.sfc.toLocaleString()}</strong></div>
+                                        </div>
+                                    </div>
+                                `;
+                                layer.bindTooltip(html, {
+                                    sticky: true,
+                                    direction: 'auto',
+                                    className: 'dist-tooltip-container'
+                                });
+                                // Add subtle hover effect
+                                layer.on({
+                                    mouseover: (e) => {
+                                        const l = e.target;
+                                        l.setStyle({ fillOpacity: 0.35, color: '#1d4ed8', weight: 3 });
+                                    },
+                                    mouseout: (e) => {
+                                        const l = e.target;
+                                        l.setStyle({ fillOpacity: 0.15, color: '#3b82f6', weight: 2 });
+                                    }
+                                });
+                            }
+                        }}
+                    />
+                )}
+
                 {mapData.map((item, idx) => (
                     <CircleMarker
                         key={idx}
@@ -56,7 +138,7 @@ function LandingMap({ mapData }) {
                     >
                         <Popup>
                             <div style={{ fontFamily: 'inherit', minWidth: 160 }}>
-                                <strong>{item.name}</strong>
+                                <strong style={{color: '#0f172a', fontSize: 14}}>{item.name}</strong>
                                 {item.district && <div style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>อ.{item.district}</div>}
                                 <div className={`badge ${item.type}`}>
                                     {item.typeLabel}
@@ -73,6 +155,7 @@ function LandingMap({ mapData }) {
 export default function LandingPage() {
     const [loading, setLoading] = useState(true);
     const [mapData, setMapData] = useState([]);
+    const [districtStats, setDistrictStats] = useState({});
     
     // Stats map
     const [allStats, setAllStats] = useState({});
@@ -131,14 +214,27 @@ export default function LandingPage() {
             setMapData(mapPts);
 
             // Fetch Real Data Lists & Farmer Institutes data
-            const [sfData, ceData, atData, { data: lpData }, { data: instData }, { data: agriAreaData }] = await Promise.all([
+            const [sfData, ceData, atData, { data: lpData }, { data: instData }, { data: agriAreaData }, { data: lcData }, { data: pcData }, { data: sfcData }] = await Promise.all([
                 fetchWithCount('smart_farmers', 'id, full_name, district, main_product'),
                 supabase.from('community_enterprises').select('id, district', { count: 'exact' }),
                 fetchWithCount('agri_tourism', 'id, spot_name, district, spot_type'),
                 supabase.from('large_plots').select('*'),
                 supabase.from('farmer_institutes').select('*'),
-                supabase.from('agricultural_areas').select('*').neq('district', 'รวม')
+                supabase.from('agricultural_areas').select('*').neq('district', 'รวม'),
+                supabase.from('learning_centers').select('district'),
+                supabase.from('pest_centers').select('district'),
+                supabase.from('soil_fertilizer_centers').select('district')
             ]);
+            // Prepare district stats aggregation
+            const dists = ['เมืองนครปฐม', 'กำแพงแสน', 'นครชัยศรี', 'ดอนตูม', 'บางเลน', 'สามพราน', 'พุทธมณฑล'];
+            const dStats = {};
+            dists.forEach(d => dStats[d] = { 
+                ce: 0, lp: 0, area: 0, house: 0,
+                ricePi: 0, ricePrung: 0, field: 0, fruit: 0, veg: 0, flow: 0, herb: 0,
+                lc: 0, pc: 0, sfc: 0,
+                instHousewives: 0, instYoung: 0, instCareer: 0, instVillage: 0
+            });
+
             setSmartFarmers(sfData);
             // Community Enterprises: count by district
             const ceList = ceData.data || [];
@@ -146,8 +242,10 @@ export default function LandingPage() {
             setEnterprises({ list: [], count: ceCount });
             const distCounts = {};
             ceList.forEach(r => {
-                const d = r.district || 'ไม่ระบุ';
+                let d = r.district || 'ไม่ระบุ';
+                if (d === 'เมือง') d = 'เมืองนครปฐม';
                 distCounts[d] = (distCounts[d] || 0) + 1;
+                if (dStats[d]) dStats[d].ce += 1;
             });
             setCeDistrictStats(distCounts);
             setTourism(atData);
@@ -156,6 +254,15 @@ export default function LandingPage() {
             // Compute Farmer Institutes Totals
             let iTotal = 0, iCE = 0, iHouse = 0, iYoungGrp = 0, iCareer = 0, iVillage = 0, iSF = 0, iYSF = 0;
             (instData || []).forEach(row => {
+                let d = row.district;
+                if (d === 'เมือง') d = 'เมืองนครปฐม';
+                if (dStats[d]) {
+                    dStats[d].instHousewives += Number(row.housewives_groups) || 0;
+                    dStats[d].instYoung += Number(row.young_farmer_groups) || 0;
+                    dStats[d].instCareer += Number(row.career_promotion_groups) || 0;
+                    dStats[d].instVillage += Number(row.village_farmers_count) || 0;
+                }
+
                 iTotal += Number(row.total_groups) || 0;
                 iCE += Number(row.community_enterprise_groups) || 0;
                 iHouse += Number(row.housewives_groups) || 0;
@@ -181,12 +288,21 @@ export default function LandingPage() {
                 else if (g === 'ไม้ผล') lFruit++;
                 else if (g === 'พืชไร่') lField++;
                 else lOther++;
+                
+                let d = row.district;
+                if (d === 'เมือง') d = 'เมืองนครปฐม';
+                if (dStats[d]) dStats[d].lp += 1;
             });
             setLpStats({
                 total: lpData ? lpData.length : 0,
                 rice: lRice, veg_herb: lVegH, fruit: lFruit, field_crop: lField, other: lOther,
                 members: lMems, area: lArea
             });
+
+            // Distribute Centers to district stats
+            (lcData || []).forEach(row => { let d = row.district; if (d === 'เมือง') d = 'เมืองนครปฐม'; if (dStats[d]) dStats[d].lc++; });
+            (pcData || []).forEach(row => { let d = row.district; if (d === 'เมือง') d = 'เมืองนครปฐม'; if (dStats[d]) dStats[d].pc++; });
+            (sfcData || []).forEach(row => { let d = row.district; if (d === 'เมือง') d = 'เมืองนครปฐม'; if (dStats[d]) dStats[d].sfc++; });
 
             // Fetch and Compute Agri Areas Totals
             let aHouse = 0, aTotal = 0, aCrop = 0, aRicePi = 0, aRicePrung = 0, aField = 0, aHort = 0, aFruit = 0, aVeg = 0, aFlow = 0, aHerb = 0;
@@ -202,6 +318,20 @@ export default function LandingPage() {
                 aVeg += Number(row.vegetables_rai) || 0;
                 aFlow += Number(row.flowers_rai) || 0;
                 aHerb += Number(row.herbs_spices_rai) || 0;
+                
+                let d = row.district;
+                if (d === 'เมือง') d = 'เมืองนครปฐม';
+                if (dStats[d]) {
+                    dStats[d].area += Number(row.agri_crop_area_rai) || 0;
+                    dStats[d].house += Number(row.farmer_households) || 0;
+                    dStats[d].ricePi += Number(row.rice_in_season_rai) || 0;
+                    dStats[d].ricePrung += Number(row.rice_off_season_rai) || 0;
+                    dStats[d].field += Number(row.field_crops_rai) || 0;
+                    dStats[d].fruit += Number(row.fruit_trees_rai) || 0;
+                    dStats[d].veg += Number(row.vegetables_rai) || 0;
+                    dStats[d].flow += Number(row.flowers_rai) || 0;
+                    dStats[d].herb += Number(row.herbs_spices_rai) || 0;
+                }
             });
             setAgriStats({
                 households: aHouse, total_area: aTotal, crop_area: aCrop,
@@ -228,6 +358,7 @@ export default function LandingPage() {
                 statsMap[tablesToCount[idx]] = res.count || 0;
             });
             setAllStats(statsMap);
+            setDistrictStats(dStats);
 
         } catch (e) {
             console.error(e);
@@ -289,7 +420,7 @@ export default function LandingPage() {
                         <span>พิกัดพื้นที่เชิงเกษตร (GIS, ท่องเที่ยว)</span>
                     </div>
                     <div className="bento-card-body p-0">
-                        <LandingMap mapData={mapData} />
+                        <LandingMap mapData={mapData} districtStats={districtStats} />
                     </div>
                 </div>
 
