@@ -1,12 +1,19 @@
 import { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
-import { UserOutlined, LockOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, ArrowLeftOutlined, EyeOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Login() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { loginAsGuest } = useAuth();
+
+    const handleGuestLogin = () => {
+        loginAsGuest();
+        navigate('/dashboard');
+    };
 
     const handleLogin = async (values) => {
         setLoading(true);
@@ -52,8 +59,24 @@ export default function Login() {
                     </Form.Item>
 
                     <Form.Item style={{ marginBottom: 0, marginTop: 8 }}>
-                        <Button type="primary" htmlType="submit" className="login-btn" loading={loading}>
+                        <Button type="primary" htmlType="submit" className="login-btn" loading={loading} style={{ width: '100%', marginBottom: 16 }}>
                             เข้าสู่ระบบ
+                        </Button>
+                        <Button 
+                            type="default" 
+                            htmlType="button"
+                            onClick={handleGuestLogin}
+                            size="large"
+                            style={{ 
+                                width: '100%', 
+                                borderColor: '#1a7f37', 
+                                color: '#1a7f37',
+                                height: 44, // Match login-btn height
+                                borderRadius: 8
+                            }}
+                            icon={<EyeOutlined />}
+                        >
+                            บุคคลทั่วไป (เข้าชมข้อมูล)
                         </Button>
                     </Form.Item>
                 </Form>

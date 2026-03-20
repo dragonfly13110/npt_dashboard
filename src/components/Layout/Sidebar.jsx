@@ -201,6 +201,7 @@ export default function Sidebar({ user, mobileOpen, onMobileClose }) {
 
     const handleMenuClick = async ({ key }) => {
         if (key === 'logout') {
+            localStorage.removeItem('guestMode');
             await supabase.auth.signOut();
             navigate('/');
         } else if (key === 'home') {

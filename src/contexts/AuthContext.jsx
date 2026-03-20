@@ -43,17 +43,38 @@ export function AuthProvider({ children }) {
         }
     };
 
+    const loginAsGuest = () => {
+        localStorage.setItem('guestMode', 'true');
+        setUser({ id: 'guest', email: 'guest@example.com' });
+        setProfile({ role: 'guest', department: null });
+    };
+
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
+        const checkGuestMode = () => {
+             return localStorage.getItem('guestMode') === 'true';
+        };
+
+        const initAuth = async () => {
+            if (checkGuestMode()) {
+                setUser({ id: 'guest', email: 'guest@example.com' });
+                setProfile({ role: 'guest', department: null });
+                setLoading(false);
+                return;
+            }
+
+            const { data: { session } } = await supabase.auth.getSession();
             const u = session?.user ?? null;
             setUser(u);
             if (u) {
-                fetchProfile(u.id);
+                await fetchProfile(u.id);
             }
             setLoading(false);
-        });
+        };
+        
+        initAuth();
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            if (checkGuestMode()) return;
             const u = session?.user ?? null;
             setUser(u);
             if (u) {
@@ -77,13 +98,13 @@ export function AuthProvider({ children }) {
 
     // ตรวจสอบว่าผู้ใช้สามารถเข้าถึงกลุ่มงานนี้ได้หรือไม่
     const canAccessGroup = (targetGroup) => {
-        if (role === 'admin') return true;
+        if (role === 'admin' || role === 'guest') return true;
         return groupKey === targetGroup;
     };
 
     // ตรวจสอบว่าผู้ใช้สามารถเข้าถึงตารางนี้ได้หรือไม่
     const canAccessTable = (tableName) => {
-        if (role === 'admin') return true;
+        if (role === 'admin' || role === 'guest') return true;
         if (!groupKey) return false;
         return GROUP_TABLES[groupKey]?.includes(tableName) || false;
     };
@@ -101,6 +122,7 @@ export function AuthProvider({ children }) {
         canAccessGroup,
         canAccessTable,
         refreshProfile: () => user && fetchProfile(user.id),
+        loginAsGuest,
     };
 
     return (

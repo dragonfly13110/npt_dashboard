@@ -13,7 +13,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 export default function CrudTable({ tableName, title, columns, formFields, searchField, searchFields, filterConfig = [] }) {
     const { data, loading, total, fetchData, createRecord, updateRecord, deleteRecord, fetchAll } = useSupabaseCrud(tableName);
-    const { canEdit, canDelete } = useAuth();
+    const { canEdit, canDelete, role } = useAuth();
     const [modalOpen, setModalOpen] = useState(false);
     const [editingRecord, setEditingRecord] = useState(null);
     const [search, setSearch] = useState('');
@@ -147,11 +147,27 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
         }
     };
 
+    // Filter out name columns for guest, except for presidents
+    const visibleColumns = columns.filter(col => {
+        if (role === 'guest') {
+            const dataIdx = String(col.dataIndex || '');
+            const titleStr = String(col.title || '');
+            
+            const isName = /name|ชื่อ|first_name|last_name|full_name/i.test(dataIdx) || /ชื่อ-สกุล|ชื่อ|สกุล/i.test(titleStr);
+            const isPresident = /president|chairman|ประธาน/i.test(dataIdx) || /ประธาน/i.test(titleStr);
+            
+            if (isName && !isPresident) {
+                return false;
+            }
+        }
+        return true;
+    });
+
     // Auto-apply sorter to data columns
-    const sortableColumns = columns.map(col => col.dataIndex ? { ...col, sorter: true } : col);
+    const sortableColumns = visibleColumns.map(col => col.dataIndex ? { ...col, sorter: true } : col);
 
     // Action column — ซ่อนตาม role
-    const actionColumn = userCanEdit ? {
+    const actionColumn = (userCanEdit || role === 'guest') ? {
         title: 'จัดการ',
         key: 'actions',
         width: userCanDelete ? 100 : 70,
@@ -160,7 +176,13 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
         render: (_, record) => (
             <Space size={4}>
                 <Tooltip title="แก้ไข">
-                    <Button className="action-btn edit" icon={<EditOutlined />} onClick={() => handleEdit(record)} />
+                    <Button className="action-btn edit" icon={<EditOutlined />} onClick={() => {
+                        if (!userCanEdit) {
+                            message.warning('คุณไม่มีสิทธิ์แก้ไข');
+                            return;
+                        }
+                        handleEdit(record);
+                    }} />
                 </Tooltip>
                 {userCanDelete && (
                     <Popconfirm
@@ -213,8 +235,14 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
                     <Tooltip title="รีเฟรช">
                         <Button icon={<ReloadOutlined />} onClick={loadData} className="export-btn" />
                     </Tooltip>
-                    {userCanEdit && (
-                        <Button icon={<UploadOutlined />} onClick={() => setImportModalOpen(true)} className="export-btn">
+                    {(userCanEdit || role === 'guest') && (
+                        <Button icon={<UploadOutlined />} onClick={() => {
+                            if (!userCanEdit) {
+                                message.warning('คุณไม่มีสิทธิ์แก้ไข');
+                                return;
+                            }
+                            setImportModalOpen(true);
+                        }} className="export-btn">
                             Import CSV
                         </Button>
                     )}
