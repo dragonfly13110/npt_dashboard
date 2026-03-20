@@ -45,6 +45,8 @@ function LandingMap({ mapData, districtStats }) {
             <MapContainer
                 center={[13.82, 100.06]}
                 zoom={10}
+                zoomSnap={0.25}
+                zoomDelta={0.5}
                 style={{ height: '100%', width: '100%', borderRadius: 16 }}
                 scrollWheelZoom={true}
             >
@@ -196,21 +198,21 @@ export default function LandingPage() {
     const [loading, setLoading] = useState(true);
     const [mapData, setMapData] = useState([]);
     const [districtStats, setDistrictStats] = useState({});
-    
+
     // Stats map
     const [allStats, setAllStats] = useState({});
     const [instituteStats, setInstituteStats] = useState({
         total: 0, ce: 0, housewives: 0, young_grp: 0, career: 0, village: 0, sf: 0, ysf: 0
     });
-    
+
     // Large Plots stats
     const [lpStats, setLpStats] = useState({
         total: 0, rice: 0, veg_herb: 0, fruit: 0, field_crop: 0, other: 0, members: 0, area: 0
     });
-    
+
     // Agri stats
     const [agriStats, setAgriStats] = useState({
-        households: 0, total_area: 0, crop_area: 0, 
+        households: 0, total_area: 0, crop_area: 0,
         rice_pi: 0, rice_prung: 0, field_crops: 0, hort: 0, fruit: 0, veg: 0, flow: 0, herb: 0
     });
 
@@ -220,7 +222,7 @@ export default function LandingPage() {
     const [ceDistrictStats, setCeDistrictStats] = useState({});
     const [tourism, setTourism] = useState({ list: [], count: 0 });
     const [plots, setPlots] = useState({ list: [], count: 0 });
-    
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -240,7 +242,7 @@ export default function LandingPage() {
         try {
             // Map Data
             const mapPts = [];
-            const [ { data: gis }, { data: tourMap } ] = await Promise.all([
+            const [{ data: gis }, { data: tourMap }] = await Promise.all([
                 supabase.from('gis_areas').select('area_name, district, latitude, longitude').not('latitude', 'is', null).limit(20),
                 supabase.from('agri_tourism').select('spot_name, district, latitude, longitude').not('latitude', 'is', null).limit(20)
             ]);
@@ -268,7 +270,7 @@ export default function LandingPage() {
             // Prepare district stats aggregation
             const dists = ['เมืองนครปฐม', 'กำแพงแสน', 'นครชัยศรี', 'ดอนตูม', 'บางเลน', 'สามพราน', 'พุทธมณฑล'];
             const dStats = {};
-            dists.forEach(d => dStats[d] = { 
+            dists.forEach(d => dStats[d] = {
                 ce: 0, lp: 0, area: 0, house: 0,
                 ricePi: 0, ricePrung: 0, field: 0, fruit: 0, veg: 0, flow: 0, herb: 0,
                 lc: 0, pc: 0, sfc: 0,
@@ -312,9 +314,9 @@ export default function LandingPage() {
                 iSF += Number(row.smart_farmer_count) || 0;
                 iYSF += Number(row.young_smart_farmer_count) || 0;
             });
-            setInstituteStats({ 
-                total: iTotal, ce: iCE, housewives: iHouse, young_grp: iYoungGrp, career: iCareer, 
-                village: iVillage, sf: iSF, ysf: iYSF 
+            setInstituteStats({
+                total: iTotal, ce: iCE, housewives: iHouse, young_grp: iYoungGrp, career: iCareer,
+                village: iVillage, sf: iSF, ysf: iYSF
             });
 
             // Compute Large Plots stats
@@ -328,7 +330,7 @@ export default function LandingPage() {
                 else if (g === 'ไม้ผล') lFruit++;
                 else if (g === 'พืชไร่') lField++;
                 else lOther++;
-                
+
                 let d = row.district;
                 if (d === 'เมือง') d = 'เมืองนครปฐม';
                 if (dStats[d]) dStats[d].lp += 1;
@@ -358,7 +360,7 @@ export default function LandingPage() {
                 aVeg += Number(row.vegetables_rai) || 0;
                 aFlow += Number(row.flowers_rai) || 0;
                 aHerb += Number(row.herbs_spices_rai) || 0;
-                
+
                 let d = row.district;
                 if (d === 'เมือง') d = 'เมืองนครปฐม';
                 if (dStats[d]) {
@@ -375,7 +377,7 @@ export default function LandingPage() {
             });
             setAgriStats({
                 households: aHouse, total_area: aTotal, crop_area: aCrop,
-                rice_pi: aRicePi, rice_prung: aRicePrung, field_crops: aField, 
+                rice_pi: aRicePi, rice_prung: aRicePrung, field_crops: aField,
                 hort: aHort, fruit: aFruit, veg: aVeg, flow: aFlow, herb: aHerb
             });
 
@@ -387,11 +389,11 @@ export default function LandingPage() {
                 'community_enterprises', 'smart_farmers', 'agri_tourism',
                 'forecast_plots', 'pest_centers', 'soil_fertilizer_centers', 'fire_hotspots'
             ];
-            
-            const countPromises = tablesToCount.map(table => 
+
+            const countPromises = tablesToCount.map(table =>
                 supabase.from(table).select('id', { count: 'exact', head: true })
             );
-            
+
             const countResults = await Promise.all(countPromises);
             const statsMap = {};
             countResults.forEach((res, idx) => {
@@ -439,7 +441,7 @@ export default function LandingPage() {
                     <div className="bento-badge">🏛️ สำนักงานเกษตรจังหวัดนครปฐม</div>
                     <h1 className="bento-title">ศูนย์ข้อมูลการเกษตรอัจฉริยะแบบบูรณาการ</h1>
                     <p className="bento-subtitle" style={{ color: '#e2e8f0' }}>
-                        รวบรวมและอัปเดตข้อมูลเกษตรกร พื้นที่เพาะปลูก ศูนย์วิทยบริการ และสถานการณ์ภัยพิบัติในจังหวัดนครปฐม 
+                        รวบรวมและอัปเดตข้อมูลเกษตรกร พื้นที่เพาะปลูก ศูนย์วิทยบริการ และสถานการณ์ภัยพิบัติในจังหวัดนครปฐม
                         เพื่อสนับสนุนการบริหารจัดการที่แม่นยำและยกระดับการเกษตรอย่างยั่งยืน
                     </p>
                 </div>
@@ -452,7 +454,7 @@ export default function LandingPage() {
                 <p>ตัวอย่างรายชื่อข้อมูลที่ถูกเพิ่มหรืออัปเดตเข้าระบบ</p>
             </div>
             <section className="bento-container" style={{ marginTop: 20 }}>
-                
+
                 {/* 1. Map Card (Large) */}
                 <div className="bento-card bento-card-map" style={{ gridArea: 'map' }}>
                     <div className="bento-card-header">
@@ -670,24 +672,24 @@ export default function LandingPage() {
                     </div>
                     <div className="bento-card-body" style={{ padding: '24px' }}>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
-                            
+
                             {/* Left Side: Overview */}
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                                 <div style={{ fontSize: 16, fontWeight: 700, color: '#16a34a', borderBottom: '2px solid #dcfce3', paddingBottom: 8, marginBottom: 4 }}>ภาพรวมหลัก</div>
-                                
+
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', background: '#f8fafc', borderLeft: '4px solid #3b82f6', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' }}>
                                     <span style={{ fontSize: 16, color: '#475569', fontWeight: 600 }}>พื้นที่ทั้งหมด</span>
-                                    <span style={{ fontSize: 22, fontWeight: 800, color: '#1e3a8a' }}>{agriStats.total_area.toLocaleString()} <span style={{fontSize: 15, fontWeight: 600}}>ไร่</span></span>
+                                    <span style={{ fontSize: 22, fontWeight: 800, color: '#1e3a8a' }}>{agriStats.total_area.toLocaleString()} <span style={{ fontSize: 15, fontWeight: 600 }}>ไร่</span></span>
                                 </div>
-                                
+
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', background: '#f8fafc', borderLeft: '4px solid #10b981', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' }}>
                                     <span style={{ fontSize: 16, color: '#475569', fontWeight: 600 }}>พื้นที่ด้านพืชรวม</span>
-                                    <span style={{ fontSize: 22, fontWeight: 800, color: '#064e3b' }}>{agriStats.crop_area.toLocaleString()} <span style={{fontSize: 15, fontWeight: 600}}>ไร่</span></span>
+                                    <span style={{ fontSize: 22, fontWeight: 800, color: '#064e3b' }}>{agriStats.crop_area.toLocaleString()} <span style={{ fontSize: 15, fontWeight: 600 }}>ไร่</span></span>
                                 </div>
 
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', background: '#f8fafc', borderLeft: '4px solid #f59e0b', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' }}>
                                     <span style={{ fontSize: 16, color: '#475569', fontWeight: 600 }}>ครัวเรือนเกษตรกร</span>
-                                    <span style={{ fontSize: 22, fontWeight: 800, color: '#78350f' }}>{agriStats.households.toLocaleString()} <span style={{fontSize: 15, fontWeight: 600}}>ครัวเรือน</span></span>
+                                    <span style={{ fontSize: 22, fontWeight: 800, color: '#78350f' }}>{agriStats.households.toLocaleString()} <span style={{ fontSize: 15, fontWeight: 600 }}>ครัวเรือน</span></span>
                                 </div>
                             </div>
 
@@ -695,7 +697,7 @@ export default function LandingPage() {
                             <div>
                                 <div style={{ fontSize: 16, fontWeight: 700, color: '#16a34a', borderBottom: '2px solid #dcfce3', paddingBottom: 8, marginBottom: 20 }}>พื้นที่เพาะปลูกพืชหลัก (ไร่)</div>
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                                    
+
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', background: '#fef9c3', borderRadius: '10px', border: '1px solid #fde047' }}>
                                         <span style={{ fontSize: 15, color: '#854d0e', fontWeight: 600 }}>ข้าวนาปี</span>
                                         <span style={{ fontSize: 18, fontWeight: 800, color: '#ca8a04' }}>{agriStats.rice_pi.toLocaleString()}</span>
@@ -722,7 +724,7 @@ export default function LandingPage() {
                                         <span style={{ fontSize: 15, color: '#115e59', fontWeight: 600 }}>ไม้ผลไม้ยืนต้น</span>
                                         <span style={{ fontSize: 18, fontWeight: 800, color: '#0f766e' }}>{agriStats.fruit.toLocaleString()}</span>
                                     </div>
-                                    
+
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', background: '#fce7f3', borderRadius: '10px', border: '1px solid #fbcfe8' }}>
                                         <span style={{ fontSize: 15, color: '#9d174d', fontWeight: 600 }}>ไม้ดอกไม้ประดับ</span>
                                         <span style={{ fontSize: 18, fontWeight: 800, color: '#be185d' }}>{agriStats.flow.toLocaleString()}</span>
@@ -747,7 +749,7 @@ export default function LandingPage() {
                     <h2>📊 ภาพรวมข้อมูล 5 ยุทธศาสตร์</h2>
                     <p>สถิติข้อมูลล่าสุดแยกตามกลุ่มงานภายในสำนักงาน</p>
                 </div>
-                
+
                 <div className="dept-grid">
                     {/* Admin */}
                     <div className="dept-card" style={{ '--theme': '#0ea5e9' }}>
@@ -814,7 +816,7 @@ export default function LandingPage() {
                     <div style={{ textAlign: 'center', opacity: 0.6 }}>
                         <strong>🌾 สำนักงานเกษตรจังหวัดนครปฐม</strong>
                         <p style={{ marginTop: 8, fontSize: 13, lineHeight: '1.6' }}>
-                            131 ถนนทรงพล อำเภอเมือง จังหวัดนครปฐม 73000<br/>
+                            131 ถนนทรงพล อำเภอเมือง จังหวัดนครปฐม 73000<br />
                             โทร. 0 3425 3992 | E-mail: nakhonpathom@doae.go.th
                         </p>
                         <p style={{ marginTop: 12, fontSize: 12 }}>

@@ -259,7 +259,7 @@
 }
 
 .bento-card-map {
-    min-height: 800px;
+    min-height: 520px;
 }
 
 .bento-card-header {
@@ -304,7 +304,7 @@
 @media (min-width: 1025px) {
     .bento-map-wrapper .leaflet-container {
         height: 100% !important;
-        min-height: 700px;
+        min-height: 480px;
     }
 }
 
