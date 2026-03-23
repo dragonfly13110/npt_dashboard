@@ -22,6 +22,7 @@ import {
     ExperimentOutlined,
     FireOutlined,
     LogoutOutlined,
+    RobotOutlined,
     HomeOutlined,
     HistoryOutlined,
     PieChartOutlined,
@@ -46,6 +47,11 @@ const allMenuItems = [
         key: '/dashboard',
         icon: <DashboardOutlined />,
         label: 'แดชบอร์ดรวม',
+    },
+    {
+        key: '/dashboard/chatbot',
+        icon: <RobotOutlined />,
+        label: 'Chatbot ผู้ช่วย AI',
     },
     {
         key: 'admin',
