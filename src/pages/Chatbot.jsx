@@ -48,6 +48,14 @@ const QUICK_PROMPTS = [
     { icon: '⛈️', text: 'ข้อมูลภัยพิบัติล่าสุด' },
 ];
 
+// ──────── LLM Config ────────
+const MODELS = [
+    'moonshotai/kimi-k2-instruct',
+    'openai/gpt-oss-120b',
+    'groq/compound',
+    'llama-3.3-70b-versatile'
+];
+
 // ──────── Data Analysis Engine ────────
 async function analyzeQuery(query) {
     const lowerQuery = query.toLowerCase();
@@ -266,10 +274,23 @@ function ChatMessage({ message, isLast }) {
                 <div style={{
                     fontSize: 11,
                     opacity: 0.5,
-                    marginTop: 6,
-                    textAlign: isBot ? 'left' : 'right',
+                    marginTop: 8,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    justifyContent: isBot ? 'flex-start' : 'flex-end',
                 }}>
-                    {new Date(message.timestamp).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })}
+                    <span>{new Date(message.timestamp).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })}</span>
+                    {message.modelUsed && (
+                        <span style={{ 
+                            background: isBot ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.2)', 
+                            padding: '2px 8px', 
+                            borderRadius: 12,
+                            fontSize: 10
+                        }}>
+                            🧠 {message.modelUsed}
+                        </span>
+                    )}
                 </div>
             </div>
         </div>
@@ -312,14 +333,59 @@ export default function Chatbot() {
         try {
             // Analyze query and generate response
             const analysis = await analyzeQuery(msg);
-            const response = generateResponse(analysis);
+            const basicResponse = generateResponse(analysis);
+
+            // Generate AI Response using Groq/OpenAI format
+            const randomModel = MODELS[Math.floor(Math.random() * MODELS.length)];
+            let aiText = basicResponse.text; // Fallback
+            let modelUsed = null;
+
+            try {
+                const aiRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: randomModel,
+                        messages: [
+                            {
+                                role: 'system',
+                                content: 'คุณคือ AI ผู้ช่วยอัจฉริยะสำหรับ Admin ระบบจัดการข้อมูลการเกษตรจังหวัดนครปฐม หน้าที่ของคุณคือตอบคำถามด้วยความสุภาพ เป็นมืออาชีพ พร้อมจัดรูปแบบให้น่าอ่านมากที่สุด (ใช้ Markdown, แบ่ง Bullet ข้อย่อย, ใส่ Emoji เข้ามาคั่นข้อความเพื่อให้การอ่านดูผ่อนคลาย) โดยอิงตามข้อมูลจริงที่แนบมาให้ อย่าแต่งข้อมูลตัวเลขหรือข้อเท็จจริงขึ้นมาเพิ่มเติมเด็ดขาด ถ้าไม่มีข้อมูลให้บอกว่าไม่พบในระบบ'
+                            },
+                            {
+                                role: 'user',
+                                content: `คำถามจาก Admin: ${msg}\n\n--- ข้อมูลดิบจากข้อความที่ค้นพบในฐานข้อมูล ---\n${basicResponse.text}\n---------------------------\nโปรดสรุปและตอบคำถามจากข้อมูลด้านบนให้กระชับและเข้าใจง่ายสำหรับ Admin`
+                            }
+                        ],
+                        temperature: 0.6,
+                        max_tokens: 1500
+                    })
+                });
+
+                if (aiRes.ok) {
+                    const aiData = await aiRes.json();
+                    if (aiData.choices && aiData.choices.length > 0) {
+                        aiText = aiData.choices[0].message.content;
+                        modelUsed = randomModel;
+                    }
+                } else {
+                    const errText = await aiRes.text();
+                    console.error("AI API Error:", errText);
+                    // OpenRouter models might fail on Groq's endpoint if the API key config doesn't actually support it directly like this, but we'll try!
+                }
+            } catch (apiErr) {
+                console.error("Failed to fetch from AI API:", apiErr);
+            }
 
             const botMsg = {
                 role: 'bot',
-                text: response.text,
-                data: response.data,
-                type: response.type,
+                text: aiText,
+                data: basicResponse.data,
+                type: basicResponse.type,
                 timestamp: Date.now(),
+                modelUsed: modelUsed || 'Mock DB Data' // Store model used
             };
             setMessages(prev => [...prev, botMsg]);
         } catch (err) {
