@@ -57,44 +57,140 @@ const MODELS = [
 ];
 
 // ──────── Data Analysis Engine ────────
+const TABLE_SEARCH_COLS = {
+    agricultural_areas: ['district'],
+    learning_centers: ['center_name', 'manager', 'chairman_name', 'featured_product', 'main_crop'],
+    disasters: ['disaster_type', 'subdistrict'],
+    farmer_registry: ['main_crop'],
+    gis_areas: ['area_name', 'area_type'],
+    kpi_plans: ['kpi_name', 'project_name'],
+    large_plots: ['plot_name', 'commodity', 'secondary_commodity', 'agency'],
+    certifications: ['farmer_name', 'crop_name', 'plot_code'],
+    crop_production: ['crop_name'],
+    community_enterprises: ['enterprise_name', 'enterprise_type'],
+    smart_farmers: ['full_name', 'main_product', 'farmer_type'],
+    farmer_groups: ['group_name', 'chairman', 'group_type'],
+    farmer_institutes: [],
+    agri_tourism: ['spot_name', 'contact_person', 'spot_type'],
+    forecast_plots: ['owner_name', 'crop_type', 'variety'],
+    pest_centers: ['center_name', 'chairman', 'main_crop_type'],
+    soil_fertilizer_centers: ['center_name', 'chairman', 'main_crop_type'],
+    fire_hotspots: ['spot_name'],
+};
+
+const DISTRICT_COLS = {
+    certifications: 'plot_district',
+    forecast_plots: 'district'
+};
+
 async function analyzeQuery(query) {
-    const lowerQuery = query.toLowerCase();
     const results = [];
-
-    // Determine which tables to query based on keywords
-    const tableKeywords = {
-        agricultural_areas: ['พื้นที่', 'เกษตร', 'ไร่', 'ข้าว', 'พืช', 'สวน', 'นา', 'agricultural'],
-        learning_centers: ['ศูนย์เรียนรู้', 'ศพก', 'learning', 'center'],
-        disasters: ['ภัย', 'น้ำท่วม', 'แล้ง', 'วาตภัย', 'disaster'],
-        farmer_registry: ['ทะเบียน', 'เกษตรกร', 'ครัวเรือน', 'registry'],
-        gis_areas: ['gis', 'พิกัด', 'แผนที่', 'ละติจูด'],
-        kpi_plans: ['kpi', 'ตัวชี้วัด', 'แผน', 'เป้าหมาย'],
-        large_plots: ['แปลงใหญ่', 'large plot', 'สินค้า'],
-        certifications: ['gap', 'มาตรฐาน', 'ใบรับรอง', 'certification', 'อินทรีย์'],
-        crop_production: ['ผลผลิต', 'เก็บเกี่ยว', 'ตัน', 'crop'],
-        community_enterprises: ['วิสาหกิจ', 'ชุมชน', 'otop', 'enterprise'],
-        smart_farmers: ['smart farmer', 'เกษตรกรรุ่นใหม่', 'young'],
-        farmer_groups: ['กลุ่มแม่บ้าน', 'ยุวเกษตรกร', 'group'],
-        farmer_institutes: ['สถาบัน', 'institute', 'สหกรณ์'],
-        agri_tourism: ['ท่องเที่ยว', 'tourism', 'ฟาร์มสเตย์'],
-        forecast_plots: ['พยากรณ์', 'แมลง', 'ศัตรูพืช', 'forecast'],
-        pest_centers: ['ศจช', 'ศัตรูพืชชุมชน', 'pest center'],
-        soil_fertilizer_centers: ['ศดปช', 'ดิน', 'ปุ๋ย', 'soil', 'fertilizer'],
-        fire_hotspots: ['ไฟ', 'เผา', 'pm2.5', 'pm25', 'หมอกควัน', 'fire', 'hotspot'],
-    };
-
-    // Check for overview/summary query
-    const isOverview = /สรุป|ภาพรวม|ทั้งหมด|overview|summary|รวม/.test(lowerQuery);
-
-    // Find matching tables
+    let matchedDistrict = null;
+    let searchKeyword = null;
     let matchedTables = [];
-    if (isOverview) {
-        matchedTables = Object.keys(TABLE_CONFIG);
-    } else {
+    let isOverview = false;
+
+    // --- STEP 1: Use LLM for Intent Extraction ---
+    try {
+        const aiRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: 'llama-3.3-70b-versatile',
+                messages: [
+                    {
+                        role: 'system',
+                        content: `You are an AI data extractor for an agriculture database. Extract search parameters from the user's Thai query.
+Return ONLY valid JSON.
+{
+  "district": "เมืองนครปฐม", // Match exactly one: เมืองนครปฐม, กำแพงแสน, นครชัยศรี, ดอนตูม, บางเลน, สามพราน, พุทธมณฑล. Or null if not specified.
+  "tables": ["large_plots"], // Array of table mapping to intent. Options: agricultural_areas, learning_centers, disasters, farmer_registry, gis_areas, kpi_plans, large_plots, certifications, crop_production, community_enterprises, smart_farmers, farmer_groups, farmer_institutes, agri_tourism, forecast_plots, pest_centers, soil_fertilizer_centers, fire_hotspots. ONLY use ["all"] if the user asks for a generic system-wide dashboard summary. DO NOT use ["all"] just because the word "ทั้งหมด" is present if a specific table is mentioned (e.g. "พื้นที่เกษตรทั้งหมด" should be ["agricultural_areas"]).
+  "keyword": null // A SPECIFIC filter keyword like a plant/crop name (e.g. "ส้มโอ") or person's name. STRICTLY EXCLUDE table names, district names, and question words (มีกี่, บอก, ชื่ออะไรบ้าง, แนะนำ, ขอข้อมูล, อำเภอ). Set to null if none.
+}`
+                    },
+                    { role: 'user', content: query }
+                ],
+                temperature: 0,
+                response_format: { type: 'json_object' }
+            })
+        });
+
+        if (aiRes.ok) {
+            const data = await aiRes.json();
+            const intent = JSON.parse(data.choices[0].message.content);
+            
+            matchedDistrict = (intent.district && intent.district !== 'null') ? intent.district : null;
+            searchKeyword = (intent.keyword && intent.keyword !== 'null') ? intent.keyword : null;
+            
+            if (intent.tables && Array.isArray(intent.tables) && intent.tables.length > 0) {
+                if (intent.tables.includes('all')) {
+                    matchedTables = Object.keys(TABLE_CONFIG);
+                    isOverview = true;
+                } else {
+                    matchedTables = intent.tables.filter(t => TABLE_CONFIG[t]);
+                }
+            }
+        }
+    } catch (e) {
+        console.error("LLM Intent Parsing Error:", e);
+    }
+
+    const lowerQuery = query.toLowerCase();
+
+    // --- STEP 2: Heuristic Fallback (if LLM fails) ---
+    if (matchedTables.length === 0) {
+        const districts = ['เมืองนครปฐม', 'เมือง', 'กำแพงแสน', 'นครชัยศรี', 'ดอนตูม', 'บางเลน', 'สามพราน', 'พุทธมณฑล'];
+        searchKeyword = lowerQuery;
+
+        for (const d of districts) {
+            if (lowerQuery.includes(d)) {
+                matchedDistrict = d === 'เมือง' ? 'เมืองนครปฐม' : d;
+                searchKeyword = searchKeyword.replace(d, '');
+                break;
+            }
+        }
+
+        const tableKeywords = {
+            agricultural_areas: ['พื้นที่', 'เกษตร', 'ไร่', 'ข้าว', 'พืช', 'สวน', 'นา', 'agricultural'],
+            learning_centers: ['ศูนย์เรียนรู้', 'ศพก', 'learning', 'center'],
+            disasters: ['ภัย', 'น้ำท่วม', 'แล้ง', 'วาตภัย', 'disaster'],
+            farmer_registry: ['ทะเบียน', 'เกษตรกร', 'ครัวเรือน', 'registry'],
+            gis_areas: ['gis', 'พิกัด', 'แผนที่', 'ละติจูด'],
+            kpi_plans: ['kpi', 'ตัวชี้วัด', 'แผน', 'เป้าหมาย'],
+            large_plots: ['แปลงใหญ่', 'large plot', 'สินค้า'],
+            certifications: ['gap', 'มาตรฐาน', 'ใบรับรอง', 'certification', 'อินทรีย์'],
+            crop_production: ['ผลผลิต', 'เก็บเกี่ยว', 'ตัน', 'crop'],
+            community_enterprises: ['วิสาหกิจ', 'ชุมชน', 'otop', 'enterprise'],
+            smart_farmers: ['smart farmer', 'เกษตรกรรุ่นใหม่', 'young'],
+            farmer_groups: ['กลุ่มแม่บ้าน', 'ยุวเกษตรกร', 'group'],
+            farmer_institutes: ['สถาบัน', 'institute', 'สหกรณ์'],
+            agri_tourism: ['ท่องเที่ยว', 'tourism', 'ฟาร์มสเตย์'],
+            forecast_plots: ['พยากรณ์', 'แมลง', 'ศัตรูพืช', 'forecast'],
+            pest_centers: ['ศจช', 'ศัตรูพืชชุมชน', 'pest center'],
+            soil_fertilizer_centers: ['ศดปช', 'ดิน', 'ปุ๋ย', 'soil', 'fertilizer'],
+            fire_hotspots: ['ไฟ', 'เผา', 'pm2.5', 'pm25', 'หมอกควัน', 'fire', 'hotspot'],
+        };
+
+        Object.values(tableKeywords).flat().forEach(k => {
+            searchKeyword = searchKeyword.replace(new RegExp(k, 'g'), '');
+        });
+        searchKeyword = searchKeyword.replace(/มีกี่|อะไรบ้าง|คืออะไร|บอก|หน่วย|จำนวน|สรุป|ภาพรวม|ทั้งหมด|ล่าสุด|รายการ|ข้อมูล|หน่อย|กี่|ที่ไหน|ไหม|ครับ|ค่ะ/g, '').trim();
+        if (searchKeyword.length < 2) searchKeyword = null;
+
         for (const [table, keywords] of Object.entries(tableKeywords)) {
             if (keywords.some(kw => lowerQuery.includes(kw))) {
                 matchedTables.push(table);
             }
+        }
+
+        isOverview = (matchedTables.length === 0) && /สรุป|ภาพรวม|ทั้งหมด|overview|summary|รวม/.test(lowerQuery);
+
+        if (isOverview || matchedTables.length === 0) {
+            matchedTables = Object.keys(TABLE_CONFIG);
+            isOverview = true;
         }
     }
 
@@ -106,11 +202,62 @@ async function analyzeQuery(query) {
     // Fetch data from matched tables
     for (const table of matchedTables) {
         try {
-            const { count, error: countError } = await supabase
-                .from(table)
-                .select('*', { count: 'exact', head: true });
+            let countQuery = supabase.from(table).select('*', { count: 'exact', head: true });
+            let dataQuery = supabase.from(table).select('*').order('created_at', { ascending: false }).limit(30);
 
-            if (countError) continue;
+            const distCol = DISTRICT_COLS[table] || 'district';
+            if (matchedDistrict) {
+                countQuery = countQuery.ilike(distCol, `%${matchedDistrict}%`);
+                dataQuery = dataQuery.ilike(distCol, `%${matchedDistrict}%`);
+            }
+
+            if (searchKeyword && TABLE_SEARCH_COLS[table] && TABLE_SEARCH_COLS[table].length > 0) {
+                const cols = TABLE_SEARCH_COLS[table];
+                const orString = cols.map(c => `${c}.ilike.%${searchKeyword}%`).join(',');
+                countQuery = countQuery.or(orString);
+                dataQuery = dataQuery.or(orString);
+            }
+
+            let { count, error: countError } = await countQuery;
+            let sampleData = [];
+            let isFiltered = !!matchedDistrict || !!searchKeyword;
+
+            if (countError) {
+                // Fallback: The search OR query failed, or district column is missing. Try only district.
+                let fbCountQuery = supabase.from(table).select('*', { count: 'exact', head: true });
+                let fbDataQuery = supabase.from(table).select('*').order('created_at', { ascending: false }).limit(30);
+                
+                if (matchedDistrict) {
+                    fbCountQuery = fbCountQuery.ilike(distCol, `%${matchedDistrict}%`);
+                    fbDataQuery = fbDataQuery.ilike(distCol, `%${matchedDistrict}%`);
+                }
+                
+                let fbObj = await fbCountQuery;
+
+                if (fbObj.error) {
+                    // Ultimate Fallback: Try with NO filters at all.
+                    fbCountQuery = supabase.from(table).select('*', { count: 'exact', head: true });
+                    fbDataQuery = supabase.from(table).select('*').order('created_at', { ascending: false }).limit(30);
+                    fbObj = await fbCountQuery;
+                    isFiltered = false;
+                } else {
+                    isFiltered = !!matchedDistrict;
+                }
+
+                count = fbObj.count || 0;
+                
+                const shouldFetch = !isOverview && count > 0 && (matchedTables.length <= 3 || !!searchKeyword);
+                if (shouldFetch) {
+                    const fallbackData = await fbDataQuery;
+                    sampleData = fallbackData.data || [];
+                }
+            } else {
+                const shouldFetch = !isOverview && count > 0 && (matchedTables.length <= 3 || !!searchKeyword);
+                if (shouldFetch) {
+                    const { data } = await dataQuery;
+                    sampleData = data || [];
+                }
+            }
 
             const tableInfo = TABLE_CONFIG[table];
             const entry = {
@@ -119,18 +266,9 @@ async function analyzeQuery(query) {
                 icon: tableInfo.icon,
                 group: tableInfo.group,
                 count: count || 0,
-                sample: null,
+                sample: sampleData.length > 0 ? sampleData : null,
+                filteredBy: isFiltered ? (searchKeyword ? `คำค้น "${searchKeyword}"` : matchedDistrict) : null
             };
-
-            // For specific queries, fetch sample data
-            if (!isOverview && matchedTables.length <= 3 && count > 0) {
-                const { data } = await supabase
-                    .from(table)
-                    .select('*')
-                    .order('created_at', { ascending: false })
-                    .limit(5);
-                entry.sample = data;
-            }
 
             results.push(entry);
         } catch {
@@ -138,7 +276,7 @@ async function analyzeQuery(query) {
         }
     }
 
-    return { results, isOverview, query };
+    return { results, isOverview, query, matchedDistrict };
 }
 
 function generateResponse({ results, isOverview, query }) {
@@ -177,12 +315,18 @@ function generateResponse({ results, isOverview, query }) {
     // Specific query response
     if (results.length === 1) {
         const r = results[0];
-        let text = `${r.icon} **${r.label}**\n\nมีข้อมูลทั้งหมด **${r.count.toLocaleString()} รายการ** ในกลุ่มงาน "${r.group}"\n`;
+        let text = `${r.icon} **${r.label}**\n\n`;
+        
+        if (r.filteredBy) {
+            text += `พบข้อมูลในพื้นที่ **${r.filteredBy}** จำนวน **${r.count.toLocaleString()} รายการ**\n`;
+        } else {
+            text += `มีข้อมูลทั้งหมด **${r.count.toLocaleString()} รายการ** ในกลุ่มงาน "${r.group}"\n`;
+        }
 
         if (r.sample && r.sample.length > 0) {
-            text += `\n📋 **ข้อมูลล่าสุด ${r.sample.length} รายการ:**\n`;
-            r.sample.forEach((row, i) => {
-                const name = row.name || row.full_name || row.project_name || row.center_name ||
+            text += `\n📋 **ข้อมูลตัวอย่าง ${Math.min(r.sample.length, 5)} รายการแรก:**\n`;
+            r.sample.slice(0, 5).forEach((row, i) => {
+                const name = row.name || row.plot_name || row.full_name || row.project_name || row.center_name ||
                     row.group_name || row.spot_name || row.area_name || row.crop_name ||
                     row.kpi_name || row.district || '-';
                 const district = row.district ? ` (${row.district})` : '';
@@ -340,6 +484,23 @@ export default function Chatbot() {
             let aiText = basicResponse.text; // Fallback
             let modelUsed = null;
 
+            // Prepare streamlined JSON context for the LLM
+            const llmContextData = analysis.results.map(r => ({
+                dataset: r.label,
+                total_count_found: r.count,
+                filtered_by_district: r.filteredBy || 'none',
+                sample_records: r.sample ? r.sample.map(s => {
+                    const cleanObj = {};
+                    for (const [key, val] of Object.entries(s)) {
+                        if (val === null || val === undefined || val === '') continue; // Skip empties to save tokens
+                        if (['id', 'created_at', 'updated_at', 'latitude', 'longitude', 'lat', 'lng'].includes(key)) continue; // Skip bulky system metadata
+                        if (key.includes('image') || key.includes('url') || key.includes('file') || key.includes('path')) continue;
+                        cleanObj[key] = val;
+                    }
+                    return cleanObj;
+                }) : []
+            }));
+
             try {
                 const aiRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                     method: 'POST',
@@ -352,11 +513,18 @@ export default function Chatbot() {
                         messages: [
                             {
                                 role: 'system',
-                                content: 'คุณคือ AI ผู้ช่วยอัจฉริยะสำหรับ Admin ระบบจัดการข้อมูลการเกษตรจังหวัดนครปฐม หน้าที่ของคุณคือตอบคำถามด้วยความสุภาพ เป็นมืออาชีพ พร้อมจัดรูปแบบให้น่าอ่านมากที่สุด (ใช้ Markdown, แบ่ง Bullet ข้อย่อย, ใส่ Emoji เข้ามาคั่นข้อความเพื่อให้การอ่านดูผ่อนคลาย) โดยอิงตามข้อมูลจริงที่แนบมาให้ อย่าแต่งข้อมูลตัวเลขหรือข้อเท็จจริงขึ้นมาเพิ่มเติมเด็ดขาด ถ้าไม่มีข้อมูลให้บอกว่าไม่พบในระบบ'
+                                content: `คุณคือ AI ผู้ช่วยอัจฉริยะสำหรับ Admin ระบบจัดการข้อมูลการเกษตรจังหวัดนครปฐม หน้าที่ของคุณคือตอบคำถามด้วยความสุภาพ เป็นมืออาชีพ พร้อมจัดรูปแบบให้น่าอ่าน (ใช้ Markdown, Bullet) และอ้างอิงข้อมูลจำนวนตัวเลขหรือรายละเอียดจากฐานข้อมูลที่ให้ไป ห้ามกุข้อมูลเพิ่มเองเด็ดขาด ถ้าผู้ใช้ถามถึงพื้นที่ใด ให้ตรวจสอบข้อมูล filtered_by_district และตอบข้อมูลของพื้นที่นั้นให้ชัดเจน
+
+คำศัพท์ฐานข้อมูลที่สำคัญ (Data Dictionary):
+- total_area_rai: พื้นที่ภูมิศาสตร์/เขตการปกครองทั้งหมด (Total Land Area)
+- agri_crop_area_rai: พื้นที่ทำการเกษตรด้านพืช (Agricultural Area)
+- farmer_households: จำนวนครัวเรือนเกษตรกร
+- household_count: จำนวนครัวเรือน
+ให้ระวังการสับสนระหว่าง "พื้นที่ทั้งหมด" (total_area_rai) กับ "พื้นที่การเกษตรทั้งหมด" (agri_crop_area_rai)`
                             },
                             {
                                 role: 'user',
-                                content: `คำถามจาก Admin: ${msg}\n\n--- ข้อมูลดิบจากข้อความที่ค้นพบในฐานข้อมูล ---\n${basicResponse.text}\n---------------------------\nโปรดสรุปและตอบคำถามจากข้อมูลด้านบนให้กระชับและเข้าใจง่ายสำหรับ Admin`
+                                content: `คำถาม: ${msg}\n\n--- ข้อมูลดิบจากฐานข้อมูล ---\nJSON Data:\n${JSON.stringify(llmContextData, null, 2)}\n---------------------------\nโปรดสรุปและตอบคำถาม`
                             }
                         ],
                         temperature: 0.6,
@@ -389,9 +557,10 @@ export default function Chatbot() {
             };
             setMessages(prev => [...prev, botMsg]);
         } catch (err) {
+            console.error("Chatbot Outer Error:", err);
             setMessages(prev => [...prev, {
                 role: 'bot',
-                text: 'ขออภัยครับ เกิดข้อผิดพลาดในการดึงข้อมูล กรุณาลองใหม่อีกครั้ง 🙏',
+                text: `ขออภัยครับ เกิดข้อผิดพลาดในการดึงข้อมูล: ${err.message}\n\n${err.stack}`,
                 timestamp: Date.now(),
                 type: 'error',
             }]);
