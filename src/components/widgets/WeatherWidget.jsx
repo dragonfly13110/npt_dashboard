@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useApiCache } from '../../hooks/useApiCache';
 
 function getWeatherDetails(code) {
     const wmo = {
@@ -24,29 +24,26 @@ function getWeatherDetails(code) {
     return wmo[code] || { desc: 'ไม่ทราบสภาพอากาศ', icon: '❓' };
 }
 
+async function fetchWeatherData() {
+    const url = 'https://api.open-meteo.com/v1/forecast?latitude=13.82&longitude=100.06&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia%2FBangkok';
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Weather API error: ${res.status}`);
+    const data = await res.json();
+    return { current: data.current, daily: data.daily };
+}
+
 export default function WeatherWidget() {
-    const [weather, setWeather] = useState(null);
-    const [daily, setDaily] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const { data, isLoading } = useApiCache(
+        'weather-nakhonpathom',
+        fetchWeatherData,
+        { staleMinutes: 30, cacheMinutes: 120 }
+    );
 
-    useEffect(() => {
-        const url = 'https://api.open-meteo.com/v1/forecast?latitude=13.82&longitude=100.06&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia%2FBangkok';
-        fetch(url)
-            .then(res => res.json())
-            .then(data => {
-                setWeather(data.current);
-                setDaily(data.daily);
-                setLoading(false);
-            })
-            .catch(err => {
-                console.error(err);
-                setLoading(false);
-            });
-    }, []);
+    if (isLoading) return <div className="widget-box skeleton-pulse"><div className="w-loader">กำลังโหลดสภาพอากาศแบบละเอียด...</div></div>;
+    if (!data?.current) return null;
 
-    if (loading) return <div className="widget-box skeleton-pulse"><div className="w-loader">กำลังโหลดสภาพอากาศแบบละเอียด...</div></div>;
-    if (!weather) return null;
-
+    const weather = data.current;
+    const daily = data.daily;
     const currentWmo = getWeatherDetails(weather.weather_code);
 
     return (

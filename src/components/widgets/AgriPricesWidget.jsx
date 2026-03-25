@@ -1,5 +1,68 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { LineChartOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { useApiCache } from '../../hooks/useApiCache';
+
+async function fetchAgriPrices(category) {
+    const pages = [1, 2, 3, 4, 5];
+    const promises = pages.map(p => 
+        fetch(`/api/nabc/api/daily-prices/category?product_category=${encodeURIComponent(category)}&page=${p}`)
+            .then(res => res.json())
+            .catch(() => ({ success: false }))
+    );
+    
+    const responses = await Promise.all(promises);
+    let allItems = [];
+    
+    responses.forEach(json => {
+        if (json.success && json.data) {
+            allItems = allItems.concat(json.data);
+        }
+    });
+
+    if (allItems.length > 0) {
+        const uniqueDates = [...new Set(allItems.map(item => item.data_date))].filter(Boolean);
+        uniqueDates.sort((a, b) => new Date(b) - new Date(a));
+        return { items: allItems, dates: uniqueDates };
+    }
+    
+    throw new Error("API returned no data");
+}
+
+function getMockData(category) {
+    const mockDates = [];
+    const mockData = [];
+    for (let i = 0; i < 3; i++) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        const ds = d.toISOString().split('T')[0];
+        mockDates.push(ds);
+        mockData.push({
+            data_date: ds,
+            product_name: `(ข้อมูลจำลอง) ${category} เกรด A`,
+            day_price: 150 - (i * 2), 
+            unit: 'บาท/กก.',
+            market_name: 'ตลาดนครปฐม',
+            province: 'นครปฐม'
+        });
+        mockData.push({
+            data_date: ds,
+            product_name: `(ข้อมูลจำลอง) ${category} เกรด B`,
+            day_price: 140 - i, 
+            unit: 'บาท/กก.',
+            market_name: 'ตลาดกลางบางแก้ว',
+            province: 'นครปฐม'
+        });
+        mockData.push({
+            data_date: ds,
+            product_name: `(ข้อมูลจำลอง) ${category} เกรด A`,
+            day_price: 148 - (i * 3), 
+            unit: 'บาท/กก.',
+            market_name: 'ตลาดกรุงเทพ',
+            province: 'กรุงเทพมหานคร'
+        });
+    }
+    return { items: mockData, dates: mockDates };
+}
 
 export default function AgriPricesWidget() {
     const allCategories = [
@@ -10,89 +73,28 @@ export default function AgriPricesWidget() {
     const [selectedCategory, setSelectedCategory] = useState('ข้าวหอมมะลิ');
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedProvince, setSelectedProvince] = useState('__ALL__');
-    const [availableDates, setAvailableDates] = useState([]);
-    const [historyData, setHistoryData] = useState([]);
-    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchHistory = async () => {
-            setLoading(true);
-            try {
-                const pages = [1, 2, 3, 4, 5];
-                const promises = pages.map(p => 
-                    fetch(`/api/nabc/api/daily-prices/category?product_category=${encodeURIComponent(selectedCategory)}&page=${p}`)
-                        .then(res => res.json())
-                        .catch(() => ({ success: false }))
-                );
-                
-                const responses = await Promise.all(promises);
-                let allItems = [];
-                
-                responses.forEach(json => {
-                    if (json.success && json.data) {
-                        allItems = allItems.concat(json.data);
-                    }
-                });
+    const { data: fetchedData, isLoading } = useApiCache(
+        ['agri-prices', selectedCategory],
+        () => fetchAgriPrices(selectedCategory),
+        { staleMinutes: 60, cacheMinutes: 180 }  // ราคาอัปเดตรายวัน → cache 1 ชม.
+    );
 
-                if (allItems.length > 0) {
-                    setHistoryData(allItems);
-                    const uniqueDates = [...new Set(allItems.map(item => item.data_date))].filter(Boolean);
-                    uniqueDates.sort((a, b) => new Date(b) - new Date(a));
-                    setAvailableDates(uniqueDates);
-                    setSelectedDate(uniqueDates[0] || '');
-                } else {
-                    throw new Error("API returned no data or failed silently.");
-                }
-            } catch (error) {
-                console.error("Fetch NABC History Error or Blocked:", error);
-                const mockDates = [];
-                const mockData = [];
-                for(let i=0; i<3; i++) {
-                    const d = new Date();
-                    d.setDate(d.getDate() - i);
-                    const ds = d.toISOString().split('T')[0];
-                    mockDates.push(ds);
-                    mockData.push({
-                        data_date: ds,
-                        product_name: `(ข้อมูลจำลอง) ${selectedCategory} เกรด A`,
-                        day_price: 150 - (i * 2), 
-                        unit: 'บาท/กก.',
-                        market_name: 'ตลาดนครปฐม',
-                        province: 'นครปฐม'
-                    });
-                    mockData.push({
-                        data_date: ds,
-                        product_name: `(ข้อมูลจำลอง) ${selectedCategory} เกรด B`,
-                        day_price: 140 - i, 
-                        unit: 'บาท/กก.',
-                        market_name: 'ตลาดกลางบางแก้ว',
-                        province: 'นครปฐม'
-                    });
-                    mockData.push({
-                        data_date: ds,
-                        product_name: `(ข้อมูลจำลอง) ${selectedCategory} เกรด A`,
-                        day_price: 148 - (i * 3), 
-                        unit: 'บาท/กก.',
-                        market_name: 'ตลาดกรุงเทพ',
-                        province: 'กรุงเทพมหานคร'
-                    });
-                }
-                setHistoryData(mockData);
-                setAvailableDates(mockDates);
-                setSelectedDate(mockDates[0]);
-            } finally {
-                setLoading(false);
-            }
-        };
+    // Use fetched data or fallback mock
+    const { historyData, availableDates } = useMemo(() => {
+        const result = fetchedData || getMockData(selectedCategory);
+        return { historyData: result.items, availableDates: result.dates };
+    }, [fetchedData, selectedCategory]);
 
-        fetchHistory();
-    }, [selectedCategory]);
+    // Auto-select first date when data changes
+    const effectiveDate = selectedDate && availableDates.includes(selectedDate) 
+        ? selectedDate 
+        : (availableDates[0] || '');
 
     // Extract unique provinces from all data
     const availableProvinces = useMemo(() => {
         const provinces = [...new Set(historyData.map(item => item.province).filter(Boolean))];
         provinces.sort((a, b) => {
-            // Put นครปฐม first
             if (a === 'นครปฐม') return -1;
             if (b === 'นครปฐม') return 1;
             return a.localeCompare(b, 'th');
@@ -120,7 +122,7 @@ export default function AgriPricesWidget() {
     };
 
     const displayedItems = historyData.filter(item => {
-        const matchDate = item.data_date === selectedDate;
+        const matchDate = item.data_date === effectiveDate;
         const matchProvince = selectedProvince === '__ALL__' || item.province === selectedProvince;
         return matchDate && matchProvince;
     });
@@ -167,7 +169,7 @@ export default function AgriPricesWidget() {
                     </select>
                     
                     <select 
-                        value={selectedDate} 
+                        value={effectiveDate} 
                         onChange={e => setSelectedDate(e.target.value)}
                         disabled={availableDates.length === 0}
                         title="วันที่"
@@ -207,12 +209,12 @@ export default function AgriPricesWidget() {
                     </span>
                 )}
                 <span style={{ fontSize: '11px', color: '#94a3b8', marginLeft: 'auto' }}>
-                    {loading ? '' : `พบ ${provinceCount} รายการ`}
+                    {isLoading ? '' : `พบ ${provinceCount} รายการ`}
                 </span>
             </div>
             
             <div className="price-history-list" style={{ display: 'flex', flexDirection: 'column', gap: '8px', flex: 1, minHeight: '380px', overflowY: 'auto', paddingRight: '4px' }}>
-                {loading ? (
+                {isLoading ? (
                     <div className="skeleton-pulse" style={{ height: '280px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <div className="w-loader">กำลังโหลดข้อมูล {selectedCategory}...</div>
                     </div>
