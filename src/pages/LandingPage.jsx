@@ -80,8 +80,8 @@ function WeatherWidget() {
             </div>
 
             <div className="weather-forecast">
-                <h4>พยากรณ์ 3 วันล่วงหน้า (นครปฐม)</h4>
-                {daily && [1, 2, 3].map(i => {
+                <h4>พยากรณ์ 5 วันล่วงหน้า (นครปฐม)</h4>
+                {daily && [1, 2, 3, 4, 5].map(i => {
                     const dateObj = new Date(daily.time[i]);
                     const dayName = dateObj.toLocaleDateString('th-TH', { weekday: 'short' });
                     const dateNum = dateObj.toLocaleDateString('th-TH', { day: 'numeric', month: 'short' });
@@ -108,7 +108,9 @@ function AgriPricesWidget() {
         'ข้าวหอมมะลิ', 'มะพร้าว', 'ไข่ไก่', 'ปาล์มน้ำมัน', 'ลำไย', 
         'มันสำปะหลัง', 'มะนาว', 'สุกร'
     ];
-    const [selectedCategory, setSelectedCategory] = useState(allCategories[0]);
+    const [selectedCategory, setSelectedCategory] = useState('ข้าวหอมมะลิ');
+    const [selectedDate, setSelectedDate] = useState('');
+    const [availableDates, setAvailableDates] = useState([]);
     const [historyData, setHistoryData] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -116,34 +118,70 @@ function AgriPricesWidget() {
         const fetchHistory = async () => {
             setLoading(true);
             try {
-                // Fetch NABC API via Vite proxy
-                const res = await fetch(`/api/nabc/api/daily-prices/category?product_category=${encodeURIComponent(selectedCategory)}&page=1`);
-                const json = await res.json();
+                // Fetch first 3 pages to gather a good spread of dates and markets
+                const pages = [1, 2, 3];
+                const promises = pages.map(p => 
+                    fetch(`/api/nabc/api/daily-prices/category?product_category=${encodeURIComponent(selectedCategory)}&page=${p}`)
+                        .then(res => res.json())
+                        .catch(() => ({ success: false }))
+                );
                 
-                if (json.success && json.data) {
-                    // Get up to 7 records (assume they are ordered by most recent first)
-                    setHistoryData(json.data.slice(0, 7));
+                const responses = await Promise.all(promises);
+                let allItems = [];
+                
+                responses.forEach(json => {
+                    if (json.success && json.data) {
+                        allItems = allItems.concat(json.data);
+                    }
+                });
+
+                if (allItems.length > 0) {
+                    setHistoryData(allItems);
+                    
+                    // Extract unique dates, sort descending (latest first)
+                    const uniqueDates = [...new Set(allItems.map(item => item.data_date))].filter(Boolean);
+                    uniqueDates.sort((a, b) => new Date(b) - new Date(a));
+                    
+                    setAvailableDates(uniqueDates);
+                    setSelectedDate(uniqueDates[0] || ''); // default to latest date
                 } else {
                     setHistoryData([]);
+                    setAvailableDates([]);
+                    setSelectedDate('');
                 }
             } catch (error) {
                 console.error("Fetch NABC History Error:", error);
                 
-                // Realistic mock data fallback due to CORS or Network error
-                const mock = [];
-                for(let i=0; i<7; i++) {
+                // Fallback realistic mock data
+                const mockDates = [];
+                const mockData = [];
+                for(let i=0; i<3; i++) {
                     const d = new Date();
                     d.setDate(d.getDate() - i);
-                    mock.push({
-                        data_date: d.toISOString().split('T')[0],
-                        product_name: `(ข้อมูลจำลอง) ${selectedCategory}`,
-                        day_price: 150 - (i * Math.floor(Math.random() * 5)), 
+                    const ds = d.toISOString().split('T')[0];
+                    mockDates.push(ds);
+                    
+                    // Mock two markets per day
+                    mockData.push({
+                        data_date: ds,
+                        product_name: `(ข้อมูลจำลอง) ${selectedCategory} เกรด A`,
+                        day_price: 150 - (i * 2), 
                         unit: 'บาท/กก.',
-                        market_name: 'รอการเชื่อมต่อ API',
-                        province: 'ส่วนกลาง'
+                        market_name: 'ตลาดกลาง 1',
+                        province: 'นครปฐม'
+                    });
+                    mockData.push({
+                        data_date: ds,
+                        product_name: `(ข้อมูลจำลอง) ${selectedCategory} เกรด B`,
+                        day_price: 140 - i, 
+                        unit: 'บาท/กก.',
+                        market_name: 'ตลาดกลาง 2',
+                        province: 'กรุงเทพมหานคร'
                     });
                 }
-                setHistoryData(mock);
+                setHistoryData(mockData);
+                setAvailableDates(mockDates);
+                setSelectedDate(mockDates[0]);
             } finally {
                 setLoading(false);
             }
@@ -152,70 +190,98 @@ function AgriPricesWidget() {
         fetchHistory();
     }, [selectedCategory]);
 
+    const getTrend = (currentItem) => {
+        // Find the most recent strictly older price for this exact same market to compare
+        const olderItem = historyData.find(old => 
+            old.market_name === currentItem.market_name && 
+            old.province === currentItem.province && 
+            new Date(old.data_date) < new Date(currentItem.data_date)
+        );
+
+        if (!olderItem) return { icon: '-', color: '#94a3b8' };
+        
+        const currentPrice = Number(currentItem.day_price);
+        const olderPrice = Number(olderItem.day_price);
+        
+        if (!isNaN(currentPrice) && !isNaN(olderPrice)) {
+            if (currentPrice > olderPrice) return { icon: '▲', color: '#16a34a' };
+            if (currentPrice < olderPrice) return { icon: '▼', color: '#dc2626' };
+        }
+        return { icon: '-', color: '#64748b' };
+    };
+
+    const displayedItems = historyData.filter(item => item.data_date === selectedDate);
+
     return (
         <div className="widget-box price-widget slide-up-anim" style={{ animationDelay: '0.15s' }}>
             <div className="widget-header" style={{ justifyContent: 'space-between', marginBottom: '8px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <div className="widget-icon bg-green-100 text-green-600"><LineChartOutlined /></div>
-                    <h4>ราคาย้อนหลัง 7 วันล่าสุด</h4>
+                    <h4>ราคาผลผลิตทางการเกษตร</h4>
                 </div>
-                <select 
-                    value={selectedCategory} 
-                    onChange={e => setSelectedCategory(e.target.value)}
-                    style={{ 
-                        padding: '6px 10px', borderRadius: '8px', border: '1px solid #cbd5e1', 
-                        outline: 'none', background: '#f8fafc', color: '#0f172a', 
-                        fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit', width: '130px'
-                    }}
-                >
-                    {allCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
-                </select>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                    <select 
+                        value={selectedCategory} 
+                        onChange={e => setSelectedCategory(e.target.value)}
+                        title="หมวดหมู่สินค้า"
+                        style={{ 
+                            padding: '6px 10px', borderRadius: '8px', border: '1px solid #cbd5e1', 
+                            outline: 'none', background: '#f8fafc', color: '#0f172a', 
+                            fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit', maxWidth: '120px'
+                        }}
+                    >
+                        {allCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+                    </select>
+                    
+                    <select 
+                        value={selectedDate} 
+                        onChange={e => setSelectedDate(e.target.value)}
+                        disabled={availableDates.length === 0}
+                        title="วันที่"
+                        style={{ 
+                            padding: '6px 10px', borderRadius: '8px', border: '1px solid #bae6fd', 
+                            outline: 'none', background: '#e0f2fe', color: '#0369a1', 
+                            fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit', maxWidth: '120px'
+                        }}
+                    >
+                        {availableDates.map(date => <option key={date} value={date}>{date}</option>)}
+                        {availableDates.length === 0 && <option value="">ไม่มีข้อมูล</option>}
+                    </select>
+                </div>
             </div>
             
-            <div className="price-history-list" style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '380px', overflowY: 'auto', paddingRight: '4px' }}>
+            <div className="price-history-list" style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '380px', overflowY: 'auto', paddingRight: '4px' }}>
                 {loading ? (
                     <div className="skeleton-pulse" style={{ height: '280px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <div className="w-loader">กำลังโหลดข้อมูล {selectedCategory}...</div>
                     </div>
-                ) : historyData.length > 0 ? (
-                    historyData.map((item, idx) => {
-                        // Calculate trend using the next item in the array (older date)
-                        let trendIcon = '-';
-                        let trendColor = '#64748b';
-                        if (idx < historyData.length - 1) {
-                            const current = Number(item.day_price);
-                            const older = Number(historyData[idx + 1].day_price);
-                            if (!isNaN(current) && !isNaN(older)) {
-                                if (current > older) { trendIcon = '▲'; trendColor = '#16a34a'; }
-                                else if (current < older) { trendIcon = '▼'; trendColor = '#dc2626'; }
-                            }
-                        }
-
+                ) : displayedItems.length > 0 ? (
+                    displayedItems.map((item, idx) => {
+                        const trend = getTrend(item);
                         return (
-                            <div key={idx} className="price-item" style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <div key={idx} className="price-item" style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', border: '1px solid #e2e8f0' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingRight: '12px', gap: '2px' }}>
-                                    <span style={{ fontSize: '13px', fontWeight: '800', color: '#3b82f6' }}>📅 {item.data_date}</span>
-                                    <span style={{ fontSize: '13px', color: '#475569', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', fontWeight: '500' }} title={item.product_name}>
+                                    <span style={{ fontSize: '13px', color: '#1e293b', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', fontWeight: '700' }} title={item.product_name || item.product_category}>
                                         {item.product_name || item.product_category}
                                     </span>
-                                    <span style={{ fontSize: '11px', color: '#94a3b8', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }} title={item.market_name}>
+                                    <span style={{ fontSize: '11px', color: '#64748b', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }} title={(item.province ? `จ.${item.province} - ` : '') + (item.market_name || 'ส่วนกลาง')}>
                                         📍 {item.province ? `จ.${item.province} - ` : ''}{item.market_name || 'ส่วนกลาง'}
                                     </span>
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', minWidth: '95px' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                        <span style={{ color: trendColor, fontSize: '14px', fontWeight: '900' }}>{trendIcon}</span>
+                                        <span style={{ color: trend.color, fontSize: '14px', fontWeight: '900' }}>{trend.icon}</span>
                                         <span style={{ fontSize: '17px', fontWeight: '800', color: '#0f172a' }}>
                                             {isNaN(item.day_price) ? item.day_price : Number(item.day_price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
                                         </span>
                                     </div>
-                                    <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '600' }}>{item.unit}</span>
+                                    <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600' }}>{item.unit}</span>
                                 </div>
                             </div>
                         )
                     })
                 ) : (
-                    <div className="w-loader" style={{ padding: '30px 0' }}>ไม่พบข้อมูลย้อนหลังสำหรับหมวดหมู่นี้</div>
+                    <div className="w-loader" style={{ padding: '30px 0' }}>ไม่พบรายการราคาสินค้าในวันที่เลือก</div>
                 )}
             </div>
         </div>
