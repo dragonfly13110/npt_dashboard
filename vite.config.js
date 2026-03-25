@@ -14,7 +14,10 @@ export default defineConfig({
       '/api/gistda': {
         target: 'https://api-gateway.gistda.or.th',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/gistda/, '')
+        rewrite: (path) => path.replace(/^\/api\/gistda/, ''),
+        headers: {
+          'API-Key': '2lAkC1Ob7uugojJ1JlgHJPveFRdtCRg51qkZazYqh1fmEf18Me2DtLMsWLOT1aMi'
+        }
       }
     }
   }

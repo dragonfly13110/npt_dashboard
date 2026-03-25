@@ -64,13 +64,11 @@ export default function HotspotWidget() {
             setLoading(true);
             try {
                 // Nakhon Pathom pv_idn = 73
-                const apiKey = '2lAkC1Ob7uugojJ1JlgHJPveFRdtCRg51qkZazYqh1fmEf18Me2DtLMsWLOT1aMi';
-                // Use exactly the headers from the successful curl test
+                // API-Key is injected by the Netlify serverless function (netlify/functions/gistda-proxy.js)
                 const url = `/api/gistda/api/2.0/resources/features/viirs/30days?limit=1000&offset=0&pv_idn=73`;
                 
                 const response = await fetch(url, {
                     headers: {
-                        'API-Key': apiKey,
                         'accept': 'application/json'
                     }
                 });

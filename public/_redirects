@@ -1,3 +1,2 @@
 /api/nabc/*  https://agriapi.nabc.go.th/:splat  200
-/api/gistda/*  https://api-gateway.gistda.or.th/:splat  200
 /* /index.html 200
