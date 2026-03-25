@@ -15,6 +15,11 @@ export default defineConfig({
         target: 'https://api-gateway.gistda.or.th',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/gistda/, '')
+      },
+      '/api/doae-npt': {
+        target: 'https://nakhonpathom.doae.go.th',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/doae-npt/, '')
       }
     }
   }

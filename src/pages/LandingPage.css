@@ -765,3 +765,213 @@
     font-weight: 500;
     text-align: center;
 }
+
+/* ========================================================= */
+/* ============== DOAE NEWS WIDGET STYLES =================== */
+/* ========================================================= */
+
+.doae-news-widget {
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+}
+
+.doae-news-widget:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+}
+
+.doae-section {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.doae-alerts {
+    border-right: 1px solid #f1f5f9;
+}
+
+.doae-section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.doae-section-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.doae-icon-alert {
+    background: #fef2f2;
+}
+
+.doae-icon-news {
+    background: #f0fdf4;
+}
+
+.doae-section-header h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.doae-section-header span {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 2px;
+    display: block;
+}
+
+.doae-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.doae-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.doae-item-alert {
+    background: #fef2f2;
+}
+
+.doae-item-alert:hover {
+    background: #fee2e2;
+    border-color: #fecaca;
+    transform: translateX(4px);
+}
+
+.doae-item-news {
+    background: #f0fdf4;
+}
+
+.doae-item-news:hover {
+    background: #dcfce7;
+    border-color: #bbf7d0;
+    transform: translateX(4px);
+}
+
+.doae-item-badge {
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.doae-item-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.doae-item-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.doae-item-excerpt {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.doae-item-date {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 6px;
+    font-weight: 500;
+}
+
+/* Skeleton Loading */
+.doae-skeleton {
+    height: 72px;
+    border-radius: 14px;
+    animation: pulseBg 1.5s infinite;
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background-size: 200% 100%;
+}
+
+.doae-empty {
+    padding: 32px;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+/* Credit footer */
+.doae-credit {
+    grid-column: span 2;
+    text-align: center;
+    padding: 12px;
+    font-size: 11px;
+    color: #94a3b8;
+    border-top: 1px solid #f1f5f9;
+    background: #fafbfc;
+}
+
+.doae-credit a {
+    color: #64748b;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.doae-credit a:hover {
+    color: #16a34a;
+}
+
+/* Responsive: stack on mobile */
+@media (max-width: 768px) {
+    .doae-news-widget {
+        grid-template-columns: 1fr;
+    }
+
+    .doae-alerts {
+        border-right: none;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .doae-credit {
+        grid-column: span 1;
+    }
+}
