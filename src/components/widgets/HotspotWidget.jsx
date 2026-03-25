@@ -3,9 +3,16 @@ import { FireOutlined, EnvironmentOutlined, ArrowUpOutlined, ArrowDownOutlined }
 import { useApiCache } from '../../hooks/useApiCache';
 
 async function fetchHotspotData(dayRange) {
-    const res = await fetch(`/api/gistda/api/v2/hotspot?source=viirs&day=${dayRange}`);
-    if (!res.ok) throw new Error(`Hotspot API: ${res.status}`);
+    const url = `/api/gistda/api/v2/hotspot?source=viirs&day=${dayRange}`;
+    console.log('[Hotspot] Fetching:', url);
+    const res = await fetch(url);
+    if (!res.ok) {
+        const text = await res.text().catch(() => '');
+        console.error(`[Hotspot] API error ${res.status}:`, text.slice(0, 300));
+        throw new Error(`Hotspot API: ${res.status}`);
+    }
     const json = await res.json();
+    console.log('[Hotspot] Response keys:', Object.keys(json), 'features:', json.features?.length ?? 0);
     if (!json.features || json.features.length === 0) {
         throw new Error("No features");
     }
