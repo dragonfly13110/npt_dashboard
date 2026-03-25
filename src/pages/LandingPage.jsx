@@ -1,8 +1,226 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
-import { EnvironmentOutlined, UsergroupAddOutlined, TeamOutlined, GlobalOutlined } from '@ant-design/icons';
+import { EnvironmentOutlined, UsergroupAddOutlined, TeamOutlined, GlobalOutlined, CloudOutlined, LineChartOutlined } from '@ant-design/icons';
 import './LandingPage.css'; // New dedicated styles
+
+// ========== WIDGETS ==========
+function getWeatherDetails(code) {
+    const wmo = {
+        0: { desc: 'ท้องฟ้าแจ่มใส', icon: '☀️' },
+        1: { desc: 'ส่วนใหญ่แจ่มใส', icon: '🌤️' },
+        2: { desc: 'มีเมฆบางส่วน', icon: '⛅' },
+        3: { desc: 'มีเมฆมาก', icon: '☁️' },
+        45: { desc: 'มีหมอก', icon: '🌫️' },
+        48: { desc: 'หมอกลงจัด', icon: '🌫️' },
+        51: { desc: 'ฝนปรอยบางเบา', icon: '🌦️' },
+        53: { desc: 'ฝนปรอยปานกลาง', icon: '🌦️' },
+        55: { desc: 'ฝนปรอยหนัก', icon: '🌧️' },
+        61: { desc: 'ฝนตกเล็กน้อย', icon: '🌦️' },
+        63: { desc: 'ฝนตกปานกลาง', icon: '🌧️' },
+        65: { desc: 'ฝนตกหนัก', icon: '🌧️' },
+        80: { desc: 'ฝนตกซู่เล็กน้อย', icon: '🌦️' },
+        81: { desc: 'ฝนตกซู่ปานกลาง', icon: '🌧️' },
+        82: { desc: 'ฝนตกซู่หนัก', icon: '🌧️' },
+        95: { desc: 'ฝนฟ้าคะนอง', icon: '⛈️' },
+        96: { desc: 'ฝนฟ้าคะนองลูกเห็บตกเล็กน้อย', icon: '⛈️' },
+        99: { desc: 'ฝนฟ้าคะนองลูกเห็บตกหนัก', icon: '⛈️' }
+    };
+    return wmo[code] || { desc: 'ไม่ทราบสภาพอากาศ', icon: '❓' };
+}
+
+function WeatherWidget() {
+    const [weather, setWeather] = useState(null);
+    const [daily, setDaily] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const url = 'https://api.open-meteo.com/v1/forecast?latitude=13.82&longitude=100.06&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia%2FBangkok';
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                setWeather(data.current);
+                setDaily(data.daily);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error(err);
+                setLoading(false);
+            });
+    }, []);
+
+    if (loading) return <div className="widget-box skeleton-pulse"><div className="w-loader">กำลังโหลดสภาพอากาศแบบละเอียด...</div></div>;
+    if (!weather) return null;
+
+    const currentWmo = getWeatherDetails(weather.weather_code);
+
+    return (
+        <div className="widget-box weather-widget-detailed slide-up-anim">
+            <div className="weather-main">
+                <div className="weather-main-icon" title={currentWmo.desc}>{currentWmo.icon}</div>
+                <div className="weather-main-temp">
+                    <h2>{Math.round(weather.temperature_2m)}°C</h2>
+                    <p>{currentWmo.desc}</p>
+                </div>
+            </div>
+            
+            <div className="weather-stats-grid">
+                <div className="w-stat">
+                    <span className="w-label">รู้สึกเหมือน</span>
+                    <span className="w-val">{Math.round(weather.apparent_temperature)}°C</span>
+                </div>
+                <div className="w-stat">
+                    <span className="w-label">ความชื้น</span>
+                    <span className="w-val">{weather.relative_humidity_2m}%</span>
+                </div>
+                <div className="w-stat">
+                    <span className="w-label">แรงลม</span>
+                    <span className="w-val">{weather.wind_speed_10m} <small style={{fontSize: 10, color: '#64748b'}}>km/h</small></span>
+                </div>
+            </div>
+
+            <div className="weather-forecast">
+                <h4>พยากรณ์ 3 วันล่วงหน้า (นครปฐม)</h4>
+                {daily && [1, 2, 3].map(i => {
+                    const dateObj = new Date(daily.time[i]);
+                    const dayName = dateObj.toLocaleDateString('th-TH', { weekday: 'short' });
+                    const dateNum = dateObj.toLocaleDateString('th-TH', { day: 'numeric', month: 'short' });
+                    const wmo = getWeatherDetails(daily.weather_code[i]);
+                    return (
+                        <div key={i} className="forecast-item">
+                            <div className="f-day">{dayName} <small>{dateNum}</small></div>
+                            <div className="f-icon" title={wmo.desc}>{wmo.icon}</div>
+                            <div className="f-temp" title="อุณหภูมิสูงสุด/ต่ำสุด">
+                                <span className="max-t">{Math.round(daily.temperature_2m_max[i])}°</span>
+                                <span className="min-t">{Math.round(daily.temperature_2m_min[i])}°</span>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+    );
+}
+
+function AgriPricesWidget() {
+    const allCategories = [
+        'กุ้งขาว', 'สับปะรดโรงงาน', 'ข้าวโพดเลี้ยงสัตว์', 'ไก่', 'ยางพารา', 
+        'ข้าวหอมมะลิ', 'มะพร้าว', 'ไข่ไก่', 'ปาล์มน้ำมัน', 'ลำไย', 
+        'มันสำปะหลัง', 'มะนาว', 'สุกร'
+    ];
+    const [selectedCategory, setSelectedCategory] = useState(allCategories[0]);
+    const [historyData, setHistoryData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchHistory = async () => {
+            setLoading(true);
+            try {
+                // Fetch NABC API via Vite proxy
+                const res = await fetch(`/api/nabc/api/daily-prices/category?product_category=${encodeURIComponent(selectedCategory)}&page=1`);
+                const json = await res.json();
+                
+                if (json.success && json.data) {
+                    // Get up to 7 records (assume they are ordered by most recent first)
+                    setHistoryData(json.data.slice(0, 7));
+                } else {
+                    setHistoryData([]);
+                }
+            } catch (error) {
+                console.error("Fetch NABC History Error:", error);
+                
+                // Realistic mock data fallback due to CORS or Network error
+                const mock = [];
+                for(let i=0; i<7; i++) {
+                    const d = new Date();
+                    d.setDate(d.getDate() - i);
+                    mock.push({
+                        data_date: d.toISOString().split('T')[0],
+                        product_name: `(ข้อมูลจำลอง) ${selectedCategory}`,
+                        day_price: 150 - (i * Math.floor(Math.random() * 5)), 
+                        unit: 'บาท/กก.',
+                        market_name: 'รอการเชื่อมต่อ API',
+                        province: 'ส่วนกลาง'
+                    });
+                }
+                setHistoryData(mock);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchHistory();
+    }, [selectedCategory]);
+
+    return (
+        <div className="widget-box price-widget slide-up-anim" style={{ animationDelay: '0.15s' }}>
+            <div className="widget-header" style={{ justifyContent: 'space-between', marginBottom: '8px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div className="widget-icon bg-green-100 text-green-600"><LineChartOutlined /></div>
+                    <h4>ราคาย้อนหลัง 7 วันล่าสุด</h4>
+                </div>
+                <select 
+                    value={selectedCategory} 
+                    onChange={e => setSelectedCategory(e.target.value)}
+                    style={{ 
+                        padding: '6px 10px', borderRadius: '8px', border: '1px solid #cbd5e1', 
+                        outline: 'none', background: '#f8fafc', color: '#0f172a', 
+                        fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit', width: '130px'
+                    }}
+                >
+                    {allCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+                </select>
+            </div>
+            
+            <div className="price-history-list" style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '380px', overflowY: 'auto', paddingRight: '4px' }}>
+                {loading ? (
+                    <div className="skeleton-pulse" style={{ height: '280px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div className="w-loader">กำลังโหลดข้อมูล {selectedCategory}...</div>
+                    </div>
+                ) : historyData.length > 0 ? (
+                    historyData.map((item, idx) => {
+                        // Calculate trend using the next item in the array (older date)
+                        let trendIcon = '-';
+                        let trendColor = '#64748b';
+                        if (idx < historyData.length - 1) {
+                            const current = Number(item.day_price);
+                            const older = Number(historyData[idx + 1].day_price);
+                            if (!isNaN(current) && !isNaN(older)) {
+                                if (current > older) { trendIcon = '▲'; trendColor = '#16a34a'; }
+                                else if (current < older) { trendIcon = '▼'; trendColor = '#dc2626'; }
+                            }
+                        }
+
+                        return (
+                            <div key={idx} className="price-item" style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingRight: '12px', gap: '2px' }}>
+                                    <span style={{ fontSize: '13px', fontWeight: '800', color: '#3b82f6' }}>📅 {item.data_date}</span>
+                                    <span style={{ fontSize: '13px', color: '#475569', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', fontWeight: '500' }} title={item.product_name}>
+                                        {item.product_name || item.product_category}
+                                    </span>
+                                    <span style={{ fontSize: '11px', color: '#94a3b8', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }} title={item.market_name}>
+                                        📍 {item.province ? `จ.${item.province} - ` : ''}{item.market_name || 'ส่วนกลาง'}
+                                    </span>
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', minWidth: '95px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                        <span style={{ color: trendColor, fontSize: '14px', fontWeight: '900' }}>{trendIcon}</span>
+                                        <span style={{ fontSize: '17px', fontWeight: '800', color: '#0f172a' }}>
+                                            {isNaN(item.day_price) ? item.day_price : Number(item.day_price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
+                                        </span>
+                                    </div>
+                                    <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '600' }}>{item.unit}</span>
+                                </div>
+                            </div>
+                        )
+                    })
+                ) : (
+                    <div className="w-loader" style={{ padding: '30px 0' }}>ไม่พบข้อมูลย้อนหลังสำหรับหมวดหมู่นี้</div>
+                )}
+            </div>
+        </div>
+    );
+}
 
 // ========== MAP COMPONENT (Extended with GeoJSON & Tooltips) ==========
 function LandingMap({ mapData, districtStats }) {
@@ -447,6 +665,11 @@ export default function LandingPage() {
                 </div>
             </header>
 
+            {/* ===== LIVE WIDGETS ===== */}
+            <div className="top-widgets-container">
+                <WeatherWidget />
+                <AgriPricesWidget />
+            </div>
 
             {/* ===== BENTO GRID LATEST LISTS ===== */}
             <div className="dept-stats-header" style={{ marginTop: 20 }}>
@@ -799,32 +1022,4 @@ export default function LandingPage() {
                     {/* Protection */}
                     <div className="dept-card" style={{ '--theme': '#ef4444' }}>
                         <div className="dept-icon">🔬</div>
-                        <h3>อารักขาพืชและจัดการดินปุ๋ย</h3>
-                        <ul>
-                            <li><span>ระบาดศัตรูพืช</span> <strong>{allStats.forecast_plots || 0}</strong></li>
-                            <li><span>ศูนย์ ศจช.</span> <strong>{allStats.pest_centers || 0}</strong></li>
-                            <li><span>ศูนย์ ศดปช.</span> <strong>{allStats.soil_fertilizer_centers || 0}</strong></li>
-                            <li><span>จุดเฝ้าระวังไฟ/PM2.5</span> <strong>{allStats.fire_hotspots || 0}</strong></li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            {/* ===== FOOTER ===== */}
-            <footer className="landing-footer" style={{ padding: '40px 0', borderTop: '1px solid #e2e8f0' }}>
-                <div className="landing-footer-content" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
-                    <div style={{ textAlign: 'center', opacity: 0.6 }}>
-                        <strong>🌾 สำนักงานเกษตรจังหวัดนครปฐม</strong>
-                        <p style={{ marginTop: 8, fontSize: 13, lineHeight: '1.6' }}>
-                            131 ถนนทรงพล อำเภอเมือง จังหวัดนครปฐม 73000<br />
-                            โทร. 0 3425 3992 | E-mail: nakhonpathom@doae.go.th
-                        </p>
-                        <p style={{ marginTop: 12, fontSize: 12 }}>
-                            © {new Date().getFullYear()} ระบบฐานข้อมูลกลางเพื่อการเกษตร
-                        </p>
-                    </div>
-                </div>
-            </footer>
-        </div>
-    );
-}
+                        <h3>อารักขาพืชแล
