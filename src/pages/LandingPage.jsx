@@ -8,6 +8,7 @@ import './LandingPage.css';
 import WeatherWidget from '../components/widgets/WeatherWidget';
 import AirQualityWidget from '../components/widgets/AirQualityWidget';
 import AgriPricesWidget from '../components/widgets/AgriPricesWidget';
+import HotspotWidget from '../components/widgets/HotspotWidget';
 import LandingMap from '../components/widgets/LandingMap';
 
 export default function LandingPage() {
@@ -270,6 +271,10 @@ export default function LandingPage() {
                     <AirQualityWidget />
                 </div>
                 <AgriPricesWidget />
+            </div>
+
+            <div style={{ maxWidth: '1200px', margin: '0 auto 40px', padding: '0 24px' }}>
+                <HotspotWidget />
             </div>
 
             {/* ===== BENTO GRID LATEST LISTS ===== */}

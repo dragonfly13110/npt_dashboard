@@ -10,6 +10,11 @@ export default defineConfig({
         target: 'https://agriapi.nabc.go.th',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/nabc/, '')
+      },
+      '/api/gistda': {
+        target: 'https://api-gateway.gistda.or.th',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/gistda/, '')
       }
     }
   }
