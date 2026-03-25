@@ -1,0 +1,2 @@
+/api/nabc/*  https://agriapi.nabc.go.th/:splat  200
+/* /index.html 200

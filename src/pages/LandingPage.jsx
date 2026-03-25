@@ -145,14 +145,12 @@ function AgriPricesWidget() {
                     setAvailableDates(uniqueDates);
                     setSelectedDate(uniqueDates[0] || ''); // default to latest date
                 } else {
-                    setHistoryData([]);
-                    setAvailableDates([]);
-                    setSelectedDate('');
+                    throw new Error("API returned no data or failed silently.");
                 }
             } catch (error) {
-                console.error("Fetch NABC History Error:", error);
+                console.error("Fetch NABC History Error or Blocked:", error);
                 
-                // Fallback realistic mock data
+                // Fallback realistic mock data when hosted without backend proxy (or Netlify failure)
                 const mockDates = [];
                 const mockData = [];
                 for(let i=0; i<3; i++) {
@@ -167,16 +165,16 @@ function AgriPricesWidget() {
                         product_name: `(ข้อมูลจำลอง) ${selectedCategory} เกรด A`,
                         day_price: 150 - (i * 2), 
                         unit: 'บาท/กก.',
-                        market_name: 'ตลาดกลาง 1',
-                        province: 'นครปฐม'
+                        market_name: 'ติดปัญหา CORS (บนเซิร์ฟเวอร์จริง)',
+                        province: 'ส่วนกลาง'
                     });
                     mockData.push({
                         data_date: ds,
                         product_name: `(ข้อมูลจำลอง) ${selectedCategory} เกรด B`,
                         day_price: 140 - i, 
                         unit: 'บาท/กก.',
-                        market_name: 'ตลาดกลาง 2',
-                        province: 'กรุงเทพมหานคร'
+                        market_name: 'รอกำหนดค่า Proxy',
+                        province: 'ระบบ'
                     });
                 }
                 setHistoryData(mockData);
