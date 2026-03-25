@@ -1,0 +1,23 @@
+.hotspot-hover-float {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.hotspot-hover-float:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    z-index: 10;
+    position: relative;
+}
+
+.hotspot-list-item {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease, border-color 0.2s ease !important;
+}
+
+.hotspot-list-item:hover {
+    transform: translateY(-2px) translateX(2px) !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06) !important;
+    background-color: #fffbeb !important;
+    border-color: #fde68a !important;
+    z-index: 10;
+    position: relative;
+}

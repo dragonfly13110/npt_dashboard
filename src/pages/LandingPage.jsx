@@ -11,6 +11,7 @@ import AgriPricesWidget from '../components/widgets/AgriPricesWidget';
 import HotspotWidget from '../components/widgets/HotspotWidget';
 import DoaeNewsWidget from '../components/widgets/DoaeNewsWidget';
 import DoaeHqNewsWidget from '../components/widgets/DoaeHqNewsWidget';
+import EscNewsWidget from '../components/widgets/EscNewsWidget';
 import LandingMap from '../components/widgets/LandingMap';
 
 export default function LandingPage() {
@@ -277,11 +278,6 @@ export default function LandingPage() {
 
             <div style={{ maxWidth: '1200px', margin: '0 auto 40px', padding: '0 24px' }}>
                 <HotspotWidget />
-            </div>
-
-            {/* ===== DOAE NEWS (Pest Alerts + Agri News) ===== */}
-            <div style={{ maxWidth: '1200px', margin: '0 auto 40px', padding: '0 24px' }}>
-                <DoaeNewsWidget />
             </div>
 
             {/* ===== BENTO GRID LATEST LISTS ===== */}
@@ -647,6 +643,16 @@ export default function LandingPage() {
             {/* ===== DOAE HQ NEWS (doae.go.th ส่วนกลาง) ===== */}
             <div style={{ maxWidth: '1200px', margin: '0 auto 40px', padding: '0 24px' }}>
                 <DoaeHqNewsWidget />
+            </div>
+
+            {/* ===== DOAE NEWS (Pest Alerts + Agri News นครปฐม) ===== */}
+            <div style={{ maxWidth: '1200px', margin: '0 auto 40px', padding: '0 24px' }}>
+                <DoaeNewsWidget />
+            </div>
+
+            {/* ===== ESC NEWS (esc.doae.go.th วิศวกรรมเกษตร) ===== */}
+            <div style={{ maxWidth: '1200px', margin: '0 auto 40px', padding: '0 24px' }}>
+                <EscNewsWidget />
             </div>
 
             {/* ===== FOOTER ===== */}

@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { FireOutlined } from '@ant-design/icons';
 import { useApiCache } from '../../hooks/useApiCache';
+import './HotspotWidget.css';
 
 const ENDPOINT_MAP = { 1: '1day', 3: '3days', 7: '7days', 30: '30days' };
 
@@ -55,6 +56,21 @@ function toThaiTime(thDate, thTime, acqDate, acqTime) {
     } catch { return ''; }
 }
 
+function toDateOnly(thDate, acqDate) {
+    try {
+        if (thDate) {
+            const d = new Date(thDate);
+            return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+        if (acqDate) {
+            const dateOnly = acqDate.includes('T') ? acqDate.split('T')[0] : acqDate;
+            const d = new Date(`${dateOnly}T00:00:00Z`);
+            return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+        return '';
+    } catch { return ''; }
+}
+
 const LANDUSE_COLORS = {
     'พื้นที่เกษตร': '#dc2626', 'ชุมชนและอื่น ๆ': '#f59e0b', 'พื้นที่ริมทางหลวง': '#6366f1',
     'เขต สปก.': '#10b981', 'ป่าสงวน': '#059669',
@@ -67,8 +83,15 @@ const DAY_OPTIONS = [
 export default function HotspotWidget() {
     const [dayRange, setDayRange] = useState(7);
     const [selectedAmphoe, setSelectedAmphoe] = useState(null);
+    const [selectedDateFilter, setSelectedDateFilter] = useState(null);
+    const [displayLimit, setDisplayLimit] = useState(20);
     const [MapComponents, setMapComponents] = useState(null);
     const [geoJSONData, setGeoJSONData] = useState(null);
+
+    useEffect(() => {
+        setDisplayLimit(20);
+        setSelectedDateFilter(null);
+    }, [dayRange, selectedAmphoe]);
 
     useEffect(() => {
         import('../../data/nakhon_pathom_districts.json').then(m => setGeoJSONData(m.default));
@@ -91,7 +114,17 @@ export default function HotspotWidget() {
 
     const useMock = !rawFeatures && !isLoading;
     const mockFeatures = useMemo(() => useMock ? getMockHotspots(dayRange) : [], [useMock, dayRange]);
-    const localHotspots = rawFeatures || mockFeatures;
+    const localHotspots = useMemo(() => {
+        const raw = rawFeatures || mockFeatures || [];
+        // เรียงลำดับจากใหม่สุดไปเก่าสุด
+        return [...raw].sort((a, b) => {
+            const dateA = a.properties?.acq_date || a.properties?.th_date || '';
+            const dateB = b.properties?.acq_date || b.properties?.th_date || '';
+            const timeA = a.properties?.acq_time || a.properties?.th_time || '';
+            const timeB = b.properties?.acq_time || b.properties?.th_time || '';
+            return `${dateB}T${String(timeB).padStart(4, '0')}`.localeCompare(`${dateA}T${String(timeA).padStart(4, '0')}`);
+        });
+    }, [rawFeatures, mockFeatures]);
 
     const amphoeStats = useMemo(() => {
         const m = {};
@@ -110,6 +143,24 @@ export default function HotspotWidget() {
         return localHotspots.filter(f => (f.properties?.ap_tn || 'ไม่ทราบ') === selectedAmphoe);
     }, [localHotspots, selectedAmphoe]);
 
+    const uniqueDates = useMemo(() => {
+        const dates = new Set();
+        filteredHotspots.forEach(f => {
+            const p = f.properties || {};
+            const d = toDateOnly(p.th_date, p.acq_date);
+            if (d) dates.add(d);
+        });
+        return Array.from(dates);
+    }, [filteredHotspots]);
+
+    const hotspotsForList = useMemo(() => {
+        if (!selectedDateFilter) return filteredHotspots;
+        return filteredHotspots.filter(f => {
+            const p = f.properties || {};
+            return toDateOnly(p.th_date, p.acq_date) === selectedDateFilter;
+        });
+    }, [filteredHotspots, selectedDateFilter]);
+
     const { MapContainer, TileLayer, CircleMarker, Tooltip, GeoJSON } = MapComponents || {};
     const hasHotspots = localHotspots.length > 0;
 
@@ -127,13 +178,14 @@ export default function HotspotWidget() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     <div className="widget-icon" style={{ background: '#fee2e2', color: '#dc2626', width: 34, height: 34, fontSize: 15 }}><FireOutlined /></div>
                     <div>
-                        <h4 style={{ margin: 0, fontSize: 14, fontWeight: 800, color: '#1e293b' }}>จุดความร้อน จ.นครปฐม</h4>
+                        <h4 style={{ margin: 0, fontSize: 15, fontWeight: 800, color: '#1e293b' }}>จุดความร้อน จ.นครปฐม (ข้อมูลจาก GISTDA ยังไม่ได้รับการยืนยันในพื้นที่)</h4>
                         <div style={{ fontSize: 10, color: '#94a3b8', fontWeight: 600 }}>VIIRS / GISTDA Satellite</div>
                     </div>
                 </div>
                 <div style={{ display: 'flex', gap: 4 }}>
                     {DAY_OPTIONS.map(o => (
                         <button key={o.value}
+                            className="hotspot-hover-float"
                             onClick={() => { setDayRange(o.value); setSelectedAmphoe(null); }}
                             style={{
                                 padding: '4px 10px', borderRadius: 8, cursor: 'pointer', fontFamily: 'inherit',
@@ -183,12 +235,13 @@ export default function HotspotWidget() {
                             {/* Amphoe grid — compact inline */}
                             {amphoeStats.length > 0 && (
                                 <div style={{ flex: 1, minWidth: 0 }}>
-                                <div style={{ fontSize: 10, fontWeight: 700, color: '#94a3b8', marginBottom: 4, letterSpacing: '0.3px' }}>กดที่อำเภอ เพื่อดูแยกเป็นรายอำเภอ</div>
+                                    <div style={{ fontSize: 10, fontWeight: 700, color: '#94a3b8', marginBottom: 4, letterSpacing: '0.3px' }}>กดที่อำเภอ เพื่อดูแยกเป็นรายอำเภอ</div>
                                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: 3 }}>
                                         {amphoeStats.map(([name, count]) => {
                                             const sel = selectedAmphoe === name;
                                             return (
                                                 <button key={name}
+                                                    className="hotspot-hover-float"
                                                     onClick={() => setSelectedAmphoe(sel ? null : name)}
                                                     style={{
                                                         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
@@ -287,7 +340,7 @@ export default function HotspotWidget() {
                                                         {p.ap_tn && <div><b>อำเภอ:</b> {p.ap_tn}</div>}
                                                         {p.tb_tn && <div><b>ตำบล:</b> {p.tb_tn}</div>}
                                                         {p.village && <div><b>หมู่บ้าน:</b> {p.village}</div>}
-                                                        <div><b>ประเภท:</b> {p.lu_name || '-'}</div>
+                                                        <div><b>ประเภท:</b> {p.lu_name || '-'}{p.lu_hp_name ? ` (${p.lu_hp_name})` : ''}</div>
                                                         {thaiTime && <div><b>เวลา:</b> {thaiTime} น.</div>}
                                                         <div><b>ความร้อน:</b> {p.brightness ? `${Number(p.brightness).toFixed(1)} K` : '-'}</div>
                                                     </div>
@@ -307,34 +360,80 @@ export default function HotspotWidget() {
                         <div style={{ flex: '1 1 45%', minWidth: 0, overflowY: 'auto', maxHeight: 450 }}>
                             {filteredHotspots.length > 0 ? (
                                 <div style={{ padding: '10px 14px' }}>
-                                    <div style={{ fontSize: 11, fontWeight: 700, color: '#dc2626', marginBottom: 6, letterSpacing: '0.3px' }}>
-                                        🔥 รายละเอียด {selectedAmphoe ? `อ.${selectedAmphoe}` : ''} ({filteredHotspots.length} จุด)
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                                        <div style={{ fontSize: 11, fontWeight: 700, color: '#dc2626', letterSpacing: '0.3px' }}>
+                                            🔥 รายละเอียด {selectedAmphoe ? `อ.${selectedAmphoe}` : ''} ({hotspotsForList.length} จุด)
+                                        </div>
+                                        <div style={{ fontSize: 10, color: '#64748b', fontWeight: 500 }}>
+                                            <span style={{ cursor: 'pointer' }}>👆 คลิกเพื่อเปิดดู Google Map</span>
+                                        </div>
                                     </div>
-                                    {filteredHotspots.slice(0, 12).map((f, i) => {
-                                        const p = f.properties || {};
-                                        const thaiTime = toThaiTime(p.th_date, p.th_time, p.acq_date, p.acq_time);
-                                        const bri = p.brightness ? Number(p.brightness).toFixed(1) : p.bright_ti4 ? Number(p.bright_ti4).toFixed(1) : null;
-                                        return (
-                                            <div key={i} style={{
-                                                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                                                padding: '6px 8px', background: i % 2 === 0 ? '#fef2f2' : '#fff',
-                                                borderRadius: 6, marginBottom: 2, fontSize: 11,
-                                            }}>
-                                                <div style={{ flex: 1, minWidth: 0 }}>
-                                                    <div style={{ color: '#334155', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                                        📍 {p.ap_tn || `${f.geometry.coordinates[1].toFixed(3)},${f.geometry.coordinates[0].toFixed(3)}`}
-                                                    </div>
-                                                    <div style={{ fontSize: 9, color: '#94a3b8', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                                        {p.tb_tn || ''}{p.village ? ` • ${p.village}` : ''}{p.lu_name ? ` • ${p.lu_name}` : ''}{thaiTime ? ` • ${thaiTime}` : ''}
-                                                    </div>
-                                                </div>
-                                                {bri && <span style={{ fontWeight: 800, color: '#ef4444', whiteSpace: 'nowrap', marginLeft: 6, fontSize: 11 }}>{bri} K</span>}
-                                            </div>
-                                        );
-                                    })}
-                                    {filteredHotspots.length > 12 && (
-                                        <div style={{ textAlign: 'center', fontSize: 10, color: '#94a3b8', fontWeight: 600, marginTop: 4 }}>
-                                            ...และอีก {filteredHotspots.length - 12} จุด
+
+                                    {uniqueDates.length > 1 && (
+                                        <div style={{ marginBottom: 12 }}>
+                                            <select
+                                                value={selectedDateFilter || ''}
+                                                onChange={(e) => setSelectedDateFilter(e.target.value || null)}
+                                                style={{
+                                                    width: '100%', padding: '6px 10px', fontSize: 11, fontWeight: 700, 
+                                                    borderRadius: 8, cursor: 'pointer', border: '1px solid #cbd5e1',
+                                                    background: '#f8fafc', color: '#1e293b', outline: 'none'
+                                                }}
+                                            >
+                                                <option value="">🗓️ ทั้งหมด (ทุกวัน)</option>
+                                                {uniqueDates.map(d => (
+                                                    <option key={d} value={d}>📅 {d}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    )}
+
+                                    {hotspotsForList.length > 0 ? (
+                                        <>
+                                            {hotspotsForList.slice(0, displayLimit).map((f, i) => {
+                                                const p = f.properties || {};
+                                                const thaiTime = toThaiTime(p.th_date, p.th_time, p.acq_date, p.acq_time);
+                                                const bri = p.brightness ? Number(p.brightness).toFixed(1) : p.bright_ti4 ? Number(p.bright_ti4).toFixed(1) : null;
+                                                return (
+                                                    <a key={i} className="hotspot-list-item" href={p.linkgmap || `https://maps.google.com/maps?q=${f.geometry.coordinates[1]},${f.geometry.coordinates[0]}`} target="_blank" rel="noopener noreferrer" style={{
+                                                        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                                                        padding: '6px 8px', background: i % 2 === 0 ? '#fef2f2' : '#fff',
+                                                        borderRadius: 6, marginBottom: 2, fontSize: 11,
+                                                        textDecoration: 'none', color: 'inherit', border: '1px solid transparent', // for hover effect compatibility
+                                                    }}>
+                                                        <div style={{ flex: 1, minWidth: 0 }}>
+                                                            <div style={{ color: '#334155', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                                📍 {p.ap_tn || `${f.geometry.coordinates[1].toFixed(3)},${f.geometry.coordinates[0].toFixed(3)}`}
+                                                            </div>
+                                                            <div style={{ fontSize: 9, color: '#94a3b8', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                                {p.tb_tn || ''}{p.village ? ` • ${p.village}` : ''}{p.lu_name ? ` • ${p.lu_name}` : ''}{p.lu_hp_name ? ` (${p.lu_hp_name})` : ''}
+                                                            </div>
+                                                        </div>
+                                                        {thaiTime && <span style={{ fontWeight: 700, color: '#475569', whiteSpace: 'nowrap', marginLeft: 6, fontSize: 10, background: '#f1f5f9', padding: '2px 6px', borderRadius: '4px' }}>🕒 {thaiTime}</span>}
+                                                    </a>
+                                                );
+                                            })}
+
+                                            {hotspotsForList.length > displayLimit && (
+                                                <button 
+                                                    onClick={() => setDisplayLimit(prev => prev + 20)}
+                                                    style={{
+                                                        width: '100%', padding: '8px', marginTop: '8px', 
+                                                        background: '#f1f5f9', color: '#475569', 
+                                                        border: '1px dashed #cbd5e1', borderRadius: '8px', 
+                                                        fontSize: '11px', fontWeight: '700', cursor: 'pointer',
+                                                        transition: 'all 0.2s'
+                                                    }}
+                                                    onMouseOver={(e) => { e.currentTarget.style.background = '#e2e8f0'; e.currentTarget.style.color = '#334155'; }}
+                                                    onMouseOut={(e) => { e.currentTarget.style.background = '#f1f5f9'; e.currentTarget.style.color = '#475569'; }}
+                                                >
+                                                    ➕ โหลดเพิ่มอีก ({hotspotsForList.length - displayLimit} จุด)
+                                                </button>
+                                            )}
+                                        </>
+                                    ) : (
+                                        <div style={{ textAlign: 'center', padding: '20px 0', color: '#94a3b8', fontSize: 11 }}>
+                                            ไม่พบจุดความร้อนในวันที่เลือก
                                         </div>
                                     )}
                                 </div>

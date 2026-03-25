@@ -28,6 +28,11 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api\/doae-npt/, '')
         },
+        '/api/doae-esc': {
+          target: 'https://esc.doae.go.th',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api\/doae-esc/, '')
+        },
         '/api/doae-hq': {
           target: 'https://www.doae.go.th',
           changeOrigin: true,

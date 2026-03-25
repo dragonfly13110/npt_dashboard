@@ -7,7 +7,7 @@ import { useApiCache } from '../../hooks/useApiCache';
  */
 async function fetchDoaeHqNews() {
     const res = await fetch(
-        '/api/doae-hq/wp-json/wp/v2/posts?per_page=6&orderby=date&order=desc&_fields=id,date,title,excerpt,link,featured_media&_embed=wp:featuredmedia'
+        '/api/doae-hq/wp-json/wp/v2/posts?per_page=6&orderby=date&order=desc&_embed=wp:featuredmedia'
     );
     if (!res.ok) throw new Error(`DOAE HQ API error: ${res.status}`);
     const posts = await res.json();
@@ -50,7 +50,7 @@ function decodeEntities(str) {
 
 export default function DoaeHqNewsWidget() {
     const { data: posts, isLoading, error } = useApiCache(
-        'doae-hq-news',
+        'doae-hq-news-v2',
         fetchDoaeHqNews,
         { staleMinutes: 360, cacheMinutes: 720 }
     );

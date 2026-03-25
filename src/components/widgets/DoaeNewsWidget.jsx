@@ -43,7 +43,7 @@ function decodeEntities(str) {
 
 export default function DoaeNewsWidget() {
     const { data, isLoading, error } = useApiCache(
-        'doae-npt-news',
+        'doae-npt-news-v2',
         fetchDoaeNews,
         { staleMinutes: 360, cacheMinutes: 720 } // cache 6h, stale 6h
     );
@@ -52,9 +52,29 @@ export default function DoaeNewsWidget() {
     const news = data?.news || [];
 
     return (
-        <div className="doae-news-widget">
-            {/* ===== PEST ALERTS ===== */}
-            <div className="doae-section doae-alerts">
+        <div className="doae-hq-widget">
+            <div className="doae-hq-header" style={{background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)'}}>
+                <div className="doae-hq-header-left">
+                    <div className="doae-hq-logo" style={{background:'#dcfce3', color:'#16a34a'}}>🌾</div>
+                    <div>
+                        <h3>ข่าวสารจากสำนักงานเกษตรจังหวัดนครปฐม</h3>
+                        <span>nakhonpathom.doae.go.th</span>
+                    </div>
+                </div>
+                <a
+                    href="https://nakhonpathom.doae.go.th"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="doae-hq-viewall"
+                    style={{color: '#0369a1', background: 'rgba(3,105,161,0.08)', borderColor: 'rgba(3,105,161,0.15)'}}
+                >
+                    ดูทั้งหมด →
+                </a>
+            </div>
+
+            <div className="doae-news-widget" style={{ borderRadius: 0, border: 'none', boxShadow: 'none' }}>
+                {/* ===== PEST ALERTS ===== */}
+                <div className="doae-section doae-alerts">
                 <div className="doae-section-header">
                     <div className="doae-section-icon doae-icon-alert">🐛</div>
                     <div>
@@ -143,12 +163,6 @@ export default function DoaeNewsWidget() {
                 </div>
             </div>
 
-            {/* Source credit */}
-            <div className="doae-credit">
-                <span>ที่มา: </span>
-                <a href="https://nakhonpathom.doae.go.th" target="_blank" rel="noopener noreferrer">
-                    nakhonpathom.doae.go.th
-                </a>
             </div>
         </div>
     );

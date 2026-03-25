@@ -47,44 +47,61 @@ export default function WeatherWidget() {
     const currentWmo = getWeatherDetails(weather.weather_code);
 
     return (
-        <div className="widget-box weather-widget-detailed slide-up-anim">
-            <div className="weather-main">
-                <div className="weather-main-icon" title={currentWmo.desc}>{currentWmo.icon}</div>
-                <div className="weather-main-temp">
-                    <h2>{Math.round(weather.temperature_2m)}°C</h2>
-                    <p>{currentWmo.desc}</p>
-                </div>
-            </div>
-            
-            <div className="weather-stats-grid">
-                <div className="w-stat">
-                    <span className="w-label">รู้สึกเหมือน</span>
-                    <span className="w-val">{Math.round(weather.apparent_temperature)}°C</span>
-                </div>
-                <div className="w-stat">
-                    <span className="w-label">ความชื้น</span>
-                    <span className="w-val">{weather.relative_humidity_2m}%</span>
-                </div>
-                <div className="w-stat">
-                    <span className="w-label">แรงลม</span>
-                    <span className="w-val">{weather.wind_speed_10m} <small style={{fontSize: 10, color: '#64748b'}}>km/h</small></span>
+        <div className="widget-box slide-up-anim" style={{ 
+            animationDelay: '0.1s', 
+            display: 'flex', 
+            flexDirection: 'column', 
+            gap: '12px', 
+            padding: '16px', 
+            background: 'linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%)',
+            borderRadius: '16px',
+            border: '1px solid #e0f2fe'
+        }}>
+            {/* Top row: Icon + Temp + Status */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', paddingBottom: '12px', borderBottom: '1px dashed #e2e8f0' }}>
+                <div style={{ fontSize: '48px', lineHeight: 1, filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))' }}>{currentWmo.icon}</div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+                        <span style={{ fontSize: '32px', fontWeight: '900', color: '#0f172a', lineHeight: 1, letterSpacing: '-1px' }}>{Math.round(weather.temperature_2m)}°C</span>
+                        <span style={{ fontSize: '13px', fontWeight: '800', color: '#0284c7' }}>{currentWmo.desc}</span>
+                    </div>
+                    <span style={{ fontSize: '11px', color: '#64748b', marginTop: '4px', fontWeight: '600' }}>
+                        📍 จ.นครปฐม &bull; อัปเดต {new Date(weather.time || Date.now()).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })} น.
+                    </span>
                 </div>
             </div>
 
-            <div className="weather-forecast">
-                <h4>พยากรณ์ 5 วันล่วงหน้า (นครปฐม)</h4>
+            {/* Middle row: Stats Layout Horizontal Compact */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', background: '#f8fafc', padding: '8px 16px', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <span style={{ fontSize: '10px', color: '#64748b', fontWeight: '800' }}>รู้สึกเหมือน</span>
+                    <span style={{ fontSize: '13px', fontWeight: '900', color: '#1e293b' }}>{Math.round(weather.apparent_temperature)}°C</span>
+                </div>
+                <div style={{ width: '1px', background: '#e2e8f0' }}></div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <span style={{ fontSize: '10px', color: '#64748b', fontWeight: '800' }}>ความชื้น</span>
+                    <span style={{ fontSize: '13px', fontWeight: '900', color: '#1e293b' }}>{weather.relative_humidity_2m}%</span>
+                </div>
+                <div style={{ width: '1px', background: '#e2e8f0' }}></div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <span style={{ fontSize: '10px', color: '#64748b', fontWeight: '800' }}>แรงลม</span>
+                    <span style={{ fontSize: '13px', fontWeight: '900', color: '#1e293b' }}>{weather.wind_speed_10m} <small style={{fontSize: 9, fontWeight: 700}}>km/h</small></span>
+                </div>
+            </div>
+
+            {/* Bottom row: Horizontal Forecast */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '4px', paddingLeft: '8px', paddingRight: '8px' }}>
                 {daily && [1, 2, 3, 4, 5].map(i => {
                     const dateObj = new Date(daily.time[i]);
                     const dayName = dateObj.toLocaleDateString('th-TH', { weekday: 'short' });
-                    const dateNum = dateObj.toLocaleDateString('th-TH', { day: 'numeric', month: 'short' });
                     const wmo = getWeatherDetails(daily.weather_code[i]);
                     return (
-                        <div key={i} className="forecast-item">
-                            <div className="f-day">{dayName} <small>{dateNum}</small></div>
-                            <div className="f-icon" title={wmo.desc}>{wmo.icon}</div>
-                            <div className="f-temp" title="อุณหภูมิสูงสุด/ต่ำสุด">
-                                <span className="max-t">{Math.round(daily.temperature_2m_max[i])}°</span>
-                                <span className="min-t">{Math.round(daily.temperature_2m_min[i])}°</span>
+                        <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
+                            <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700' }}>{dayName}</span>
+                            <div style={{ fontSize: '20px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))' }} title={wmo.desc}>{wmo.icon}</div>
+                            <div style={{ display: 'flex', gap: '6px', fontSize: '11px', fontWeight: '800', marginTop: '2px' }}>
+                                <span style={{ color: '#0f172a' }}>{Math.round(daily.temperature_2m_max[i])}°</span>
+                                <span style={{ color: '#94a3b8' }}>{Math.round(daily.temperature_2m_min[i])}°</span>
                             </div>
                         </div>
                     );
