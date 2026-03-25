@@ -1,11 +1,23 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ConfigProvider, Spin } from 'antd';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import thTH from 'antd/locale/th_TH';
 import ErrorBoundary from './components/ErrorBoundary';
 import PageSkeleton from './components/PageSkeleton';
 import AppLayout from './components/Layout/AppLayout';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 15 * 60 * 1000,   // 15 นาที — ข้อมูลยังถือว่า fresh
+      gcTime: 60 * 60 * 1000,      // 60 นาที — เก็บ cache ไว้ในหน่วยความจำ
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 // Lazy-loaded pages
 const Login = lazy(() => import('./pages/Login'));
@@ -146,24 +158,26 @@ function AppRoutes() {
 }
 
 export default function App() {
-  return (
+    return (
     <ErrorBoundary>
-      <ConfigProvider
-        locale={thTH}
-        theme={{
-          token: {
-            colorPrimary: '#1a7f37',
-            borderRadius: 8,
-            fontFamily: "'IBM Plex Sans Thai', 'Inter', -apple-system, sans-serif",
-          },
-        }}
-      >
-        <BrowserRouter>
-          <AuthProvider>
-            <AppRoutes />
-          </AuthProvider>
-        </BrowserRouter>
-      </ConfigProvider>
+      <QueryClientProvider client={queryClient}>
+        <ConfigProvider
+          locale={thTH}
+          theme={{
+            token: {
+              colorPrimary: '#1a7f37',
+              borderRadius: 8,
+              fontFamily: "'IBM Plex Sans Thai', 'Inter', -apple-system, sans-serif",
+            },
+          }}
+        >
+          <BrowserRouter>
+            <AuthProvider>
+              <AppRoutes />
+            </AuthProvider>
+          </BrowserRouter>
+        </ConfigProvider>
+      </QueryClientProvider>
     </ErrorBoundary>
   );
 }

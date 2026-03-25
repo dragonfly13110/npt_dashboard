@@ -9,6 +9,8 @@ import WeatherWidget from '../components/widgets/WeatherWidget';
 import AirQualityWidget from '../components/widgets/AirQualityWidget';
 import AgriPricesWidget from '../components/widgets/AgriPricesWidget';
 import HotspotWidget from '../components/widgets/HotspotWidget';
+import DoaeNewsWidget from '../components/widgets/DoaeNewsWidget';
+import DoaeHqNewsWidget from '../components/widgets/DoaeHqNewsWidget';
 import LandingMap from '../components/widgets/LandingMap';
 
 export default function LandingPage() {
@@ -275,6 +277,11 @@ export default function LandingPage() {
 
             <div style={{ maxWidth: '1200px', margin: '0 auto 40px', padding: '0 24px' }}>
                 <HotspotWidget />
+            </div>
+
+            {/* ===== DOAE NEWS (Pest Alerts + Agri News) ===== */}
+            <div style={{ maxWidth: '1200px', margin: '0 auto 40px', padding: '0 24px' }}>
+                <DoaeNewsWidget />
             </div>
 
             {/* ===== BENTO GRID LATEST LISTS ===== */}
@@ -636,6 +643,11 @@ export default function LandingPage() {
                     </div>
                 </div>
             </section>
+
+            {/* ===== DOAE HQ NEWS (doae.go.th ส่วนกลาง) ===== */}
+            <div style={{ maxWidth: '1200px', margin: '0 auto 40px', padding: '0 24px' }}>
+                <DoaeHqNewsWidget />
+            </div>
 
             {/* ===== FOOTER ===== */}
             <footer className="landing-footer" style={{ padding: '40px 0', borderTop: '1px solid #e2e8f0' }}>
