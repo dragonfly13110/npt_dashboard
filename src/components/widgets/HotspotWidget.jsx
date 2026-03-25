@@ -3,9 +3,10 @@ import { FireOutlined, EnvironmentOutlined, ArrowUpOutlined, ArrowDownOutlined }
 import { useApiCache } from '../../hooks/useApiCache';
 
 async function fetchHotspotData(dayRange) {
-    // Match GISTDA swagger endpoint: /api/2.0/resources/features/viirs/{day}days
-    const url = `/api/gistda/api/2.0/resources/features/viirs/${dayRange}days?limit=1000&offset=0&pv_idn=73`;
-    console.log('[Hotspot] Fetching:', url);
+    // GISTDA only guarantees certain endpoints like /7days or /30days. /1days returns 404.
+    // We will always fetch 7days and filter locally based on dayRange.
+    const url = `/api/gistda/api/2.0/resources/features/viirs/7days?limit=1000&offset=0&pv_idn=73`;
+    console.log(`[Hotspot] Fetching /7days to filter for last ${dayRange} days`);
     
     const res = await fetch(url, {
         headers: { 'accept': 'application/json' }
@@ -25,6 +26,10 @@ async function fetchHotspotData(dayRange) {
         return [];
     }
     
+    const now = new Date();
+    const cutoffDate = new Date(now);
+    cutoffDate.setDate(now.getDate() - dayRange);
+    
     // Map GISTDA raw JSON into GeoJSON format required by the widget
     return items.map(item => {
         const props = item.properties || item;
@@ -39,7 +44,19 @@ async function fetchHotspotData(dayRange) {
                 brightness: parseFloat(brightness)
             }
         };
-    }).filter(f => f.geometry.coordinates[0] && f.geometry.coordinates[1]);
+    }).filter(f => {
+        if (!f.geometry.coordinates[0] || !f.geometry.coordinates[1]) return false;
+        
+        // Local date filtering based on the requested dayRange
+        const acqDate = f.properties.acq_date || f.properties.ACQ_DATE;
+        if (acqDate) {
+            const dataDate = new Date(acqDate);
+            if (dataDate < cutoffDate) {
+                return false;
+            }
+        }
+        return true;
+    });
 }
 
 // Filter features for Nakhon Pathom area
