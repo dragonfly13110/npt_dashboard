@@ -34,7 +34,17 @@ export function AuthProvider({ children }) {
                 .select('*')
                 .eq('id', userId)
                 .single();
-            if (error) throw error;
+            if (error) {
+                // JWT หมดอายุ → sign out แล้วเคลียร์ session
+                if (error.code === 'PGRST303' || error.message?.includes('JWT expired')) {
+                    console.warn('[Auth] JWT expired — signing out stale session');
+                    await supabase.auth.signOut({ scope: 'local' });
+                    setUser(null);
+                    setProfile(null);
+                    return;
+                }
+                throw error;
+            }
             setProfile(data);
         } catch (err) {
             console.error('Error fetching profile:', err);
@@ -62,11 +72,26 @@ export function AuthProvider({ children }) {
                 return;
             }
 
-            const { data: { session } } = await supabase.auth.getSession();
-            const u = session?.user ?? null;
-            setUser(u);
-            if (u) {
-                await fetchProfile(u.id);
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession();
+                if (error) {
+                    console.warn('[Auth] getSession error:', error.message);
+                    await supabase.auth.signOut({ scope: 'local' });
+                    setUser(null);
+                    setProfile(null);
+                    setLoading(false);
+                    return;
+                }
+                const u = session?.user ?? null;
+                setUser(u);
+                if (u) {
+                    await fetchProfile(u.id);
+                }
+            } catch (err) {
+                console.warn('[Auth] initAuth failed, clearing session:', err);
+                await supabase.auth.signOut({ scope: 'local' }).catch(() => {});
+                setUser(null);
+                setProfile(null);
             }
             setLoading(false);
         };

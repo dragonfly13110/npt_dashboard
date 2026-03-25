@@ -1,2 +1,4 @@
-/api/nabc/*  https://agriapi.nabc.go.th/:splat  200
+/api/nabc/*       https://agriapi.nabc.go.th/:splat           200
+/api/doae-npt/*   https://nakhonpathom.doae.go.th/:splat      200
+/api/doae-hq/*    https://www.doae.go.th/:splat               200
 /* /index.html 200

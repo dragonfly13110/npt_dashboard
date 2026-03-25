@@ -149,7 +149,7 @@ export default function HotspotWidget() {
             </div>
 
             {isLoading ? (
-                <div className="skeleton-pulse" style={{ height: 360, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div className="skeleton-pulse" style={{ height: 450, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <div className="w-loader">กำลังตรวจสอบจุดความร้อน...</div>
                 </div>
             ) : (
@@ -239,7 +239,7 @@ export default function HotspotWidget() {
 
 
                     {/* ═══════ BOTTOM SECTION — two columns ═══════ */}
-                    <div style={{ display: 'flex', minHeight: 300 }}>
+                    <div style={{ display: 'flex', minHeight: 450 }}>
 
                         {/* BOTTOM LEFT — Map */}
                         <div style={{ flex: '1 1 55%', minWidth: 0, position: 'relative', borderRight: '1px solid #f1f5f9' }}>
@@ -304,7 +304,7 @@ export default function HotspotWidget() {
                         </div>
 
                         {/* BOTTOM RIGHT — Detail list */}
-                        <div style={{ flex: '1 1 45%', minWidth: 0, overflowY: 'auto', maxHeight: 300 }}>
+                        <div style={{ flex: '1 1 45%', minWidth: 0, overflowY: 'auto', maxHeight: 450 }}>
                             {filteredHotspots.length > 0 ? (
                                 <div style={{ padding: '10px 14px' }}>
                                     <div style={{ fontSize: 11, fontWeight: 700, color: '#dc2626', marginBottom: 6, letterSpacing: '0.3px' }}>
