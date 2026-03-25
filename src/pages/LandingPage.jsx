@@ -1022,4 +1022,32 @@ export default function LandingPage() {
                     {/* Protection */}
                     <div className="dept-card" style={{ '--theme': '#ef4444' }}>
                         <div className="dept-icon">🔬</div>
-                        <h3>อารักขาพืชแล
+                        <h3>อารักขาพืชและจัดการดินปุ๋ย</h3>
+                        <ul>
+                            <li><span>ระบาดศัตรูพืช</span> <strong>{allStats.forecast_plots || 0}</strong></li>
+                            <li><span>ศูนย์ ศจช.</span> <strong>{allStats.pest_centers || 0}</strong></li>
+                            <li><span>ศูนย์ ศดปช.</span> <strong>{allStats.soil_fertilizer_centers || 0}</strong></li>
+                            <li><span>จุดเฝ้าระวังไฟ/PM2.5</span> <strong>{allStats.fire_hotspots || 0}</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            {/* ===== FOOTER ===== */}
+            <footer className="landing-footer" style={{ padding: '40px 0', borderTop: '1px solid #e2e8f0' }}>
+                <div className="landing-footer-content" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
+                    <div style={{ textAlign: 'center', opacity: 0.6 }}>
+                        <strong>🌾 สำนักงานเกษตรจังหวัดนครปฐม</strong>
+                        <p style={{ marginTop: 8, fontSize: 13, lineHeight: '1.6' }}>
+                            131 ถนนทรงพล อำเภอเมือง จังหวัดนครปฐม 73000<br />
+                            โทร. 0 3425 3992 | E-mail: nakhonpathom@doae.go.th
+                        </p>
+                        <p style={{ marginTop: 12, fontSize: 12 }}>
+                            © {new Date().getFullYear()} ระบบฐานข้อมูลกลางเพื่อการเกษตร
+                        </p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    );
+}
