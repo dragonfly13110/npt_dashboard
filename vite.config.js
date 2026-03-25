@@ -19,7 +19,8 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api\/gistda/, ''),
           headers: {
-            'API-Key': env.VITE_GISTDA_API_KEY || '2lAkC1Ob7uugojJ1JlgHJPveFRdtCRg51qkZazYqh1fmEf18Me2DtLMsWLOT1aMi'
+            'API-Key': (env.VITE_GISTDA_API_KEY && env.VITE_GISTDA_API_KEY.length > 5) ? env.VITE_GISTDA_API_KEY : '2lAkC1Ob7uugojJ1JlgHJPveFRdtCRg51qkZazYqh1fmEf18Me2DtLMsWLOT1aMi',
+            'accept': 'application/json'
           }
         },
         '/api/doae-npt': {

@@ -3,20 +3,43 @@ import { FireOutlined, EnvironmentOutlined, ArrowUpOutlined, ArrowDownOutlined }
 import { useApiCache } from '../../hooks/useApiCache';
 
 async function fetchHotspotData(dayRange) {
-    const url = `/api/gistda/api/v2/hotspot?source=viirs&day=${dayRange}`;
+    // Match GISTDA swagger endpoint: /api/2.0/resources/features/viirs/{day}days
+    const url = `/api/gistda/api/2.0/resources/features/viirs/${dayRange}days?limit=1000&offset=0&pv_idn=73`;
     console.log('[Hotspot] Fetching:', url);
-    const res = await fetch(url);
+    
+    const res = await fetch(url, {
+        headers: { 'accept': 'application/json' }
+    });
+    
     if (!res.ok) {
         const text = await res.text().catch(() => '');
         console.error(`[Hotspot] API error ${res.status}:`, text.slice(0, 300));
         throw new Error(`Hotspot API: ${res.status}`);
     }
+    
     const json = await res.json();
-    console.log('[Hotspot] Response keys:', Object.keys(json), 'features:', json.features?.length ?? 0);
-    if (!json.features || json.features.length === 0) {
-        throw new Error("No features");
+    const items = json.features || json.data || (Array.isArray(json) ? json : []);
+    
+    if (items.length === 0) {
+        console.warn("[Hotspot] No items returned from API.");
+        return [];
     }
-    return json.features;
+    
+    // Map GISTDA raw JSON into GeoJSON format required by the widget
+    return items.map(item => {
+        const props = item.properties || item;
+        const lat = item.geometry?.coordinates?.[1] || props.latitude || props.lat || props.LATITUDE;
+        const lon = item.geometry?.coordinates?.[0] || props.longitude || props.lon || props.LONGITUDE;
+        const brightness = props.bright_ti4 || props.bright_ti5 || props.brightness || props.BRIGHTNESS || 0;
+        
+        return {
+            geometry: { coordinates: [lon, lat] },
+            properties: {
+                ...props,
+                brightness: parseFloat(brightness)
+            }
+        };
+    }).filter(f => f.geometry.coordinates[0] && f.geometry.coordinates[1]);
 }
 
 // Filter features for Nakhon Pathom area
@@ -55,9 +78,9 @@ export default function HotspotWidget() {
     const [dayRange, setDayRange] = useState(1);
 
     const { data: rawFeatures, isLoading } = useApiCache(
-        ['hotspots', dayRange],
+        ['hotspot_gistda_v2', dayRange],
         () => fetchHotspotData(dayRange),
-        { staleMinutes: 30, cacheMinutes: 120 }  // ข้อมูล hotspot update ทุกไม่กี่ชม.
+        { staleMinutes: 10, cacheMinutes: 60 }  // ลดเวลาแคชลงเพื่อความชัวร์ในช่วงทดสอบ
     );
 
     // Use fetched data or fallback mock
