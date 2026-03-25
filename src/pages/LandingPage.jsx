@@ -246,7 +246,7 @@ export default function LandingPage() {
                         <span>เกษตรจังหวัดนครปฐม</span>
                     </div>
                     <button className="landing-login-btn" onClick={() => navigate('/login')}>
-                        เข้าสู่ระบบเจ้าหน้าที่
+                        เข้าสู่ระบบเจ้าหน้าที่ และ บุคคลทั่วไป
                     </button>
                 </div>
             </nav>
