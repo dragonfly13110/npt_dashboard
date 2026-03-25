@@ -19,7 +19,9 @@ async function fetchHotspotData(dayRange) {
     }
     
     const json = await res.json();
+    console.log('[Hotspot] Raw API response keys:', Object.keys(json), 'numberMatched:', json.numberMatched, 'numberReturned:', json.numberReturned);
     const items = json.features || json.data || (Array.isArray(json) ? json : []);
+    console.log(`[Hotspot] Parsed ${items.length} items from API`);
     
     if (items.length === 0) {
         console.warn("[Hotspot] No items returned from API.");
@@ -59,10 +61,15 @@ async function fetchHotspotData(dayRange) {
     });
 }
 
-// Filter features for Nakhon Pathom area
+// Filter features for Nakhon Pathom province (pv_idn = 73)
 function filterNakhonPathom(features) {
     if (!features) return [];
     return features.filter(f => {
+        const props = f.properties || {};
+        // Use province ID from GISTDA data (most accurate)
+        if (props.pv_idn === 73 || props.pv_code === '73') return true;
+        if (props.pv_tn === 'นครปฐม' || props.pv_en === 'Nakhon Pathom') return true;
+        // Fallback to bounding box
         const lat = f.geometry?.coordinates?.[1];
         const lon = f.geometry?.coordinates?.[0];
         return lat >= 13.6 && lat <= 14.2 && lon >= 99.8 && lon <= 100.4;
@@ -92,7 +99,7 @@ function getMockHotspots(dayRange) {
 }
 
 export default function HotspotWidget() {
-    const [dayRange, setDayRange] = useState(1);
+    const [dayRange, setDayRange] = useState(7);
 
     const { data: rawFeatures, isLoading } = useApiCache(
         ['hotspot_gistda_v2', dayRange],
@@ -124,8 +131,8 @@ export default function HotspotWidget() {
                 ? Math.max(...validBrightness).toFixed(1) + ' K'
                 : '-',
             highConf: src.filter(f => {
-                const c = f.properties?.confidence;
-                return c === 'high' || c === 'h' || (typeof c === 'number' && c >= 80);
+                const c = (f.properties?.confidence || '').toString().toLowerCase();
+                return c === 'high' || c === 'h' || c === 'nominal' || c === 'n' || (typeof f.properties?.confidence === 'number' && f.properties.confidence >= 80);
             }).length
         };
     }, [features, mockFeatures, rawFeatures]);
@@ -189,15 +196,15 @@ export default function HotspotWidget() {
 
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '16px' }}>
                         <div style={{ background: '#fffbeb', borderRadius: '8px', padding: '10px', textAlign: 'center', border: '1px solid #fde68a' }}>
-                            <div style={{ fontSize: '10px', color: '#92400e', fontWeight: '700', marginBottom: '2px' }}>Avg Brightness</div>
+                            <div style={{ fontSize: '10px', color: '#92400e', fontWeight: '700', marginBottom: '2px' }}>ค่าเฉลี่ยความร้อน</div>
                             <div style={{ fontSize: '14px', fontWeight: '800', color: '#b45309' }}>{stats.avgBright}</div>
                         </div>
                         <div style={{ background: '#fef2f2', borderRadius: '8px', padding: '10px', textAlign: 'center', border: '1px solid #fecaca' }}>
-                            <div style={{ fontSize: '10px', color: '#991b1b', fontWeight: '700', marginBottom: '2px' }}>Max Brightness</div>
+                            <div style={{ fontSize: '10px', color: '#991b1b', fontWeight: '700', marginBottom: '2px' }}>ค่าสูงสุด</div>
                             <div style={{ fontSize: '14px', fontWeight: '800', color: '#dc2626' }}>{stats.maxBright}</div>
                         </div>
                         <div style={{ background: '#eef2ff', borderRadius: '8px', padding: '10px', textAlign: 'center', border: '1px solid #c7d2fe' }}>
-                            <div style={{ fontSize: '10px', color: '#3730a3', fontWeight: '700', marginBottom: '2px' }}>High Confidence</div>
+                            <div style={{ fontSize: '10px', color: '#3730a3', fontWeight: '700', marginBottom: '2px' }}>จุดยืนยัน</div>
                             <div style={{ fontSize: '14px', fontWeight: '800', color: '#4f46e5' }}>{stats.highConf}</div>
                         </div>
                     </div>
@@ -213,10 +220,15 @@ export default function HotspotWidget() {
                                     padding: '8px 10px', background: i % 2 === 0 ? '#fef2f2' : '#fff', 
                                     borderRadius: '8px', marginBottom: '4px', fontSize: '12px'
                                 }}>
-                                    <span style={{ color: '#475569', fontWeight: '600' }}>
-                                        📍 {f.geometry.coordinates[1].toFixed(4)}, {f.geometry.coordinates[0].toFixed(4)}
-                                    </span>
-                                    <span style={{ fontWeight: '800', color: '#ef4444' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                        <span style={{ color: '#475569', fontWeight: '600' }}>
+                                            📍 {f.properties?.ap_tn || f.properties?.amphoe || `${f.geometry.coordinates[1].toFixed(4)}, ${f.geometry.coordinates[0].toFixed(4)}`}
+                                        </span>
+                                        <span style={{ fontSize: '10px', color: '#94a3b8' }}>
+                                            {f.properties?.tb_tn || f.properties?.tambol || ''} {f.properties?.lu_name ? `• ${f.properties.lu_name}` : ''}
+                                        </span>
+                                    </div>
+                                    <span style={{ fontWeight: '800', color: '#ef4444', whiteSpace: 'nowrap' }}>
                                         {f.properties?.brightness ? `${Number(f.properties.brightness).toFixed(1)} K` : '-'}
                                     </span>
                                 </div>
