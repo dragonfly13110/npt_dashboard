@@ -2,14 +2,151 @@
 <html lang="th">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="ระบบฐานข้อมูลกลาง สำนักงานเกษตรจังหวัดนครปฐม — จัดการข้อมูลบุคลากร งบประมาณ เกษตรกร และฐานข้อมูลส่งเสริมการเกษตร" />
+
+    <!-- ===== PRIMARY SEO ===== -->
+    <title>ศูนย์ข้อมูลการเกษตรนครปฐม | สำนักงานเกษตรจังหวัดนครปฐม</title>
+    <meta name="description" content="ระบบฐานข้อมูลกลางสำนักงานเกษตรจังหวัดนครปฐม — ข้อมูลเกษตรกร พื้นที่เพาะปลูก วิสาหกิจชุมชน Smart Farmer แปลงใหญ่ ท่องเที่ยวเกษตร สภาพอากาศ และราคาสินค้าเกษตร จังหวัดนครปฐม" />
+    <meta name="keywords" content="สำนักงานเกษตรจังหวัดนครปฐม, เกษตรนครปฐม, ข้อมูลเกษตร, เกษตรกร, วิสาหกิจชุมชน, Smart Farmer, แปลงใหญ่, ท่องเที่ยวเกษตร, พื้นที่เพาะปลูก, ราคาสินค้าเกษตร, กรมส่งเสริมการเกษตร, Nakhon Pathom Agricultural Office, agriculture dashboard" />
+    <meta name="author" content="สำนักงานเกษตรจังหวัดนครปฐม" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://npt-dashboard.netlify.app/" />
     <meta name="theme-color" content="#1a7f37" />
+    <meta name="geo.region" content="TH-73" />
+    <meta name="geo.placename" content="Nakhon Pathom" />
+    <meta name="geo.position" content="13.8199;100.0572" />
+    <meta name="ICBM" content="13.8199, 100.0572" />
+
+    <!-- ===== OPEN GRAPH (Facebook / LINE) ===== -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="th_TH" />
+    <meta property="og:site_name" content="สำนักงานเกษตรจังหวัดนครปฐม" />
+    <meta property="og:title" content="ศูนย์ข้อมูลการเกษตรนครปฐม | สำนักงานเกษตรจังหวัดนครปฐม" />
+    <meta property="og:description" content="รวบรวมข้อมูลเกษตรกร พื้นที่เพาะปลูก วิสาหกิจชุมชน Smart Farmer แปลงใหญ่ สภาพอากาศ และราคาสินค้าเกษตรจังหวัดนครปฐม แบบ Real-time" />
+    <meta property="og:url" content="https://npt-dashboard.netlify.app/" />
+    <meta property="og:image" content="https://npt-dashboard.netlify.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="ศูนย์ข้อมูลการเกษตร สำนักงานเกษตรจังหวัดนครปฐม" />
+
+    <!-- ===== TWITTER CARD ===== -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ศูนย์ข้อมูลการเกษตรนครปฐม | สนง.เกษตรจังหวัดนครปฐม" />
+    <meta name="twitter:description" content="ระบบฐานข้อมูลกลาง ข้อมูลเกษตรกร พื้นที่เพาะปลูก วิสาหกิจชุมชน ราคาสินค้าเกษตร จังหวัดนครปฐม" />
+    <meta name="twitter:image" content="https://npt-dashboard.netlify.app/og-image.png" />
+
+    <!-- ===== STRUCTURED DATA (JSON-LD) ===== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "GovernmentOrganization",
+      "name": "สำนักงานเกษตรจังหวัดนครปฐม",
+      "alternateName": "Nakhon Pathom Provincial Agricultural Extension Office",
+      "url": "https://npt-dashboard.netlify.app",
+      "logo": "https://npt-dashboard.netlify.app/logo-doae.png",
+      "description": "ระบบฐานข้อมูลกลางสำนักงานเกษตรจังหวัดนครปฐม รวบรวมข้อมูลเกษตรกร พื้นที่เพาะปลูก วิสาหกิจชุมชน Smart Farmer แปลงใหญ่ และข้อมูลส่งเสริมการเกษตร",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "131 ถนนทรงพล",
+        "addressLocality": "อำเภอเมือง",
+        "addressRegion": "นครปฐม",
+        "postalCode": "73000",
+        "addressCountry": "TH"
+      },
+      "telephone": "0-3425-3992",
+      "email": "nakhonpathom@doae.go.th",
+      "parentOrganization": {
+        "@type": "GovernmentOrganization",
+        "name": "กรมส่งเสริมการเกษตร",
+        "url": "https://www.doae.go.th"
+      },
+      "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "จังหวัดนครปฐม"
+      },
+      "sameAs": [
+        "https://nakhonpathom.doae.go.th"
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "ศูนย์ข้อมูลการเกษตรนครปฐม",
+      "url": "https://npt-dashboard.netlify.app",
+      "description": "ระบบฐานข้อมูลกลาง สำนักงานเกษตรจังหวัดนครปฐม",
+      "inLanguage": "th",
+      "publisher": {
+        "@type": "GovernmentOrganization",
+        "name": "สำนักงานเกษตรจังหวัดนครปฐม"
+      }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "หน้าหลัก",
+          "item": "https://npt-dashboard.netlify.app/"
+        }
+      ]
+    }
+    </script>
+
+    <!-- ===== FAVICON ===== -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- ===== EXTERNAL CSS ===== -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
-    <title>ระบบฐานข้อมูลกลาง | สนง.เกษตรจังหวัดนครปฐม</title>
+
+    <!-- ===== PRECONNECT ===== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://agriapi.nabc.go.th" />
+    <link rel="dns-prefetch" href="https://nakhonpathom.doae.go.th" />
   </head>
   <body>
+    <!-- ===== NOSCRIPT FALLBACK FOR SEO CRAWLERS ===== -->
+    <noscript>
+      <div style="max-width:900px;margin:0 auto;padding:40px 20px;font-family:sans-serif;">
+        <h1>🌾 ศูนย์ข้อมูลการเกษตร สำนักงานเกษตรจังหวัดนครปฐม</h1>
+        <p>ระบบฐานข้อมูลกลาง สำนักงานเกษตรจังหวัดนครปฐม — รวบรวมและอัปเดตข้อมูลเกษตรกร พื้นที่เพาะปลูก ศูนย์วิทยบริการ และสถานการณ์ภัยพิบัติในจังหวัดนครปฐม</p>
+        <h2>ข้อมูลที่ให้บริการ</h2>
+        <ul>
+          <li><strong>ข้อมูลเกษตรกร</strong> — ทะเบียนเกษตรกร Smart Farmer วิสาหกิจชุมชน</li>
+          <li><strong>พื้นที่เพาะปลูก</strong> — ข้าว พืชไร่ ผัก ไม้ผล สมุนไพร ไม้ดอกไม้ประดับ</li>
+          <li><strong>แปลงใหญ่</strong> — แปลงเกษตรแปลงใหญ่ทั้ง 7 อำเภอ</li>
+          <li><strong>ศูนย์เรียนรู้</strong> — ศพก. ศจช. ศดปช.</li>
+          <li><strong>ข่าวเกษตร</strong> — ข่าวกรมส่งเสริมการเกษตร ข่าวนครปฐม</li>
+          <li><strong>สภาพอากาศ</strong> — พยากรณ์อากาศ ค่าฝุ่น PM2.5 จุดความร้อน</li>
+          <li><strong>ราคาสินค้าเกษตร</strong> — ราคาผักผลไม้ ราคาข้าว ราคาพืชไร่</li>
+        </ul>
+        <h2>พื้นที่ให้บริการ 7 อำเภอ</h2>
+        <ul>
+          <li>อำเภอเมืองนครปฐม</li>
+          <li>อำเภอกำแพงแสน</li>
+          <li>อำเภอนครชัยศรี</li>
+          <li>อำเภอดอนตูม</li>
+          <li>อำเภอบางเลน</li>
+          <li>อำเภอสามพราน</li>
+          <li>อำเภอพุทธมณฑล</li>
+        </ul>
+        <h2>ติดต่อ</h2>
+        <p>สำนักงานเกษตรจังหวัดนครปฐม<br/>
+        131 ถนนทรงพล อำเภอเมือง จังหวัดนครปฐม 73000<br/>
+        โทร. 0 3425 3992 | E-mail: nakhonpathom@doae.go.th</p>
+      </div>
+    </noscript>
+
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

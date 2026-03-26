@@ -1,0 +1,28 @@
+# robots.txt — สำนักงานเกษตรจังหวัดนครปฐม
+# https://npt-dashboard.netlify.app
+
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /dashboard/*
+Disallow: /login
+Disallow: /api/
+
+# Google
+User-agent: Googlebot
+Allow: /
+Disallow: /dashboard
+Disallow: /dashboard/*
+Disallow: /login
+Disallow: /api/
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Disallow: /dashboard
+Disallow: /dashboard/*
+Disallow: /login
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://npt-dashboard.netlify.app/sitemap.xml

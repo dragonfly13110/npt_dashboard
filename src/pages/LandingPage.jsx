@@ -4,6 +4,10 @@ import { supabase } from '../supabaseClient';
 import { EnvironmentOutlined, UsergroupAddOutlined, TeamOutlined, GlobalOutlined, CloudOutlined } from '@ant-design/icons';
 import './LandingPage.css';
 
+// SEO: Page metadata
+const SEO_TITLE = 'ศูนย์ข้อมูลการเกษตรนครปฐม | สำนักงานเกษตรจังหวัดนครปฐม';
+const SEO_DESCRIPTION = 'ระบบฐานข้อมูลกลาง สำนักงานเกษตรจังหวัดนครปฐม — ข้อมูลเกษตรกร พื้นที่เพาะปลูก วิสาหกิจชุมชน Smart Farmer แปลงใหญ่ ท่องเที่ยวเกษตร สภาพอากาศ และราคาสินค้าเกษตร จังหวัดนครปฐม';
+
 // ========== WIDGET COMPONENT IMPORTS ==========
 import WeatherWidget from '../components/widgets/WeatherWidget';
 import AirQualityWidget from '../components/widgets/AirQualityWidget';
@@ -44,6 +48,13 @@ export default function LandingPage() {
     const [plots, setPlots] = useState({ list: [], count: 0 });
 
     const navigate = useNavigate();
+
+    // SEO: Set dynamic page title & meta description
+    useEffect(() => {
+        document.title = SEO_TITLE;
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.setAttribute('content', SEO_DESCRIPTION);
+    }, []);
 
     useEffect(() => {
         loadDashboardData();
@@ -242,43 +253,47 @@ export default function LandingPage() {
     return (
         <div className="landing-page bento-theme">
             {/* ===== NAVBAR ===== */}
-            <nav className="landing-nav">
+            <nav className="landing-nav" aria-label="เมนูหลัก">
                 <div className="landing-nav-inner padding-x">
-                    <div className="landing-nav-brand">
-                        <span style={{ fontSize: 24 }}>🌾</span>
+                    <a href="/" className="landing-nav-brand" aria-label="หน้าหลัก สำนักงานเกษตรจังหวัดนครปฐม">
+                        <span style={{ fontSize: 24 }} role="img" aria-label="รวงข้าว">🌾</span>
                         <span>เกษตรจังหวัดนครปฐม</span>
-                    </div>
-                    <button className="landing-login-btn" onClick={() => navigate('/login')}>
+                    </a>
+                    <button className="landing-login-btn" onClick={() => navigate('/login')} aria-label="เข้าสู่ระบบสำหรับเจ้าหน้าที่และบุคคลทั่วไป">
                         เข้าสู่ระบบเจ้าหน้าที่ และ บุคคลทั่วไป
                     </button>
                 </div>
             </nav>
 
             {/* ===== HEADER ===== */}
-            <header className="bento-header">
+            <header className="bento-header" role="banner">
                 <div className="bento-header-bg"></div>
                 <div className="bento-header-content">
-                    <div className="bento-badge">🏛️ สำนักงานเกษตรจังหวัดนครปฐม</div>
-                    <h1 className="bento-title">ศูนย์ข้อมูลการเกษตรอัจฉริยะแบบบูรณาการ</h1>
+                    <div className="bento-badge" role="img" aria-label="สำนักงานเกษตรจังหวัดนครปฐม">🏛️ สำนักงานเกษตรจังหวัดนครปฐม</div>
+                    <h1 className="bento-title">ศูนย์ข้อมูลการเกษตรอัจฉริยะ จังหวัดนครปฐม</h1>
                     <p className="bento-subtitle" style={{ color: '#e2e8f0' }}>
-                        รวบรวมและอัปเดตข้อมูลเกษตรกร พื้นที่เพาะปลูก ศูนย์วิทยบริการ และสถานการณ์ภัยพิบัติในจังหวัดนครปฐม
+                        รวบรวมและอัปเดตข้อมูลเกษตรกร พื้นที่เพาะปลูก วิสาหกิจชุมชน Smart Farmer แปลงใหญ่ ศูนย์วิทยบริการ สภาพอากาศ ราคาสินค้าเกษตร และสถานการณ์ภัยพิบัติในจังหวัดนครปฐม
                         เพื่อสนับสนุนการบริหารจัดการที่แม่นยำและยกระดับการเกษตรอย่างยั่งยืน
                     </p>
                 </div>
             </header>
 
-            {/* ===== LIVE WIDGETS ===== */}
-            <div className="top-widgets-container">
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    <WeatherWidget />
-                    <AirQualityWidget />
-                </div>
-                <AgriPricesWidget />
-            </div>
+            <main>
 
-            <div style={{ maxWidth: '1200px', margin: '0 auto 40px', padding: '0 24px' }}>
-                <HotspotWidget />
-            </div>
+            {/* ===== LIVE WIDGETS ===== */}
+            <section aria-label="ข้อมูลสภาพอากาศและราคาสินค้าเกษตร">
+              <div className="top-widgets-container">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                      <WeatherWidget />
+                      <AirQualityWidget />
+                  </div>
+                  <AgriPricesWidget />
+              </div>
+
+              <div style={{ maxWidth: '1200px', margin: '0 auto 40px', padding: '0 24px' }}>
+                  <HotspotWidget />
+              </div>
+            </section>
 
             {/* ===== BENTO GRID LATEST LISTS ===== */}
             <div className="dept-stats-header" style={{ marginTop: 20 }}>
@@ -640,17 +655,24 @@ export default function LandingPage() {
                 <EscNewsWidget />
             </div>
 
+            </main>
+
             {/* ===== FOOTER ===== */}
-            <footer className="landing-footer" style={{ padding: '40px 0', borderTop: '1px solid #e2e8f0' }}>
+            <footer className="landing-footer" style={{ padding: '40px 0', borderTop: '1px solid #e2e8f0' }} role="contentinfo" itemScope itemType="https://schema.org/GovernmentOrganization">
                 <div className="landing-footer-content" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
                     <div style={{ textAlign: 'center', opacity: 0.6 }}>
-                        <strong>🌾 สำนักงานเกษตรจังหวัดนครปฐม</strong>
-                        <p style={{ marginTop: 8, fontSize: 13, lineHeight: '1.6' }}>
-                            131 ถนนทรงพล อำเภอเมือง จังหวัดนครปฐม 73000<br />
-                            โทร. 0 3425 3992 | E-mail: nakhonpathom@doae.go.th
-                        </p>
+                        <strong itemProp="name">🌾 สำนักงานเกษตรจังหวัดนครปฐม</strong>
+                        <div itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
+                            <p style={{ marginTop: 8, fontSize: 13, lineHeight: '1.6' }}>
+                                <span itemProp="streetAddress">131 ถนนทรงพล</span>{' '}
+                                <span itemProp="addressLocality">อำเภอเมือง</span>{' '}
+                                <span itemProp="addressRegion">จังหวัดนครปฐม</span>{' '}
+                                <span itemProp="postalCode">73000</span><br />
+                                โทร. <a href="tel:034253992" itemProp="telephone" style={{ color: 'inherit' }}>0 3425 3992</a> | E-mail: <a href="mailto:nakhonpathom@doae.go.th" itemProp="email" style={{ color: 'inherit' }}>nakhonpathom@doae.go.th</a>
+                            </p>
+                        </div>
                         <p style={{ marginTop: 12, fontSize: 12 }}>
-                            © {new Date().getFullYear()} ระบบฐานข้อมูลกลางเพื่อการเกษตร
+                            © {new Date().getFullYear()} ระบบฐานข้อมูลกลางเพื่อการเกษตร | <a href="https://nakhonpathom.doae.go.th" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>nakhonpathom.doae.go.th</a>
                         </p>
                     </div>
                 </div>
