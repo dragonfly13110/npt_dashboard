@@ -205,12 +205,11 @@
     padding: 0 24px;
     display: grid;
     gap: 24px;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(10, 1fr);
     grid-template-areas:
-        "ag ag ag"
-        "map map map"
-        "sf ce lp"
-        "at fi .";
+        "ag ag ag ag map map map map map map"
+        "sf sf sf ce ce ce lp lp lp lp"
+        "at at at at at fi fi fi fi fi";
     position: relative;
     z-index: 10;
 }
@@ -223,7 +222,7 @@
             "map map"
             "sf ce"
             "lp at"
-            "fi .";
+            "fi fi";
     }
 }
 

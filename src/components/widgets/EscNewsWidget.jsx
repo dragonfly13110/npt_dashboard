@@ -43,8 +43,8 @@ export default function EscNewsWidget() {
             <div className="doae-section-header esc-header">
                 <div className="doae-section-icon doae-icon-news" style={{background:'#fef3c7', color:'#d97706'}}>⚙️</div>
                 <div>
-                    <h4>วิศวกรรมเกษตร</h4>
-                    <span>ศูนย์ส่งเสริมเทคโนโลยีการเกษตรด้านวิศวกรรม • esc.doae.go.th</span>
+                    <h4>ข่าวส่งเสริมการเกษตร</h4>
+                    <span>ศูนย์วิทยบริการเพื่อส่งเสริมการเกษตร • esc.doae.go.th</span>
                 </div>
             </div>
             

@@ -38,8 +38,8 @@ export default function LandingMap({ mapData, districtStats }) {
     return (
         <div className="bento-map-wrapper">
             <MapContainer
-                center={[13.82, 100.06]}
-                zoom={10}
+                center={[13.85, 100.04]}
+                zoom={10.25}
                 zoomSnap={0.25}
                 zoomDelta={0.5}
                 style={{ height: '100%', width: '100%', borderRadius: 16 }}
