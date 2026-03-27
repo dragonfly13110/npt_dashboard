@@ -37,7 +37,13 @@ export default defineConfig(({ mode }) => {
           target: 'https://www.doae.go.th',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api\/doae-hq/, '')
-        }
+        },
+        '/api/rss/kasetorganic': { target: 'https://www.kasetorganic.com', changeOrigin: true, rewrite: () => '/feed/' },
+        '/api/rss/kasetkaoklai': { target: 'https://www.kasetkaoklai.com', changeOrigin: true, rewrite: () => '/home/feed' },
+        '/api/rss/kasettumkin': { target: 'https://kasettumkin.com', changeOrigin: true, rewrite: () => '/feed' },
+        '/api/rss/thairath': { target: 'https://www.thairath.co.th', changeOrigin: true, rewrite: () => '/rss/agriculture' },
+        '/api/rss/agrinewsthai': { target: 'https://www.agrinewsthai.com', changeOrigin: true, rewrite: () => '/feed' },
+        '/api/rss/moac': { target: 'http://www.opsmoac.go.th', changeOrigin: true, rewrite: () => '/all_rss/news-all-382791791793.xml' }
       }
     }
   }

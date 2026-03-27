@@ -52,6 +52,36 @@
   status = 200
 
 [[redirects]]
+  from = "/api/rss/kasetorganic"
+  to = "https://www.kasetorganic.com/feed/"
+  status = 200
+
+[[redirects]]
+  from = "/api/rss/kasetkaoklai"
+  to = "https://www.kasetkaoklai.com/home/feed"
+  status = 200
+
+[[redirects]]
+  from = "/api/rss/kasettumkin"
+  to = "https://kasettumkin.com/feed"
+  status = 200
+
+[[redirects]]
+  from = "/api/rss/thairath"
+  to = "https://www.thairath.co.th/rss/agriculture"
+  status = 200
+
+[[redirects]]
+  from = "/api/rss/agrinewsthai"
+  to = "https://www.agrinewsthai.com/feed"
+  status = 200
+
+[[redirects]]
+  from = "/api/rss/moac"
+  to = "http://www.opsmoac.go.th/all_rss/news-all-382791791793.xml"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200

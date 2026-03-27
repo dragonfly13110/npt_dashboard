@@ -45,7 +45,8 @@ const FEEDS = [
         label: 'กระทรวงเกษตรฯ',
         icon: '🏢',
         type: 'rss',
-        url: 'http://www.opsmoac.go.th/all_rss/news-all-382791791793.xml',
+        url: '/api/rss/moac',
+        originalUrl: 'http://www.opsmoac.go.th/all_rss/news-all-382791791793.xml',
         fallbackUrls: [
             'http://www.opsmoac.go.th/all_rss/news-type-382791791792-382791791793.xml',
         ],
@@ -135,9 +136,17 @@ function parseRssXml(xmlStr) {
     });
 }
 
+/** Strategy 0: Internal Netlify/Vite Proxy */
+async function fetchViaInternalProxy(proxyUrl) {
+    const res = await fetchWithTimeout(proxyUrl, {}, 8000);
+    if (!res.ok) throw new Error(`internal proxy error: ${res.status}`);
+    const xmlStr = await res.text();
+    return parseRssXml(xmlStr);
+}
+
 /** Strategy 1: rss2json.com */
 async function fetchViaRss2Json(feedUrl) {
-    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}&api_key=&count=6`;
+    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}&count=6`;
     const res = await fetchWithTimeout(apiUrl, {}, 8000);
     if (!res.ok) throw new Error(`rss2json error: ${res.status}`);
     const json = await res.json();
@@ -171,18 +180,37 @@ async function fetchViaCorsProxy(feedUrl) {
 }
 
 /** Fetch RSS feed via multiple strategies */
-async function fetchRssFeed(feedUrl) {
-    const strategies = [fetchViaRss2Json, fetchViaAllOrigins, fetchViaCorsProxy];
-    let lastError;
-    for (const strategy of strategies) {
-        try {
-            const items = await strategy(feedUrl);
-            if (items.length > 0) return items;
-        } catch (e) {
-            lastError = e;
-        }
+async function fetchRssFeed(feed) {
+    // 1. Try internal local proxy (or Netlify proxy)
+    try {
+        const items = await fetchViaInternalProxy(feed.url);
+        if (items && items.length > 0) return items;
+    } catch (e) {
+        console.warn(`[${feed.key}] Internal proxy failed:`, e);
     }
-    throw lastError || new Error('All fetch strategies failed');
+    
+    // 2. Fallback to rss2json
+    try {
+        const items = await fetchViaRss2Json(feed.originalUrl);
+        if (items && items.length > 0) return items;
+    } catch (e) {
+        console.warn(`[${feed.key}] Rss2Json failed:`, e);
+    }
+
+    // 3. Fallback to allorigins
+    try {
+        const urlsToTry = [feed.originalUrl, ...(feed.fallbackUrls || [])];
+        for (const u of urlsToTry) {
+            try {
+                const items = await fetchViaAllOrigins(u);
+                if (items && items.length > 0) return items;
+            } catch (err) {}
+        }
+    } catch (e) {
+        console.warn(`[${feed.key}] AllOrigins failed:`, e);
+    }
+
+    throw new Error(`All fetch strategies failed for ${feed.key}`);
 }
 
 /** Fetch WordPress REST API posts & normalize to same shape */
@@ -215,26 +243,26 @@ async function fetchAllGovFeeds() {
     const results = await Promise.allSettled(
         FEEDS.map(feed => {
             if (feed.type === 'wp') return fetchWpFeed(feed.url);
-            // RSS: ลอง primary URL + fallbackUrls
-            const urlsToTry = [feed.url, ...(feed.fallbackUrls || [])];
-            return (async () => {
-                let lastError;
-                for (const url of urlsToTry) {
-                    try {
-                        const items = await fetchRssFeed(url);
-                        if (items.length > 0) return items;
-                    } catch (e) {
-                        lastError = e;
-                    }
-                }
-                throw lastError || new Error('No items from any URL');
-            })();
+            // RSS:
+            return fetchRssFeed(feed);
         })
     );
     const data = {};
+    let allFailed = true;
+
     FEEDS.forEach((feed, i) => {
-        data[feed.key] = results[i].status === 'fulfilled' ? results[i].value : [];
+        if (results[i].status === 'fulfilled' && results[i].value.length > 0) {
+            data[feed.key] = results[i].value;
+            allFailed = false;
+        } else {
+            console.error(`Gov Feed ${feed.key} completely failed`, results[i].reason);
+            data[feed.key] = [];
+        }
     });
+
+    if (allFailed) {
+        throw new Error("All government feeds failed to load.");
+    }
     return data;
 }
 
@@ -245,7 +273,7 @@ export default function AgriGovNewsWidget() {
     const [activeTab, setActiveTab] = useState('doae-hq');
 
     const { data, isLoading, error } = useApiCache(
-        'agri-gov-news-v3',
+        'agri-gov-news-v4',
         fetchAllGovFeeds,
         { staleMinutes: 120, cacheMinutes: 360 }
     );

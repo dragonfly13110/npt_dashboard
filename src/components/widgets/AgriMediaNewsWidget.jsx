@@ -9,7 +9,8 @@ const FEEDS = [
         key: 'kasetorganic',
         label: 'เกษตรอินทรีย์',
         icon: '🌿',
-        url: 'https://www.kasetorganic.com/feed/',
+        url: '/api/rss/kasetorganic',
+        originalUrl: 'https://www.kasetorganic.com/feed/',
         sourceShort: 'kasetorganic.com',
         sourceUrl: 'https://www.kasetorganic.com',
         placeholder: '🌱',
@@ -18,7 +19,8 @@ const FEEDS = [
         key: 'kasetkaoklai',
         label: 'เกษตรก้าวไกล',
         icon: '🌿',
-        url: 'https://www.kasetkaoklai.com/home/feed',
+        url: '/api/rss/kasetkaoklai',
+        originalUrl: 'https://www.kasetkaoklai.com/home/feed',
         sourceShort: 'kasetkaoklai.com',
         sourceUrl: 'https://www.kasetkaoklai.com',
         placeholder: '🌿',
@@ -27,7 +29,8 @@ const FEEDS = [
         key: 'kasettumkin',
         label: 'เกษตรทำกิน',
         icon: '🧑‍🌾',
-        url: 'https://kasettumkin.com/feed',
+        url: '/api/rss/kasettumkin',
+        originalUrl: 'https://kasettumkin.com/feed',
         sourceShort: 'kasettumkin.com',
         sourceUrl: 'https://kasettumkin.com',
         placeholder: '🧑‍🌾',
@@ -36,7 +39,8 @@ const FEEDS = [
         key: 'thairath',
         label: 'ไทยรัฐ',
         icon: '📺',
-        url: 'https://www.thairath.co.th/rss/agriculture',
+        url: '/api/rss/thairath',
+        originalUrl: 'https://www.thairath.co.th/rss/agriculture',
         sourceShort: 'thairath.co.th',
         sourceUrl: 'https://www.thairath.co.th/agriculture',
         placeholder: '📺',
@@ -45,7 +49,8 @@ const FEEDS = [
         key: 'agrinewsthai',
         label: 'เรื่องเล่าข่าวเกษตร',
         icon: '🌱',
-        url: 'https://www.agrinewsthai.com/feed',
+        url: '/api/rss/agrinewsthai',
+        originalUrl: 'https://www.agrinewsthai.com/feed',
         fallbackUrls: [
             'https://www.agrinewsthai.com/feed/rss',
             'https://www.agrinewsthai.com/feed/rss2',
@@ -110,9 +115,17 @@ function parseRssXml(xmlStr) {
     });
 }
 
+/** Strategy 0: Internal Netlify/Vite Proxy */
+async function fetchViaInternalProxy(proxyUrl) {
+    const res = await fetchWithTimeout(proxyUrl, {}, 8000);
+    if (!res.ok) throw new Error(`internal proxy error: ${res.status}`);
+    const xmlStr = await res.text();
+    return parseRssXml(xmlStr);
+}
+
 /** Strategy 1: rss2json.com (เร็ว, เสถียร) */
 async function fetchViaRss2Json(feedUrl) {
-    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}&api_key=&count=6`;
+    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}&count=6`;
     const res = await fetchWithTimeout(apiUrl, {}, 8000);
     if (!res.ok) throw new Error(`rss2json error: ${res.status}`);
     const json = await res.json();
@@ -146,45 +159,61 @@ async function fetchViaCorsProxy(feedUrl) {
     return parseRssXml(xmlStr);
 }
 
-/** Fetch RSS ลอง 3 strategy ตามลำดับ */
-async function fetchRssFeed(feedUrl) {
-    const strategies = [fetchViaRss2Json, fetchViaAllOrigins, fetchViaCorsProxy];
-    let lastError;
-    for (const strategy of strategies) {
-        try {
-            const items = await strategy(feedUrl);
-            if (items.length > 0) return items;
-        } catch (e) {
-            lastError = e;
-        }
+/** Fetch RSS */
+async function fetchRssFeed(feed) {
+    // 1. Try internal local proxy (or Netlify proxy)
+    try {
+        const items = await fetchViaInternalProxy(feed.url);
+        if (items && items.length > 0) return items;
+    } catch (e) {
+        console.warn(`[${feed.key}] Internal proxy failed:`, e);
     }
-    throw lastError || new Error('All fetch strategies failed');
-}
+    
+    // 2. Fallback to rss2json
+    try {
+        const items = await fetchViaRss2Json(feed.originalUrl);
+        if (items && items.length > 0) return items;
+    } catch (e) {
+        console.warn(`[${feed.key}] Rss2Json failed:`, e);
+    }
 
-/** Fetch a single feed, trying primary URL then fallbackUrls */
-async function fetchFeedWithFallback(feed) {
-    const urlsToTry = [feed.url, ...(feed.fallbackUrls || [])];
-    let lastError;
-    for (const url of urlsToTry) {
-        try {
-            const items = await fetchRssFeed(url);
-            if (items.length > 0) return items;
-        } catch (e) {
-            lastError = e;
+    // 3. Fallback to allorigins
+    try {
+        const urlsToTry = [feed.originalUrl, ...(feed.fallbackUrls || [])];
+        for (const u of urlsToTry) {
+            try {
+                const items = await fetchViaAllOrigins(u);
+                if (items && items.length > 0) return items;
+            } catch (err) {}
         }
+    } catch (e) {
+        console.warn(`[${feed.key}] AllOrigins failed:`, e);
     }
-    throw lastError || new Error('No items from any URL');
+
+    throw new Error(`All fetch strategies failed for ${feed.key}`);
 }
 
 /** Fetch all feeds concurrently */
 async function fetchAllFeeds() {
     const results = await Promise.allSettled(
-        FEEDS.map(feed => fetchFeedWithFallback(feed))
+        FEEDS.map(feed => fetchRssFeed(feed))
     );
     const data = {};
+    let allFailed = true;
+
     FEEDS.forEach((feed, i) => {
-        data[feed.key] = results[i].status === 'fulfilled' ? results[i].value : [];
+        if (results[i].status === 'fulfilled' && results[i].value.length > 0) {
+            data[feed.key] = results[i].value;
+            allFailed = false;
+        } else {
+            console.error(`Feed ${feed.key} completely failed`, results[i].reason);
+            data[feed.key] = [];
+        }
     });
+
+    if (allFailed) {
+        throw new Error("All media RSS feeds failed to load.");
+    }
     return data;
 }
 
@@ -207,7 +236,7 @@ export default function AgriMediaNewsWidget() {
     const [activeTab, setActiveTab] = useState('kasetorganic');
 
     const { data, isLoading, error } = useApiCache(
-        'agri-media-rss-v4',
+        'agri-media-rss-v7',
         fetchAllFeeds,
         { staleMinutes: 120, cacheMinutes: 360 }
     );
