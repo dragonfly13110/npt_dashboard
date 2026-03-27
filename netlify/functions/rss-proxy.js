@@ -5,9 +5,9 @@ export default async (request, context) => {
     const url = new URL(request.url);
     
     // Extract the feed key after /api/rss/
-    const feedKey = url.pathname.replace(/^\/api\/rss\//, '');
+    const feedKey = url.pathname.replace(/^\/api\/rss\//, '').split('/')[0];
     
-    // Define feed sources
+    // Clean up feed key (remove trailing slashes)
     const feedSources = {
         'moac': 'https://www.opsmoac.go.th/all_rss/news-all-382791791793.xml',
         'kasetorganic': 'https://www.kasetorganic.com/feed/',

@@ -27,36 +27,12 @@
 
 
 
-# ===== SPA REDIRECTS =====
-[[redirects]]
-  from = "/api/nabc/*"
-  to = "https://agriapi.nabc.go.th/:splat"
-  status = 200
+# ===== API PROXIES (via Netlify Functions) =====
+# WordPress APIs (use wp-proxy.js function)
+# Route pattern: /api/doae-{domain}/{path}
 
-[[redirects]]
-  from = "/api/doae-npt/*"
-  to = "https://nakhonpathom.doae.go.th/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/api/doae-hq/*"
-  to = "https://www.doae.go.th/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/api/doae-esc/*"
-  to = "https://esc.doae.go.th/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/api/rss/kasetkaoklai"
-  to = "https://www.kasetkaoklai.com/home/feed"
-  status = 200
-
-[[redirects]]
-  from = "/api/rss/kasettumkin"
-  to = "https://kasettumkin.com/feed"
-  status = 200
+# RSS APIs (use rss-proxy.js function)  
+# Route pattern: /api/rss/{feed_key}
 
 [[redirects]]
   from = "/api/rss/thairath"

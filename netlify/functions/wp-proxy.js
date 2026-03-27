@@ -64,5 +64,5 @@ export default async (request, context) => {
 };
 
 export const config = {
-    path: "/api/doae-*/*",
+    path: "/api/doae-*",
 };
