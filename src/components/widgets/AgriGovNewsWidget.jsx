@@ -49,9 +49,9 @@ const FEEDS = [
         icon: '🏢',
         type: 'rss',
         url: '/api/rss/moac',
-        originalUrl: 'http://www.opsmoac.go.th/all_rss/news-all-382791791793.xml',
+        originalUrl: 'https://www.opsmoac.go.th/all_rss/news-all-382791791793.xml',
         fallbackUrls: [
-            'http://www.opsmoac.go.th/all_rss/news-type-382791791792-382791791793.xml',
+            'https://www.opsmoac.go.th/all_rss/news-type-382791791792-382791791793.xml',
         ],
         sourceShort: 'opsmoac.go.th',
         sourceUrl: 'https://www.opsmoac.go.th',

@@ -49,11 +49,6 @@
   status = 200
 
 [[redirects]]
-  from = "/api/rss/kasetorganic"
-  to = "https://www.kasetorganic.com/feed/"
-  status = 200
-
-[[redirects]]
   from = "/api/rss/kasetkaoklai"
   to = "https://www.kasetkaoklai.com/home/feed"
   status = 200
