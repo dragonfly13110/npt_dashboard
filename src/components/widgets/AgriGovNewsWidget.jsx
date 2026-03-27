@@ -242,39 +242,46 @@ function normalizeWpPosts(posts) {
 async function fetchWpFeed(feed) {
     // 1. Try local proxy
     try {
+        console.log(`[${feed.key}] Trying local proxy: ${feed.url}`);
         const res = await fetchWithTimeout(feed.url, {}, 8000);
+        console.log(`[${feed.key}] Local proxy status: ${res.status}`);
         if (res.ok) {
             const posts = await res.json();
+            console.log(`[${feed.key}] Got ${posts.length} posts from local proxy`);
             const normalized = normalizeWpPosts(posts);
             if (normalized.length > 0) return normalized;
         }
     } catch (e) {
-        console.warn(`[${feed.key}] WP Local Proxy failed:`, e);
+        console.warn(`[${feed.key}] WP Local Proxy failed:`, e.message);
     }
 
     // 2. Try allorigins proxy
     if (feed.originalUrl) {
         try {
+            console.log(`[${feed.key}] Trying allorigins proxy for: ${feed.originalUrl}`);
             const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(feed.originalUrl)}`;
             const res = await fetchWithTimeout(apiUrl, {}, 10000);
             if (res.ok) {
                 const json = await res.json();
                 if (json.contents) {
                     const posts = JSON.parse(json.contents);
+                    console.log(`[${feed.key}] Got ${posts.length} posts from allorigins`);
                     const normalized = normalizeWpPosts(posts);
                     if (normalized.length > 0) return normalized;
                 }
             }
         } catch (e) {
-            console.warn(`[${feed.key}] WP AllOrigins failed:`, e);
+            console.warn(`[${feed.key}] WP AllOrigins failed:`, e.message);
         }
 
         // 3. Try corsproxy.io
         try {
+            console.log(`[${feed.key}] Trying corsproxy.io for: ${feed.originalUrl}`);
             const apiUrl = `https://corsproxy.io/?${encodeURIComponent(feed.originalUrl)}`;
             const res = await fetchWithTimeout(apiUrl, {}, 10000);
             if (res.ok) {
                 const posts = await res.json();
+                console.log(`[${feed.key}] Got ${posts.length} posts from corsproxy`);
                 const normalized = normalizeWpPosts(posts);
                 if (normalized.length > 0) return normalized;
             }

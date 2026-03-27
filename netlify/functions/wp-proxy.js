@@ -4,11 +4,14 @@
 export default async (request, context) => {
     const url = new URL(request.url);
     
+    console.log(`[wp-proxy] Request URL: ${url.pathname}${url.search}`);
+    
     // Extract the target domain and path
     // Pattern: /api/doae-{domain}/* → https://{domain}.doae.go.th/*
     const pathMatch = url.pathname.match(/^\/api\/([^/]+)\/(.*)$/);
     
     if (!pathMatch) {
+        console.error(`[wp-proxy] Invalid path format: ${url.pathname}`);
         return new Response(JSON.stringify({ error: 'Invalid path' }), {
             status: 400,
             headers: { 'Content-Type': 'application/json' },
@@ -16,6 +19,7 @@ export default async (request, context) => {
     }
 
     const [, domain, restPath] = pathMatch;
+    console.log(`[wp-proxy] Extracted - Domain: ${domain}, RestPath: ${restPath}`);
     
     // Map domain prefixes to actual domains
     const domainMap = {
@@ -27,6 +31,7 @@ export default async (request, context) => {
 
     const baseUrl = domainMap[domain];
     if (!baseUrl) {
+        console.error(`[wp-proxy] Unknown domain: ${domain}`);
         return new Response(JSON.stringify({ error: 'Unknown domain' }), {
             status: 400,
             headers: { 'Content-Type': 'application/json' },
@@ -34,6 +39,7 @@ export default async (request, context) => {
     }
 
     const targetUrl = `${baseUrl}/${restPath}${url.search}`;
+    console.log(`[wp-proxy] Fetching: ${targetUrl}`);
 
     try {
         const response = await fetch(targetUrl, {
@@ -44,6 +50,7 @@ export default async (request, context) => {
             timeout: 10000,
         });
 
+        console.log(`[wp-proxy] Response status: ${response.status}`);
         const body = await response.text();
 
         return new Response(body, {
@@ -55,7 +62,7 @@ export default async (request, context) => {
             },
         });
     } catch (err) {
-        console.error(`WP proxy error for ${domain}:`, err);
+        console.error(`[wp-proxy] Error for ${domain}:`, err.message);
         return new Response(JSON.stringify({ error: 'Proxy error', message: err.message }), {
             status: 502,
             headers: { 'Content-Type': 'application/json' },
