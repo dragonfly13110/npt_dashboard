@@ -45,7 +45,10 @@ const FEEDS = [
         label: 'กระทรวงเกษตรฯ',
         icon: '🏢',
         type: 'rss',
-        url: 'https://www.opsmoac.go.th/all-rss',
+        url: 'http://www.opsmoac.go.th/all_rss/news-all-382791791793.xml',
+        fallbackUrls: [
+            'http://www.opsmoac.go.th/all_rss/news-type-382791791792-382791791793.xml',
+        ],
         sourceShort: 'opsmoac.go.th',
         sourceUrl: 'https://www.opsmoac.go.th',
         placeholder: '🏢',
@@ -79,23 +82,32 @@ function formatThaiDate(dateStr) {
 
 // ========== Fetch Functions ==========
 
-/** Fetch RSS feed using proxy and DOMParser to bypass rss2json limits */
-async function fetchRssFeed(feedUrl) {
-    const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(feedUrl)}`;
-    const res = await fetch(apiUrl);
-    if (!res.ok) throw new Error(`Proxy error: ${res.status}`);
-    const json = await res.json();
-    if (!json.contents) throw new Error('Proxy returned empty content');
+/** Fetch with timeout helper */
+async function fetchWithTimeout(url, options = {}, timeoutMs = 8000) {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+        const res = await fetch(url, { ...options, signal: controller.signal });
+        return res;
+    } finally {
+        clearTimeout(id);
+    }
+}
 
+/** Parse RSS XML string into normalized items */
+function parseRssXml(xmlStr) {
     const parser = new DOMParser();
-    const xml = parser.parseFromString(json.contents, 'text/xml');
-    const items = xml.querySelectorAll('item');
+    const xml = parser.parseFromString(xmlStr, 'text/xml');
+    const parseError = xml.querySelector('parsererror');
+    if (parseError) throw new Error('XML parse error');
 
+    const items = xml.querySelectorAll('item');
     return Array.from(items).slice(0, 6).map(item => {
         const title = item.querySelector('title')?.textContent || '';
-        const link = item.querySelector('link')?.textContent || '';
+        const link = item.querySelector('link')?.textContent
+            || item.querySelector('guid')?.textContent || '';
         const pubDate = item.querySelector('pubDate')?.textContent || '';
-        
+
         let description = '';
         const contentEncoded = item.getElementsByTagNameNS('*', 'encoded');
         if (contentEncoded.length > 0) {
@@ -119,20 +131,63 @@ async function fetchRssFeed(feedUrl) {
         }
 
         const cleanTitle = title.replace(/<!\[CDATA\[(.*?)\]\]>/g, '$1').trim();
-
-        return {
-            title: cleanTitle,
-            link,
-            description,
-            pubDate,
-            thumbnail
-        };
+        return { title: cleanTitle, link, description, pubDate, thumbnail };
     });
+}
+
+/** Strategy 1: rss2json.com */
+async function fetchViaRss2Json(feedUrl) {
+    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}&api_key=&count=6`;
+    const res = await fetchWithTimeout(apiUrl, {}, 8000);
+    if (!res.ok) throw new Error(`rss2json error: ${res.status}`);
+    const json = await res.json();
+    if (json.status !== 'ok' || !json.items?.length) throw new Error('rss2json: no items');
+    return json.items.map(item => ({
+        title: item.title || '',
+        link: item.link || item.guid || '',
+        description: item.description || item.content || '',
+        pubDate: item.pubDate || '',
+        thumbnail: item.thumbnail || item.enclosure?.link || '',
+    }));
+}
+
+/** Strategy 2: allorigins proxy */
+async function fetchViaAllOrigins(feedUrl) {
+    const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(feedUrl)}`;
+    const res = await fetchWithTimeout(apiUrl, {}, 10000);
+    if (!res.ok) throw new Error(`allorigins error: ${res.status}`);
+    const json = await res.json();
+    if (!json.contents) throw new Error('allorigins: empty content');
+    return parseRssXml(json.contents);
+}
+
+/** Strategy 3: corsproxy.io */
+async function fetchViaCorsProxy(feedUrl) {
+    const apiUrl = `https://corsproxy.io/?${encodeURIComponent(feedUrl)}`;
+    const res = await fetchWithTimeout(apiUrl, {}, 10000);
+    if (!res.ok) throw new Error(`corsproxy error: ${res.status}`);
+    const xmlStr = await res.text();
+    return parseRssXml(xmlStr);
+}
+
+/** Fetch RSS feed via multiple strategies */
+async function fetchRssFeed(feedUrl) {
+    const strategies = [fetchViaRss2Json, fetchViaAllOrigins, fetchViaCorsProxy];
+    let lastError;
+    for (const strategy of strategies) {
+        try {
+            const items = await strategy(feedUrl);
+            if (items.length > 0) return items;
+        } catch (e) {
+            lastError = e;
+        }
+    }
+    throw lastError || new Error('All fetch strategies failed');
 }
 
 /** Fetch WordPress REST API posts & normalize to same shape */
 async function fetchWpFeed(apiUrl) {
-    const res = await fetch(apiUrl);
+    const res = await fetchWithTimeout(apiUrl, {}, 8000);
     if (!res.ok) throw new Error(`WP API error: ${res.status}`);
     const posts = await res.json();
     return posts.map(post => {
@@ -158,9 +213,23 @@ async function fetchWpFeed(apiUrl) {
 /** Fetch all feeds concurrently */
 async function fetchAllGovFeeds() {
     const results = await Promise.allSettled(
-        FEEDS.map(feed =>
-            feed.type === 'wp' ? fetchWpFeed(feed.url) : fetchRssFeed(feed.url)
-        )
+        FEEDS.map(feed => {
+            if (feed.type === 'wp') return fetchWpFeed(feed.url);
+            // RSS: ลอง primary URL + fallbackUrls
+            const urlsToTry = [feed.url, ...(feed.fallbackUrls || [])];
+            return (async () => {
+                let lastError;
+                for (const url of urlsToTry) {
+                    try {
+                        const items = await fetchRssFeed(url);
+                        if (items.length > 0) return items;
+                    } catch (e) {
+                        lastError = e;
+                    }
+                }
+                throw lastError || new Error('No items from any URL');
+            })();
+        })
     );
     const data = {};
     FEEDS.forEach((feed, i) => {
@@ -169,13 +238,14 @@ async function fetchAllGovFeeds() {
     return data;
 }
 
+
 // ========== Component ==========
 
 export default function AgriGovNewsWidget() {
     const [activeTab, setActiveTab] = useState('doae-hq');
 
     const { data, isLoading, error } = useApiCache(
-        'agri-gov-news-v2',
+        'agri-gov-news-v3',
         fetchAllGovFeeds,
         { staleMinutes: 120, cacheMinutes: 360 }
     );
