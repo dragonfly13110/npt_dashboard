@@ -1,0 +1,386 @@
+import React from 'react';
+import { TeamOutlined, EnvironmentOutlined } from '@ant-design/icons';
+
+// =======================
+// SKELETON COMPONENTS
+// =======================
+const BentoListSkeleton = () => (
+    <div className="bento-list">
+        {[1, 2, 3].map(i => (
+            <div key={i} className="bento-list-item" style={{ pointerEvents: 'none' }}>
+                <div className="skeleton-box sk-avatar"></div>
+                <div className="bento-item-content" style={{ flex: 1 }}>
+                    <div className="skeleton-box sk-text" style={{ width: '70%' }}></div>
+                    <div className="skeleton-box sk-text-short" style={{ width: '40%' }}></div>
+                </div>
+            </div>
+        ))}
+    </div>
+);
+
+const BentoGridSkeleton = ({ count = 4, height = '40px' }) => (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+        {Array.from({ length: count }).map((_, i) => (
+            <div key={i} className="skeleton-box" style={{ width: '100%', height, borderRadius: '6px' }}></div>
+        ))}
+    </div>
+);
+
+// =======================
+// CARDS COMPONENTS
+// =======================
+
+export const SmartFarmersCard = ({ data, loading }) => {
+    return (
+        <div className="bento-card" style={{ gridArea: 'sf' }}>
+            <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div><h3>🧑‍🌾 Smart Farmer</h3></div>
+                <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
+                    ทั้งหมด {data.count} ราย
+                </div>
+            </div>
+            <div className="bento-card-body">
+                {loading ? <BentoListSkeleton /> : (
+                    data.list.length === 0 ? <div className="bento-empty">รอเพิ่มข้อมูล...</div> :
+                        <div className="bento-list">
+                            {data.list.map(item => (
+                                <div key={item.id} className="bento-list-item">
+                                    <div className="bento-item-icon bg-orange-100 text-orange-600"><TeamOutlined /></div>
+                                    <div className="bento-item-content">
+                                        <h4>{item.full_name}</h4>
+                                        <p>อ.{item.district || '-'} &bull; {item.main_product || 'ไม่ระบุสินค้า'}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export const CommunityEnterprisesCard = ({ count, districtStats, loading }) => {
+    return (
+        <div className="bento-card" style={{ gridArea: 'ce' }}>
+            <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div><h3>🤝 วิสาหกิจชุมชน</h3></div>
+                <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
+                    ทั้งหมด {count} แห่ง
+                </div>
+            </div>
+            <div className="bento-card-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px' }}>
+                <div>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>จำนวนตามอำเภอ (แห่ง)</div>
+                    {loading ? <BentoGridSkeleton count={6} height="32px" /> : (
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                            {Object.entries(districtStats)
+                                .sort((a, b) => b[1] - a[1])
+                                .map(([dist, dCount]) => (
+                                    <div key={dist} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#e0f2fe', borderRadius: '6px', border: '1px solid #bae6fd' }}>
+                                        <span style={{ fontSize: 12, color: '#0369a1', fontWeight: 500 }}>{dist}</span>
+                                        <span style={{ fontSize: 13, fontWeight: 700, color: '#0369a1' }}>{dCount}</span>
+                                    </div>
+                                ))
+                            }
+                            {Object.keys(districtStats).length === 0 && (
+                                <div style={{ gridColumn: 'span 2', textAlign: 'center', color: '#94a3b8', fontSize: 13, padding: 8 }}>รอเพิ่มข้อมูล...</div>
+                            )}
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export const LargePlotsCard = ({ stats, loading }) => {
+    return (
+        <div className="bento-card" style={{ gridArea: 'lp' }}>
+            <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div><h3>🌾 แปลงใหญ่</h3></div>
+                <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
+                    ทั้งหมด {stats.total} แปลง
+                </div>
+            </div>
+            <div className="bento-card-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px' }}>
+                <div>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>กลุ่มสินค้าหลัก (แปลง)</div>
+                    {loading ? <BentoGridSkeleton count={4} height="32px" /> : (
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#fef9c3', borderRadius: '6px' }}>
+                                <span style={{ fontSize: 12, color: '#854d0e', fontWeight: 500 }}>ข้าว</span>
+                                <span style={{ fontSize: 13, fontWeight: 700, color: '#ca8a04' }}>{stats.rice}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#dcfce3', borderRadius: '6px' }}>
+                                <span style={{ fontSize: 12, color: '#166534', fontWeight: 500 }}>ผัก/สมุนไพร</span>
+                                <span style={{ fontSize: 13, fontWeight: 700, color: '#15803d' }}>{stats.veg_herb}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#fef3c7', borderRadius: '6px' }}>
+                                <span style={{ fontSize: 12, color: '#92400e', fontWeight: 500 }}>ไม้ผล</span>
+                                <span style={{ fontSize: 13, fontWeight: 700, color: '#b45309' }}>{stats.fruit}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f5f5f4', borderRadius: '6px' }}>
+                                <span style={{ fontSize: 12, color: '#57534e', fontWeight: 500 }}>พืชไร่</span>
+                                <span style={{ fontSize: 13, fontWeight: 700, color: '#44403c' }}>{stats.field_crop}</span>
+                            </div>
+                            <div style={{ gridColumn: 'span 2', display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f3e8ff', borderRadius: '6px' }}>
+                                <span style={{ fontSize: 12, color: '#6b21a8', fontWeight: 500 }}>กลุ่มอื่นๆ (ปศุสัตว์/ประมง/...)</span>
+                                <span style={{ fontSize: 13, fontWeight: 700, color: '#7e22ce' }}>{stats.other}</span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+                <div>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>ปริมาณรวม (ราย/ไร่)</div>
+                    {loading ? <div className="skeleton-box" style={{ width: '100%', height: '70px', borderRadius: '6px' }}></div> : (
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '8px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                                <span style={{ fontSize: 12, color: '#475569', fontWeight: 500 }}>จำนวนสมาชิกรวม</span>
+                                <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>{stats.members.toLocaleString()}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                                <span style={{ fontSize: 12, color: '#475569', fontWeight: 500 }}>พื้นที่รวม (ไร่)</span>
+                                <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>{stats.area.toLocaleString()}</span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export const AgriTourismCard = ({ data, loading }) => {
+    return (
+        <div className="bento-card" style={{ gridArea: 'at' }}>
+            <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div><h3>🌿 แหล่งท่องเที่ยว</h3></div>
+                <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
+                    ทั้งหมด {data.count} แห่ง
+                </div>
+            </div>
+            <div className="bento-card-body">
+                {loading ? <BentoListSkeleton /> : (
+                    data.list.length === 0 ? <div className="bento-empty">รอเพิ่มข้อมูล...</div> :
+                        <div className="bento-list">
+                            {data.list.map(item => (
+                                <div key={item.id} className="bento-list-item">
+                                    <div className="bento-item-icon bg-purple-100 text-purple-600"><EnvironmentOutlined /></div>
+                                    <div className="bento-item-content">
+                                        <h4>{item.spot_name}</h4>
+                                        <p>อ.{item.district || '-'} &bull; {item.spot_type || 'ไม่ระบุ'}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export const FarmerInstitutesCard = ({ stats, loading }) => {
+    return (
+        <div className="bento-card" style={{ gridArea: 'fi' }}>
+            <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div><h3>👥 สถาบันเกษตรกร</h3></div>
+                <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
+                    ทั้งหมด {stats.total} กลุ่ม
+                </div>
+            </div>
+            <div className="bento-card-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px' }}>
+                <div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>ประเภท (กลุ่ม)</div>
+                    {loading ? <BentoGridSkeleton count={4} height="32px" /> : (
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#e0f2fe', borderRadius: '6px', border: '1px solid #bae6fd' }}>
+                                <span style={{ fontSize: 12, color: '#0369a1', fontWeight: 500 }}>วิสาหกิจฯ</span>
+                                <span style={{ fontSize: 13, fontWeight: 700, color: '#0369a1' }}>{stats.ce}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#dcfce3', borderRadius: '6px', border: '1px solid #bbf7d0' }}>
+                                <span style={{ fontSize: 12, color: '#16a34a', fontWeight: 500 }}>แม่บ้านฯ</span>
+                                <span style={{ fontSize: 13, fontWeight: 700, color: '#1a7f37' }}>{stats.housewives}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#fef3c7', borderRadius: '6px', border: '1px solid #fde68a' }}>
+                                <span style={{ fontSize: 12, color: '#d97706', fontWeight: 500 }}>ยุวเกษตรฯ</span>
+                                <span style={{ fontSize: 13, fontWeight: 700, color: '#b45309' }}>{stats.young_grp}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f3e8ff', borderRadius: '6px', border: '1px solid #e9d5ff' }}>
+                                <span style={{ fontSize: 12, color: '#7e22ce', fontWeight: 500 }}>ส่งเสริมอาชีพ</span>
+                                <span style={{ fontSize: 13, fontWeight: 700, color: '#6b21a8' }}>{stats.career}</span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+                <div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>สมาชิก/เกษตรกร (ราย)</div>
+                    {loading ? <BentoGridSkeleton count={3} height="32px" /> : (
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0', gridColumn: 'span 2' }}>
+                                <span style={{ fontSize: 12, color: '#475569', fontWeight: 500 }}>เกษตรกรทั่วไป (หมู่บ้าน)</span>
+                                <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>{stats.village}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                                <span style={{ fontSize: 12, color: '#475569', fontWeight: 500 }}>Smart Farmer</span>
+                                <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>{stats.sf}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                                <span style={{ fontSize: 12, color: '#475569', fontWeight: 500 }}>YSF</span>
+                                <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>{stats.ysf}</span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export const AgriAreasCard = ({ stats, loading }) => {
+    return (
+        <div className="bento-card" style={{ gridArea: 'ag' }}>
+            <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #f8fafc', background: 'linear-gradient(to right, #f0fdf4, #ffffff)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div style={{ width: 40, height: 40, background: '#dcfce3', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🪴</div>
+                    <h3 style={{ fontSize: 22, color: '#0f172a', margin: 0 }}>สรุปพื้นที่การเกษตร แยกตามชนิดพืช</h3>
+                </div>
+            </div>
+            <div className="bento-card-body" style={{ padding: '16px 20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                {loading ? (
+                    <>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '14px' }}>
+                            <div className="skeleton-box" style={{ height: '42px', borderRadius: '8px' }}></div>
+                            <div className="skeleton-box" style={{ height: '42px', borderRadius: '8px' }}></div>
+                            <div className="skeleton-box" style={{ height: '42px', borderRadius: '8px' }}></div>
+                        </div>
+                        <div style={{ fontSize: 13, fontWeight: 700, color: '#16a34a', borderBottom: '2px solid #dcfce3', paddingBottom: 5, marginBottom: 10 }}>พื้นที่เพาะปลูกพืชหลัก (ไร่)</div>
+                        <BentoGridSkeleton count={8} height="38px" />
+                    </>
+                ) : (
+                    <>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '14px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#f8fafc', borderLeft: '4px solid #3b82f6', borderRadius: '8px' }}>
+                                <span style={{ fontSize: 13, color: '#475569', fontWeight: 600 }}>พื้นที่ทั้งหมด</span>
+                                <span style={{ fontSize: 17, fontWeight: 800, color: '#1e3a8a' }}>{stats.total_area.toLocaleString()} <span style={{ fontSize: 11, fontWeight: 600 }}>ไร่</span></span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#f8fafc', borderLeft: '4px solid #10b981', borderRadius: '8px' }}>
+                                <span style={{ fontSize: 13, color: '#475569', fontWeight: 600 }}>พื้นที่ด้านพืชรวม</span>
+                                <span style={{ fontSize: 17, fontWeight: 800, color: '#064e3b' }}>{stats.crop_area.toLocaleString()} <span style={{ fontSize: 11, fontWeight: 600 }}>ไร่</span></span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#f8fafc', borderLeft: '4px solid #f59e0b', borderRadius: '8px' }}>
+                                <span style={{ fontSize: 13, color: '#475569', fontWeight: 600 }}>ครัวเรือนเกษตรกร</span>
+                                <span style={{ fontSize: 17, fontWeight: 800, color: '#78350f' }}>{stats.households.toLocaleString()} <span style={{ fontSize: 11, fontWeight: 600 }}>ครัว.</span></span>
+                            </div>
+                        </div>
+
+                        <div style={{ fontSize: 13, fontWeight: 700, color: '#16a34a', borderBottom: '2px solid #dcfce3', paddingBottom: 5, marginBottom: 10 }}>พื้นที่เพาะปลูกพืชหลัก (ไร่)</div>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', flex: 1 }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#fef9c3', borderRadius: '8px', border: '1px solid #fde047' }}>
+                                <span style={{ fontSize: 12, color: '#854d0e', fontWeight: 600 }}>ข้าวนาปี</span>
+                                <span style={{ fontSize: 14, fontWeight: 800, color: '#ca8a04' }}>{stats.rice_pi.toLocaleString()}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#fef3c7', borderRadius: '8px', border: '1px solid #fcd34d' }}>
+                                <span style={{ fontSize: 12, color: '#92400e', fontWeight: 600 }}>ข้าวนาปรัง</span>
+                                <span style={{ fontSize: 14, fontWeight: 800, color: '#d97706' }}>{stats.rice_prung.toLocaleString()}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#f5f5f4', borderRadius: '8px', border: '1px solid #e7e5e4' }}>
+                                <span style={{ fontSize: 12, color: '#57534e', fontWeight: 600 }}>พืชไร่</span>
+                                <span style={{ fontSize: 14, fontWeight: 800, color: '#44403c' }}>{stats.field_crops.toLocaleString()}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#dcfce3', borderRadius: '8px', border: '1px solid #bbf7d0' }}>
+                                <span style={{ fontSize: 12, color: '#166534', fontWeight: 600 }}>พืชสวน</span>
+                                <span style={{ fontSize: 14, fontWeight: 800, color: '#15803d' }}>{stats.hort.toLocaleString()}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#ecfdf5', borderRadius: '8px', border: '1px solid #a7f3d0' }}>
+                                <span style={{ fontSize: 12, color: '#065f46', fontWeight: 600 }}>พืชผัก</span>
+                                <span style={{ fontSize: 14, fontWeight: 800, color: '#047857' }}>{stats.veg.toLocaleString()}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#f0fdfa', borderRadius: '8px', border: '1px solid #99f6e4' }}>
+                                <span style={{ fontSize: 12, color: '#115e59', fontWeight: 600 }}>ไม้ผล/ยืนต้น</span>
+                                <span style={{ fontSize: 14, fontWeight: 800, color: '#0f766e' }}>{stats.fruit.toLocaleString()}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#fce7f3', borderRadius: '8px', border: '1px solid #fbcfe8' }}>
+                                <span style={{ fontSize: 12, color: '#9d174d', fontWeight: 600 }}>ไม้ดอกฯ</span>
+                                <span style={{ fontSize: 14, fontWeight: 800, color: '#be185d' }}>{stats.flow.toLocaleString()}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#f3f4f6', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
+                                <span style={{ fontSize: 12, color: '#374151', fontWeight: 600 }}>สมุนไพร</span>
+                                <span style={{ fontSize: 14, fontWeight: 800, color: '#4b5563' }}>{stats.herb.toLocaleString()}</span>
+                            </div>
+                        </div>
+                    </>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export const DeptStatsOverview = ({ allStats, instituteStats, loading }) => {
+    return (
+        <section className="dept-stats-container">
+            <div className="dept-stats-header">
+                <h2>📊 ภาพรวมข้อมูล 5 ยุทธศาสตร์</h2>
+                <p>สถิติข้อมูลล่าสุดแยกตามกลุ่มงานภายในสำนักงาน</p>
+            </div>
+
+            <div className="dept-grid">
+                {/* Admin */}
+                <div className="dept-card" style={{ '--theme': '#0ea5e9' }}>
+                    <div className="dept-icon">🏢</div>
+                    <h3>ฝ่ายบริหารทั่วไป</h3>
+                    <ul>
+                        <li><span>บุคลากร</span> {loading ? <div className="skeleton-box" style={{ width: 40, height: 20 }} /> : <strong>{allStats.personnel || 0}</strong>}</li>
+                        <li><span>พัสดุ/ครุภัณฑ์</span> {loading ? <div className="skeleton-box" style={{ width: 40, height: 20 }} /> : <strong>{allStats.assets || 0}</strong>}</li>
+                        <li><span>โครงการงบประมาณ</span> {loading ? <div className="skeleton-box" style={{ width: 40, height: 20 }} /> : <strong>{allStats.budgets || 0}</strong>}</li>
+                    </ul>
+                </div>
+
+                {/* Strategy */}
+                <div className="dept-card" style={{ '--theme': '#8b5cf6' }}>
+                    <div className="dept-icon">📋</div>
+                    <h3>ยุทธศาสตร์และสารสนเทศ</h3>
+                    <ul>
+                        <li><span>พื้นที่การเกษตร (ข้อมูล)</span> {loading ? <div className="skeleton-box" style={{ width: 60, height: 20 }} /> : <strong>{allStats.agricultural_areas || 0} แห่ง</strong>}</li>
+                        <li><span>ศูนย์ ศพก.</span> {loading ? <div className="skeleton-box" style={{ width: 40, height: 20 }} /> : <strong>{allStats.learning_centers || 0}</strong>}</li>
+                        <li><span>รายงานภัยพิบัติ</span> {loading ? <div className="skeleton-box" style={{ width: 40, height: 20 }} /> : <strong>{allStats.disasters || 0}</strong>}</li>
+                    </ul>
+                </div>
+
+                {/* Production */}
+                <div className="dept-card" style={{ '--theme': '#f59e0b' }}>
+                    <div className="dept-icon">🌾</div>
+                    <h3>ส่งเสริมและพัฒนาการผลิต</h3>
+                    <ul>
+                        <li><span>แปลงใหญ่</span> {loading ? <div className="skeleton-box" style={{ width: 40, height: 20 }} /> : <strong>{allStats.large_plots || 0}</strong>}</li>
+                        <li><span>มาตรฐาน GAP</span> {loading ? <div className="skeleton-box" style={{ width: 40, height: 20 }} /> : <strong>{allStats.certifications || 0}</strong>}</li>
+                        <li><span>ผลผลิตพืช</span> {loading ? <div className="skeleton-box" style={{ width: 40, height: 20 }} /> : <strong>{allStats.crop_production || 0}</strong>}</li>
+                    </ul>
+                </div>
+
+                {/* Dev */}
+                <div className="dept-card" style={{ '--theme': '#10b981' }}>
+                    <div className="dept-icon">🤝</div>
+                    <h3>ส่งเสริมและพัฒนาเกษตรกร</h3>
+                    <ul>
+                        <li><span>วิสาหกิจชุมชน</span> {loading ? <div className="skeleton-box" style={{ width: 40, height: 20 }} /> : <strong>{allStats.community_enterprises || 0}</strong>}</li>
+                        <li><span>Smart Farmer</span> {loading ? <div className="skeleton-box" style={{ width: 40, height: 20 }} /> : <strong>{allStats.smart_farmers || 0}</strong>}</li>
+                        <li><span>กลุ่มสถาบันเกษตรกร</span> {loading ? <div className="skeleton-box" style={{ width: 40, height: 20 }} /> : <strong>{instituteStats.total || 0}</strong>}</li>
+                        <li><span>ท่องเที่ยวเกษตร</span> {loading ? <div className="skeleton-box" style={{ width: 40, height: 20 }} /> : <strong>{allStats.agri_tourism || 0}</strong>}</li>
+                    </ul>
+                </div>
+
+                {/* Protection */}
+                <div className="dept-card" style={{ '--theme': '#ef4444' }}>
+                    <div className="dept-icon">🔬</div>
+                    <h3>อารักขาพืชและจัดการดินปุ๋ย</h3>
+                    <ul>
+                        <li><span>ระบาดศัตรูพืช</span> {loading ? <div className="skeleton-box" style={{ width: 40, height: 20 }} /> : <strong>{allStats.forecast_plots || 0}</strong>}</li>
+                        <li><span>ศูนย์ ศจช.</span> {loading ? <div className="skeleton-box" style={{ width: 40, height: 20 }} /> : <strong>{allStats.pest_centers || 0}</strong>}</li>
+                        <li><span>ศูนย์ ศดปช.</span> {loading ? <div className="skeleton-box" style={{ width: 40, height: 20 }} /> : <strong>{allStats.soil_fertilizer_centers || 0}</strong>}</li>
+                        <li><span>จุดเฝ้าระวังไฟ/PM2.5</span> {loading ? <div className="skeleton-box" style={{ width: 40, height: 20 }} /> : <strong>{allStats.fire_hotspots || 0}</strong>}</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    );
+};
