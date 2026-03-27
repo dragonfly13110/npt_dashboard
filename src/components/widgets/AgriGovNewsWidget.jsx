@@ -15,7 +15,8 @@ const FEEDS = [
         label: 'กรมส่งเสริมฯ',
         icon: '🏛️',
         type: 'wp',
-        url: '/api/doae-hq/wp-json/wp/v2/posts?per_page=6&orderby=date&order=desc&_embed=wp:featuredmedia',
+        url: '/api/doae-hq/home-new-2024/wp-json/wp/v2/posts?per_page=6&orderby=date&order=desc&_embed=wp:featuredmedia',
+        originalUrl: 'https://www.doae.go.th/home-new-2024/wp-json/wp/v2/posts?per_page=6&orderby=date&order=desc&_embed=wp:featuredmedia',
         sourceShort: 'doae.go.th',
         sourceUrl: 'https://www.doae.go.th/home-new-2024/',
         placeholder: '🏛️',
@@ -25,7 +26,8 @@ const FEEDS = [
         label: 'เกษตร นครปฐม',
         icon: '🌾',
         type: 'wp',
-        url: '/api/doae-npt/wp-json/wp/v2/posts?per_page=6&orderby=date&order=desc&_fields=id,date,title,excerpt,link',
+        url: '/api/doae-npt/wp-json/wp/v2/posts?per_page=6&orderby=date&order=desc&_fields=id,date,title,excerpt,link,featured_media,_links,_embedded&_embed=wp:featuredmedia',
+        originalUrl: 'https://nakhonpathom.doae.go.th/wp-json/wp/v2/posts?per_page=6&orderby=date&order=desc&_fields=id,date,title,excerpt,link,featured_media,_links,_embedded&_embed=wp:featuredmedia',
         sourceShort: 'nakhonpathom.doae.go.th',
         sourceUrl: 'https://nakhonpathom.doae.go.th',
         placeholder: '🌾',
@@ -35,7 +37,8 @@ const FEEDS = [
         label: 'ศูนย์วิทยบริการฯ',
         icon: '⚙️',
         type: 'wp',
-        url: '/api/doae-esc/wp-json/wp/v2/posts?per_page=6&orderby=date&order=desc&_fields=id,date,title,excerpt,link',
+        url: '/api/doae-esc/wp-json/wp/v2/posts?per_page=6&orderby=date&order=desc&_fields=id,date,title,excerpt,link,featured_media,_links,_embedded&_embed=wp:featuredmedia',
+        originalUrl: 'https://esc.doae.go.th/wp-json/wp/v2/posts?per_page=6&orderby=date&order=desc&_fields=id,date,title,excerpt,link,featured_media,_links,_embedded&_embed=wp:featuredmedia',
         sourceShort: 'esc.doae.go.th',
         sourceUrl: 'https://esc.doae.go.th',
         placeholder: '⚙️',
@@ -213,11 +216,8 @@ async function fetchRssFeed(feed) {
     throw new Error(`All fetch strategies failed for ${feed.key}`);
 }
 
-/** Fetch WordPress REST API posts & normalize to same shape */
-async function fetchWpFeed(apiUrl) {
-    const res = await fetchWithTimeout(apiUrl, {}, 8000);
-    if (!res.ok) throw new Error(`WP API error: ${res.status}`);
-    const posts = await res.json();
+function normalizeWpPosts(posts) {
+    if (!Array.isArray(posts)) return [];
     return posts.map(post => {
         // Try to extract thumbnail from _embedded
         let thumb = '';
@@ -238,11 +238,59 @@ async function fetchWpFeed(apiUrl) {
     });
 }
 
+/** Fetch WordPress REST API posts & normalize to same shape */
+async function fetchWpFeed(feed) {
+    // 1. Try local proxy
+    try {
+        const res = await fetchWithTimeout(feed.url, {}, 8000);
+        if (res.ok) {
+            const posts = await res.json();
+            const normalized = normalizeWpPosts(posts);
+            if (normalized.length > 0) return normalized;
+        }
+    } catch (e) {
+        console.warn(`[${feed.key}] WP Local Proxy failed:`, e);
+    }
+
+    // 2. Try allorigins proxy
+    if (feed.originalUrl) {
+        try {
+            const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(feed.originalUrl)}`;
+            const res = await fetchWithTimeout(apiUrl, {}, 10000);
+            if (res.ok) {
+                const json = await res.json();
+                if (json.contents) {
+                    const posts = JSON.parse(json.contents);
+                    const normalized = normalizeWpPosts(posts);
+                    if (normalized.length > 0) return normalized;
+                }
+            }
+        } catch (e) {
+            console.warn(`[${feed.key}] WP AllOrigins failed:`, e);
+        }
+
+        // 3. Try corsproxy.io
+        try {
+            const apiUrl = `https://corsproxy.io/?${encodeURIComponent(feed.originalUrl)}`;
+            const res = await fetchWithTimeout(apiUrl, {}, 10000);
+            if (res.ok) {
+                const posts = await res.json();
+                const normalized = normalizeWpPosts(posts);
+                if (normalized.length > 0) return normalized;
+            }
+        } catch (e) {
+            console.warn(`[${feed.key}] WP corsproxy failed:`, e);
+        }
+    }
+
+    throw new Error(`All WP fetch strategies failed for ${feed.key}`);
+}
+
 /** Fetch all feeds concurrently */
 async function fetchAllGovFeeds() {
     const results = await Promise.allSettled(
         FEEDS.map(feed => {
-            if (feed.type === 'wp') return fetchWpFeed(feed.url);
+            if (feed.type === 'wp') return fetchWpFeed(feed);
             // RSS:
             return fetchRssFeed(feed);
         })
@@ -251,7 +299,7 @@ async function fetchAllGovFeeds() {
     let allFailed = true;
 
     FEEDS.forEach((feed, i) => {
-        if (results[i].status === 'fulfilled' && results[i].value.length > 0) {
+        if (results[i].status === 'fulfilled' && results[i].value && results[i].value.length > 0) {
             data[feed.key] = results[i].value;
             allFailed = false;
         } else {

@@ -202,7 +202,7 @@ async function fetchAllFeeds() {
     let allFailed = true;
 
     FEEDS.forEach((feed, i) => {
-        if (results[i].status === 'fulfilled' && results[i].value.length > 0) {
+        if (results[i].status === 'fulfilled' && results[i].value && results[i].value.length > 0) {
             data[feed.key] = results[i].value;
             allFailed = false;
         } else {

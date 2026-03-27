@@ -386,3 +386,97 @@
     font-size: 10px;
     color: #cbd5e1;
 }
+
+/* --- Dark Mode Overrides --- */
+.dark .agri-rss-widget {
+    background: #1e293b;
+    border-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+}
+
+.dark .agri-rss-header {
+    background: linear-gradient(135deg, rgba(22, 163, 74, 0.1) 0%, rgba(22, 163, 74, 0.05) 50%, rgba(22, 163, 74, 0.1) 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dark .agri-rss-widget--gov .agri-rss-header {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(37, 99, 235, 0.05) 50%, rgba(37, 99, 235, 0.1) 100%);
+}
+
+.dark .agri-rss-header-left h3 {
+    color: #f1f5f9;
+}
+
+.dark .agri-rss-tabs {
+    background: #0f172a;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dark .agri-rss-tab {
+    color: #94a3b8;
+}
+
+.dark .agri-rss-tab:hover {
+    color: var(--accent-light);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.dark .agri-rss-tab.active {
+    color: var(--accent-light);
+    background: #1e293b;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dark .agri-rss-tab-count {
+    background: rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+}
+
+.dark .agri-rss-tab.active .agri-rss-tab-count {
+    background: var(--accent-dark);
+    color: var(--accent-logo-to);
+}
+.dark .agri-rss-widget--gov .agri-rss-tab.active .agri-rss-tab-count {
+    background: #172554;
+    color: #bfdbfe;
+}
+
+.dark .agri-rss-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .agri-rss-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--accent-light);
+}
+
+.dark .agri-rss-card-title {
+    color: #f1f5f9;
+}
+
+.dark .agri-rss-card:hover .agri-rss-card-title {
+    color: var(--accent-light);
+}
+
+.dark .agri-rss-card-excerpt {
+    color: #cbd5e1;
+}
+
+.dark .agri-rss-skeleton {
+    background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+    background-size: 200% 100%;
+}
+
+.dark .agri-rss-footer {
+    background: #0f172a;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dark .agri-rss-footer a {
+    color: #94a3b8;
+}
+
+.dark .agri-rss-footer a:hover {
+    color: var(--accent-light);
+}
