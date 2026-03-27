@@ -14,9 +14,8 @@ import WeatherWidget from '../components/widgets/WeatherWidget';
 import AirQualityWidget from '../components/widgets/AirQualityWidget';
 import AgriPricesWidget from '../components/widgets/AgriPricesWidget';
 import HotspotWidget from '../components/widgets/HotspotWidget';
-import DoaeNewsWidget from '../components/widgets/DoaeNewsWidget';
-import DoaeHqNewsWidget from '../components/widgets/DoaeHqNewsWidget';
-import EscNewsWidget from '../components/widgets/EscNewsWidget';
+import AgriGovNewsWidget from '../components/widgets/AgriGovNewsWidget';
+import AgriMediaNewsWidget from '../components/widgets/AgriMediaNewsWidget';
 import LandingMap from '../components/widgets/LandingMap';
 import { SmartFarmersCard, CommunityEnterprisesCard, LargePlotsCard, AgriTourismCard, FarmerInstitutesCard, AgriAreasCard, DeptStatsOverview } from '../components/widgets/LandingBentoCards';
 
@@ -330,20 +329,16 @@ export default function LandingPage() {
                 {/* ===== ALL 5 GROUPS OVERVIEW ===== */}
                 <DeptStatsOverview allStats={allStats} instituteStats={instituteStats} loading={loading} />
 
-                {/* ===== DOAE HQ NEWS (doae.go.th ส่วนกลาง) ===== */}
+                {/* ===== AGRI GOV NEWS (ข่าวจากหน่วยงานภาครัฐ) ===== */}
                 <div style={{ maxWidth: '1200px', margin: '0 auto 40px', padding: '0 24px' }}>
-                    <DoaeHqNewsWidget />
+                    <AgriGovNewsWidget />
                 </div>
 
-                {/* ===== DOAE NEWS (Pest Alerts + Agri News นครปฐม) ===== */}
+                {/* ===== AGRI MEDIA NEWS (ข่าวเกษตรจากสื่อมวลชน) ===== */}
                 <div style={{ maxWidth: '1200px', margin: '0 auto 40px', padding: '0 24px' }}>
-                    <DoaeNewsWidget />
+                    <AgriMediaNewsWidget />
                 </div>
 
-                {/* ===== ESC NEWS (esc.doae.go.th วิศวกรรมเกษตร) ===== */}
-                <div style={{ maxWidth: '1200px', margin: '0 auto 40px', padding: '0 24px' }}>
-                    <EscNewsWidget />
-                </div>
 
             </main>
 
