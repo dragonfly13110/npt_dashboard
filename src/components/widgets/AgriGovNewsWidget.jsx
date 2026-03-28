@@ -65,6 +65,7 @@ const FEEDS = [
         sourceUrl: 'https://ictc.doae.go.th/',
         placeholder: '💻',
     }
+    // Removed agritec (สถาบันเทคโนโลยีเกษตร) - not working on live site
 ];
 
 // ========== Helper Functions ==========
