@@ -11,6 +11,10 @@ const FEEDS = [
         icon: '🌿',
         url: '/api/rss/kasetorganic',
         originalUrl: 'https://www.kasetorganic.com/feed/',
+        fallbackUrls: [
+            'https://www.kasetorganic.com/feed/rss/',
+            'https://www.kasetorganic.com/feed/rss2/',
+        ],
         sourceShort: 'kasetorganic.com',
         sourceUrl: 'https://www.kasetorganic.com',
         placeholder: '🌱',
@@ -164,17 +168,23 @@ async function fetchRssFeed(feed) {
     // 1. Try internal local proxy (or Netlify proxy)
     try {
         const items = await fetchViaInternalProxy(feed.url);
-        if (items && items.length > 0) return items;
+        if (items && items.length > 0) {
+            console.log(`[${feed.key}] ✅ Internal proxy succeeded, got ${items.length} items`);
+            return items;
+        }
     } catch (e) {
-        console.warn(`[${feed.key}] Internal proxy failed:`, e);
+        console.warn(`[${feed.key}] Internal proxy failed: ${e.message}`);
     }
     
     // 2. Fallback to rss2json
     try {
         const items = await fetchViaRss2Json(feed.originalUrl);
-        if (items && items.length > 0) return items;
+        if (items && items.length > 0) {
+            console.log(`[${feed.key}] ✅ Rss2Json succeeded, got ${items.length} items`);
+            return items;
+        }
     } catch (e) {
-        console.warn(`[${feed.key}] Rss2Json failed:`, e);
+        console.warn(`[${feed.key}] Rss2Json failed: ${e.message}`);
     }
 
     // 3. Fallback to allorigins
@@ -183,11 +193,34 @@ async function fetchRssFeed(feed) {
         for (const u of urlsToTry) {
             try {
                 const items = await fetchViaAllOrigins(u);
-                if (items && items.length > 0) return items;
-            } catch (err) {}
+                if (items && items.length > 0) {
+                    console.log(`[${feed.key}] ✅ AllOrigins succeeded with URL: ${u}, got ${items.length} items`);
+                    return items;
+                }
+            } catch (err) {
+                console.warn(`[${feed.key}] AllOrigins failed for ${u}: ${err.message}`);
+            }
         }
     } catch (e) {
-        console.warn(`[${feed.key}] AllOrigins failed:`, e);
+        console.warn(`[${feed.key}] AllOrigins fallback error: ${e.message}`);
+    }
+
+    // 4. Final fallback to corsproxy
+    try {
+        const urlsToTry = [feed.originalUrl, ...(feed.fallbackUrls || [])];
+        for (const u of urlsToTry) {
+            try {
+                const items = await fetchViaCorsProxy(u);
+                if (items && items.length > 0) {
+                    console.log(`[${feed.key}] ✅ CorsProxy succeeded with URL: ${u}, got ${items.length} items`);
+                    return items;
+                }
+            } catch (err) {
+                console.warn(`[${feed.key}] CorsProxy failed for ${u}: ${err.message}`);
+            }
+        }
+    } catch (e) {
+        console.warn(`[${feed.key}] CorsProxy fallback error: ${e.message}`);
     }
 
     throw new Error(`All fetch strategies failed for ${feed.key}`);
