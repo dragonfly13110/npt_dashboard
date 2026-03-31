@@ -1,16 +1,28 @@
 import { useEffect, useState, useRef, useMemo } from 'react';
-import { Skeleton, Button, Row, Col, Card, Tag } from 'antd';
+import { Skeleton, Button, Row, Col, Card } from 'antd';
 import {
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip, ResponsiveContainer,
-    PieChart, Pie, Cell
+    PieChart, Pie, Cell, Tooltip as RTooltip, ResponsiveContainer
 } from 'recharts';
 import {
-    ClockCircleOutlined, FilePdfOutlined,
+    FilePdfOutlined,
     AimOutlined, BankOutlined, TeamOutlined, AlertOutlined,
     ScheduleOutlined
 } from '@ant-design/icons';
 import { supabase } from '../supabaseClient';
-import { Link } from 'react-router-dom';
+
+// ===== LANDING PAGE WIDGETS =====
+import WeatherWidget from '../components/widgets/WeatherWidget';
+import AirQualityWidget from '../components/widgets/AirQualityWidget';
+import AgriPricesWidget from '../components/widgets/AgriPricesWidget';
+import HotspotWidget from '../components/widgets/HotspotWidget';
+
+import LandingMap from '../components/widgets/LandingMap';
+import {
+    SmartFarmersCard, CommunityEnterprisesCard, LargePlotsCard,
+    AgriTourismCard, FarmerInstitutesCard, AgriAreasCard
+} from '../components/widgets/LandingBentoCards';
+
+import '../pages/LandingPage.css';
 
 const PIE_COLORS = [
     '#66bb6a', '#42a5f5', '#ffca28', '#ef5350', '#ab47bc',
@@ -47,23 +59,7 @@ const groupConfig = [
 
 const allTables = groupConfig.flatMap(g => g.tables.map(t => ({ ...t, group: g.group, groupIcon: g.icon, groupColor: g.color })));
 
-function formatTimeAgo(dateStr) {
-    if (!dateStr) return '';
-    const now = new Date();
-    const date = new Date(dateStr);
-    const diff = Math.floor((now - date) / 1000);
-    if (diff < 60) return 'เมื่อสักครู่';
-    if (diff < 3600) return `${Math.floor(diff / 60)} นาทีที่แล้ว`;
-    if (diff < 86400) return `${Math.floor(diff / 3600)} ชั่วโมงที่แล้ว`;
-    if (diff < 2592000) return `${Math.floor(diff / 86400)} วันที่แล้ว`;
-    return date.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
-}
 
-function formatDate(dateStr) {
-    if (!dateStr) return '';
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
-}
 
 export default function Dashboard() {
     const [stats, setStats] = useState([]);
@@ -71,17 +67,34 @@ export default function Dashboard() {
     const [agriData, setAgriData] = useState([]);
     const [largePlots, setLargePlots] = useState([]);
     const [fiData, setFiData] = useState([]);
-    const [activities, setActivities] = useState([]);
-    const [activityLoading, setActivityLoading] = useState(true);
     const [pdfExporting, setPdfExporting] = useState(false);
     const dashRef = useRef(null);
+
+    // ===== LANDING PAGE DATA STATE =====
+    const [mapData, setMapData] = useState([]);
+    const [districtStats, setDistrictStats] = useState({});
+    const [smartFarmers, setSmartFarmers] = useState({ list: [], count: 0 });
+    const [enterprises, setEnterprises] = useState({ list: [], count: 0 });
+    const [ceDistrictStats, setCeDistrictStats] = useState({});
+    const [tourism, setTourism] = useState({ list: [], count: 0 });
+    const [instituteStats, setInstituteStats] = useState({
+        total: 0, ce: 0, housewives: 0, young_grp: 0, career: 0, village: 0, sf: 0, ysf: 0
+    });
+    const [lpStats, setLpStats] = useState({
+        total: 0, rice: 0, veg_herb: 0, fruit: 0, field_crop: 0, other: 0, members: 0, area: 0
+    });
+    const [agriStats, setAgriStats] = useState({
+        households: 0, total_area: 0, crop_area: 0,
+        rice_pi: 0, rice_prung: 0, field_crops: 0, hort: 0, fruit: 0, veg: 0, flow: 0, herb: 0
+    });
 
     useEffect(() => {
         loadStats();
         loadChartData();
-        loadActivities();
+        loadLandingData();
     }, []);
 
+    // ===== ORIGINAL DASHBOARD DATA =====
     const loadStats = async () => {
         setLoading(true);
         const results = [];
@@ -112,35 +125,162 @@ export default function Dashboard() {
         } catch { /* skip */ }
     };
 
-    const loadActivities = async () => {
-        setActivityLoading(true);
-        const acts = [];
-        for (const tbl of allTables) {
-            try {
-                const { data, error } = await supabase
-                    .from(tbl.table)
-                    .select('*')
-                    .order('created_at', { ascending: false })
-                    .limit(1);
-                if (!error && data?.length) {
-                    const row = data[0];
-                    acts.push({
-                        table: tbl.label,
-                        group: tbl.group,
-                        icon: tbl.groupIcon,
-                        name: row.name || row.full_name || row.project_name || row.center_name || row.district || tbl.label,
-                        created_at: row.created_at,
-                    });
+    // ===== LANDING PAGE DATA LOADER =====
+    const fetchWithCount = async (table, selectStr = 'id') => {
+        const { data, count } = await supabase.from(table)
+            .select(selectStr, { count: 'exact' })
+            .order('id', { ascending: false })
+            .limit(3);
+        return { list: data || [], count: count || 0 };
+    };
+
+    const loadLandingData = async () => {
+        try {
+            // Map Data
+            const mapPts = [];
+            const [{ data: gis }, { data: tourMap }] = await Promise.all([
+                supabase.from('gis_areas').select('area_name, district, latitude, longitude').not('latitude', 'is', null).limit(20),
+                supabase.from('agri_tourism').select('spot_name, district, latitude, longitude').not('latitude', 'is', null).limit(20)
+            ]);
+
+            (gis || []).forEach(r => {
+                if (r.latitude && r.longitude) mapPts.push({ name: r.area_name, district: r.district, lat: r.latitude, lon: r.longitude, type: 'gis', typeLabel: 'พื้นที่ GIS' });
+            });
+            (tourMap || []).forEach(r => {
+                if (r.latitude && r.longitude) mapPts.push({ name: r.spot_name, district: r.district, lat: r.latitude, lon: r.longitude, type: 'tourism', typeLabel: 'ท่องเที่ยวเกษตร' });
+            });
+            setMapData(mapPts);
+
+            // Fetch Real Data
+            const dists = ['เมืองนครปฐม', 'กำแพงแสน', 'นครชัยศรี', 'ดอนตูม', 'บางเลน', 'สามพราน', 'พุทธมณฑล'];
+            const dStats = {};
+            dists.forEach(d => dStats[d] = {
+                ce: 0, lp: 0, area: 0, house: 0,
+                ricePi: 0, ricePrung: 0, field: 0, fruit: 0, veg: 0, flow: 0, herb: 0,
+                lc: 0, pc: 0, sfc: 0,
+                instHousewives: 0, instYoung: 0, instCareer: 0, instVillage: 0
+            });
+
+            const [sfData, ceData, atData, { data: lpData }, { data: instData }, { data: agriAreaData }, { data: lcData }, { data: pcData }, { data: sfcData }] = await Promise.all([
+                fetchWithCount('smart_farmers', 'id, full_name, district, main_product'),
+                supabase.from('community_enterprises').select('id, district', { count: 'exact' }),
+                fetchWithCount('agri_tourism', 'id, spot_name, district, spot_type'),
+                supabase.from('large_plots').select('*'),
+                supabase.from('farmer_institutes').select('*'),
+                supabase.from('agricultural_areas').select('*').neq('district', 'รวม'),
+                supabase.from('learning_centers').select('district'),
+                supabase.from('pest_centers').select('district'),
+                supabase.from('soil_fertilizer_centers').select('district')
+            ]);
+
+            setSmartFarmers(sfData);
+
+            // Community Enterprises
+            const ceList = ceData.data || [];
+            const ceCount = ceData.count || ceList.length;
+            setEnterprises({ list: [], count: ceCount });
+            const distCounts = {};
+            ceList.forEach(r => {
+                let d = r.district || 'ไม่ระบุ';
+                if (d === 'เมือง') d = 'เมืองนครปฐม';
+                distCounts[d] = (distCounts[d] || 0) + 1;
+                if (dStats[d]) dStats[d].ce += 1;
+            });
+            setCeDistrictStats(distCounts);
+            setTourism(atData);
+
+            // Compute Farmer Institutes
+            let iTotal = 0, iCE = 0, iHouse = 0, iYoungGrp = 0, iCareer = 0, iVillage = 0, iSF = 0, iYSF = 0;
+            (instData || []).forEach(row => {
+                let d = row.district;
+                if (d === 'เมือง') d = 'เมืองนครปฐม';
+                if (dStats[d]) {
+                    dStats[d].instHousewives += Number(row.housewives_groups) || 0;
+                    dStats[d].instYoung += Number(row.young_farmer_groups) || 0;
+                    dStats[d].instCareer += Number(row.career_promotion_groups) || 0;
+                    dStats[d].instVillage += Number(row.village_farmers_count) || 0;
                 }
-            } catch { /* skip */ }
+                iTotal += Number(row.total_groups) || 0;
+                iCE += Number(row.community_enterprise_groups) || 0;
+                iHouse += Number(row.housewives_groups) || 0;
+                iYoungGrp += Number(row.young_farmer_groups) || 0;
+                iCareer += Number(row.career_promotion_groups) || 0;
+                iVillage += Number(row.village_farmers_count) || 0;
+                iSF += Number(row.smart_farmer_count) || 0;
+                iYSF += Number(row.young_smart_farmer_count) || 0;
+            });
+            setInstituteStats({
+                total: iTotal, ce: iCE, housewives: iHouse, young_grp: iYoungGrp, career: iCareer,
+                village: iVillage, sf: iSF, ysf: iYSF
+            });
+
+            // Large Plots stats
+            let lRice = 0, lVegH = 0, lFruit = 0, lField = 0, lOther = 0, lMems = 0, lArea = 0;
+            (lpData || []).forEach(row => {
+                lMems += Number(row.member_count) || 0;
+                lArea += Number(row.area_rai) || 0;
+                const g = row.commodity_group;
+                if (g === 'ข้าว') lRice++;
+                else if (g === 'ผัก/สมุนไพร') lVegH++;
+                else if (g === 'ไม้ผล') lFruit++;
+                else if (g === 'พืชไร่') lField++;
+                else lOther++;
+                let d = row.district;
+                if (d === 'เมือง') d = 'เมืองนครปฐม';
+                if (dStats[d]) dStats[d].lp += 1;
+            });
+            setLpStats({
+                total: lpData ? lpData.length : 0,
+                rice: lRice, veg_herb: lVegH, fruit: lFruit, field_crop: lField, other: lOther,
+                members: lMems, area: lArea
+            });
+
+            // Centers distribution
+            (lcData || []).forEach(row => { let d = row.district; if (d === 'เมือง') d = 'เมืองนครปฐม'; if (dStats[d]) dStats[d].lc++; });
+            (pcData || []).forEach(row => { let d = row.district; if (d === 'เมือง') d = 'เมืองนครปฐม'; if (dStats[d]) dStats[d].pc++; });
+            (sfcData || []).forEach(row => { let d = row.district; if (d === 'เมือง') d = 'เมืองนครปฐม'; if (dStats[d]) dStats[d].sfc++; });
+
+            // Agri Areas
+            let aHouse = 0, aTotal = 0, aCrop = 0, aRicePi = 0, aRicePrung = 0, aField = 0, aHort = 0, aFruit = 0, aVeg = 0, aFlow = 0, aHerb = 0;
+            (agriAreaData || []).forEach(row => {
+                aHouse += Number(row.farmer_households) || 0;
+                aTotal += Number(row.total_area_rai) || 0;
+                aCrop += Number(row.agri_crop_area_rai) || 0;
+                aRicePi += Number(row.rice_in_season_rai) || 0;
+                aRicePrung += Number(row.rice_off_season_rai) || 0;
+                aField += Number(row.field_crops_rai) || 0;
+                aHort += Number(row.horticulture_rai) || 0;
+                aFruit += Number(row.fruit_trees_rai) || 0;
+                aVeg += Number(row.vegetables_rai) || 0;
+                aFlow += Number(row.flowers_rai) || 0;
+                aHerb += Number(row.herbs_spices_rai) || 0;
+                let d = row.district;
+                if (d === 'เมือง') d = 'เมืองนครปฐม';
+                if (dStats[d]) {
+                    dStats[d].area += Number(row.agri_crop_area_rai) || 0;
+                    dStats[d].house += Number(row.farmer_households) || 0;
+                    dStats[d].ricePi += Number(row.rice_in_season_rai) || 0;
+                    dStats[d].ricePrung += Number(row.rice_off_season_rai) || 0;
+                    dStats[d].field += Number(row.field_crops_rai) || 0;
+                    dStats[d].fruit += Number(row.fruit_trees_rai) || 0;
+                    dStats[d].veg += Number(row.vegetables_rai) || 0;
+                    dStats[d].flow += Number(row.flowers_rai) || 0;
+                    dStats[d].herb += Number(row.herbs_spices_rai) || 0;
+                }
+            });
+            setAgriStats({
+                households: aHouse, total_area: aTotal, crop_area: aCrop,
+                rice_pi: aRicePi, rice_prung: aRicePrung, field_crops: aField,
+                hort: aHort, fruit: aFruit, veg: aVeg, flow: aFlow, herb: aHerb
+            });
+
+            setDistrictStats(dStats);
+        } catch (e) {
+            console.error('Landing data error:', e);
         }
-        acts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-        setActivities(acts.slice(0, 8));
-        setActivityLoading(false);
     };
 
     // --- Charts ---
-    // Agricultural areas: Pie by crop type
     const agriPie = useMemo(() => {
         const fields = [
             { key: 'rice_in_season_rai', label: 'ข้าวนาปี' },
@@ -158,16 +298,6 @@ export default function Dashboard() {
         })).filter(d => d.value > 0);
     }, [agriData]);
 
-    // Group summary bar
-    const groupBar = useMemo(() => {
-        return groupConfig.map(g => ({
-            name: g.group,
-            value: stats.filter(s => s.group === g.group).reduce((sum, s) => sum + s.count, 0),
-            color: g.color,
-        })).filter(d => d.value > 0);
-    }, [stats]);
-
-    // Large plots by commodity
     const lpPie = useMemo(() => {
         const map = {};
         largePlots.forEach(p => {
@@ -176,33 +306,6 @@ export default function Dashboard() {
         });
         return Object.entries(map).map(([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value);
     }, [largePlots]);
-
-    // Highlights: meaningful stats
-    const highlights = useMemo(() => {
-        const totalAgriRai = agriData.reduce((sum, r) => sum + (Number(r.total_area_rai) || 0), 0);
-        const totalCropRai = agriData.reduce((sum, r) => sum + (Number(r.agri_crop_area_rai) || 0), 0);
-        const lpCount = largePlots.length;
-        const uniqueCommodities = [...new Set(largePlots.map(p => p.commodity_group).filter(Boolean))].length;
-        const getCount = (table) => stats.find(s => s.table === table)?.count || 0;
-
-        // Farmer institutes specific computes
-        const totalFiGroups = fiData.reduce((sum, r) => sum + (Number(r.total_groups) || 0), 0);
-        const totalHousewives = fiData.reduce((sum, r) => sum + (Number(r.housewives_groups) || 0), 0);
-        const totalYoungFarmers = fiData.reduce((sum, r) => sum + (Number(r.young_farmer_groups) || 0), 0);
-
-        return [
-            { icon: '🌾', label: 'พื้นที่เกษตรรวม', value: totalAgriRai.toLocaleString() + ' ไร่', bg: '#f0fdf4', iconBg: '#43a047' },
-            { icon: '🌿', label: 'พื้นที่ด้านพืช', value: totalCropRai.toLocaleString() + ' ไร่', bg: '#ecfdf5', iconBg: '#26a69a' },
-            { icon: '📦', label: 'แปลงใหญ่', value: lpCount + ' แปลง', bg: '#eff6ff', iconBg: '#1565c0' },
-            { icon: '🏷️', label: 'กลุ่มสินค้าแปลงใหญ่', value: uniqueCommodities + ' กลุ่ม', bg: '#f5f3ff', iconBg: '#6a1b9a' },
-            { icon: '🏫', label: 'ศูนย์เรียนรู้ (ศพก.)', value: getCount('learning_centers') + ' ศูนย์', bg: '#eff6ff', iconBg: '#1976d2' },
-            { icon: '🏥', label: 'ศูนย์จัดการศัตรูพืช (ศจช.)', value: getCount('pest_centers') + ' ศูนย์', bg: '#fff7ed', iconBg: '#e65100' },
-            { icon: '🧪', label: 'ศูนย์ดินปุ๋ย (ศดปช.)', value: getCount('soil_fertilizer_centers') + ' ศูนย์', bg: '#f0fdfa', iconBg: '#00695c' },
-            { icon: '🤝', label: 'สถาบันเกษตรกรรวม', value: totalFiGroups.toLocaleString() + ' กลุ่ม', bg: '#fdf2f8', iconBg: '#c2185b' },
-            { icon: '👩‍🌾', label: 'กลุ่มแม่บ้านเกษตรกร', value: totalHousewives.toLocaleString() + ' กลุ่ม', bg: '#f0fdf4', iconBg: '#1a7f37' },
-            { icon: '🧑‍🌾', label: 'กลุ่มยุวเกษตรกร', value: totalYoungFarmers.toLocaleString() + ' กลุ่ม', bg: '#fffbeb', iconBg: '#bf8700' },
-        ].filter(h => !h.value.startsWith('0'));
-    }, [agriData, largePlots, fiData, stats]);
 
     const totalRecords = stats.reduce((sum, s) => sum + s.count, 0);
 
@@ -229,11 +332,12 @@ export default function Dashboard() {
     };
 
     return (
-        <div ref={dashRef}>
+        <div ref={dashRef} className="dashboard-unified">
             {/* Page Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24 }}>
                 <div className="md-page-header" style={{ marginBottom: 0 }}>
-                    <h2>📊 Dashboard ภาพรวม</h2>
+                    <h2>📊 แดชบอร์ดรวม</h2>
+                    <p style={{ color: '#64748b', fontSize: 14, margin: '4px 0 0' }}>ภาพรวมข้อมูลทั้งหมด — สภาพอากาศ ราคาสินค้า และข้อมูลเกษตรกร</p>
                 </div>
                 <Button
                     icon={<FilePdfOutlined />}
@@ -245,7 +349,41 @@ export default function Dashboard() {
                 </Button>
             </div>
 
-            {/* ===== Group Summary Cards ===== */}
+            {/* ═══════════════════════════════════════════════════════ */}
+            {/* SECTION 1: LIVE WIDGETS — Weather / AQI / Prices       */}
+            {/* ═══════════════════════════════════════════════════════ */}
+            <div className="dash-section-label">
+                <span className="dash-section-icon">🌤️</span>
+                <span>สภาพอากาศ คุณภาพอากาศ และราคาสินค้าเกษตร</span>
+            </div>
+            <div className="dash-live-widgets">
+                <div className="dash-live-left">
+                    <WeatherWidget />
+                    <AirQualityWidget />
+                </div>
+                <div className="dash-live-right">
+                    <AgriPricesWidget />
+                </div>
+            </div>
+
+            {/* ═══════════════════════════════════════════════════════ */}
+            {/* SECTION 2: HOTSPOT / FIRE MAP                          */}
+            {/* ═══════════════════════════════════════════════════════ */}
+            <div className="dash-section-label">
+                <span className="dash-section-icon">🔥</span>
+                <span>สถานการณ์ไฟ / จุดความร้อน</span>
+            </div>
+            <div style={{ marginBottom: 28 }}>
+                <HotspotWidget />
+            </div>
+
+            {/* ═══════════════════════════════════════════════════════ */}
+            {/* SECTION 3: GROUP SUMMARY CARDS                         */}
+            {/* ═══════════════════════════════════════════════════════ */}
+            <div className="dash-section-label">
+                <span className="dash-section-icon">📈</span>
+                <span>สรุปข้อมูลตามกลุ่มงาน</span>
+            </div>
             <div className="md-stat-row">
                 {loading ? (
                     [1, 2, 3, 4].map(i => (
@@ -280,11 +418,43 @@ export default function Dashboard() {
                 )}
             </div>
 
-            {/* ===== Charts ===== */}
+            {/* ═══════════════════════════════════════════════════════ */}
+            {/* SECTION 4: BENTO CARDS + MAP (from Landing Page)       */}
+            {/* ═══════════════════════════════════════════════════════ */}
+            <div className="dash-section-label">
+                <span className="dash-section-icon">📅</span>
+                <span>ข้อมูลเกษตรกร แปลงใหญ่ วิสาหกิจชุมชน แหล่งท่องเที่ยว และแผนที่</span>
+            </div>
+            <section className="bento-container dash-bento-override" style={{ marginTop: 0 }}>
+                {/* Map Card */}
+                <div className="bento-card bento-card-map" style={{ gridArea: 'map' }}>
+                    <div className="bento-card-header">
+                        <h3>🗺️ แผนที่ข้อมูลการเกษตร</h3>
+                        <span>พิกัดพื้นที่เชิงเกษตร (GIS, ท่องเที่ยว)</span>
+                    </div>
+                    <div className="bento-card-body p-0">
+                        <LandingMap mapData={mapData} districtStats={districtStats} />
+                    </div>
+                </div>
+
+                <SmartFarmersCard data={smartFarmers} loading={loading} />
+                <CommunityEnterprisesCard count={enterprises.count} districtStats={ceDistrictStats} loading={loading} />
+                <LargePlotsCard stats={lpStats} loading={loading} />
+                <AgriTourismCard data={tourism} loading={loading} />
+                <FarmerInstitutesCard stats={instituteStats} loading={loading} />
+                <AgriAreasCard stats={agriStats} loading={loading} />
+            </section>
+
+            {/* ═══════════════════════════════════════════════════════ */}
+            {/* SECTION 5: CHARTS                                       */}
+            {/* ═══════════════════════════════════════════════════════ */}
+            <div className="dash-section-label">
+                <span className="dash-section-icon">📊</span>
+                <span>แผนภูมิวิเคราะห์ข้อมูล</span>
+            </div>
             <Row gutter={[20, 20]} style={{ marginBottom: 24 }}>
-                {/* Agricultural Areas Pie */}
                 <Col xs={24} lg={12}>
-                    <Card title="🌾 สัดส่วนพื้นที่เกษตรตามชนิดพืช" size="small" bordered style={{ borderRadius: 12 }}>
+                    <Card title="🌾 สัดส่วนพื้นที่เกษตรตามชนิดพืช" size="small" bordered style={{ borderRadius: 16 }}>
                         <div style={{ height: 300 }}>
                             {agriPie.length > 0 ? (
                                 <ResponsiveContainer width="100%" height="100%">
@@ -300,10 +470,8 @@ export default function Dashboard() {
                         </div>
                     </Card>
                 </Col>
-
-                {/* Large Plots Pie */}
                 <Col xs={24} lg={12}>
-                    <Card title="🌿 แปลงใหญ่ตามกลุ่มสินค้า" size="small" bordered style={{ borderRadius: 12 }}>
+                    <Card title="🌿 แปลงใหญ่ตามกลุ่มสินค้า" size="small" bordered style={{ borderRadius: 16 }}>
                         <div style={{ height: 300 }}>
                             {lpPie.length > 0 ? (
                                 <ResponsiveContainer width="100%" height="100%">
@@ -321,92 +489,7 @@ export default function Dashboard() {
                 </Col>
             </Row>
 
-            {/* ===== Bottom Row: Key Highlights + Activity ===== */}
-            <div className="md-bottom-row">
-                {/* Key Highlights */}
-                <div className="md-projects-card">
-                    <div className="md-projects-header">
-                        <h3>⭐ ไฮไลท์ข้อมูลสำคัญ</h3>
-                        <p>ตัวเลขสำคัญจากข้อมูลจริงในระบบ</p>
-                    </div>
-                    {loading ? (
-                        <div style={{ padding: '16px 24px' }}>
-                            <Skeleton active paragraph={{ rows: 6 }} />
-                        </div>
-                    ) : (
-                        <div style={{ padding: '16px 24px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
-                            {highlights.map((h, i) => (
-                                <div key={i} style={{
-                                    background: h.bg, borderRadius: 12, padding: '18px 20px',
-                                    display: 'flex', alignItems: 'center', gap: 16,
-                                    border: '1px solid #f0f2f5', transition: 'transform 0.15s',
-                                }}>
-                                    <div style={{
-                                        width: 52, height: 52, borderRadius: 12,
-                                        background: h.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                        fontSize: 26, flexShrink: 0, boxShadow: `0 4px 12px ${h.iconBg}40`
-                                    }}>
-                                        {h.icon}
-                                    </div>
-                                    <div style={{ minWidth: 0 }}>
-                                        <div style={{ fontSize: 24, fontWeight: 700, color: '#1f2328', lineHeight: 1.2 }}>
-                                            {h.value}
-                                        </div>
-                                        <div style={{ fontSize: 13, color: '#656d76', marginTop: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                            {h.label}
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
 
-                {/* Activity Timeline */}
-                <div className="md-activity-card">
-                    <div className="md-activity-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                        <div>
-                            <h3 style={{ margin: 0, marginBottom: 4 }}>🕐 กิจกรรมล่าสุด</h3>
-                            <p style={{ margin: 0 }}>อัปเดตข้อมูลล่าสุดจากทุกกลุ่มงาน</p>
-                        </div>
-                        <Link to="/dashboard/admin/recent-activities">
-                            <Button type="primary" size="small" style={{ borderRadius: 6 }}>
-                                ดูเพิ่มเติม
-                            </Button>
-                        </Link>
-                    </div>
-                    {activityLoading ? (
-                        <div style={{ padding: '0 24px 20px' }}>
-                            <Skeleton active paragraph={{ rows: 6 }} />
-                        </div>
-                    ) : activities.length > 0 ? (
-                        <ul className="md-timeline">
-                            {activities.map((act, i) => {
-                                const dotColors = ['green', 'blue', 'orange', 'purple', 'red', 'pink'];
-                                return (
-                                    <li key={i} className="md-timeline-item">
-                                        <div className={`md-timeline-dot ${dotColors[i % dotColors.length]}`}>
-                                            {act.icon}
-                                        </div>
-                                        <div className="md-timeline-content">
-                                            <div className="md-timeline-title">
-                                                <strong>{act.table}</strong> — {act.name}
-                                            </div>
-                                            <div className="md-timeline-time">
-                                                <ClockCircleOutlined /> {formatDate(act.created_at)} · {formatTimeAgo(act.created_at)}
-                                            </div>
-                                        </div>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    ) : (
-                        <div style={{ padding: '20px 24px', textAlign: 'center', color: '#8b949e' }}>
-                            ยังไม่มีกิจกรรม
-                        </div>
-                    )}
-                </div>
-            </div>
 
             {/* Empty state */}
             {totalRecords === 0 && !loading && (
