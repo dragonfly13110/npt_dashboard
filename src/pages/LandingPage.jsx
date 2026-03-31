@@ -17,7 +17,7 @@ import HotspotWidget from '../components/widgets/HotspotWidget';
 import AgriGovNewsWidget from '../components/widgets/AgriGovNewsWidget';
 import AgriMediaNewsWidget from '../components/widgets/AgriMediaNewsWidget';
 import LandingMap from '../components/widgets/LandingMap';
-import { SmartFarmersCard, CommunityEnterprisesCard, LargePlotsCard, AgriTourismCard, FarmerInstitutesCard, AgriAreasCard, DeptStatsOverview } from '../components/widgets/LandingBentoCards';
+import { SmartFarmersCard, CommunityEnterprisesCard, LargePlotsCard, AgriTourismCard, FarmerInstitutesCard, AgriAreasCard } from '../components/widgets/LandingBentoCards';
 
 export default function LandingPage() {
     const [loading, setLoading] = useState(true);
@@ -326,8 +326,7 @@ export default function LandingPage() {
 
                 </section>
 
-                {/* ===== ALL 5 GROUPS OVERVIEW ===== */}
-                <DeptStatsOverview allStats={allStats} instituteStats={instituteStats} loading={loading} />
+
 
                 {/* ===== AGRI GOV NEWS (ข่าวจากหน่วยงานภาครัฐ) ===== */}
                 <div style={{ maxWidth: '1200px', margin: '0 auto 40px', padding: '0 24px' }}>

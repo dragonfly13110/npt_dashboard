@@ -11,7 +11,7 @@ import { useSupabaseCrud } from '../../hooks/useSupabase';
 import CsvImportModal from './CsvImportModal';
 import { useAuth } from '../../contexts/AuthContext';
 
-export default function CrudTable({ tableName, title, columns, formFields, searchField, searchFields, filterConfig = [] }) {
+export default function CrudTable({ tableName, title, columns, formFields, searchField, searchFields, filterConfig = [], scrollX = 1000 }) {
     const { data, loading, total, fetchData, createRecord, updateRecord, deleteRecord, fetchAll } = useSupabaseCrud(tableName);
     const { canEdit, canDelete, role } = useAuth();
     const [modalOpen, setModalOpen] = useState(false);
@@ -305,7 +305,7 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
                 }}
                 onChange={handleTableChange}
                 locale={{ emptyText: <Empty description="ยังไม่มีข้อมูล" /> }}
-                scroll={{ x: 'max-content' }}
+                scroll={{ x: scrollX }}
             />
 
             <Modal

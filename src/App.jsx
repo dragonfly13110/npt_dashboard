@@ -96,6 +96,16 @@ function AppRoutes() {
         {/* Landing Page — PUBLIC */}
         <Route path="/" element={<LandingPage />} />
 
+        {/* Public View for Large Plots */}
+        <Route path="/public/large-plots" element={
+          <div style={{ padding: '20px 24px', maxWidth: 1400, margin: '0 auto', minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+            <div style={{ marginBottom: 16 }}>
+              <a href="/" style={{ color: '#1a7f37', textDecoration: 'none', fontWeight: 600, fontSize: 16 }}>← กลับหน้าหลัก</a>
+            </div>
+            <LargePlots />
+          </div>
+        } />
+
         {/* Login page */}
         <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
 

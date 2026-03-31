@@ -97,7 +97,10 @@ export const LargePlotsCard = ({ stats, loading }) => {
     return (
         <div className="bento-card" style={{ gridArea: 'lp' }}>
             <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div><h3>🌾 แปลงใหญ่</h3></div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <h3 style={{ margin: 0 }}>🌾 แปลงใหญ่</h3>
+                    <a href="/public/large-plots" style={{ fontSize: 11, padding: '3px 8px', background: '#e0f2fe', color: '#0369a1', borderRadius: 6, textDecoration: 'none', fontWeight: 600, border: '1px solid #bae6fd', whiteSpace: 'nowrap' }}>👆 คลิกเพื่อดูรายละเอียด</a>
+                </div>
                 <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
                     ทั้งหมด {stats.total} แปลง
                 </div>
