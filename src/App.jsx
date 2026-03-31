@@ -96,15 +96,24 @@ function AppRoutes() {
         {/* Landing Page — PUBLIC */}
         <Route path="/" element={<LandingPage />} />
 
-        {/* Public View for Large Plots */}
-        <Route path="/public/large-plots" element={
-          <div style={{ padding: '20px 24px', maxWidth: 1400, margin: '0 auto', minHeight: '100vh', backgroundColor: '#f8fafc' }}>
-            <div style={{ marginBottom: 16 }}>
-              <a href="/" style={{ color: '#1a7f37', textDecoration: 'none', fontWeight: 600, fontSize: 16 }}>← กลับหน้าหลัก</a>
+        {/* ===== PUBLIC VIEW PAGES (ไม่ต้อง Login) ===== */}
+        {[
+          { path: '/public/large-plots', Component: LargePlots },
+          { path: '/public/smart-farmers', Component: SmartFarmers },
+          { path: '/public/community-enterprises', Component: CommunityEnterprises },
+          { path: '/public/agri-tourism', Component: AgriTourism },
+          { path: '/public/farmer-institutes', Component: FarmerInstitutes },
+          { path: '/public/agricultural-areas', Component: AgriculturalAreas },
+        ].map(({ path, Component }) => (
+          <Route key={path} path={path} element={
+            <div style={{ padding: '20px 24px', maxWidth: 1400, margin: '0 auto', minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+              <div style={{ marginBottom: 16 }}>
+                <a href="/" style={{ color: '#1a7f37', textDecoration: 'none', fontWeight: 600, fontSize: 16 }}>← กลับหน้าหลัก</a>
+              </div>
+              <Component />
             </div>
-            <LargePlots />
-          </div>
-        } />
+          } />
+        ))}
 
         {/* Login page */}
         <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />

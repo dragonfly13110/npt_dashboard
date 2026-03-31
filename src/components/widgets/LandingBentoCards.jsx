@@ -55,6 +55,7 @@ export const SmartFarmersCard = ({ data, loading }) => {
                         </div>
                 )}
             </div>
+            <a href="/public/smart-farmers" style={{ display: 'block', textAlign: 'center', padding: '10px 16px', background: '#fff7ed', color: '#c2410c', fontSize: 13, fontWeight: 600, textDecoration: 'none', borderTop: '1px solid #fed7aa', borderRadius: '0 0 14px 14px' }}>📊 ดูรายละเอียดทั้งหมด →</a>
         </div>
     );
 };
@@ -89,6 +90,7 @@ export const CommunityEnterprisesCard = ({ count, districtStats, loading }) => {
                     )}
                 </div>
             </div>
+            <a href="/public/community-enterprises" style={{ display: 'block', textAlign: 'center', padding: '10px 16px', background: '#e0f2fe', color: '#0369a1', fontSize: 13, fontWeight: 600, textDecoration: 'none', borderTop: '1px solid #bae6fd', borderRadius: '0 0 14px 14px' }}>📊 ดูรายละเอียดทั้งหมด →</a>
         </div>
     );
 };
@@ -97,10 +99,7 @@ export const LargePlotsCard = ({ stats, loading }) => {
     return (
         <div className="bento-card" style={{ gridArea: 'lp' }}>
             <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <h3 style={{ margin: 0 }}>🌾 แปลงใหญ่</h3>
-                    <a href="/public/large-plots" style={{ fontSize: 11, padding: '3px 8px', background: '#e0f2fe', color: '#0369a1', borderRadius: 6, textDecoration: 'none', fontWeight: 600, border: '1px solid #bae6fd', whiteSpace: 'nowrap' }}>👆 คลิกเพื่อดูรายละเอียด</a>
-                </div>
+                <div><h3>🌾 แปลงใหญ่</h3></div>
                 <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
                     ทั้งหมด {stats.total} แปลง
                 </div>
@@ -149,6 +148,7 @@ export const LargePlotsCard = ({ stats, loading }) => {
                     )}
                 </div>
             </div>
+            <a href="/public/large-plots" style={{ display: 'block', textAlign: 'center', padding: '10px 16px', background: '#fef9c3', color: '#854d0e', fontSize: 13, fontWeight: 600, textDecoration: 'none', borderTop: '1px solid #fde68a', borderRadius: '0 0 14px 14px' }}>📊 ดูรายละเอียดทั้งหมด →</a>
         </div>
     );
 };
@@ -178,6 +178,7 @@ export const AgriTourismCard = ({ data, loading }) => {
                         </div>
                 )}
             </div>
+            <a href="/public/agri-tourism" style={{ display: 'block', textAlign: 'center', padding: '10px 16px', background: '#f3e8ff', color: '#7e22ce', fontSize: 13, fontWeight: 600, textDecoration: 'none', borderTop: '1px solid #e9d5ff', borderRadius: '0 0 14px 14px' }}>📊 ดูรายละเอียดทั้งหมด →</a>
         </div>
     );
 };
@@ -235,6 +236,7 @@ export const FarmerInstitutesCard = ({ stats, loading }) => {
                     )}
                 </div>
             </div>
+            <a href="/public/farmer-institutes" style={{ display: 'block', textAlign: 'center', padding: '10px 16px', background: '#dcfce7', color: '#15803d', fontSize: 13, fontWeight: 600, textDecoration: 'none', borderTop: '1px solid #bbf7d0', borderRadius: '0 0 14px 14px' }}>📊 ดูรายละเอียดทั้งหมด →</a>
         </div>
     );
 };
@@ -314,6 +316,7 @@ export const AgriAreasCard = ({ stats, loading }) => {
                     </>
                 )}
             </div>
+            <a href="/public/agricultural-areas" style={{ display: 'block', textAlign: 'center', padding: '10px 16px', background: '#dcfce7', color: '#15803d', fontSize: 13, fontWeight: 600, textDecoration: 'none', borderTop: '1px solid #bbf7d0', borderRadius: '0 0 14px 14px' }}>📊 ดูรายละเอียดทั้งหมด →</a>
         </div>
     );
 };
