@@ -105,8 +105,12 @@ export function useSupabaseCrud(tableName) {
         try {
             // ดึงข้อมูลเดิมก่อน update
             const { data: oldRows } = await supabase.from(tableName).select('*').eq('id', id).single();
-            const { error } = await supabase.from(tableName).update(record).eq('id', id);
+            const { data: updated, error } = await supabase.from(tableName).update(record).eq('id', id).select();
             if (error) throw error;
+            // ตรวจสอบว่ามี row ถูก update จริงหรือไม่ (ป้องกัน RLS silent block)
+            if (!updated || updated.length === 0) {
+                throw new Error('ไม่สามารถอัปเดตได้ — อาจไม่มีสิทธิ์แก้ไขข้อมูลนี้');
+            }
             notify.success('แก้ไขข้อมูลสำเร็จ', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
             // Audit log
             logAction('UPDATE', tableName, id, oldRows, record);
