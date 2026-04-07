@@ -25,9 +25,9 @@ export default function PageSkeleton() {
                     </div>
                 </div>
                 <div className="skeleton-table-body">
-                    {[1, 2, 3, 4, 5].map(i => (
+                    {[75, 85, 65, 90, 70].map((w, i) => (
                         <div key={i} className="skeleton-table-row">
-                            <Skeleton active paragraph={false} title={{ width: `${60 + Math.random() * 30}%` }} />
+                            <Skeleton active paragraph={false} title={{ width: `${w}%` }} />
                         </div>
                     ))}
                 </div>

@@ -13,10 +13,6 @@ export default function GroupDashboard({ title, icon, color, tables }) {
     const [stats, setStats] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        loadStats();
-    }, [tables]);
-
     const loadStats = async () => {
         setLoading(true);
         const results = [];
@@ -33,6 +29,10 @@ export default function GroupDashboard({ title, icon, color, tables }) {
         setStats(results);
         setLoading(false);
     };
+
+    useEffect(() => {
+        loadStats();
+    }, [tables]);
 
     const barData = stats.filter(s => s.count > 0).map(s => ({ name: s.label, value: s.count }));
     const totalRecords = stats.reduce((sum, s) => sum + s.count, 0);

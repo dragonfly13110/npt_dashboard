@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { Modal, Button, Table, Select, Progress, Alert, Steps, Tag, Space, Upload } from 'antd';
 import {
     UploadOutlined, FileTextOutlined, CheckCircleOutlined,
@@ -86,9 +86,7 @@ export default function CsvImportModal({ open, onClose, tableName, columns, onSu
     const [csvRows, setCsvRows] = useState([]);
     const [mapping, setMapping] = useState({}); // csvHeader → dbColumn
     const [progress, setProgress] = useState(0);
-    const [importing, setImporting] = useState(false);
     const [result, setResult] = useState({ success: 0, failed: 0, errors: [] });
-    const fileInputRef = useRef(null);
 
     // DB columns จาก columns prop (ตัดคอลัมน์ actions ออก)
     const dbColumns = columns
@@ -104,7 +102,6 @@ export default function CsvImportModal({ open, onClose, tableName, columns, onSu
         setCsvRows([]);
         setMapping({});
         setProgress(0);
-        setImporting(false);
         setResult({ success: 0, failed: 0, errors: [] });
     };
 
@@ -143,7 +140,6 @@ export default function CsvImportModal({ open, onClose, tableName, columns, onSu
     // Import ข้อมูลเข้า Supabase
     const handleImport = async () => {
         setStep(2);
-        setImporting(true);
 
         // สร้าง records จาก mapping
         const records = csvRows.map(row => {
@@ -190,7 +186,6 @@ export default function CsvImportModal({ open, onClose, tableName, columns, onSu
         }
 
         setResult({ success, failed, errors });
-        setImporting(false);
         setStep(3);
     };
 

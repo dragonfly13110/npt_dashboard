@@ -57,10 +57,6 @@ export default function LandingPage() {
         if (metaDesc) metaDesc.setAttribute('content', SEO_DESCRIPTION);
     }, []);
 
-    useEffect(() => {
-        loadDashboardData();
-    }, []);
-
     const fetchWithCount = async (table, selectStr = 'id') => {
         const { data, count } = await supabase.from(table)
             .select(selectStr, { count: 'exact' })
@@ -241,6 +237,10 @@ export default function LandingPage() {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        loadDashboardData();
+    }, []);
 
 
     return (

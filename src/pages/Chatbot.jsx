@@ -50,15 +50,10 @@ const AI_MODELS = {
     }
 };
 
-// ── OpenRouter Config ──
-const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY || '';
-const OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1';
+// ── API calls now go through Netlify proxy for security ──
+const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
 const OPENROUTER_MODEL = 'qwen/qwen3.6-plus:free';
-
-// ── Gemini Config ──
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || '';
 const GEMINI_MODEL = 'gemini-3.1-flash-lite-preview';
-const GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta';
 
 // ──────── Table Config ────────
 const TABLE_CONFIG = {
@@ -125,11 +120,10 @@ const DISTRICT_COLS = {
 // ────────── AI API CALL FUNCTIONS ────────────
 // ══════════════════════════════════════════════
 
-// ── OpenRouter (Qwen) ──
+// ── OpenRouter (Qwen) via proxy ──
 async function callOpenRouterAI(systemPrompt, messagesHistory, retries = 2) {
     for (let attempt = 0; attempt <= retries; attempt++) {
         try {
-            // Build messages array
             const apiMessages = [{ role: 'system', content: systemPrompt }];
             if (Array.isArray(messagesHistory)) {
                 apiMessages.push(...messagesHistory.map(m => ({
@@ -140,17 +134,17 @@ async function callOpenRouterAI(systemPrompt, messagesHistory, retries = 2) {
                 apiMessages.push({ role: 'user', content: messagesHistory });
             }
 
-            const res = await fetch(`${OPENROUTER_BASE_URL}/chat/completions`, {
+            const res = await fetch(AI_PROXY_URL, {
                 method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    model: OPENROUTER_MODEL,
-                    messages: apiMessages,
-                    temperature: 0.5,
-                    max_tokens: 8000,
+                    provider: 'openrouter',
+                    body: {
+                        model: OPENROUTER_MODEL,
+                        messages: apiMessages,
+                        temperature: 0.5,
+                        max_tokens: 8000,
+                    }
                 })
             });
 
@@ -176,7 +170,7 @@ async function callOpenRouterAI(systemPrompt, messagesHistory, retries = 2) {
     return null;
 }
 
-// ── Google Gemini ──
+// ── Google Gemini via proxy ──
 async function callGeminiAI(systemPrompt, messagesHistory, settings, retries = 2) {
     for (let attempt = 0; attempt <= retries; attempt++) {
         try {
@@ -190,7 +184,7 @@ async function callGeminiAI(systemPrompt, messagesHistory, settings, retries = 2
                 contents = [{ role: 'user', parts: [{ text: messagesHistory }] }];
             }
 
-            const bodyConfig = {
+            const requestBody = {
                 contents,
                 systemInstruction: {
                     parts: [{ text: systemPrompt }]
@@ -201,19 +195,18 @@ async function callGeminiAI(systemPrompt, messagesHistory, settings, retries = 2
                 }
             };
 
-            // Grounding with Google Search
             if (settings?.webSearch) {
-                bodyConfig.tools = [{ googleSearch: {} }];
+                requestBody.tools = [{ googleSearch: {} }];
             }
 
-            const res = await fetch(
-                `${GEMINI_BASE_URL}/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`,
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(bodyConfig)
-                }
-            );
+            const res = await fetch(AI_PROXY_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    provider: 'gemini',
+                    body: { model: GEMINI_MODEL, ...requestBody }
+                })
+            });
 
             if (res.status === 429) {
                 const waitMs = (attempt + 1) * 2000;
