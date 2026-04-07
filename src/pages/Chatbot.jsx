@@ -257,40 +257,40 @@ async function extractIntent(query, modelKey, chatHistory = []) {
     // Make AI aware of the FULL previous conversation to resolve pronouns and complex follow-up logic
     const recentHistory = chatHistory.map(m => `${m.role === 'bot' ? 'AI' : 'User'}: ${m.text}`).join('\n');
 
-    const prompt = `You are an elite AI data extraction mastermind for a Thai agriculture database (จ.นครปฐม).
-Extract incredibly precise search parameters from the user's NEW query, using the ENTIRE conversation context.
-Return ONLY valid JSON, no markdown code blocks.
+    const prompt = `คุณคือสุดยอด AI ผู้เชี่ยวชาญด้านการสกัดข้อมูลสำหรับฐานข้อมูลการเกษตรไทย (จ.นครปฐม)
+ให้สกัดพารามิเตอร์การค้นหาแบบแม่นยำขั้นสุดจากคำถาม *ใหม่* ของผู้ใช้ โดยอ้างอิงจากบริบทการสนทนา *ทั้งหมด*
+ตอบกลับเป็นรูปแบบ JSON ที่ถูกต้องเท่านั้น ห้ามครอบด้วย markdown code blocks เด็ดขาด
 
-Available tables:
+ตารางข้อมูลที่มีในระบบ (Available tables):
 ${tableList}
 
-IMPORTANT - agricultural_areas table has these COLUMNS (not searchable values):
+ข้อควรระวังสำคัญ - ตาราง agricultural_areas มี *คอลัมน์* ตามนี้ (ไม่ใช่ค่าข้อมูลสำหรับใช้ค้นหา):
 district, total_area_rai, agri_crop_area_rai, farmer_households, rice_in_season_rai, rice_off_season_rai, field_crops_rai, horticulture_rai, fruit_trees_rai, vegetables_rai, flowers_rai, herbs_spices_rai
 
-Districts: เมืองนครปฐม, กำแพงแสน, นครชัยศรี, ดอนตูม, บางเลน, สามพราน, พุทธมณฑล
+รายชื่ออำเภอ: เมืองนครปฐม, กำแพงแสน, นครชัยศรี, ดอนตูม, บางเลน, สามพราน, พุทธมณฑล
 
-Return format:
+รูปแบบการส่งค่ากลับ (Return format):
 {
-  "district": "อำเภอ or null",
-  "tables": ["table_name"] or ["all"] for overview questions,
-  "keyword": "a specific person name or very specific item name to filter by, or null",
+  "district": "ชื่ออำเภอ หรือ null",
+  "tables": ["ชื่อตาราง"] หรือ ["all"] สำหรับคำถามถามภาพรวม,
+  "keyword": "ชื่อบุคคล หรือชื่อสิ่งที่ต้องการกรองข้อมูลแบบเฉพาะเจาะจงมากๆ หรือ null",
   "is_general_question": false
 }
 
-Rules:
-- Use ["all"] ONLY for generic overview/summary requests
-- "พื้นที่เกษตรทั้งหมด" or "ปลูกข้าวกี่ไร่" → tables: ["agricultural_areas"], keyword: null (because rice data is in columns, NOT row values)
-- NEVER set keyword for general crop categories like ข้าว, ผัก, ไม้ผล, พืชไร่, สมุนไพร when asking about agricultural_areas — these are COLUMN NAMES in the table, not searchable values
-- keyword should ONLY be a specific searchable value like a person's name (e.g. "สมชาย"), a specific crop variety (e.g. "ส้มโอ"), or enterprise name
-- keyword should NOT include table names, district names, or question words
-- is_general_question: true for greetings, general knowledge, or questions unrelated to the database
-- Return raw JSON only, no markdown formatting
+กฎต่างๆ (Rules):
+- ใช้ ["all"] *เฉพาะ* คำขอที่เป็นภาพรวมหรือสรุปแบบกว้างๆ เท่านั้น
+- ตัวอย่างเช่น "พื้นที่เกษตรทั้งหมดมีเท่าไหร่" หรือ "ปลูกข้าวกี่ไร่" → ให้คืนค่าเป็น tables: ["agricultural_areas"], keyword: null (เนื่องจากข้อมูลข้าวเป็นชื่อคอลัมน์ ไม่ใช่ค่าในระดับแถว)
+- *ห้าม* ใส่ keyword เป็นหมวดหมู่พืชผลแบบกว้างๆ เช่น ข้าว, ผัก, ไม้ผล, พืชไร่, สมุนไพร ในกรณีที่ผู้ใช้ถามดึงข้อมูลจากตาราง agricultural_areas — เพราะคำเหล่านี้คือ *ชื่อคอลัมน์* ไม่ใช่ค่าสำหรับใช้ค้นหา
+- keyword ควรเป็นค่าที่ใช้ค้นหาแบบเฉพาะเจาะจงมากๆ เท่านั้น เช่น ชื่อบุคคล (เช่น "สมชาย"), ชื่อพันธุ์พืชเฉพาะ (เช่น "ส้มโอ"), หรือชื่อกลุ่มวิสาหกิจ
+- keyword *ห้าม* มีชื่อตาราง, ชื่ออำเภอ, หรือคำแสดงคำถาม ปะปนอยู่รวมในนั้น
+- is_general_question: ให้เป็น true สำหรับการพูดคุยทักทาย, คำถามความรู้ทั่วไป, หรือคำถามที่ไม่มีส่วนเกี่ยวข้องใดๆ กับฐานข้อมูลเลย
+- ตอบกลับมาเป็นโครงสร้าง raw JSON เพียงอย่างเดียว ห้ามมีการจัดรูปแบบ markdown ใดๆ (ห้ามมี \`\`\`json)
 
---- RECENT CONVERSATION CONTEXT ---
-${recentHistory || 'No previous context'}
---- END RECENT CONVERSATION ---
+--- บริบทการสนทนาล่าสุด (RECENT CONVERSATION CONTEXT) ---
+${recentHistory || 'ไม่มีบริบทก่อนหน้า'}
+--- สิ้นสุดบริบทการสนทนา (END RECENT CONVERSATION) ---
 
-Extract search parameters for this NEW user query: "${query}"`;
+จงสกัดพารามิเตอร์การค้นหาจากคำถาม *ใหม่* ของผู้ใช้ข้อความนี้: "${query}"`;
 
     try {
         const result = await callAI(modelKey, prompt, query);
