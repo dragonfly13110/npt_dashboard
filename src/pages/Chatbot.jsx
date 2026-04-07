@@ -51,7 +51,7 @@ const OPENROUTER_MODEL = 'qwen/qwen3.6-plus:free';
 
 // ── Gemini Config ──
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || '';
-const GEMINI_MODEL = 'gemini-2.5-flash-lite';
+const GEMINI_MODEL = 'gemini-3.1-flash-lite-preview';
 const GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta';
 
 // ──────── Table Config ────────
