@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Input, Button, Avatar, Spin, Card, Tag, Typography, Tooltip } from 'antd';
+import { Input, Button, Avatar, Spin, Card, Tag, Typography, Tooltip, Segmented, Badge } from 'antd';
 import {
     SendOutlined,
     RobotOutlined,
@@ -8,32 +8,72 @@ import {
     BulbOutlined,
     DatabaseOutlined,
     QuestionCircleOutlined,
-    ReloadOutlined,
+    ThunderboltOutlined,
+    ExperimentOutlined,
 } from '@ant-design/icons';
 import { supabase } from '../supabaseClient';
 
 const { Text } = Typography;
 
+// ══════════════════════════════════════════════
+// ────────── AI MODEL CONFIGURATIONS ──────────
+// ══════════════════════════════════════════════
+
+const AI_MODELS = {
+    qwen: {
+        key: 'qwen',
+        label: '🧠 Qwen 3.6+',
+        shortLabel: 'Qwen',
+        description: 'Qwen 3.6 Plus (Free)',
+        provider: 'OpenRouter',
+        color: '#7c3aed',
+        icon: '🧠',
+        badge: 'FREE',
+        badgeColor: '#52c41a',
+    },
+    gemini: {
+        key: 'gemini',
+        label: '✨ Gemini Flash',
+        shortLabel: 'Gemini',
+        description: 'Gemini 3.1 Flash Lite',
+        provider: 'Google',
+        color: '#4285f4',
+        icon: '✨',
+        badge: 'FAST',
+        badgeColor: '#1890ff',
+    }
+};
+
+// ── OpenRouter Config ──
+const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY || '';
+const OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1';
+const OPENROUTER_MODEL = 'qwen/qwen3.6-plus:free';
+
+// ── Gemini Config ──
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || '';
+const GEMINI_MODEL = 'gemini-2.5-flash-lite';
+const GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta';
+
 // ──────── Table Config ────────
 const TABLE_CONFIG = {
-    agricultural_areas: { label: 'พื้นที่การเกษตร', icon: '🌾', group: 'ยุทธศาสตร์' },
-    learning_centers: { label: 'ศูนย์เรียนรู้ (ศพก.)', icon: '🏫', group: 'ยุทธศาสตร์' },
-    disasters: { label: 'ภัยพิบัติ', icon: '⛈️', group: 'ยุทธศาสตร์' },
-    farmer_registry: { label: 'ทะเบียนเกษตรกร', icon: '📋', group: 'ยุทธศาสตร์' },
-    gis_areas: { label: 'พิกัด GIS', icon: '📍', group: 'ยุทธศาสตร์' },
-    kpi_plans: { label: 'แผน/KPI', icon: '📊', group: 'ยุทธศาสตร์' },
-    large_plots: { label: 'แปลงใหญ่', icon: '🌿', group: 'ส่งเสริมการผลิต' },
-    certifications: { label: 'มาตรฐาน GAP', icon: '✅', group: 'ส่งเสริมการผลิต' },
-    crop_production: { label: 'ผลผลิตพืช', icon: '🌽', group: 'ส่งเสริมการผลิต' },
-    community_enterprises: { label: 'วิสาหกิจชุมชน', icon: '🏪', group: 'พัฒนาเกษตรกร' },
-    smart_farmers: { label: 'เกษตรกรรุ่นใหม่', icon: '👨‍🌾', group: 'พัฒนาเกษตรกร' },
-    farmer_groups: { label: 'กลุ่มแม่บ้าน/ยุวฯ', icon: '👩‍🌾', group: 'พัฒนาเกษตรกร' },
-    farmer_institutes: { label: 'สถาบันเกษตรกร', icon: '🤝', group: 'พัฒนาเกษตรกร' },
-    agri_tourism: { label: 'ท่องเที่ยวเกษตร', icon: '🏕️', group: 'พัฒนาเกษตรกร' },
-    forecast_plots: { label: 'แปลงพยากรณ์', icon: '🔬', group: 'อารักขาพืช' },
-    pest_centers: { label: 'ศจช.', icon: '🏥', group: 'อารักขาพืช' },
-    soil_fertilizer_centers: { label: 'ศดปช.', icon: '🧪', group: 'อารักขาพืช' },
-    fire_hotspots: { label: 'จุดเฝ้าระวัง PM2.5', icon: '🔥', group: 'อารักขาพืช' },
+    agricultural_areas: { label: 'พื้นที่การเกษตร', icon: '🌾', group: 'ยุทธศาสตร์', descTh: 'ข้อมูลพื้นที่เกษตรรายอำเภอ (ข้าว, พืชไร่, ไม้ผล, ผัก, ไม้ดอก, สมุนไพร)' },
+    learning_centers: { label: 'ศูนย์เรียนรู้ (ศพก.)', icon: '🏫', group: 'ยุทธศาสตร์', descTh: 'ศูนย์เรียนรู้การเพิ่มประสิทธิภาพการผลิตสินค้าเกษตร' },
+    disasters: { label: 'ภัยพิบัติ', icon: '⛈️', group: 'ยุทธศาสตร์', descTh: 'ข้อมูลภัยพิบัติด้านการเกษตร' },
+    farmer_registry: { label: 'ทะเบียนเกษตรกร', icon: '📋', group: 'ยุทธศาสตร์', descTh: 'ทะเบียนเกษตรกรรายอำเภอ' },
+    gis_areas: { label: 'พิกัด GIS', icon: '📍', group: 'ยุทธศาสตร์', descTh: 'ข้อมูลพิกัดภูมิศาสตร์พื้นที่เกษตร' },
+    kpi_plans: { label: 'แผน/KPI', icon: '📊', group: 'ยุทธศาสตร์', descTh: 'ตัวชี้วัดและแผนงานประจำปี' },
+    large_plots: { label: 'แปลงใหญ่', icon: '🌿', group: 'ส่งเสริมการผลิต', descTh: 'ข้อมูลแปลงใหญ่ (สินค้า, พื้นที่, สมาชิก)' },
+    certifications: { label: 'มาตรฐาน GAP', icon: '✅', group: 'ส่งเสริมการผลิต', descTh: 'ใบรับรองมาตรฐาน GAP (ชื่อเกษตรกร, พืช, พื้นที่)' },
+    crop_production: { label: 'ผลผลิตพืช', icon: '🌽', group: 'ส่งเสริมการผลิต', descTh: 'ข้อมูลผลผลิตพืชรายอำเภอ' },
+    community_enterprises: { label: 'วิสาหกิจชุมชน', icon: '🏪', group: 'พัฒนาเกษตรกร', descTh: 'ข้อมูลวิสาหกิจชุมชน (ชื่อ, ประธาน, สมาชิก, ประเภท)' },
+    smart_farmers: { label: 'เกษตรกรรุ่นใหม่', icon: '👨‍🌾', group: 'พัฒนาเกษตรกร', descTh: 'ข้อมูล Smart Farmer / Young Smart Farmer' },
+    farmer_groups: { label: 'กลุ่มแม่บ้าน/ยุวฯ', icon: '👩‍🌾', group: 'พัฒนาเกษตรกร', descTh: 'กลุ่มแม่บ้านเกษตรกร, ยุวเกษตรกร' },
+    farmer_institutes: { label: 'สถาบันเกษตรกร', icon: '🤝', group: 'พัฒนาเกษตรกร', descTh: 'ข้อมูลสถาบันเกษตรกรรายอำเภอ (จำนวนกลุ่ม, อสม., SF, YSF)' },
+    agri_tourism: { label: 'ท่องเที่ยวเกษตร', icon: '🏕️', group: 'พัฒนาเกษตรกร', descTh: 'แหล่งท่องเที่ยวเชิงเกษตร' },
+    forecast_plots: { label: 'แปลงพยากรณ์', icon: '🔬', group: 'อารักขาพืช', descTh: 'แปลงพยากรณ์และเตือนการระบาดศัตรูพืช' },
+    pest_centers: { label: 'ศจช.', icon: '🏥', group: 'อารักขาพืช', descTh: 'ศูนย์จัดการศัตรูพืชชุมชน' },
+    soil_fertilizer_centers: { label: 'ศดปช.', icon: '🧪', group: 'อารักขาพืช', descTh: 'ศูนย์จัดการดินปุ๋ยชุมชน' },
+    fire_hotspots: { label: 'จุดเฝ้าระวัง PM2.5', icon: '🔥', group: 'อารักขาพืช', descTh: 'จุดเฝ้าระวังการเผาและ PM2.5' },
 };
 
 // ──────── Quick Prompts ────────
@@ -48,18 +88,10 @@ const QUICK_PROMPTS = [
     { icon: '⛈️', text: 'ข้อมูลภัยพิบัติล่าสุด' },
 ];
 
-// ──────── LLM Config ────────
-const MODELS = [
-    'moonshotai/kimi-k2-instruct',
-    'openai/gpt-oss-120b',
-    'groq/compound',
-    'llama-3.3-70b-versatile'
-];
-
-// ──────── Data Analysis Engine ────────
+// ──────── Search Config ────────
 const TABLE_SEARCH_COLS = {
     agricultural_areas: ['district'],
-    learning_centers: ['center_name', 'manager', 'chairman_name', 'featured_product', 'main_crop'],
+    learning_centers: ['name', 'chairman_name', 'featured_product'],
     disasters: ['disaster_type', 'subdistrict'],
     farmer_registry: ['main_crop'],
     gis_areas: ['area_name', 'area_type'],
@@ -83,102 +115,237 @@ const DISTRICT_COLS = {
     forecast_plots: 'district'
 };
 
-async function analyzeQuery(query) {
-    const results = [];
-    let matchedDistrict = null;
-    let searchKeyword = null;
-    let matchedTables = [];
-    let isOverview = false;
+// ══════════════════════════════════════════════
+// ────────── AI API CALL FUNCTIONS ────────────
+// ══════════════════════════════════════════════
 
-    // --- STEP 1: Use LLM for Intent Extraction ---
-    try {
-        const aiRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                model: 'llama-3.3-70b-versatile',
-                messages: [
-                    {
-                        role: 'system',
-                        content: `You are an AI data extractor for an agriculture database. Extract search parameters from the user's Thai query.
-Return ONLY valid JSON.
-{
-  "district": "เมืองนครปฐม", // Match exactly one: เมืองนครปฐม, กำแพงแสน, นครชัยศรี, ดอนตูม, บางเลน, สามพราน, พุทธมณฑล. Or null if not specified.
-  "tables": ["large_plots"], // Array of table mapping to intent. Options: agricultural_areas, learning_centers, disasters, farmer_registry, gis_areas, kpi_plans, large_plots, certifications, crop_production, community_enterprises, smart_farmers, farmer_groups, farmer_institutes, agri_tourism, forecast_plots, pest_centers, soil_fertilizer_centers, fire_hotspots. ONLY use ["all"] if the user asks for a generic system-wide dashboard summary. DO NOT use ["all"] just because the word "ทั้งหมด" is present if a specific table is mentioned (e.g. "พื้นที่เกษตรทั้งหมด" should be ["agricultural_areas"]).
-  "keyword": null // A SPECIFIC filter keyword like a plant/crop name (e.g. "ส้มโอ") or person's name. STRICTLY EXCLUDE table names, district names, and question words (มีกี่, บอก, ชื่ออะไรบ้าง, แนะนำ, ขอข้อมูล, อำเภอ). Set to null if none.
-}`
-                    },
-                    { role: 'user', content: query }
-                ],
-                temperature: 0,
-                response_format: { type: 'json_object' }
-            })
-        });
+// ── OpenRouter (Qwen) ──
+async function callOpenRouterAI(systemPrompt, messagesHistory, retries = 2) {
+    for (let attempt = 0; attempt <= retries; attempt++) {
+        try {
+            // Build messages array
+            const apiMessages = [{ role: 'system', content: systemPrompt }];
+            if (Array.isArray(messagesHistory)) {
+                apiMessages.push(...messagesHistory.map(m => ({
+                    role: m.role === 'bot' ? 'assistant' : 'user',
+                    content: m.text
+                })));
+            } else {
+                apiMessages.push({ role: 'user', content: messagesHistory });
+            }
 
-        if (aiRes.ok) {
-            const data = await aiRes.json();
-            const intent = JSON.parse(data.choices[0].message.content);
-            
-            matchedDistrict = (intent.district && intent.district !== 'null') ? intent.district : null;
-            searchKeyword = (intent.keyword && intent.keyword !== 'null') ? intent.keyword : null;
-            
-            if (intent.tables && Array.isArray(intent.tables) && intent.tables.length > 0) {
-                if (intent.tables.includes('all')) {
-                    matchedTables = Object.keys(TABLE_CONFIG);
-                    isOverview = true;
-                } else {
-                    matchedTables = intent.tables.filter(t => TABLE_CONFIG[t]);
+            const res = await fetch(`${OPENROUTER_BASE_URL}/chat/completions`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    model: OPENROUTER_MODEL,
+                    messages: apiMessages,
+                    temperature: 0.5,
+                    max_tokens: 8000,
+                })
+            });
+
+            if (res.status === 429) {
+                const waitMs = (attempt + 1) * 3000;
+                console.warn(`OpenRouter rate limited, waiting ${waitMs}ms...`);
+                await new Promise(r => setTimeout(r, waitMs));
+                continue;
+            }
+
+            if (!res.ok) {
+                const errData = await res.json().catch(() => ({}));
+                throw new Error(errData.error?.message || `HTTP ${res.status}`);
+            }
+
+            const data = await res.json();
+            return data.choices?.[0]?.message?.content || null;
+        } catch (err) {
+            if (attempt === retries) throw err;
+            await new Promise(r => setTimeout(r, 2000));
+        }
+    }
+    return null;
+}
+
+// ── Google Gemini ──
+async function callGeminiAI(systemPrompt, messagesHistory, retries = 2) {
+    for (let attempt = 0; attempt <= retries; attempt++) {
+        try {
+            let contents = [];
+            if (Array.isArray(messagesHistory)) {
+                contents = messagesHistory.map(m => ({
+                    role: m.role === 'bot' ? 'model' : 'user',
+                    parts: [{ text: m.text }]
+                }));
+            } else {
+                contents = [{ role: 'user', parts: [{ text: messagesHistory }] }];
+            }
+
+            const res = await fetch(
+                `${GEMINI_BASE_URL}/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents,
+                        systemInstruction: {
+                            parts: [{ text: systemPrompt }]
+                        },
+                        generationConfig: {
+                            temperature: 0.5,
+                            maxOutputTokens: 8000,
+                        }
+                    })
                 }
+            );
+
+            if (res.status === 429) {
+                const waitMs = (attempt + 1) * 2000;
+                console.warn(`Gemini rate limited, waiting ${waitMs}ms...`);
+                await new Promise(r => setTimeout(r, waitMs));
+                continue;
+            }
+
+            if (!res.ok) {
+                const errData = await res.json().catch(() => ({}));
+                throw new Error(errData.error?.message || `HTTP ${res.status}`);
+            }
+
+            const data = await res.json();
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || null;
+        } catch (err) {
+            if (attempt === retries) throw err;
+            await new Promise(r => setTimeout(r, 1500));
+        }
+    }
+    return null;
+}
+
+// ── Unified AI Call (route by selected model) ──
+async function callAI(modelKey, systemPrompt, messagesHistory) {
+    if (modelKey === 'gemini') {
+        return callGeminiAI(systemPrompt, messagesHistory);
+    }
+    return callOpenRouterAI(systemPrompt, messagesHistory);
+}
+
+// ══════════════════════════════════════════════
+// ────────── INTENT EXTRACTION ────────────────
+// ══════════════════════════════════════════════
+
+async function extractIntent(query, modelKey, chatHistory = []) {
+    const tableList = Object.entries(TABLE_CONFIG)
+        .map(([k, v]) => `${k}: ${v.descTh}`)
+        .join('\n');
+
+    // Make AI aware of previous conversation to resolve pronouns and context like "แบ่งเป็นอำเภอละกี่แห่ง"
+    const recentHistory = chatHistory.slice(-4).map(m => `${m.role === 'bot' ? 'AI' : 'User'}: ${m.text}`).join('\n');
+
+    const prompt = `You are an AI data extractor for a Thai agriculture database (จ.นครปฐม).
+Extract search parameters from the user's NEW query, using the recent conversation context to understand pronouns or follow-up questions.
+Return ONLY valid JSON, no markdown code blocks.
+
+Available tables:
+${tableList}
+
+IMPORTANT - agricultural_areas table has these COLUMNS (not searchable values):
+district, total_area_rai, agri_crop_area_rai, farmer_households, rice_in_season_rai, rice_off_season_rai, field_crops_rai, horticulture_rai, fruit_trees_rai, vegetables_rai, flowers_rai, herbs_spices_rai
+
+Districts: เมืองนครปฐม, กำแพงแสน, นครชัยศรี, ดอนตูม, บางเลน, สามพราน, พุทธมณฑล
+
+Return format:
+{
+  "district": "อำเภอ or null",
+  "tables": ["table_name"] or ["all"] for overview questions,
+  "keyword": "a specific person name or very specific item name to filter by, or null",
+  "is_general_question": false
+}
+
+Rules:
+- Use ["all"] ONLY for generic overview/summary requests
+- "พื้นที่เกษตรทั้งหมด" or "ปลูกข้าวกี่ไร่" → tables: ["agricultural_areas"], keyword: null (because rice data is in columns, NOT row values)
+- NEVER set keyword for general crop categories like ข้าว, ผัก, ไม้ผล, พืชไร่, สมุนไพร when asking about agricultural_areas — these are COLUMN NAMES in the table, not searchable values
+- keyword should ONLY be a specific searchable value like a person's name (e.g. "สมชาย"), a specific crop variety (e.g. "ส้มโอ"), or enterprise name
+- keyword should NOT include table names, district names, or question words
+- is_general_question: true for greetings, general knowledge, or questions unrelated to the database
+- Return raw JSON only, no markdown formatting
+
+--- RECENT CONVERSATION CONTEXT ---
+${recentHistory || 'No previous context'}
+--- END RECENT CONVERSATION ---
+
+Extract search parameters for this NEW user query: "${query}"`;
+
+    try {
+        const result = await callAI(modelKey, prompt, query);
+        if (result) {
+            // Extract JSON from potential markdown code blocks or raw text
+            const jsonMatch = result.match(/```(?:json)?\s*([\s\S]*?)```/);
+            const cleanJson = jsonMatch ? jsonMatch[1].trim() : result.trim();
+            // Find the JSON object in the text
+            const jsonStart = cleanJson.indexOf('{');
+            const jsonEnd = cleanJson.lastIndexOf('}');
+            if (jsonStart !== -1 && jsonEnd !== -1) {
+                return JSON.parse(cleanJson.substring(jsonStart, jsonEnd + 1));
             }
         }
     } catch (e) {
-        console.error("LLM Intent Parsing Error:", e);
+        console.error('Intent extraction failed:', e);
+    }
+    return null;
+}
+
+// ══════════════════════════════════════════════
+// ────────── DATA ANALYSIS ENGINE ─────────────
+// ══════════════════════════════════════════════
+
+async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
+    const intent = await extractIntent(query, modelKey, chatHistory);
+
+    if (intent?.is_general_question) {
+        return { results: [], isOverview: false, isGeneral: true, query, intent };
     }
 
-    const lowerQuery = query.toLowerCase();
+    let matchedDistrict = intent?.district || null;
+    let searchKeyword = intent?.keyword || null;
+    let matchedTables = [];
+    let isOverview = false;
 
-    // --- STEP 2: Heuristic Fallback (if LLM fails) ---
-    if (matchedTables.length === 0) {
-        const districts = ['เมืองนครปฐม', 'เมือง', 'กำแพงแสน', 'นครชัยศรี', 'ดอนตูม', 'บางเลน', 'สามพราน', 'พุทธมณฑล'];
-        searchKeyword = lowerQuery;
-
-        for (const d of districts) {
-            if (lowerQuery.includes(d)) {
-                matchedDistrict = d === 'เมือง' ? 'เมืองนครปฐม' : d;
-                searchKeyword = searchKeyword.replace(d, '');
-                break;
-            }
+    if (intent?.tables?.length > 0) {
+        if (intent.tables.includes('all')) {
+            matchedTables = Object.keys(TABLE_CONFIG);
+            isOverview = true;
+        } else {
+            matchedTables = intent.tables.filter(t => TABLE_CONFIG[t]);
         }
+    }
 
+    // Heuristic fallback
+    if (matchedTables.length === 0) {
+        const lowerQuery = query.toLowerCase();
         const tableKeywords = {
-            agricultural_areas: ['พื้นที่', 'เกษตร', 'ไร่', 'ข้าว', 'พืช', 'สวน', 'นา', 'agricultural'],
-            learning_centers: ['ศูนย์เรียนรู้', 'ศพก', 'learning', 'center'],
-            disasters: ['ภัย', 'น้ำท่วม', 'แล้ง', 'วาตภัย', 'disaster'],
-            farmer_registry: ['ทะเบียน', 'เกษตรกร', 'ครัวเรือน', 'registry'],
-            gis_areas: ['gis', 'พิกัด', 'แผนที่', 'ละติจูด'],
+            agricultural_areas: ['พื้นที่', 'เกษตร', 'ไร่', 'ข้าว', 'พืช', 'สวน', 'นา'],
+            learning_centers: ['ศูนย์เรียนรู้', 'ศพก'],
+            disasters: ['ภัย', 'น้ำท่วม', 'แล้ง', 'วาตภัย'],
+            farmer_registry: ['ทะเบียน', 'เกษตรกร', 'ครัวเรือน'],
+            gis_areas: ['gis', 'พิกัด', 'แผนที่'],
             kpi_plans: ['kpi', 'ตัวชี้วัด', 'แผน', 'เป้าหมาย'],
-            large_plots: ['แปลงใหญ่', 'large plot', 'สินค้า'],
-            certifications: ['gap', 'มาตรฐาน', 'ใบรับรอง', 'certification', 'อินทรีย์'],
-            crop_production: ['ผลผลิต', 'เก็บเกี่ยว', 'ตัน', 'crop'],
-            community_enterprises: ['วิสาหกิจ', 'ชุมชน', 'otop', 'enterprise'],
+            large_plots: ['แปลงใหญ่', 'สินค้า'],
+            certifications: ['gap', 'มาตรฐาน', 'ใบรับรอง', 'อินทรีย์'],
+            crop_production: ['ผลผลิต', 'เก็บเกี่ยว', 'ตัน'],
+            community_enterprises: ['วิสาหกิจ', 'ชุมชน'],
             smart_farmers: ['smart farmer', 'เกษตรกรรุ่นใหม่', 'young'],
-            farmer_groups: ['กลุ่มแม่บ้าน', 'ยุวเกษตรกร', 'group'],
-            farmer_institutes: ['สถาบัน', 'institute', 'สหกรณ์'],
-            agri_tourism: ['ท่องเที่ยว', 'tourism', 'ฟาร์มสเตย์'],
-            forecast_plots: ['พยากรณ์', 'แมลง', 'ศัตรูพืช', 'forecast'],
-            pest_centers: ['ศจช', 'ศัตรูพืชชุมชน', 'pest center'],
-            soil_fertilizer_centers: ['ศดปช', 'ดิน', 'ปุ๋ย', 'soil', 'fertilizer'],
-            fire_hotspots: ['ไฟ', 'เผา', 'pm2.5', 'pm25', 'หมอกควัน', 'fire', 'hotspot'],
+            farmer_groups: ['กลุ่มแม่บ้าน', 'ยุวเกษตรกร'],
+            farmer_institutes: ['สถาบัน', 'สหกรณ์'],
+            agri_tourism: ['ท่องเที่ยว', 'ฟาร์มสเตย์'],
+            forecast_plots: ['พยากรณ์', 'แมลง', 'ศัตรูพืช'],
+            pest_centers: ['ศจช', 'ศัตรูพืชชุมชน'],
+            soil_fertilizer_centers: ['ศดปช', 'ดิน', 'ปุ๋ย'],
+            fire_hotspots: ['ไฟ', 'เผา', 'pm2.5', 'หมอกควัน'],
         };
-
-        Object.values(tableKeywords).flat().forEach(k => {
-            searchKeyword = searchKeyword.replace(new RegExp(k, 'g'), '');
-        });
-        searchKeyword = searchKeyword.replace(/มีกี่|อะไรบ้าง|คืออะไร|บอก|หน่วย|จำนวน|สรุป|ภาพรวม|ทั้งหมด|ล่าสุด|รายการ|ข้อมูล|หน่อย|กี่|ที่ไหน|ไหม|ครับ|ค่ะ/g, '').trim();
-        if (searchKeyword.length < 2) searchKeyword = null;
 
         for (const [table, keywords] of Object.entries(tableKeywords)) {
             if (keywords.some(kw => lowerQuery.includes(kw))) {
@@ -186,175 +353,151 @@ Return ONLY valid JSON.
             }
         }
 
-        isOverview = (matchedTables.length === 0) && /สรุป|ภาพรวม|ทั้งหมด|overview|summary|รวม/.test(lowerQuery);
-
-        if (isOverview || matchedTables.length === 0) {
+        if (matchedTables.length === 0) {
             matchedTables = Object.keys(TABLE_CONFIG);
             isOverview = true;
         }
     }
 
-    // If no match, try all tables for count overview
-    if (matchedTables.length === 0) {
-        matchedTables = Object.keys(TABLE_CONFIG);
-    }
-
     // Fetch data from matched tables
+    const results = [];
     for (const table of matchedTables) {
         try {
-            let countQuery = supabase.from(table).select('*', { count: 'exact', head: true });
-            let dataQuery = supabase.from(table).select('*').order('created_at', { ascending: false }).limit(30);
-
             const distCol = DISTRICT_COLS[table] || 'district';
+            let usedKeyword = false;
+
+            // Highly increased bounds for intelligence: 3000 rows for specific targets, 100 for global overviews
+            const fetchLimit = isOverview ? 100 : 3000;
+            let countQuery = supabase.from(table).select('*', { count: 'exact', head: true });
+            let dataQuery = supabase.from(table).select('*').order('created_at', { ascending: false }).limit(fetchLimit);
+
             if (matchedDistrict) {
                 countQuery = countQuery.ilike(distCol, `%${matchedDistrict}%`);
                 dataQuery = dataQuery.ilike(distCol, `%${matchedDistrict}%`);
             }
 
-            if (searchKeyword && TABLE_SEARCH_COLS[table] && TABLE_SEARCH_COLS[table].length > 0) {
+            if (searchKeyword && TABLE_SEARCH_COLS[table]?.length > 0) {
                 const cols = TABLE_SEARCH_COLS[table];
                 const orString = cols.map(c => `${c}.ilike.%${searchKeyword}%`).join(',');
-                countQuery = countQuery.or(orString);
-                dataQuery = dataQuery.or(orString);
+                try {
+                    countQuery = countQuery.or(orString);
+                    dataQuery = dataQuery.or(orString);
+                    usedKeyword = true;
+                } catch { /* swallow */ }
             }
 
             let { count, error: countError } = await countQuery;
             let sampleData = [];
-            let isFiltered = !!matchedDistrict || !!searchKeyword;
 
-            if (countError) {
-                // Fallback: The search OR query failed, or district column is missing. Try only district.
+            // FALLBACK: If keyword filter returned 0 results, retry WITHOUT keyword
+            if (!countError && count === 0 && usedKeyword) {
+                if(window?.console) console.log(`[Chatbot] Keyword "${searchKeyword}" returned 0 for ${table}, retrying without keyword...`);
                 let fbCountQuery = supabase.from(table).select('*', { count: 'exact', head: true });
-                let fbDataQuery = supabase.from(table).select('*').order('created_at', { ascending: false }).limit(30);
-                
+                let fbDataQuery = supabase.from(table).select('*').order('created_at', { ascending: false }).limit(fetchLimit);
                 if (matchedDistrict) {
                     fbCountQuery = fbCountQuery.ilike(distCol, `%${matchedDistrict}%`);
                     fbDataQuery = fbDataQuery.ilike(distCol, `%${matchedDistrict}%`);
                 }
-                
-                let fbObj = await fbCountQuery;
-
-                if (fbObj.error) {
-                    // Ultimate Fallback: Try with NO filters at all.
-                    fbCountQuery = supabase.from(table).select('*', { count: 'exact', head: true });
-                    fbDataQuery = supabase.from(table).select('*').order('created_at', { ascending: false }).limit(30);
-                    fbObj = await fbCountQuery;
-                    isFiltered = false;
-                } else {
-                    isFiltered = !!matchedDistrict;
+                const fbResult = await fbCountQuery;
+                count = fbResult.count || 0;
+                countError = fbResult.error;
+                if (!countError && count > 0) {
+                    const fbData = await fbDataQuery;
+                    sampleData = fbData.data || [];
                 }
+                usedKeyword = false;
+            }
 
-                count = fbObj.count || 0;
-                
-                const shouldFetch = !isOverview && count > 0 && (matchedTables.length <= 3 || !!searchKeyword);
-                if (shouldFetch) {
-                    const fallbackData = await fbDataQuery;
-                    sampleData = fallbackData.data || [];
+            if (countError) {
+                // Error fallback: try with NO filters at all
+                const fb = await supabase.from(table).select('*', { count: 'exact', head: true });
+                count = fb.count || 0;
+                if (count > 0) {
+                    const fbData = await supabase.from(table).select('*').order('created_at', { ascending: false }).limit(fetchLimit);
+                    sampleData = fbData.data || [];
                 }
-            } else {
-                const shouldFetch = !isOverview && count > 0 && (matchedTables.length <= 3 || !!searchKeyword);
-                if (shouldFetch) {
+            } else if (sampleData.length === 0) {
+                // Fetch sample data if we haven't already
+                if (count > 0) {
                     const { data } = await dataQuery;
                     sampleData = data || [];
                 }
             }
 
-            const tableInfo = TABLE_CONFIG[table];
-            const entry = {
+            results.push({
                 table,
-                label: tableInfo.label,
-                icon: tableInfo.icon,
-                group: tableInfo.group,
+                label: TABLE_CONFIG[table].label,
+                icon: TABLE_CONFIG[table].icon,
+                group: TABLE_CONFIG[table].group,
                 count: count || 0,
                 sample: sampleData.length > 0 ? sampleData : null,
-                filteredBy: isFiltered ? (searchKeyword ? `คำค้น "${searchKeyword}"` : matchedDistrict) : null
-            };
-
-            results.push(entry);
-        } catch {
-            // skip
-        }
+                filteredBy: matchedDistrict || (usedKeyword && searchKeyword ? `คำค้น "${searchKeyword}"` : null),
+            });
+        } catch { /* skip */ }
     }
 
-    return { results, isOverview, query, matchedDistrict };
+    return { results, isOverview, isGeneral: false, query, intent, matchedDistrict };
 }
 
-function generateResponse({ results, isOverview, query }) {
-    if (results.length === 0) {
-        return {
-            text: 'ขออภัยครับ ไม่พบข้อมูลที่ตรงกับคำถามของคุณ ลองถามใหม่หรือเลือกจากคำถามที่แนะนำด้านล่างครับ',
-            data: null,
-            type: 'error',
-        };
-    }
+// ──────── Build AI Context ────────
+function buildContextForAI(analysis) {
+    const { results } = analysis;
+    if (!results || results.length === 0) return 'ไม่พบข้อมูลในฐานข้อมูล';
 
-    const totalRecords = results.reduce((sum, r) => sum + r.count, 0);
-
-    if (isOverview) {
-        // Group by department
-        const groups = {};
-        results.forEach(r => {
-            if (!groups[r.group]) groups[r.group] = [];
-            groups[r.group].push(r);
-        });
-
-        let text = `📊 **สรุปภาพรวมข้อมูลในระบบ**\n\nมีข้อมูลทั้งหมด **${totalRecords.toLocaleString()} รายการ** จาก ${results.length} หมวดข้อมูล\n\n`;
-
-        Object.entries(groups).forEach(([group, items]) => {
-            const groupTotal = items.reduce((sum, r) => sum + r.count, 0);
-            text += `**${group}** (${groupTotal.toLocaleString()} รายการ)\n`;
-            items.forEach(item => {
-                text += `  ${item.icon} ${item.label}: ${item.count.toLocaleString()} รายการ\n`;
-            });
-            text += '\n';
-        });
-
-        return { text, data: results, type: 'overview' };
-    }
-
-    // Specific query response
-    if (results.length === 1) {
-        const r = results[0];
-        let text = `${r.icon} **${r.label}**\n\n`;
-        
-        if (r.filteredBy) {
-            text += `พบข้อมูลในพื้นที่ **${r.filteredBy}** จำนวน **${r.count.toLocaleString()} รายการ**\n`;
-        } else {
-            text += `มีข้อมูลทั้งหมด **${r.count.toLocaleString()} รายการ** ในกลุ่มงาน "${r.group}"\n`;
-        }
-
-        if (r.sample && r.sample.length > 0) {
-            text += `\n📋 **ข้อมูลตัวอย่าง ${Math.min(r.sample.length, 5)} รายการแรก:**\n`;
-            r.sample.slice(0, 5).forEach((row, i) => {
-                const name = row.name || row.plot_name || row.full_name || row.project_name || row.center_name ||
-                    row.group_name || row.spot_name || row.area_name || row.crop_name ||
-                    row.kpi_name || row.district || '-';
-                const district = row.district ? ` (${row.district})` : '';
-                text += `  ${i + 1}. ${name}${district}\n`;
-            });
-        }
-
-        return { text, data: results, type: 'specific' };
-    }
-
-    // Multiple tables matched
-    let text = `🔍 พบข้อมูลที่เกี่ยวข้อง **${results.length} หมวด** รวม **${totalRecords.toLocaleString()} รายการ**\n\n`;
-    results.forEach(r => {
-        text += `${r.icon} **${r.label}**: ${r.count.toLocaleString()} รายการ`;
-        if (r.sample && r.sample.length) {
-            const name = r.sample[0].name || r.sample[0].full_name || r.sample[0].project_name ||
-                r.sample[0].center_name || r.sample[0].district || '';
-            text += ` — ล่าสุด: ${name}`;
-        }
-        text += '\n';
-    });
-
-    return { text, data: results, type: 'multi' };
+    return JSON.stringify(results.map(r => ({
+        dataset: r.label,
+        table_name: r.table,
+        total_records: r.count,
+        filtered_by: r.filteredBy || 'ไม่กรอง',
+        records: r.sample ? r.sample.map(s => {
+            const obj = {};
+            for (const [key, val] of Object.entries(s)) {
+                if (val === null || val === undefined || val === '') continue;
+                if (['id', 'created_at', 'updated_at'].includes(key)) continue;
+                if (key.includes('image') || key.includes('url') || key.includes('file') || key.includes('path')) continue;
+                obj[key] = val;
+            }
+            return obj;
+        }) : [],
+    })), null, 2);
 }
 
-// ──────── Chat Message Component ────────
+// ──────── System Prompt ────────
+const SYSTEM_PROMPT = `คุณคือ "น้องข้าวหอม" 🌾 — AI ผู้ช่วยอัจฉริยะระดับสูงประจำระบบจัดการข้อมูลสำนักงานเกษตรจังหวัดนครปฐม
+
+## บทบาทของคุณ
+- ตอบทุกคำถามที่เกี่ยวกับข้อมูลเกษตรจังหวัดนครปฐม โดยคุณต้องทำหน้าที่เป็น 'นักวิเคราะห์ข้อมูลชั้นยอด!'
+- ให้ข้อมูลเชิงลึก สรุปประเด็น สังเคราะห์ข้อมูล ค้นหาสัดส่วน สรุปยอดรวม และนำเสนอข้อมูลระดับอำเภออย่างละเอียดที่สุด
+- รองรับคำถามทั่วไปที่ไม่เกี่ยวกับฐานข้อมูลด้วย เช่น ทักทาย, ให้คำแนะนำ, ความรู้ทั่วไปเกี่ยวกับการเกษตร
+- พูดภาษาไทยสุภาพ เป็นมืออาชีพ ใช้ Emoji ให้เหมาะสม
+
+## กฎสำคัญ
+1. **วิเคราะห์เชิงลึกเต็มที่** — แจกแจงข้อมูลให้ละเอียด หากมีการขอสถิติ ให้รวมยอด สรุปแนวโน้มต่างๆ หรือจัดลำดับข้อมูลเสมอ
+2. **ห้ามกุข้อมูลตัวเลข** — ต้องอ้างอิงจากข้อมูลที่ได้รับเท่านั้น
+3. **จัดรูปแบบให้อ่านง่ายและเป๊ะมาก** — ใช้ Markdown (bold, bullet, ตารางสรุปข้อมูล 🌟) เพื่อแยกข้อมูลให้ชัดเจนและน่าอ่าน
+4. **ถ้าไม่มีข้อมูล** ให้บอกตรงๆ ว่ายังไม่มีข้อมูลในระบบที่ดึงมา
+5. **ถ้าผู้ใช้ถามเรื่องพื้นที่เฉพาะ** ให้เน้นข้อมูลของพื้นที่นั้นและสรุปสิ่งที่น่าสนใจ
+
+## คำศัพท์สำคัญ
+- total_area_rai = พื้นที่ภูมิศาสตร์/เขตปกครองทั้งหมด
+- agri_crop_area_rai = พื้นที่ทำการเกษตรด้านพืช
+- farmer_households = จำนวนครัวเรือนเกษตรกร
+- rice_in_season_rai = ข้าวนาปี, rice_off_season_rai = ข้าวนาปรัง
+- field_crops_rai = พืชไร่, horticulture_rai = ไม้ดอกไม้ประดับ
+- fruit_trees_rai = ไม้ผล, vegetables_rai = พืชผัก
+- herbs_spices_rai = สมุนไพร/เครื่องเทศ
+
+## ข้อมูลจังหวัดนครปฐม
+- 7 อำเภอ: เมืองนครปฐม, กำแพงแสน, นครชัยศรี, ดอนตูม, บางเลน, สามพราน, พุทธมณฑล
+- ข้อมูลครอบคลุม: ยุทธศาสตร์, ส่งเสริมการผลิต, พัฒนาเกษตรกร, อารักขาพืช`;
+
+// ══════════════════════════════════════════════
+// ────────── CHAT MESSAGE COMPONENT ───────────
+// ══════════════════════════════════════════════
+
 function ChatMessage({ message, isLast }) {
     const isBot = message.role === 'bot';
+    const modelConfig = message.modelKey ? AI_MODELS[message.modelKey] : null;
 
     return (
         <div
@@ -372,7 +515,7 @@ function ChatMessage({ message, isLast }) {
                 icon={isBot ? <RobotOutlined /> : <UserOutlined />}
                 style={{
                     background: isBot
-                        ? 'linear-gradient(135deg, #1a7f37, #2ea043)'
+                        ? `linear-gradient(135deg, ${modelConfig?.color || '#1a7f37'}, ${modelConfig?.color || '#2ea043'}88)`
                         : 'linear-gradient(135deg, #1565c0, #42a5f5)',
                     flexShrink: 0,
                     marginTop: 2,
@@ -393,7 +536,6 @@ function ChatMessage({ message, isLast }) {
                 }}
             >
                 {message.text.split('\n').map((line, i) => {
-                    // Bold markdown
                     const parts = line.split(/\*\*(.*?)\*\*/g);
                     return (
                         <div key={i} style={{ minHeight: line === '' ? 8 : 'auto' }}>
@@ -405,7 +547,7 @@ function ChatMessage({ message, isLast }) {
                         </div>
                     );
                 })}
-                {/* Data summary cards */}
+                {/* Data summary tags */}
                 {isBot && message.data && message.type === 'overview' && (
                     <div style={{ marginTop: 12, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                         {message.data.filter(d => d.count > 0).map(d => (
@@ -425,14 +567,17 @@ function ChatMessage({ message, isLast }) {
                     justifyContent: isBot ? 'flex-start' : 'flex-end',
                 }}>
                     <span>{new Date(message.timestamp).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })}</span>
-                    {message.modelUsed && (
-                        <span style={{ 
-                            background: isBot ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.2)', 
-                            padding: '2px 8px', 
+                    {modelConfig && (
+                        <span style={{
+                            background: isBot ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.2)',
+                            padding: '2px 8px',
                             borderRadius: 12,
-                            fontSize: 10
+                            fontSize: 10,
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 3,
                         }}>
-                            🧠 {message.modelUsed}
+                            {modelConfig.icon} {modelConfig.description}
                         </span>
                     )}
                 </div>
@@ -441,18 +586,76 @@ function ChatMessage({ message, isLast }) {
     );
 }
 
-// ──────── Main Chatbot Page ────────
+// ══════════════════════════════════════════════
+// ────────── MODEL SELECTOR COMPONENT ─────────
+// ══════════════════════════════════════════════
+
+function ModelSelector({ selectedModel, onChange, disabled }) {
+    return (
+        <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            background: '#f6f8fa',
+            borderRadius: 12,
+            padding: '6px 12px',
+            border: '1px solid #d0d7de',
+        }}>
+            <ExperimentOutlined style={{ color: '#656d76', fontSize: 14 }} />
+            <Text type="secondary" style={{ fontSize: 12, whiteSpace: 'nowrap' }}>AI Model:</Text>
+            <Segmented
+                value={selectedModel}
+                onChange={onChange}
+                disabled={disabled}
+                size="small"
+                options={Object.values(AI_MODELS).map(m => ({
+                    label: (
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 5,
+                            padding: '2px 4px',
+                        }}>
+                            <span>{m.icon}</span>
+                            <span style={{ fontWeight: 600, fontSize: 12 }}>{m.shortLabel}</span>
+                            <span style={{
+                                background: m.badgeColor,
+                                color: '#fff',
+                                fontSize: 9,
+                                padding: '0 5px',
+                                borderRadius: 6,
+                                fontWeight: 700,
+                                lineHeight: '16px',
+                            }}>
+                                {m.badge}
+                            </span>
+                        </div>
+                    ),
+                    value: m.key,
+                }))}
+                style={{ background: '#fff' }}
+            />
+        </div>
+    );
+}
+
+// ══════════════════════════════════════════════
+// ────────── MAIN CHATBOT PAGE ────────────────
+// ══════════════════════════════════════════════
+
 export default function Chatbot() {
     const [messages, setMessages] = useState([
         {
             role: 'bot',
-            text: 'สวัสดีครับ! 🌾 ผมเป็นผู้ช่วยข้อมูลเกษตรจังหวัดนครปฐม\n\nคุณสามารถถามเกี่ยวกับข้อมูลในระบบได้ เช่น:\n• พื้นที่การเกษตร\n• แปลงใหญ่\n• มาตรฐาน GAP\n• วิสาหกิจชุมชน\n• ศูนย์เรียนรู้\n• ภัยพิบัติ\n\nลองถามได้เลยครับ หรือเลือกจากคำถามด้านล่าง 👇',
+            text: 'สวัสดีครับ! 🌾 ผม **น้องข้าวหอม** ผู้ช่วย AI ประจำสำนักงานเกษตรจังหวัดนครปฐม\n\nผมรู้ข้อมูลทุกอย่างในระบบ ถามได้ทุกเรื่อง เช่น:\n• 📍 พื้นที่การเกษตรแต่ละอำเภอ\n• 🌿 แปลงใหญ่, มาตรฐาน GAP\n• 🏪 วิสาหกิจชุมชน, Smart Farmer\n• 🏫 ศูนย์เรียนรู้, ศจช., ศดปช.\n• ⛈️ ภัยพิบัติ, PM2.5\n• 💬 หรือจะคุยเรื่องทั่วไปก็ได้ครับ!\n\n🔄 เลือกโมเดล AI ที่ต้องการได้ด้านบนนะครับ\nลองถามได้เลย หรือเลือกคำถามด้านล่าง 👇',
             timestamp: Date.now(),
             type: 'greeting',
+            modelKey: null,
         },
     ]);
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
+    const [selectedModel, setSelectedModel] = useState('gemini');
     const chatEndRef = useRef(null);
     const inputRef = useRef(null);
 
@@ -468,101 +671,79 @@ export default function Chatbot() {
         const msg = text || input.trim();
         if (!msg || loading) return;
 
-        // Add user message
+        const currentModel = selectedModel;
+        const modelConfig = AI_MODELS[currentModel];
+
+        // Capture valid history before appending the actual new message
+        // Exclude greeting and error messages.
+        const validHistory = messages.filter(m =>
+            (m.role === 'user' || m.role === 'bot') &&
+            m.type !== 'greeting' &&
+            m.type !== 'error'
+        );
+
         const userMsg = { role: 'user', text: msg, timestamp: Date.now() };
         setMessages(prev => [...prev, userMsg]);
         setInput('');
         setLoading(true);
 
         try {
-            // Analyze query and generate response
-            const analysis = await analyzeQuery(msg);
-            const basicResponse = generateResponse(analysis);
+            // Step 1: Analyze query & fetch relevant data (with conversation context)
+            const analysis = await fetchDatabaseContext(msg, currentModel, validHistory);
 
-            // Generate AI Response using Groq/OpenAI format
-            const randomModel = MODELS[Math.floor(Math.random() * MODELS.length)];
-            let aiText = basicResponse.text; // Fallback
-            let modelUsed = null;
+            let aiText;
+            let responseType = 'specific';
 
-            // Prepare streamlined JSON context for the LLM
-            const llmContextData = analysis.results.map(r => ({
-                dataset: r.label,
-                total_count_found: r.count,
-                filtered_by_district: r.filteredBy || 'none',
-                sample_records: r.sample ? r.sample.map(s => {
-                    const cleanObj = {};
-                    for (const [key, val] of Object.entries(s)) {
-                        if (val === null || val === undefined || val === '') continue; // Skip empties to save tokens
-                        if (['id', 'created_at', 'updated_at', 'latitude', 'longitude', 'lat', 'lng'].includes(key)) continue; // Skip bulky system metadata
-                        if (key.includes('image') || key.includes('url') || key.includes('file') || key.includes('path')) continue;
-                        cleanObj[key] = val;
-                    }
-                    return cleanObj;
-                }) : []
-            }));
+            if (analysis.isGeneral) {
+                const historyToSend = [...validHistory, { role: 'user', text: `คำถาม: ${msg}` }];
+                aiText = await callAI(currentModel, SYSTEM_PROMPT, historyToSend);
+                responseType = 'general';
+            } else {
+                const dbContext = buildContextForAI(analysis);
+                const userPrompt = `คำถาม: ${msg}
 
-            try {
-                const aiRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        model: randomModel,
-                        messages: [
-                            {
-                                role: 'system',
-                                content: `คุณคือ AI ผู้ช่วยอัจฉริยะสำหรับ Admin ระบบจัดการข้อมูลการเกษตรจังหวัดนครปฐม หน้าที่ของคุณคือตอบคำถามด้วยความสุภาพ เป็นมืออาชีพ พร้อมจัดรูปแบบให้น่าอ่าน (ใช้ Markdown, Bullet) และอ้างอิงข้อมูลจำนวนตัวเลขหรือรายละเอียดจากฐานข้อมูลที่ให้ไป ห้ามกุข้อมูลเพิ่มเองเด็ดขาด ถ้าผู้ใช้ถามถึงพื้นที่ใด ให้ตรวจสอบข้อมูล filtered_by_district และตอบข้อมูลของพื้นที่นั้นให้ชัดเจน
+--- ข้อมูลจริงจากฐานข้อมูลสำนักงานเกษตรจังหวัดนครปฐม ---
+${dbContext}
+--- จบข้อมูล ---
 
-คำศัพท์ฐานข้อมูลที่สำคัญ (Data Dictionary):
-- total_area_rai: พื้นที่ภูมิศาสตร์/เขตการปกครองทั้งหมด (Total Land Area)
-- agri_crop_area_rai: พื้นที่ทำการเกษตรด้านพืช (Agricultural Area)
-- farmer_households: จำนวนครัวเรือนเกษตรกร
-- household_count: จำนวนครัวเรือน
-ให้ระวังการสับสนระหว่าง "พื้นที่ทั้งหมด" (total_area_rai) กับ "พื้นที่การเกษตรทั้งหมด" (agri_crop_area_rai)`
-                            },
-                            {
-                                role: 'user',
-                                content: `คำถาม: ${msg}\n\n--- ข้อมูลดิบจากฐานข้อมูล ---\nJSON Data:\n${JSON.stringify(llmContextData, null, 2)}\n---------------------------\nโปรดสรุปและตอบคำถาม`
-                            }
-                        ],
-                        temperature: 0.6,
-                        max_tokens: 1500
-                    })
-                });
+โปรดวิเคราะห์ข้อมูลข้างต้นและตอบคำถามอย่างละเอียด ถ้ามีข้อมูลตัวเลข ให้อ้างอิงจากข้อมูลจริงเท่านั้น`;
 
-                if (aiRes.ok) {
-                    const aiData = await aiRes.json();
-                    if (aiData.choices && aiData.choices.length > 0) {
-                        aiText = aiData.choices[0].message.content;
-                        modelUsed = randomModel;
-                    }
+                const historyToSend = [...validHistory, { role: 'user', text: userPrompt }];
+                aiText = await callAI(currentModel, SYSTEM_PROMPT, historyToSend);
+                responseType = analysis.isOverview ? 'overview' : 'specific';
+            }
+
+            // Fallback if AI fails
+            if (!aiText) {
+                if (analysis.results?.length > 0) {
+                    const totalRecords = analysis.results.reduce((s, r) => s + r.count, 0);
+                    aiText = `📊 พบข้อมูลที่เกี่ยวข้อง ${analysis.results.length} หมวด รวม ${totalRecords.toLocaleString()} รายการ\n\n`;
+                    analysis.results.forEach(r => {
+                        aiText += `${r.icon} **${r.label}**: ${r.count.toLocaleString()} รายการ\n`;
+                    });
+                    aiText += '\n⚠️ ระบบ AI ไม่สามารถตอบได้ชั่วคราว แต่ข้อมูลดิบจากฐานข้อมูลแสดงด้านบนครับ';
                 } else {
-                    const errText = await aiRes.text();
-                    console.error("AI API Error:", errText);
-                    // OpenRouter models might fail on Groq's endpoint if the API key config doesn't actually support it directly like this, but we'll try!
+                    aiText = 'ขออภัยครับ ระบบ AI ไม่สามารถตอบได้ในขณะนี้ กรุณาลองใหม่อีกครั้งครับ 🙏';
                 }
-            } catch (apiErr) {
-                console.error("Failed to fetch from AI API:", apiErr);
             }
 
             const botMsg = {
                 role: 'bot',
                 text: aiText,
-                data: basicResponse.data,
-                type: basicResponse.type,
+                data: analysis.results,
+                type: responseType,
                 timestamp: Date.now(),
-                modelUsed: modelUsed || 'Mock DB Data' // Store model used
+                modelKey: currentModel,
             };
             setMessages(prev => [...prev, botMsg]);
         } catch (err) {
-            console.error("Chatbot Outer Error:", err);
+            console.error('Chatbot Error:', err);
             setMessages(prev => [...prev, {
                 role: 'bot',
-                text: `ขออภัยครับ เกิดข้อผิดพลาดในการดึงข้อมูล: ${err.message}\n\n${err.stack}`,
+                text: `⚠️ เกิดข้อผิดพลาดจาก ${modelConfig.description}: ${err.message}\n\nลองสลับไปใช้โมเดลอื่น หรือลองใหม่อีกครั้งครับ 🙏`,
                 timestamp: Date.now(),
                 type: 'error',
+                modelKey: currentModel,
             }]);
         } finally {
             setLoading(false);
@@ -576,8 +757,11 @@ export default function Chatbot() {
             text: 'เริ่มการสนทนาใหม่ครับ 🌾 ถามอะไรได้เลย!',
             timestamp: Date.now(),
             type: 'greeting',
+            modelKey: null,
         }]);
     };
+
+    const currentModelConfig = AI_MODELS[selectedModel];
 
     return (
         <div style={{ height: 'calc(100vh - 120px)', display: 'flex', flexDirection: 'column' }}>
@@ -585,24 +769,33 @@ export default function Chatbot() {
             <div style={{
                 display: 'flex',
                 justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: 16,
+                alignItems: 'flex-start',
+                marginBottom: 12,
+                flexWrap: 'wrap',
+                gap: 10,
             }}>
                 <div className="md-page-header" style={{ marginBottom: 0 }}>
-                    <h2>🤖 ผู้ช่วยข้อมูลเกษตร AI</h2>
+                    <h2>🤖 น้องข้าวหอม — AI ผู้ช่วยข้อมูลเกษตร</h2>
                     <p style={{ margin: 0, fontSize: 13, color: '#656d76' }}>
-                        <DatabaseOutlined /> ถามข้อมูลจากระบบได้ทันที • ดึงข้อมูลจริงจาก Database
+                        <DatabaseOutlined /> ถามได้ทุกเรื่อง • ข้อมูลจริงจาก Database • สลับโมเดลได้
                     </p>
                 </div>
-                <Tooltip title="ล้างแชท">
-                    <Button
-                        icon={<DeleteOutlined />}
-                        onClick={handleClear}
-                        style={{ borderRadius: 8 }}
-                    >
-                        ล้างแชท
-                    </Button>
-                </Tooltip>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                    <ModelSelector
+                        selectedModel={selectedModel}
+                        onChange={setSelectedModel}
+                        disabled={loading}
+                    />
+                    <Tooltip title="ล้างแชท">
+                        <Button
+                            icon={<DeleteOutlined />}
+                            onClick={handleClear}
+                            style={{ borderRadius: 8 }}
+                        >
+                            ล้างแชท
+                        </Button>
+                    </Tooltip>
+                </div>
             </div>
 
             {/* Chat Container */}
@@ -619,13 +812,7 @@ export default function Chatbot() {
                 styles={{ body: { flex: 1, display: 'flex', flexDirection: 'column', padding: 0, overflow: 'hidden' } }}
             >
                 {/* Messages Area */}
-                <div
-                    style={{
-                        flex: 1,
-                        overflowY: 'auto',
-                        padding: '24px 20px 12px',
-                    }}
-                >
+                <div style={{ flex: 1, overflowY: 'auto', padding: '24px 20px 12px' }}>
                     {messages.map((msg, i) => (
                         <ChatMessage key={i} message={msg} isLast={i === messages.length - 1} />
                     ))}
@@ -635,7 +822,10 @@ export default function Chatbot() {
                             <Avatar
                                 size={36}
                                 icon={<RobotOutlined />}
-                                style={{ background: 'linear-gradient(135deg, #1a7f37, #2ea043)', flexShrink: 0 }}
+                                style={{
+                                    background: `linear-gradient(135deg, ${currentModelConfig.color}, ${currentModelConfig.color}88)`,
+                                    flexShrink: 0,
+                                }}
                             />
                             <div style={{
                                 background: '#f6f8fa',
@@ -646,7 +836,9 @@ export default function Chatbot() {
                                 gap: 10,
                             }}>
                                 <Spin size="small" />
-                                <Text type="secondary">กำลังค้นหาข้อมูล...</Text>
+                                <Text type="secondary">
+                                    {currentModelConfig.icon} กำลังวิเคราะห์ด้วย {currentModelConfig.description}...
+                                </Text>
                             </div>
                         </div>
                     )}
@@ -656,10 +848,7 @@ export default function Chatbot() {
 
                 {/* Quick Prompts */}
                 {messages.length <= 2 && (
-                    <div style={{
-                        padding: '8px 20px 4px',
-                        borderTop: '1px solid #f0f2f5',
-                    }}>
+                    <div style={{ padding: '8px 20px 4px', borderTop: '1px solid #f0f2f5' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
                             <BulbOutlined style={{ color: '#bf8700', fontSize: 13 }} />
                             <Text type="secondary" style={{ fontSize: 12 }}>คำถามแนะนำ</Text>
@@ -672,11 +861,8 @@ export default function Chatbot() {
                                     onClick={() => handleSend(p.text)}
                                     disabled={loading}
                                     style={{
-                                        borderRadius: 20,
-                                        fontSize: 12,
-                                        height: 30,
-                                        border: '1px solid #d0d7de',
-                                        background: '#fff',
+                                        borderRadius: 20, fontSize: 12, height: 30,
+                                        border: '1px solid #d0d7de', background: '#fff',
                                     }}
                                 >
                                     {p.icon} {p.text}
@@ -698,14 +884,10 @@ export default function Chatbot() {
                             value={input}
                             onChange={e => setInput(e.target.value)}
                             onPressEnter={() => handleSend()}
-                            placeholder="ถามข้อมูลเกษตรได้เลย..."
+                            placeholder="ถามอะไรก็ได้... ข้อมูลเกษตร หรือ เรื่องทั่วไป"
                             disabled={loading}
                             size="large"
-                            style={{
-                                borderRadius: 24,
-                                paddingLeft: 20,
-                                fontSize: 14,
-                            }}
+                            style={{ borderRadius: 24, paddingLeft: 20, fontSize: 14 }}
                             prefix={<QuestionCircleOutlined style={{ color: '#8b949e' }} />}
                         />
                         <Button
@@ -717,13 +899,14 @@ export default function Chatbot() {
                             style={{
                                 borderRadius: 24,
                                 minWidth: 50,
-                                background: '#1a7f37',
+                                background: currentModelConfig.color,
+                                borderColor: currentModelConfig.color,
                             }}
                         />
                     </div>
                     <div style={{ textAlign: 'center', marginTop: 8 }}>
                         <Text type="secondary" style={{ fontSize: 11 }}>
-                            💡 ข้อมูลดึงจากฐานข้อมูลจริง ณ เวลาที่ถาม
+                            {currentModelConfig.icon} กำลังใช้ {currentModelConfig.description} ({currentModelConfig.provider}) — ดึงข้อมูลจริงจาก Database
                         </Text>
                     </div>
                 </div>
