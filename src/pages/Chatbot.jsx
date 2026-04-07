@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Input, Button, Avatar, Spin, Card, Tag, Typography, Tooltip, Segmented, Badge, Table } from 'antd';
+import { Input, Button, Avatar, Spin, Card, Tag, Typography, Tooltip, Segmented, Badge, Table, Collapse, Switch } from 'antd';
 import {
     SendOutlined,
     RobotOutlined,
@@ -13,6 +13,8 @@ import {
     TableOutlined,
     BarChartOutlined,
     PieChartOutlined,
+    GlobalOutlined,
+    AppstoreOutlined,
 } from '@ant-design/icons';
 import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
 import { supabase } from '../supabaseClient';
@@ -175,7 +177,7 @@ async function callOpenRouterAI(systemPrompt, messagesHistory, retries = 2) {
 }
 
 // ── Google Gemini ──
-async function callGeminiAI(systemPrompt, messagesHistory, retries = 2) {
+async function callGeminiAI(systemPrompt, messagesHistory, settings, retries = 2) {
     for (let attempt = 0; attempt <= retries; attempt++) {
         try {
             let contents = [];
@@ -188,21 +190,28 @@ async function callGeminiAI(systemPrompt, messagesHistory, retries = 2) {
                 contents = [{ role: 'user', parts: [{ text: messagesHistory }] }];
             }
 
+            const bodyConfig = {
+                contents,
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+                generationConfig: {
+                    temperature: settings?.deepThinking ? 0.7 : 0.5,
+                    maxOutputTokens: 8000,
+                }
+            };
+
+            // Grounding with Google Search
+            if (settings?.webSearch) {
+                bodyConfig.tools = [{ googleSearch: {} }];
+            }
+
             const res = await fetch(
                 `${GEMINI_BASE_URL}/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`,
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents,
-                        systemInstruction: {
-                            parts: [{ text: systemPrompt }]
-                        },
-                        generationConfig: {
-                            temperature: 0.5,
-                            maxOutputTokens: 8000,
-                        }
-                    })
+                    body: JSON.stringify(bodyConfig)
                 }
             );
 
@@ -229,9 +238,9 @@ async function callGeminiAI(systemPrompt, messagesHistory, retries = 2) {
 }
 
 // ── Unified AI Call (route by selected model) ──
-async function callAI(modelKey, systemPrompt, messagesHistory) {
+async function callAI(modelKey, systemPrompt, messagesHistory, settings) {
     if (modelKey === 'gemini') {
-        return callGeminiAI(systemPrompt, messagesHistory);
+        return callGeminiAI(systemPrompt, messagesHistory, settings);
     }
     return callOpenRouterAI(systemPrompt, messagesHistory);
 }
@@ -675,6 +684,16 @@ function ChatMessage({ message, isLast }) {
     const isBot = message.role === 'bot';
     const modelConfig = message.modelKey ? AI_MODELS[message.modelKey] : null;
 
+    let textToParse = message.text || '';
+    let thinkContent = null;
+    
+    // Extract <think> ... </think> block if present
+    const thinkMatch = textToParse.match(/<think>([\s\S]*?)<\/think>/i);
+    if (thinkMatch) {
+       thinkContent = thinkMatch[1].trim();
+       textToParse = textToParse.replace(thinkMatch[0], '').trim();
+    }
+
     // Parse Markdown blocks conceptually
     const parseBlocks = (text) => {
         const lines = text.split('\n');
@@ -703,7 +722,7 @@ function ChatMessage({ message, isLast }) {
         return blocks;
     };
 
-    const blocks = parseBlocks(message.text);
+    const blocks = parseBlocks(textToParse);
 
     return (
         <div
@@ -741,6 +760,19 @@ function ChatMessage({ message, isLast }) {
                     boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
                 }}
             >
+                {thinkContent && (
+                    <Collapse
+                        size="small"
+                        bordered={true}
+                        expandIconPosition="end"
+                        style={{ marginBottom: 16, background: '#fafafa', borderRadius: 8, border: '1px solid #d9d9d9', overflow: 'hidden' }}
+                        items={[{
+                            key: '1',
+                            label: <span style={{ color: '#8c8c8c', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}><AppstoreOutlined /> กระบวนการคิดของ AI (Reasoning)</span>,
+                            children: <div style={{ fontSize: 13, color: '#595959', whiteSpace: 'pre-wrap', fontFamily: 'monospace' }}>{thinkContent}</div>
+                        }]}
+                    />
+                )}
                 {blocks.map((block, bIdx) => {
                     if (block.type === 'table' && isBot) {
                         return <SmartTable key={bIdx} rawLines={block.lines} />;
@@ -871,6 +903,10 @@ export default function Chatbot() {
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
     const [selectedModel, setSelectedModel] = useState('gemini');
+    const [aiSettings, setAiSettings] = useState({
+        deepThinking: false,
+        webSearch: false
+    });
     const chatEndRef = useRef(null);
     const inputRef = useRef(null);
 
@@ -903,6 +939,23 @@ export default function Chatbot() {
         setLoading(true);
 
         try {
+            // Update prompt based on settings
+            let finalSystemPrompt = SYSTEM_PROMPT;
+            if (aiSettings.deepThinking) {
+                finalSystemPrompt += `\n\n[โหมดวิเคราะห์เชิงลึก / DEEP THINKING MODE]
+คุณต้องคิดและวิเคราะห์ทีละขั้นตอนอย่างละเอียดลึกซึ้งที่สุด สำรวจทุกความเป็นไปได้ก่อนที่จะตอบ
+>> คุณต้องเริ่มการทำงานด้วยแท็ก <think> และใส่กระบวนการคิดทั้งหมดของคุณไว้ภายใน เมื่อคิดเสร็จสมบูรณ์จึงใช้แท็ก </think> ปิดท้าย
+หลังจากปิดแท็กแล้ว ค่อยสรุปคำตอบที่ดีที่สุดของคุณ
+
+ตัวอย่าง:
+<think>
+1. วิเคราะห์คำถาม...
+2. พิจารณาเหตุผล...
+3. ประมวลผลและสรุปข้อมูล...
+</think>
+คำตอบของคุณคือ...`;
+            }
+
             // Step 1: Analyze query & fetch relevant data (with conversation context)
             const analysis = await fetchDatabaseContext(msg, currentModel, validHistory);
 
@@ -911,7 +964,7 @@ export default function Chatbot() {
 
             if (analysis.isGeneral) {
                 const historyToSend = [...validHistory, { role: 'user', text: `คำถาม: ${msg}` }];
-                aiText = await callAI(currentModel, SYSTEM_PROMPT, historyToSend);
+                aiText = await callAI(currentModel, finalSystemPrompt, historyToSend, aiSettings);
                 responseType = 'general';
             } else {
                 const dbContext = buildContextForAI(analysis);
@@ -924,7 +977,7 @@ ${dbContext}
 โปรดวิเคราะห์ข้อมูลข้างต้นและตอบคำถามอย่างละเอียด ถ้ามีข้อมูลตัวเลข ให้อ้างอิงจากข้อมูลจริงเท่านั้น`;
 
                 const historyToSend = [...validHistory, { role: 'user', text: userPrompt }];
-                aiText = await callAI(currentModel, SYSTEM_PROMPT, historyToSend);
+                aiText = await callAI(currentModel, finalSystemPrompt, historyToSend, aiSettings);
                 responseType = analysis.isOverview ? 'overview' : 'specific';
             }
 
@@ -996,6 +1049,28 @@ ${dbContext}
                     </p>
                 </div>
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                    
+                    {/* Feature Toggles */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#f6f8fa', padding: '6px 12px', borderRadius: 12, border: '1px solid #d0d7de', marginRight: 4 }}>
+                        <Tooltip title="เปิดโหมดค้นหาอินเทอร์เน็ต เพื่อตอบเรื่องทั่วไปอัปเดตล่าสุด (Gemini รองรับ)">
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                <GlobalOutlined style={{ color: aiSettings.webSearch ? '#1890ff' : '#8c8c8c' }} />
+                                <span style={{ fontSize: 12, color: '#595959', fontWeight: 500 }}>ต่อเน็ต</span>
+                                <Switch size="small" checked={aiSettings.webSearch} onChange={v => setAiSettings({...aiSettings, webSearch: v})} disabled={selectedModel !== 'gemini'} />
+                            </div>
+                        </Tooltip>
+                        
+                        <div style={{ width: 1, height: 16, background: '#d0d7de' }} />
+                        
+                        <Tooltip title="เปิดการวิเคราะห์เชิงลึก AI จะให้เหตุผลแสดงกระบวนการคิดอย่างละเอียดก่อนตอบให้เห็น">
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                <AppstoreOutlined style={{ color: aiSettings.deepThinking ? '#722ed1' : '#8c8c8c' }} />
+                                <span style={{ fontSize: 12, color: '#595959', fontWeight: 500 }}>คิดเชิงลึก</span>
+                                <Switch size="small" checked={aiSettings.deepThinking} onChange={v => setAiSettings({...aiSettings, deepThinking: v})} />
+                            </div>
+                        </Tooltip>
+                    </div>
+
                     <ModelSelector
                         selectedModel={selectedModel}
                         onChange={setSelectedModel}
