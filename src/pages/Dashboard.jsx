@@ -95,7 +95,7 @@ export default function Dashboard() {
     }, []);
 
     // ===== ORIGINAL DASHBOARD DATA =====
-    const loadStats = async () => {
+    async function loadStats() {
         setLoading(true);
         const results = [];
         for (const tbl of allTables) {
@@ -112,12 +112,12 @@ export default function Dashboard() {
         setLoading(false);
     };
 
-    const loadChartData = async () => {
+    async function loadChartData() {
         try {
             const [agri, lp, fi] = await Promise.all([
-                supabase.from('agricultural_areas').select('*'),
-                supabase.from('large_plots').select('*'),
-                supabase.from('farmer_institutes').select('*'),
+                supabase.from('agricultural_areas').select('rice_in_season_rai, rice_off_season_rai, field_crops_rai, horticulture_rai, fruit_trees_rai, vegetables_rai, flowers_rai, herbs_spices_rai'),
+                supabase.from('large_plots').select('commodity_group'),
+                supabase.from('farmer_institutes').select('community_enterprise_groups'), // unused in charts, but kept fi array format minimally
             ]);
             setAgriData(agri.data || []);
             setLargePlots(lp.data || []);
@@ -126,7 +126,7 @@ export default function Dashboard() {
     };
 
     // ===== LANDING PAGE DATA LOADER =====
-    const fetchWithCount = async (table, selectStr = 'id') => {
+    async function fetchWithCount(table, selectStr = 'id') {
         const { data, count } = await supabase.from(table)
             .select(selectStr, { count: 'exact' })
             .order('id', { ascending: false })
@@ -134,7 +134,7 @@ export default function Dashboard() {
         return { list: data || [], count: count || 0 };
     };
 
-    const loadLandingData = async () => {
+    async function loadLandingData() {
         try {
             // Map Data
             const mapPts = [];
@@ -165,9 +165,9 @@ export default function Dashboard() {
                 fetchWithCount('smart_farmers', 'id, full_name, district, main_product'),
                 supabase.from('community_enterprises').select('id, district', { count: 'exact' }),
                 fetchWithCount('agri_tourism', 'id, spot_name, district, spot_type'),
-                supabase.from('large_plots').select('*'),
-                supabase.from('farmer_institutes').select('*'),
-                supabase.from('agricultural_areas').select('*').neq('district', 'รวม'),
+                supabase.from('large_plots').select('district, member_count, area_rai, commodity_group'),
+                supabase.from('farmer_institutes').select('district, housewives_groups, young_farmer_groups, career_promotion_groups, village_farmers_count, total_groups, community_enterprise_groups, smart_farmer_count, young_smart_farmer_count'),
+                supabase.from('agricultural_areas').select('district, farmer_households, total_area_rai, agri_crop_area_rai, rice_in_season_rai, rice_off_season_rai, field_crops_rai, horticulture_rai, fruit_trees_rai, vegetables_rai, flowers_rai, herbs_spices_rai').neq('district', 'รวม'),
                 supabase.from('learning_centers').select('district'),
                 supabase.from('pest_centers').select('district'),
                 supabase.from('soil_fertilizer_centers').select('district')
