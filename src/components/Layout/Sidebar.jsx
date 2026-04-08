@@ -168,7 +168,7 @@ function SidebarContent({ user, onMenuClick, location, menuItems }) {
         .map(item => item.key);
 
     return (
-        <>
+        <div className="sidebar-container">
             <div className="sidebar-header">
                 <div className="sidebar-brand">
                     <span className="brand-icon">🌾</span>
@@ -179,13 +179,15 @@ function SidebarContent({ user, onMenuClick, location, menuItems }) {
                 </div>
             </div>
 
-            <Menu
-                mode="inline"
-                selectedKeys={[location.pathname]}
-                defaultOpenKeys={openKeys}
-                items={menuItems}
-                onClick={onMenuClick}
-            />
+            <div className="sidebar-menu-wrapper">
+                <Menu
+                    mode="inline"
+                    selectedKeys={[location.pathname]}
+                    defaultOpenKeys={openKeys}
+                    items={menuItems}
+                    onClick={onMenuClick}
+                />
+            </div>
 
             <div className="sidebar-bottom-menu">
                 <Menu
@@ -196,7 +198,7 @@ function SidebarContent({ user, onMenuClick, location, menuItems }) {
                     style={{ background: 'transparent', border: 'none' }}
                 />
             </div>
-        </>
+        </div>
     );
 }
 

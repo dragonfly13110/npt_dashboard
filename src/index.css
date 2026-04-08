@@ -182,8 +182,32 @@ body {
 /* ========== Sidebar ========== */
 .sidebar {
   background: var(--bg-sidebar) !important;
-  min-height: 100vh;
+  height: 100vh;
+  position: sticky;
+  top: 0;
   border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidebar-menu-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.sidebar-menu-wrapper::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-menu-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
 }
 
 .sidebar-header {
@@ -1578,10 +1602,9 @@ body {
 }
 
 .sidebar-bottom-menu {
-  position: absolute;
-  bottom: 16px;
-  width: 100%;
-  padding: 0 8px;
+  padding: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: auto;
 }
 
 /* ========== Dashboard Header ========== */
