@@ -72,7 +72,7 @@ export default function AuditLog() {
         } finally {
             setLoading(false);
         }
-    }, [pagination.current, pagination.pageSize, filterAction, filterTable]);
+    }, [pagination, pagination.current, pagination.pageSize, filterAction, filterTable]);
 
     useEffect(() => { loadLogs(); }, [loadLogs]);
 

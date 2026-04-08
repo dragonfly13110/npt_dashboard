@@ -41,7 +41,7 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
         });
         fetchData({ page: pagination.current, pageSize: pagination.pageSize, search, searchField, searchFields, filters: transformedFilters, sortField: sorter.field, sortOrder: sorter.order });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [fetchData, pagination.current, pagination.pageSize, search, searchField, searchFields, filters, sorter, JSON.stringify(filterConfig)]);
+    }, [fetchData, pagination, pagination.current, pagination.pageSize, search, searchField, searchFields, filters, sorter, JSON.stringify(filterConfig)]);
 
     useEffect(() => { loadData(); }, [loadData]);
 
