@@ -263,7 +263,6 @@ export default function Sidebar({ user, mobileOpen, onMobileClose }) {
                 placement="left"
                 open={mobileOpen}
                 onClose={onMobileClose}
-                width={280}
                 className="mobile-sidebar-drawer"
                 styles={{ body: { padding: 0, background: '#0d1117' } }}
             >

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Form, Input, InputNumber, Select, Spin, Row, Col, Card } from 'antd';
 import { PieChartOutlined, BarChartOutlined } from '@ant-design/icons';
 import {
@@ -8,6 +8,7 @@ import {
 } from 'recharts';
 import { supabase } from '../../supabaseClient';
 import CrudTable from '../../components/DataTable/CrudTable';
+import { useApiCache } from '../../hooks/useApiCache';
 
 const columns = [
     { title: 'รหัส', dataIndex: 'code', key: 'code', sorter: (a, b) => (Number(a.code) || 0) - (Number(b.code) || 0) },
@@ -83,28 +84,17 @@ const CustomBarTooltip = ({ active, payload, label }) => {
 };
 
 export default function LargePlots() {
-    const [dashboardData, setDashboardData] = useState([]);
-    const [loading, setLoading] = useState(true);
-
     // Filters for charts
     const [filterYear, setFilterYear] = useState(null);
     const [filterDistrict, setFilterDistrict] = useState(null);
 
-    useEffect(() => {
-        const loadDashboardData = async () => {
-            setLoading(true);
-            try {
-                const { data, error } = await supabase.from('large_plots').select('*');
-                if (error) throw error;
-                setDashboardData(data || []);
-            } catch (err) {
-                console.error('Error fetching large plots dash data', err);
-            } finally {
-                setLoading(false);
-            }
-        };
-        loadDashboardData();
-    }, []);
+    const fetchLargePlots = async () => {
+        const { data, error } = await supabase.from('large_plots').select('*');
+        if (error) throw error;
+        return data || [];
+    };
+
+    const { data: dashboardData = [], isLoading: loading } = useApiCache('large_plots_page', fetchLargePlots);
 
     // Derived Filter Options
     const yearOptions = useMemo(() => {

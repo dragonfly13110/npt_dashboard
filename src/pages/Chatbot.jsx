@@ -213,7 +213,7 @@ ${dbContext}
 
             {/* Chat Container */}
             <Card
-                bordered
+                variant="outlined"
                 style={{
                     flex: 1,
                     borderRadius: 16,

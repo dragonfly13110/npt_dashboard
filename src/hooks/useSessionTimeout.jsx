@@ -106,7 +106,7 @@ export function useSessionTimeout() {
             title="⏰ Session กำลังจะหมดอายุ"
             open={showWarning}
             closable={false}
-            maskClosable={false}
+            mask={{ closable: false }}
             okText="ต่ออายุ Session"
             cancelText="ออกจากระบบ"
             onOk={handleRefresh}

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Form, Input, InputNumber, Select, Tag, Row, Col, Card, Spin, DatePicker } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
 import {
@@ -8,6 +8,7 @@ import {
 } from 'recharts';
 import CrudTable from '../../components/DataTable/CrudTable';
 import { supabase } from '../../supabaseClient';
+import { useApiCache } from '../../hooks/useApiCache';
 
 // ---- Constants ----
 const districts = ['เมืองนครปฐม', 'นครชัยศรี', 'สามพราน', 'ดอนตูม', 'บางเลน', 'กำแพงแสน', 'พุทธมณฑล'];
@@ -90,32 +91,20 @@ const CustomBarTooltip = ({ active, payload, label }) => {
 // Main Component
 // ============================
 export default function CommunityEnterprises() {
-    const [chartData, setChartData] = useState([]);
-    const [chartLoading, setChartLoading] = useState(true);
-
     // Dashboard filters
     const [filterDistrict, setFilterDistrict] = useState(null);
     const [filterType, setFilterType] = useState(null);
 
-    const loadData = useCallback(async () => {
-        setChartLoading(true);
-        try {
-            const { data, error } = await supabase
-                .from('community_enterprises')
-                .select('*')
-                .order('created_at', { ascending: false });
-            if (error) throw error;
-            setChartData(data || []);
-        } catch (err) {
-            console.error('Error loading data:', err);
-        } finally {
-            setChartLoading(false);
-        }
-    }, []);
+    const fetchCommunityEnterprises = async () => {
+        const { data, error } = await supabase
+            .from('community_enterprises')
+            .select('*')
+            .order('created_at', { ascending: false });
+        if (error) throw error;
+        return data || [];
+    };
 
-    useEffect(() => {
-        loadData();
-    }, [loadData]);
+    const { data: chartData = [], isLoading: chartLoading } = useApiCache('community_enterprises_page', fetchCommunityEnterprises);
 
     // Derive filter options from actual data
     const districtOptions = useMemo(() => {

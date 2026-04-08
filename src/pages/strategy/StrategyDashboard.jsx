@@ -7,6 +7,7 @@ import {
     ResponsiveContainer
 } from 'recharts';
 import { supabase } from '../../supabaseClient';
+import { PageHeader, CategoryBentoCard, CategoryChartCard } from '../../components/widgets/SharedDashboardUI';
 
 const PIE_COLORS = [
     '#66bb6a', '#42a5f5', '#ffca28', '#ef5350', '#ab47bc',
@@ -230,14 +231,11 @@ export default function StrategyDashboard() {
 
     return (
         <div>
-            {/* Header */}
-            <div style={{ padding: '20px 24px', background: '#fff', borderRadius: 12, border: '1px solid #e8ecf0', marginBottom: 24 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
-                    <PieChartOutlined style={{ fontSize: 22, color: '#1a7f37' }} />
-                    <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: '#1f2328' }}>🎯 ยุทธศาสตร์และสารสนเทศ</h2>
-                </div>
-                <p style={{ margin: 0, color: '#656d76', fontSize: 14 }}>ภาพรวมข้อมูลพื้นที่การเกษตร, ศพก. และภัยพิบัติ</p>
-            </div>
+            <PageHeader 
+                title="ยุทธศาสตร์และสารสนเทศ" 
+                subtitle="ภาพรวมข้อมูลพื้นที่การเกษตร, ศพก. และภัยพิบัติ"
+                icon={PieChartOutlined}
+            />
 
             {loading ? (
                 <div style={{ height: 400, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -248,200 +246,127 @@ export default function StrategyDashboard() {
                     {/* Bento Summary Cards */}
                     <section className="bento-container" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', display: 'grid', gap: '24px', marginBottom: '32px', gridTemplateAreas: 'none' }}>
                         
-                        {/* 1. Agricultural Areas */}
-                        <div className="bento-card" style={{ marginBottom: 0 }}>
-                            <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <div>
-                                    <h3>📍 พื้นที่การเกษตร</h3>
-                                </div>
-                            </div>
-                            <div className="bento-card-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px' }}>
-                                <div>
-                                    <div style={{ fontSize: 13, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>ปริมาณพื้นที่รวม (ไร่)</div>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', background: '#ecfccb', borderRadius: '8px', border: '1px solid #d9f99d' }}>
-                                        <span style={{ fontSize: 14, color: '#4d7c0f', fontWeight: 600 }}>พื้นที่รวมทั้งหมด</span>
-                                        <span style={{ fontSize: 16, fontWeight: 800, color: '#3f6212' }}>{agriStats.totalArea.toLocaleString(undefined, { maximumFractionDigits: 2 })} <span style={{fontSize: 12, fontWeight: 500}}>ไร่</span></span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div style={{ fontSize: 13, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>พื้นที่เพาะปลูกรายพืช (ไร่)</div>
-                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
-                                        {agriStats.topTypes.map(([c, count], idx) => (
-                                            <div key={c} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', background: idx % 2 === 0 ? '#f0fdf4' : '#f8fafc', borderRadius: '8px', border: '1px solid', borderColor: idx % 2 === 0 ? '#dcfce3' : '#e2e8f0' }}>
-                                                <span style={{ fontSize: 13, color: idx % 2 === 0 ? '#166534' : '#475569', fontWeight: 600 }}>{c}</span>
-                                                <span style={{ fontSize: 14, fontWeight: 700, color: idx % 2 === 0 ? '#15803d' : '#0f172a' }}>{count.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
-                                            </div>
-                                        ))}
-                                        {agriStats.topTypes.length > 0 && (
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', background: '#eef2ff', borderRadius: '8px', border: '1px solid #e0e7ff', gridColumn: 'span 2', marginTop: 4 }}>
-                                                <span style={{ fontSize: 13, color: '#4338ca', fontWeight: 700 }}>รวมพื้นที่เพาะปลูกทั้งหมด</span>
-                                                <span style={{ fontSize: 15, fontWeight: 800, color: '#3730a3' }}>{agriStats.totalPlanted.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
-                                            </div>
-                                        )}
-                                        {agriStats.topTypes.length === 0 && (
-                                            <div style={{ textAlign: 'center', color: '#94a3b8', fontSize: 13, padding: 8, gridColumn: 'span 2' }}>รอเพิ่มข้อมูล...</div>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <CategoryBentoCard
+                            title="พื้นที่การเกษตร"
+                            icon="📍"
+                            mainStatsTitle="พื้นที่เพาะปลูกรายพืช (ไร่)"
+                            mainStats={[
+                                ...agriStats.topTypes.map(([label, value]) => ({ 
+                                    label, value: value.toLocaleString(undefined, { maximumFractionDigits: 2 }) 
+                                })),
+                                ...(agriStats.topTypes.length > 0 ? [{ 
+                                    label: 'รวมพื้นที่เพาะปลูกทั้งหมด', 
+                                    value: agriStats.totalPlanted.toLocaleString(undefined, { maximumFractionDigits: 2 }), 
+                                    isTotal: true 
+                                }] : [])
+                            ]}
+                        />
 
-                        {/* 2. Learning Centers */}
-                        <div className="bento-card" style={{ marginBottom: 0 }}>
-                            <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <div>
-                                    <h3>🏫 ศูนย์ ศพก. </h3>
-                                </div>
-                                <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
-                                    ทั้งหมด {learnStats.total} ศูนย์
-                                </div>
-                            </div>
-                            <div className="bento-card-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px' }}>
-                                <div>
-                                    <div style={{ fontSize: 13, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>เป้าหมาย/สินค้าหลัก (แห่ง)</div>
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '8px' }}>
-                                        {learnStats.topTypes.map(([c, count], idx) => (
-                                            <div key={c} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', background: idx % 2 === 0 ? '#eff6ff' : '#f8fafc', borderRadius: '8px', border: '1px solid', borderColor: idx % 2 === 0 ? '#dbeafe' : '#e2e8f0' }}>
-                                                <span style={{ fontSize: 13, color: idx % 2 === 0 ? '#1d4ed8' : '#475569', fontWeight: 600 }}>{c}</span>
-                                                <span style={{ fontSize: 14, fontWeight: 700, color: idx % 2 === 0 ? '#1e40af' : '#0f172a' }}>{count}</span>
-                                            </div>
-                                        ))}
-                                        {learnStats.topTypes.length === 0 && (
-                                            <div style={{ textAlign: 'center', color: '#94a3b8', fontSize: 13, padding: 8 }}>รอเพิ่มข้อมูล...</div>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <CategoryBentoCard
+                            title="ศูนย์ ศพก."
+                            icon="🏫"
+                            totalLabel="ทั้งหมด"
+                            totalCount={`${learnStats.total} ศูนย์`}
+                            mainStatsTitle="เป้าหมาย/สินค้าหลัก (แห่ง)"
+                            mainStats={learnStats.topTypes.map(([label, value]) => ({ label, value, colorType: 'blue' }))}
+                        />
 
-                        {/* 3. Disasters */}
-                        <div className="bento-card" style={{ marginBottom: 0 }}>
-                            <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <div>
-                                    <h3>⚡ ภัยพิบัติ</h3>
-                                </div>
-                                <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
-                                    ทั้งหมด {disasterStats.total} รายการ
-                                </div>
-                            </div>
-                            <div className="bento-card-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px' }}>
-                                <div>
-                                    <div style={{ fontSize: 13, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>ประเภทภัยพิบัติ (ครั้ง)</div>
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '8px' }}>
-                                        {disasterStats.topTypes.map(([c, count], idx) => (
-                                            <div key={c} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', background: idx % 2 === 0 ? '#fef2f2' : '#f8fafc', borderRadius: '8px', border: '1px solid', borderColor: idx % 2 === 0 ? '#fee2e2' : '#e2e8f0' }}>
-                                                <span style={{ fontSize: 13, color: idx % 2 === 0 ? '#b91c1c' : '#475569', fontWeight: 600 }}>{c}</span>
-                                                <span style={{ fontSize: 14, fontWeight: 700, color: idx % 2 === 0 ? '#991b1b' : '#0f172a' }}>{count}</span>
-                                            </div>
-                                        ))}
-                                        {disasterStats.topTypes.length === 0 && (
-                                            <div style={{ textAlign: 'center', color: '#94a3b8', fontSize: 13, padding: 8 }}>รอเพิ่มข้อมูล...</div>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <CategoryBentoCard
+                            title="ภัยพิบัติ"
+                            icon="⚡"
+                            totalLabel="ทั้งหมด"
+                            totalCount={`${disasterStats.total} รายการ`}
+                            mainStatsTitle="ประเภทภัยพิบัติ (ครั้ง)"
+                            mainStats={disasterStats.topTypes.map(([label, value]) => ({ label, value, colorType: 'red' }))}
+                        />
 
                     </section>
 
                     <Row gutter={[20, 20]}>
                         
-                        {/* --- Agricultural Areas --- */}
                         <Col xs={24} lg={12}>
-                            <Card title="🌾 สัดส่วนพื้นที่การเกษตรตามชนิดพืช" size="small" bordered style={{ borderRadius: 12 }}>
-                                <div style={{ height: 340 }}>
-                                    {agriPie.length > 0 ? (
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <PieChart>
-                                                <Pie data={agriPie} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={2} dataKey="value"
-                                                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
-                                                    {agriPie.map((entry, i) => <Cell key={i} fill={entry.color} />)}
-                                                </Pie>
-                                                <RechartsTooltip formatter={(val) => [val.toLocaleString(undefined, { maximumFractionDigits: 2 }) + ' ไร่', 'พื้นที่']} />
-                                            </PieChart>
-                                        </ResponsiveContainer>
-                                    ) : <EmptyChart label="พื้นที่การเกษตร" />}
-                                </div>
-                            </Card>
+                            <CategoryChartCard title="🌾 สัดส่วนพื้นที่การเกษตรตามชนิดพืช">
+                                {agriPie.length > 0 ? (
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <PieChart>
+                                            <Pie data={agriPie} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={2} dataKey="value"
+                                                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
+                                                {agriPie.map((entry, i) => <Cell key={i} fill={entry.color} />)}
+                                            </Pie>
+                                            <RechartsTooltip formatter={(val) => [val.toLocaleString(undefined, { maximumFractionDigits: 2 }) + ' ไร่', 'พื้นที่']} />
+                                        </PieChart>
+                                    </ResponsiveContainer>
+                                ) : <EmptyChart label="พื้นที่การเกษตร" />}
+                            </CategoryChartCard>
                         </Col>
 
                         <Col xs={24} lg={12}>
-                            <Card title="🌾 พื้นที่การเกษตรรายอำเภอ (แยกชนิดพืช)" size="small" bordered style={{ borderRadius: 12 }}>
-                                <div style={{ height: 340 }}>
-                                    {agriBar.length > 0 ? (
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <BarChart data={agriBar} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
-                                                <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#656d76' }} axisLine={{ stroke: '#e8ecf0' }} tickLine={false} />
-                                                <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
-                                                <RechartsTooltip cursor={{ fill: '#f6f8fa' }} content={<CustomAgriBarTooltip />} />
-                                                <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
-                                                {agriCrops.map((crop, index) => (
-                                                    <Bar key={crop} dataKey={crop} stackId="a" fill={AGRI_COLORS[index % AGRI_COLORS.length]} maxBarSize={50} />
-                                                ))}
-                                            </BarChart>
-                                        </ResponsiveContainer>
-                                    ) : <EmptyChart label="พื้นที่การเกษตร" />}
-                                </div>
-                            </Card>
-                        </Col>
-
-                        {/* --- Learning Centers --- */}
-                        <Col xs={24} lg={12}>
-                            <Card title="🏫 สัดส่วน ศพก. แบ่งตามพืชหลัก" size="small" bordered style={{ borderRadius: 12 }}>
-                                <div style={{ height: 340 }}>
-                                    {learnPie.length > 0 ? (
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <PieChart>
-                                                <Pie data={learnPie} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={2} dataKey="value"
-                                                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
-                                                    {learnPie.map((_, i) => <Cell key={i} fill={LEARN_COLORS[i % LEARN_COLORS.length]} />)}
-                                                </Pie>
-                                                <RechartsTooltip formatter={(val) => [val.toLocaleString() + ' ศูนย์', 'จำนวน']} />
-                                            </PieChart>
-                                        </ResponsiveContainer>
-                                    ) : <EmptyChart label="ศพก." />}
-                                </div>
-                            </Card>
+                            <CategoryChartCard title="🌾 พื้นที่การเกษตรรายอำเภอ (แยกชนิดพืช)">
+                                {agriBar.length > 0 ? (
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <BarChart data={agriBar} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
+                                            <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#656d76' }} axisLine={{ stroke: '#e8ecf0' }} tickLine={false} />
+                                            <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
+                                            <RechartsTooltip cursor={{ fill: '#f6f8fa' }} content={<CustomAgriBarTooltip />} />
+                                            <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
+                                            {agriCrops.map((crop, index) => (
+                                                <Bar key={crop} dataKey={crop} stackId="a" fill={AGRI_COLORS[index % AGRI_COLORS.length]} maxBarSize={50} />
+                                            ))}
+                                        </BarChart>
+                                    </ResponsiveContainer>
+                                ) : <EmptyChart label="พื้นที่การเกษตร" />}
+                            </CategoryChartCard>
                         </Col>
 
                         <Col xs={24} lg={12}>
-                            <Card title="🏫 จำนวนที่ตั้ง ศพก. แยกตามอำเภอ (แบ่งตามพืชหลัก)" size="small" bordered style={{ borderRadius: 12 }}>
-                                <div style={{ height: 340 }}>
-                                    {learnBar.length > 0 ? (
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <BarChart data={learnBar} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
-                                                <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#656d76' }} axisLine={{ stroke: '#e8ecf0' }} tickLine={false} />
-                                                <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
-                                                <RechartsTooltip cursor={{ fill: '#f6f8fa' }} content={<CustomLearnBarTooltip />} />
-                                                <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
-                                                {learnTypes.map((type, index) => (
-                                                    <Bar key={type} dataKey={type} stackId="a" fill={LEARN_COLORS[index % LEARN_COLORS.length]} maxBarSize={50} />
-                                                ))}
-                                            </BarChart>
-                                        </ResponsiveContainer>
-                                    ) : <EmptyChart label="ศพก." />}
-                                </div>
-                            </Card>
+                            <CategoryChartCard title="🏫 สัดส่วน ศพก. แบ่งตามพืชหลัก">
+                                {learnPie.length > 0 ? (
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <PieChart>
+                                            <Pie data={learnPie} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={2} dataKey="value"
+                                                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
+                                                {learnPie.map((_, i) => <Cell key={i} fill={LEARN_COLORS[i % LEARN_COLORS.length]} />)}
+                                            </Pie>
+                                            <RechartsTooltip formatter={(val) => [val.toLocaleString() + ' ศูนย์', 'จำนวน']} />
+                                        </PieChart>
+                                    </ResponsiveContainer>
+                                ) : <EmptyChart label="ศพก." />}
+                            </CategoryChartCard>
                         </Col>
 
-                        {/* --- Disasters --- */}
+                        <Col xs={24} lg={12}>
+                            <CategoryChartCard title="🏫 จำนวนที่ตั้ง ศพก. แยกตามอำเภอ (แบ่งตามพืชหลัก)">
+                                {learnBar.length > 0 ? (
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <BarChart data={learnBar} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
+                                            <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#656d76' }} axisLine={{ stroke: '#e8ecf0' }} tickLine={false} />
+                                            <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
+                                            <RechartsTooltip cursor={{ fill: '#f6f8fa' }} content={<CustomLearnBarTooltip />} />
+                                            <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
+                                            {learnTypes.map((type, index) => (
+                                                <Bar key={type} dataKey={type} stackId="a" fill={LEARN_COLORS[index % LEARN_COLORS.length]} maxBarSize={50} />
+                                            ))}
+                                        </BarChart>
+                                    </ResponsiveContainer>
+                                ) : <EmptyChart label="ศพก." />}
+                            </CategoryChartCard>
+                        </Col>
+
                         {disasterPie.length > 0 && (
                             <Col xs={24} lg={12}>
-                                <Card title="⚡ สัดส่วนภัยพิบัติตามประเภท" size="small" bordered style={{ borderRadius: 12 }}>
-                                    <div style={{ height: 340 }}>
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <PieChart>
-                                                <Pie data={disasterPie} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={2} dataKey="value"
-                                                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
-                                                    {disasterPie.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
-                                                </Pie>
-                                                <RechartsTooltip formatter={(val) => [val + ' รายการ', 'จำนวน']} />
-                                            </PieChart>
-                                        </ResponsiveContainer>
-                                    </div>
-                                </Card>
+                                <CategoryChartCard title="⚡ สัดส่วนภัยพิบัติตามประเภท">
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <PieChart>
+                                            <Pie data={disasterPie} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={2} dataKey="value"
+                                                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
+                                                {disasterPie.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
+                                            </Pie>
+                                            <RechartsTooltip formatter={(val) => [val + ' รายการ', 'จำนวน']} />
+                                        </PieChart>
+                                    </ResponsiveContainer>
+                                </CategoryChartCard>
                             </Col>
                         )}
                     </Row>
