@@ -1,7 +1,7 @@
 // Netlify serverless function to proxy DOAE ESC (Engineering Services Center) WordPress REST API
 // https://esc.doae.go.th/...
 
-export default async (request, context) => {
+export default async (request) => {
     const url = new URL(request.url);
     
     // Remove /api/doae-esc/ prefix to get the API path

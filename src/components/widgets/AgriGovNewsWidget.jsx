@@ -182,14 +182,6 @@ async function fetchViaAllOrigins(feedUrl) {
     return parseRssXml(json.contents);
 }
 
-/** Strategy 3: corsproxy.io */
-async function fetchViaCorsProxy(feedUrl) {
-    const apiUrl = `https://corsproxy.io/?${encodeURIComponent(feedUrl)}`;
-    const res = await fetchWithTimeout(apiUrl, {}, 10000);
-    if (!res.ok) throw new Error(`corsproxy error: ${res.status}`);
-    const xmlStr = await res.text();
-    return parseRssXml(xmlStr);
-}
 
 /** Fetch RSS feed via multiple strategies */
 async function fetchRssFeed(feed) {
@@ -216,7 +208,9 @@ async function fetchRssFeed(feed) {
             try {
                 const items = await fetchViaAllOrigins(u);
                 if (items && items.length > 0) return items;
-            } catch (err) {}
+            } catch {
+                // fall through
+            }
         }
     } catch (e) {
         console.warn(`[${feed.key}] AllOrigins failed:`, e);

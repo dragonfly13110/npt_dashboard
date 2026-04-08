@@ -6,13 +6,13 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveCont
 const COLORS = ['#1890ff', '#52c41a', '#faad14', '#f5222d', '#722ed1', '#eb2f96', '#13c2c2'];
 
 export default function SmartTable({ rawLines }) {
+    const [viewMode, setViewMode] = useState('table');
+    
     if (rawLines.length < 3) return <pre>{rawLines.join('\n')}</pre>;
     
     // Parse table and cleanup separators
     const headerRow = rawLines[0].split('|').map(s => s.trim()).filter(Boolean);
     const dataRows = rawLines.slice(2).map(r => r.split('|').map(s => s.trim()).filter(Boolean)).filter(r => r.length > 0);
-    
-    const [viewMode, setViewMode] = useState('table');
     
     if (headerRow.length === 0 || dataRows.length === 0) return <pre>{rawLines.join('\n')}</pre>;
 

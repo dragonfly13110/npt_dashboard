@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Table, Tag, Tooltip, Badge, Breadcrumb, Select, DatePicker } from 'antd';
 import { ClockCircleOutlined, HomeOutlined, SafetyCertificateOutlined, DatabaseOutlined, FileAddOutlined } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
@@ -123,13 +123,9 @@ function formatDateTime(dateStr) {
 export default function RecentActivities() {
     const [batches, setBatches] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [filterGroup, setFilterGroup] = useState(null);
+    const filterGroup = null; // Filter logic retained for manual usage
 
-    useEffect(() => {
-        loadActivities();
-    }, []);
-
-    const loadActivities = async () => {
+    const loadActivities = useCallback(async () => {
         setLoading(true);
         const allRecords = [];
         
@@ -160,7 +156,12 @@ export default function RecentActivities() {
         const grouped = groupIntoBatches(allRecords);
         setBatches(grouped);
         setLoading(false);
-    };
+    }, []);
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        loadActivities();
+    }, [loadActivities]);
 
     const filteredBatches = filterGroup 
         ? batches.filter(b => b.group === filterGroup) 
@@ -213,7 +214,7 @@ export default function RecentActivities() {
             title: 'การดำเนินการ',
             key: 'action',
             width: 180,
-            render: (_, record) => (
+            render: () => (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <FileAddOutlined style={{ color: '#43a047', fontSize: 16 }} />
                     <span style={{ fontWeight: 600 }}>

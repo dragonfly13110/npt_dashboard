@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Skeleton } from 'antd';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip, ResponsiveContainer,
@@ -101,13 +101,7 @@ export default function AdminDashboard() {
     const [activities, setActivities] = useState([]);
     const [activityLoading, setActivityLoading] = useState(true);
 
-    useEffect(() => {
-        loadStats();
-        loadTrend();
-        loadActivities();
-    }, []);
-
-    const loadStats = async () => {
+    const loadStats = useCallback(async () => {
         setLoading(true);
         const results = [];
         for (const tbl of tables) {
@@ -122,21 +116,28 @@ export default function AdminDashboard() {
         }
         setStats(results);
         setLoading(false);
-    };
+    }, []);
 
-    const loadTrend = async () => {
+    const loadTrend = useCallback(async () => {
         setTrendLoading(true);
         const data = await fetchTrend(tables);
         setTrendData(data);
         setTrendLoading(false);
-    };
+    }, []);
 
-    const loadActivities = async () => {
+    const loadActivities = useCallback(async () => {
         setActivityLoading(true);
         const data = await fetchRecentActivity(tables);
         setActivities(data);
         setActivityLoading(false);
-    };
+    }, []);
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        loadStats();
+        loadTrend();
+        loadActivities();
+    }, [loadStats, loadTrend, loadActivities]);
 
     const totalRecords = stats.reduce((sum, s) => sum + s.count, 0);
     const barData = stats.filter(s => s.count > 0).map(s => ({ name: s.label, value: s.count }));

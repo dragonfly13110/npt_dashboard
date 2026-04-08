@@ -1,7 +1,7 @@
 // Netlify serverless function to proxy DOAE Nakhon Pathom WordPress REST API
 // https://nakhonpathom.doae.go.th/...
 
-export default async (request, context) => {
+export default async (request) => {
     const url = new URL(request.url);
     
     // Remove /api/doae-npt/ prefix to get the API path

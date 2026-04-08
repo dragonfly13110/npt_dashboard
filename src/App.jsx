@@ -104,6 +104,7 @@ function AppRoutes() {
           { path: '/public/agri-tourism', Component: AgriTourism },
           { path: '/public/farmer-institutes', Component: FarmerInstitutes },
           { path: '/public/agricultural-areas', Component: AgriculturalAreas },
+        // eslint-disable-next-line no-unused-vars
         ].map(({ path, Component }) => (
           <Route key={path} path={path} element={
             <div style={{ padding: '20px 24px', maxWidth: 1400, margin: '0 auto', minHeight: '100vh', backgroundColor: '#f8fafc' }}>

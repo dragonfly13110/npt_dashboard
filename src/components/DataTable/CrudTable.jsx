@@ -76,7 +76,7 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
                 form.resetFields();
                 loadData();
             }
-        } catch (err) {
+        } catch {
             /* validation error, ant handles display */
         }
     };

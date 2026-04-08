@@ -161,6 +161,7 @@ const bottomMenuItems = [
     { key: 'logout', icon: <LogoutOutlined />, label: 'ออกจากระบบ', danger: true },
 ];
 
+// eslint-disable-next-line no-unused-vars
 function SidebarContent({ user, onMenuClick, location, menuItems }) {
     const openKeys = menuItems
         .filter(item => item.children)

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useMemo } from 'react';
+import { useState, useRef } from 'react';
 import { Skeleton, Button, Row, Col, Card } from 'antd';
 import {
     PieChart, Pie, Cell, Tooltip as RTooltip, ResponsiveContainer
@@ -8,7 +8,6 @@ import {
     AimOutlined, BankOutlined, TeamOutlined, AlertOutlined,
     ScheduleOutlined
 } from '@ant-design/icons';
-import { supabase } from '../supabaseClient';
 
 // ===== LANDING PAGE WIDGETS =====
 import WeatherWidget from '../components/widgets/WeatherWidget';

@@ -72,6 +72,7 @@ export default function AuditLog() {
         } finally {
             setLoading(false);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pagination, pagination.current, pagination.pageSize, filterAction, filterTable]);
 
     useEffect(() => { loadLogs(); }, [loadLogs]);

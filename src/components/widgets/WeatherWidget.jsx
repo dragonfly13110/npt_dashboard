@@ -66,7 +66,7 @@ export default function WeatherWidget() {
                         <span style={{ fontSize: '13px', fontWeight: '800', color: '#0284c7' }}>{currentWmo.desc}</span>
                     </div>
                     <span style={{ fontSize: '11px', color: '#64748b', marginTop: '4px', fontWeight: '600' }}>
-                        📍 จ.นครปฐม &bull; อัปเดต {new Date(weather.time || Date.now()).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })} น.
+                        📍 จ.นครปฐม &bull; อัปเดต {new Date(weather.time).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })} น.
                     </span>
                 </div>
             </div>

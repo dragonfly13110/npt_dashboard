@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import { message, FloatButton } from 'antd';
@@ -25,7 +25,6 @@ export default function LandingPage() {
     const [districtStats, setDistrictStats] = useState({});
 
     // Stats map
-    const [allStats, setAllStats] = useState({});
     const [instituteStats, setInstituteStats] = useState({
         total: 0, ce: 0, housewives: 0, young_grp: 0, career: 0, village: 0, sf: 0, ysf: 0
     });
@@ -46,7 +45,6 @@ export default function LandingPage() {
     const [enterprises, setEnterprises] = useState({ list: [], count: 0 });
     const [ceDistrictStats, setCeDistrictStats] = useState({});
     const [tourism, setTourism] = useState({ list: [], count: 0 });
-    const [plots, setPlots] = useState({ list: [], count: 0 });
 
     const navigate = useNavigate();
 
@@ -65,7 +63,7 @@ export default function LandingPage() {
         return { list: data || [], count: count || 0 };
     };
 
-    const loadDashboardData = async () => {
+    const loadDashboardData = useCallback(async () => {
         setLoading(true);
         try {
             // Map Data
@@ -119,7 +117,6 @@ export default function LandingPage() {
             });
             setCeDistrictStats(distCounts);
             setTourism(atData);
-            setPlots(lpData);
 
             // Compute Farmer Institutes Totals
             let iTotal = 0, iCE = 0, iHouse = 0, iYoungGrp = 0, iCareer = 0, iVillage = 0, iSF = 0, iYSF = 0;
@@ -222,12 +219,7 @@ export default function LandingPage() {
                 supabase.from(table).select('id', { count: 'exact', head: true })
             );
 
-            const countResults = await Promise.all(countPromises);
-            const statsMap = {};
-            countResults.forEach((res, idx) => {
-                statsMap[tablesToCount[idx]] = res.count || 0;
-            });
-            setAllStats(statsMap);
+            await Promise.all(countPromises);
             setDistrictStats(dStats);
 
         } catch (e) {
@@ -236,12 +228,11 @@ export default function LandingPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
     useEffect(() => {
         loadDashboardData();
-    }, []);
-
+    }, [loadDashboardData]);
 
     return (
         <div className="landing-page bento-theme">

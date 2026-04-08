@@ -201,7 +201,7 @@ export default function StrategyDashboard() {
             });
         });
         const topTypes = Object.entries(cropMap).sort((a,b) => b[1] - a[1]);
-        const totalPlanted = topTypes.reduce((sum, [_, val]) => sum + val, 0);
+        const totalPlanted = topTypes.reduce((sum, [, val]) => sum + val, 0);
         return { totalArea, topTypes, totalPlanted };
     }, [agriData]);
 
@@ -224,10 +224,6 @@ export default function StrategyDashboard() {
         const prods = Object.entries(typeMap).sort((a,b) => b[1] - a[1]).slice(0, 4);
         return { total: disasterData.length, topTypes: prods };
     }, [disasterData]);
-
-    const totalAgriArea = agriData.reduce((sum, row) => sum + (Number(row.total_area_rai) || 0), 0);
-    const totalLearning = learningData.length;
-    const totalDisasters = disasterData.length;
 
     return (
         <div>

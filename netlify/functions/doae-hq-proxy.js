@@ -1,7 +1,7 @@
 // Netlify serverless function to proxy DOAE HQ WordPress REST API
 // https://www.doae.go.th/...
 
-export default async (request, context) => {
+export default async (request) => {
     const url = new URL(request.url);
     
     // Remove /api/doae-hq/ prefix to get the API path

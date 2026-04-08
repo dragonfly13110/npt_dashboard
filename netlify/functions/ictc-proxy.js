@@ -1,7 +1,7 @@
 // Netlify serverless function to proxy ICTC WordPress REST API
 // https://ictc.doae.go.th/...
 
-export default async (request, context) => {
+export default async (request) => {
     const url = new URL(request.url);
     
     // Remove /api/ictc/ prefix to get the API path

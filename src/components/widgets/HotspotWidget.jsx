@@ -393,7 +393,6 @@ export default function HotspotWidget() {
                                             {hotspotsForList.slice(0, displayLimit).map((f, i) => {
                                                 const p = f.properties || {};
                                                 const thaiTime = toThaiTime(p.th_date, p.th_time, p.acq_date, p.acq_time);
-                                                const bri = p.brightness ? Number(p.brightness).toFixed(1) : p.bright_ti4 ? Number(p.bright_ti4).toFixed(1) : null;
                                                 return (
                                                     <a key={i} className="hotspot-list-item" href={p.linkgmap || `https://maps.google.com/maps?q=${f.geometry.coordinates[1]},${f.geometry.coordinates[0]}`} target="_blank" rel="noopener noreferrer" style={{
                                                         display: 'flex', justifyContent: 'space-between', alignItems: 'center',

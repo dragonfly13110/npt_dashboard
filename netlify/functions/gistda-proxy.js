@@ -1,7 +1,7 @@
 // Netlify serverless function to proxy GISTDA API requests
 // This solves CORS & header forwarding issues in production
 
-export default async (request, context) => {
+export default async (request) => {
     const url = new URL(request.url);
     
     // Extract the GISTDA path after /api/gistda/

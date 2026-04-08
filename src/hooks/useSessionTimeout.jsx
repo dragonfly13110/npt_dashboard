@@ -93,6 +93,7 @@ export function useSessionTimeout() {
             clearTimers();
             subscription.unsubscribe();
         };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const formatTime = (seconds) => {

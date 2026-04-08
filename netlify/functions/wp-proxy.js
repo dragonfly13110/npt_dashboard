@@ -1,7 +1,7 @@
 // Netlify serverless function to proxy WordPress REST API requests
 // Handles CORS issues and authentication
 
-export default async (request, context) => {
+export default async (request) => {
     const url = new URL(request.url);
     
     console.log(`[wp-proxy] Request URL: ${url.pathname}${url.search}`);

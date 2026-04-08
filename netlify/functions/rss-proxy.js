@@ -1,7 +1,7 @@
 // Netlify serverless function to proxy RSS feed requests
 // Handles CORS issues and external feed fetching
 
-export default async (request, context) => {
+export default async (request) => {
     const url = new URL(request.url);
     
     // Extract the feed key after /api/rss/

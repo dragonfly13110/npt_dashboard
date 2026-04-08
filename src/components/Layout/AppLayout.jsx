@@ -57,10 +57,8 @@ function buildBreadcrumbs(pathname) {
 
     if (segments.length <= 1) return items; // dashboard root
 
-    let path = '';
     for (let i = 1; i < segments.length; i++) {
         const seg = segments[i];
-        path += '/' + seg;
         const label = routeLabels[seg] || seg;
 
         if (i === segments.length - 1) {
@@ -82,7 +80,8 @@ export default function AppLayout() {
 
     // ปิด sidebar เมื่อเปลี่ยนหน้า (มือถือ)
     useEffect(() => {
-        setMobileOpen(false);
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setMobileOpen(prev => prev ? false : prev);
     }, [location.pathname]);
 
     const handleLogout = async () => {

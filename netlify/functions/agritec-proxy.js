@@ -1,7 +1,7 @@
 // Netlify serverless function to proxy NSTDA AGRITEC WordPress REST API
 // https://www.nstda.or.th/agritec/...
 
-export default async (request, context) => {
+export default async (request) => {
     const url = new URL(request.url);
     
     // Remove /api/agritec/ prefix to get the API path

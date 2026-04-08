@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Skeleton, Tag } from 'antd';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip, ResponsiveContainer,
@@ -9,11 +9,11 @@ import { FileTextOutlined, ProjectOutlined } from '@ant-design/icons';
 
 const COLORS = ['#e91e63', '#4CAF50', '#2196F3', '#FF9800', '#9C27B0', '#00BCD4', '#795548', '#607D8B'];
 
-export default function GroupDashboard({ title, icon, color, tables }) {
+export default function GroupDashboard({ title, icon, tables }) {
     const [stats, setStats] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const loadStats = async () => {
+    const loadStats = useCallback(async () => {
         setLoading(true);
         const results = [];
         for (const tbl of tables) {
@@ -28,11 +28,14 @@ export default function GroupDashboard({ title, icon, color, tables }) {
         }
         setStats(results);
         setLoading(false);
-    };
+    }, [tables]);
 
     useEffect(() => {
-        loadStats();
-    }, [tables]);
+        let isMounted = true;
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        if (isMounted) loadStats();
+        return () => { isMounted = false; };
+    }, [loadStats]);
 
     const barData = stats.filter(s => s.count > 0).map(s => ({ name: s.label, value: s.count }));
     const totalRecords = stats.reduce((sum, s) => sum + s.count, 0);
