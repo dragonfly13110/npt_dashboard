@@ -89,9 +89,9 @@ export function useDashboardData() {
         });
 
         const [sfData, ceData, atData, { data: lpData }, { data: instData }, { data: agriAreaData }, { data: lcData }, { data: pcData }, { data: sfcData }] = await Promise.all([
-            fetchWithCount('smart_farmers', 'id, full_name, district, main_product'),
-            supabase.from('community_enterprises').select('id, district', { count: 'exact' }),
-            fetchWithCount('agri_tourism', 'id, spot_name, district, spot_type'),
+            fetchWithCount('smart_farmers', 'district, full_name, main_product'),
+            supabase.from('community_enterprises').select('district', { count: 'exact' }),
+            fetchWithCount('agri_tourism', 'district, spot_name, spot_type'),
             supabase.from('large_plots').select('district, member_count, area_rai, commodity_group'),
             supabase.from('farmer_institutes').select('district, housewives_groups, young_farmer_groups, career_promotion_groups, village_farmers_count, total_groups, community_enterprise_groups, smart_farmer_count, young_smart_farmer_count'),
             supabase.from('agricultural_areas').select('district, farmer_households, total_area_rai, agri_crop_area_rai, rice_in_season_rai, rice_off_season_rai, field_crops_rai, horticulture_rai, fruit_trees_rai, vegetables_rai, flowers_rai, herbs_spices_rai').neq('district', 'รวม'),

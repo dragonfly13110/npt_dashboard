@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useMemo } from 'react';
 import { Skeleton, Tag } from 'antd';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip, ResponsiveContainer,
@@ -6,36 +6,42 @@ import {
 } from 'recharts';
 import { supabase } from '../supabaseClient';
 import { FileTextOutlined, ProjectOutlined } from '@ant-design/icons';
+import { useApiCache } from '../hooks/useApiCache';
 
 const COLORS = ['#e91e63', '#4CAF50', '#2196F3', '#FF9800', '#9C27B0', '#00BCD4', '#795548', '#607D8B'];
 
 export default function GroupDashboard({ title, icon, tables }) {
-    const [stats, setStats] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const tablesKey = useMemo(() => tables.map(t => t.table).join('-'), [tables]);
 
-    const loadStats = useCallback(async () => {
-        setLoading(true);
+    const fetchStats = async () => {
         const results = [];
         for (const tbl of tables) {
             try {
-                const { count, data, error } = await supabase
-                    .from(tbl.table)
-                    .select('*', { count: 'exact' });
-                results.push({ ...tbl, count: error ? 0 : (count ?? 0), rawData: data || [] });
+                const needsData = tbl.table === 'large_plots' || tbl.table === 'learning_centers';
+                if (needsData) {
+                    const columns = tbl.table === 'large_plots' ? 'district, commodity_group' : 'district';
+                    const { count, data, error } = await supabase
+                        .from(tbl.table)
+                        .select(columns, { count: 'exact' });
+                    results.push({ ...tbl, count: error ? 0 : (count ?? 0), rawData: data || [] });
+                } else {
+                    const { count, error } = await supabase
+                        .from(tbl.table)
+                        .select('*', { count: 'exact', head: true });
+                    results.push({ ...tbl, count: error ? 0 : (count ?? 0), rawData: [] });
+                }
             } catch {
                 results.push({ ...tbl, count: 0, rawData: [] });
             }
         }
-        setStats(results);
-        setLoading(false);
-    }, [tables]);
+        return results;
+    };
 
-    useEffect(() => {
-        let isMounted = true;
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        if (isMounted) loadStats();
-        return () => { isMounted = false; };
-    }, [loadStats]);
+    const { data: stats = [], isLoading: loading } = useApiCache(
+        ['group-stats', tablesKey], 
+        fetchStats, 
+        { staleMinutes: 5 }
+    );
 
     const barData = stats.filter(s => s.count > 0).map(s => ({ name: s.label, value: s.count }));
     const totalRecords = stats.reduce((sum, s) => sum + s.count, 0);

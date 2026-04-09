@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Form, Input, InputNumber, Select, Tag, Row, Col, Card, Spin } from 'antd';
 import { EnvironmentOutlined, PieChartOutlined, BarChartOutlined } from '@ant-design/icons';
 import {
@@ -9,6 +9,7 @@ import {
 import CrudTable from '../../components/DataTable/CrudTable';
 import ForecastMap from '../../components/Map/ForecastMap';
 import { supabase } from '../../supabaseClient';
+import { useApiCache } from '../../hooks/useApiCache';
 
 const plotTypes = ['พื้นที่เสี่ยง', 'ศจช.', 'พื้นที่เฝ้าระวัง', 'ไม่ระบุ'];
 
@@ -100,33 +101,25 @@ const CustomBarTooltip = ({ active, payload, label }) => {
 };
 
 export default function PestOutbreaks() {
-    const [mapData, setMapData] = useState([]);
-    const [mapLoading, setMapLoading] = useState(true);
-
     // Global filters
     const [filterDistrict, setFilterDistrict] = useState(null);
     const [filterPlotType, setFilterPlotType] = useState(null);
     const [filterCropType, setFilterCropType] = useState(null);
 
-    const loadData = useCallback(async () => {
-        setMapLoading(true);
-        try {
-            const { data, error } = await supabase
-                .from('forecast_plots')
-                .select('*')
-                .order('created_at', { ascending: false });
-            if (error) throw error;
-            setMapData(data || []);
-        } catch (err) {
-            console.error('Error loading data:', err);
-        } finally {
-            setMapLoading(false);
-        }
-    }, []);
+    const fetchMapData = async () => {
+        const { data, error } = await supabase
+            .from('forecast_plots')
+            .select('*')
+            .order('created_at', { ascending: false });
+        if (error) throw error;
+        return data || [];
+    };
 
-    useEffect(() => {
-        loadData();
-    }, [loadData]);
+    const { data: mapData = [], isLoading: mapLoading } = useApiCache(
+        ['all-forecast-plots'], 
+        fetchMapData, 
+        { staleMinutes: 10 }
+    );
 
     // Derive unique values for filter dropdowns
     const districtOptions = useMemo(() => {

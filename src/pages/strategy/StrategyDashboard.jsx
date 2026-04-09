@@ -67,28 +67,28 @@ function EmptyChart({ label }) {
     );
 }
 
+import { useApiCache } from '../../hooks/useApiCache';
+
 export default function StrategyDashboard() {
-    const [agriData, setAgriData] = useState([]);
-    const [learningData, setLearningData] = useState([]);
-    const [disasterData, setDisasterData] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => { loadAll(); }, []);
-
-    const loadAll = async () => {
-        setLoading(true);
-        try {
-            const [agri, learn, disaster] = await Promise.all([
-                supabase.from('agricultural_areas').select('*'),
-                supabase.from('learning_centers').select('*'),
-                supabase.from('disasters').select('*'),
-            ]);
-            setAgriData(agri.data || []);
-            setLearningData(learn.data || []);
-            setDisasterData(disaster.data || []);
-        } catch (err) { console.error(err); }
-        finally { setLoading(false); }
+    const fetchStrategyData = async () => {
+        const [agri, learn, disaster] = await Promise.all([
+            // In a larger app, you might want to specify exactly what columns to load to reduce payload
+            supabase.from('agricultural_areas').select('*'),
+            supabase.from('learning_centers').select('*'),
+            supabase.from('disasters').select('*'),
+        ]);
+        return {
+            agriData: agri.data || [],
+            learningData: learn.data || [],
+            disasterData: disaster.data || []
+        };
     };
+
+    const { data, isLoading: loading } = useApiCache('strategy-dashboard-data', fetchStrategyData);
+
+    const agriData = data?.agriData || [];
+    const learningData = data?.learningData || [];
+    const disasterData = data?.disasterData || [];
 
     // ============================================
     // Agricultural Areas Charts

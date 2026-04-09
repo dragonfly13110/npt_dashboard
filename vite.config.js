@@ -45,6 +45,13 @@ export default defineConfig(({ mode }) => {
         '/api/rss/agrinewsthai': { target: 'https://www.agrinewsthai.com', changeOrigin: true, rewrite: () => '/feed' },
         '/api/rss/moac': { target: 'http://www.opsmoac.go.th', changeOrigin: true, rewrite: () => '/all_rss/news-all-382791791793.xml' }
       }
+    },
+    test: {
+      globals: true,
+      environment: 'jsdom',
+      setupFiles: './src/setupTests.js',
+      include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+      exclude: ['tests/e2e/**/*', 'node_modules/**/*'],
     }
   }
 })

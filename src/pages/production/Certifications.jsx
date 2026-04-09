@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Form, Input, InputNumber, Select, Spin, Row, Col, Card } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
 import {
@@ -8,6 +8,7 @@ import {
 } from 'recharts';
 import { supabase } from '../../supabaseClient';
 import CrudTable from '../../components/DataTable/CrudTable';
+import { useApiCache } from '../../hooks/useApiCache';
 
 const columns = [
     { title: 'ชื่อเกษตรกร', importHeader: 'ชื่อ - นามสกุล', dataIndex: 'farmer_name', key: 'farmer_name', width: 150, ellipsis: true, sorter: (a, b) => String(a.farmer_name || '').localeCompare(String(b.farmer_name || ''), 'th') },
@@ -73,29 +74,22 @@ const CustomBarTooltip = ({ active, payload, label }) => {
 };
 
 export default function Certifications() {
-    const [dashboardData, setDashboardData] = useState([]);
-    const [loading, setLoading] = useState(true);
-
     // Filters for charts
     const [filterCrop, setFilterCrop] = useState(null);
     const [filterDistrict, setFilterDistrict] = useState(null);
     const [filterYear, setFilterYear] = useState(null);
 
-    useEffect(() => {
-        const loadDashboardData = async () => {
-            setLoading(true);
-            try {
-                const { data, error } = await supabase.from('certifications').select('*');
-                if (error && error.code !== '42P01') throw error; // ignore if table doesn't exist yet
-                setDashboardData(data || []);
-            } catch (err) {
-                console.error('Error fetching GAP data', err);
-            } finally {
-                setLoading(false);
-            }
-        };
-        loadDashboardData();
-    }, []);
+    const fetchCertifications = async () => {
+        const { data, error } = await supabase.from('certifications').select('*');
+        if (error && error.code !== '42P01') throw error; // ignore if table doesn't exist yet
+        return data || [];
+    };
+
+    const { data: dashboardData = [], isLoading: loading } = useApiCache(
+        ['all-certifications'], 
+        fetchCertifications, 
+        { staleMinutes: 10 }
+    );
 
     const cropOptions = useMemo(() => {
         const unique = [...new Set(dashboardData.map(d => d.crop_name).filter(Boolean))].sort();

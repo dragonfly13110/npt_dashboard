@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { supabase } from '../supabaseClient';
 import { notification } from 'antd';
 import {
@@ -30,62 +30,6 @@ const notify = {
 };
 
 export function useSupabaseCrud(tableName) {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [total, setTotal] = useState(0);
-
-    const fetchData = useCallback(async (params = {}) => {
-        setLoading(true);
-        try {
-            const { page = 1, pageSize = 10, search = '', searchField = '', searchFields = [], filters = {}, sortField, sortOrder } = params;
-            const from = (page - 1) * pageSize;
-            const to = from + pageSize - 1;
-
-            let query = supabase.from(tableName).select('*', { count: 'exact' });
-
-            if (search) {
-                if (searchField) {
-                    query = query.ilike(searchField, `%${search}%`);
-                } else if (searchFields && searchFields.length > 0) {
-                    const orString = searchFields.map(field => `${field}.ilike.%${search}%`).join(',');
-                    query = query.or(orString);
-                }
-            }
-
-            // Advanced filters
-            Object.entries(filters).forEach(([key, value]) => {
-                if (value !== undefined && value !== null && value !== '') {
-                    if (typeof value === 'object' && !Array.isArray(value) && value.operator) {
-                        if (value.operator === 'ilike') query = query.ilike(key, value.value);
-                        else if (value.operator === 'contains') query = query.contains(key, value.value);
-                    } else {
-                        query = query.eq(key, value);
-                    }
-                }
-            });
-
-            // Sorting
-            if (sortField && sortOrder) {
-                query = query.order(sortField, { ascending: sortOrder === 'ascend' });
-            } else {
-                query = query.order('created_at', { ascending: false });
-            }
-
-            query = query.range(from, to);
-
-            const { data: rows, error, count } = await query;
-
-            if (error) throw error;
-
-            setData(rows || []);
-            setTotal(count || 0);
-        } catch (err) {
-            notify.error('โหลดข้อมูลไม่สำเร็จ', err.message);
-        } finally {
-            setLoading(false);
-        }
-    }, [tableName]);
-
     const createRecord = useCallback(async (record) => {
         try {
             const { data: inserted, error } = await supabase.from(tableName).insert([record]).select();
@@ -151,5 +95,5 @@ export function useSupabaseCrud(tableName) {
         }
     }, [tableName]);
 
-    return { data, loading, total, fetchData, createRecord, updateRecord, deleteRecord, fetchAll };
+    return { createRecord, updateRecord, deleteRecord, fetchAll };
 }

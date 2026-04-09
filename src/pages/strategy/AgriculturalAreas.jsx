@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Form, Input, InputNumber, Select, Tag, Row, Col, Card, Spin } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
 import {
@@ -8,6 +8,7 @@ import {
 } from 'recharts';
 import CrudTable from '../../components/DataTable/CrudTable';
 import { supabase } from '../../supabaseClient';
+import { useApiCache } from '../../hooks/useApiCache';
 
 const columns = [
     { title: 'อำเภอ', dataIndex: 'district', key: 'district', width: 90, fixed: 'left', importHeader: 'อำเภอ' },
@@ -81,30 +82,22 @@ const CustomBarTooltip = ({ active, payload, label }) => {
 };
 
 export default function AgriculturalAreas() {
-    const [chartData, setChartData] = useState([]);
-    const [chartLoading, setChartLoading] = useState(true);
-
     const [filterDistrict, setFilterDistrict] = useState(null);
 
-    const loadData = useCallback(async () => {
-        setChartLoading(true);
-        try {
-            const { data, error } = await supabase
-                .from('agricultural_areas')
-                .select('*')
-                .neq('district', 'รวม'); // Don't chart the "Total" row if imported
-            if (error) throw error;
-            setChartData(data || []);
-        } catch (err) {
-            console.error('Error loading data:', err);
-        } finally {
-            setChartLoading(false);
-        }
-    }, []);
+    const fetchAgriAreas = async () => {
+        const { data, error } = await supabase
+            .from('agricultural_areas')
+            .select('*')
+            .neq('district', 'รวม'); // Don't chart the "Total" row if imported
+        if (error) throw error;
+        return data || [];
+    };
 
-    useEffect(() => {
-        loadData();
-    }, [loadData]);
+    const { data: chartData = [], isLoading: chartLoading } = useApiCache(
+        ['all-agricultural-areas'], 
+        fetchAgriAreas, 
+        { staleMinutes: 10 }
+    );
 
     const districtOptions = useMemo(() => {
         const unique = [...new Set(chartData.map(d => d.district).filter(Boolean))].sort();

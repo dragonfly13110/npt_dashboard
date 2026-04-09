@@ -9,6 +9,7 @@ import {
     CheckCircleOutlined, ScheduleOutlined, RiseOutlined
 } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
+import { useApiCache } from '../../hooks/useApiCache';
 
 const COLORS = ['#43a047', '#1565c0', '#e65100', '#6a1b9a', '#c62828', '#00695c'];
 
@@ -94,50 +95,37 @@ async function fetchRecentActivity(tableCfg) {
 }
 
 export default function AdminDashboard() {
-    const [stats, setStats] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [trendData, setTrendData] = useState([]);
-    const [trendLoading, setTrendLoading] = useState(true);
-    const [activities, setActivities] = useState([]);
-    const [activityLoading, setActivityLoading] = useState(true);
-
-    const loadStats = useCallback(async () => {
-        setLoading(true);
-        const results = [];
+    const fetchAdminDashboardData = async () => {
+        const statsResults = [];
         for (const tbl of tables) {
             try {
                 const { count, error } = await supabase
                     .from(tbl.table)
                     .select('*', { count: 'exact', head: true });
-                results.push({ ...tbl, count: error ? 0 : (count ?? 0) });
+                statsResults.push({ ...tbl, count: error ? 0 : (count ?? 0) });
             } catch {
-                results.push({ ...tbl, count: 0 });
+                statsResults.push({ ...tbl, count: 0 });
             }
         }
-        setStats(results);
-        setLoading(false);
-    }, []);
 
-    const loadTrend = useCallback(async () => {
-        setTrendLoading(true);
-        const data = await fetchTrend(tables);
-        setTrendData(data);
-        setTrendLoading(false);
-    }, []);
+        const [trendData, actData] = await Promise.all([
+            fetchTrend(tables),
+            fetchRecentActivity(tables)
+        ]);
 
-    const loadActivities = useCallback(async () => {
-        setActivityLoading(true);
-        const data = await fetchRecentActivity(tables);
-        setActivities(data);
-        setActivityLoading(false);
-    }, []);
+        return { stats: statsResults, trendData, activities: actData };
+    };
 
-    useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        loadStats();
-        loadTrend();
-        loadActivities();
-    }, [loadStats, loadTrend, loadActivities]);
+    const { data, isLoading } = useApiCache('admin-dashboard-data', fetchAdminDashboardData);
+
+    const stats = data?.stats || [];
+    const trendData = data?.trendData || [];
+    const activities = data?.activities || [];
+    
+    // We can use the same loading variable for styling since they fetch together
+    const loading = isLoading;
+    const trendLoading = isLoading;
+    const activityLoading = isLoading;
 
     const totalRecords = stats.reduce((sum, s) => sum + s.count, 0);
     const barData = stats.filter(s => s.count > 0).map(s => ({ name: s.label, value: s.count }));

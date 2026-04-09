@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Form, Input, InputNumber, Select, Tag, Row, Col, Card, Spin } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
 import {
@@ -8,6 +8,7 @@ import {
 } from 'recharts';
 import CrudTable from '../../components/DataTable/CrudTable';
 import { supabase } from '../../supabaseClient';
+import { useApiCache } from '../../hooks/useApiCache';
 
 const GRADE_LEVELS = ['A+', 'A', 'B', 'C', 'ไม่ระบุ'];
 
@@ -78,32 +79,24 @@ const CustomBarTooltip = ({ active, payload, label }) => {
 };
 
 export default function SoilFertilizerCenters() {
-    const [chartData, setChartData] = useState([]);
-    const [chartLoading, setChartLoading] = useState(true);
-
     // Dashboard filters
     const [filterDistrict, setFilterDistrict] = useState(null);
     const [filterGradeLevel, setFilterGradeLevel] = useState(null);
     const [filterCropType, setFilterCropType] = useState(null);
 
-    const loadData = useCallback(async () => {
-        setChartLoading(true);
-        try {
-            const { data, error } = await supabase
-                .from('soil_fertilizer_centers')
-                .select('*');
-            if (error) throw error;
-            setChartData(data || []);
-        } catch (err) {
-            console.error('Error loading data:', err);
-        } finally {
-            setChartLoading(false);
-        }
-    }, []);
+    const fetchSoilFertilizerCenters = async () => {
+        const { data, error } = await supabase
+            .from('soil_fertilizer_centers')
+            .select('*');
+        if (error) throw error;
+        return data || [];
+    };
 
-    useEffect(() => {
-        loadData();
-    }, [loadData]);
+    const { data: chartData = [], isLoading: chartLoading } = useApiCache(
+        ['all-soil-fertilizer-centers'], 
+        fetchSoilFertilizerCenters, 
+        { staleMinutes: 10 }
+    );
 
     // Derive filter options
     const districtOptions = useMemo(() => {

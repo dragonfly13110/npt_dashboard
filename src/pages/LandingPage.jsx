@@ -1,7 +1,7 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../supabaseClient';
-import { message, FloatButton } from 'antd';
+import { useDashboardData } from '../hooks/useDashboardData';
+import { FloatButton } from 'antd';
 import { ArrowUpOutlined } from '@ant-design/icons';
 import './LandingPage.css';
 
@@ -20,31 +20,10 @@ import LandingMap from '../components/widgets/LandingMap';
 import { SmartFarmersCard, CommunityEnterprisesCard, LargePlotsCard, AgriTourismCard, FarmerInstitutesCard, AgriAreasCard } from '../components/widgets/LandingBentoCards';
 
 export default function LandingPage() {
-    const [loading, setLoading] = useState(true);
-    const [mapData, setMapData] = useState([]);
-    const [districtStats, setDistrictStats] = useState({});
-
-    // Stats map
-    const [instituteStats, setInstituteStats] = useState({
-        total: 0, ce: 0, housewives: 0, young_grp: 0, career: 0, village: 0, sf: 0, ysf: 0
-    });
-
-    // Large Plots stats
-    const [lpStats, setLpStats] = useState({
-        total: 0, rice: 0, veg_herb: 0, fruit: 0, field_crop: 0, other: 0, members: 0, area: 0
-    });
-
-    // Agri stats
-    const [agriStats, setAgriStats] = useState({
-        households: 0, total_area: 0, crop_area: 0,
-        rice_pi: 0, rice_prung: 0, field_crops: 0, hort: 0, fruit: 0, veg: 0, flow: 0, herb: 0
-    });
-
-    // Lists
-    const [smartFarmers, setSmartFarmers] = useState({ list: [], count: 0 });
-    const [enterprises, setEnterprises] = useState({ list: [], count: 0 });
-    const [ceDistrictStats, setCeDistrictStats] = useState({});
-    const [tourism, setTourism] = useState({ list: [], count: 0 });
+    const {
+        loading, mapData, districtStats, smartFarmers, enterprises,
+        ceDistrictStats, tourism, instituteStats, lpStats, agriStats
+    } = useDashboardData();
 
     const navigate = useNavigate();
 
@@ -54,185 +33,6 @@ export default function LandingPage() {
         const metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) metaDesc.setAttribute('content', SEO_DESCRIPTION);
     }, []);
-
-    const fetchWithCount = async (table, selectStr = 'id') => {
-        const { data, count } = await supabase.from(table)
-            .select(selectStr, { count: 'exact' })
-            .order('id', { ascending: false })
-            .limit(3);
-        return { list: data || [], count: count || 0 };
-    };
-
-    const loadDashboardData = useCallback(async () => {
-        setLoading(true);
-        try {
-            // Map Data
-            const mapPts = [];
-            const [{ data: gis }, { data: tourMap }] = await Promise.all([
-                supabase.from('gis_areas').select('area_name, district, latitude, longitude').not('latitude', 'is', null).limit(20),
-                supabase.from('agri_tourism').select('spot_name, district, latitude, longitude').not('latitude', 'is', null).limit(20)
-            ]);
-
-            (gis || []).forEach(r => {
-                if (r.latitude && r.longitude) mapPts.push({ name: r.area_name, district: r.district, lat: r.latitude, lon: r.longitude, type: 'gis', typeLabel: 'พื้นที่ GIS' });
-            });
-            (tourMap || []).forEach(r => {
-                if (r.latitude && r.longitude) mapPts.push({ name: r.spot_name, district: r.district, lat: r.latitude, lon: r.longitude, type: 'tourism', typeLabel: 'ท่องเที่ยวเกษตร' });
-            });
-            setMapData(mapPts);
-
-            // Fetch Real Data Lists & Farmer Institutes data
-            const [sfData, ceData, atData, { data: lpData }, { data: instData }, { data: agriAreaData }, { data: lcData }, { data: pcData }, { data: sfcData }] = await Promise.all([
-                fetchWithCount('smart_farmers', 'id, full_name, district, main_product'),
-                supabase.from('community_enterprises').select('id, district', { count: 'exact' }),
-                fetchWithCount('agri_tourism', 'id, spot_name, district, spot_type'),
-                supabase.from('large_plots').select('*'),
-                supabase.from('farmer_institutes').select('*'),
-                supabase.from('agricultural_areas').select('*').neq('district', 'รวม'),
-                supabase.from('learning_centers').select('district'),
-                supabase.from('pest_centers').select('district'),
-                supabase.from('soil_fertilizer_centers').select('district')
-            ]);
-            // Prepare district stats aggregation
-            const dists = ['เมืองนครปฐม', 'กำแพงแสน', 'นครชัยศรี', 'ดอนตูม', 'บางเลน', 'สามพราน', 'พุทธมณฑล'];
-            const dStats = {};
-            dists.forEach(d => dStats[d] = {
-                ce: 0, lp: 0, area: 0, house: 0,
-                ricePi: 0, ricePrung: 0, field: 0, fruit: 0, veg: 0, flow: 0, herb: 0,
-                lc: 0, pc: 0, sfc: 0,
-                instHousewives: 0, instYoung: 0, instCareer: 0, instVillage: 0
-            });
-
-            setSmartFarmers(sfData);
-            // Community Enterprises: count by district
-            const ceList = ceData.data || [];
-            const ceCount = ceData.count || ceList.length;
-            setEnterprises({ list: [], count: ceCount });
-            const distCounts = {};
-            ceList.forEach(r => {
-                let d = r.district || 'ไม่ระบุ';
-                if (d === 'เมือง') d = 'เมืองนครปฐม';
-                distCounts[d] = (distCounts[d] || 0) + 1;
-                if (dStats[d]) dStats[d].ce += 1;
-            });
-            setCeDistrictStats(distCounts);
-            setTourism(atData);
-
-            // Compute Farmer Institutes Totals
-            let iTotal = 0, iCE = 0, iHouse = 0, iYoungGrp = 0, iCareer = 0, iVillage = 0, iSF = 0, iYSF = 0;
-            (instData || []).forEach(row => {
-                let d = row.district;
-                if (d === 'เมือง') d = 'เมืองนครปฐม';
-                if (dStats[d]) {
-                    dStats[d].instHousewives += Number(row.housewives_groups) || 0;
-                    dStats[d].instYoung += Number(row.young_farmer_groups) || 0;
-                    dStats[d].instCareer += Number(row.career_promotion_groups) || 0;
-                    dStats[d].instVillage += Number(row.village_farmers_count) || 0;
-                }
-
-                iTotal += Number(row.total_groups) || 0;
-                iCE += Number(row.community_enterprise_groups) || 0;
-                iHouse += Number(row.housewives_groups) || 0;
-                iYoungGrp += Number(row.young_farmer_groups) || 0;
-                iCareer += Number(row.career_promotion_groups) || 0;
-                iVillage += Number(row.village_farmers_count) || 0;
-                iSF += Number(row.smart_farmer_count) || 0;
-                iYSF += Number(row.young_smart_farmer_count) || 0;
-            });
-            setInstituteStats({
-                total: iTotal, ce: iCE, housewives: iHouse, young_grp: iYoungGrp, career: iCareer,
-                village: iVillage, sf: iSF, ysf: iYSF
-            });
-
-            // Compute Large Plots stats
-            let lRice = 0, lVegH = 0, lFruit = 0, lField = 0, lOther = 0, lMems = 0, lArea = 0;
-            (lpData || []).forEach(row => {
-                lMems += Number(row.member_count) || 0;
-                lArea += Number(row.area_rai) || 0;
-                const g = row.commodity_group;
-                if (g === 'ข้าว') lRice++;
-                else if (g === 'ผัก/สมุนไพร') lVegH++;
-                else if (g === 'ไม้ผล') lFruit++;
-                else if (g === 'พืชไร่') lField++;
-                else lOther++;
-
-                let d = row.district;
-                if (d === 'เมือง') d = 'เมืองนครปฐม';
-                if (dStats[d]) dStats[d].lp += 1;
-            });
-            setLpStats({
-                total: lpData ? lpData.length : 0,
-                rice: lRice, veg_herb: lVegH, fruit: lFruit, field_crop: lField, other: lOther,
-                members: lMems, area: lArea
-            });
-
-            // Distribute Centers to district stats
-            (lcData || []).forEach(row => { let d = row.district; if (d === 'เมือง') d = 'เมืองนครปฐม'; if (dStats[d]) dStats[d].lc++; });
-            (pcData || []).forEach(row => { let d = row.district; if (d === 'เมือง') d = 'เมืองนครปฐม'; if (dStats[d]) dStats[d].pc++; });
-            (sfcData || []).forEach(row => { let d = row.district; if (d === 'เมือง') d = 'เมืองนครปฐม'; if (dStats[d]) dStats[d].sfc++; });
-
-            // Fetch and Compute Agri Areas Totals
-            let aHouse = 0, aTotal = 0, aCrop = 0, aRicePi = 0, aRicePrung = 0, aField = 0, aHort = 0, aFruit = 0, aVeg = 0, aFlow = 0, aHerb = 0;
-            (agriAreaData || []).forEach(row => {
-                aHouse += Number(row.farmer_households) || 0;
-                aTotal += Number(row.total_area_rai) || 0;
-                aCrop += Number(row.agri_crop_area_rai) || 0;
-                aRicePi += Number(row.rice_in_season_rai) || 0;
-                aRicePrung += Number(row.rice_off_season_rai) || 0;
-                aField += Number(row.field_crops_rai) || 0;
-                aHort += Number(row.horticulture_rai) || 0;
-                aFruit += Number(row.fruit_trees_rai) || 0;
-                aVeg += Number(row.vegetables_rai) || 0;
-                aFlow += Number(row.flowers_rai) || 0;
-                aHerb += Number(row.herbs_spices_rai) || 0;
-
-                let d = row.district;
-                if (d === 'เมือง') d = 'เมืองนครปฐม';
-                if (dStats[d]) {
-                    dStats[d].area += Number(row.agri_crop_area_rai) || 0;
-                    dStats[d].house += Number(row.farmer_households) || 0;
-                    dStats[d].ricePi += Number(row.rice_in_season_rai) || 0;
-                    dStats[d].ricePrung += Number(row.rice_off_season_rai) || 0;
-                    dStats[d].field += Number(row.field_crops_rai) || 0;
-                    dStats[d].fruit += Number(row.fruit_trees_rai) || 0;
-                    dStats[d].veg += Number(row.vegetables_rai) || 0;
-                    dStats[d].flow += Number(row.flowers_rai) || 0;
-                    dStats[d].herb += Number(row.herbs_spices_rai) || 0;
-                }
-            });
-            setAgriStats({
-                households: aHouse, total_area: aTotal, crop_area: aCrop,
-                rice_pi: aRicePi, rice_prung: aRicePrung, field_crops: aField,
-                hort: aHort, fruit: aFruit, veg: aVeg, flow: aFlow, herb: aHerb
-            });
-
-            // Fetch ALL stats concurrently
-            const tablesToCount = [
-                'personnel', 'assets', 'budgets',
-                'agricultural_areas', 'learning_centers', 'disasters',
-                'large_plots', 'certifications', 'crop_production',
-                'community_enterprises', 'smart_farmers', 'agri_tourism',
-                'forecast_plots', 'pest_centers', 'soil_fertilizer_centers', 'fire_hotspots'
-            ];
-
-            const countPromises = tablesToCount.map(table =>
-                supabase.from(table).select('id', { count: 'exact', head: true })
-            );
-
-            await Promise.all(countPromises);
-            setDistrictStats(dStats);
-
-        } catch (e) {
-            console.error(e);
-            message.error({ content: 'ไม่สามารถเชื่อมต่อฐานข้อมูลได้ กรุณาลองใหม่อีกครั้ง', duration: 5, style: { marginTop: '20vh' } });
-        } finally {
-            setLoading(false);
-        }
-    }, []);
-
-    useEffect(() => {
-        loadDashboardData();
-    }, [loadDashboardData]);
 
     return (
         <div className="landing-page bento-theme">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, Button, Input, Select, Switch, Tabs, Table, Tag, Form, message, Typography, Divider, Radio, Space, Upload, Alert } from 'antd';
 import { PlusOutlined, DeleteOutlined, SaveOutlined, SendOutlined, DownloadOutlined, UploadOutlined, MinusCircleOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import * as XLSX from 'xlsx';
@@ -75,7 +75,7 @@ const PlantProtectionFormDemo = () => {
         } else {
           message.warning("ไม่พบหัวคอลัมน์ในไฟล์ Excel");
         }
-      } catch (err) {
+      } catch (err) { // eslint-disable-line no-unused-vars
         message.error("เกิดข้อผิดพลาดในการอ่านไฟล์ Excel");
       }
     };
@@ -169,7 +169,7 @@ const PlantProtectionFormDemo = () => {
         } else {
              message.warning("ไฟล์ Excel นี้ว่างเปล่า หรือไม่มีแถวข้อมูลถัดจากหัวตาราง");
         }
-      } catch (err) {
+      } catch (err) { // eslint-disable-line no-unused-vars
         message.error("เกิดปัญหาในการดึงข้อมูลจาก Excel");
       }
     };

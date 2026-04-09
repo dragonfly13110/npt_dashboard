@@ -1,9 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { Table, Tag, Select, Button, Empty, Modal, Form, notification } from 'antd';
 import {
     ReloadOutlined, UserOutlined, SafetyCertificateOutlined
 } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
+import { useApiCache } from '../../hooks/useApiCache';
 
 const ROLE_CONFIG = {
     admin: { label: 'ผู้ดูแลระบบ', color: 'red', icon: '👑' },
@@ -20,29 +21,20 @@ const departments = [
 ];
 
 export default function UserManagement() {
-    const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [editModal, setEditModal] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
     const [form] = Form.useForm();
 
-    const loadUsers = useCallback(async () => {
-        setLoading(true);
-        try {
-            const { data, error } = await supabase
-                .from('profiles')
-                .select('*')
-                .order('created_at', { ascending: false });
-            if (error) throw error;
-            setUsers(data || []);
-        } catch (err) {
-            console.error('Error loading users:', err);
-        } finally {
-            setLoading(false);
-        }
-    }, []);
+    const fetchUsers = async () => {
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .order('created_at', { ascending: false });
+        if (error) throw error;
+        return data || [];
+    };
 
-    useEffect(() => { loadUsers(); }, [loadUsers]);
+    const { data: users = [], isLoading: loading, refetch: loadUsers } = useApiCache('admin-users', fetchUsers);
 
     const handleEdit = (record) => {
         setEditingUser(record);

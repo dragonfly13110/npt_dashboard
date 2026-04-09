@@ -27,10 +27,10 @@ const SF_GRADE_COLORS = {
 export function useProtectionData() {
     const fetchProtectionData = async () => {
         const [po, pc, sf, fh] = await Promise.all([
-            supabase.from('forecast_plots').select('*'),
-            supabase.from('pest_centers').select('*'),
-            supabase.from('soil_fertilizer_centers').select('*'),
-            supabase.from('fire_hotspots').select('*'),
+            supabase.from('forecast_plots').select('crop_type, district, plot_type'),
+            supabase.from('pest_centers').select('main_crop_type, district, grade_level'),
+            supabase.from('soil_fertilizer_centers').select('main_crop_type, district, grade_level'),
+            supabase.from('fire_hotspots').select('district, subdistrict'),
         ]);
 
         return {

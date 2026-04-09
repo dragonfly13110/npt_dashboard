@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import {
     Table, Button, Input, Modal, Form, Space, Popconfirm, Tag, Tooltip, Empty, Select, message
 } from 'antd';
@@ -10,9 +10,11 @@ import {
 import { useSupabaseCrud } from '../../hooks/useSupabase';
 import CsvImportModal from './CsvImportModal';
 import { useAuth } from '../../contexts/AuthContext';
+import { useApiCache } from '../../hooks/useApiCache';
+import { supabase } from '../../supabaseClient';
 
 export default function CrudTable({ tableName, title, columns, formFields, searchField, searchFields, filterConfig = [], scrollX = 1000 }) {
-    const { data, loading, total, fetchData, createRecord, updateRecord, deleteRecord, fetchAll } = useSupabaseCrud(tableName);
+    const { createRecord, updateRecord, deleteRecord, fetchAll } = useSupabaseCrud(tableName);
     const { canEdit, canDelete, role } = useAuth();
     const [modalOpen, setModalOpen] = useState(false);
     const [editingRecord, setEditingRecord] = useState(null);
@@ -27,7 +29,7 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
     const userCanEdit = canEdit();
     const userCanDelete = canDelete();
 
-    const loadData = useCallback(() => {
+    const fetchTableData = async () => {
         const transformedFilters = {};
         Object.entries(filters).forEach(([key, val]) => {
             if (val !== undefined && val !== null && val !== '') {
@@ -39,11 +41,54 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
                 }
             }
         });
-        fetchData({ page: pagination.current, pageSize: pagination.pageSize, search, searchField, searchFields, filters: transformedFilters, sortField: sorter.field, sortOrder: sorter.order });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [fetchData, pagination, pagination.current, pagination.pageSize, search, searchField, searchFields, filters, sorter, JSON.stringify(filterConfig)]);
 
-    useEffect(() => { loadData(); }, [loadData]);
+        const from = (pagination.current - 1) * pagination.pageSize;
+        const to = from + pagination.pageSize - 1;
+
+        let query = supabase.from(tableName).select('*', { count: 'exact' });
+
+        if (search) {
+            if (searchField) {
+                query = query.ilike(searchField, `%${search}%`);
+            } else if (searchFields && searchFields.length > 0) {
+                const orString = searchFields.map(field => `${field}.ilike.%${search}%`).join(',');
+                query = query.or(orString);
+            }
+        }
+
+        Object.entries(transformedFilters).forEach(([key, value]) => {
+            if (value !== undefined && value !== null && value !== '') {
+                if (typeof value === 'object' && !Array.isArray(value) && value.operator) {
+                    if (value.operator === 'ilike') query = query.ilike(key, value.value);
+                    else if (value.operator === 'contains') query = query.contains(key, value.value);
+                } else {
+                    query = query.eq(key, value);
+                }
+            }
+        });
+
+        if (sorter.field && sorter.order) {
+            query = query.order(sorter.field, { ascending: sorter.order === 'ascend' });
+        } else {
+            query = query.order('created_at', { ascending: false });
+        }
+
+        query = query.range(from, to);
+
+        const { data: rows, error, count } = await query;
+        if (error) throw error;
+        
+        return { data: rows || [], total: count || 0 };
+    };
+
+    const queryKey = useMemo(() => [
+        'crud', tableName, pagination.current, pagination.pageSize, search, searchField, searchFields, filters, sorter, JSON.stringify(filterConfig)
+    ], [tableName, pagination, search, searchField, searchFields, filters, sorter, filterConfig]);
+    
+    const { data: result = { data: [], total: 0 }, isLoading: loading, refetch: loadData } = useApiCache(queryKey, fetchTableData);
+    
+    const data = result.data;
+    const total = result.total;
 
     const handleAdd = () => {
         setEditingRecord(null);

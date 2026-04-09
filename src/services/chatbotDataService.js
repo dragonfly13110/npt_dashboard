@@ -99,7 +99,7 @@ ${recentHistory || 'ไม่มีบริบทก่อนหน้า'}
  * Compute server-side aggregation stats for numeric columns via Supabase
  * This prevents sending thousands of raw rows and lets AI use pre-computed numbers
  */
-async function computeAggregation(table, distCol, matchedDistrict, searchKeyword) {
+async function computeAggregation(table, distCol, matchedDistrict, searchKeyword) { // eslint-disable-line no-unused-vars
     const numCols = NUMERIC_COLS[table];
     if (!numCols || numCols.length === 0) return null;
 

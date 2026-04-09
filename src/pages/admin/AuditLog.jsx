@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { Table, Tag, Select, DatePicker, Button, Empty, Input, Space } from 'antd';
 import {
     SearchOutlined, ReloadOutlined, HistoryOutlined
 } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
 import dayjs from 'dayjs';
+import { useApiCache } from '../../hooks/useApiCache';
 
 const ACTION_COLORS = {
     CREATE: 'green',
@@ -41,41 +42,37 @@ const TABLE_LABELS = {
 };
 
 export default function AuditLog() {
-    const [logs, setLogs] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [total, setTotal] = useState(0);
     const [pagination, setPagination] = useState({ current: 1, pageSize: 20 });
     const [filterAction, setFilterAction] = useState(null);
     const [filterTable, setFilterTable] = useState(null);
 
-    const loadLogs = useCallback(async () => {
-        setLoading(true);
-        try {
-            const from = (pagination.current - 1) * pagination.pageSize;
-            const to = from + pagination.pageSize - 1;
+    const fetchLogs = async () => {
+        const from = (pagination.current - 1) * pagination.pageSize;
+        const to = from + pagination.pageSize - 1;
 
-            let query = supabase
-                .from('audit_logs')
-                .select('*', { count: 'exact' });
+        let query = supabase
+            .from('audit_logs')
+            .select('*', { count: 'exact' });
 
-            if (filterAction) query = query.eq('action', filterAction);
-            if (filterTable) query = query.eq('table_name', filterTable);
+        if (filterAction) query = query.eq('action', filterAction);
+        if (filterTable) query = query.eq('table_name', filterTable);
 
-            query = query.order('created_at', { ascending: false }).range(from, to);
+        query = query.order('created_at', { ascending: false }).range(from, to);
 
-            const { data, error, count } = await query;
-            if (error) throw error;
-            setLogs(data || []);
-            setTotal(count || 0);
-        } catch (err) {
-            console.error('Error loading audit logs:', err);
-        } finally {
-            setLoading(false);
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pagination, pagination.current, pagination.pageSize, filterAction, filterTable]);
+        const { data, error, count } = await query;
+        if (error) throw error;
+        return { data: data || [], total: count || 0 };
+    };
 
-    useEffect(() => { loadLogs(); }, [loadLogs]);
+    const queryKey = ['audit-logs', pagination.current, pagination.pageSize, filterAction, filterTable];
+    const { data: result = { data: [], total: 0 }, isLoading: loading, refetch: loadLogs } = useApiCache(
+        queryKey, 
+        fetchLogs, 
+        { staleMinutes: 5 } // keep audit logs relatively fresh
+    );
+
+    const logs = result.data;
+    const total = result.total;
 
     const columns = [
         {

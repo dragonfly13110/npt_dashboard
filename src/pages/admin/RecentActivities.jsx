@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React from 'react';
 import { Table, Tag, Tooltip, Badge, Breadcrumb, Select, DatePicker } from 'antd';
 import { ClockCircleOutlined, HomeOutlined, SafetyCertificateOutlined, DatabaseOutlined, FileAddOutlined } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
 import { Link } from 'react-router-dom';
+import { useApiCache } from '../../hooks/useApiCache';
 
 const { RangePicker } = DatePicker;
 
@@ -120,52 +121,42 @@ function formatDateTime(dateStr) {
     });
 }
 
+const fetchAllRecentActivities = async () => {
+    const promises = allTables.map(async (tbl) => {
+        try {
+            const { data, error } = await supabase
+                .from(tbl.table)
+                .select('*')
+                .order('created_at', { ascending: false })
+                .limit(500);
+
+            if (!error && data?.length) {
+                return data.map(row => ({
+                    tableName: tbl.table,
+                    tableLabel: tbl.label,
+                    group: tbl.group,
+                    icon: tbl.groupIcon,
+                    color: tbl.groupColor,
+                    name: row.name || row.full_name || row.project_name || row.center_name || row.district || tbl.label,
+                    created_at: row.created_at,
+                }));
+            }
+        } catch { /* skip */ }
+        return [];
+    });
+
+    const results = await Promise.all(promises);
+    const allRecords = results.flat();
+    return groupIntoBatches(allRecords);
+};
+
 export default function RecentActivities() {
-    const [batches, setBatches] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { data: batches = [], isLoading: loading } = useApiCache(
+        'admin-recent-activities',
+        fetchAllRecentActivities,
+        { staleMinutes: 5 } // cache less to keep recent data mostly fresh
+    );
     const filterGroup = null; // Filter logic retained for manual usage
-
-    const loadActivities = useCallback(async () => {
-        setLoading(true);
-        const allRecords = [];
-        
-        for (const tbl of allTables) {
-            try {
-                const { data, error } = await supabase
-                    .from(tbl.table)
-                    .select('*')
-                    .order('created_at', { ascending: false })
-                    .limit(500);
-                    
-                if (!error && data?.length) {
-                    data.forEach(row => {
-                        allRecords.push({
-                            tableName: tbl.table,
-                            tableLabel: tbl.label,
-                            group: tbl.group,
-                            icon: tbl.groupIcon,
-                            color: tbl.groupColor,
-                            name: row.name || row.full_name || row.project_name || row.center_name || row.district || tbl.label,
-                            created_at: row.created_at,
-                        });
-                    });
-                }
-            } catch { /* skip */ }
-        }
-        
-        const grouped = groupIntoBatches(allRecords);
-        setBatches(grouped);
-        setLoading(false);
-    }, []);
-
-    useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        loadActivities();
-    }, [loadActivities]);
-
-    const filteredBatches = filterGroup 
-        ? batches.filter(b => b.group === filterGroup) 
-        : batches;
 
     const totalRecords = filteredBatches.reduce((sum, b) => sum + b.count, 0);
 
