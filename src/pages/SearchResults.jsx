@@ -164,7 +164,15 @@ export default function SearchResults() {
             !k.includes('file') && !k.includes('path')
         );
 
-        return keys.slice(0, 6).map(key => ({
+        // Prioritize columns that contain the search query so they are not hidden
+        const q = query.toLowerCase();
+        const priorityKeys = keys.filter(k => 
+            tableResult.results.some(r => r.raw && r.raw[k] && String(r.raw[k]).toLowerCase().includes(q))
+        );
+        const otherKeys = keys.filter(k => !priorityKeys.includes(k));
+        const finalKeys = [...priorityKeys, ...otherKeys].slice(0, 6);
+
+        return finalKeys.map(key => ({
             title: getThaiColumnName(key),
             dataIndex: ['raw', key],
             key,

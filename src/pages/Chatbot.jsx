@@ -17,6 +17,7 @@ import { fetchDatabaseContext, buildContextForAI } from '../services/chatbotData
 
 import ChatMessage from '../components/Chatbot/ChatMessage';
 import ModelSelector from '../components/Chatbot/ModelSelector';
+import LoadingIndicator from '../components/Chatbot/LoadingIndicator';
 
 const { Text } = Typography;
 
@@ -247,31 +248,7 @@ ${dbContext}
                         <ChatMessage key={i} message={msg} isLast={i === messages.length - 1} />
                     ))}
 
-                    {loading && (
-                        <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
-                            <Avatar
-                                size={36}
-                                icon={<RobotOutlined />}
-                                style={{
-                                    background: `linear-gradient(135deg, ${currentModelConfig.color}, ${currentModelConfig.color}88)`,
-                                    flexShrink: 0,
-                                }}
-                            />
-                            <div style={{
-                                background: '#f6f8fa',
-                                borderRadius: '4px 18px 18px 18px',
-                                padding: '16px 24px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 10,
-                            }}>
-                                <Spin size="small" />
-                                <Text type="secondary">
-                                    {currentModelConfig.icon} กำลังวิเคราะห์ด้วย {currentModelConfig.description}...
-                                </Text>
-                            </div>
-                        </div>
-                    )}
+                    {loading && <LoadingIndicator currentModelConfig={AI_MODELS[selectedModel]} />}
 
                     <div ref={chatEndRef} />
                 </div>
