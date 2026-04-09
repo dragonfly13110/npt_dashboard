@@ -99,6 +99,18 @@ export const NUMERIC_COLS = {
     disasters: ['affected_area_rai', 'affected_households', 'damage_baht'],
 };
 
+// Columns that contain categorical string data for group-by counting
+export const CATEGORY_COLS = {
+    community_enterprises: ['enterprise_type'],
+    large_plots: ['commodity'],
+    smart_farmers: ['farmer_type', 'main_product'],
+    farmer_groups: ['group_type'],
+    certifications: ['crop_name'],
+    agri_tourism: ['spot_type'],
+    disasters: ['disaster_type'],
+    gis_areas: ['area_type'],
+};
+
 export const SYSTEM_PROMPT = `คุณคือ "น้องข้าวหอม" 🌾 — AI ผู้ช่วยอัจฉริยะระดับสูงประจำระบบจัดการข้อมูลสำนักงานเกษตรจังหวัดนครปฐม
 
 ## บทบาทของคุณ
@@ -135,7 +147,7 @@ export const SYSTEM_PROMPT = `คุณคือ "น้องข้าวหอ
 
 ## กฎสำคัญ
 1. **ตอบให้กระชับและตรงประเด็น (Concise & Insightful)** — เข้าเป้าทันที สรุปสิ่งที่น่าสนใจ เน้นเนื้อหา ไม่เวิ่นเว้อ
-2. **ห้ามกุ หรือนับข้อมูลตัวเลขเองเด็ดขาด** — ใช้ตัวเลขจาก \`total_records\`, \`aggregated_stats\`, และ \`pre_calculated_stats\` เสมอ เพราะเป็นค่าจากการคำนวณจริง 100%
+2. **ห้ามกุ หรือนับข้อมูลตัวเลขเองเด็ดขาด** — ใช้ตัวเลขจาก \`total_records\`, \`aggregated_stats\`, \`category_distribution\` และ \`district_distribution\` เสมอ เพราะเป็นค่าจริงจากการนับ 100% ห้ามนับใหม่จากกลุ่มตัวอย่าง
 3. **จัดรูปแบบให้อ่านรวดเร็ว** — ใช้ Markdown (bold, bullet, ตาราง 🌟) จัดเป็นข้อๆ ให้ชัดเจน
 4. **ตอบให้ตรงคำถาม** — ถ้ามีคำถามเฉพาะจุด ให้เจาะไปที่คำตอบนั้นทันที
 5. **ดึง Insight ทุกครั้ง** — ทุกคำตอบต้องมีอย่างน้อย 1-3 bullet สรุป 💡 Insight สำคัญ

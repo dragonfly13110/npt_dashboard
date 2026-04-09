@@ -1,6 +1,6 @@
 import { supabase } from '../supabaseClient';
 import { callAI } from './aiService';
-import { TABLE_CONFIG, TABLE_SEARCH_COLS, DISTRICT_COLS, NUMERIC_COLS } from '../utils/chatbotConstants';
+import { TABLE_CONFIG, TABLE_SEARCH_COLS, DISTRICT_COLS, NUMERIC_COLS, CATEGORY_COLS } from '../utils/chatbotConstants';
 
 export async function extractIntent(query, modelKey, chatHistory = []) {
     const tableList = Object.entries(TABLE_CONFIG)
@@ -331,29 +331,52 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
             // Compute server-side aggregation for numeric tables
             const aggregatedStats = await computeAggregation(table, distCol, matchedDistrict, searchKeyword);
 
-            // District summary (lightweight)
+            // District and Category summary (lightweight)
             let districtSummary = null;
+            let categorySummary = null;
             try {
-                let allDistrictQuery = supabase.from(table).select(distCol);
+                let colsToSelect = [distCol];
+                if (CATEGORY_COLS[table]) {
+                    colsToSelect = [...colsToSelect, ...CATEGORY_COLS[table]];
+                }
+                let summaryQuery = supabase.from(table).select(colsToSelect.join(','));
+                
                 if (matchedDistrict) {
-                    allDistrictQuery = allDistrictQuery.ilike(distCol, `%${matchedDistrict}%`);
+                    summaryQuery = summaryQuery.ilike(distCol, `%${matchedDistrict}%`);
                 }
                 if (usedKeyword && searchKeyword && TABLE_SEARCH_COLS[table]?.length > 0) {
                     const cols = TABLE_SEARCH_COLS[table];
                     const orString = cols.map(c => `${c}.ilike.%${searchKeyword}%`).join(',');
-                    allDistrictQuery = allDistrictQuery.or(orString);
+                    summaryQuery = summaryQuery.or(orString);
                 }
-                // Fetch up to 10000 rows for district counting only
-                const { data: allDistData } = await allDistrictQuery.limit(10000);
-                if (allDistData && allDistData.length > 0) {
+                // Fetch up to 10000 rows for counting only
+                const { data: summaryData } = await summaryQuery.limit(10000);
+                if (summaryData && summaryData.length > 0) {
                     const distCounts = {};
-                    allDistData.forEach(row => {
+                    const catCounts = {};
+                    if (CATEGORY_COLS[table]) {
+                        CATEGORY_COLS[table].forEach(c => catCounts[c] = {});
+                    }
+
+                    summaryData.forEach(row => {
+                        // District count
                         const d = row[distCol] || 'ไม่ระบุ';
                         distCounts[d] = (distCounts[d] || 0) + 1;
+                        
+                        // Category count
+                        if (CATEGORY_COLS[table]) {
+                            CATEGORY_COLS[table].forEach(c => {
+                                const val = row[c] || 'ไม่ระบุ';
+                                catCounts[c][val] = (catCounts[c][val] || 0) + 1;
+                            });
+                        }
                     });
                     districtSummary = distCounts;
+                    if (CATEGORY_COLS[table]) {
+                        categorySummary = catCounts;
+                    }
                 }
-            } catch { /* skip district summary */ }
+            } catch { /* skip summary */ }
 
             return {
                 table,
@@ -362,6 +385,7 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
                 group: TABLE_CONFIG[table].group,
                 count: count || 0,
                 districtSummary,
+                categorySummary,
                 aggregatedStats,
                 sample: sampleData.length > 0 ? sampleData : null,
                 filteredBy: matchedDistrict || (usedKeyword && searchKeyword ? `คำค้น "${searchKeyword}"` : null),
@@ -401,35 +425,18 @@ export function buildContextForAI(analysis) {
             };
         }
 
-        // Pre-calculated category distributions (for non-numeric categorical fields)
-        const fieldSummaries = {};
-        if (r.sample && r.sample.length > 0) {
-            const keysToAnalyze = Object.keys(r.sample[0]).filter(k =>
-                !['id', 'created_at', 'updated_at', 'latitude', 'longitude', 'notes', 'description'].includes(k) &&
-                !k.includes('phone') && !k.includes('date') && !k.includes('url') && !k.includes('image')
-            );
-
-            keysToAnalyze.forEach(key => {
-                const distribution = {};
-                let validCount = 0;
-                r.sample.forEach(row => {
-                    const val = row[key];
-                    if (val !== null && val !== undefined && val !== '') {
-                        distribution[val] = (distribution[val] || 0) + 1;
-                        validCount++;
-                    }
-                });
-
-                const distinctCount = Object.keys(distribution).length;
-                if (distinctCount > 0 && distinctCount <= 60 && validCount === r.sample.length) {
-                    fieldSummaries[key] = distribution;
-                }
-            });
+        // Pre-calculated categorical distributions (exact counts)
+        if (r.categorySummary && Object.keys(r.categorySummary).length > 0) {
+            entry.category_distribution = r.categorySummary;
         }
 
-        if (Object.keys(fieldSummaries).length > 0) {
-            entry.pre_calculated_stats = fieldSummaries;
-            entry._stats_note = `'pre_calculated_stats' จากตัวอย่าง ${r.sample?.length || 0} แถว ให้ใช้ 'aggregated_stats' แทนเมื่อต้องการตัวเลขที่แม่นยำ 100%`;
+        // Lightweight district summary if aggregatedStats isn't available
+        if (r.districtSummary && !r.aggregatedStats) {
+            entry.district_distribution = r.districtSummary;
+        }
+
+        if (entry.category_distribution || entry.district_distribution) {
+            entry._stats_note = `การนับจำนวน 100% จากฐานข้อมูลทั้งหมด (${r.count} รายการ) ไม่ใช่แค่กลุ่มตัวอย่าง`;
         }
 
         // Only include limited sample records to save tokens
