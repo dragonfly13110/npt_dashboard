@@ -55,11 +55,18 @@ export default function Chatbot() {
         const currentModel = selectedModel;
         const modelConfig = AI_MODELS[currentModel];
 
+        // Keep only recent history (max 16 msgs = 8 conversation pairs) to reduce noise and token usage
         const validHistory = messages.filter(m =>
             (m.role === 'user' || m.role === 'bot') &&
             m.type !== 'greeting' &&
             m.type !== 'error'
-        );
+        ).slice(-16).map(m => {
+            // Compress long bot responses to save tokens — AI can still reference the key points
+            if (m.role === 'bot' && m.text && m.text.length > 600) {
+                return { ...m, text: m.text.substring(0, 600) + '\n...[สรุปคำตอบยาว — ตัดท้ายเพื่อประหยัด token]' };
+            }
+            return m;
+        });
 
         const userMsg = { role: 'user', text: msg, timestamp: Date.now() };
         setMessages(prev => [...prev, userMsg]);

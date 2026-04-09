@@ -70,6 +70,10 @@ export async function callGeminiAI(systemPrompt, messagesHistory, settings, retr
                 generationConfig: {
                     temperature: settings?.deepThinking ? 0.7 : 0.5,
                     maxOutputTokens: 12000,
+                    // Enable internal chain-of-thought reasoning when deep thinking is on
+                    ...(settings?.deepThinking && {
+                        thinkingConfig: { thinkingBudget: 2048 }
+                    })
                 }
             };
 

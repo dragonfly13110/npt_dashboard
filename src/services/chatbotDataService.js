@@ -42,6 +42,33 @@ district, total_area_rai, agri_crop_area_rai, farmer_households, rice_in_season_
 - ถ้าคำถามถามความสัมพันธ์ระหว่างข้อมูล → analysis_type: "correlation", tables: ตารางที่เกี่ยวข้องทั้งหมด
 - is_general_question: ให้เป็น true สำหรับการพูดคุยทักทาย, คำถามความรู้ทั่วไป, หรือคำถามที่ไม่มีส่วนเกี่ยวข้องใดๆ กับฐานข้อมูลเลย
 - ตอบกลับมาเป็นโครงสร้าง raw JSON เพียงอย่างเดียว ห้ามมีการจัดรูปแบบ markdown ใดๆ (ห้ามมี \`\`\`json)
+- ❗ สำคัญ: ถ้าผู้ใช้ถามต่อเนื่องจากบริบทเดิม (เช่น "แล้วอำเภอ X ล่ะ?" "อันไหนมากสุด?" "ช่วยเปรียบเทียบให้หน่อย") → ให้อ้างอิงจาก *บริบทการสนทนาก่อนหน้า* เพื่อระบุ tables และ analysis_type ให้ถูกต้อง
+
+--- ตัวอย่างการสกัด (FEW-SHOT EXAMPLES) ---
+Q: "มีเกษตรกรทั้งหมดกี่ครัวเรือน"
+A: {"district":null,"tables":["farmer_registry"],"keyword":null,"analysis_type":"overview","is_general_question":false}
+
+Q: "อำเภอกำแพงแสนมีแปลงใหญ่อะไรบ้าง"
+A: {"district":"กำแพงแสน","tables":["large_plots"],"keyword":null,"analysis_type":"detail","is_general_question":false}
+
+Q: "เปรียบเทียบ GAP ทุกอำเภอ"
+A: {"district":null,"tables":["certifications"],"keyword":null,"analysis_type":"comparison","is_general_question":false}
+
+Q: "อำเภอไหนมีพื้นที่เกษตรมากที่สุด"
+A: {"district":null,"tables":["agricultural_areas"],"keyword":null,"analysis_type":"ranking","is_general_question":false}
+
+Q: "พื้นที่เกษตรกับจำนวนเกษตรกรสัมพันธ์กันไหม"
+A: {"district":null,"tables":["agricultural_areas","farmer_registry"],"keyword":null,"analysis_type":"correlation","is_general_question":false}
+
+Q: "แล้วอำเภอบางเลนล่ะ?" (follow-up จากคำถามก่อนหน้าที่ถามเรื่องแปลงใหญ่)
+A: {"district":"บางเลน","tables":["large_plots"],"keyword":null,"analysis_type":"detail","is_general_question":false}
+
+Q: "สวัสดีครับ"
+A: {"district":null,"tables":[],"keyword":null,"analysis_type":"overview","is_general_question":true}
+
+Q: "ค้นหาชื่อ สมชาย ใน GAP"
+A: {"district":null,"tables":["certifications"],"keyword":"สมชาย","analysis_type":"detail","is_general_question":false}
+--- จบตัวอย่าง ---
 
 --- บริบทการสนทนาล่าสุด (RECENT CONVERSATION CONTEXT) ---
 ${recentHistory || 'ไม่มีบริบทก่อนหน้า'}
@@ -50,7 +77,9 @@ ${recentHistory || 'ไม่มีบริบทก่อนหน้า'}
 จงสกัดพารามิเตอร์การค้นหาจากคำถาม *ใหม่* ของผู้ใช้ข้อความนี้: "${query}"`;
 
     try {
-        const result = await callAI(modelKey, prompt, query);
+        // Send recent chat history to AI so it can resolve follow-up references
+        const historyForIntent = chatHistory.slice(-8).concat([{ role: 'user', text: query }]);
+        const result = await callAI(modelKey, prompt, historyForIntent);
         if (result) {
             const jsonMatch = result.match(/```(?:json)?\\s*([\\s\\S]*?)```/);
             const cleanJson = jsonMatch ? jsonMatch[1].trim() : result.trim();
@@ -404,7 +433,11 @@ export function buildContextForAI(analysis) {
         }
 
         // Only include limited sample records to save tokens
-        const maxSampleForAI = analysisType === 'detail' ? 50 : 20;
+        // Smart limits: overview/ranking don't need many samples since aggregated_stats covers them
+        const maxSampleForAI = analysisType === 'detail' ? 30 :
+                               analysisType === 'comparison' ? 10 :
+                               analysisType === 'overview' ? 5 :
+                               analysisType === 'ranking' ? 5 : 15;
         entry.sample_records = r.sample ? r.sample.slice(0, maxSampleForAI).map(s => {
             const obj = {};
             for (const [key, val] of Object.entries(s)) {
