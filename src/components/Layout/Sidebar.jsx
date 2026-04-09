@@ -29,6 +29,7 @@ import {
 } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
 import { useAuth } from '../../contexts/AuthContext';
+import GlobalSearch from '../Search/GlobalSearch';
 
 const { Sider } = Layout;
 
@@ -173,12 +174,15 @@ function SidebarContent({ user, onMenuClick, location, menuItems }) {
     return (
         <div className="sidebar-container">
             <div className="sidebar-header">
-                <div className="sidebar-brand">
+                <div className="sidebar-brand" style={{ marginBottom: 16 }}>
                     <span className="brand-icon">🌾</span>
                     <div>
                         <div>สนง.เกษตรจังหวัด</div>
                         <div style={{ fontSize: 12, fontWeight: 400, opacity: 0.6 }}>นครปฐม</div>
                     </div>
+                </div>
+                <div className="sidebar-search-wrapper">
+                    <GlobalSearch />
                 </div>
             </div>
 
@@ -241,6 +245,9 @@ export default function Sidebar({ user, mobileOpen, onMobileClose }) {
                 {collapsed ? (
                     <div className="sidebar-header">
                         <div style={{ textAlign: 'center', fontSize: 28 }}>🌾</div>
+                        <div style={{ textAlign: 'center', marginTop: 8 }}>
+                            <GlobalSearch collapsed={true} />
+                        </div>
                     </div>
                 ) : null}
                 {!collapsed && (

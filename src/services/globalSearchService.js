@@ -1,0 +1,204 @@
+import { supabase } from '../supabaseClient';
+import { TABLE_CONFIG, TABLE_SEARCH_COLS, DISTRICT_COLS } from '../utils/chatbotConstants';
+
+/**
+ * Mapping: table name → dashboard route path
+ */
+const TABLE_ROUTES = {
+    agricultural_areas: '/dashboard/strategy/agricultural-areas',
+    learning_centers: '/dashboard/strategy/learning-centers',
+    disasters: '/dashboard/strategy/disasters',
+    farmer_registry: '/dashboard/strategy/farmer-registry',
+    gis_areas: '/dashboard/strategy/gis',
+    kpi_plans: '/dashboard/strategy/kpi',
+    large_plots: '/dashboard/production/large-plots',
+    certifications: '/dashboard/production/certifications',
+    crop_production: '/dashboard/production/crop-production',
+    community_enterprises: '/dashboard/development/community-enterprises',
+    smart_farmers: '/dashboard/development/smart-farmers',
+    farmer_groups: '/dashboard/development/farmer-groups',
+    farmer_institutes: '/dashboard/development/farmer-institutes',
+    agri_tourism: '/dashboard/development/agri-tourism',
+    forecast_plots: '/dashboard/protection/pest-outbreaks',
+    pest_centers: '/dashboard/protection/pest-centers',
+    soil_fertilizer_centers: '/dashboard/protection/soil-fertilizer',
+    fire_hotspots: '/dashboard/protection/fire-hotspots',
+};
+
+// ========== Cache System ==========
+const cache = new Map();
+const CACHE_TTL = 60 * 1000; // 60 seconds
+
+function getCached(key) {
+    const entry = cache.get(key);
+    if (!entry) return null;
+    if (Date.now() - entry.timestamp > CACHE_TTL) {
+        cache.delete(key);
+        return null;
+    }
+    return entry.data;
+}
+
+function setCache(key, data) {
+    // Keep cache size manageable
+    if (cache.size > 50) {
+        const oldest = cache.keys().next().value;
+        cache.delete(oldest);
+    }
+    cache.set(key, { data, timestamp: Date.now() });
+}
+
+// ========== Recent Searches ==========
+const RECENT_KEY = 'npt_recent_searches';
+const MAX_RECENT = 8;
+
+export function getRecentSearches() {
+    try {
+        return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
+    } catch {
+        return [];
+    }
+}
+
+export function addRecentSearch(term) {
+    if (!term || term.trim().length < 2) return;
+    const cleaned = term.trim();
+    const recent = getRecentSearches().filter(s => s !== cleaned);
+    recent.unshift(cleaned);
+    localStorage.setItem(RECENT_KEY, JSON.stringify(recent.slice(0, MAX_RECENT)));
+}
+
+export function clearRecentSearches() {
+    localStorage.removeItem(RECENT_KEY);
+}
+
+// ========== Label Helpers ==========
+function getResultLabel(row, table) {
+    const searchCols = TABLE_SEARCH_COLS[table] || [];
+    const distCol = DISTRICT_COLS[table] || 'district';
+
+    for (const col of searchCols) {
+        if (row[col] && typeof row[col] === 'string' && row[col].trim()) {
+            return row[col].trim();
+        }
+    }
+    if (row[distCol]) return row[distCol];
+    for (const [key, val] of Object.entries(row)) {
+        if (['id', 'created_at', 'updated_at'].includes(key)) continue;
+        if (typeof val === 'string' && val.trim()) return val.trim();
+    }
+    return 'ข้อมูล';
+}
+
+function getResultSubtitle(row, table) {
+    const distCol = DISTRICT_COLS[table] || 'district';
+    const searchCols = TABLE_SEARCH_COLS[table] || [];
+    const parts = [];
+
+    if (row[distCol]) parts.push(`อ.${row[distCol]}`);
+    const labelCol = searchCols[0];
+    for (const col of searchCols.slice(1, 3)) {
+        if (col !== labelCol && row[col] && typeof row[col] === 'string') {
+            parts.push(row[col]);
+        }
+    }
+    return parts.join(' • ') || null;
+}
+
+function enrichResults(rawResults) {
+    return rawResults
+        .map((entry) => {
+            const config = TABLE_CONFIG[entry.table];
+            if (!config) return null;
+            return {
+                table: entry.table,
+                label: config.label,
+                icon: config.icon,
+                group: config.group,
+                route: TABLE_ROUTES[entry.table] || '/dashboard',
+                totalCount: entry.totalCount || entry.results?.length || 0,
+                results: (entry.results || []).map(row => ({
+                    id: row.id,
+                    title: getResultLabel(row, entry.table),
+                    subtitle: getResultSubtitle(row, entry.table),
+                    raw: row,
+                })),
+            };
+        })
+        .filter(Boolean)
+        .sort((a, b) => b.totalCount - a.totalCount);
+}
+
+// ========== RPC-based search (single request → 18 tables) ==========
+async function searchViaRPC(searchTerm, limitPerTable) {
+    const { data, error } = await supabase.rpc('global_search', {
+        search_term: searchTerm,
+        result_limit: limitPerTable,
+    });
+
+    if (error) throw error;
+    return enrichResults(data || []);
+}
+
+// ========== Fallback: parallel search (18 requests) ==========
+async function searchViaParallel(searchTerm, limitPerTable) {
+    const tables = Object.keys(TABLE_CONFIG);
+
+    const searchPromises = tables.map(async (table) => {
+        const searchCols = TABLE_SEARCH_COLS[table];
+        if (!searchCols || searchCols.length === 0) return null;
+
+        try {
+            const distCol = DISTRICT_COLS[table] || 'district';
+            const allCols = [...new Set([...searchCols, distCol])];
+            const orString = allCols.map(c => `${c}.ilike.%${searchTerm}%`).join(',');
+
+            const { data, count, error } = await supabase
+                .from(table)
+                .select('*', { count: 'exact' })
+                .or(orString)
+                .limit(limitPerTable);
+
+            if (error || !data || data.length === 0) return null;
+
+            return { table, totalCount: count || data.length, results: data };
+        } catch {
+            return null;
+        }
+    });
+
+    const raw = (await Promise.all(searchPromises)).filter(Boolean);
+    return enrichResults(raw);
+}
+
+// ========== Main Search Function ==========
+export async function globalSearch(query, limitPerTable = 5) {
+    if (!query || query.trim().length < 2) return [];
+
+    const searchTerm = query.trim();
+    const cacheKey = `${searchTerm}:${limitPerTable}`;
+
+    // Check cache first
+    const cached = getCached(cacheKey);
+    if (cached) return cached;
+
+    let results;
+    try {
+        // Try RPC first (1 request)
+        results = await searchViaRPC(searchTerm, limitPerTable);
+    } catch {
+        // Fallback to parallel (18 requests)
+        console.warn('RPC search failed, falling back to parallel search');
+        results = await searchViaParallel(searchTerm, limitPerTable);
+    }
+
+    // Save to cache
+    setCache(cacheKey, results);
+
+    // Save to recent searches
+    if (results.length > 0) {
+        addRecentSearch(searchTerm);
+    }
+
+    return results;
+}

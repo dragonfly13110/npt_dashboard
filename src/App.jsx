@@ -25,6 +25,7 @@ const LandingPage = lazy(() => import('./pages/LandingPage'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Chatbot = lazy(() => import('./pages/Chatbot'));
+const SearchResults = lazy(() => import('./pages/SearchResults'));
 const PlantProtectionFormDemo = lazy(() => import('./components/PlantProtectionFormDemo'));
 
 // Admin
@@ -128,6 +129,7 @@ function AppRoutes() {
         }>
           <Route index element={<Dashboard />} />
           <Route path="chatbot" element={<Chatbot />} />
+          <Route path="search" element={<SearchResults />} />
           <Route path="test-form" element={<PlantProtectionFormDemo />} />
 
           {/* Admin */}
