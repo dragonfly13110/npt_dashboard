@@ -25,6 +25,7 @@ const LandingPage = lazy(() => import('./pages/LandingPage'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Chatbot = lazy(() => import('./pages/Chatbot'));
+const PlantProtectionFormDemo = lazy(() => import('./components/PlantProtectionFormDemo'));
 
 // Admin
 const Personnel = lazy(() => import('./pages/admin/Personnel'));
@@ -127,6 +128,7 @@ function AppRoutes() {
         }>
           <Route index element={<Dashboard />} />
           <Route path="chatbot" element={<Chatbot />} />
+          <Route path="test-form" element={<PlantProtectionFormDemo />} />
 
           {/* Admin */}
           <Route path="admin/overview" element={<AdminDashboard />} />

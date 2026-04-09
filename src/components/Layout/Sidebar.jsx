@@ -132,6 +132,8 @@ const adminOnlyItems = [
             { key: '/dashboard/admin/users', icon: <TeamOutlined />, label: 'จัดการสิทธิ์ผู้ใช้' },
             { key: '/dashboard/admin/audit-log', icon: <HistoryOutlined />, label: 'ประวัติการแก้ไข' },
             { key: '/dashboard/admin/recent-activities', icon: <HistoryOutlined />, label: 'กิจกรรมล่าสุดทั้งหมด' },
+            { type: 'divider' },
+            { key: '/dashboard/test-form', icon: <ThunderboltOutlined />, label: '🛠️ ทดสอบฟอร์มอัจฉริยะ' },
         ],
     },
 ];
