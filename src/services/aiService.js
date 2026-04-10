@@ -22,7 +22,7 @@ export async function callOpenRouterAI(systemPrompt, messagesHistory, retries = 
                         model: OPENROUTER_MODEL,
                         messages: apiMessages,
                         temperature: 0.5,
-                        max_tokens: 8000,
+                        max_tokens: 12000,
                     }
                 })
             });
@@ -69,7 +69,7 @@ export async function callGeminiAI(systemPrompt, messagesHistory, settings, retr
                 },
                 generationConfig: {
                     temperature: settings?.deepThinking ? 0.7 : 0.5,
-                    maxOutputTokens: 8000,
+                    maxOutputTokens: 12000,
                 }
             };
 

@@ -69,18 +69,13 @@ export default function Chatbot() {
         try {
             let finalSystemPrompt = SYSTEM_PROMPT;
             if (aiSettings.deepThinking) {
-                finalSystemPrompt += `\n\n[โหมดวิเคราะห์เชิงลึก / DEEP THINKING MODE]
-คุณต้องคิดและวิเคราะห์ทีละขั้นตอนอย่างละเอียดลึกซึ้งที่สุด สำรวจทุกความเป็นไปได้ก่อนที่จะตอบ
->> คุณต้องเริ่มการทำงานด้วยแท็ก <think> และใส่กระบวนการคิดทั้งหมดของคุณไว้ภายใน เมื่อคิดเสร็จสมบูรณ์จึงใช้แท็ก </think> ปิดท้าย
-หลังจากปิดแท็กแล้ว ค่อยสรุปคำตอบที่ดีที่สุดของคุณ
-
-ตัวอย่าง:
-<think>
-1. วิเคราะห์คำถาม...
-2. พิจารณาเหตุผล...
-3. ประมวลผลและสรุปข้อมูล...
-</think>
-คำตอบของคุณคือ...`;
+                finalSystemPrompt += `\n\n[โหมดวิเคราะห์เชิงลึก / DEEP ANALYSIS MODE]
+คุณต้องวิเคราะห์อย่างละเอียดลึกซึ้งที่สุด:
+- สำรวจทุกมิติของข้อมูล (ภาพรวม→รายอำเภอ→เปรียบเทียบ→หาความสัมพันธ์)
+- คำนวณสัดส่วน % และจัดอันดับ
+- ค้นหาจุดเด่น จุดด้อย และ Outlier
+- สรุป Insight สำคัญที่ซ่อนอยู่ในข้อมูล
+- นำเสนอข้อเสนอแนะเชิงนโยบายหรือการพัฒนา`;
             }
 
             const analysis = await fetchDatabaseContext(msg, currentModel, validHistory);
@@ -94,13 +89,29 @@ export default function Chatbot() {
                 responseType = 'general';
             } else {
                 const dbContext = buildContextForAI(analysis);
+                const analysisHint = {
+                    overview: 'สรุปภาพรวมข้อมูลทั้งหมดอย่างครบถ้วน จัดเป็นหมวดหมู่ พร้อมตัวเลขสำคัญ',
+                    comparison: 'เปรียบเทียบข้อมูลระหว่างอำเภอ/หมวดหมู่ ใช้ตารางเปรียบเทียบ จัดอันดับ คำนวณ %',
+                    detail: 'วิเคราะห์เชิงลึกเฉพาะจุด ให้รายละเอียดครบถ้วน',
+                    ranking: 'จัดอันดับข้อมูลจากมากไปน้อย ใช้ตาราง พร้อมวิเคราะห์ว่าทำไมอันดับ 1 ถึงเด่น',
+                    correlation: 'วิเคราะห์ความสัมพันธ์ระหว่างชุดข้อมูล เช่น พื้นที่เกษตรเยอะ มีเกษตรกรเยอะตามไหม?',
+                };
+                const hint = analysisHint[analysis.analysisType] || analysisHint.overview;
                 const userPrompt = `คำถาม: ${msg}
 
---- ข้อมูลจริงจากฐานข้อมูลสำนักงานเกษตรจังหวัดนครปฐม ---
+🎯 ประเภทการวิเคราะห์: ${analysis.analysisType || 'overview'}
+📋 แนวทาง: ${hint}
+
+--- ข้อมูลจริงจากฐานข้อมูลสำนักงานเกษตรจังหวัดนครปฐม (PRE-AGGREGATED) ---
 ${dbContext}
 --- จบข้อมูล ---
 
-โปรดวิเคราะห์ข้อมูลข้างต้นและตอบคำถามอย่างละเอียด ถ้ามีข้อมูลตัวเลข ให้อ้างอิงจากข้อมูลจริงเท่านั้น`;
+⚠️ คำแนะนำสำหรับการวิเคราะห์:
+1. ใช้ตัวเลขจาก aggregated_stats.totals/.averages/.rankings เป็นหลัก (คำนวณจริงจาก DB ทั้งหมด)
+2. ใช้ aggregated_stats.district_percentages สำหรับคำนวณสัดส่วน %
+3. ใช้ aggregated_stats.by_district สำหรับเปรียบเทียบรายอำเภอ
+4. ห้ามนับ sample_records เอง — ใช้ pre-computed numbers เท่านั้น
+5. สรุป 💡 Insight สำคัญ 2-5 ข้อทุกครั้ง`;
 
                 const historyToSend = [...validHistory, { role: 'user', text: userPrompt }];
                 aiText = await callAI(currentModel, finalSystemPrompt, historyToSend, aiSettings);
