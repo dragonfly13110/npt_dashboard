@@ -77,6 +77,15 @@ export default function LandingPage() {
                     </p>
 
                     <div className="hero-actions" style={{ marginTop: '36px', display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                        <a
+                            href="https://nakhonpathom.doae.go.th/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hero-primary-link"
+                            aria-label="เข้าสู่เว็บไซต์สำนักงานเกษตรจังหวัดนครปฐม"
+                        >
+                            🏛️ เข้าสู่เว็บไซต์สำนักงานเกษตรจังหวัดนครปฐม
+                        </a>
                         <button 
                             onClick={() => navigate('/interactive-dashboard')} 
                             style={{ 
