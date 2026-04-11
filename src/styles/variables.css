@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Color System */
+  --primary: #1a7f37;
+  --primary-light: #2da44e;
+  --primary-dark: #116329;
+  --primary-bg: #dafbe1;
+  --secondary: #0969da;
+  --secondary-light: #218bff;
+  --accent: #bf8700;
+  --accent-bg: #fff8c5;
+
+  /* Neutrals */
+  --bg-primary: #f6f8fa;
+  --bg-secondary: #ffffff;
+  --bg-sidebar: #0d1117;
+  --bg-sidebar-hover: #161b22;
+  --text-primary: #1f2328;
+  --text-secondary: #656d76;
+  --text-sidebar: #e6edf3;
+  --text-sidebar-muted: #8b949e;
+  --border: #d0d7de;
+  --border-light: #e8ecf0;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  /* Spacing */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'IBM Plex Sans Thai', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
