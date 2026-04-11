@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Row, Col, Card, Spin, Tag } from 'antd';
 import { PieChartOutlined, EnvironmentOutlined, BankOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import {
@@ -86,9 +86,9 @@ export default function StrategyDashboard() {
 
     const { data, isLoading: loading } = useApiCache('strategy-dashboard-data', fetchStrategyData);
 
-    const agriData = data?.agriData || [];
-    const learningData = data?.learningData || [];
-    const disasterData = data?.disasterData || [];
+    const agriData = useMemo(() => data?.agriData || [], [data?.agriData]);
+    const learningData = useMemo(() => data?.learningData || [], [data?.learningData]);
+    const disasterData = useMemo(() => data?.disasterData || [], [data?.disasterData]);
 
     // ============================================
     // Agricultural Areas Charts

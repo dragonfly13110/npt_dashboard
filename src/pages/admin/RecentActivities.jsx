@@ -151,12 +151,11 @@ const fetchAllRecentActivities = async () => {
 };
 
 export default function RecentActivities() {
-    const { data: batches = [], isLoading: loading } = useApiCache(
+    const { data: filteredBatches = [], isLoading: loading } = useApiCache(
         'admin-recent-activities',
         fetchAllRecentActivities,
         { staleMinutes: 5 } // cache less to keep recent data mostly fresh
     );
-    const filterGroup = null; // Filter logic retained for manual usage
 
     const totalRecords = filteredBatches.reduce((sum, b) => sum + b.count, 0);
 
