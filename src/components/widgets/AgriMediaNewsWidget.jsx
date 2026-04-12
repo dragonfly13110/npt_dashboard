@@ -6,6 +6,20 @@ import './AgriRssNewsWidget.css';
 
 const FEEDS = [
     {
+        key: 'agrinewsthai',
+        label: 'เรื่องเล่าข่าวเกษตร',
+        icon: '🌱',
+        url: '/api/rss/agrinewsthai',
+        originalUrl: 'https://www.agrinewsthai.com/feed',
+        fallbackUrls: [
+            'https://www.agrinewsthai.com/feed/rss',
+            'https://www.agrinewsthai.com/feed/rss2',
+        ],
+        sourceShort: 'agrinewsthai.com',
+        sourceUrl: 'https://www.agrinewsthai.com',
+        placeholder: '🌱',
+    },
+    {
         key: 'kasetorganic',
         label: 'เกษตรอินทรีย์',
         icon: '🌿',
@@ -48,20 +62,6 @@ const FEEDS = [
         sourceShort: 'thairath.co.th',
         sourceUrl: 'https://www.thairath.co.th/agriculture',
         placeholder: '📺',
-    },
-    {
-        key: 'agrinewsthai',
-        label: 'เรื่องเล่าข่าวเกษตร',
-        icon: '🌱',
-        url: '/api/rss/agrinewsthai',
-        originalUrl: 'https://www.agrinewsthai.com/feed',
-        fallbackUrls: [
-            'https://www.agrinewsthai.com/feed/rss',
-            'https://www.agrinewsthai.com/feed/rss2',
-        ],
-        sourceShort: 'agrinewsthai.com',
-        sourceUrl: 'https://www.agrinewsthai.com',
-        placeholder: '🌱',
     }
 ];
 
@@ -266,7 +266,7 @@ function formatThaiDate(dateStr) {
 }
 
 export default function AgriMediaNewsWidget() {
-    const [activeTab, setActiveTab] = useState('kasetorganic');
+    const [activeTab, setActiveTab] = useState('agrinewsthai');
 
     const { data, isLoading, error } = useApiCache(
         'agri-media-rss-v7',

@@ -2,7 +2,7 @@ import { Card } from 'antd';
 
 export function PageHeader({ title, subtitle, icon: Icon }) {
     return (
-        <div style={{ padding: '20px 24px', background: '#fff', borderRadius: 12, border: '1px solid #e8ecf0', marginBottom: 24 }}>
+        <div style={{ padding: '12px 20px', background: '#fff', borderRadius: 12, border: '1px solid #e8ecf0', marginBottom: 16 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
                 {Icon && <Icon style={{ fontSize: 22, color: '#1a7f37' }} />}
                 <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: '#1f2328' }}>{title}</h2>
@@ -16,7 +16,7 @@ export function CategoryBentoCard({
     title, icon, totalLabel, totalCount, mainStatsTitle, mainStats
 }) {
     return (
-        <div className="bento-card" style={{ marginBottom: 0 }}>
+        <div className="bento-card" style={{ marginBottom: 0, height: '100%', display: 'flex', flexDirection: 'column' }}>
             <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                     <h3>{icon} {title}</h3>
@@ -27,10 +27,10 @@ export function CategoryBentoCard({
                     </div>
                 )}
             </div>
-            <div className="bento-card-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px' }}>
-                <div>
+            <div className="bento-card-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px', flexGrow: 1 }}>
+                <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                     <div style={{ fontSize: 13, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>{mainStatsTitle}</div>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: mainStats.length > 4 ? 'repeat(2, 1fr)' : '1fr', gap: '8px' }}>
                         {mainStats.map(({ label, value, key, isTotal, colorType }, idx) => {
                             const isEven = idx % 2 === 0;
                             // colorType can be 'green', 'blue', 'red'
@@ -51,13 +51,16 @@ export function CategoryBentoCard({
                                     background: bg, borderRadius: '8px', border: `1px solid ${border}`,
                                     gridColumn: isTotal ? '1 / -1' : 'auto', marginTop: isTotal ? 4 : 0
                                 }}>
-                                    <span style={{ fontSize: 13, color: textConfig, fontWeight: isTotal ? 700 : 600 }}>{label}</span>
-                                    <span style={{ fontSize: 14, fontWeight: isTotal ? 800 : 700, color: valConfig }}>{value}</span>
+                                    <span style={{ fontSize: 13, color: textConfig, fontWeight: isTotal ? 700 : 500 }}>{label}</span>
+                                    <span style={{ fontSize: 16, fontWeight: isTotal ? 800 : 700, color: valConfig }}>{value}</span>
                                 </div>
                             );
                         })}
                         {mainStats.length === 0 && (
-                            <div style={{ textAlign: 'center', color: '#94a3b8', fontSize: 13, padding: 8, gridColumn: '1 / -1' }}>รอเพิ่มข้อมูล...</div>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', padding: '24px 8px', gridColumn: '1 / -1', height: '100%', minHeight: '120px' }}>
+                                <span style={{ fontSize: 24, marginBottom: 8, opacity: 0.5 }}>📭</span>
+                                <span style={{ fontSize: 13 }}>รอรวบรวมข้อมูล...</span>
+                            </div>
                         )}
                     </div>
                 </div>

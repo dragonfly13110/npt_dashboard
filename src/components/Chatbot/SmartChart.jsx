@@ -4,6 +4,20 @@ import {
     PieChart, Pie, Cell,
     LineChart, Line
 } from 'recharts';
+import { z } from 'zod';
+
+const ChartSeriesSchema = z.object({
+    key: z.string(),
+    name: z.string().optional(),
+});
+
+const ChartConfigSchema = z.object({
+    type: z.enum(['pie', 'line', 'bar']).default('bar'),
+    title: z.string().optional(),
+    data: z.array(z.record(z.any())).min(1),
+    xAxisKey: z.string().default("name"),
+    series: z.array(ChartSeriesSchema).default([{ key: "value", name: "Value" }]),
+});
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#a28CFE', '#ff66b2', '#7acc00'];
 
@@ -24,18 +38,22 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 export default function SmartChart({ rawContent }) {
-    let config = null;
+    let parsedJson = null;
     try {
-        config = JSON.parse(rawContent);
+        parsedJson = JSON.parse(rawContent);
     } catch (e) {
-        return <div style={{ color: 'red' }}>[ข้อมูลกราฟไม่ถูกต้อง ไม่สามารถเรนเดอร์ได้]</div>;
+        return <div style={{ color: '#d32f2f', padding: '8px', border: '1px solid #d32f2f', borderRadius: '4px', background: '#ffebee', fontSize: '0.9em' }}>[ข้อมูล JSON ไม่ถูกต้อง ไม่สามารถเรนเดอร์กราฟได้]</div>;
     }
 
-    if (!config || !config.data || !Array.isArray(config.data)) {
-        return <div style={{ color: 'red' }}>[รูปแบบข้อมูลกราฟไม่ตรงตามที่รองรับ]</div>;
+    // Validate structured payload robustly
+    const validationResult = ChartConfigSchema.safeParse(parsedJson);
+
+    if (!validationResult.success) {
+        console.error("Zod Validation Error:", validationResult.error.flatten().fieldErrors);
+        return <div style={{ color: '#d32f2f', padding: '8px', border: '1px solid #d32f2f', borderRadius: '4px', background: '#ffebee', fontSize: '0.9em' }}>[รูปแบบข้อมูลกราฟไม่ถูกต้อง โปรดลองใหม่อีกครั้ง]</div>;
     }
 
-    const { type, title, data, xAxisKey = "name", series = [{ key: "value", name: "Value" }] } = config;
+    const { type, title, data, xAxisKey, series } = validationResult.data;
 
     return (
         <div style={{ width: '100%', height: 300, background: '#fff', padding: 16, borderRadius: 8, marginTop: 8, marginBottom: 8, border: '1px solid #e1e4e8' }}>

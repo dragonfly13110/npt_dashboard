@@ -240,7 +240,7 @@ export default function StrategyDashboard() {
             ) : (
                 <>
                     {/* Bento Summary Cards */}
-                    <section className="bento-container" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', display: 'grid', gap: '24px', marginBottom: '32px', gridTemplateAreas: 'none' }}>
+                    <section className="bento-container" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', display: 'grid', gap: '24px', marginBottom: '32px' }}>
                         
                         <CategoryBentoCard
                             title="พื้นที่การเกษตร"
@@ -285,11 +285,11 @@ export default function StrategyDashboard() {
                                 {agriPie.length > 0 ? (
                                     <ResponsiveContainer width="100%" height="100%">
                                         <PieChart>
-                                            <Pie data={agriPie} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={2} dataKey="value"
-                                                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
+                                            <Pie data={agriPie} cx="40%" cy="50%" innerRadius={70} outerRadius={110} paddingAngle={2} dataKey="value">
                                                 {agriPie.map((entry, i) => <Cell key={i} fill={entry.color} />)}
                                             </Pie>
-                                            <RechartsTooltip formatter={(val) => [val.toLocaleString(undefined, { maximumFractionDigits: 2 }) + ' ไร่', 'พื้นที่']} />
+                                            <RechartsTooltip formatter={(val, name) => [val.toLocaleString(undefined, { maximumFractionDigits: 2 }) + ' ไร่', name]} />
+                                            <Legend layout="vertical" align="right" verticalAlign="middle" iconType="circle" wrapperStyle={{ fontSize: 13, paddingLeft: 10 }} />
                                         </PieChart>
                                     </ResponsiveContainer>
                                 ) : <EmptyChart label="พื้นที่การเกษตร" />}
@@ -320,11 +320,11 @@ export default function StrategyDashboard() {
                                 {learnPie.length > 0 ? (
                                     <ResponsiveContainer width="100%" height="100%">
                                         <PieChart>
-                                            <Pie data={learnPie} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={2} dataKey="value"
-                                                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
+                                            <Pie data={learnPie} cx="40%" cy="50%" innerRadius={70} outerRadius={110} paddingAngle={2} dataKey="value">
                                                 {learnPie.map((_, i) => <Cell key={i} fill={LEARN_COLORS[i % LEARN_COLORS.length]} />)}
                                             </Pie>
-                                            <RechartsTooltip formatter={(val) => [val.toLocaleString() + ' ศูนย์', 'จำนวน']} />
+                                            <RechartsTooltip formatter={(val, name) => [val.toLocaleString() + ' ศูนย์', name]} />
+                                            <Legend layout="vertical" align="right" verticalAlign="middle" iconType="circle" wrapperStyle={{ fontSize: 13, paddingLeft: 10 }} />
                                         </PieChart>
                                     </ResponsiveContainer>
                                 ) : <EmptyChart label="ศพก." />}
@@ -355,11 +355,11 @@ export default function StrategyDashboard() {
                                 <CategoryChartCard title="⚡ สัดส่วนภัยพิบัติตามประเภท">
                                     <ResponsiveContainer width="100%" height="100%">
                                         <PieChart>
-                                            <Pie data={disasterPie} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={2} dataKey="value"
-                                                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
+                                            <Pie data={disasterPie} cx="40%" cy="50%" innerRadius={70} outerRadius={110} paddingAngle={2} dataKey="value">
                                                 {disasterPie.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
                                             </Pie>
-                                            <RechartsTooltip formatter={(val) => [val + ' รายการ', 'จำนวน']} />
+                                            <RechartsTooltip formatter={(val, name) => [val + ' รายการ', name]} />
+                                            <Legend layout="vertical" align="right" verticalAlign="middle" iconType="circle" wrapperStyle={{ fontSize: 13, paddingLeft: 10 }} />
                                         </PieChart>
                                     </ResponsiveContainer>
                                 </CategoryChartCard>
