@@ -24,6 +24,8 @@ const HotspotWidget = lazy(() => import('../components/widgets/HotspotWidget'));
 const AgriGovNewsWidget = lazy(() => import('../components/widgets/AgriGovNewsWidget'));
 const AgriMediaNewsWidget = lazy(() => import('../components/widgets/AgriMediaNewsWidget'));
 const LandingMap = lazy(() => import('../components/widgets/LandingMap'));
+const SoilMoistureWidget = lazy(() => import('../components/widgets/SoilMoistureWidget'));
+const DamReservoirWidget = lazy(() => import('../components/widgets/DamReservoirWidget'));
 
 // Bento Cards specific lazy imports
 const SmartFarmersCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.SmartFarmersCard })));
@@ -115,6 +117,18 @@ export default function LandingPage() {
 
                     <div className="widget-section-container">
                         <Suspense fallback={<WidgetSkeleton />}><HotspotWidget /></Suspense>
+                    </div>
+                </section>
+
+                {/* ===== SOIL & WATER WIDGETS ===== */}
+                <section aria-label="ข้อมูลดินและสถานการณ์น้ำ">
+                    <div className="dept-stats-header">
+                        <h2>🌍 สถานการณ์ดินและน้ำ</h2>
+                        <p>ข้อมูลสดจากเซ็นเซอร์ดินและกรมชลประทาน เพื่อการเกษตรที่แม่นยำ</p>
+                    </div>
+                    <div className="soil-water-grid">
+                        <Suspense fallback={<WidgetSkeleton />}><SoilMoistureWidget /></Suspense>
+                        <Suspense fallback={<WidgetSkeleton />}><DamReservoirWidget /></Suspense>
                     </div>
                 </section>
 

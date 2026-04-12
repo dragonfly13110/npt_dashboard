@@ -305,6 +305,7 @@
 
 .bento-card-map {
     min-height: 520px;
+    grid-area: map;
 }
 
 .bento-card-header {
@@ -1370,3 +1371,26 @@
     border: 1px solid rgba(0,0,0,0.05);
     width: 100%;
 }
+
+/* --- SOIL & WATER WIDGETS GRID --- */
+.soil-water-grid {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+@media (max-width: 768px) {
+    .soil-water-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(-8px); max-height: 0; }
+    to { opacity: 1; transform: translateY(0); max-height: 500px; }
+}
+
