@@ -1,6 +1,7 @@
 import { Avatar, Collapse, Tag, Typography } from 'antd';
 import { RobotOutlined, UserOutlined, AppstoreOutlined } from '@ant-design/icons';
 import SmartTable from './SmartTable';
+import SmartChart from './SmartChart';
 import { AI_MODELS } from '../../utils/chatbotConstants';
 
 export default function ChatMessage({ message, isLast }) {
@@ -17,8 +18,32 @@ export default function ChatMessage({ message, isLast }) {
        textToParse = textToParse.replace(thinkMatch[0], '').trim();
     }
 
-    // Parse Markdown blocks conceptually
     const parseBlocks = (text) => {
+        const blocks = [];
+        
+        // Extract chart blocks first: ```chart ... ```
+        const chartRegex = /```chart\n([\s\S]*?)\n```/g;
+        let lastIndex = 0;
+        let match;
+        
+        while ((match = chartRegex.exec(text)) !== null) {
+            const preChartText = text.substring(lastIndex, match.index);
+            if (preChartText.trim()) {
+                blocks.push(...parseSubBlocks(preChartText));
+            }
+            blocks.push({ type: 'chart', content: match[1].trim() });
+            lastIndex = chartRegex.lastIndex;
+        }
+        
+        const remainingText = text.substring(lastIndex);
+        if (remainingText.trim()) {
+            blocks.push(...parseSubBlocks(remainingText));
+        }
+        
+        return blocks;
+    };
+
+    const parseSubBlocks = (text) => {
         const lines = text.split('\n');
         const blocks = [];
         let currentTable = [];
@@ -97,6 +122,9 @@ export default function ChatMessage({ message, isLast }) {
                     />
                 )}
                 {blocks.map((block, bIdx) => {
+                    if (block.type === 'chart' && isBot) {
+                        return <SmartChart key={bIdx} rawContent={block.content} />;
+                    }
                     if (block.type === 'table' && isBot) {
                         return <SmartTable key={bIdx} rawLines={block.lines} />;
                     }

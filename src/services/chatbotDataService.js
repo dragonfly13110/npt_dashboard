@@ -40,7 +40,9 @@ district, total_area_rai, agri_crop_area_rai, farmer_households, rice_in_season_
 - analysis_type: "overview"=ภาพรวม, "comparison"=เปรียบเทียบ, "detail"=เจาะลึก, "ranking"=จัดอันดับ, "correlation"=หาความสัมพันธ์
 - ถ้าคำถามมีคำว่า "เปรียบเทียบ" "อำเภอไหนมากสุด" "จัดอันดับ" → analysis_type: "comparison" หรือ "ranking"
 - ถ้าคำถามถามความสัมพันธ์ระหว่างข้อมูล → analysis_type: "correlation", tables: ตารางที่เกี่ยวข้องทั้งหมด
-- is_general_question: ให้เป็น true สำหรับการพูดคุยทักทาย, คำถามความรู้ทั่วไป, หรือคำถามที่ไม่มีส่วนเกี่ยวข้องใดๆ กับฐานข้อมูลเลย
+- ถ้าคำถามระบุว่า "สร้างรายงาน" หรือ "ทำรายงาน" → analysis_type: "detail", tables: ["all"] หรือบางตารางที่เกี่ยวข้อง
+- ถ้าคำถามเกี่ยวกับ "นโยบาย" (Policy) หรือแนวทางภาครัฐ → analysis_type: "overview", tables: ["all"], keyword: null แต่ is_general_question อาจเป็น false หรือ true ขึ้นอยู่กับว่ามันโยงกับข้อมูลง่ายๆ หรือไม่ (ถ้าเป็นความรู้นโยบายลอยๆ ให้ is_general_question: true)
+- is_general_question: ให้เป็น true สำหรับการพูดคุยทักทาย, คำถามความรู้ทั่วไป, คำถามนโยบายที่ไม่ได้อิงกับตัวเลขพื้นที่, หรือคำถามที่ไม่มีส่วนเกี่ยวข้องใดๆ กับฐานข้อมูลเลย
 - ตอบกลับมาเป็นโครงสร้าง raw JSON เพียงอย่างเดียว ห้ามมีการจัดรูปแบบ markdown ใดๆ (ห้ามมี \`\`\`json)
 - ❗ สำคัญ: ถ้าผู้ใช้ถามต่อเนื่องจากบริบทเดิม (เช่น "แล้วอำเภอ X ล่ะ?" "อันไหนมากสุด?" "ช่วยเปรียบเทียบให้หน่อย") → ให้อ้างอิงจาก *บริบทการสนทนาก่อนหน้า* เพื่อระบุ tables และ analysis_type ให้ถูกต้อง
 
@@ -48,20 +50,14 @@ district, total_area_rai, agri_crop_area_rai, farmer_households, rice_in_season_
 Q: "มีเกษตรกรทั้งหมดกี่ครัวเรือน"
 A: {"district":null,"tables":["farmer_registry"],"keyword":null,"analysis_type":"overview","is_general_question":false}
 
-Q: "อำเภอกำแพงแสนมีแปลงใหญ่อะไรบ้าง"
-A: {"district":"กำแพงแสน","tables":["large_plots"],"keyword":null,"analysis_type":"detail","is_general_question":false}
+Q: "สร้างรายงานสรุปผลการเกษตรประจำจังหวัด"
+A: {"district":null,"tables":["all"],"keyword":null,"analysis_type":"detail","is_general_question":false}
 
-Q: "เปรียบเทียบ GAP ทุกอำเภอ"
-A: {"district":null,"tables":["certifications"],"keyword":null,"analysis_type":"comparison","is_general_question":false}
-
-Q: "อำเภอไหนมีพื้นที่เกษตรมากที่สุด"
-A: {"district":null,"tables":["agricultural_areas"],"keyword":null,"analysis_type":"ranking","is_general_question":false}
+Q: "นโยบายภาครัฐที่ช่วยเหลือเกษตรกรมีอะไรบ้าง"
+A: {"district":null,"tables":[],"keyword":null,"analysis_type":"overview","is_general_question":true}
 
 Q: "พื้นที่เกษตรกับจำนวนเกษตรกรสัมพันธ์กันไหม"
 A: {"district":null,"tables":["agricultural_areas","farmer_registry"],"keyword":null,"analysis_type":"correlation","is_general_question":false}
-
-Q: "แล้วอำเภอบางเลนล่ะ?" (follow-up จากคำถามก่อนหน้าที่ถามเรื่องแปลงใหญ่)
-A: {"district":"บางเลน","tables":["large_plots"],"keyword":null,"analysis_type":"detail","is_general_question":false}
 
 Q: "สวัสดีครับ"
 A: {"district":null,"tables":[],"keyword":null,"analysis_type":"overview","is_general_question":true}
