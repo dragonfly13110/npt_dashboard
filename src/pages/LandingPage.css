@@ -1302,3 +1302,71 @@
 .sk-text-short { height: 16px; width: 80%; }
 .sk-avatar { width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0; }
 .sk-block { height: 80px; width: 100%; border-radius: 12px; }
+
+/* --- EXTRACTED INLINE STYLES FROM REFACTOR --- */
+.brand-emoji {
+    font-size: 24px;
+}
+
+.top-widgets-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.widget-section-container {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 0 24px;
+}
+
+.dept-stats-header {
+    margin-top: 20px;
+}
+
+.landing-footer {
+    padding: 40px 0;
+    border-top: 1px solid #e2e8f0;
+}
+
+.landing-footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.footer-info {
+    text-align: center;
+    opacity: 0.6;
+}
+
+.footer-address {
+    margin-top: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.footer-link {
+    color: inherit;
+}
+
+.footer-copyright {
+    margin-top: 12px;
+    font-size: 12px;
+}
+
+.footer-link-underline {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.widget-skeleton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.05);
+    width: 100%;
+}

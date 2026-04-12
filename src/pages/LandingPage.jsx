@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDashboardData } from '../hooks/useDashboardData';
 import { FloatButton } from 'antd';
@@ -9,15 +9,29 @@ import './LandingPage.css';
 const SEO_TITLE = 'ศูนย์ข้อมูลการเกษตรนครปฐม | สำนักงานเกษตรจังหวัดนครปฐม';
 const SEO_DESCRIPTION = 'ระบบฐานข้อมูลกลาง สำนักงานเกษตรจังหวัดนครปฐม — ข้อมูลเกษตรกร พื้นที่เพาะปลูก วิสาหกิจชุมชน Smart Farmer แปลงใหญ่ ท่องเที่ยวเกษตร สภาพอากาศ และราคาสินค้าเกษตร จังหวัดนครปฐม';
 
-// ========== WIDGET COMPONENT IMPORTS ==========
-import WeatherWidget from '../components/widgets/WeatherWidget';
-import AirQualityWidget from '../components/widgets/AirQualityWidget';
-import AgriPricesWidget from '../components/widgets/AgriPricesWidget';
-import HotspotWidget from '../components/widgets/HotspotWidget';
-import AgriGovNewsWidget from '../components/widgets/AgriGovNewsWidget';
-import AgriMediaNewsWidget from '../components/widgets/AgriMediaNewsWidget';
-import LandingMap from '../components/widgets/LandingMap';
-import { SmartFarmersCard, CommunityEnterprisesCard, LargePlotsCard, AgriTourismCard, FarmerInstitutesCard, AgriAreasCard } from '../components/widgets/LandingBentoCards';
+// Component Loading Fallback
+const WidgetSkeleton = () => (
+    <div className="widget-skeleton">
+        <span style={{ fontSize: 24, textAlign: 'center' }}>กำลังโหลดข้อมูล...</span>
+    </div>
+);
+
+// ========== WIDGET COMPONENT IMPORTS (Lazy Loading) ==========
+const WeatherWidget = lazy(() => import('../components/widgets/WeatherWidget'));
+const AirQualityWidget = lazy(() => import('../components/widgets/AirQualityWidget'));
+const AgriPricesWidget = lazy(() => import('../components/widgets/AgriPricesWidget'));
+const HotspotWidget = lazy(() => import('../components/widgets/HotspotWidget'));
+const AgriGovNewsWidget = lazy(() => import('../components/widgets/AgriGovNewsWidget'));
+const AgriMediaNewsWidget = lazy(() => import('../components/widgets/AgriMediaNewsWidget'));
+const LandingMap = lazy(() => import('../components/widgets/LandingMap'));
+
+// Bento Cards specific lazy imports
+const SmartFarmersCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.SmartFarmersCard })));
+const CommunityEnterprisesCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.CommunityEnterprisesCard })));
+const LargePlotsCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.LargePlotsCard })));
+const AgriTourismCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.AgriTourismCard })));
+const FarmerInstitutesCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.FarmerInstitutesCard })));
+const AgriAreasCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.AgriAreasCard })));
 
 export default function LandingPage() {
     const {
@@ -40,11 +54,11 @@ export default function LandingPage() {
             <nav className="landing-nav" aria-label="เมนูหลัก">
                 <div className="landing-nav-inner padding-x">
                     <a href="/" className="landing-nav-brand" aria-label="หน้าหลัก สำนักงานเกษตรจังหวัดนครปฐม">
-                        <span style={{ fontSize: 24 }} role="img" aria-label="รวงข้าว">🌾</span>
+                        <span className="brand-emoji" role="img" aria-label="รวงข้าว">🌾</span>
                         <span>เกษตรจังหวัดนครปฐม</span>
                     </a>
                     <button className="landing-login-btn" onClick={() => navigate('/login')} aria-label="เข้าสู่ระบบสำหรับเจ้าหน้าที่และบุคคลทั่วไป">
-                        เข้าสู่ระบบเจ้าหน้าที่ และ บุคคลทั่วไป
+                        เข้าสู่ระบบ
                     </button>
                 </div>
             </nav>
@@ -55,10 +69,35 @@ export default function LandingPage() {
                 <div className="bento-header-content">
                     <div className="bento-badge" role="img" aria-label="สำนักงานเกษตรจังหวัดนครปฐม">🏛️ สำนักงานเกษตรจังหวัดนครปฐม</div>
                     <h1 className="bento-title">ศูนย์ข้อมูลการเกษตรอัจฉริยะ จังหวัดนครปฐม</h1>
-                    <p className="bento-subtitle" style={{ color: '#e2e8f0' }}>
+                    <p className="bento-subtitle">
                         รวบรวมและอัปเดตข้อมูลเกษตรกร พื้นที่เพาะปลูก วิสาหกิจชุมชน Smart Farmer แปลงใหญ่ สภาพอากาศ ราคาสินค้าเกษตร และสถานการณ์ภัยพิบัติในจังหวัดนครปฐม
                         เพื่อสนับสนุนการบริหารจัดการที่แม่นยำและยกระดับการเกษตรอย่างยั่งยืน
                     </p>
+
+                    <div className="hero-actions" style={{ marginTop: '36px', display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                        <button 
+                            onClick={() => navigate('/interactive-dashboard')} 
+                            style={{ 
+                                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', 
+                                color: 'white', 
+                                border: 'none', 
+                                padding: '14px 28px', 
+                                borderRadius: '12px', 
+                                fontSize: '16px', 
+                                fontWeight: 700, 
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '10px',
+                                boxShadow: '0 10px 25px -5px rgba(16, 185, 129, 0.4)',
+                                transition: 'transform 0.2s, box-shadow 0.2s'
+                            }}
+                            onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 15px 30px -5px rgba(16, 185, 129, 0.5)'; }}
+                            onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 10px 25px -5px rgba(16, 185, 129, 0.4)'; }}
+                        >
+                            📊 ดูสรุปข้อมูลแบบ Interactive (ทดลองใช้)
+                        </button>
+                    </div>
                 </div>
             </header>
 
@@ -67,87 +106,101 @@ export default function LandingPage() {
                 {/* ===== LIVE WIDGETS ===== */}
                 <section aria-label="ข้อมูลสภาพอากาศและราคาสินค้าเกษตร">
                     <div className="top-widgets-container">
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                            <WeatherWidget />
-                            <AirQualityWidget />
+                        <div className="top-widgets-col">
+                            <Suspense fallback={<WidgetSkeleton />}><WeatherWidget /></Suspense>
+                            <Suspense fallback={<WidgetSkeleton />}><AirQualityWidget /></Suspense>
                         </div>
-                        <AgriPricesWidget />
+                        <Suspense fallback={<WidgetSkeleton />}><AgriPricesWidget /></Suspense>
                     </div>
 
-                    <div style={{ maxWidth: '1200px', margin: '0 auto 40px', padding: '0 24px' }}>
-                        <HotspotWidget />
+                    <div className="widget-section-container">
+                        <Suspense fallback={<WidgetSkeleton />}><HotspotWidget /></Suspense>
                     </div>
                 </section>
 
                 {/* ===== BENTO GRID LATEST LISTS ===== */}
-                <div className="dept-stats-header" style={{ marginTop: 20 }}>
-                    <h2>📅 ข้อมูลและกิจกรรมล่าสุด</h2>
-                    <p>ตัวอย่างรายชื่อข้อมูลที่ถูกเพิ่มหรืออัปเดตเข้าระบบ</p>
+                <div className="dept-stats-header">
+                    <h2>📊 ภาพรวมข้อมูลการเกษตรจังหวัด</h2>
+                    <p>สถิติและข้อมูลสารสนเทศการเกษตรในพื้นที่</p>
                 </div>
-                <section className="bento-container" style={{ marginTop: 20 }}>
+                <section className="bento-container">
 
                     {/* 1. Map Card (Large) */}
-                    <div className="bento-card bento-card-map" style={{ gridArea: 'map' }}>
+                    <div className="bento-card bento-card-map">
                         <div className="bento-card-header">
                             <h3>🗺️ แผนที่ข้อมูลการเกษตร</h3>
                             <span>พิกัดพื้นที่เชิงเกษตร (GIS, ท่องเที่ยว)</span>
                         </div>
                         <div className="bento-card-body p-0">
-                            <LandingMap mapData={mapData} districtStats={districtStats} />
+                            <Suspense fallback={<WidgetSkeleton />}>
+                                <LandingMap mapData={mapData} districtStats={districtStats} />
+                            </Suspense>
                         </div>
                     </div>
 
                     {/* 2. Smart Farmers */}
-                    <SmartFarmersCard data={smartFarmers} loading={loading} />
+                    <Suspense fallback={<WidgetSkeleton />}>
+                        <SmartFarmersCard data={smartFarmers} loading={loading} />
+                    </Suspense>
 
                     {/* 3. Community Enterprises */}
-                    <CommunityEnterprisesCard count={enterprises.count} districtStats={ceDistrictStats} loading={loading} />
+                    <Suspense fallback={<WidgetSkeleton />}>
+                        <CommunityEnterprisesCard count={enterprises.count} districtStats={ceDistrictStats} loading={loading} />
+                    </Suspense>
 
                     {/* 4. Large Plots */}
-                    <LargePlotsCard stats={lpStats} loading={loading} />
+                    <Suspense fallback={<WidgetSkeleton />}>
+                        <LargePlotsCard stats={lpStats} loading={loading} />
+                    </Suspense>
 
                     {/* 5. Agri Tourism */}
-                    <AgriTourismCard data={tourism} loading={loading} />
+                    <Suspense fallback={<WidgetSkeleton />}>
+                        <AgriTourismCard data={tourism} loading={loading} />
+                    </Suspense>
 
                     {/* 6. Farmer Institutes */}
-                    <FarmerInstitutesCard stats={instituteStats} loading={loading} />
+                    <Suspense fallback={<WidgetSkeleton />}>
+                        <FarmerInstitutesCard stats={instituteStats} loading={loading} />
+                    </Suspense>
 
                     {/* 7. Agri Areas */}
-                    <AgriAreasCard stats={agriStats} loading={loading} />
+                    <Suspense fallback={<WidgetSkeleton />}>
+                        <AgriAreasCard stats={agriStats} loading={loading} />
+                    </Suspense>
 
                 </section>
 
 
 
                 {/* ===== AGRI GOV NEWS (ข่าวจากหน่วยงานภาครัฐ) ===== */}
-                <div style={{ maxWidth: '1200px', margin: '0 auto 40px', padding: '0 24px' }}>
-                    <AgriGovNewsWidget />
+                <div className="widget-section-container">
+                    <Suspense fallback={<WidgetSkeleton />}><AgriGovNewsWidget /></Suspense>
                 </div>
 
                 {/* ===== AGRI MEDIA NEWS (ข่าวเกษตรจากสื่อมวลชน) ===== */}
-                <div style={{ maxWidth: '1200px', margin: '0 auto 40px', padding: '0 24px' }}>
-                    <AgriMediaNewsWidget />
+                <div className="widget-section-container">
+                    <Suspense fallback={<WidgetSkeleton />}><AgriMediaNewsWidget /></Suspense>
                 </div>
 
 
             </main>
 
             {/* ===== FOOTER ===== */}
-            <footer className="landing-footer" style={{ padding: '40px 0', borderTop: '1px solid #e2e8f0' }} role="contentinfo" itemScope itemType="https://schema.org/GovernmentOrganization">
-                <div className="landing-footer-content" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
-                    <div style={{ textAlign: 'center', opacity: 0.6 }}>
+            <footer className="landing-footer" role="contentinfo" itemScope itemType="https://schema.org/GovernmentOrganization">
+                <div className="landing-footer-content">
+                    <div className="footer-info">
                         <strong itemProp="name">🌾 สำนักงานเกษตรจังหวัดนครปฐม</strong>
                         <div itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
-                            <p style={{ marginTop: 8, fontSize: 13, lineHeight: '1.6' }}>
+                            <p className="footer-address">
                                 <span itemProp="streetAddress">131 ถนนทรงพล</span>{' '}
                                 <span itemProp="addressLocality">อำเภอเมือง</span>{' '}
                                 <span itemProp="addressRegion">จังหวัดนครปฐม</span>{' '}
                                 <span itemProp="postalCode">73000</span><br />
-                                โทร. <a href="tel:034253992" itemProp="telephone" style={{ color: 'inherit' }}>0 3425 3992</a> | E-mail: <a href="mailto:nakhonpathom@doae.go.th" itemProp="email" style={{ color: 'inherit' }}>nakhonpathom@doae.go.th</a>
+                                โทร. <a href="tel:034253992" itemProp="telephone" className="footer-link">0 3425 3992</a> | E-mail: <a href="mailto:nakhonpathom@doae.go.th" itemProp="email" className="footer-link">nakhonpathom@doae.go.th</a>
                             </p>
                         </div>
-                        <p style={{ marginTop: 12, fontSize: 12 }}>
-                            © {new Date().getFullYear()} ระบบฐานข้อมูลกลางเพื่อการเกษตร | <a href="https://nakhonpathom.doae.go.th" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>nakhonpathom.doae.go.th</a>
+                        <p className="footer-copyright">
+                            © {new Date().getFullYear()} ระบบฐานข้อมูลกลางเพื่อการเกษตร | <a href="https://nakhonpathom.doae.go.th" target="_blank" rel="noopener noreferrer" className="footer-link footer-link-underline">nakhonpathom.doae.go.th</a>
                         </p>
                     </div>
                 </div>

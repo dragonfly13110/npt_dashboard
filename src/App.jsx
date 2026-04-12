@@ -22,6 +22,7 @@ const queryClient = new QueryClient({
 // Lazy-loaded pages
 const Login = lazy(() => import('./pages/Login'));
 const LandingPage = lazy(() => import('./pages/LandingPage'));
+const InteractiveDashboard = lazy(() => import('./pages/InteractiveDashboard'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Chatbot = lazy(() => import('./pages/Chatbot'));
@@ -97,6 +98,9 @@ function AppRoutes() {
       <Routes>
         {/* Landing Page — PUBLIC */}
         <Route path="/" element={<LandingPage />} />
+        
+        {/* Interactive Dashboard — PUBLIC */}
+        <Route path="/interactive-dashboard" element={<InteractiveDashboard />} />
 
         {/* ===== PUBLIC VIEW PAGES (ไม่ต้อง Login) ===== */}
         {[
