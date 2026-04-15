@@ -28,6 +28,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 const Chatbot = lazy(() => import('./pages/Chatbot'));
 const SearchResults = lazy(() => import('./pages/SearchResults'));
 const PlantProtectionFormDemo = lazy(() => import('./components/PlantProtectionFormDemo'));
+const FarmerForum = lazy(() => import('./pages/community/FarmerForum'));
 
 // Admin
 const Personnel = lazy(() => import('./pages/admin/Personnel'));
@@ -135,6 +136,9 @@ function AppRoutes() {
           <Route path="chatbot" element={<Chatbot />} />
           <Route path="search" element={<SearchResults />} />
           <Route path="test-form" element={<PlantProtectionFormDemo />} />
+
+          {/* Community */}
+          <Route path="community/forum" element={<FarmerForum />} />
 
           {/* Admin */}
           <Route path="admin/overview" element={<AdminDashboard />} />

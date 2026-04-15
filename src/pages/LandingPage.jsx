@@ -196,6 +196,36 @@ export default function LandingPage() {
                     <Suspense fallback={<WidgetSkeleton />}><AgriMediaNewsWidget /></Suspense>
                 </div>
 
+                {/* ===== COMMUNITY FORUM CTA ===== */}
+                <section aria-label="ชุมชนเกษตรกรและกระดานข่าว" style={{ padding: '50px 20px', maxWidth: '1200px', margin: '60px auto 20px', textAlign: 'center', background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', borderRadius: '16px', color: 'white', boxShadow: '0 10px 30px rgba(16, 185, 129, 0.3)' }}>
+                    <div style={{ fontSize: '48px', marginBottom: '16px' }}>💬</div>
+                    <h2 style={{ color: 'white', fontSize: '28px', marginBottom: '12px' }}>มีข้อสงสัยเรื่องการเกษตร? สอบถามชุมชนของเรา!</h2>
+                    <p style={{ fontSize: '18px', maxWidth: '700px', margin: '0 auto 30px', opacity: 0.9, lineHeight: 1.6 }}>
+                        เข้าร่วม <b>"กระดานข่าวอัจฉริยะ (Farmer Forum)"</b> พื้นที่แลกเปลี่ยนเรียนรู้ ถามตอบปัญหา แจ้งพิกัดโรคพืช และอัปเดตราคาตลาด สำหรับเกษตรกรนครปฐม
+                    </p>
+                    <button 
+                        onClick={() => navigate('/dashboard/community/forum')}
+                        style={{
+                            background: 'white',
+                            color: '#059669',
+                            border: 'none',
+                            padding: '16px 36px',
+                            borderRadius: '30px',
+                            fontSize: '18px',
+                            fontWeight: 'bold',
+                            cursor: 'pointer',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            transition: 'transform 0.2s, box-shadow 0.2s',
+                            boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
+                        }}
+                        onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)'; }}
+                        onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)'; }}
+                    >
+                        เข้าสู่กระดานข่าว / ตั้งกระทู้ถาม
+                    </button>
+                </section>
 
             </main>
 

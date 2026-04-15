@@ -26,6 +26,7 @@ import {
     HomeOutlined,
     HistoryOutlined,
     PieChartOutlined,
+    CommentOutlined,
 } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
 import { useAuth } from '../../contexts/AuthContext';
@@ -40,6 +41,7 @@ const GROUP_KEYS = {
     'กลุ่มส่งเสริมและพัฒนาการผลิต': 'production',
     'กลุ่มส่งเสริมและพัฒนาเกษตรกร': 'development',
     'กลุ่มอารักขาพืช': 'protection',
+    'ชุมชนเกษตรกร': 'community',
 };
 
 // เมนูทั้งหมด (พร้อม group key)
@@ -53,6 +55,15 @@ const allMenuItems = [
         key: '/dashboard/chatbot',
         icon: <RobotOutlined />,
         label: 'Chatbot ผู้ช่วย AI',
+    },
+    {
+        key: 'community',
+        group: 'community',
+        icon: <CommentOutlined />,
+        label: 'ชุมชนเกษตรกร',
+        children: [
+            { key: '/dashboard/community/forum', icon: <CommentOutlined />, label: 'กระดานข่าว/ถาม-ตอบ' },
+        ],
     },
     {
         key: 'admin',
