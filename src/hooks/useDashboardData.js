@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import { supabase } from '../supabaseClient';
 
+export const DISTRICT_LIST = ['เมืองนครปฐม', 'กำแพงแสน', 'นครชัยศรี', 'ดอนตูม', 'บางเลน', 'สามพราน', 'พุทธมณฑล'];
+
 export const groupConfig = [
     { group: 'ยุทธศาสตร์ฯ', icon: '🎯', color: '#1565c0', tables: [
         { table: 'agricultural_areas', label: 'พื้นที่การเกษตร' },
@@ -80,7 +82,7 @@ export function useDashboardData() {
         });
 
         const dStats = {};
-        const dists = ['เมืองนครปฐม', 'กำแพงแสน', 'นครชัยศรี', 'ดอนตูม', 'บางเลน', 'สามพราน', 'พุทธมณฑล'];
+        const dists = DISTRICT_LIST;
         dists.forEach(d => dStats[d] = {
             ce: 0, lp: 0, area: 0, house: 0,
             ricePi: 0, ricePrung: 0, field: 0, fruit: 0, veg: 0, flow: 0, herb: 0,
@@ -197,7 +199,7 @@ export function useDashboardData() {
         };
     };
 
-    const { data: dashData, isLoading: loading } = useApiCache('dashboard-overall-data', fetchDashboardData);
+    const { data: dashData, isLoading: loading, error, refetch } = useApiCache('dashboard-overall-data', fetchDashboardData);
 
     const { stats, agriData, largePlots, fiData, mapData, districtStats, smartFarmers, enterprises, ceDistrictStats, tourism, instituteStats, lpStats, agriStats } = dashData || {
         stats: [], agriData: [], largePlots: [], fiData: [], mapData: [], districtStats: {}, smartFarmers: { list: [], count: 0 },
@@ -233,7 +235,7 @@ export function useDashboardData() {
     }, [largePlots]);
 
     return {
-        stats, loading, agriData, largePlots, fiData,
+        stats, loading, error, refetch, agriData, largePlots, fiData,
         mapData, districtStats, smartFarmers, enterprises,
         ceDistrictStats, tourism, instituteStats, lpStats, agriStats,
         agriPie, lpPie
