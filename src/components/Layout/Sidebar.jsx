@@ -56,15 +56,7 @@ const allMenuItems = [
         icon: <RobotOutlined />,
         label: 'Chatbot ผู้ช่วย AI',
     },
-    {
-        key: 'community',
-        group: 'community',
-        icon: <CommentOutlined />,
-        label: 'ชุมชนเกษตรกร',
-        children: [
-            { key: '/dashboard/community/forum', icon: <CommentOutlined />, label: 'กระดานข่าว/ถาม-ตอบ' },
-        ],
-    },
+
     {
         key: 'admin',
         group: 'admin',
@@ -131,6 +123,11 @@ const allMenuItems = [
             { key: '/dashboard/protection/fire-hotspots', icon: <FireOutlined />, label: 'จุดเฝ้าระวัง PM2.5' },
         ],
     },
+    {
+        key: '/dashboard/community/forum',
+        icon: <CommentOutlined />,
+        label: 'กระดานข่าว (Forum)',
+    },
 ];
 
 // เมนูสำหรับ admin เท่านั้น
@@ -159,8 +156,8 @@ function getFilteredMenuItems(role, department) {
     // editor/viewer เห็นเฉพาะ Dashboard รวม + กลุ่มงานตัวเอง
     const userGroup = department ? GROUP_KEYS[department] : null;
     const filtered = allMenuItems.filter(item => {
-        // Dashboard รวม เห็นเสมอ
-        if (item.key === '/dashboard') return true;
+        // เมนูเบื้องต้นที่ทุกคนเห็นเสมอ
+        if (['/dashboard', '/dashboard/chatbot', '/dashboard/community/forum'].includes(item.key)) return true;
         // กลุ่มงานของตัวเอง
         if (item.group && item.group === userGroup) return true;
         // ไม่มีกลุ่มงานก็เห็นทุกกลุ่ม (fallback)
@@ -177,10 +174,23 @@ const bottomMenuItems = [
 
 // eslint-disable-next-line no-unused-vars
 function SidebarContent({ user, onMenuClick, location, menuItems }) {
-    const openKeys = menuItems
+    const rootSubmenuKeys = menuItems.filter(i => i.children).map(i => i.key);
+
+    const initialOpenKeys = menuItems
         .filter(item => item.children)
         .filter(item => item.children.some(child => location.pathname.startsWith(child.key)))
         .map(item => item.key);
+
+    const [openKeys, setOpenKeys] = useState(initialOpenKeys);
+
+    const onOpenChange = (keys) => {
+        const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
+        if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+            setOpenKeys(keys);
+        } else {
+            setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+        }
+    };
 
     return (
         <div className="sidebar-container">
@@ -201,7 +211,8 @@ function SidebarContent({ user, onMenuClick, location, menuItems }) {
                 <Menu
                     mode="inline"
                     selectedKeys={[location.pathname]}
-                    defaultOpenKeys={openKeys}
+                    openKeys={openKeys}
+                    onOpenChange={onOpenChange}
                     items={menuItems}
                     onClick={onMenuClick}
                 />

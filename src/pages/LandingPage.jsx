@@ -4,6 +4,7 @@ import { useDashboardData } from '../hooks/useDashboardData';
 import { FloatButton } from 'antd';
 import { ArrowUpOutlined } from '@ant-design/icons';
 import './LandingPage.css';
+import './SaastyTheme.css';
 
 // SEO: Page metadata
 const SEO_TITLE = 'ศูนย์ข้อมูลการเกษตรนครปฐม | สำนักงานเกษตรจังหวัดนครปฐม';

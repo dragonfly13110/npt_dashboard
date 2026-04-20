@@ -1,0 +1,146 @@
+/* ========================================================= */
+/* PAPER THEME OVERRIDE (Minimalist, White, Elegant)         */
+/* ========================================================= */
+
+.dashboard-unified {
+    background-color: #ffffff !important;
+    /* Subtle dot grid pattern like paper */
+    background-image: radial-gradient(#e2e2e2 1px, transparent 1px) !important;
+    background-size: 24px 24px !important;
+    font-family: 'Inter', -apple-system, sans-serif !important;
+    padding: 24px;
+    min-height: 100vh;
+}
+
+/* Typography Overrides */
+.dashboard-unified h1, 
+.dashboard-unified h2, 
+.dashboard-unified h3, 
+.dashboard-unified h4,
+.dashboard-unified .bento-title,
+.dashboard-unified .md-stat-label,
+.dashboard-unified .md-stat-value {
+    color: #111111 !important;
+    font-weight: 500 !important;
+    text-shadow: none !important;
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+    letter-spacing: -0.02em;
+}
+
+.dashboard-unified p,
+.dashboard-unified span,
+.dashboard-unified .text-secondary {
+    color: #666666 !important;
+}
+
+/* Card Overrides */
+.dashboard-unified .bento-card, 
+.dashboard-unified .dept-card, 
+.dashboard-unified .widget-box, 
+.dashboard-unified .md-stat-card,
+.dashboard-unified .ant-card,
+.dashboard-unified .w-stat,
+.dashboard-unified .price-item,
+.dashboard-unified .dist-grid-item {
+    background-color: #ffffff !important;
+    border: 1px solid #eaeaea !important;
+    border-radius: 4px !important; /* Sharp/slightly rounded corners */
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    transition: all 0.2s ease !important;
+}
+
+.dashboard-unified .bento-card:hover, 
+.dashboard-unified .dept-card:hover, 
+.dashboard-unified .widget-box:hover,
+.dashboard-unified .ant-card:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    border-color: #bbbbbb !important;
+}
+
+/* Remove decorative borders & pseudo-elements */
+.dashboard-unified .dept-card::before,
+.dashboard-unified .landing-nav::after,
+.dashboard-unified .bento-header-bg {
+    display: none !important;
+}
+
+/* Button & Badge Overrides */
+.dashboard-unified .hero-primary-link, 
+.dashboard-unified .ant-btn-primary,
+.dashboard-unified .export-btn {
+    background: #111111 !important;
+    color: #ffffff !important;
+    border-radius: 4px !important;
+    border: 1px solid #111111 !important;
+    box-shadow: none !important;
+    text-transform: uppercase !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.05em !important;
+    padding: 8px 16px !important;
+}
+
+.dashboard-unified .ant-btn-primary:hover,
+.dashboard-unified .export-btn:hover {
+    background: #333333 !important;
+    border-color: #333333 !important;
+    color: #ffffff !important;
+}
+
+.dashboard-unified .badge,
+.dashboard-unified .bento-badge,
+.dashboard-unified .ant-tag {
+    background: #f4f4f4 !important;
+    color: #333333 !important;
+    border: 1px solid #eaeaea !important;
+    border-radius: 4px !important;
+    box-shadow: none !important;
+    font-weight: 500 !important;
+}
+
+/* Icons & Elements */
+.dashboard-unified .dept-icon, 
+.dashboard-unified .widget-icon, 
+.dashboard-unified .bento-item-icon,
+.dashboard-unified .md-stat-icon {
+    border-radius: 4px !important;
+    background: #fafafa !important;
+    color: #111111 !important;
+    border: 1px solid #eaeaea !important;
+}
+
+.dashboard-unified .ant-card-head {
+    border-bottom: 1px solid #eaeaea !important;
+    background: #ffffff !important;
+}
+
+.dashboard-unified .dash-section-label {
+    border-bottom: 1px dashed #eaeaea !important;
+    padding-bottom: 8px !important;
+    margin-bottom: 16px !important;
+    color: #111111 !important;
+    font-weight: 500 !important;
+}
+
+/* Strip map curves */
+.dashboard-unified .bento-map-wrapper .leaflet-container {
+    border-radius: 0 0 4px 4px !important;
+    border-top: 1px solid #eaeaea !important;
+}
+
+.dashboard-unified .dist-tooltip {
+    background: #ffffff !important;
+    border: 1px solid #eaeaea !important;
+    border-radius: 4px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+}
+
+/* Misc overrides */
+.dashboard-unified .md-stat-footer {
+    border-top: 1px solid #eaeaea !important;
+    background: #ffffff !important;
+}

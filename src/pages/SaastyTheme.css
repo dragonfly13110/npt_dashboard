@@ -1,0 +1,213 @@
+/* ========================================================= */
+/* SAASTY THEME OVERRIDE (For LandingPage.jsx only)          */
+/* ========================================================= */
+
+/* Main Container Background */
+.landing-page.bento-theme {
+    background: #f8fafc;
+    /* Soft glowing blobs in the background */
+    background-image: 
+        radial-gradient(circle at 15% 10%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 20%, rgba(13, 148, 136, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 50% 80%, rgba(99, 102, 241, 0.05) 0%, transparent 50%);
+    background-color: #f8fafc;
+    font-family: 'Inter', -apple-system, sans-serif !important;
+}
+
+/* Navbar */
+.landing-page .landing-nav {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+    color: #0f172a !important;
+}
+
+.landing-page .landing-nav-brand {
+    color: #0f172a !important;
+    font-weight: 800 !important;
+}
+
+.landing-page .landing-login-btn {
+    background: rgba(16, 185, 129, 0.1) !important;
+    color: #10b981 !important;
+    border-radius: 9999px !important;
+    padding: 8px 24px !important;
+    font-weight: 700 !important;
+    transition: all 0.3s ease !important;
+}
+
+.landing-page .landing-login-btn:hover {
+    background: #10b981 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3) !important;
+}
+
+/* Header Section */
+.landing-page .bento-header {
+    background: transparent !important;
+    padding: 180px 24px 100px !important;
+}
+
+.landing-page .bento-header-bg {
+    display: none !important; /* Hide old img/gradient */
+}
+
+.landing-page .bento-badge {
+    background: rgba(16, 185, 129, 0.1) !important;
+    color: #10b981 !important;
+    border: none !important;
+    font-weight: 700 !important;
+    padding: 8px 20px !important;
+    border-radius: 9999px !important;
+    box-shadow: none !important;
+}
+
+.landing-page .bento-title {
+    font-size: 56px !important;
+    font-weight: 900 !important;
+    color: #0f172a !important;
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+    letter-spacing: -0.03em !important;
+    text-shadow: none !important;
+    margin-bottom: 24px !important;
+}
+
+.landing-page .bento-subtitle {
+    font-size: 18px !important;
+    color: #475569 !important;
+    font-weight: 400 !important;
+    max-width: 800px !important;
+    text-shadow: none !important;
+}
+
+@media (max-width: 768px) {
+    .landing-page .bento-title {
+        font-size: 36px !important;
+    }
+}
+
+/* Hero primary CTA */
+.landing-page .hero-primary-link {
+    background: linear-gradient(135deg, #10b981 0%, #0d9488 100%) !important;
+    color: #ffffff !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4) !important;
+    border: none !important;
+    padding: 16px 36px !important;
+    font-weight: 700 !important;
+    text-shadow: none !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.landing-page .hero-primary-link:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 20px 35px -10px rgba(16, 185, 129, 0.5) !important;
+}
+
+/* Secondary CTA */
+.landing-page .hero-actions button {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05) !important;
+    border-radius: 9999px !important;
+    font-weight: 700 !important;
+}
+
+.landing-page .hero-actions button:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 20px 35px -10px rgba(13, 148, 136, 0.15) !important;
+    border-color: rgba(13, 148, 136, 0.2) !important;
+}
+
+/* Cards & Widgets Glassmorphism & Rounding */
+.landing-page .bento-card, 
+.landing-page .dept-card, 
+.landing-page .widget-box,
+.landing-page .soil-water-grid > div {
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-radius: 28px !important;
+    border: 1px solid rgba(255, 255, 255, 0.8) !important;
+    box-shadow: 0 15px 35px -15px rgba(16, 185, 129, 0.1) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.landing-page .bento-card:hover, 
+.landing-page .dept-card:hover, 
+.landing-page .widget-box:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: 0 25px 45px -15px rgba(16, 185, 129, 0.2) !important;
+}
+
+/* Remove default decorative elements */
+.landing-page .dept-card::before {
+    display: none !important;
+}
+
+/* Adjust map wrapper rounding */
+.landing-page .bento-map-wrapper .leaflet-container {
+    border-radius: 0 0 28px 28px !important;
+}
+
+/* Typography Inside Cards */
+.landing-page .bento-card-header h3,
+.landing-page .dept-card h3,
+.landing-page .widget-box h4 {
+    color: #0f172a !important;
+    font-weight: 800 !important;
+}
+
+/* Icons */
+.landing-page .dept-icon,
+.landing-page .widget-icon,
+.landing-page .bento-item-icon {
+    background: rgba(16, 185, 129, 0.1) !important;
+    color: #10b981 !important;
+    border-radius: 16px !important;
+}
+
+/* Text and Labels */
+.landing-page .text-secondary,
+.landing-page .bento-card-header span,
+.landing-page .dept-stats-header p {
+    color: #64748b !important;
+}
+
+/* Bottom CTA (Community Forum Banner) overrides */
+.landing-page section[aria-label="ชุมชนเกษตรกรและกระดานข่าว"] {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    border: 1px solid rgba(255,255,255,0.8) !important;
+    box-shadow: 0 20px 40px -20px rgba(16, 185, 129, 0.15) !important;
+    border-radius: 36px !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Optional: Add a subtle glow behind the bottom CTA text. */
+.landing-page section[aria-label="ชุมชนเกษตรกรและกระดานข่าว"]::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 300px; height: 300px;
+    background: rgba(16, 185, 129, 0.15);
+    filter: blur(80px);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.landing-page section[aria-label="ชุมชนเกษตรกรและกระดานข่าว"] > * {
+    position: relative;
+    z-index: 1;
+}
+
+.landing-page section[aria-label="ชุมชนเกษตรกรและกระดานข่าว"] button {
+    background: linear-gradient(135deg, #10b981 0%, #0d9488 100%) !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4) !important;
+}

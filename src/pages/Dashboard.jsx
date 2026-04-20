@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Skeleton, Button, Row, Col, Card } from 'antd';
 import {
     PieChart, Pie, Cell, Tooltip as RTooltip, ResponsiveContainer
@@ -22,8 +22,10 @@ import {
 } from '../components/widgets/LandingBentoCards';
 
 import '../pages/LandingPage.css';
+import '../pages/PaperThemeOverride.css';
 
 import { useDashboardData, groupConfig, PIE_COLORS } from '../hooks/useDashboardData';
+import { supabase } from '../supabaseClient';
 
 export default function Dashboard() {
     const {
@@ -34,6 +36,29 @@ export default function Dashboard() {
 
     const [pdfExporting, setPdfExporting] = useState(false);
     const dashRef = useRef(null);
+    const [visits, setVisits] = useState(0);
+
+    useEffect(() => {
+        const trackVisit = async () => {
+            if (!sessionStorage.getItem('visited_home')) {
+                const { data, error } = await supabase.rpc('increment_site_visit');
+                if (data !== null) {
+                    setVisits(data);
+                }
+                sessionStorage.setItem('visited_home', 'true');
+            } else {
+                const { data, error } = await supabase
+                    .from('site_statistics')
+                    .select('value')
+                    .eq('key', 'total_visits')
+                    .single();
+                if (data) {
+                    setVisits(data.value);
+                }
+            }
+        };
+        trackVisit();
+    }, []);
 
     const totalRecords = stats.reduce((sum, s) => sum + s.count, 0);
 
@@ -62,19 +87,24 @@ export default function Dashboard() {
     return (
         <div ref={dashRef} className="dashboard-unified">
             {/* Page Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24, flexWrap: 'wrap', gap: 16 }}>
                 <div className="md-page-header" style={{ marginBottom: 0 }}>
                     <h2>📊 แดชบอร์ดรวม</h2>
                     <p style={{ color: '#64748b', fontSize: 14, margin: '4px 0 0' }}>ภาพรวมข้อมูลทั้งหมด — สภาพอากาศ ราคาสินค้า และข้อมูลเกษตรกร</p>
                 </div>
-                <Button
-                    icon={<FilePdfOutlined />}
-                    onClick={handleExportPdf}
-                    loading={pdfExporting}
-                    className="export-btn pdf-export-btn"
-                >
-                    พิมพ์ PDF
-                </Button>
+                <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
+                    <div style={{ background: '#eef2ff', border: '1px solid #c7d2fe', padding: '8px 16px', borderRadius: 8, color: '#4338ca', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <span style={{ fontSize: '1.2rem' }}>👁️</span> จำนวนผู้เข้าชมเว็บไซต์: {visits.toLocaleString()} ครั้ง
+                    </div>
+                    <Button
+                        icon={<FilePdfOutlined />}
+                        onClick={handleExportPdf}
+                        loading={pdfExporting}
+                        className="export-btn pdf-export-btn"
+                    >
+                        พิมพ์ PDF
+                    </Button>
+                </div>
             </div>
 
             {/* ═══════════════════════════════════════════════════════ */}

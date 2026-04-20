@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
     Card, Typography, Button, Input, List, Tag, Avatar, Space, 
     Drawer, Modal, Form, Select, Divider, Empty, Tooltip
@@ -10,6 +10,7 @@ import {
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import 'dayjs/locale/th';
+import { supabase } from '../../supabaseClient';
 
 dayjs.locale('th');
 
@@ -89,6 +90,47 @@ export default function FarmerForum() {
     const [form] = Form.useForm();
     const [commentText, setCommentText] = useState('');
 
+    useEffect(() => {
+        const fetchPosts = async () => {
+            const { data: forumPosts, error } = await supabase
+                .from('forum_posts')
+                .select('*')
+                .order('is_pinned', { ascending: false })
+                .order('created_at', { ascending: false });
+
+            if (forumPosts && forumPosts.length > 0) {
+                const { data: comments } = await supabase
+                    .from('forum_comments')
+                    .select('*');
+
+                const formattedPosts = forumPosts.map(post => ({
+                    id: post.id,
+                    title: post.title,
+                    content: post.content,
+                    category: post.category,
+                    author: post.author_name,
+                    location: post.district && post.province ? `${post.district}, จ.${post.province}` : '',
+                    avatar: post.avatar,
+                    createdAt: post.created_at,
+                    views: post.views || 0,
+                    likes: post.likes || 0,
+                    isPinned: post.is_pinned || false,
+                    comments: (comments || []).filter(c => c.post_id === post.id).map(c => ({
+                        id: c.id,
+                        author: c.author_name,
+                        avatar: c.avatar,
+                        content: c.content,
+                        likes: c.likes || 0,
+                        createdAt: c.created_at
+                    }))
+                }));
+
+                setPosts(formattedPosts);
+            }
+        };
+        fetchPosts();
+    }, []);
+
     // Filter Logic
     const filteredPosts = useMemo(() => {
         return posts.filter(post => {
@@ -102,50 +144,108 @@ export default function FarmerForum() {
         });
     }, [posts, searchText, selectedCategory]);
 
-    const handleCreatePost = (values) => {
-        const newPost = {
-            id: Date.now(),
+    const handleCreatePost = async (values) => {
+        const insertData = {
             title: values.title,
             content: values.content,
             category: values.category,
-            author: 'ผู้ใช้งานปัจจุบัน', // Mock current user
-            avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=CurrentUser',
-            createdAt: new Date().toISOString(),
-            views: 0,
-            likes: 0,
-            isPinned: false,
-            comments: []
+            author_name: values.authorName || 'ผู้ใช้งานปัจจุบัน',
+            district: values.district || null,
+            province: values.province || null,
+            avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${values.authorName ? encodeURIComponent(values.authorName) : 'CurrentUser'}`,
         };
-        setPosts([newPost, ...posts]);
-        setIsCreateModalVisible(false);
-        form.resetFields();
+
+        const { data, error } = await supabase
+            .from('forum_posts')
+            .insert([insertData])
+            .select()
+            .single();
+
+        if (data) {
+            const newPost = {
+                id: data.id,
+                title: data.title,
+                content: data.content,
+                category: data.category,
+                author: data.author_name,
+                location: data.district && data.province ? `${data.district}, จ.${data.province}` : '',
+                avatar: data.avatar,
+                createdAt: data.created_at,
+                views: 0,
+                likes: 0,
+                isPinned: false,
+                comments: []
+            };
+            setPosts([newPost, ...posts]);
+            setIsCreateModalVisible(false);
+            form.resetFields();
+        }
     };
 
-    const handleAddComment = () => {
+    const handleAddComment = async () => {
         if (!commentText.trim()) return;
         
-        const updatedPosts = posts.map(post => {
-            if (post.id === selectedPost.id) {
-                const newComment = {
-                    id: Date.now(),
-                    author: 'ผู้ใช้งานปัจจุบัน',
-                    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=CurrentUser',
-                    content: commentText,
-                    createdAt: new Date().toISOString(),
-                    likes: 0
-                };
-                const updatedPost = { ...post, comments: [...post.comments, newComment] };
-                setSelectedPost(updatedPost); // Update view
-                return updatedPost;
-            }
-            return post;
-        });
-        
-        setPosts(updatedPosts);
-        setCommentText('');
+        const insertData = {
+            post_id: selectedPost.id,
+            author_name: 'ผู้ใช้งานปัจจุบัน',
+            avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=CurrentUser',
+            content: commentText
+        };
+
+        // If mock post (id is number), skip writing to supabase for comment
+        if (typeof selectedPost.id === 'number') {
+            const newComment = {
+                id: Date.now(),
+                author: 'ผู้ใช้งานปัจจุบัน',
+                avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=CurrentUser',
+                content: commentText,
+                createdAt: new Date().toISOString(),
+                likes: 0
+            };
+            const updatedPosts = posts.map(post => {
+                if (post.id === selectedPost.id) {
+                    const updatedPost = { ...post, comments: [...post.comments, newComment] };
+                    setSelectedPost(updatedPost);
+                    return updatedPost;
+                }
+                return post;
+            });
+            setPosts(updatedPosts);
+            setCommentText('');
+            return;
+        }
+
+        const { data, error } = await supabase
+            .from('forum_comments')
+            .insert([insertData])
+            .select()
+            .single();
+            
+        if (data) {
+            const newComment = {
+                id: data.id,
+                author: data.author_name,
+                avatar: data.avatar,
+                content: data.content,
+                createdAt: data.created_at,
+                likes: 0
+            };
+            
+            const updatedPosts = posts.map(post => {
+                if (post.id === selectedPost.id) {
+                    const updatedPost = { ...post, comments: [...post.comments, newComment] };
+                    setSelectedPost(updatedPost);
+                    return updatedPost;
+                }
+                return post;
+            });
+            
+            setPosts(updatedPosts);
+            setCommentText('');
+        }
     };
 
-    const openPost = (post) => {
+    const openPost = async (post) => {
         // Increment view count logically
         const updatedPosts = posts.map(p => 
             p.id === post.id ? { ...p, views: p.views + 1 } : p
@@ -155,6 +255,13 @@ export default function FarmerForum() {
         const updatedPost = updatedPosts.find(p => p.id === post.id);
         setSelectedPost(updatedPost);
         setIsDrawerVisible(true);
+
+        if (typeof post.id !== 'number') {
+            await supabase
+                .from('forum_posts')
+                .update({ views: post.views + 1 })
+                .eq('id', post.id);
+        }
     };
 
     const getCategoryColor = (categoryName) => {
@@ -258,7 +365,7 @@ export default function FarmerForum() {
                                 }
                                 description={
                                     <Space style={{ color: '#8c8c8c', fontSize: '0.9rem' }}>
-                                        <span>เขียนโดย: <b style={{ color: '#595959' }}>{item.author}</b></span>
+                                        <span>เขียนโดย: <b style={{ color: '#595959' }}>{item.author}</b> {item.location && <span style={{fontSize: '0.85rem'}}>({item.location})</span>}</span>
                                         <span>•</span>
                                         <span>{formatDate(item.createdAt)}</span>
                                     </Space>
@@ -306,6 +413,34 @@ export default function FarmerForum() {
                             ))}
                         </Select>
                     </Form.Item>
+
+                    <Form.Item
+                        name="authorName"
+                        label={<span style={{ fontWeight: 500 }}>ชื่อ-นามสกุล</span>}
+                        rules={[{ required: true, message: 'กรุณาระบุชื่อ-นามสกุล' }]}
+                    >
+                        <Input size="large" placeholder="ระบุชื่อ-นามสกุลของผู้ตั้งกระทู้" />
+                    </Form.Item>
+
+                    <div style={{ display: 'flex', gap: 16 }}>
+                        <Form.Item
+                            name="district"
+                            label={<span style={{ fontWeight: 500 }}>อำเภอ</span>}
+                            style={{ flex: 1 }}
+                            rules={[{ required: true, message: 'กรุณาระบุอำเภอ' }]}
+                        >
+                            <Input size="large" placeholder="ระบุอำเภอ" />
+                        </Form.Item>
+                        <Form.Item
+                            name="province"
+                            label={<span style={{ fontWeight: 500 }}>จังหวัด</span>}
+                            style={{ flex: 1 }}
+                            initialValue="นครปฐม"
+                            rules={[{ required: true, message: 'กรุณาระบุจังหวัด' }]}
+                        >
+                            <Input size="large" placeholder="ระบุจังหวัด" />
+                        </Form.Item>
+                    </div>
 
                     <Form.Item
                         name="content"
@@ -363,7 +498,7 @@ export default function FarmerForum() {
                                 <Space>
                                     <Avatar src={selectedPost.avatar} icon={<UserOutlined />} />
                                     <div>
-                                        <div style={{ fontWeight: 600 }}>{selectedPost.author}</div>
+                                        <div style={{ fontWeight: 600 }}>{selectedPost.author} {selectedPost.location && <span style={{ fontWeight: 'normal', color: '#8c8c8c', fontSize: '0.85em' }}>({selectedPost.location})</span>}</div>
                                         <div style={{ color: '#8c8c8c', fontSize: 12 }}>{formatDate(selectedPost.createdAt)}</div>
                                     </div>
                                 </Space>
