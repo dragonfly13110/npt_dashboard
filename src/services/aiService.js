@@ -1,6 +1,6 @@
-import { AI_PROXY_URL, OPENROUTER_MODEL, GEMINI_MODEL } from '../utils/chatbotConstants';
+import { AI_PROXY_URL, GEMMA_MODEL, GEMINI_MODEL } from '../utils/chatbotConstants';
 
-export async function callOpenRouterAI(systemPrompt, messagesHistory, retries = 2) {
+export async function callOpenRouterAI(systemPrompt, messagesHistory, settings, retries = 2) {
     for (let attempt = 0; attempt <= retries; attempt++) {
         try {
             const apiMessages = [{ role: 'system', content: systemPrompt }];
@@ -13,17 +13,24 @@ export async function callOpenRouterAI(systemPrompt, messagesHistory, retries = 
                 apiMessages.push({ role: 'user', content: messagesHistory });
             }
 
+            const payloadBody = {
+                model: 'google/gemma-4-31b-it', // fallback or future model
+                messages: apiMessages,
+                temperature: settings?.deepThinking ? 0.7 : 0.5,
+                max_tokens: 12000,
+            };
+
+            // Enable OpenRouter Reasoning based on settings
+            if (settings?.deepThinking) {
+                payloadBody.include_reasoning = true;
+            }
+
             const res = await fetch(AI_PROXY_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     provider: 'openrouter',
-                    body: {
-                        model: OPENROUTER_MODEL,
-                        messages: apiMessages,
-                        temperature: 0.5,
-                        max_tokens: 12000,
-                    }
+                    body: payloadBody
                 })
             });
 
@@ -49,7 +56,7 @@ export async function callOpenRouterAI(systemPrompt, messagesHistory, retries = 
     return null;
 }
 
-export async function callGeminiAI(systemPrompt, messagesHistory, settings, retries = 2) {
+export async function callGeminiAI(modelIdentifier, systemPrompt, messagesHistory, settings, retries = 2) {
     for (let attempt = 0; attempt <= retries; attempt++) {
         try {
             let contents = [];
@@ -62,6 +69,10 @@ export async function callGeminiAI(systemPrompt, messagesHistory, settings, retr
                 contents = [{ role: 'user', parts: [{ text: messagesHistory }] }];
             }
 
+            // Model capability detection
+            const isGemma = modelIdentifier.includes('gemma');
+            const isThinkingModel = modelIdentifier.includes('thinking');
+            
             const requestBody = {
                 contents,
                 systemInstruction: {
@@ -70,9 +81,12 @@ export async function callGeminiAI(systemPrompt, messagesHistory, settings, retr
                 generationConfig: {
                     temperature: settings?.deepThinking ? 0.7 : 0.5,
                     maxOutputTokens: 12000,
-                    // Enable internal chain-of-thought reasoning when deep thinking is on
                     ...(settings?.deepThinking && {
-                        thinkingConfig: { thinkingBudget: 2048 }
+                        thinkingConfig: isGemma 
+                            ? { thinkingLevel: 'high' } // Support for Gemma 4 Thinking
+                            : isThinkingModel 
+                                ? { thinkingBudget: 2048 } // Support for Gemini Thinking
+                                : undefined
                     })
                 }
             };
@@ -86,7 +100,7 @@ export async function callGeminiAI(systemPrompt, messagesHistory, settings, retr
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     provider: 'gemini',
-                    body: { model: GEMINI_MODEL, ...requestBody }
+                    body: { model: modelIdentifier, ...requestBody }
                 })
             });
 
@@ -113,8 +127,11 @@ export async function callGeminiAI(systemPrompt, messagesHistory, settings, retr
 }
 
 export async function callAI(modelKey, systemPrompt, messagesHistory, settings) {
-    if (modelKey === 'gemini') {
-        return callGeminiAI(systemPrompt, messagesHistory, settings);
+    if (modelKey === 'gemma') {
+        return callGeminiAI(GEMMA_MODEL, systemPrompt, messagesHistory, settings);
     }
-    return callOpenRouterAI(systemPrompt, messagesHistory);
+    if (modelKey === 'gemini') {
+        return callGeminiAI(GEMINI_MODEL, systemPrompt, messagesHistory, settings);
+    }
+    return callOpenRouterAI(systemPrompt, messagesHistory, settings);
 }

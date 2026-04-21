@@ -194,11 +194,16 @@ ${dbContext}
                 </div>
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#f6f8fa', padding: '6px 12px', borderRadius: 12, border: '1px solid #d0d7de', marginRight: 4 }}>
-                        <Tooltip title="เปิดโหมดค้นหาอินเทอร์เน็ต เพื่อตอบเรื่องทั่วไปอัปเดตล่าสุด (Gemini รองรับ)">
+                        <Tooltip title="เปิดโหมดค้นหาอินเทอร์เน็ต เพื่อตอบเรื่องทั่วไปอัปเดตล่าสุด (Gemini / Gemma รองรับ)">
                             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                                 <GlobalOutlined style={{ color: aiSettings.webSearch ? '#1890ff' : '#8c8c8c' }} />
                                 <span style={{ fontSize: 12, color: '#595959', fontWeight: 500 }}>ต่อเน็ต</span>
-                                <Switch size="small" checked={aiSettings.webSearch} onChange={v => setAiSettings({...aiSettings, webSearch: v})} disabled={selectedModel !== 'gemini'} />
+                                <Switch 
+                                    size="small" 
+                                    checked={aiSettings.webSearch} 
+                                    onChange={v => setAiSettings({...aiSettings, webSearch: v})} 
+                                    disabled={selectedModel !== 'gemini' && selectedModel !== 'gemma'} 
+                                />
                             </div>
                         </Tooltip>
                         

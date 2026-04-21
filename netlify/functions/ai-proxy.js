@@ -70,7 +70,7 @@ exports.handler = async (event) => {
             }
 
             const model = body.model || 'gemini-3.1-flash-lite-preview';
-            const url = `https://generativelanguage.googleapis.com/v1alpha/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
 
             // Remove model from body before forwarding
             const { model: _, ...requestBody } = body;

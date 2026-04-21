@@ -1,14 +1,14 @@
 export const AI_MODELS = {
-    qwen: {
-        key: 'qwen',
-        label: '🧠 Qwen 3.6+',
-        shortLabel: 'Qwen',
-        description: 'Qwen 3.6 Plus (Free)',
-        provider: 'OpenRouter',
+    gemma: {
+        key: 'gemma',
+        label: '🧠 Gemma 4',
+        shortLabel: 'Gemma',
+        description: 'Google Gemma 4 (31B)',
+        provider: 'Google',
         color: '#7c3aed',
         icon: '🧠',
-        badge: 'FREE',
-        badgeColor: '#52c41a',
+        badge: 'NEW',
+        badgeColor: '#1890ff',
     },
     gemini: {
         key: 'gemini',
@@ -24,7 +24,7 @@ export const AI_MODELS = {
 };
 
 export const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
-export const OPENROUTER_MODEL = 'qwen/qwen3.6-plus:free';
+export const GEMMA_MODEL = 'gemma-4-31b-it';
 export const GEMINI_MODEL = 'gemini-3.1-flash-lite-preview';
 
 export const TABLE_CONFIG = {
