@@ -120,7 +120,7 @@ const allMenuItems = [
             { key: '/dashboard/protection/pest-outbreaks', icon: <BugOutlined />, label: 'แปลงพยากรณ์' },
             { key: '/dashboard/protection/pest-centers', icon: <MedicineBoxOutlined />, label: 'ศจช.' },
             { key: '/dashboard/protection/soil-fertilizer', icon: <ExperimentOutlined />, label: 'ศดปช.' },
-            { key: '/dashboard/protection/fire-hotspots', icon: <FireOutlined />, label: 'จุดเฝ้าระวัง PM2.5' },
+            { key: '/dashboard/protection/fire-hotspots', icon: <FireOutlined />, label: 'จุด Hotspot (GISTDA)' },
         ],
     },
     {

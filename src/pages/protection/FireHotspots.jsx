@@ -1,36 +1,96 @@
-import { Form, Input, InputNumber, Select } from 'antd';
+import { Form, Input, InputNumber, Select, DatePicker, Row, Col, Space } from 'antd';
 import CrudTable from '../../components/DataTable/CrudTable';
+
 const columns = [
-    { title: 'ตำแหน่ง/ชื่อจุด', dataIndex: 'spot_name', key: 'spot_name', width: 200 },
-    { title: 'อำเภอ', dataIndex: 'district', key: 'district', width: 130 },
-    { title: 'ละติจูด', dataIndex: 'latitude', key: 'latitude', width: 120 },
-    { title: 'ลองจิจูด', dataIndex: 'longitude', key: 'longitude', width: 120 },
-    {
-        title: 'ระดับความเสี่ยง', dataIndex: 'risk_level', key: 'risk_level', width: 130, render: v => {
-            const c = { 'สูง': '#cf222e', 'ปานกลาง': '#bf8700', 'ต่ำ': '#1a7f37' };
-            return <span style={{ fontWeight: 600, color: c[v] || '#656d76' }}>{v || '-'}</span>;
-        }
-    },
-    { title: 'ปี', dataIndex: 'year', key: 'year', width: 80, align: 'center' },
+    { title: 'วันที่พบ', dataIndex: 'acq_date', key: 'acq_date', width: 110, sorter: (a, b) => new Date(a.acq_date) - new Date(b.acq_date) },
+    { title: 'เวลา', dataIndex: 'acq_time', key: 'acq_time', width: 80, render: v => v ? `${v.substring(0,2)}:${v.substring(2)} น.` : '-' },
+    { title: 'ความน่าเชื่อถือ', dataIndex: 'confidence', key: 'confidence', width: 120, render: v => {
+        const conf = String(v || '').toLowerCase();
+        return conf === 'high' ? <span style={{ color: '#cf222e', fontWeight: 600 }}>สูง (High)</span> :
+               conf === 'nominal' ? <span style={{ color: '#bf8700', fontWeight: 600 }}>ปานกลาง (Nom)</span> :
+               conf === 'low' ? <span style={{ color: '#1a7f37' }}>ต่ำ (Low)</span> : '-';
+    }},
+    { title: 'ความร้อน (FRP)', dataIndex: 'frp', key: 'frp', width: 120, sorter: (a, b) => (a.frp || 0) - (b.frp || 0), render: v => v ? `${v} MW` : '-' },
+    { title: 'อำเภอ', dataIndex: 'district', key: 'district', width: 120 },
+    { title: 'ตำบล', dataIndex: 'subdistrict', key: 'subdistrict', width: 120 },
+    { title: 'ประเภทพื้นที่', dataIndex: 'land_use', key: 'land_use', width: 150 },
+    { title: 'พิกัด (Lat, Long)', key: 'coords', width: 200, render: (_, r) => r.latitude && r.longitude ? `${r.latitude.toFixed(5)}, ${r.longitude.toFixed(5)}` : '-' },
+    { title: 'ดาวเทียม', dataIndex: 'satellite', key: 'satellite', width: 90, align: 'center' },
 ];
+
 const formFields = (
     <>
-        <Form.Item name="spot_name" label="ชื่อจุด/ตำแหน่ง" rules={[{ required: true }]}><Input /></Form.Item>
-        <Form.Item name="district" label="อำเภอ"><Input /></Form.Item>
-        <Form.Item name="latitude" label="ละติจูด"><InputNumber style={{ width: '100%' }} step={0.000001} /></Form.Item>
-        <Form.Item name="longitude" label="ลองจิจูด"><InputNumber style={{ width: '100%' }} step={0.000001} /></Form.Item>
-        <Form.Item name="risk_level" label="ระดับความเสี่ยง"><Select options={['สูง', 'ปานกลาง', 'ต่ำ'].map(d => ({ label: d, value: d }))} /></Form.Item>
-        <Form.Item name="year" label="ปี"><InputNumber style={{ width: '100%' }} placeholder="2568" /></Form.Item>
-        <Form.Item name="notes" label="หมายเหตุ"><Input.TextArea rows={2} /></Form.Item>
+        <Row gutter={16}>
+            <Col span={12}>
+                <Form.Item name="acq_date" label="วันที่พบ (YYYY-MM-DD)" rules={[{ required: true }]}><Input placeholder="2026-04-20" /></Form.Item>
+            </Col>
+            <Col span={12}>
+                <Form.Item name="acq_time" label="เวลา (HHMM)"><Input placeholder="1350" /></Form.Item>
+            </Col>
+        </Row>
+        <Row gutter={16}>
+            <Col span={12}>
+                <Form.Item name="district" label="อำเภอ" rules={[{ required: true }]}><Input /></Form.Item>
+            </Col>
+            <Col span={12}>
+                <Form.Item name="subdistrict" label="ตำบล"><Input /></Form.Item>
+            </Col>
+        </Row>
+        <Row gutter={16}>
+            <Col span={12}>
+                <Form.Item name="latitude" label="ละติจูด" rules={[{ required: true }]}><InputNumber style={{ width: '100%' }} step={0.000001} /></Form.Item>
+            </Col>
+            <Col span={12}>
+                <Form.Item name="longitude" label="ลองจิจูด" rules={[{ required: true }]}><InputNumber style={{ width: '100%' }} step={0.000001} /></Form.Item>
+            </Col>
+        </Row>
+        <Row gutter={16}>
+            <Col span={12}>
+                <Form.Item name="confidence" label="ระดับความน่าเชื่อถือ"><Select options={['High', 'Nominal', 'Low'].map(d => ({ label: d, value: d.toLowerCase() }))} /></Form.Item>
+            </Col>
+            <Col span={12}>
+                <Form.Item name="frp" label="ค่าพลังงานความร้อน (FRP)"><InputNumber style={{ width: '100%' }} /></Form.Item>
+            </Col>
+        </Row>
+        <Row gutter={16}>
+            <Col span={12}>
+                <Form.Item name="land_use" label="ประเภทพื้นที่"><Input placeholder="เช่น พื้นที่เกษตร" /></Form.Item>
+            </Col>
+            <Col span={12}>
+                <Form.Item name="village" label="หมู่บ้าน/ชุมชน"><Input /></Form.Item>
+            </Col>
+        </Row>
+        <Row gutter={16}>
+            <Col span={12}>
+                <Form.Item name="satellite" label="ดาวเทียม"><Input placeholder="VIIRS / Suomi NPP" /></Form.Item>
+            </Col>
+            <Col span={12}>
+                <Form.Item name="year" label="ปีที่บันทึก"><InputNumber style={{ width: '100%' }} /></Form.Item>
+            </Col>
+        </Row>
+        <Form.Item name="source" label="แหล่งข้อมูล">
+            <Input disabled defaultValue="GISTDA" placeholder="GISTDA" />
+        </Form.Item>
     </>
 );
+
 const districts = ['เมืองนครปฐม', 'นครชัยศรี', 'สามพราน', 'ดอนตูม', 'บางเลน', 'กำแพงแสน', 'พุทธมณฑล'];
+const confidences = [{ label: 'สูง (High)', value: 'high' }, { label: 'ปานกลาง (Nominal)', value: 'nominal' }, { label: 'ต่ำ (Low)', value: 'low' }];
 
 const filterConfig = [
     { key: 'district', label: 'อำเภอ', options: districts },
-    { key: 'risk_level', label: 'ระดับความเสี่ยง', options: ['สูง', 'ปานกลาง', 'ต่ำ'] },
+    { key: 'confidence', label: 'ความน่าเชื่อถือ', options: confidences },
 ];
 
 export default function FireHotspots() {
-    return <CrudTable tableName="fire_hotspots" title="จุดเฝ้าระวังการเผา / PM2.5" columns={columns} formFields={formFields} searchField="spot_name" filterConfig={filterConfig} />;
+    return (
+        <CrudTable 
+            tableName="fire_hotspots" 
+            title="จุด Hotspot (GISTDA)" 
+            columns={columns} 
+            formFields={formFields} 
+            searchField="district" 
+            filterConfig={filterConfig} 
+        />
+    );
 }

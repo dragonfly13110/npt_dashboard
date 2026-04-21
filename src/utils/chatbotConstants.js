@@ -96,6 +96,7 @@ export const NUMERIC_COLS = {
     community_enterprises: ['member_count', 'capital_baht'],
     farmer_institutes: ['group_count', 'sf_count', 'ysf_count'],
     disasters: ['affected_area_rai', 'affected_households', 'damage_baht'],
+    fire_hotspots: ['frp', 'bright_ti4', 'bright_ti5'],
 };
 
 // Columns that contain categorical string data for group-by counting
@@ -108,6 +109,7 @@ export const CATEGORY_COLS = {
     agri_tourism: ['spot_type'],
     disasters: ['disaster_type'],
     gis_areas: ['area_type'],
+    fire_hotspots: ['land_use', 'confidence', 'satellite'],
 };
 
 export const SYSTEM_PROMPT = `คุณคือ "น้องข้าวหอม" 🌾 — AI ผู้ช่วยอัจฉริยะระดับสูงประจำระบบจัดการข้อมูลสำนักงานเกษตรจังหวัดนครปฐม
