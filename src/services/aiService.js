@@ -3,17 +3,29 @@ import { AI_PROXY_URL, GEMMA_MODEL, GEMINI_MODEL } from '../utils/chatbotConstan
 /**
  * Handles requests for Google Gemini API (including Gemini 3.1 and Gemma 4)
  */
-async function callGeminiAPI(modelIdentifier, systemPrompt, messagesHistory, settings, retries = 2) {
+async function callGeminiAI(modelIdentifier, systemPrompt, messagesHistory, settings, fileData, retries = 2) {
     for (let attempt = 0; attempt <= retries; attempt++) {
         try {
             let contents = [];
             if (Array.isArray(messagesHistory)) {
-                contents = messagesHistory.map(m => ({
-                    role: m.role === 'bot' ? 'model' : 'user',
-                    parts: [{ text: m.text }]
-                }));
+                contents = messagesHistory.map((m, idx) => {
+                    const isLastMsg = idx === messagesHistory.length - 1;
+                    const parts = [{ text: m.text }];
+                    
+                    // แทรกไฟล์ลงในข้อความล่าสุดของผู้ใช้
+                    if (isLastMsg && m.role !== 'bot' && fileData) {
+                        parts.unshift(fileData); // แทรก inlineData ไว้ก่อน text
+                    }
+                    
+                    return {
+                        role: m.role === 'bot' ? 'model' : 'user',
+                        parts
+                    };
+                });
             } else {
-                contents = [{ role: 'user', parts: [{ text: messagesHistory }] }];
+                const parts = [{ text: messagesHistory }];
+                if (fileData) parts.unshift(fileData);
+                contents = [{ role: 'user', parts }];
             }
 
             const requestBody = {
@@ -120,18 +132,21 @@ async function callOpenRouterAI(modelIdentifier, systemPrompt, messagesHistory, 
 /**
  * Main AI Call Entry Point
  */
-export async function callAI(modelKey, systemPrompt, messagesHistory, settings) {
-    // เสริมคำสั่งให้ AI กล้าใช้ Search มากขึ้นเมื่อเปิดโหมดต่อเน็ต
+export async function callAI(modelKey, systemPrompt, messagesHistory, settings, fileData) {
+    // เสริมคำสั่งให้ AI กล้าใช้ Search และไฟล์มากขึ้น
     let finalSystemPrompt = systemPrompt;
     if (settings?.webSearch) {
         finalSystemPrompt += "\n(สำคัญ: หากผู้ใช้ถามถึงข้อมูลปัจจุบัน ราคาสินค้า หรือข่าวสาร ให้คุณใช้เครื่องมือ Google Search เพื่อหาคำตอบที่อัปเดตที่สุดเสมอ)";
     }
+    if (fileData) {
+        finalSystemPrompt += "\n(สำคัญ: คุณได้รับไฟล์ PDF ที่แนบมาด้วย ให้คุณวิเคราะห์เนื้อหาในไฟล์นี้เพื่อตอบคำถามของผู้ใช้ หากผู้ใช้ขอให้สรุปหรือถามรายละเอียดเกี่ยวกับเอกสาร)";
+    }
 
     if (modelKey === 'gemma') {
-        return callGeminiAI(GEMMA_MODEL, finalSystemPrompt, messagesHistory, settings);
+        return callGeminiAI(GEMMA_MODEL, finalSystemPrompt, messagesHistory, settings, fileData);
     }
     if (modelKey === 'gemini') {
-        return callGeminiAI(GEMINI_MODEL, finalSystemPrompt, messagesHistory, settings);
+        return callGeminiAI(GEMINI_MODEL, finalSystemPrompt, messagesHistory, settings, fileData);
     }
     
     return callOpenRouterAI(modelKey, finalSystemPrompt, messagesHistory, settings);

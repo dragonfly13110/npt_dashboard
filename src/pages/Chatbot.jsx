@@ -9,6 +9,9 @@ import {
     QuestionCircleOutlined,
     GlobalOutlined,
     AppstoreOutlined,
+    PaperClipOutlined,
+    FilePdfOutlined,
+    CloseCircleOutlined,
 } from '@ant-design/icons';
 
 import { AI_MODELS, QUICK_PROMPTS, SYSTEM_PROMPT } from '../utils/chatbotConstants';
@@ -19,7 +22,7 @@ import ChatMessage from '../components/Chatbot/ChatMessage';
 import ModelSelector from '../components/Chatbot/ModelSelector';
 import LoadingIndicator from '../components/Chatbot/LoadingIndicator';
 
-const { Text } = Typography;
+const { Text, TextArea } = Typography;
 
 export default function Chatbot() {
     const [messages, setMessages] = useState([
@@ -38,6 +41,7 @@ export default function Chatbot() {
         deepThinking: false,
         webSearch: false
     });
+    const [attachedFile, setAttachedFile] = useState(null);
     const chatEndRef = useRef(null);
     const inputRef = useRef(null);
 
@@ -56,13 +60,11 @@ export default function Chatbot() {
         const currentModel = selectedModel;
         const modelConfig = AI_MODELS[currentModel];
 
-        // Keep only recent history (max 16 msgs = 8 conversation pairs) to reduce noise and token usage
         const validHistory = messages.filter(m =>
             (m.role === 'user' || m.role === 'bot') &&
             m.type !== 'greeting' &&
             m.type !== 'error'
         ).slice(-16).map(m => {
-            // Compress long bot responses to save tokens — AI can still reference the key points
             if (m.role === 'bot' && m.text && m.text.length > 600) {
                 return { ...m, text: m.text.substring(0, 600) + '\n...[สรุปคำตอบยาว — ตัดท้ายเพื่อประหยัด token]' };
             }
@@ -75,6 +77,23 @@ export default function Chatbot() {
         setLoading(true);
 
         try {
+            let fileData = null;
+            if (attachedFile) {
+                fileData = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const base64 = e.target.result.split(',')[1];
+                        resolve({
+                            inlineData: {
+                                data: base64,
+                                mimeType: attachedFile.type
+                            }
+                        });
+                    };
+                    reader.readAsDataURL(attachedFile);
+                });
+            }
+
             let finalSystemPrompt = SYSTEM_PROMPT;
             if (aiSettings.deepThinking) {
                 finalSystemPrompt += `\n\n[โหมดวิเคราะห์เชิงลึก / DEEP ANALYSIS MODE]
@@ -93,7 +112,7 @@ export default function Chatbot() {
 
             if (analysis.isGeneral) {
                 const historyToSend = [...validHistory, { role: 'user', text: `คำถาม: ${msg}` }];
-                aiText = await callAI(currentModel, finalSystemPrompt, historyToSend, aiSettings);
+                aiText = await callAI(currentModel, finalSystemPrompt, historyToSend, aiSettings, fileData);
                 responseType = 'general';
             } else {
                 const dbContext = buildContextForAI(analysis);
@@ -122,9 +141,11 @@ ${dbContext}
 5. สรุป 💡 Insight สำคัญ 2-5 ข้อทุกครั้ง`;
 
                 const historyToSend = [...validHistory, { role: 'user', text: userPrompt }];
-                aiText = await callAI(currentModel, finalSystemPrompt, historyToSend, aiSettings);
+                aiText = await callAI(currentModel, finalSystemPrompt, historyToSend, aiSettings, fileData);
                 responseType = analysis.isOverview ? 'overview' : 'specific';
             }
+
+            setAttachedFile(null);
 
             if (!aiText) {
                 if (analysis.results?.length > 0) {
@@ -177,7 +198,6 @@ ${dbContext}
 
     return (
         <div style={{ height: 'calc(100vh - 120px)', display: 'flex', flexDirection: 'column' }}>
-            {/* Header */}
             <div style={{
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -283,18 +303,53 @@ ${dbContext}
                     </div>
                 )}
 
+                {/* ส่วนแสดงไฟล์ที่เลือก */}
+                {attachedFile && (
+                    <div style={{ padding: '8px 20px', background: '#fff', borderTop: '1px solid #f0f2f5', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#f0f7ff', padding: '4px 12px', borderRadius: 8, border: '1px solid #bae7ff' }}>
+                            <FilePdfOutlined style={{ color: '#ff4d4f', fontSize: 16 }} />
+                            <Text ellipsis style={{ maxWidth: 200, fontSize: 12 }}>{attachedFile.name}</Text>
+                            <CloseCircleOutlined 
+                                style={{ color: '#8c8c8c', cursor: 'pointer' }} 
+                                onClick={() => setAttachedFile(null)} 
+                            />
+                        </div>
+                        <Text type="secondary" style={{ fontSize: 11 }}>ไฟล์พร้อมวิเคราะห์</Text>
+                    </div>
+                )}
+
                 <div style={{
                     padding: '12px 20px 16px',
                     borderTop: '1px solid #f0f2f5',
                     background: '#fafbfc',
                 }}>
                     <div style={{ display: 'flex', gap: 8 }}>
+                        <Upload
+                            accept=".pdf"
+                            showUploadList={false}
+                            beforeUpload={(file) => {
+                                const isPdf = file.type === 'application/pdf';
+                                if (!isPdf) {
+                                    antMessage.error('อัปโหลดได้เฉพาะไฟล์ PDF เท่านั้น');
+                                    return false;
+                                }
+                                setAttachedFile(file);
+                                return false; 
+                            }}
+                        >
+                            <Button 
+                                icon={<PaperClipOutlined />} 
+                                size="large" 
+                                style={{ borderRadius: 24, width: 45 }}
+                                disabled={loading}
+                            />
+                        </Upload>
                         <Input
                             ref={inputRef}
                             value={input}
                             onChange={e => setInput(e.target.value)}
                             onPressEnter={() => handleSend()}
-                            placeholder="ถามอะไรก็ได้... ข้อมูลเกษตร หรือ เรื่องทั่วไป"
+                            placeholder={attachedFile ? "ถามคำถามเกี่ยวกับ PDF นี้..." : "ถามอะไรก็ได้... หรืออัปโหลด PDF"}
                             disabled={loading}
                             size="large"
                             style={{ borderRadius: 24, paddingLeft: 20, fontSize: 14 }}
@@ -316,7 +371,7 @@ ${dbContext}
                     </div>
                     <div style={{ textAlign: 'center', marginTop: 8 }}>
                         <Text type="secondary" style={{ fontSize: 11 }}>
-                            {currentModelConfig.icon} กำลังใช้ {currentModelConfig.description} ({currentModelConfig.provider}) — ดึงข้อมูลจริงจาก Database
+                            {currentModelConfig.icon} กำลังใช้ {currentModelConfig.description} ({currentModelConfig.provider}) — รองรับวิเคราะห์ PDF
                         </Text>
                     </div>
                 </div>
