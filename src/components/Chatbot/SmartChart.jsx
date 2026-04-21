@@ -4,20 +4,39 @@ import {
     PieChart, Pie, Cell,
     LineChart, Line
 } from 'recharts';
-import { z } from 'zod';
 
-const ChartSeriesSchema = z.object({
-    key: z.string(),
-    name: z.string().optional(),
-});
+/**
+ * Validates and normalizes chart config from parsed JSON.
+ * Replaces Zod schema validation to avoid version compatibility issues.
+ */
+function validateChartConfig(input) {
+    if (!input || typeof input !== 'object') {
+        return { success: false, error: 'Input is not an object' };
+    }
 
-const ChartConfigSchema = z.object({
-    type: z.enum(['pie', 'line', 'bar']).default('bar'),
-    title: z.string().optional(),
-    data: z.array(z.record(z.any())).min(1),
-    xAxisKey: z.string().default("name"),
-    series: z.array(ChartSeriesSchema).default([{ key: "value", name: "Value" }]),
-});
+    const data = input.data;
+    if (!Array.isArray(data) || data.length === 0) {
+        return { success: false, error: 'data must be a non-empty array' };
+    }
+
+    const validTypes = ['pie', 'line', 'bar'];
+    const type = validTypes.includes(input.type) ? input.type : 'bar';
+    const title = typeof input.title === 'string' ? input.title : undefined;
+    const xAxisKey = typeof input.xAxisKey === 'string' ? input.xAxisKey : 'name';
+
+    let series = [{ key: 'value', name: 'Value' }];
+    if (Array.isArray(input.series) && input.series.length > 0) {
+        const validSeries = input.series.filter(s => s && typeof s.key === 'string');
+        if (validSeries.length > 0) {
+            series = validSeries.map(s => ({
+                key: s.key,
+                name: typeof s.name === 'string' ? s.name : s.key,
+            }));
+        }
+    }
+
+    return { success: true, data: { type, title, data, xAxisKey, series } };
+}
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#a28CFE', '#ff66b2', '#7acc00'];
 
@@ -46,10 +65,10 @@ export default function SmartChart({ rawContent }) {
     }
 
     // Validate structured payload robustly
-    const validationResult = ChartConfigSchema.safeParse(parsedJson);
+    const validationResult = validateChartConfig(parsedJson);
 
     if (!validationResult.success) {
-        console.error("Zod Validation Error:", validationResult.error.flatten().fieldErrors);
+        console.error("Chart Validation Error:", validationResult.error);
         return <div style={{ color: '#d32f2f', padding: '8px', border: '1px solid #d32f2f', borderRadius: '4px', background: '#ffebee', fontSize: '0.9em' }}>[รูปแบบข้อมูลกราฟไม่ถูกต้อง โปรดลองใหม่อีกครั้ง]</div>;
     }
 
