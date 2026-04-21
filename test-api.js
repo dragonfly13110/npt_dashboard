@@ -1,5 +1,5 @@
 const API_KEY = 'AIzaSyDP_9fVV6MDd3jv-2RVkkqAb5Vncet8DkU';
-const MODEL = 'gemini-3.1-flash-lite-preview';
+const MODEL = 'gemma-4-31b-it';
 
 async function testGeminiOnly() {
     console.log(`\n🔎 กำลังทดสอบโมเดล: ${MODEL} (โหมดต่อเน็ตเท่านั้น)...`);

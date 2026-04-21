@@ -121,14 +121,18 @@ async function callOpenRouterAI(modelIdentifier, systemPrompt, messagesHistory, 
  * Main AI Call Entry Point
  */
 export async function callAI(modelKey, systemPrompt, messagesHistory, settings) {
-    // As per new documentation, both Gemini 3.1 and Gemma 4 use Gemini API
+    // เสริมคำสั่งให้ AI กล้าใช้ Search มากขึ้นเมื่อเปิดโหมดต่อเน็ต
+    let finalSystemPrompt = systemPrompt;
+    if (settings?.webSearch) {
+        finalSystemPrompt += "\n(สำคัญ: หากผู้ใช้ถามถึงข้อมูลปัจจุบัน ราคาสินค้า หรือข่าวสาร ให้คุณใช้เครื่องมือ Google Search เพื่อหาคำตอบที่อัปเดตที่สุดเสมอ)";
+    }
+
     if (modelKey === 'gemma') {
-        return callGeminiAI(GEMMA_MODEL, systemPrompt, messagesHistory, settings);
+        return callGeminiAI(GEMMA_MODEL, finalSystemPrompt, messagesHistory, settings);
     }
     if (modelKey === 'gemini') {
-        return callGeminiAI(GEMINI_MODEL, systemPrompt, messagesHistory, settings);
+        return callGeminiAI(GEMINI_MODEL, finalSystemPrompt, messagesHistory, settings);
     }
     
-    // Fallback for any other custom keys via OpenRouter
-    return callOpenRouterAI(modelKey, systemPrompt, messagesHistory, settings);
+    return callOpenRouterAI(modelKey, finalSystemPrompt, messagesHistory, settings);
 }
