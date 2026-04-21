@@ -72,5 +72,5 @@ const syncHandler = async (event, context) => {
     }
 };
 
-// Run this function every day at 1:00 AM UTC (approx 8 AM local time)
-export const handler = schedule("0 1 * * *", syncHandler);
+// Run this function every day at 22:00 UTC (approx 5 AM local time)
+export const handler = schedule("0 22 * * *", syncHandler);

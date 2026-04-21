@@ -1440,3 +1440,223 @@
     to { opacity: 1; transform: translateY(0); max-height: 500px; }
 }
 
+
+
+/* ========================================================= */
+/* ============ RAINFALL STRIP (Dense, Compact) ============ */
+/* ========================================================= */
+
+.rainfall-strip-container {
+    max-width: 1280px;
+    margin: -24px auto 32px;
+    padding: 0 24px;
+    position: relative;
+    z-index: 10;
+}
+
+.rainfall-strip {
+    background: linear-gradient(135deg, rgba(240, 249, 255, 0.95) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(224, 242, 254, 0.95) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(186, 230, 253, 0.4);
+    border-radius: 20px;
+    padding: 16px 24px;
+    box-shadow: 0 10px 40px -10px rgba(14, 165, 233, 0.12);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+}
+
+.rainfall-strip:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px -10px rgba(14, 165, 233, 0.18);
+}
+
+/* Left: Title block */
+.rs-left {
+    min-width: 200px;
+    flex-shrink: 0;
+}
+
+.rs-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rs-icon {
+    font-size: 32px;
+    line-height: 1;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.rs-title-text h4 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 800;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.rs-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.3px;
+}
+
+.rs-source {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 500;
+    margin-top: 2px;
+    display: block;
+}
+
+.rs-source-link {
+    color: #0284c7;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.rs-source-link:hover {
+    text-decoration: underline;
+}
+
+/* Center: Stats row */
+.rs-stats {
+    display: flex;
+    align-items: center;
+    gap: 10px 14px;
+    flex: 1;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.rs-stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(241, 245, 249, 0.8);
+    border-radius: 12px;
+    transition: all 0.2s;
+}
+
+.rs-stat:hover {
+    background: #ffffff;
+    border-color: #bae6fd;
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.08);
+}
+
+.rs-stat-icon {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.rs-stat-data {
+    display: flex;
+    flex-direction: column;
+}
+
+.rs-val {
+    font-size: 16px;
+    font-weight: 900;
+    color: #0f172a;
+    line-height: 1.1;
+}
+
+.rs-val small {
+    font-size: 10px;
+    font-weight: 700;
+    color: #94a3b8;
+    margin-left: 2px;
+}
+
+.rs-label {
+    font-size: 10px;
+    color: #64748b;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+}
+
+/* Right: Mini 7-day bar */
+.rs-days {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    padding: 8px 14px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid #f1f5f9;
+    border-radius: 14px;
+    flex-shrink: 0;
+}
+
+.rs-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    cursor: default;
+    min-width: 32px;
+}
+
+.rs-day-name {
+    font-size: 9px;
+    color: #94a3b8;
+    font-weight: 700;
+}
+
+.rs-day-icon {
+    font-size: 14px;
+    line-height: 1;
+}
+
+.rs-day-rain {
+    font-size: 10px;
+    font-weight: 900;
+}
+
+.rs-day-wind {
+    font-size: 8px;
+    font-weight: 600;
+    color: #94a3b8;
+}
+
+@media (max-width: 1024px) {
+    .rainfall-strip {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    .rs-stats {
+        justify-content: flex-start;
+    }
+    .rs-days {
+        justify-content: space-around;
+    }
+}
+
+@media (max-width: 768px) {
+    .rainfall-strip-container {
+        margin-top: 10px;
+    }
+    .rs-stats {
+        gap: 4px;
+    }
+    .rs-stat {
+        padding: 4px 8px;
+    }
+}
+
+

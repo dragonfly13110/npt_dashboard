@@ -3,6 +3,7 @@ import { Form, InputNumber, DatePicker, Row, Col, Card } from 'antd';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend } from 'recharts';
 import CrudTable from '../../components/DataTable/CrudTable';
 import { supabase } from '../../supabaseClient';
+import RainfallSummaryWidget from '../../components/widgets/RainfallSummaryWidget';
 
 const columns = [
     { title: 'วันที่', dataIndex: 'date', key: 'date', width: 120, sorter: (a, b) => new Date(a.date) - new Date(b.date), defaultSortOrder: 'descend' },
@@ -84,6 +85,11 @@ export default function DailyWeather() {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            {/* Embed the Summary Strip here */}
+            <div style={{ background: 'linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%)', padding: '16px', borderRadius: '16px', border: '1px solid #e0f2fe' }}>
+                 <RainfallSummaryWidget />
+            </div>
+
             <Row gutter={[16, 16]}>
                 <Col xs={24} lg={12}>
                     <Card title="อุณหภูมิเฉลี่ยย้อนหลัง (90 วัน)" bordered={false} style={{ borderRadius: 12, boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>

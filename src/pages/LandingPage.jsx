@@ -87,16 +87,16 @@ export default function LandingPage() {
                         >
                             🏛️ เข้าสู่เว็บไซต์สำนักงานเกษตรจังหวัดนครปฐม
                         </a>
-                        <button 
-                            onClick={() => navigate('/interactive-dashboard')} 
-                            style={{ 
-                                background: '#16a34a', 
-                                color: 'white', 
-                                border: 'none', 
-                                padding: '14px 28px', 
-                                borderRadius: '12px', 
-                                fontSize: '16px', 
-                                fontWeight: 700, 
+                        <button
+                            onClick={() => navigate('/interactive-dashboard')}
+                            style={{
+                                background: '#16a34a',
+                                color: 'white',
+                                border: 'none',
+                                padding: '14px 28px',
+                                borderRadius: '12px',
+                                fontSize: '16px',
+                                fontWeight: 700,
                                 cursor: 'pointer',
                                 display: 'flex',
                                 alignItems: 'center',
@@ -213,7 +213,7 @@ export default function LandingPage() {
                     <p style={{ color: '#14532d', fontSize: '18px', maxWidth: '700px', margin: '0 auto 30px', opacity: 0.9, lineHeight: 1.6 }}>
                         เข้าร่วม <b>"กระดานข่าวอัจฉริยะ (Farmer Forum)"</b> พื้นที่แลกเปลี่ยนเรียนรู้ ถามตอบปัญหา แจ้งพิกัดโรคพืช และอัปเดตราคาตลาด สำหรับเกษตรกรนครปฐม
                     </p>
-                    <button 
+                    <button
                         onClick={() => navigate('/dashboard/community/forum')}
                         style={{
                             background: '#16a34a',
