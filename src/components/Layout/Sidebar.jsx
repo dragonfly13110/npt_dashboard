@@ -27,6 +27,7 @@ import {
     HistoryOutlined,
     PieChartOutlined,
     CommentOutlined,
+    CloudOutlined,
 } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
 import { useAuth } from '../../contexts/AuthContext';
@@ -82,6 +83,7 @@ const allMenuItems = [
             { key: '/dashboard/strategy/learning-centers', icon: <BankOutlined />, label: 'ศพก.' },
             { key: '/dashboard/strategy/kpi', icon: <BarChartOutlined />, label: 'แผน/KPI' },
             { key: '/dashboard/strategy/disasters', icon: <ThunderboltOutlined />, label: 'ภัยพิบัติ' },
+            { key: '/dashboard/strategy/daily-weather', icon: <CloudOutlined />, label: 'สภาพอากาศ/น้ำฝน' },
         ],
     },
     {

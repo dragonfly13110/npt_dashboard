@@ -225,6 +225,7 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
             pest_centers: ['ศจช', 'ศัตรูพืชชุมชน'],
             soil_fertilizer_centers: ['ศดปช', 'ดิน', 'ปุ๋ย'],
             fire_hotspots: ['ไฟ', 'เผา', 'pm2.5', 'หมอกควัน'],
+            daily_weather: ['สภาพอากาศ', 'อุณหภูมิ', 'ฝน', 'ลม', 'อากาศ', 'ร้อน', 'หนาว'],
         };
 
         for (const [table, keywords] of Object.entries(tableKeywords)) {

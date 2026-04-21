@@ -46,6 +46,7 @@ export const TABLE_CONFIG = {
     pest_centers: { label: 'ศจช.', icon: '🏥', group: 'อารักขาพืช', descTh: 'ศูนย์จัดการศัตรูพืชชุมชน' },
     soil_fertilizer_centers: { label: 'ศดปช.', icon: '🧪', group: 'อารักขาพืช', descTh: 'ศูนย์จัดการดินปุ๋ยชุมชน' },
     fire_hotspots: { label: 'จุดเฝ้าระวัง PM2.5', icon: '🔥', group: 'อารักขาพืช', descTh: 'จุดเฝ้าระวังการเผาและ PM2.5' },
+    daily_weather: { label: 'สภาพอากาศและน้ำฝน', icon: '🌧️', group: 'ยุทธศาสตร์', descTh: 'ข้อมูลอุณหภูมิและปริมาณน้ำฝนรายวัน (Meteostat)' },
 };
 
 export const QUICK_PROMPTS = [
@@ -79,6 +80,7 @@ export const TABLE_SEARCH_COLS = {
     pest_centers: ['center_name', 'chairman', 'main_crop_type'],
     soil_fertilizer_centers: ['center_name', 'chairman', 'main_crop_type'],
     fire_hotspots: ['spot_name'],
+    daily_weather: [],
 };
 
 export const DISTRICT_COLS = {
@@ -97,6 +99,7 @@ export const NUMERIC_COLS = {
     farmer_institutes: ['group_count', 'sf_count', 'ysf_count'],
     disasters: ['affected_area_rai', 'affected_households', 'damage_baht'],
     fire_hotspots: ['frp', 'bright_ti4', 'bright_ti5'],
+    daily_weather: ['tavg', 'tmin', 'tmax', 'prcp', 'wspd', 'pres'],
 };
 
 // Columns that contain categorical string data for group-by counting

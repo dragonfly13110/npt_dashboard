@@ -47,6 +47,7 @@ const FarmerRegistry = lazy(() => import('./pages/strategy/FarmerRegistry'));
 const GisAreas = lazy(() => import('./pages/strategy/GisAreas'));
 const KpiPlans = lazy(() => import('./pages/strategy/KpiPlans'));
 const StrategyDashboard = lazy(() => import('./pages/strategy/StrategyDashboard'));
+const DailyWeather = lazy(() => import('./pages/strategy/DailyWeather'));
 
 // Production
 const LargePlots = lazy(() => import('./pages/production/LargePlots'));
@@ -159,6 +160,7 @@ function AppRoutes() {
           <Route path="strategy/learning-centers" element={<LearningCenters />} />
           <Route path="strategy/kpi" element={<KpiPlans />} />
           <Route path="strategy/disasters" element={<Disasters />} />
+          <Route path="strategy/daily-weather" element={<DailyWeather />} />
 
           {/* Production */}
           <Route path="production/overview" element={<ProductionDashboard />} />

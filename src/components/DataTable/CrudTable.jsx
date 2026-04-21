@@ -61,6 +61,9 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
                 if (typeof value === 'object' && !Array.isArray(value) && value.operator) {
                     if (value.operator === 'ilike') query = query.ilike(key, value.value);
                     else if (value.operator === 'contains') query = query.contains(key, value.value);
+                    else if (value.operator === 'month') {
+                        query = query.gte(key, `${value.value}-01`).lte(key, `${value.value}-31`);
+                    }
                 } else {
                     query = query.eq(key, value);
                 }
