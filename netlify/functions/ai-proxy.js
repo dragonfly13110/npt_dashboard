@@ -29,8 +29,8 @@ export default async (req) => {
 
             const model = body.model || 'gemini-3.1-flash-lite-preview';
             const isStream = body.stream === true;
-            const endpoint = isStream ? 'streamGenerateContent?alt=sse' : 'generateContent';
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:${endpoint}?key=${GEMINI_API_KEY}`;
+            const endpoint = isStream ? 'streamGenerateContent?alt=sse&' : 'generateContent?';
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:${endpoint}key=${GEMINI_API_KEY}`;
 
             // Remove internal properties before forwarding to Gemini
             const { model: _, stream: __, ...requestBody } = body;
