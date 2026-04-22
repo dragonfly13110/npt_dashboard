@@ -384,10 +384,13 @@ ${dbContext}
             };
             setMessages(prev => [...prev, botMsg]);
         } catch (err) {
-            console.error('Chatbot Error:', err);
+            let errorMsg = err.message;
+            if (errorMsg === 'Failed to fetch') {
+                errorMsg = 'การเชื่อมต่อขัดข้อง (Failed to fetch) — อาจเกิดจากไฟล์มีขนาดใหญ่เกินไป (> 4MB) หรือปัญหาเครือข่ายอินเทอร์เน็ต';
+            }
             setMessages(prev => [...prev, {
                 role: 'bot',
-                text: `⚠️ เกิดข้อผิดพลาดจาก ${modelConfig.description}: ${err.message}\n\nลองสลับไปใช้โมเดลอื่น หรือลองใหม่อีกครั้งครับ 🙏`,
+                text: `⚠️ เกิดข้อผิดพลาดจาก ${modelConfig.description}: ${errorMsg}\n\nลองสลับไปใช้โมเดลอื่น หรือลองใหม่อีกครั้งครับ 🙏`,
                 timestamp: Date.now(),
                 type: 'error',
                 modelKey: currentModel,
@@ -573,6 +576,11 @@ ${dbContext}
                                 const isPdf = file.type === 'application/pdf';
                                 if (!isPdf) {
                                     antMessage.error('อัปโหลดได้เฉพาะไฟล์ PDF เท่านั้น');
+                                    return false;
+                                }
+                                const isLt4M = file.size / 1024 / 1024 < 4;
+                                if (!isLt4M) {
+                                    antMessage.error('ไฟล์ต้องมีขนาดไม่เกิน 4MB (ข้อจำกัดของระบบ)');
                                     return false;
                                 }
                                 setAttachedFile(file);
