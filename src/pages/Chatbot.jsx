@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Input, Button, Avatar, Spin, Card, Typography, Tooltip, Switch } from 'antd';
+import { Input, Button, Avatar, Spin, Card, Typography, Tooltip, Upload, message as antMessage } from 'antd';
 import {
     SendOutlined,
     RobotOutlined,
@@ -8,10 +8,11 @@ import {
     DatabaseOutlined,
     QuestionCircleOutlined,
     GlobalOutlined,
-    AppstoreOutlined,
+    ThunderboltOutlined,
     PaperClipOutlined,
     FilePdfOutlined,
     CloseCircleOutlined,
+    ClearOutlined,
 } from '@ant-design/icons';
 
 import { AI_MODELS, QUICK_PROMPTS, SYSTEM_PROMPT } from '../utils/chatbotConstants';
@@ -19,16 +20,220 @@ import { callAI } from '../services/aiService';
 import { fetchDatabaseContext, buildContextForAI } from '../services/chatbotDataService';
 
 import ChatMessage from '../components/Chatbot/ChatMessage';
-import ModelSelector from '../components/Chatbot/ModelSelector';
 import LoadingIndicator from '../components/Chatbot/LoadingIndicator';
 
-const { Text, TextArea } = Typography;
+const { Text } = Typography;
+
+/* ── Inline CSS ────────────────────────────────────── */
+const styles = {
+    page: {
+        height: 'calc(100vh - 120px)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 0,
+    },
+    /* ─── Toolbar ─── */
+    toolbar: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 12,
+        padding: '14px 20px',
+        background: '#ffffff',
+        borderRadius: '16px 16px 0 0',
+        borderBottom: '1px solid #f0f2f5',
+        flexWrap: 'wrap',
+    },
+    toolbarTitle: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10,
+        marginRight: 'auto',
+    },
+    toolbarTitleText: {
+        color: '#1e293b',
+        fontSize: 16,
+        fontWeight: 700,
+        letterSpacing: '-0.01em',
+    },
+    toolbarSubtext: {
+        color: '#64748b',
+        fontSize: 12,
+        fontWeight: 500,
+    },
+    /* Model pill buttons */
+    modelBtn: (isActive, color) => ({
+        display: 'flex',
+        alignItems: 'center',
+        gap: 6,
+        padding: '6px 16px',
+        borderRadius: 24,
+        border: isActive ? `2px solid ${color}` : '2px solid #e2e8f0',
+        background: isActive ? `${color}10` : '#f8fafc',
+        color: isActive ? color : '#64748b',
+        cursor: 'pointer',
+        fontSize: 13,
+        fontWeight: 600,
+        transition: 'all 0.2s ease',
+        whiteSpace: 'nowrap',
+        userSelect: 'none',
+    }),
+    modelBadge: (bgColor) => ({
+        fontSize: 9,
+        padding: '2px 6px',
+        borderRadius: 6,
+        fontWeight: 700,
+        background: bgColor,
+        color: '#fff',
+        lineHeight: '14px',
+    }),
+    /* Toggle pill */
+    togglePill: (isActive, activeColor) => ({
+        display: 'flex',
+        alignItems: 'center',
+        gap: 6,
+        padding: '6px 14px',
+        borderRadius: 24,
+        border: `1.5px solid ${isActive ? activeColor : '#e2e8f0'}`,
+        background: isActive ? `${activeColor}10` : '#f8fafc',
+        color: isActive ? activeColor : '#64748b',
+        cursor: 'pointer',
+        fontSize: 12,
+        fontWeight: 600,
+        transition: 'all 0.2s ease',
+        whiteSpace: 'nowrap',
+        userSelect: 'none',
+    }),
+    toggleDot: (isActive, color) => ({
+        width: 8,
+        height: 8,
+        borderRadius: '50%',
+        background: isActive ? color : '#cbd5e1',
+        transition: 'all 0.2s ease',
+        boxShadow: isActive ? `0 0 6px ${color}80` : 'none',
+    }),
+    clearBtn: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 6,
+        padding: '6px 12px',
+        borderRadius: 24,
+        border: '1.5px solid #e2e8f0',
+        background: '#f8fafc',
+        color: '#64748b',
+        cursor: 'pointer',
+        fontSize: 12,
+        fontWeight: 600,
+        transition: 'all 0.2s',
+        whiteSpace: 'nowrap',
+    },
+    /* ─── Chat area ─── */
+    chatCard: {
+        flex: 1,
+        borderRadius: '0 0 16px 16px',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
+        border: 'none',
+    },
+    chatScroll: {
+        flex: 1,
+        overflowY: 'auto',
+        padding: '24px 20px 12px',
+    },
+    /* ─── Quick prompts ─── */
+    quickGrid: {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+        gap: 8,
+        padding: '12px 20px 8px',
+        borderTop: '1px solid #f0f2f5',
+    },
+    quickCard: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 8,
+        padding: '8px 14px',
+        borderRadius: 12,
+        border: '1px solid #e2e8f0',
+        background: '#fff',
+        cursor: 'pointer',
+        fontSize: 12,
+        color: '#334155',
+        fontWeight: 500,
+        transition: 'all 0.15s ease',
+        lineHeight: 1.4,
+    },
+    quickIcon: {
+        fontSize: 18,
+        flexShrink: 0,
+        width: 28,
+        height: 28,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: '#f1f5f9',
+        borderRadius: 8,
+    },
+    /* ─── Attached file ─── */
+    attachedBar: {
+        padding: '8px 20px',
+        background: '#fff',
+        borderTop: '1px solid #f0f2f5',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    attachedBadge: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 8,
+        background: 'linear-gradient(135deg, #eff6ff, #dbeafe)',
+        padding: '5px 14px',
+        borderRadius: 10,
+        border: '1px solid #93c5fd',
+    },
+    /* ─── Input area ─── */
+    inputArea: {
+        padding: '12px 16px 14px',
+        borderTop: '1px solid #f0f2f5',
+        background: '#fafbfc',
+    },
+    inputRow: {
+        display: 'flex',
+        gap: 8,
+        alignItems: 'flex-end',
+    },
+    inputWrapper: {
+        flex: 1,
+        position: 'relative',
+    },
+    statusBar: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+        marginTop: 8,
+    },
+    statusChip: (color) => ({
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 4,
+        fontSize: 10,
+        fontWeight: 600,
+        padding: '2px 10px',
+        borderRadius: 10,
+        background: `${color}12`,
+        color: color,
+        border: `1px solid ${color}30`,
+    }),
+};
 
 export default function Chatbot() {
     const [messages, setMessages] = useState([
         {
             role: 'bot',
-            text: 'สวัสดีครับ! 🌾 ผม **น้องข้าวหอม** ผู้ช่วย AI ประจำสำนักงานเกษตรจังหวัดนครปฐม\\n\\nผมรู้ข้อมูลทุกอย่างในระบบ ถามได้ทุกเรื่อง เช่น:\\n• 📍 พื้นที่การเกษตรแต่ละอำเภอ\\n• 🌿 แปลงใหญ่, มาตรฐาน GAP\\n• 🏪 วิสาหกิจชุมชน, Smart Farmer\\n• 🏫 ศูนย์เรียนรู้, ศจช., ศดปช.\\n• ⛈️ ภัยพิบัติ, PM2.5\\n• 💬 หรือจะคุยเรื่องทั่วไปก็ได้ครับ!\\n\\n🔄 เลือกโมเดล AI ที่ต้องการได้ด้านบนนะครับ\\nลองถามได้เลย หรือเลือกคำถามด้านล่าง 👇',
+            text: `สวัสดีครับ! 🌾 ผม **น้องข้าวหอม** ผู้ช่วย AI ประจำสำนักงานเกษตรจังหวัดนครปฐม\n\nผมรู้ข้อมูลทุกอย่างในระบบ ถามได้ทุกเรื่อง เช่น:\n• 📍 พื้นที่การเกษตรแต่ละอำเภอ\n• 🌿 แปลงใหญ่, มาตรฐาน GAP\n• 🏪 วิสาหกิจชุมชน, Smart Farmer\n• 🏫 ศูนย์เรียนรู้, ศจช., ศดปช.\n• ⛈️ ภัยพิบัติ, PM2.5\n• 💬 หรือจะคุยเรื่องทั่วไปก็ได้ครับ!\n\nลองถามได้เลย หรือเลือกคำถามด้านล่าง 👇`,
             timestamp: Date.now(),
             type: 'greeting',
             modelKey: null,
@@ -52,6 +257,15 @@ export default function Chatbot() {
     useEffect(() => {
         scrollToBottom();
     }, [messages, scrollToBottom]);
+
+    // Auto-turn off webSearch when switching to unsupported model
+    const handleModelChange = (key) => {
+        setSelectedModel(key);
+        // If switching to a model that doesn't support webSearch, turn it off
+        if (key !== 'gemini' && key !== 'gemma') {
+            setAiSettings(prev => ({ ...prev, webSearch: false }));
+        }
+    };
 
     const handleSend = async (text) => {
         const msg = text || input.trim();
@@ -195,80 +409,102 @@ ${dbContext}
     };
 
     const currentModelConfig = AI_MODELS[selectedModel];
+    const canUseWebSearch = selectedModel === 'gemini' || selectedModel === 'gemma';
 
     return (
-        <div style={{ height: 'calc(100vh - 120px)', display: 'flex', flexDirection: 'column' }}>
-            <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                marginBottom: 12,
-                flexWrap: 'wrap',
-                gap: 10,
-            }}>
-                <div className="md-page-header" style={{ marginBottom: 0 }}>
-                    <h2>🤖 น้องข้าวหอม — AI ผู้ช่วยข้อมูลเกษตร</h2>
-                    <p style={{ margin: 0, fontSize: 13, color: '#656d76' }}>
-                        <DatabaseOutlined /> ถามได้ทุกเรื่อง • ข้อมูลจริงจาก Database • สลับโมเดลได้
-                    </p>
-                </div>
-                <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#f6f8fa', padding: '6px 12px', borderRadius: 12, border: '1px solid #d0d7de', marginRight: 4 }}>
-                        <Tooltip title="เปิดโหมดค้นหาอินเทอร์เน็ต เพื่อตอบเรื่องทั่วไปอัปเดตล่าสุด (Gemini / Gemma รองรับ)">
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                                <GlobalOutlined style={{ color: aiSettings.webSearch ? '#1890ff' : '#8c8c8c' }} />
-                                <span style={{ fontSize: 12, color: '#595959', fontWeight: 500 }}>ต่อเน็ต</span>
-                                <Switch 
-                                    size="small" 
-                                    checked={aiSettings.webSearch} 
-                                    onChange={v => setAiSettings({...aiSettings, webSearch: v})} 
-                                    disabled={selectedModel !== 'gemini' && selectedModel !== 'gemma'} 
-                                />
-                            </div>
-                        </Tooltip>
-                        
-                        <div style={{ width: 1, height: 16, background: '#d0d7de' }} />
-                        
-                        <Tooltip title="เปิดการวิเคราะห์เชิงลึก AI จะให้เหตุผลแสดงกระบวนการคิดอย่างละเอียดก่อนตอบให้เห็น">
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                                <AppstoreOutlined style={{ color: aiSettings.deepThinking ? '#722ed1' : '#8c8c8c' }} />
-                                <span style={{ fontSize: 12, color: '#595959', fontWeight: 500 }}>คิดเชิงลึก</span>
-                                <Switch size="small" checked={aiSettings.deepThinking} onChange={v => setAiSettings({...aiSettings, deepThinking: v})} />
-                            </div>
-                        </Tooltip>
-                    </div>
-
-                    <ModelSelector
-                        selectedModel={selectedModel}
-                        onChange={setSelectedModel}
-                        disabled={loading}
+        <div style={styles.page}>
+            {/* ═══ Dark Toolbar ═══ */}
+            <div style={styles.toolbar}>
+                {/* Title */}
+                <div style={styles.toolbarTitle}>
+                    <Avatar
+                        size={32}
+                        icon={<RobotOutlined />}
+                        style={{
+                            background: `linear-gradient(135deg, ${currentModelConfig.color}, ${currentModelConfig.color}aa)`,
+                            boxShadow: `0 0 12px ${currentModelConfig.color}40`,
+                        }}
                     />
-                    <Tooltip title="ล้างแชท">
-                        <Button
-                            icon={<DeleteOutlined />}
-                            onClick={handleClear}
-                            style={{ borderRadius: 8 }}
-                        >
-                            ล้างแชท
-                        </Button>
-                    </Tooltip>
+                    <div>
+                        <div style={styles.toolbarTitleText}>น้องข้าวหอม</div>
+                        <div style={styles.toolbarSubtext}><DatabaseOutlined style={{ marginRight: 4 }} />AI ผู้ช่วยข้อมูลเกษตร</div>
+                    </div>
                 </div>
+
+                {/* Model Selector — Pill buttons */}
+                {Object.values(AI_MODELS).map(m => (
+                    <div
+                        key={m.key}
+                        style={styles.modelBtn(selectedModel === m.key, m.color)}
+                        onClick={() => !loading && handleModelChange(m.key)}
+                        onMouseEnter={e => { if (selectedModel !== m.key) e.currentTarget.style.background = '#e2e8f0'; }}
+                        onMouseLeave={e => { if (selectedModel !== m.key) e.currentTarget.style.background = '#f8fafc'; }}
+                    >
+                        <span>{m.icon}</span>
+                        <span>{m.shortLabel}</span>
+                        <span style={styles.modelBadge(m.badgeColor)}>{m.badge}</span>
+                    </div>
+                ))}
+
+                {/* Divider */}
+                <div style={{ width: 1, height: 24, background: '#e2e8f0', margin: '0 4px' }} />
+
+                {/* Toggle Buttons */}
+                <Tooltip title={canUseWebSearch ? 'ค้นหาข้อมูลจากอินเทอร์เน็ต (Google Search)' : 'รองรับเฉพาะ Gemini / Gemma'}>
+                    <div
+                        style={{
+                            ...styles.togglePill(aiSettings.webSearch, '#38bdf8'),
+                            opacity: canUseWebSearch ? 1 : 0.4,
+                            pointerEvents: canUseWebSearch ? 'auto' : 'none',
+                        }}
+                        onClick={() => setAiSettings(p => ({ ...p, webSearch: !p.webSearch }))}
+                    >
+                        <div style={styles.toggleDot(aiSettings.webSearch, '#38bdf8')} />
+                        <GlobalOutlined style={{ fontSize: 12 }} />
+                        <span>ต่อเน็ต</span>
+                    </div>
+                </Tooltip>
+
+                <Tooltip title={aiSettings.webSearch ? 'ไม่สามารถใช้คิดเชิงลึกพร้อมกับต่อเน็ตได้' : 'วิเคราะห์เชิงลึก แสดงกระบวนการคิด'}>
+                    <div
+                        style={{
+                            ...styles.togglePill(aiSettings.deepThinking, '#a78bfa'),
+                            opacity: aiSettings.webSearch ? 0.35 : 1,
+                            pointerEvents: aiSettings.webSearch ? 'none' : 'auto',
+                        }}
+                        onClick={() => setAiSettings(p => ({ ...p, deepThinking: !p.deepThinking }))}
+                    >
+                        <div style={styles.toggleDot(aiSettings.deepThinking, '#a78bfa')} />
+                        <ThunderboltOutlined style={{ fontSize: 12 }} />
+                        <span>คิดเชิงลึก</span>
+                    </div>
+                </Tooltip>
+
+                {/* Divider */}
+                <div style={{ width: 1, height: 24, background: '#e2e8f0', margin: '0 4px' }} />
+
+                {/* Clear */}
+                <Tooltip title="ล้างการสนทนา">
+                    <div
+                        style={styles.clearBtn}
+                        onClick={handleClear}
+                        onMouseEnter={e => { e.currentTarget.style.color = '#f87171'; e.currentTarget.style.borderColor = '#f8717133'; }}
+                        onMouseLeave={e => { e.currentTarget.style.color = '#64748b'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+                    >
+                        <ClearOutlined style={{ fontSize: 12 }} />
+                        <span>ล้าง</span>
+                    </div>
+                </Tooltip>
             </div>
 
-            {/* Chat Container */}
+            {/* ═══ Chat Container ═══ */}
             <Card
-                variant="outlined"
-                style={{
-                    flex: 1,
-                    borderRadius: 16,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    overflow: 'hidden',
-                    boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-                }}
+                variant="borderless"
+                style={styles.chatCard}
                 styles={{ body: { flex: 1, display: 'flex', flexDirection: 'column', padding: 0, overflow: 'hidden' } }}
             >
-                <div style={{ flex: 1, overflowY: 'auto', padding: '24px 20px 12px' }}>
+                {/* Messages */}
+                <div style={styles.chatScroll}>
                     {messages.map((msg, i) => (
                         <ChatMessage key={i} message={msg} isLast={i === messages.length - 1} />
                     ))}
@@ -278,52 +514,58 @@ ${dbContext}
                     <div ref={chatEndRef} />
                 </div>
 
+                {/* Quick Prompts — show only at start */}
                 {messages.length <= 2 && (
-                    <div style={{ padding: '8px 20px 4px', borderTop: '1px solid #f0f2f5' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
-                            <BulbOutlined style={{ color: '#bf8700', fontSize: 13 }} />
-                            <Text type="secondary" style={{ fontSize: 12 }}>คำถามแนะนำ</Text>
+                    <div>
+                        <div style={{ padding: '8px 20px 0', display: 'flex', alignItems: 'center', gap: 6 }}>
+                            <BulbOutlined style={{ color: '#f59e0b', fontSize: 13 }} />
+                            <Text type="secondary" style={{ fontSize: 12, fontWeight: 600 }}>คำถามแนะนำ</Text>
                         </div>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                        <div style={styles.quickGrid}>
                             {QUICK_PROMPTS.map((p, i) => (
-                                <Button
+                                <div
                                     key={i}
-                                    size="small"
-                                    onClick={() => handleSend(p.text)}
-                                    disabled={loading}
-                                    style={{
-                                        borderRadius: 20, fontSize: 12, height: 30,
-                                        border: '1px solid #d0d7de', background: '#fff',
+                                    style={styles.quickCard}
+                                    onClick={() => !loading && handleSend(p.text)}
+                                    onMouseEnter={e => {
+                                        e.currentTarget.style.borderColor = currentModelConfig.color;
+                                        e.currentTarget.style.background = `${currentModelConfig.color}08`;
+                                        e.currentTarget.style.transform = 'translateY(-1px)';
+                                        e.currentTarget.style.boxShadow = `0 2px 8px ${currentModelConfig.color}15`;
+                                    }}
+                                    onMouseLeave={e => {
+                                        e.currentTarget.style.borderColor = '#e2e8f0';
+                                        e.currentTarget.style.background = '#fff';
+                                        e.currentTarget.style.transform = 'none';
+                                        e.currentTarget.style.boxShadow = 'none';
                                     }}
                                 >
-                                    {p.icon} {p.text}
-                                </Button>
+                                    <div style={styles.quickIcon}>{p.icon}</div>
+                                    <span>{p.text}</span>
+                                </div>
                             ))}
                         </div>
                     </div>
                 )}
 
-                {/* ส่วนแสดงไฟล์ที่เลือก */}
+                {/* Attached file bar */}
                 {attachedFile && (
-                    <div style={{ padding: '8px 20px', background: '#fff', borderTop: '1px solid #f0f2f5', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#f0f7ff', padding: '4px 12px', borderRadius: 8, border: '1px solid #bae7ff' }}>
-                            <FilePdfOutlined style={{ color: '#ff4d4f', fontSize: 16 }} />
-                            <Text ellipsis style={{ maxWidth: 200, fontSize: 12 }}>{attachedFile.name}</Text>
-                            <CloseCircleOutlined 
-                                style={{ color: '#8c8c8c', cursor: 'pointer' }} 
-                                onClick={() => setAttachedFile(null)} 
+                    <div style={styles.attachedBar}>
+                        <div style={styles.attachedBadge}>
+                            <FilePdfOutlined style={{ color: '#ef4444', fontSize: 16 }} />
+                            <Text ellipsis style={{ maxWidth: 200, fontSize: 12, fontWeight: 500 }}>{attachedFile.name}</Text>
+                            <CloseCircleOutlined
+                                style={{ color: '#94a3b8', cursor: 'pointer', fontSize: 14 }}
+                                onClick={() => setAttachedFile(null)}
                             />
                         </div>
-                        <Text type="secondary" style={{ fontSize: 11 }}>ไฟล์พร้อมวิเคราะห์</Text>
+                        <Text type="secondary" style={{ fontSize: 11 }}>📎 ไฟล์พร้อมวิเคราะห์</Text>
                     </div>
                 )}
 
-                <div style={{
-                    padding: '12px 20px 16px',
-                    borderTop: '1px solid #f0f2f5',
-                    background: '#fafbfc',
-                }}>
-                    <div style={{ display: 'flex', gap: 8 }}>
+                {/* ═══ Input Area ═══ */}
+                <div style={styles.inputArea}>
+                    <div style={styles.inputRow}>
                         <Upload
                             accept=".pdf"
                             showUploadList={false}
@@ -334,27 +576,43 @@ ${dbContext}
                                     return false;
                                 }
                                 setAttachedFile(file);
-                                return false; 
+                                return false;
                             }}
                         >
-                            <Button 
-                                icon={<PaperClipOutlined />} 
-                                size="large" 
-                                style={{ borderRadius: 24, width: 45 }}
-                                disabled={loading}
-                            />
+                            <Tooltip title="แนบไฟล์ PDF เพื่อวิเคราะห์">
+                                <Button
+                                    icon={<PaperClipOutlined />}
+                                    size="large"
+                                    style={{
+                                        borderRadius: 14,
+                                        width: 44,
+                                        height: 44,
+                                        border: '1px solid #e2e8f0',
+                                    }}
+                                    disabled={loading}
+                                />
+                            </Tooltip>
                         </Upload>
-                        <Input
-                            ref={inputRef}
-                            value={input}
-                            onChange={e => setInput(e.target.value)}
-                            onPressEnter={() => handleSend()}
-                            placeholder={attachedFile ? "ถามคำถามเกี่ยวกับ PDF นี้..." : "ถามอะไรก็ได้... หรืออัปโหลด PDF"}
-                            disabled={loading}
-                            size="large"
-                            style={{ borderRadius: 24, paddingLeft: 20, fontSize: 14 }}
-                            prefix={<QuestionCircleOutlined style={{ color: '#8b949e' }} />}
-                        />
+                        <div style={styles.inputWrapper}>
+                            <Input
+                                ref={inputRef}
+                                value={input}
+                                onChange={e => setInput(e.target.value)}
+                                onPressEnter={() => handleSend()}
+                                placeholder={attachedFile ? "ถามคำถามเกี่ยวกับ PDF นี้..." : "ถามอะไรก็ได้เลยครับ..."}
+                                disabled={loading}
+                                size="large"
+                                style={{
+                                    borderRadius: 14,
+                                    paddingLeft: 18,
+                                    paddingRight: 18,
+                                    fontSize: 14,
+                                    height: 44,
+                                    border: '1px solid #e2e8f0',
+                                }}
+                                prefix={<QuestionCircleOutlined style={{ color: '#cbd5e1', marginRight: 4 }} />}
+                            />
+                        </div>
                         <Button
                             type="primary"
                             icon={<SendOutlined />}
@@ -362,20 +620,45 @@ ${dbContext}
                             loading={loading}
                             size="large"
                             style={{
-                                borderRadius: 24,
-                                minWidth: 50,
-                                background: currentModelConfig.color,
-                                borderColor: currentModelConfig.color,
+                                borderRadius: 14,
+                                width: 50,
+                                height: 44,
+                                background: `linear-gradient(135deg, ${currentModelConfig.color}, ${currentModelConfig.color}cc)`,
+                                border: 'none',
+                                boxShadow: `0 2px 8px ${currentModelConfig.color}30`,
                             }}
                         />
                     </div>
-                    <div style={{ textAlign: 'center', marginTop: 8 }}>
-                        <Text type="secondary" style={{ fontSize: 11 }}>
-                            {currentModelConfig.icon} กำลังใช้ {currentModelConfig.description} ({currentModelConfig.provider}) — รองรับวิเคราะห์ PDF
+
+                    {/* Status chips */}
+                    <div style={styles.statusBar}>
+                        <div style={styles.statusChip(currentModelConfig.color)}>
+                            {currentModelConfig.icon} {currentModelConfig.shortLabel}
+                        </div>
+                        {aiSettings.webSearch && canUseWebSearch && (
+                            <div style={styles.statusChip('#38bdf8')}>
+                                <GlobalOutlined style={{ fontSize: 10 }} /> ต่อเน็ต
+                            </div>
+                        )}
+                        {aiSettings.deepThinking && !aiSettings.webSearch && (
+                            <div style={styles.statusChip('#a78bfa')}>
+                                <ThunderboltOutlined style={{ fontSize: 10 }} /> คิดเชิงลึก
+                            </div>
+                        )}
+                        <Text type="secondary" style={{ fontSize: 10, marginLeft: 4 }}>
+                            รองรับ PDF
                         </Text>
                     </div>
                 </div>
             </Card>
+
+            {/* Animations */}
+            <style>{`
+                @keyframes chatFadeIn {
+                    from { opacity: 0; transform: translateY(8px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            `}</style>
         </div>
     );
 }

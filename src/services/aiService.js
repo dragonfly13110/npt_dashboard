@@ -36,15 +36,16 @@ async function callGeminiAI(modelIdentifier, systemPrompt, messagesHistory, sett
                 generationConfig: {
                     temperature: settings?.deepThinking ? 0.7 : 0.5,
                     maxOutputTokens: 16000, 
-                    ...(settings?.deepThinking && {
-                        thinkingConfig: { thinkingLevel: 'high' }
-                    })
                 }
             };
 
-            // Support Google Search grounding for both Gemini and Gemma
+            // Google Search grounding — supported on both Gemini and Gemma
             if (settings?.webSearch) {
                 requestBody.tools = [{ googleSearch: {} }];
+                // googleSearch conflicts with thinkingConfig, so skip thinking when searching
+            } else if (settings?.deepThinking) {
+                // thinkingConfig is a top-level field, NOT inside generationConfig
+                requestBody.generationConfig.thinkingConfig = { thinkingLevel: 'high' };
             }
 
             const res = await fetch(AI_PROXY_URL, {

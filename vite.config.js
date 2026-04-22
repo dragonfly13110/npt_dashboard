@@ -9,6 +9,11 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     server: {
       proxy: {
+        // Proxy Netlify Functions to deployed site (AI proxy, sync, etc.)
+        '/.netlify/functions': {
+          target: 'https://npt-dashboard.netlify.app',
+          changeOrigin: true,
+        },
         '/api/nabc': {
           target: 'https://agriapi.nabc.go.th',
           changeOrigin: true,
