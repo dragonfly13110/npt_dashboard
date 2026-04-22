@@ -53,7 +53,7 @@ async function callGeminiAI(modelIdentifier, systemPrompt, messagesHistory, sett
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     provider: 'gemini',
-                    body: { model: modelIdentifier, ...requestBody }
+                    body: { model: modelIdentifier, stream: true, ...requestBody }
                 })
             });
 
@@ -65,19 +65,56 @@ async function callGeminiAI(modelIdentifier, systemPrompt, messagesHistory, sett
             }
 
             if (!res.ok) {
-                const errData = await res.json().catch(() => ({}));
-                throw new Error(errData.error?.message || `HTTP ${res.status}`);
+                const errText = await res.text().catch(() => '');
+                throw new Error(errText || `HTTP ${res.status}`);
             }
 
-            const data = await res.json();
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder("utf-8");
+            let resultText = "";
+            let buffer = "";
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split("\n");
+                buffer = lines.pop(); // keep the last incomplete line
+                
+                for (const line of lines) {
+                    if (line.startsWith("data: ")) {
+                        const dataStr = line.slice(6).trim();
+                        if (dataStr === "[DONE]") continue;
+                        if (!dataStr) continue;
+                        
+                        try {
+                            const data = JSON.parse(dataStr);
+                            const parts = data.candidates?.[0]?.content?.parts || [];
+                            const chunkText = parts
+                                .filter(p => !p.thought)
+                                .map(p => p.text || '')
+                                .join('');
+                            resultText += chunkText;
+                        } catch (e) {
+                            // ignore parse errors for partial chunks
+                        }
+                    }
+                }
+            }
             
-            // Extract and join all text parts (ignoring internal reasoning/thoughts)
-            const parts = data.candidates?.[0]?.content?.parts || [];
-            const resultText = parts
-                .filter(p => !p.thought) // Filters out internal thought parts
-                .map(p => p.text || '')
-                .join('')
-                .trim();
+            // Append any remaining complete data in buffer
+            if (buffer.startsWith("data: ")) {
+                 const dataStr = buffer.slice(6).trim();
+                 if (dataStr && dataStr !== "[DONE]") {
+                     try {
+                        const data = JSON.parse(dataStr);
+                        const parts = data.candidates?.[0]?.content?.parts || [];
+                        const chunkText = parts.filter(p => !p.thought).map(p => p.text || '').join('');
+                        resultText += chunkText;
+                     } catch(e) {}
+                 }
+            }
             
             return resultText || null;
             

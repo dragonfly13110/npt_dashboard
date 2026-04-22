@@ -386,7 +386,9 @@ ${dbContext}
         } catch (err) {
             let errorMsg = err.message;
             if (errorMsg === 'Failed to fetch') {
-                errorMsg = 'การเชื่อมต่อขัดข้อง (Failed to fetch) — อาจเกิดจากไฟล์มีขนาดใหญ่เกินไป (> 4MB) หรือปัญหาเครือข่ายอินเทอร์เน็ต';
+                errorMsg = 'การเชื่อมต่อขัดข้อง (Failed to fetch) — อาจเกิดจากไฟล์มีขนาดใหญ่เกินไป (> 4MB) หรือเซิร์ฟเวอร์ของคุณดับไป';
+            } else if (errorMsg.includes('502') || errorMsg.includes('504')) {
+                errorMsg = 'AI ใช้เวลาคิดและค้นหาข้อมูลนานเกินไปจนหมดเวลา (Timeout 502) — แนะนำให้ปิดโหมด "ต่อเน็ต" หรือ "คิดเชิงลึก" เพื่อให้ตอบกลับเร็วขึ้นครับ';
             }
             setMessages(prev => [...prev, {
                 role: 'bot',

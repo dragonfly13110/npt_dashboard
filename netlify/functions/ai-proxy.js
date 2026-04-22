@@ -1,46 +1,58 @@
-/**
- * Netlify Serverless Function: AI Proxy
- * 
- * Proxies AI API requests to OpenRouter and Google Gemini
- * so that API keys are never exposed in the client-side bundle.
- * 
- * POST /.netlify/functions/ai-proxy
- * Body: { provider: "openrouter" | "gemini", body: { ... } }
- */
+// netlify/functions/ai-proxy.js
+export default async (req) => {
+    // 1. CORS headers
+    const CORS_HEADERS = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    };
 
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || process.env.VITE_OPENROUTER_API_KEY || '';
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY || '';
-
-const CORS_HEADERS = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-};
-
-exports.handler = async (event) => {
-    // Handle CORS preflight
-    if (event.httpMethod === 'OPTIONS') {
-        return { statusCode: 204, headers: CORS_HEADERS, body: '' };
+    if (req.method === 'OPTIONS') {
+        return new Response(null, { status: 204, headers: CORS_HEADERS });
     }
 
-    if (event.httpMethod !== 'POST') {
-        return {
-            statusCode: 405,
-            headers: CORS_HEADERS,
-            body: JSON.stringify({ error: 'Method not allowed' }),
-        };
+    if (req.method !== 'POST') {
+        return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: CORS_HEADERS });
     }
 
     try {
-        const { provider, body } = JSON.parse(event.body);
+        const payload = await req.json();
+        const { provider, body } = payload;
+        
+        const OPENROUTER_API_KEY = Netlify.env.get('OPENROUTER_API_KEY') || process.env.VITE_OPENROUTER_API_KEY || '';
+        const GEMINI_API_KEY = Netlify.env.get('GEMINI_API_KEY') || process.env.VITE_GEMINI_API_KEY || '';
+
+        if (provider === 'gemini') {
+            if (!GEMINI_API_KEY) {
+                return new Response(JSON.stringify({ error: 'Gemini API key not configured' }), { status: 500, headers: CORS_HEADERS });
+            }
+
+            const model = body.model || 'gemini-3.1-flash-lite-preview';
+            const isStream = body.stream === true;
+            const endpoint = isStream ? 'streamGenerateContent?alt=sse' : 'generateContent';
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:${endpoint}?key=${GEMINI_API_KEY}`;
+
+            // Remove internal properties before forwarding to Gemini
+            const { model: _, stream: __, ...requestBody } = body;
+
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestBody),
+            });
+
+            return new Response(res.body, {
+                status: res.status,
+                headers: { 
+                    ...CORS_HEADERS, 
+                    'Content-Type': res.headers.get('content-type') || (isStream ? 'text/event-stream' : 'application/json')
+                }
+            });
+        }
 
         if (provider === 'openrouter') {
             if (!OPENROUTER_API_KEY) {
-                return {
-                    statusCode: 500,
-                    headers: CORS_HEADERS,
-                    body: JSON.stringify({ error: 'OpenRouter API key not configured' }),
-                };
+                return new Response(JSON.stringify({ error: 'OpenRouter API key not configured' }), { status: 500, headers: CORS_HEADERS });
             }
 
             const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
@@ -52,54 +64,19 @@ exports.handler = async (event) => {
                 body: JSON.stringify(body),
             });
 
-            const data = await res.json();
-            return {
-                statusCode: res.status,
-                headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
-            };
-        }
-
-        if (provider === 'gemini') {
-            if (!GEMINI_API_KEY) {
-                return {
-                    statusCode: 500,
-                    headers: CORS_HEADERS,
-                    body: JSON.stringify({ error: 'Gemini API key not configured' }),
-                };
-            }
-
-            const model = body.model || 'gemini-3.1-flash-lite-preview';
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
-
-            // Remove model from body before forwarding
-            const { model: _, ...requestBody } = body;
-
-            const res = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(requestBody),
+            return new Response(res.body, {
+                status: res.status,
+                headers: { ...CORS_HEADERS, 'Content-Type': res.headers.get('content-type') || 'application/json' }
             });
-
-            const data = await res.json();
-            return {
-                statusCode: res.status,
-                headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
-            };
         }
 
-        return {
-            statusCode: 400,
-            headers: CORS_HEADERS,
-            body: JSON.stringify({ error: 'Invalid provider. Use "openrouter" or "gemini".' }),
-        };
+        return new Response(JSON.stringify({ error: 'Invalid provider' }), { status: 400, headers: CORS_HEADERS });
     } catch (err) {
         console.error('AI Proxy error:', err);
-        return {
-            statusCode: 500,
-            headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ error: 'Internal proxy error', message: err.message }),
-        };
+        return new Response(JSON.stringify({ error: 'Internal proxy error', message: err.message }), { status: 500, headers: CORS_HEADERS });
     }
+};
+
+export const config = {
+    path: "/.netlify/functions/ai-proxy"
 };
