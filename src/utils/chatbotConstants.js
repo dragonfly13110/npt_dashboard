@@ -20,12 +20,24 @@ export const AI_MODELS = {
         icon: '✨',
         badge: 'FAST',
         badgeColor: '#1890ff',
+    },
+    qwen: {
+        key: 'qwen',
+        label: '🐉 Qwen 3.5',
+        shortLabel: 'Qwen',
+        description: 'Qwen 3.5 (397B-A17B)',
+        provider: 'NVIDIA',
+        color: '#76b900',
+        icon: '🐉',
+        badge: 'THINK',
+        badgeColor: '#76b900',
     }
 };
 
 export const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
 export const GEMMA_MODEL = 'gemma-4-31b-it';
 export const GEMINI_MODEL = 'gemini-3.1-flash-lite-preview';
+export const QWEN_MODEL = 'qwen/qwen3.5-397b-a17b';
 
 export const TABLE_CONFIG = {
     agricultural_areas: { label: 'พื้นที่การเกษตร', icon: '🌾', group: 'ยุทธศาสตร์', descTh: 'ข้อมูลพื้นที่เกษตรรายอำเภอ (ข้าว, พืชไร่, ไม้ผล, ผัก, ไม้ดอก, สมุนไพร)' },

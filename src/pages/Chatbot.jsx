@@ -414,6 +414,7 @@ ${dbContext}
     };
 
     const currentModelConfig = AI_MODELS[selectedModel];
+    // NVIDIA Qwen doesn't support Google Search grounding
     const canUseWebSearch = selectedModel === 'gemini' || selectedModel === 'gemma';
 
     return (
