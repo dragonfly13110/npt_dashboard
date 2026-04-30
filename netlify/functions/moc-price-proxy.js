@@ -1,6 +1,13 @@
 const MOC_BASE_URL = 'https://mex.moc.go.th';
 const DEFAULT_TYPE = 'W';
 const DEFAULT_CATEGORY_ID = '4';
+const CATEGORIES = {
+  3: 'ผัก',
+  4: 'ผลไม้-ค่าส่ง',
+  5: 'เครื่องเทศ/ของแห้ง',
+  7: 'พืชไร่-ธัญพืช',
+  10: 'ข้าวสาร',
+};
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -35,10 +42,12 @@ function normalizePriceItem(item, dataDate) {
   };
 }
 
-export default async () => {
+export default async (request) => {
   try {
+    const url = new URL(request.url);
     const type = DEFAULT_TYPE;
-    const catid = DEFAULT_CATEGORY_ID;
+    const requestedCatid = url.searchParams.get('catid') || DEFAULT_CATEGORY_ID;
+    const catid = CATEGORIES[requestedCatid] ? requestedCatid : DEFAULT_CATEGORY_ID;
     const pageUrl = `${MOC_BASE_URL}/page/dit/checkprice/type/${type}/catid/${catid}`;
 
     const pageResponse = await fetch(pageUrl, {
@@ -96,7 +105,8 @@ export default async () => {
       success: true,
       source: 'กรมการค้าภายใน กระทรวงพาณิชย์',
       sourceUrl: pageUrl,
-      category: 'ผลไม้-ค่าส่ง',
+      category: CATEGORIES[catid],
+      categoryId: catid,
       dataDate,
       caption,
       recordsTotal: json.recordsTotal || items.length,

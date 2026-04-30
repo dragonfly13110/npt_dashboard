@@ -1,11 +1,18 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { LineChartOutlined, LinkOutlined } from '@ant-design/icons';
 import { useApiCache } from '../../hooks/useApiCache';
 
 const SOURCE_URL = 'https://mex.moc.go.th/page/dit/checkprice/type/W/catid/4';
+const CATEGORIES = [
+  { id: '3', label: 'ผัก' },
+  { id: '4', label: 'ผลไม้' },
+  { id: '7', label: 'พืชไร่' },
+  { id: '10', label: 'ข้าว' },
+  { id: '5', label: 'ของแห้ง' },
+];
 
-async function fetchAgriPrices() {
-  const res = await fetch('/.netlify/functions/moc-price-proxy');
+async function fetchAgriPrices(catid) {
+  const res = await fetch(`/.netlify/functions/moc-price-proxy?catid=${encodeURIComponent(catid)}`);
   if (!res.ok) throw new Error(`MOC price proxy returned ${res.status}`);
 
   const json = await res.json();
@@ -36,13 +43,14 @@ function getPriceText(item) {
 }
 
 export default function AgriPricesWidget() {
+  const [selectedCategory, setSelectedCategory] = useState('4');
   const { data, isLoading, error } = useApiCache(
-    ['moc-agri-prices', 'fruit-wholesale'],
-    fetchAgriPrices,
+    ['moc-agri-prices', selectedCategory],
+    () => fetchAgriPrices(selectedCategory),
     { staleMinutes: 30, cacheMinutes: 120 }
   );
 
-  const items = useMemo(() => data?.items?.slice(0, 24) || [], [data]);
+  const items = useMemo(() => data?.items || [], [data]);
   const dataDateText = formatThaiDate(data?.dataDate);
 
   return (
@@ -53,7 +61,7 @@ export default function AgriPricesWidget() {
           <div style={{ minWidth: 0 }}>
             <h4 style={{ marginBottom: 2 }}>ราคาผลผลิตทางการเกษตร</h4>
             <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600 }}>
-              ผลไม้-ค่าส่ง • กรมการค้าภายใน
+              {data?.category || CATEGORIES.find((item) => item.id === selectedCategory)?.label} • กรมการค้าภายใน
             </div>
           </div>
         </div>
@@ -80,6 +88,26 @@ export default function AgriPricesWidget() {
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
+        {CATEGORIES.map((category) => (
+          <button
+            key={category.id}
+            type="button"
+            onClick={() => setSelectedCategory(category.id)}
+            style={{
+              padding: '4px 10px',
+              borderRadius: 999,
+              fontSize: 12,
+              fontWeight: 700,
+              cursor: 'pointer',
+              color: selectedCategory === category.id ? '#fff' : '#065f46',
+              background: selectedCategory === category.id ? '#059669' : '#ecfdf5',
+              border: selectedCategory === category.id ? '1px solid #059669' : '1px solid #bbf7d0',
+              fontFamily: 'inherit',
+            }}
+          >
+            {category.label}
+          </button>
+        ))}
         <span style={{
           display: 'inline-flex',
           alignItems: 'center',
@@ -100,7 +128,7 @@ export default function AgriPricesWidget() {
         )}
       </div>
 
-      <div className="price-history-list" style={{ display: 'flex', flexDirection: 'column', gap: 8, flex: 1, minHeight: 380, overflowY: 'auto', paddingRight: 4 }}>
+      <div className="price-history-list" style={{ display: 'flex', flexDirection: 'column', gap: 8, height: 340, overflowY: 'auto', paddingRight: 8, paddingBottom: 8 }}>
         {isLoading ? (
           <div className="skeleton-pulse" style={{ height: 280, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <div className="w-loader">กำลังโหลดราคาจากกระทรวงพาณิชย์...</div>
@@ -114,7 +142,7 @@ export default function AgriPricesWidget() {
           </div>
         ) : items.length > 0 ? (
           items.map((item) => (
-            <div key={item.id || item.no} className="price-item" style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', border: '1px solid #e2e8f0' }}>
+            <div key={item.id || item.no} className="price-item" style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', border: '1px solid #e2e8f0', padding: '10px 12px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingRight: 12, gap: 2 }}>
                 <span style={{ fontSize: 13, color: '#1e293b', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', fontWeight: 700 }} title={item.product_name}>
                   {item.product_name}
@@ -124,7 +152,7 @@ export default function AgriPricesWidget() {
                 </span>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', minWidth: 105 }}>
-                <span style={{ fontSize: 17, fontWeight: 800, color: '#0f172a' }}>
+                <span style={{ fontSize: 15, fontWeight: 800, color: '#0f172a' }}>
                   {getPriceText(item)}
                 </span>
                 <span style={{ fontSize: 11, color: '#94a3b8', fontWeight: 600 }}>
