@@ -1,4 +1,4 @@
-import { AI_PROXY_URL, GEMMA_MODEL, GEMINI_MODEL } from '../utils/chatbotConstants';
+import { AI_PROXY_URL, GEMMA_MODEL, GEMINI_MODEL, QWEN_MODEL } from '../utils/chatbotConstants';
 
 /**
  * Handles requests for Google Gemini API (including Gemini 3.1 and Gemma 4)
@@ -168,6 +168,108 @@ async function callOpenRouterAI(modelIdentifier, systemPrompt, messagesHistory, 
 }
 
 /**
+ * Handles requests for NVIDIA API (Qwen 3.5 via OpenAI-compatible format)
+ */
+async function callNvidiaAI(modelIdentifier, systemPrompt, messagesHistory, settings, retries = 2) {
+    for (let attempt = 0; attempt <= retries; attempt++) {
+        try {
+            const apiMessages = [{ role: 'system', content: systemPrompt }];
+            if (Array.isArray(messagesHistory)) {
+                apiMessages.push(...messagesHistory.map(m => ({
+                    role: m.role === 'bot' ? 'assistant' : 'user',
+                    content: m.text
+                })));
+            } else {
+                apiMessages.push({ role: 'user', content: messagesHistory });
+            }
+
+            const res = await fetch(AI_PROXY_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    provider: 'nvidia',
+                    body: {
+                        model: modelIdentifier,
+                        messages: apiMessages,
+                        max_tokens: 16384,
+                        temperature: settings?.deepThinking ? 0.7 : 0.6,
+                        top_p: 0.95,
+                        stream: true,
+                        chat_template_kwargs: { enable_thinking: !!settings?.deepThinking },
+                    }
+                })
+            });
+
+            if (res.status === 429) {
+                const waitMs = (attempt + 1) * 2000;
+                console.warn(`NVIDIA API rate limited, waiting ${waitMs}ms...`);
+                await new Promise(r => setTimeout(r, waitMs));
+                continue;
+            }
+
+            if (!res.ok) {
+                const errText = await res.text().catch(() => '');
+                throw new Error(errText || `HTTP ${res.status}`);
+            }
+
+            // Parse SSE stream (OpenAI-compatible format)
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder('utf-8');
+            let resultText = '';
+            let buffer = '';
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split('\n');
+                buffer = lines.pop();
+
+                for (const line of lines) {
+                    if (line.startsWith('data: ')) {
+                        const dataStr = line.slice(6).trim();
+                        if (dataStr === '[DONE]') continue;
+                        if (!dataStr) continue;
+
+                        try {
+                            const data = JSON.parse(dataStr);
+                            const delta = data.choices?.[0]?.delta;
+                            if (delta?.content) {
+                                resultText += delta.content;
+                            }
+                        } catch (e) {
+                            // ignore parse errors for partial chunks
+                        }
+                    }
+                }
+            }
+
+            // Process remaining buffer
+            if (buffer.startsWith('data: ')) {
+                const dataStr = buffer.slice(6).trim();
+                if (dataStr && dataStr !== '[DONE]') {
+                    try {
+                        const data = JSON.parse(dataStr);
+                        const delta = data.choices?.[0]?.delta;
+                        if (delta?.content) {
+                            resultText += delta.content;
+                        }
+                    } catch (e) {}
+                }
+            }
+
+            return resultText || null;
+
+        } catch (err) {
+            if (attempt === retries) throw err;
+            await new Promise(r => setTimeout(r, 1500));
+        }
+    }
+    return null;
+}
+
+/**
  * Main AI Call Entry Point
  */
 export async function callAI(modelKey, systemPrompt, messagesHistory, settings, fileData) {
@@ -185,6 +287,9 @@ export async function callAI(modelKey, systemPrompt, messagesHistory, settings, 
     }
     if (modelKey === 'gemini') {
         return callGeminiAI(GEMINI_MODEL, finalSystemPrompt, messagesHistory, settings, fileData);
+    }
+    if (modelKey === 'qwen') {
+        return callNvidiaAI(QWEN_MODEL, finalSystemPrompt, messagesHistory, settings);
     }
     
     return callOpenRouterAI(modelKey, finalSystemPrompt, messagesHistory, settings);

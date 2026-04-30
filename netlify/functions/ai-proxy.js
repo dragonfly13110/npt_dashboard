@@ -70,6 +70,31 @@ export default async (req) => {
             });
         }
 
+        if (provider === 'nvidia') {
+            const NVIDIA_API_KEY = Netlify.env.get('NVIDIA_API_KEY') || process.env.VITE_NVIDIA_API_KEY || '';
+            if (!NVIDIA_API_KEY) {
+                return new Response(JSON.stringify({ error: 'NVIDIA API key not configured' }), { status: 500, headers: CORS_HEADERS });
+            }
+
+            const res = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${NVIDIA_API_KEY}`,
+                    'Content-Type': 'application/json',
+                    'Accept': body.stream ? 'text/event-stream' : 'application/json',
+                },
+                body: JSON.stringify(body),
+            });
+
+            return new Response(res.body, {
+                status: res.status,
+                headers: {
+                    ...CORS_HEADERS,
+                    'Content-Type': res.headers.get('content-type') || (body.stream ? 'text/event-stream' : 'application/json'),
+                }
+            });
+        }
+
         return new Response(JSON.stringify({ error: 'Invalid provider' }), { status: 400, headers: CORS_HEADERS });
     } catch (err) {
         console.error('AI Proxy error:', err);
