@@ -27,7 +27,7 @@ const Dashboard = lazy(() => import('./pages/Dashboard'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Chatbot = lazy(() => import('./pages/Chatbot'));
 const SearchResults = lazy(() => import('./pages/SearchResults'));
-const PlantProtectionFormDemo = lazy(() => import('./components/PlantProtectionFormDemo'));
+const DataRequests = lazy(() => import('./pages/dataRequests/DataRequests'));
 const FarmerForum = lazy(() => import('./pages/community/FarmerForum'));
 
 // Admin
@@ -84,6 +84,13 @@ function AdminRoute({ children }) {
   return children;
 }
 
+function DataRequestRoute({ children }) {
+  const { role, loading } = useAuth();
+  if (loading) return <PageSkeleton />;
+  if (!['admin', 'editor'].includes(role)) return <Navigate to="/dashboard" replace />;
+  return children;
+}
+
 function AppRoutes() {
   const { user, loading } = useAuth();
 
@@ -136,7 +143,8 @@ function AppRoutes() {
           <Route index element={<Dashboard />} />
           <Route path="chatbot" element={<Chatbot />} />
           <Route path="search" element={<SearchResults />} />
-          <Route path="test-form" element={<PlantProtectionFormDemo />} />
+          <Route path="data-requests" element={<DataRequestRoute><DataRequests /></DataRequestRoute>} />
+          <Route path="test-form" element={<Navigate to="/dashboard/data-requests" replace />} />
 
           {/* Community */}
           <Route path="community/forum" element={<FarmerForum />} />
