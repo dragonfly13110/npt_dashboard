@@ -28,6 +28,7 @@ import {
     PieChartOutlined,
     CommentOutlined,
     CloudOutlined,
+    FormOutlined,
 } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
 import { useAuth } from '../../contexts/AuthContext';
@@ -58,6 +59,11 @@ const allMenuItems = [
         label: 'Chatbot ผู้ช่วย AI',
     },
 
+    {
+        key: '/dashboard/data-requests',
+        icon: <FormOutlined />,
+        label: 'คำขอข้อมูล',
+    },
     {
         key: 'admin',
         group: 'admin',
@@ -143,8 +149,6 @@ const adminOnlyItems = [
             { key: '/dashboard/admin/users', icon: <TeamOutlined />, label: 'จัดการสิทธิ์ผู้ใช้' },
             { key: '/dashboard/admin/audit-log', icon: <HistoryOutlined />, label: 'ประวัติการแก้ไข' },
             { key: '/dashboard/admin/recent-activities', icon: <HistoryOutlined />, label: 'กิจกรรมล่าสุดทั้งหมด' },
-            { type: 'divider' },
-            { key: '/dashboard/test-form', icon: <ThunderboltOutlined />, label: '🛠️ ทดสอบฟอร์มอัจฉริยะ' },
         ],
     },
 ];
@@ -159,7 +163,7 @@ function getFilteredMenuItems(role, department) {
     const userGroup = department ? GROUP_KEYS[department] : null;
     const filtered = allMenuItems.filter(item => {
         // เมนูเบื้องต้นที่ทุกคนเห็นเสมอ
-        if (['/dashboard', '/dashboard/chatbot', '/dashboard/community/forum'].includes(item.key)) return true;
+        if (['/dashboard', '/dashboard/chatbot', '/dashboard/data-requests', '/dashboard/community/forum'].includes(item.key)) return true;
         // กลุ่มงานของตัวเอง
         if (item.group && item.group === userGroup) return true;
         // ไม่มีกลุ่มงานก็เห็นทุกกลุ่ม (fallback)
