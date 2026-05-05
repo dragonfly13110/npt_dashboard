@@ -1,18 +1,40 @@
 import { useState } from 'react';
-import { Form, Input, Button, message } from 'antd';
-import { UserOutlined, LockOutlined, ArrowLeftOutlined, EyeOutlined } from '@ant-design/icons';
+import { Button, Divider, Form, Input, Space, Typography, message } from 'antd';
+import {
+    ArrowLeftOutlined, EyeOutlined, GoogleOutlined,
+    KeyOutlined, MailOutlined, SafetyOutlined,
+} from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import { useAuth } from '../contexts/AuthContext';
+import '../styles/login.css';
+
+const { Text, Title } = Typography;
 
 export default function Login() {
     const [loading, setLoading] = useState(false);
+    const [googleLoading, setGoogleLoading] = useState(false);
     const navigate = useNavigate();
     const { loginAsGuest } = useAuth();
 
     const handleGuestLogin = () => {
         loginAsGuest();
         navigate('/dashboard');
+    };
+
+    const handleGoogleLogin = async () => {
+        setGoogleLoading(true);
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: `${window.location.origin}/dashboard`,
+            },
+        });
+
+        if (error) {
+            message.error(`เข้าสู่ระบบด้วย Google ไม่สำเร็จ: ${error.message}`);
+            setGoogleLoading(false);
+        }
     };
 
     const handleLogin = async (values) => {
@@ -26,71 +48,88 @@ export default function Login() {
             message.success('เข้าสู่ระบบสำเร็จ');
             navigate('/dashboard');
         } catch (err) {
-            message.error('เข้าสู่ระบบไม่สำเร็จ: ' + err.message);
+            message.error(`เข้าสู่ระบบไม่สำเร็จ: ${err.message}`);
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="login-container">
-            <div className="login-card">
-                <div className="login-logo">
-                    <span className="logo-icon">🌾</span>
-                </div>
-                <h1 className="login-title">ระบบฐานข้อมูลกลาง</h1>
-                <p className="login-subtitle">สำนักงานเกษตรจังหวัดนครปฐม</p>
+        <div className="login-wrapper">
+            <div className="login-bg-grid" />
+            <div className="login-orb login-orb--1" />
+            <div className="login-orb login-orb--2" />
+            <div className="login-orb login-orb--3" />
 
-                <Form onFinish={handleLogin} size="large" layout="vertical">
-                    <Form.Item
-                        name="email"
-                        label="อีเมล"
-                        rules={[{ required: true, message: 'กรุณากรอกอีเมล' }]}
-                    >
-                        <Input prefix={<UserOutlined />} placeholder="email@example.com" />
-                    </Form.Item>
+            <div className="login-card-new">
+                <div className="login-card-content">
+                    <div className="login-header">
+                        <div className="login-badge"><SafetyOutlined /> NPT AGRICULTURE</div>
+                        <div className="login-icon-wrap">
+                            <span className="login-icon">🌾</span>
+                        </div>
+                        <Title level={2} style={{ color: '#e6edf3', margin: 0 }}>ระบบฐานข้อมูลกลาง</Title>
+                        <Text style={{ color: '#8b949e' }}>สำนักงานเกษตรจังหวัดนครปฐม</Text>
+                    </div>
 
-                    <Form.Item
-                        name="password"
-                        label="รหัสผ่าน"
-                        rules={[{ required: true, message: 'กรุณากรอกรหัสผ่าน' }]}
-                    >
-                        <Input.Password prefix={<LockOutlined />} placeholder="รหัสผ่าน" />
-                    </Form.Item>
-
-                    <Form.Item style={{ marginBottom: 0, marginTop: 8 }}>
-                        <Button type="primary" htmlType="submit" className="login-btn" loading={loading} style={{ width: '100%', marginBottom: 16 }}>
-                            เข้าสู่ระบบ
-                        </Button>
-                        <Button 
-                            type="default" 
-                            htmlType="button"
-                            onClick={handleGuestLogin}
-                            size="large"
-                            style={{ 
-                                width: '100%', 
-                                borderColor: '#1a7f37', 
-                                color: '#1a7f37',
-                                height: 44, // Match login-btn height
-                                borderRadius: 8
-                            }}
-                            icon={<EyeOutlined />}
+                    <Space direction="vertical" size={14} style={{ width: '100%' }}>
+                        <Button
+                            className="google-btn"
+                            icon={<GoogleOutlined />}
+                            loading={googleLoading}
+                            onClick={handleGoogleLogin}
+                            block
                         >
+                            เข้าสู่ระบบด้วย Google
+                        </Button>
+
+                        <Divider className="login-divider">หรือ</Divider>
+
+                        <Form onFinish={handleLogin} layout="vertical" requiredMark={false}>
+                            <Form.Item
+                                name="email"
+                                label="อีเมล"
+                                rules={[
+                                    { required: true, message: 'กรุณากรอกอีเมล' },
+                                    { type: 'email', message: 'รูปแบบอีเมลไม่ถูกต้อง' },
+                                ]}
+                            >
+                                <Input className="login-input" prefix={<MailOutlined />} placeholder="email@example.com" />
+                            </Form.Item>
+
+                            <Form.Item
+                                name="password"
+                                label="รหัสผ่าน"
+                                rules={[{ required: true, message: 'กรุณากรอกรหัสผ่าน' }]}
+                            >
+                                <Input.Password className="login-input" prefix={<KeyOutlined />} placeholder="รหัสผ่าน" />
+                            </Form.Item>
+
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                className="login-submit-btn"
+                                loading={loading}
+                                block
+                            >
+                                เข้าสู่ระบบ
+                            </Button>
+                        </Form>
+
+                        <Button className="guest-btn" icon={<EyeOutlined />} onClick={handleGuestLogin} block>
                             บุคคลทั่วไป (เข้าชมข้อมูล)
                         </Button>
-                    </Form.Item>
-                </Form>
+                    </Space>
 
-                <div style={{ textAlign: 'center', marginTop: 16 }}>
-                    <Button
-                        type="link"
-                        icon={<ArrowLeftOutlined />}
-                        onClick={() => navigate('/')}
-                        size="large"
-                        style={{ color: '#94a3b8', fontSize: 16 }}
-                    >
-                        กลับหน้าแรก
-                    </Button>
+                    <div className="login-footer">
+                        <Button
+                            type="link"
+                            icon={<ArrowLeftOutlined />}
+                            onClick={() => navigate('/')}
+                        >
+                            กลับหน้าแรก
+                        </Button>
+                    </div>
                 </div>
             </div>
         </div>

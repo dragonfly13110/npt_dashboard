@@ -59,6 +59,7 @@ export const TABLE_CONFIG = {
     soil_fertilizer_centers: { label: 'ศดปช.', icon: '🧪', group: 'อารักขาพืช', descTh: 'ศูนย์จัดการดินปุ๋ยชุมชน' },
     fire_hotspots: { label: 'จุดเฝ้าระวัง PM2.5', icon: '🔥', group: 'อารักขาพืช', descTh: 'จุดเฝ้าระวังการเผาและ PM2.5' },
     daily_weather: { label: 'สภาพอากาศและน้ำฝน', icon: '🌧️', group: 'ยุทธศาสตร์', descTh: 'ข้อมูลอุณหภูมิและปริมาณน้ำฝนรายวัน (Meteostat)' },
+    budgets: { label: 'งบประมาณ', icon: '💰', group: 'บริหาร', descTh: 'ข้อมูลงบประมาณส่งเสริมการเกษตร รอบ 2 ปีงบประมาณ 2569 มีแผนงาน โครงการ กิจกรรม พื้นที่ เป้าหมาย งบประมาณ แผนดำเนินงาน แผนใช้จ่ายเงิน และผู้รับผิดชอบ' },
 };
 
 export const QUICK_PROMPTS = [
@@ -93,11 +94,13 @@ export const TABLE_SEARCH_COLS = {
     soil_fertilizer_centers: ['center_name', 'chairman', 'main_crop_type'],
     fire_hotspots: ['spot_name'],
     daily_weather: [],
+    budgets: ['project_name', 'budget_source', 'status', 'notes'],
 };
 
 export const DISTRICT_COLS = {
     certifications: 'plot_district',
-    forecast_plots: 'district'
+    forecast_plots: 'district',
+    budgets: 'notes'
 };
 
 // Columns that contain numeric data for aggregation
@@ -112,6 +115,7 @@ export const NUMERIC_COLS = {
     disasters: ['affected_area_rai', 'affected_households', 'damage_baht'],
     fire_hotspots: ['frp', 'bright_ti4', 'bright_ti5'],
     daily_weather: ['tavg', 'tmin', 'tmax', 'prcp', 'wspd', 'pres'],
+    budgets: ['budget_amount', 'spent_amount'],
 };
 
 // Columns that contain categorical string data for group-by counting
@@ -125,6 +129,7 @@ export const CATEGORY_COLS = {
     disasters: ['disaster_type'],
     gis_areas: ['area_type'],
     fire_hotspots: ['land_use', 'confidence', 'satellite'],
+    budgets: ['budget_source', 'status'],
 };
 
 export const SYSTEM_PROMPT = `คุณคือ "น้องข้าวหอม" 🌾 — AI ผู้ช่วยอัจฉริยะระดับสูงประจำระบบจัดการข้อมูลสำนักงานเกษตรจังหวัดนครปฐม

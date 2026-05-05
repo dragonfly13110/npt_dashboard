@@ -1,0 +1,56 @@
+.budget-detail-table .ant-table-thead > tr > th {
+    padding: 8px 10px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.budget-detail-table .ant-table-tbody > tr > td {
+    padding: 6px 10px;
+    vertical-align: middle;
+}
+
+.budget-detail-table .ant-table-tbody > tr:hover > td {
+    background: #f6f8fa;
+}
+
+.budget-stack {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+}
+
+.budget-clamp {
+    display: -webkit-box;
+    overflow: hidden;
+    color: #1f2328;
+    font-size: 13px;
+    line-height: 1.35;
+    -webkit-box-orient: vertical;
+}
+
+.budget-clamp-1 {
+    -webkit-line-clamp: 1;
+}
+
+.budget-clamp-2 {
+    -webkit-line-clamp: 2;
+}
+
+.budget-strong {
+    font-weight: 700;
+}
+
+.budget-muted {
+    color: #6e7781;
+    font-size: 12px;
+}
+
+.budget-nowrap {
+    white-space: nowrap;
+    font-size: 13px;
+}
+
+.budget-subtext {
+    white-space: nowrap;
+    font-size: 12px;
+}

@@ -23,6 +23,7 @@ const TABLE_ROUTES = {
     pest_centers: '/dashboard/protection/pest-centers',
     soil_fertilizer_centers: '/dashboard/protection/soil-fertilizer',
     fire_hotspots: '/dashboard/protection/fire-hotspots',
+    budgets: '/dashboard/admin/budgets',
 };
 
 // ========== Cache System ==========
@@ -90,7 +91,24 @@ function getResultLabel(row, table) {
     return 'ข้อมูล';
 }
 
+function parseBudgetNotes(notes) {
+    if (!notes || typeof notes !== 'string') return {};
+    try {
+        const parsed = JSON.parse(notes);
+        return parsed && typeof parsed === 'object' ? parsed : {};
+    } catch {
+        return {};
+    }
+}
+
 function getResultSubtitle(row, table) {
+    if (table === 'budgets') {
+        const notes = parseBudgetNotes(row.notes);
+        return [notes.district, notes.activity, row.budget_amount ? `${Number(row.budget_amount).toLocaleString('th-TH')} บาท` : null]
+            .filter(Boolean)
+            .join(' • ') || null;
+    }
+
     const distCol = DISTRICT_COLS[table] || 'district';
     const searchCols = TABLE_SEARCH_COLS[table] || [];
     const parts = [];

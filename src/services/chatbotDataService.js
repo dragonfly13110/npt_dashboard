@@ -2,6 +2,16 @@ import { supabase } from '../supabaseClient';
 import { callAI } from './aiService';
 import { TABLE_CONFIG, TABLE_SEARCH_COLS, DISTRICT_COLS, NUMERIC_COLS, CATEGORY_COLS } from '../utils/chatbotConstants';
 
+function parseBudgetNotes(notes) {
+    if (!notes || typeof notes !== 'string') return {};
+    try {
+        const parsed = JSON.parse(notes);
+        return parsed && typeof parsed === 'object' ? parsed : {};
+    } catch {
+        return {};
+    }
+}
+
 export async function extractIntent(query, modelKey, chatHistory = []) {
     const tableList = Object.entries(TABLE_CONFIG)
         .map(([k, v]) => `${k}: ${v.descTh}`)
@@ -128,7 +138,8 @@ async function computeAggregation(table, distCol, matchedDistrict, searchKeyword
 
         // Process rows
         data.forEach(row => {
-            const district = row[distCol] || 'ไม่ระบุ';
+            const budgetNotes = table === 'budgets' ? parseBudgetNotes(row.notes) : null;
+            const district = budgetNotes?.district || row[distCol] || 'ไม่ระบุ';
             if (!stats.by_district[district]) {
                 stats.by_district[district] = { count: 0 };
                 numCols.forEach(col => { stats.by_district[district][col] = 0; });
@@ -226,6 +237,7 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
             soil_fertilizer_centers: ['ศดปช', 'ดิน', 'ปุ๋ย'],
             fire_hotspots: ['ไฟ', 'เผา', 'pm2.5', 'หมอกควัน'],
             daily_weather: ['สภาพอากาศ', 'อุณหภูมิ', 'ฝน', 'ลม', 'อากาศ', 'ร้อน', 'หนาว'],
+            budgets: ['งบ', 'งบประมาณ', 'โครงการ', 'กิจกรรม', 'แผนใช้จ่าย', 'แผนดำเนินงาน', 'ผู้รับผิดชอบ', 'รอบ 2', '2569'],
         };
 
         for (const [table, keywords] of Object.entries(tableKeywords)) {
@@ -250,6 +262,7 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
             smart_farmers: ['learning_centers', 'farmer_groups'],
             certifications: ['large_plots', 'crop_production'],
             disasters: ['agricultural_areas', 'farmer_registry'],
+            budgets: ['kpi_plans'],
         };
         const existing = new Set(matchedTables);
         matchedTables.forEach(t => {
@@ -357,7 +370,8 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
 
                     summaryData.forEach(row => {
                         // District count
-                        const d = row[distCol] || 'ไม่ระบุ';
+                        const budgetNotes = table === 'budgets' ? parseBudgetNotes(row.notes) : null;
+                        const d = budgetNotes?.district || row[distCol] || 'ไม่ระบุ';
                         distCounts[d] = (distCounts[d] || 0) + 1;
                         
                         // Category count
