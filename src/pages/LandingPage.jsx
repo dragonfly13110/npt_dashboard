@@ -105,7 +105,8 @@ export default function LandingPage() {
                                 alignItems: 'center',
                                 gap: '10px',
                                 boxShadow: '0 10px 25px -5px rgba(22, 163, 74, 0.4)',
-                                transition: 'transform 0.2s, box-shadow 0.2s'
+                                transition: 'transform 0.2s, box-shadow 0.2s',
+                                fontFamily: "'Kanit', 'Athiti', 'IBM Plex Sans Thai', -apple-system, sans-serif"
                             }}
                             onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 15px 30px -5px rgba(22, 163, 74, 0.5)'; }}
                             onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 10px 25px -5px rgba(22, 163, 74, 0.4)'; }}
