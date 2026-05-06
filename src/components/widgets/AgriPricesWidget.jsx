@@ -42,6 +42,16 @@ function getPriceText(item) {
   return item.avg_price || '-';
 }
 
+function PriceSkeleton() {
+  return (
+    <div className="price-ios-skeleton-list" aria-label="กำลังโหลดราคาผลผลิต">
+      {Array.from({ length: 6 }).map((_, index) => (
+        <div className="price-ios-skeleton-row" key={index} />
+      ))}
+    </div>
+  );
+}
+
 export default function AgriPricesWidget() {
   const [selectedCategory, setSelectedCategory] = useState('4');
   const { data, isLoading, error } = useApiCache(
@@ -52,124 +62,79 @@ export default function AgriPricesWidget() {
 
   const items = useMemo(() => data?.items || [], [data]);
   const dataDateText = formatThaiDate(data?.dataDate);
+  const selectedLabel = data?.category || CATEGORIES.find((item) => item.id === selectedCategory)?.label;
 
   return (
-    <div className="widget-box price-widget slide-up-anim" style={{ animationDelay: '0.15s', justifyContent: 'flex-start' }}>
-      <div className="widget-header" style={{ justifyContent: 'space-between', marginBottom: 8 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
-          <div className="widget-icon bg-green-100 text-green-600"><LineChartOutlined /></div>
-          <div style={{ minWidth: 0 }}>
-            <h4 style={{ marginBottom: 2 }}>ราคาผลผลิตทางการเกษตร</h4>
-            <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600 }}>
-              {data?.category || CATEGORIES.find((item) => item.id === selectedCategory)?.label} • กรมการค้าภายใน
-            </div>
+    <section className="price-ios-card slide-up-anim" aria-label="ราคาผลผลิตทางการเกษตร">
+      <div className="price-ios-glow" />
+
+      <div className="price-ios-header">
+        <div className="price-ios-title">
+          <div className="price-ios-icon"><LineChartOutlined /></div>
+          <div>
+            <span className="price-ios-eyebrow">กรมการค้าภายใน</span>
+            <h3>ราคาผลผลิตทางการเกษตร</h3>
+            <p>{selectedLabel} · {dataDateText ? `ข้อมูล ณ ${dataDateText}` : 'ข้อมูลล่าสุด'}</p>
           </div>
         </div>
         <a
+          className="price-ios-source"
           href={data?.sourceUrl || SOURCE_URL}
           target="_blank"
           rel="noreferrer"
           title="เปิดแหล่งข้อมูล"
-          style={{
-            width: 32,
-            height: 32,
-            borderRadius: 8,
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#047857',
-            background: '#ecfdf5',
-            border: '1px solid #bbf7d0',
-            flex: '0 0 auto',
-          }}
+          aria-label="เปิดแหล่งข้อมูลราคา"
         >
           <LinkOutlined />
         </a>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
+      <div className="price-ios-tabs" aria-label="เลือกหมวดราคา">
         {CATEGORIES.map((category) => (
           <button
+            className={selectedCategory === category.id ? 'is-active' : ''}
             key={category.id}
             type="button"
             onClick={() => setSelectedCategory(category.id)}
-            style={{
-              padding: '4px 10px',
-              borderRadius: 999,
-              fontSize: 12,
-              fontWeight: 700,
-              cursor: 'pointer',
-              color: selectedCategory === category.id ? '#fff' : '#065f46',
-              background: selectedCategory === category.id ? '#059669' : '#ecfdf5',
-              border: selectedCategory === category.id ? '1px solid #059669' : '1px solid #bbf7d0',
-              fontFamily: 'inherit',
-            }}
           >
             {category.label}
           </button>
         ))}
-        <span style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          padding: '4px 10px',
-          borderRadius: 999,
-          fontSize: 12,
-          fontWeight: 700,
-          color: '#065f46',
-          background: '#d1fae5',
-          border: '1px solid #a7f3d0',
-        }}>
-          {dataDateText ? `ข้อมูล ณ ${dataDateText}` : 'ข้อมูลล่าสุด'}
-        </span>
-        {!isLoading && (
-          <span style={{ fontSize: 11, color: '#94a3b8', marginLeft: 'auto' }}>
-            พบ {items.length.toLocaleString('th-TH')} รายการ
-          </span>
-        )}
       </div>
 
-      <div className="price-history-list" style={{ display: 'flex', flexDirection: 'column', gap: 8, height: 340, overflowY: 'auto', paddingRight: 8, paddingBottom: 8 }}>
+      <div className="price-ios-meta">
+        <span>{isLoading ? 'กำลังดึงข้อมูล' : `พบ ${items.length.toLocaleString('th-TH')} รายการ`}</span>
+        <span>{selectedLabel}</span>
+      </div>
+
+      <div className="price-ios-list">
         {isLoading ? (
-          <div className="skeleton-pulse" style={{ height: 280, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div className="w-loader">กำลังโหลดราคาจากกระทรวงพาณิชย์...</div>
-          </div>
+          <PriceSkeleton />
         ) : error ? (
-          <div style={{ padding: '30px 16px', textAlign: 'center' }}>
-            <div style={{ fontSize: 32, marginBottom: 8 }}>!</div>
-            <div style={{ fontSize: 13, color: '#64748b', fontWeight: 600, lineHeight: 1.6, maxWidth: '85%', margin: '0 auto' }}>
-              ยังดึงข้อมูลราคาจากกระทรวงพาณิชย์ไม่ได้ในขณะนี้
-            </div>
+          <div className="price-ios-state">
+            <strong>ยังดึงข้อมูลราคาไม่ได้</strong>
+            <span>ลองรีเฟรชอีกครั้ง หรือเปิดแหล่งข้อมูลจากกรมการค้าภายใน</span>
           </div>
         ) : items.length > 0 ? (
           items.map((item) => (
-            <div key={item.id || item.no} className="price-item" style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', border: '1px solid #e2e8f0', padding: '10px 12px' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingRight: 12, gap: 2 }}>
-                <span style={{ fontSize: 13, color: '#1e293b', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', fontWeight: 700 }} title={item.product_name}>
-                  {item.product_name}
-                </span>
-                <span style={{ fontSize: 11, color: '#64748b', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
-                  {item.market_name || 'กรมการค้าภายใน'}
-                </span>
+            <article key={item.id || item.no} className="price-ios-item">
+              <div className="price-ios-product">
+                <strong title={item.product_name}>{item.product_name}</strong>
+                <span>{item.market_name || 'กรมการค้าภายใน'}</span>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', minWidth: 105 }}>
-                <span style={{ fontSize: 15, fontWeight: 800, color: '#0f172a' }}>
-                  {getPriceText(item)}
-                </span>
-                <span style={{ fontSize: 11, color: '#94a3b8', fontWeight: 600 }}>
-                  {item.unit}{item.avg_price ? ` • เฉลี่ย ${item.avg_price}` : ''}
-                </span>
+              <div className="price-ios-value">
+                <strong>{getPriceText(item)}</strong>
+                <span>{item.unit}{item.avg_price ? ` · เฉลี่ย ${item.avg_price}` : ''}</span>
               </div>
-            </div>
+            </article>
           ))
         ) : (
-          <div style={{ padding: '30px 16px', textAlign: 'center' }}>
-            <div style={{ fontSize: 32, marginBottom: 8 }}>?</div>
-            <div style={{ fontSize: 13, color: '#64748b', fontWeight: 600, lineHeight: 1.6, maxWidth: '85%', margin: '0 auto' }}>
-              ไม่พบรายการราคาผลไม้-ค่าส่งจากกระทรวงพาณิชย์
-            </div>
+          <div className="price-ios-state">
+            <strong>ไม่พบรายการราคา</strong>
+            <span>ยังไม่มีข้อมูลในหมวด {selectedLabel}</span>
           </div>
         )}
       </div>
-    </div>
+    </section>
   );
 }

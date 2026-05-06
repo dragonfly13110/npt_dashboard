@@ -17,6 +17,8 @@ const WidgetSkeleton = () => (
     </div>
 );
 
+
+
 // ========== WIDGET COMPONENT IMPORTS (Lazy Loading) ==========
 const WeatherWidget = lazy(() => import('../components/widgets/WeatherWidget'));
 const AirQualityWidget = lazy(() => import('../components/widgets/AirQualityWidget'));
@@ -77,6 +79,7 @@ export default function LandingPage() {
                         เพื่อสนับสนุนการบริหารจัดการที่แม่นยำและยกระดับการเกษตรอย่างยั่งยืน
                     </p>
 
+                    
                     <div className="hero-actions" style={{ marginTop: '36px', display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
                         <a
                             href="https://nakhonpathom.doae.go.th/"

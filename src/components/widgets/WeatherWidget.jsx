@@ -18,8 +18,8 @@ function getWeatherDetails(code) {
         81: { desc: 'ฝนตกซู่ปานกลาง', icon: '🌧️' },
         82: { desc: 'ฝนตกซู่หนัก', icon: '🌧️' },
         95: { desc: 'ฝนฟ้าคะนอง', icon: '⛈️' },
-        96: { desc: 'ฝนฟ้าคะนองลูกเห็บตกเล็กน้อย', icon: '⛈️' },
-        99: { desc: 'ฝนฟ้าคะนองลูกเห็บตกหนัก', icon: '⛈️' }
+        96: { desc: 'ฝนฟ้าคะนองลูกเห็บเล็กน้อย', icon: '⛈️' },
+        99: { desc: 'ฝนฟ้าคะนองลูกเห็บหนัก', icon: '⛈️' },
     };
     return wmo[code] || { desc: 'ไม่ทราบสภาพอากาศ', icon: '❓' };
 }
@@ -39,74 +39,82 @@ export default function WeatherWidget() {
         { staleMinutes: 30, cacheMinutes: 120 }
     );
 
-    if (isLoading) return <div className="widget-box skeleton-pulse"><div className="w-loader">กำลังโหลดสภาพอากาศแบบละเอียด...</div></div>;
+    if (isLoading) {
+        return (
+            <div className="weather-ios-card weather-ios-loading" aria-label="กำลังโหลดสภาพอากาศ">
+                <div className="weather-ios-skeleton weather-ios-skeleton-main" />
+                <div className="weather-ios-skeleton weather-ios-skeleton-strip" />
+                <div className="weather-ios-skeleton weather-ios-skeleton-forecast" />
+            </div>
+        );
+    }
+
     if (!data?.current) return null;
 
     const weather = data.current;
     const daily = data.daily;
     const currentWmo = getWeatherDetails(weather.weather_code);
+    const updatedAt = new Date(weather.time).toLocaleTimeString('th-TH', {
+        hour: '2-digit',
+        minute: '2-digit',
+    });
 
     return (
-        <div className="widget-box slide-up-anim" style={{ 
-            animationDelay: '0.1s', 
-            display: 'flex', 
-            flexDirection: 'column', 
-            gap: '12px', 
-            padding: '16px', 
-            background: 'linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%)',
-            borderRadius: '16px',
-            border: '1px solid #e0f2fe'
-        }}>
-            {/* Top row: Icon + Temp + Status */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', paddingBottom: '12px', borderBottom: '1px dashed #e2e8f0' }}>
-                <div style={{ fontSize: '48px', lineHeight: 1, filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))' }}>{currentWmo.icon}</div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-                        <span style={{ fontSize: '32px', fontWeight: '900', color: '#0f172a', lineHeight: 1, letterSpacing: '-1px' }}>{Math.round(weather.temperature_2m)}°C</span>
-                        <span style={{ fontSize: '13px', fontWeight: '800', color: '#0284c7' }}>{currentWmo.desc}</span>
-                    </div>
-                    <span style={{ fontSize: '11px', color: '#64748b', marginTop: '4px', fontWeight: '600' }}>
-                        📍 จ.นครปฐม &bull; อัปเดต {new Date(weather.time).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })} น.
-                    </span>
+        <section className="weather-ios-card slide-up-anim" aria-label="สภาพอากาศนครปฐม">
+            <div className="weather-ios-glow" />
+
+            <div className="weather-ios-head">
+                <div>
+                    <span className="weather-ios-eyebrow">นครปฐม</span>
+                    <h3>สภาพอากาศวันนี้</h3>
+                    <p>{currentWmo.desc} · อัปเดต {updatedAt} น.</p>
+                </div>
+                <div className="weather-ios-icon" title={currentWmo.desc}>{currentWmo.icon}</div>
+            </div>
+
+            <div className="weather-ios-temp-row">
+                <div className="weather-ios-temp">
+                    {Math.round(weather.temperature_2m)}
+                    <span>°C</span>
+                </div>
+                <div className="weather-ios-note">
+                    <span>รู้สึกเหมือน</span>
+                    <strong>{Math.round(weather.apparent_temperature)}°C</strong>
                 </div>
             </div>
 
-            {/* Middle row: Stats Layout Horizontal Compact */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', background: '#f8fafc', padding: '8px 16px', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <span style={{ fontSize: '10px', color: '#64748b', fontWeight: '800' }}>รู้สึกเหมือน</span>
-                    <span style={{ fontSize: '13px', fontWeight: '900', color: '#1e293b' }}>{Math.round(weather.apparent_temperature)}°C</span>
+            <div className="weather-ios-metrics">
+                <div>
+                    <span>ความชื้น</span>
+                    <strong>{weather.relative_humidity_2m}%</strong>
                 </div>
-                <div style={{ width: '1px', background: '#e2e8f0' }}></div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <span style={{ fontSize: '10px', color: '#64748b', fontWeight: '800' }}>ความชื้น</span>
-                    <span style={{ fontSize: '13px', fontWeight: '900', color: '#1e293b' }}>{weather.relative_humidity_2m}%</span>
+                <div>
+                    <span>แรงลม</span>
+                    <strong>{weather.wind_speed_10m} <small>km/h</small></strong>
                 </div>
-                <div style={{ width: '1px', background: '#e2e8f0' }}></div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <span style={{ fontSize: '10px', color: '#64748b', fontWeight: '800' }}>แรงลม</span>
-                    <span style={{ fontSize: '13px', fontWeight: '900', color: '#1e293b' }}>{weather.wind_speed_10m} <small style={{fontSize: 9, fontWeight: 700}}>km/h</small></span>
+                <div>
+                    <span>พยากรณ์</span>
+                    <strong>{daily?.time?.length ? '5 วัน' : '-'}</strong>
                 </div>
             </div>
 
-            {/* Bottom row: Horizontal Forecast */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '4px', paddingLeft: '8px', paddingRight: '8px' }}>
-                {daily && [1, 2, 3, 4, 5].map(i => {
-                    const dateObj = new Date(daily.time[i]);
-                    const dayName = dateObj.toLocaleDateString('th-TH', { weekday: 'short' });
-                    const wmo = getWeatherDetails(daily.weather_code[i]);
-                    return (
-                        <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
-                            <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700' }}>{dayName}</span>
-                            <div style={{ fontSize: '20px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))' }} title={wmo.desc}>{wmo.icon}</div>
-                            <div style={{ display: 'flex', gap: '6px', fontSize: '11px', fontWeight: '800', marginTop: '2px' }}>
-                                <span style={{ color: '#0f172a' }}>{Math.round(daily.temperature_2m_max[i])}°</span>
-                                <span style={{ color: '#94a3b8' }}>{Math.round(daily.temperature_2m_min[i])}°</span>
+            {daily && (
+                <div className="weather-ios-forecast" aria-label="พยากรณ์อากาศ 5 วัน">
+                    {[1, 2, 3, 4, 5].map(i => {
+                        const dateObj = new Date(daily.time[i]);
+                        const dayName = dateObj.toLocaleDateString('th-TH', { weekday: 'short' });
+                        const wmo = getWeatherDetails(daily.weather_code[i]);
+                        return (
+                            <div className="weather-ios-day" key={daily.time[i]}>
+                                <span>{dayName}</span>
+                                <b title={wmo.desc}>{wmo.icon}</b>
+                                <strong>{Math.round(daily.temperature_2m_max[i])}°</strong>
+                                <small>{Math.round(daily.temperature_2m_min[i])}°</small>
                             </div>
-                        </div>
-                    );
-                })}
-            </div>
-        </div>
+                        );
+                    })}
+                </div>
+            )}
+        </section>
     );
 }
