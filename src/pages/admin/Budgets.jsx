@@ -259,7 +259,7 @@ export default function Budgets() {
             title: 'โครงการ',
             dataIndex: 'project',
             key: 'project',
-            width: 360,
+            width: 320,
             render: (value, record) => (
                 <div className="budget-stack">
                     <ClampText strong lines={2}>{value}</ClampText>
@@ -276,7 +276,7 @@ export default function Budgets() {
             title: 'โครงการ / กิจกรรม',
             dataIndex: 'project',
             key: 'project',
-            width: 360,
+            width: 420,
             render: (_, record) => (
                 <div className="budget-stack">
                     <ClampText strong>{record.project}</ClampText>
@@ -289,7 +289,7 @@ export default function Budgets() {
             title: 'พื้นที่',
             dataIndex: 'district',
             key: 'district',
-            width: 160,
+            width: 128,
             render: (_, record) => (
                 <div className="budget-stack">
                     <Text className="budget-nowrap">{record.district}</Text>
@@ -301,16 +301,16 @@ export default function Budgets() {
                 </div>
             ),
         },
-        { title: 'เป้าหมาย', key: 'target', width: 120, align: 'center', render: (_, record) => <Text className="budget-nowrap">{compactText(record.target)} {compactText(record.unit, '')}</Text> },
-        { title: 'งบประมาณ', dataIndex: 'budget', key: 'budget', width: 130, align: 'right', sorter: (a, b) => a.budget - b.budget, render: value => <Text strong>{money(value)}</Text> },
-        { title: 'แผนดำเนินงาน', dataIndex: 'operationPlan', key: 'operationPlan', width: 130, align: 'center', render: value => <Text className="budget-nowrap">{compactText(value)}</Text> },
-        { title: 'แผนใช้จ่ายเงิน', dataIndex: 'paymentPlan', key: 'paymentPlan', width: 130, align: 'center', render: value => <Text className="budget-nowrap">{compactText(value)}</Text> },
-        { title: 'ผู้รับผิดชอบ', dataIndex: 'owner', key: 'owner', width: 180, render: value => <ClampText>{value}</ClampText> },
+        { title: 'เป้าหมาย', key: 'target', width: 104, align: 'center', render: (_, record) => <Text className="budget-nowrap">{compactText(record.target)} {compactText(record.unit, '')}</Text> },
+        { title: 'งบประมาณ', dataIndex: 'budget', key: 'budget', width: 112, align: 'right', sorter: (a, b) => a.budget - b.budget, render: value => <Text strong>{money(value)}</Text> },
+        { title: 'แผนดำเนินงาน', dataIndex: 'operationPlan', key: 'operationPlan', width: 108, align: 'center', render: value => <Text className="budget-nowrap">{compactText(value)}</Text> },
+        { title: 'แผนใช้จ่ายเงิน', dataIndex: 'paymentPlan', key: 'paymentPlan', width: 108, align: 'center', render: value => <Text className="budget-nowrap">{compactText(value)}</Text> },
+        { title: 'ผู้รับผิดชอบ', dataIndex: 'owner', key: 'owner', width: 150, render: value => <ClampText>{value}</ClampText> },
         {
             title: 'จัดการ',
             key: 'actions',
             fixed: 'right',
-            width: userCanDelete ? 96 : 58,
+            width: userCanDelete ? 82 : 52,
             align: 'center',
             render: (_, record) => (
                 <Space size={4}>
@@ -418,7 +418,8 @@ export default function Budgets() {
                         loading={loading}
                         size="small"
                         className="budget-detail-table"
-                        scroll={{ x: 1400 }}
+                        tableLayout="fixed"
+                        scroll={{ x: 1210 }}
                         locale={{ emptyText: <Empty description="ยังไม่มีข้อมูล" /> }}
                         pagination={{
                             defaultPageSize: 30,
