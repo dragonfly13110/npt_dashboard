@@ -47,7 +47,7 @@ export const TABLE_CONFIG = {
     gis_areas: { label: 'พิกัด GIS', icon: '📍', group: 'ยุทธศาสตร์', descTh: 'ข้อมูลพิกัดภูมิศาสตร์พื้นที่เกษตร' },
     kpi_plans: { label: 'แผน/KPI', icon: '📊', group: 'ยุทธศาสตร์', descTh: 'ตัวชี้วัดและแผนงานประจำปี' },
     large_plots: { label: 'แปลงใหญ่', icon: '🌿', group: 'ส่งเสริมการผลิต', descTh: 'ข้อมูลแปลงใหญ่ (สินค้า, พื้นที่, สมาชิก)' },
-    certifications: { label: 'มาตรฐาน GAP', icon: '✅', group: 'ส่งเสริมการผลิต', descTh: 'ใบรับรองมาตรฐาน GAP (ชื่อเกษตรกร, พืช, พื้นที่)' },
+    certifications: { label: 'มาตรฐาน GAP', icon: '✅', group: 'ส่งเสริมการผลิต', descTh: 'ใบรับรองมาตรฐาน GAP (ชื่อฟาร์ม, สินค้า, ประเภท)' },
     crop_production: { label: 'ผลผลิตพืช', icon: '🌽', group: 'ส่งเสริมการผลิต', descTh: 'ข้อมูลผลผลิตพืชรายอำเภอ' },
     community_enterprises: { label: 'วิสาหกิจชุมชน', icon: '🏪', group: 'พัฒนาเกษตรกร', descTh: 'ข้อมูลวิสาหกิจชุมชน (ชื่อ, ประธาน, สมาชิก, ประเภท)' },
     smart_farmers: { label: 'เกษตรกรรุ่นใหม่', icon: '👨‍🌾', group: 'พัฒนาเกษตรกร', descTh: 'ข้อมูล Smart Farmer / Young Smart Farmer' },
@@ -82,7 +82,7 @@ export const TABLE_SEARCH_COLS = {
     gis_areas: ['area_name', 'area_type'],
     kpi_plans: ['kpi_name', 'project_name'],
     large_plots: ['plot_name', 'commodity', 'secondary_commodity', 'agency'],
-    certifications: ['farmer_name', 'crop_name', 'plot_code'],
+    certifications: ['farm_name', 'commodity', 'cert_type'],
     crop_production: ['crop_name'],
     community_enterprises: ['enterprise_name', 'enterprise_type'],
     smart_farmers: ['full_name', 'main_product', 'farmer_type'],
@@ -98,7 +98,7 @@ export const TABLE_SEARCH_COLS = {
 };
 
 export const DISTRICT_COLS = {
-    certifications: 'plot_district',
+    certifications: 'district',
     forecast_plots: 'district',
     budgets: 'notes'
 };
