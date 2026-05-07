@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Divider, Form, Input, Space, Typography, message } from 'antd';
 import {
     ArrowLeftOutlined, EyeOutlined, GoogleOutlined,
@@ -16,6 +16,20 @@ export default function Login() {
     const [googleLoading, setGoogleLoading] = useState(false);
     const navigate = useNavigate();
     const { loginAsGuest } = useAuth();
+
+    useEffect(() => {
+        document.title = 'เข้าสู่ระบบ | ศูนย์ข้อมูลการเกษตรนครปฐม';
+
+        const robots = document.querySelector('meta[name="robots"]');
+        const previousContent = robots?.getAttribute('content');
+        if (robots) robots.setAttribute('content', 'noindex, nofollow');
+
+        return () => {
+            if (robots && previousContent) {
+                robots.setAttribute('content', previousContent);
+            }
+        };
+    }, []);
 
     const handleGuestLogin = () => {
         loginAsGuest();

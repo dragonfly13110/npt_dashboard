@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Form, Input, InputNumber, Select, Spin, Row, Col, Card } from 'antd';
 import { PieChartOutlined, BarChartOutlined } from '@ant-design/icons';
 import {
@@ -84,6 +84,12 @@ const CustomBarTooltip = ({ active, payload, label }) => {
 };
 
 export default function LargePlots() {
+    useEffect(() => {
+        document.title = 'แปลงใหญ่จังหวัดนครปฐม | ศูนย์ข้อมูลการเกษตรนครปฐม';
+        const meta = document.querySelector('meta[name="description"]');
+        if (meta) meta.setAttribute('content', 'ข้อมูลแปลงใหญ่จังหวัดนครปฐม พร้อมแผนภูมิ สถิติ และตารางค้นหาข้อมูลตามอำเภอและปี');
+    }, []);
+
     // Filters for charts
     const [filterYear, setFilterYear] = useState(null);
     const [filterDistrict, setFilterDistrict] = useState(null);

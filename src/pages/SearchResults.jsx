@@ -154,6 +154,12 @@ export default function SearchResults() {
 
     const totalResults = results.reduce((sum, r) => sum + r.totalCount, 0);
 
+    useEffect(() => {
+        document.title = 'ค้นหาข้อมูล | ศูนย์ข้อมูลการเกษตรนครปฐม';
+        const meta = document.querySelector('meta[name="description"]');
+        if (meta) meta.setAttribute('content', 'ค้นหาข้อมูลเกษตรกร พื้นที่เพาะปลูก วิสาหกิจชุมชน Smart Farmer แปลงใหญ่ และข้อมูลเกษตรอื่นๆ ในระบบ');
+    }, []);
+
     // Build columns with Thai names
     const buildColumns = (tableResult) => {
         if (!tableResult.results || tableResult.results.length === 0) return [];

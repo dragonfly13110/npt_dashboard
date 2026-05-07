@@ -66,6 +66,12 @@ const CustomBarTooltip = ({ active, payload, label }) => {
 };
 
 export default function FarmerInstitutes() {
+    useEffect(() => {
+        document.title = 'สถาบันเกษตรกรนครปฐม | ศูนย์ข้อมูลการเกษตรนครปฐม';
+        const meta = document.querySelector('meta[name="description"]');
+        if (meta) meta.setAttribute('content', 'ข้อมูลสถาบันเกษตรกรจังหวัดนครปฐม พร้อมกราฟสรุปการกระจายตัวและตารางรายการค้นหา');
+    }, []);
+
     const [chartData, setChartData] = useState([]);
     const [chartLoading, setChartLoading] = useState(true);
 

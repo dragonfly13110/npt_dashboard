@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Form, Input, InputNumber, Select, Spin, Row, Col, Card } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
 import {
@@ -74,6 +74,12 @@ const CustomBarTooltip = ({ active, payload, label }) => {
 };
 
 export default function Certifications() {
+    useEffect(() => {
+        document.title = 'มาตรฐาน GAP นครปฐม | ศูนย์ข้อมูลการเกษตรนครปฐม';
+        const meta = document.querySelector('meta[name="description"]');
+        if (meta) meta.setAttribute('content', 'ข้อมูลมาตรฐาน GAP จังหวัดนครปฐม พร้อมสรุปแยกตามพืช พื้นที่ และอายุใบรับรอง');
+    }, []);
+
     // Filters for charts
     const [filterCrop, setFilterCrop] = useState(null);
     const [filterDistrict, setFilterDistrict] = useState(null);

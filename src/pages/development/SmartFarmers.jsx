@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { Form, Input, InputNumber, Select } from 'antd';
 import CrudTable from '../../components/DataTable/CrudTable';
+
 const columns = [
     { title: 'ชื่อ-นามสกุล', dataIndex: 'full_name', key: 'full_name', width: 180 },
     { title: 'ประเภท', dataIndex: 'farmer_type', key: 'farmer_type', width: 150 },
@@ -7,6 +9,7 @@ const columns = [
     { title: 'สินค้าหลัก', dataIndex: 'main_product', key: 'main_product', width: 150 },
     { title: 'เบอร์โทร', dataIndex: 'phone', key: 'phone', width: 130 },
 ];
+
 const formFields = (
     <>
         <Form.Item name="full_name" label="ชื่อ-นามสกุล" rules={[{ required: true }]}><Input /></Form.Item>
@@ -16,6 +19,13 @@ const formFields = (
         <Form.Item name="phone" label="เบอร์โทร"><Input /></Form.Item>
     </>
 );
+
 export default function SmartFarmers() {
+    useEffect(() => {
+        document.title = 'Smart Farmer นครปฐม | ศูนย์ข้อมูลการเกษตรนครปฐม';
+        const meta = document.querySelector('meta[name="description"]');
+        if (meta) meta.setAttribute('content', 'รวมรายชื่อ Smart Farmer จังหวัดนครปฐม พร้อมข้อมูลเกษตรกรต้นแบบ แหล่งเรียนรู้ และข้อมูลสนับสนุนการเกษตรในพื้นที่');
+    }, []);
+
     return <CrudTable tableName="smart_farmers" title="เกษตรกรรุ่นใหม่ (Smart Farmer)" columns={columns} formFields={formFields} searchField="full_name" />;
 }

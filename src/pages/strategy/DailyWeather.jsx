@@ -71,6 +71,12 @@ export default function DailyWeather() {
     const [chartData, setChartData] = useState([]);
 
     useEffect(() => {
+        document.title = 'สภาพอากาศรายวันนครปฐม | ศูนย์ข้อมูลการเกษตรนครปฐม';
+        const meta = document.querySelector('meta[name="description"]');
+        if (meta) meta.setAttribute('content', 'ข้อมูลสภาพอากาศรายวันจังหวัดนครปฐม พร้อมอุณหภูมิ ปริมาณน้ำฝน และความเร็วลม');
+    }, []);
+
+    useEffect(() => {
         // Fetch all recent data for charting
         async function fetchCharts() {
             const { data } = await supabase.from('daily_weather')

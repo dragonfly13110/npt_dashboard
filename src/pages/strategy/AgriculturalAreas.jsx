@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Form, Input, InputNumber, Select, Tag, Row, Col, Card, Spin } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
 import {
@@ -82,6 +82,12 @@ const CustomBarTooltip = ({ active, payload, label }) => {
 };
 
 export default function AgriculturalAreas() {
+    useEffect(() => {
+        document.title = 'พื้นที่การเกษตรนครปฐม | ศูนย์ข้อมูลการเกษตรนครปฐม';
+        const meta = document.querySelector('meta[name="description"]');
+        if (meta) meta.setAttribute('content', 'สรุปพื้นที่การเกษตรของจังหวัดนครปฐม แยกตามอำเภอและชนิดพืช พร้อมข้อมูลตารางค้นหาและกราฟสรุป');
+    }, []);
+
     const [filterDistrict, setFilterDistrict] = useState(null);
 
     const fetchAgriAreas = async () => {
