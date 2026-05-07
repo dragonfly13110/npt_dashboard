@@ -7,6 +7,7 @@ export default defineConfig(({ mode }) => {
   
   return {
     plugins: [react()],
+    cacheDir: 'output/vite-cache',
     server: {
       proxy: {
         // Proxy Netlify Functions to deployed site (AI proxy, sync, etc.)

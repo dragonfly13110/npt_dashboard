@@ -58,3 +58,13 @@
     white-space: nowrap;
     font-size: 12px;
 }
+
+.budget-progress-cell {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+}
+
+.budget-progress-cell .ant-select {
+    width: 100%;
+}
