@@ -9,6 +9,7 @@ import {
 import { supabase } from '../../supabaseClient';
 import CrudTable from '../../components/DataTable/CrudTable';
 import { useApiCache } from '../../hooks/useApiCache';
+import { useAuth } from '../../contexts/AuthContext';
 
 const columns = [
     { title: 'ชื่อเกษตรกร', importHeader: 'ชื่อ - นามสกุล', dataIndex: 'farmer_name', key: 'farmer_name', width: 150, ellipsis: true, sorter: (a, b) => String(a.farmer_name || '').localeCompare(String(b.farmer_name || ''), 'th') },
@@ -74,6 +75,9 @@ const CustomBarTooltip = ({ active, payload, label }) => {
 };
 
 export default function Certifications() {
+    const { role } = useAuth();
+    const isGuest = role === 'guest';
+
     useEffect(() => {
         document.title = 'มาตรฐาน GAP นครปฐม | ศูนย์ข้อมูลการเกษตรนครปฐม';
         const meta = document.querySelector('meta[name="description"]');
@@ -86,16 +90,61 @@ export default function Certifications() {
     const [filterYear, setFilterYear] = useState(null);
 
     const fetchCertifications = async () => {
+        if (isGuest) {
+            const res = await fetch('/api/public-certifications');
+            const payload = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(payload.error || `HTTP ${res.status}`);
+            return payload.data || [];
+        }
+
         const { data, error } = await supabase.from('certifications').select('*');
         if (error && error.code !== '42P01') throw error; // ignore if table doesn't exist yet
         return data || [];
     };
 
     const { data: dashboardData = [], isLoading: loading } = useApiCache(
-        ['all-certifications'], 
+        ['all-certifications', role],
         fetchCertifications, 
         { staleMinutes: 10 }
     );
+
+    const fetchPublicTableData = async ({ pagination, search, filters, sorter, defaultSort }) => {
+        let rows = [...dashboardData];
+
+        if (search) {
+            const term = search.toLowerCase();
+            rows = rows.filter(row => (
+                String(row.plot_code || '').toLowerCase().includes(term) ||
+                String(row.crop_name || '').toLowerCase().includes(term)
+            ));
+        }
+
+        Object.entries(filters || {}).forEach(([key, value]) => {
+            if (value === undefined || value === null || value === '') return;
+            if (key === 'exp_date') {
+                rows = rows.filter(row => String(row.exp_date || '').includes(value));
+            } else {
+                rows = rows.filter(row => row[key] === value);
+            }
+        });
+
+        const activeSort = sorter?.field && sorter?.order ? sorter : defaultSort;
+        if (activeSort?.field && activeSort?.order) {
+            rows.sort((a, b) => {
+                const av = a[activeSort.field] ?? '';
+                const bv = b[activeSort.field] ?? '';
+                const result = typeof av === 'number' && typeof bv === 'number'
+                    ? av - bv
+                    : String(av).localeCompare(String(bv), 'th');
+                return activeSort.order === 'ascend' ? result : -result;
+            });
+        }
+
+        const current = pagination.current || 1;
+        const pageSize = pagination.pageSize || 10;
+        const from = (current - 1) * pageSize;
+        return { data: rows.slice(from, from + pageSize), total: rows.length };
+    };
 
     const cropOptions = useMemo(() => {
         const unique = [...new Set(dashboardData.map(d => d.crop_name).filter(Boolean))].sort();
@@ -153,7 +202,8 @@ export default function Certifications() {
             if (!top10Crops.includes(crop)) return; // Only process Top 10 crops
 
             if (!cropFarmers[crop]) cropFarmers[crop] = new Set();
-            if (item.farmer_name) cropFarmers[crop].add(item.farmer_name);
+            const farmerKey = item.farmer_name || item.farmer_key;
+            if (farmerKey) cropFarmers[crop].add(farmerKey);
         });
 
         // Ensure they remain in the Top 10 sorted order
@@ -170,7 +220,7 @@ export default function Certifications() {
         filteredData.forEach(item => {
             const dist = item.plot_district || 'ไม่ระบุอำเภอ';
             const crop = item.crop_name || 'ไม่ระบุพืช';
-            const farmer = item.farmer_name;
+            const farmer = item.farmer_name || item.farmer_key;
 
             if (!top10Crops.includes(crop)) return; // Only process Top 10 crops
 
@@ -413,6 +463,8 @@ export default function Certifications() {
                 searchField="farmer_name"
                 searchFields={['farmer_name', 'plot_code', 'crop_name']}
                 filterConfig={tableFilterConfig}
+                fetchDataOverride={isGuest ? fetchPublicTableData : null}
+                fetchAllOverride={isGuest ? async () => dashboardData : null}
             />
         </div>
     );

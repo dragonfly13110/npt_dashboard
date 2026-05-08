@@ -13,7 +13,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useApiCache } from '../../hooks/useApiCache';
 import { supabase } from '../../supabaseClient';
 
-export default function CrudTable({ tableName, title, columns, formFields, searchField, searchFields, filterConfig = [], scrollX = 1000, defaultSort = null, extraActions = null }) {
+export default function CrudTable({ tableName, title, columns, formFields, searchField, searchFields, filterConfig = [], scrollX = 1000, defaultSort = null, extraActions = null, fetchDataOverride = null, fetchAllOverride = null }) {
     const { createRecord, updateRecord, deleteRecord, fetchAll } = useSupabaseCrud(tableName);
     const { canEdit, canDelete, role } = useAuth();
     const [modalOpen, setModalOpen] = useState(false);
@@ -30,6 +30,10 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
     const userCanDelete = canDelete();
 
     const fetchTableData = async () => {
+        if (fetchDataOverride) {
+            return fetchDataOverride({ pagination, search, searchField, searchFields, filters, filterConfig, sorter, defaultSort });
+        }
+
         const transformedFilters = {};
         Object.entries(filters).forEach(([key, val]) => {
             if (val !== undefined && val !== null && val !== '') {
@@ -192,7 +196,7 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
 
     const handleExportExcel = async () => {
         try {
-            const allData = await fetchAll();
+            const allData = fetchAllOverride ? await fetchAllOverride() : await fetchAll();
             if (!allData.length) return;
 
             const { utils, writeFile } = await import('xlsx');
