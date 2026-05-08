@@ -13,7 +13,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useApiCache } from '../../hooks/useApiCache';
 import { supabase } from '../../supabaseClient';
 
-export default function CrudTable({ tableName, title, columns, formFields, searchField, searchFields, filterConfig = [], scrollX = 1000 }) {
+export default function CrudTable({ tableName, title, columns, formFields, searchField, searchFields, filterConfig = [], scrollX = 1000, defaultSort = null, extraActions = null }) {
     const { createRecord, updateRecord, deleteRecord, fetchAll } = useSupabaseCrud(tableName);
     const { canEdit, canDelete, role } = useAuth();
     const [modalOpen, setModalOpen] = useState(false);
@@ -23,7 +23,7 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
     const [importModalOpen, setImportModalOpen] = useState(false);
     const [filters, setFilters] = useState({});
     const [showFilters, setShowFilters] = useState(true);
-    const [sorter, setSorter] = useState({ field: null, order: null });
+    const [sorter, setSorter] = useState(defaultSort || { field: null, order: null });
     const [form] = Form.useForm();
 
     const userCanEdit = canEdit();
@@ -70,8 +70,9 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
             }
         });
 
-        if (sorter.field && sorter.order) {
-            query = query.order(sorter.field, { ascending: sorter.order === 'ascend' });
+        const activeSort = sorter.field && sorter.order ? sorter : defaultSort;
+        if (activeSort?.field && activeSort?.order) {
+            query = query.order(activeSort.field, { ascending: activeSort.order === 'ascend' });
         } else {
             query = query.order('created_at', { ascending: false });
         }
@@ -85,8 +86,8 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
     };
 
     const queryKey = useMemo(() => [
-        'crud', tableName, pagination.current, pagination.pageSize, search, searchField, searchFields, filters, sorter, JSON.stringify(filterConfig)
-    ], [tableName, pagination, search, searchField, searchFields, filters, sorter, filterConfig]);
+        'crud', tableName, pagination.current, pagination.pageSize, search, searchField, searchFields, filters, sorter, defaultSort, JSON.stringify(filterConfig)
+    ], [tableName, pagination, search, searchField, searchFields, filters, sorter, defaultSort, filterConfig]);
     
     const { data: result = { data: [], total: 0 }, isLoading: loading, refetch: loadData } = useApiCache(queryKey, fetchTableData);
     
@@ -285,6 +286,7 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
                     <Tooltip title="รีเฟรช">
                         <Button icon={<ReloadOutlined />} onClick={loadData} className="export-btn" />
                     </Tooltip>
+                    {typeof extraActions === 'function' ? extraActions({ refetch: loadData }) : extraActions}
                     {(userCanEdit || role === 'guest') && (
                         <Button icon={<UploadOutlined />} onClick={() => {
                             if (!userCanEdit) {

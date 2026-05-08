@@ -77,14 +77,14 @@ export default function DailyWeather() {
     }, []);
 
     useEffect(() => {
-        // Fetch all recent data for charting
+        // Fetch latest records first, then reverse for chronological charting.
         async function fetchCharts() {
             const { data } = await supabase.from('daily_weather')
                 .select('date, tavg, tmin, tmax, prcp')
-                .order('date', { ascending: true })
-                .limit(90); // last 90 days for chart
+                .order('date', { ascending: false })
+                .limit(90);
             
-            if (data) setChartData(data);
+            if (data) setChartData([...data].reverse());
         }
         fetchCharts();
     }, []);
@@ -142,6 +142,7 @@ export default function DailyWeather() {
                 formFields={formFields} 
                 searchField="date"
                 filterConfig={filterConfig}
+                defaultSort={{ field: 'date', order: 'descend' }}
             />
         </div>
     );

@@ -1,5 +1,8 @@
-import { Form, Input, InputNumber, Select, DatePicker, Row, Col, Space } from 'antd';
+import { useState } from 'react';
+import { Form, Input, InputNumber, Select, DatePicker, Row, Col, Space, Button, message } from 'antd';
+import { SyncOutlined } from '@ant-design/icons';
 import CrudTable from '../../components/DataTable/CrudTable';
+import { useAuth } from '../../contexts/AuthContext';
 
 const columns = [
     { title: 'วันที่พบ', dataIndex: 'acq_date', key: 'acq_date', width: 110, sorter: (a, b) => new Date(a.acq_date) - new Date(b.acq_date) },
@@ -83,6 +86,28 @@ const filterConfig = [
 ];
 
 export default function FireHotspots() {
+    const { canEdit } = useAuth();
+    const [syncing, setSyncing] = useState(false);
+
+    const handleSyncHotspots = async (refetch) => {
+        setSyncing(true);
+        try {
+            const res = await fetch('/.netlify/functions/sync-hotspots', { method: 'POST' });
+            const payload = await res.json().catch(() => ({}));
+            if (!res.ok) {
+                throw new Error(payload.error || payload.message || `HTTP ${res.status}`);
+            }
+
+            const latest = payload.latest?.acq_date ? ` ล่าสุด ${payload.latest.acq_date}` : '';
+            message.success(`${payload.message || 'ดึงข้อมูล GISTDA สำเร็จ'}${latest}`);
+            refetch?.();
+        } catch (err) {
+            message.error(`ดึงข้อมูล GISTDA ไม่สำเร็จ: ${err.message}`);
+        } finally {
+            setSyncing(false);
+        }
+    };
+
     return (
         <CrudTable 
             tableName="fire_hotspots" 
@@ -91,6 +116,17 @@ export default function FireHotspots() {
             formFields={formFields} 
             searchField="district" 
             filterConfig={filterConfig} 
+            defaultSort={{ field: 'acq_date', order: 'descend' }}
+            extraActions={({ refetch }) => canEdit() && (
+                <Button
+                    icon={<SyncOutlined spin={syncing} />}
+                    loading={syncing}
+                    onClick={() => handleSyncHotspots(refetch)}
+                    className="export-btn"
+                >
+                    ดึงข้อมูล GISTDA
+                </Button>
+            )}
         />
     );
 }
