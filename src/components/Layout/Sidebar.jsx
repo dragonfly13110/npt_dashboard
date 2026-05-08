@@ -162,6 +162,7 @@ function getFilteredMenuItems(role, department) {
     // editor/viewer เห็นเฉพาะ Dashboard รวม + กลุ่มงานตัวเอง
     const userGroup = department ? GROUP_KEYS[department] : null;
     const filtered = allMenuItems.filter(item => {
+        if (role === 'guest' && ['/dashboard/chatbot', '/dashboard/data-requests'].includes(item.key)) return false;
         // เมนูเบื้องต้นที่ทุกคนเห็นเสมอ
         if (['/dashboard', '/dashboard/chatbot', '/dashboard/data-requests', '/dashboard/community/forum'].includes(item.key)) return true;
         // กลุ่มงานของตัวเอง

@@ -91,6 +91,13 @@ function DataRequestRoute({ children }) {
   return children;
 }
 
+function NonGuestRoute({ children }) {
+  const { role, loading } = useAuth();
+  if (loading) return <PageSkeleton />;
+  if (role === 'guest') return <Navigate to="/dashboard" replace />;
+  return children;
+}
+
 function AppRoutes() {
   const { user, loading } = useAuth();
 
@@ -141,7 +148,7 @@ function AppRoutes() {
           </ProtectedRoute>
         }>
           <Route index element={<Dashboard />} />
-          <Route path="chatbot" element={<Chatbot />} />
+          <Route path="chatbot" element={<NonGuestRoute><Chatbot /></NonGuestRoute>} />
           <Route path="search" element={<SearchResults />} />
           <Route path="data-requests" element={<DataRequestRoute><DataRequests /></DataRequestRoute>} />
           <Route path="test-form" element={<Navigate to="/dashboard/data-requests" replace />} />
