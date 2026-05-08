@@ -9,7 +9,7 @@ export default async () => {
     try {
         const { data, error } = await supabase
             .from('certifications')
-            .select('id,crop_name,plot_code,plot_type,area_rai,production_volume_kg,cert_date,exp_date,plot_moo,plot_subdistrict,plot_district,farmer_moo,farmer_subdistrict,farmer_district,created_at')
+            .select('id,crop_name,plot_type,area_rai,production_volume_kg,cert_date,exp_date,plot_moo,plot_subdistrict,plot_district,farmer_moo,farmer_subdistrict,farmer_district,created_at')
             .order('id', { ascending: true });
 
         if (error) throw error;
@@ -17,6 +17,7 @@ export default async () => {
         const rows = (data || []).map(row => ({
             ...row,
             farmer_name: null,
+            plot_code: null,
             farmer_key: row.id ? `cert-${row.id}` : null,
         }));
 

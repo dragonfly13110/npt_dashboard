@@ -11,6 +11,8 @@ import CrudTable from '../../components/DataTable/CrudTable';
 import { useApiCache } from '../../hooks/useApiCache';
 import { useAuth } from '../../contexts/AuthContext';
 
+const guestHiddenColumns = new Set(['farmer_name', 'plot_code']);
+
 const columns = [
     { title: 'ชื่อเกษตรกร', importHeader: 'ชื่อ - นามสกุล', dataIndex: 'farmer_name', key: 'farmer_name', width: 150, ellipsis: true, sorter: (a, b) => String(a.farmer_name || '').localeCompare(String(b.farmer_name || ''), 'th') },
     { title: 'ชื่อพืช', importHeader: 'ชื่อพืช', dataIndex: 'crop_name', key: 'crop_name', width: 110, ellipsis: true, sorter: (a, b) => String(a.crop_name || '').localeCompare(String(b.crop_name || ''), 'th') },
@@ -77,6 +79,9 @@ const CustomBarTooltip = ({ active, payload, label }) => {
 export default function Certifications() {
     const { role } = useAuth();
     const isGuest = role === 'guest';
+    const tableColumns = useMemo(() => (
+        isGuest ? columns.filter(col => !guestHiddenColumns.has(col.dataIndex)) : columns
+    ), [isGuest]);
 
     useEffect(() => {
         document.title = 'มาตรฐาน GAP นครปฐม | ศูนย์ข้อมูลการเกษตรนครปฐม';
@@ -458,7 +463,7 @@ export default function Certifications() {
             <CrudTable
                 tableName="certifications"
                 title="ฐานข้อมูลมาตรฐาน GAP"
-                columns={columns}
+                columns={tableColumns}
                 formFields={formFields}
                 searchField="farmer_name"
                 searchFields={['farmer_name', 'plot_code', 'crop_name']}
