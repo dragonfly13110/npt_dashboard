@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Generated local artifacts
+output/vite-cache/
+output/playwright/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
