@@ -49,6 +49,7 @@ export function useDashboardData() {
                 if (!response.ok || !contentType.includes('application/json')) return null;
 
                 const payload = await response.json();
+                if (Number.isFinite(payload.count)) return payload.count;
                 return Array.isArray(payload.data) ? payload.data.length : null;
             } catch {
                 return null;

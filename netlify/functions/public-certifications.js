@@ -7,6 +7,12 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export default async () => {
     try {
+        const { count, error: countError } = await supabase
+            .from('certifications')
+            .select('*', { count: 'exact', head: true });
+
+        if (countError) throw countError;
+
         const { data, error } = await supabase
             .from('certifications')
             .select('id,crop_name,plot_type,area_rai,production_volume_kg,cert_date,exp_date,plot_moo,plot_subdistrict,plot_district,farmer_moo,farmer_subdistrict,farmer_district,created_at')
@@ -21,7 +27,7 @@ export default async () => {
             farmer_key: row.id ? `cert-${row.id}` : null,
         }));
 
-        return new Response(JSON.stringify({ data: rows }), {
+        return new Response(JSON.stringify({ data: rows, count: count || 0 }), {
             status: 200,
             headers: {
                 'Content-Type': 'application/json',
