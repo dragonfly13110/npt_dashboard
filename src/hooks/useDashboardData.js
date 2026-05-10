@@ -42,10 +42,29 @@ import { useApiCache } from './useApiCache';
 export function useDashboardData() {
     
     const fetchDashboardData = async () => {
+        async function fetchPublicCertificationsCount() {
+            try {
+                const response = await fetch('/api/public-certifications');
+                const contentType = response.headers.get('content-type') || '';
+                if (!response.ok || !contentType.includes('application/json')) return null;
+
+                const payload = await response.json();
+                return Array.isArray(payload.data) ? payload.data.length : null;
+            } catch {
+                return null;
+            }
+        }
+
         // 1. Load Stats
         const statsResults = [];
+        const publicCertificationsCount = await fetchPublicCertificationsCount();
         for (const tbl of allTables) {
             try {
+                if (tbl.table === 'certifications' && publicCertificationsCount !== null) {
+                    statsResults.push({ ...tbl, count: publicCertificationsCount });
+                    continue;
+                }
+
                 const { count, error } = await supabase
                     .from(tbl.table)
                     .select('*', { count: 'exact', head: true });

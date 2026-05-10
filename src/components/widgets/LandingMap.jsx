@@ -30,21 +30,43 @@ export default function LandingMap({ mapData, districtStats }) {
     if (!MapComponents) {
         return <div className="map-placeholder">กำลังโหลดแผนที่...</div>;
     }
-    const { MapContainer, TileLayer, Popup, CircleMarker, GeoJSON, LayersControl, LayerGroup } = MapComponents;
+    const { L, MapContainer, TileLayer, Popup, CircleMarker, GeoJSON, LayersControl, LayerGroup, useMap } = MapComponents;
 
     const gisMarkers = mapData.filter(d => d.type === 'gis');
     const tourMarkers = mapData.filter(d => d.type === 'tourism');
 
+    const FitDistrictBounds = () => {
+        const map = useMap();
+
+        useEffect(() => {
+            if (!geoJSONData || !L) return;
+
+            const bounds = L.geoJSON(geoJSONData).getBounds();
+            if (!bounds.isValid()) return;
+
+            map.invalidateSize();
+            map.fitBounds(bounds, {
+                paddingTopLeft: [28, 44],
+                paddingBottomRight: [28, 28],
+                maxZoom: 10.1,
+                animate: false,
+            });
+        }, [geoJSONData, L, map]);
+
+        return null;
+    };
+
     return (
         <div className="bento-map-wrapper">
             <MapContainer
-                center={[13.85, 100.04]}
-                zoom={10.25}
+                center={[13.82, 100.05]}
+                zoom={10}
                 zoomSnap={0.25}
                 zoomDelta={0.5}
                 style={{ height: '100%', width: '100%', borderRadius: 16 }}
                 scrollWheelZoom={true}
             >
+                <FitDistrictBounds />
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
