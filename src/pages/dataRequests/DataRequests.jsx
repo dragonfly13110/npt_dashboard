@@ -292,8 +292,12 @@ export default function DataRequests() {
       cancelText: 'ยกเลิก',
       async onOk() {
         try {
-          const { error } = await supabase.from('data_requests').delete().eq('id', record.id);
+          const { data, error } = await supabase.from('data_requests').delete().eq('id', record.id);
           if (error) throw error;
+          if (!data || data.length === 0) {
+            message.error('ไม่สามารถลบได้ — คุณไม่มีสิทธิ์ลบ หรือข้อมูลถูกลบไปแล้ว');
+            return;
+          }
           message.success('ลบคำขอข้อมูลแล้ว');
           await loadData();
         } catch (err) {

@@ -1,0 +1,62 @@
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: #f5f5f5;
+}
+
+.errorDetail {
+    margin-top: 24px;
+    padding: 16px;
+    background: #fff2f0;
+    border: 1px solid #ffccc7;
+    border-radius: 8px;
+    text-align: left;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.errorLabel {
+    font-weight: 600;
+    color: #cf1322;
+    margin-bottom: 8px;
+}
+
+.errorMessage {
+    background: #fff;
+    padding: 12px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: #595959;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.errorStack {
+    margin-top: 12px;
+    padding: 12px;
+    background: #fafafa;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.errorStack summary {
+    cursor: pointer;
+    color: #1890ff;
+    font-weight: 500;
+}
+
+.errorStack pre {
+    margin-top: 8px;
+    padding: 8px;
+    background: #fff;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 11px;
+    line-height: 1.5;
+}
