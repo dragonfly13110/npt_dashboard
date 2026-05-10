@@ -1,8 +1,8 @@
-# netlify.toml — SEO & Performance Configuration
+﻿# netlify.toml â€” SEO & Performance Configuration
 
 [build]
   publish = "dist"
-  command = "npm run build"
+  command = "npm run build:netlify"
 
 # ===== HEADERS =====
 [[headers]]
