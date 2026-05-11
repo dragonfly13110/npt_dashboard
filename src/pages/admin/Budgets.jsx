@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
     Button, Card, Col, Empty, Form, Input, InputNumber, Modal, Popconfirm,
-    Progress, Row, Select, Space, Statistic, Table, Tag, Tooltip, Typography, message,
+    DatePicker, Progress, Row, Select, Space, Statistic, Table, Tag, Tooltip, Typography, message,
 } from 'antd';
 import { DeleteOutlined, EditOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip as ChartTooltip, XAxis, YAxis } from 'recharts';
@@ -17,14 +17,12 @@ const { TextArea } = Input;
 const money = (value) => Number(value || 0).toLocaleString('th-TH');
 const chartColors = ['#1a7f37', '#0969da', '#8250df', '#bf8700', '#cf222e', '#0a7ea4', '#6f4e37', '#57606a'];
 const budgetStatusOptions = [
-    { label: 'ยังไม่เริ่ม', value: 'ยังไม่เริ่ม', color: 'default', progress: 0 },
-    { label: 'เตรียมดำเนินการ', value: 'เตรียมดำเนินการ', color: 'blue', progress: 20 },
     { label: 'กำลังดำเนินการ', value: 'กำลังดำเนินการ', color: 'processing', progress: 50 },
     { label: 'ส่งเบิกแล้ว', value: 'ส่งเบิกแล้ว', color: 'gold', progress: 75 },
-    { label: 'เบิกจ่ายแล้ว', value: 'เบิกจ่ายแล้ว', color: 'cyan', progress: 90 },
-    { label: 'เสร็จสิ้น', value: 'เสร็จสิ้น', color: 'success', progress: 100 },
+    { label: 'เบิกจ่ายเสร็จสิ้น', value: 'เบิกจ่ายเสร็จสิ้น', color: 'success', progress: 100 },
 ];
-const defaultBudgetStatus = 'ยังไม่เริ่ม';
+const defaultBudgetStatus = 'กำลังดำเนินการ';
+const budgetTableScrollX = 1630;
 
 function compactText(value, fallback = '-') {
     const text = String(value || '').trim();
@@ -36,7 +34,14 @@ function clampPercent(value) {
 }
 
 function getBudgetStatusMeta(status) {
-    return budgetStatusOptions.find(option => option.value === status) || budgetStatusOptions[0];
+    const normalized = normalizeBudgetStatus(status);
+    return budgetStatusOptions.find(option => option.value === normalized) || budgetStatusOptions[0];
+}
+
+function normalizeBudgetStatus(status) {
+    if (status === 'ส่งเบิกแล้ว') return 'ส่งเบิกแล้ว';
+    if (status === 'เสร็จสิ้น' || status === 'เบิกจ่ายแล้ว' || status === 'เบิกจ่ายเสร็จสิ้น') return 'เบิกจ่ายเสร็จสิ้น';
+    return 'กำลังดำเนินการ';
 }
 
 function parseNotes(notes) {
@@ -71,9 +76,10 @@ function parseBudgetRow(row) {
         paymentPlan: notes.paymentPlan || '',
         owner: notes.owner || '',
         expenseDetail: notes.expenseDetail || '',
+        reimbursementDate: notes.reimbursementDate || '',
         fiscalYear: row.fiscal_year || notes.fiscalYear || 2569,
         round: notes.round || 2,
-        status: row.status || notes.status || defaultBudgetStatus,
+        status: normalizeBudgetStatus(row.status || notes.status || defaultBudgetStatus),
         created_at: row.created_at,
         updated_at: row.updated_at,
     };
@@ -97,7 +103,7 @@ function serializeBudget(values) {
         budget_source: values.plan || 'งบรอบ 2 ปี 2569',
         budget_amount: budget,
         spent_amount: spentAmount,
-        status: values.status || defaultBudgetStatus,
+        status: normalizeBudgetStatus(values.status || defaultBudgetStatus),
         notes: JSON.stringify(detail),
     };
 }
@@ -155,6 +161,8 @@ export default function Budgets() {
     const [loading, setLoading] = useState(true);
     const [usingFallback, setUsingFallback] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
+    const [reimbursementOpen, setReimbursementOpen] = useState(false);
+    const [reimbursementRecord, setReimbursementRecord] = useState(null);
     const [editingRecord, setEditingRecord] = useState(null);
     const [planFilter, setPlanFilter] = useState('all');
     const [districtFilter, setDistrictFilter] = useState('all');
@@ -165,6 +173,8 @@ export default function Budgets() {
     const [statusFilter, setStatusFilter] = useState('all');
     const [keyword, setKeyword] = useState('');
     const [form] = Form.useForm();
+    const [reimbursementForm] = Form.useForm();
+    const tableWrapRef = useRef(null);
 
     const userCanEdit = canEdit();
     const userCanDelete = canDelete();
@@ -241,8 +251,8 @@ export default function Budgets() {
     const filteredSpent = useMemo(() => filteredRows.reduce((sum, row) => sum + Number(row.spentAmount || 0), 0), [filteredRows]);
     const spendingPercent = useMemo(() => clampPercent(totalBudget ? (totalSpent / totalBudget) * 100 : 0), [totalBudget, totalSpent]);
     const filteredSpendingPercent = useMemo(() => clampPercent(filteredBudget ? (filteredSpent / filteredBudget) * 100 : 0), [filteredBudget, filteredSpent]);
-    const completedRows = useMemo(() => rows.filter(row => row.status === 'เสร็จสิ้น').length, [rows]);
-    const reimbursementRows = useMemo(() => rows.filter(row => ['ส่งเบิกแล้ว', 'เบิกจ่ายแล้ว', 'เสร็จสิ้น'].includes(row.status)).length, [rows]);
+    const completedRows = useMemo(() => rows.filter(row => row.status === 'เบิกจ่ายเสร็จสิ้น').length, [rows]);
+    const reimbursementRows = useMemo(() => rows.filter(row => ['ส่งเบิกแล้ว', 'เบิกจ่ายเสร็จสิ้น'].includes(row.status)).length, [rows]);
     const projectSummary = useMemo(() => sumBy(rows, row => row.project, row => ({ project: row.project, plan: row.plan })), [rows]);
     const districtSummary = useMemo(() => sumBy(rows, row => row.district), [rows]);
     const ownerSummary = useMemo(() => sumBy(rows, row => ownerKey(row.owner)), [rows]);
@@ -309,14 +319,70 @@ export default function Budgets() {
         if (ok) loadData();
     };
 
-    const handleStatusChange = async (record, status) => {
-        const payload = serializeBudget({ ...record, status });
+    const updateBudgetRow = async (record, values) => {
+        const payload = serializeBudget({ ...record, ...values });
         const ok = await updateRecord(record.id, payload);
         if (ok) {
-            setRows(current => current.map(row => (row.id === record.id ? { ...row, status } : row)));
+            setRows(current => current.map(row => (row.id === record.id ? { ...row, ...values, status: normalizeBudgetStatus(values.status || row.status) } : row)));
             message.success('อัปเดตสถานะแล้ว');
         }
+        return ok;
     };
+
+    const handleStatusChange = async (record, status) => {
+        const nextStatus = normalizeBudgetStatus(status);
+        if (nextStatus === 'ส่งเบิกแล้ว') {
+            setReimbursementRecord(record);
+            reimbursementForm.setFieldsValue({
+                spentAmount: record.spentAmount || record.budget || 0,
+                reimbursementDate: null,
+            });
+            setReimbursementOpen(true);
+            return;
+        }
+        await updateBudgetRow(record, {
+            status: nextStatus,
+            spentAmount: nextStatus === 'เบิกจ่ายเสร็จสิ้น' ? record.budget : record.spentAmount,
+        });
+    };
+
+    const handleReimbursementSubmit = async () => {
+        try {
+            const values = await reimbursementForm.validateFields();
+            const spentAmount = Math.min(Number(values.spentAmount || 0), Number(reimbursementRecord.budget || 0));
+            const reimbursementDate = values.reimbursementDate?.format?.('YYYY-MM-DD') || '';
+            const ok = await updateBudgetRow(reimbursementRecord, {
+                status: 'ส่งเบิกแล้ว',
+                spentAmount,
+                reimbursementDate,
+            });
+            if (ok) {
+                setReimbursementOpen(false);
+                reimbursementForm.resetFields();
+                setReimbursementRecord(null);
+            }
+        } catch {
+            /* validation errors are shown by Ant Design */
+        }
+    };
+
+    const handleTopScroll = (event) => {
+        const body = tableWrapRef.current?.querySelector('.ant-table-body, .ant-table-content');
+        if (body) body.scrollLeft = event.currentTarget.scrollLeft;
+    };
+
+    const handleTableScroll = (event) => {
+        const top = tableWrapRef.current?.querySelector('.budget-top-scroll');
+        if (top) top.scrollLeft = event.currentTarget.scrollLeft;
+    };
+
+    useEffect(() => {
+        const wrap = tableWrapRef.current;
+        const body = wrap?.querySelector('.ant-table-body, .ant-table-content');
+        if (!body) return undefined;
+        body.addEventListener('scroll', handleTableScroll, { passive: true });
+        return () => body.removeEventListener('scroll', handleTableScroll);
+    }, [filteredRows.length]);
 
     const summaryColumns = [
         {
@@ -394,6 +460,17 @@ export default function Budgets() {
                 );
             },
         },
+        {
+            title: 'เบิกจ่ายคงเหลือ',
+            key: 'remainingBudget',
+            width: 128,
+            align: 'right',
+            sorter: (a, b) => (a.budget - a.spentAmount) - (b.budget - b.spentAmount),
+            render: (_, record) => {
+                const remaining = Math.max(0, Number(record.budget || 0) - Number(record.spentAmount || 0));
+                return <Text strong={remaining > 0}>{money(remaining)}</Text>;
+            },
+        },
         { title: 'ผู้รับผิดชอบ', dataIndex: 'owner', key: 'owner', width: 150, render: value => <ClampText>{value}</ClampText> },
         {
             title: 'จัดการ',
@@ -442,9 +519,9 @@ export default function Budgets() {
                     <Col xs={24} sm={12} lg={6}><Card><Statistic title="งบประมาณรวม" value={totalBudget} formatter={value => `${money(value)} บาท`} /></Card></Col>
                     <Col xs={24} sm={12} lg={6}><Card><Statistic title="เบิกจ่ายแล้ว" value={totalSpent} formatter={value => `${money(value)} บาท`} /></Card></Col>
                     <Col xs={24} sm={12} lg={6}><Card><Statistic title="ความคืบหน้างบ" value={spendingPercent} suffix="%" /></Card></Col>
-                    <Col xs={24} sm={12} lg={6}><Card><Statistic title="ส่งเบิก/จบแล้ว" value={reimbursementRows} suffix={`จาก ${rows.length} รายการ`} /></Card></Col>
+                    <Col xs={24} sm={12} lg={6}><Card><Statistic title="ส่งเบิก/เบิกจ่ายเสร็จสิ้น" value={reimbursementRows} suffix={`จาก ${rows.length} รายการ`} /></Card></Col>
                     <Col xs={24} sm={12} lg={6}><Card><Statistic title="จำนวนโครงการ" value={projectSummary.length} suffix="โครงการ" /></Card></Col>
-                    <Col xs={24} sm={12} lg={6}><Card><Statistic title="เสร็จสิ้น" value={completedRows} suffix="รายการ" /></Card></Col>
+                    <Col xs={24} sm={12} lg={6}><Card><Statistic title="เบิกจ่ายเสร็จสิ้น" value={completedRows} suffix="รายการ" /></Card></Col>
                     <Col xs={24} sm={12} lg={6}><Card><Statistic title="งบตามตัวกรอง" value={filteredBudget} formatter={value => `${money(value)} บาท`} /></Card></Col>
                     <Col xs={24} sm={12} lg={6}><Card><Statistic title="คืบหน้าตามตัวกรอง" value={filteredSpendingPercent} suffix="%" /></Card></Col>
                 </Row>
@@ -506,23 +583,28 @@ export default function Budgets() {
                 </Card>
 
                 <Card title={`รายละเอียดรายการงบประมาณ (${filteredRows.length} รายการ)`}>
-                    <Table
-                        rowKey="id"
-                        columns={detailColumns}
-                        dataSource={filteredRows}
-                        loading={loading}
-                        size="small"
-                        className="budget-detail-table"
-                        tableLayout="fixed"
-                        scroll={{ x: 1510 }}
-                        locale={{ emptyText: <Empty description="ยังไม่มีข้อมูล" /> }}
-                        pagination={{
-                            defaultPageSize: 30,
-                            pageSizeOptions: [30, 50, 100],
-                            showSizeChanger: true,
-                            showTotal: (total, range) => `${range[0]}-${range[1]} จาก ${total} รายการ`,
-                        }}
-                    />
+                    <div ref={tableWrapRef}>
+                        <div className="budget-top-scroll" onScroll={handleTopScroll}>
+                            <div style={{ width: budgetTableScrollX, height: 1 }} />
+                        </div>
+                        <Table
+                            rowKey="id"
+                            columns={detailColumns}
+                            dataSource={filteredRows}
+                            loading={loading}
+                            size="small"
+                            className="budget-detail-table"
+                            tableLayout="fixed"
+                            scroll={{ x: budgetTableScrollX }}
+                            locale={{ emptyText: <Empty description="ยังไม่มีข้อมูล" /> }}
+                            pagination={{
+                                defaultPageSize: 30,
+                                pageSizeOptions: [30, 50, 100],
+                                showSizeChanger: true,
+                                showTotal: (total, range) => `${range[0]}-${range[1]} จาก ${total} รายการ`,
+                            }}
+                        />
+                    </div>
                 </Card>
 
                 <Row gutter={[16, 16]}>
@@ -578,6 +660,48 @@ export default function Budgets() {
                         <Col span={24}><Form.Item name="expenseDetail" label="รายละเอียดการใช้จ่าย"><TextArea rows={2} /></Form.Item></Col>
                     </Row>
                     {!userCanEdit && role === 'guest' && <Text type="secondary">โหมดผู้เยี่ยมชมดูได้อย่างเดียว</Text>}
+                </Form>
+            </Modal>
+            <Modal
+                title="บันทึกข้อมูลส่งเบิก"
+                open={reimbursementOpen}
+                onCancel={() => {
+                    setReimbursementOpen(false);
+                    reimbursementForm.resetFields();
+                    setReimbursementRecord(null);
+                }}
+                onOk={handleReimbursementSubmit}
+                okText="บันทึกส่งเบิก"
+                cancelText="ยกเลิก"
+                width={420}
+                destroyOnClose
+            >
+                <Form form={reimbursementForm} layout="vertical" style={{ marginTop: 12 }}>
+                    <Form.Item
+                        name="spentAmount"
+                        label="ส่งเบิกมากี่บาท"
+                        rules={[{ required: true, message: 'กรอกจำนวนเงินที่ส่งเบิก' }]}
+                    >
+                        <InputNumber
+                            min={0}
+                            max={reimbursementRecord?.budget || undefined}
+                            style={{ width: '100%' }}
+                            formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            parser={value => value?.replace(/\$\s?|(,*)/g, '')}
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        name="reimbursementDate"
+                        label="วันที่ส่งเบิก"
+                        rules={[{ required: true, message: 'เลือกวันที่ส่งเบิก' }]}
+                    >
+                        <DatePicker style={{ width: '100%' }} format="YYYY-MM-DD" />
+                    </Form.Item>
+                    {reimbursementRecord && (
+                        <Text type="secondary">
+                            งบประมาณรายการนี้ {money(reimbursementRecord.budget)} บาท
+                        </Text>
+                    )}
                 </Form>
             </Modal>
         </div>

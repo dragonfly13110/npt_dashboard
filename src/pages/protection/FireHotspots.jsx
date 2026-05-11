@@ -89,13 +89,20 @@ export default function FireHotspots() {
     const { canEdit } = useAuth();
     const [syncing, setSyncing] = useState(false);
 
+    const getSyncErrorMessage = (status, messageText) => {
+        if (status === 502 || status === 503 || status === 504) {
+            return 'GISTDA หรือ gateway ตอบกลับไม่ได้ชั่วคราว ข้อมูลเดิมในตารางยังไม่หาย ลองกดใหม่ภายหลัง';
+        }
+        return messageText || `HTTP ${status}`;
+    };
+
     const handleSyncHotspots = async (refetch) => {
         setSyncing(true);
         try {
             const res = await fetch('/.netlify/functions/sync-hotspots', { method: 'POST' });
             const payload = await res.json().catch(() => ({}));
             if (!res.ok) {
-                throw new Error(payload.error || payload.message || `HTTP ${res.status}`);
+                throw new Error(getSyncErrorMessage(res.status, payload.error || payload.message));
             }
 
             const latest = payload.latest?.acq_date ? ` ล่าสุด ${payload.latest.acq_date}` : '';

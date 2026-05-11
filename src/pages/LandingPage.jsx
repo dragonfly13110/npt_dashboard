@@ -134,18 +134,6 @@ export default function LandingPage() {
                     </div>
                 </section>
 
-                {/* ===== SOIL & WATER WIDGETS ===== */}
-                <section aria-label="ข้อมูลดินและสถานการณ์น้ำ">
-                    <div className="dept-stats-header">
-                        <h2>🌍 สถานการณ์ดินและน้ำ</h2>
-                        <p>ข้อมูลสดจากเซ็นเซอร์ดินและกรมชลประทาน เพื่อการเกษตรที่แม่นยำ</p>
-                    </div>
-                    <div className="soil-water-grid">
-                        <Suspense fallback={<WidgetSkeleton />}><SoilMoistureWidget /></Suspense>
-                        <Suspense fallback={<WidgetSkeleton />}><DamReservoirWidget /></Suspense>
-                    </div>
-                </section>
-
                 {/* ===== BENTO GRID LATEST LISTS ===== */}
                 <div className="dept-stats-header">
                     <h2>📊 ภาพรวมข้อมูลการเกษตรจังหวัด</h2>
@@ -199,6 +187,17 @@ export default function LandingPage() {
                 </section>
 
 
+                {/* ===== SOIL & WATER WIDGETS ===== */}
+                <section aria-label="ข้อมูลดินและสถานการณ์น้ำ">
+                    <div className="dept-stats-header">
+                        <h2>🌍 สถานการณ์ดินและน้ำ</h2>
+                        <p>ข้อมูลสดจากเซ็นเซอร์ดินและกรมชลประทาน เพื่อการเกษตรที่แม่นยำ</p>
+                    </div>
+                    <div className="soil-water-grid">
+                        <Suspense fallback={<WidgetSkeleton />}><SoilMoistureWidget /></Suspense>
+                        <Suspense fallback={<WidgetSkeleton />}><DamReservoirWidget /></Suspense>
+                    </div>
+                </section>
 
                 {/* ===== AGRI GOV NEWS (ข่าวจากหน่วยงานภาครัฐ) ===== */}
                 <div className="widget-section-container">

@@ -25,6 +25,7 @@ async function fetchHotspotData(dayRange) {
 function getMockHotspots(dayRange) {
     const districts = ['เมืองนครปฐม', 'กำแพงแสน', 'บางเลน', 'ดอนตูม', 'นครชัยศรี', 'สามพราน', 'พุทธมณฑล'];
     const landuses = ['พื้นที่เกษตร', 'ชุมชนและอื่น ๆ', 'พื้นที่ริมทางหลวง', 'เขต สปก.'];
+    const satellites = ['Suomi NPP', 'NOAA-20', 'NOAA-21'];
     const n = dayRange === 1 ? 3 : dayRange === 3 ? 8 : dayRange === 7 ? 15 : 40;
     return Array.from({ length: n }, (_, i) => ({
         geometry: { coordinates: [100.06 + (Math.random() - 0.5) * 0.3, 13.82 + (Math.random() - 0.5) * 0.3] },
@@ -33,6 +34,7 @@ function getMockHotspots(dayRange) {
             acq_date: new Date().toISOString().split('T')[0] + 'T00:00:00',
             acq_time: `${String(10 + Math.floor(Math.random() * 12)).padStart(2, '0')}${String(Math.floor(Math.random() * 59)).padStart(2, '0')}`,
             ap_tn: districts[i % districts.length], tb_tn: 'ตำบลตัวอย่าง',
+            satellite: satellites[i % satellites.length],
             lu_name: landuses[i % landuses.length], th_date: new Date().toISOString(), th_time: '0240', village: 'บ้านตัวอย่าง',
         }
     }));
@@ -79,10 +81,87 @@ const DAY_OPTIONS = [
     { value: 1, label: '1 วัน' }, { value: 3, label: '3 วัน' },
     { value: 7, label: '7 วัน' }, { value: 30, label: '30 วัน' },
 ];
+const SATELLITE_OPTIONS = [
+    { value: 'all', label: 'ทุกดาวเทียม' },
+    { value: 'Suomi NPP', label: 'Suomi NPP' },
+    { value: 'NOAA-20', label: 'NOAA-20' },
+    { value: 'NOAA-21', label: 'NOAA-21' },
+];
+
+function normalizeSatelliteName(value) {
+    const raw = String(value || '').trim();
+    const compact = raw.toLowerCase().replace(/[\s_-]+/g, '');
+    if (!compact) return '';
+    if (compact === 'n' || compact === 'npp' || compact === 'snpp' || compact.includes('suomi')) return 'Suomi NPP';
+    if (compact === 'n20' || compact.includes('noaa20') || compact.includes('jpss1')) return 'NOAA-20';
+    if (compact === 'n21' || compact.includes('noaa21') || compact.includes('jpss2')) return 'NOAA-21';
+    return raw;
+}
+
+function getSatelliteName(properties = {}) {
+    return normalizeSatelliteName(
+        properties.satellite ||
+        properties.sat_name ||
+        properties.satname ||
+        properties.sat ||
+        properties.platform ||
+        properties.source ||
+        properties.instrument
+    );
+}
+
+function getHotspotExcelRow(feature, index) {
+    const p = feature.properties || {};
+    const [lon, lat] = feature.geometry?.coordinates || [];
+    return {
+        'ลำดับ': index + 1,
+        'วันที่-เวลา (ไทย)': toThaiTime(p.th_date, p.th_time, p.acq_date, p.acq_time),
+        'วันที่': toDateOnly(p.th_date, p.acq_date),
+        'อำเภอ': p.ap_tn || '-',
+        'ตำบล': p.tb_tn || '-',
+        'หมู่บ้าน': p.village || '-',
+        'ดาวเทียม': getSatelliteName(p) || '-',
+        'เครื่องมือ': p.instrument || 'VIIRS',
+        'ประเภทพื้นที่': p.lu_name || '-',
+        'ประเภทย่อย': p.lu_hp_name || '-',
+        'ความเชื่อมั่น': p.confidence || '-',
+        'Brightness (K)': p.brightness ? Number(p.brightness).toFixed(1) : '-',
+        'FRP': p.frp || '-',
+        'กลางวัน/กลางคืน': p.daynight || '-',
+        'Latitude': lat || '',
+        'Longitude': lon || '',
+        'Google Map': p.linkgmap || (lat && lon ? `https://maps.google.com/maps?q=${lat},${lon}` : ''),
+        'แหล่งข้อมูล': 'GISTDA VIIRS (ยังไม่ได้รับการยืนยันในพื้นที่)',
+    };
+}
+
+function countBy(features, getter) {
+    const counts = {};
+    features.forEach((feature) => {
+        const key = getter(feature) || 'ไม่ระบุ';
+        counts[key] = (counts[key] || 0) + 1;
+    });
+    return Object.entries(counts)
+        .sort((a, b) => b[1] - a[1])
+        .map(([name, count], index) => ({ 'ลำดับ': index + 1, 'รายการ': name, 'จำนวนจุด': count }));
+}
+
+function applySheetLayout(sheet, widths) {
+    sheet['!cols'] = widths.map(wch => ({ wch }));
+    const range = sheet['!ref'];
+    if (range) {
+        const end = range.split(':')[1];
+        sheet['!autofilter'] = { ref: range };
+        sheet['!freeze'] = { xSplit: 0, ySplit: 1, topLeftCell: 'A2', activePane: 'bottomLeft', state: 'frozen' };
+        if (end) sheet['!ref'] = range;
+    }
+}
 
 export default function HotspotWidget() {
     const [dayRange, setDayRange] = useState(7);
+    const [selectedSatellite, setSelectedSatellite] = useState('Suomi NPP');
     const [selectedAmphoe, setSelectedAmphoe] = useState(null);
+    const [selectedTambon, setSelectedTambon] = useState(null);
     const [selectedDateFilter, setSelectedDateFilter] = useState(null);
     const [displayLimit, setDisplayLimit] = useState(20);
     const [MapComponents, setMapComponents] = useState(null);
@@ -91,7 +170,11 @@ export default function HotspotWidget() {
     useEffect(() => {
         setDisplayLimit(20);
         setSelectedDateFilter(null);
-    }, [dayRange, selectedAmphoe]);
+    }, [dayRange, selectedSatellite, selectedAmphoe, selectedTambon]);
+
+    useEffect(() => {
+        setSelectedTambon(null);
+    }, [selectedAmphoe]);
 
     useEffect(() => {
         import('../../data/nakhon_pathom_districts.json').then(m => setGeoJSONData(m.default));
@@ -126,22 +209,40 @@ export default function HotspotWidget() {
         });
     }, [rawFeatures, mockFeatures]);
 
+    const satelliteHotspots = useMemo(() => {
+        if (selectedSatellite === 'all') return localHotspots;
+        return localHotspots.filter(f => getSatelliteName(f.properties) === selectedSatellite);
+    }, [localHotspots, selectedSatellite]);
+
     const amphoeStats = useMemo(() => {
         const m = {};
-        localHotspots.forEach(f => { const n = f.properties?.ap_tn || 'ไม่ทราบ'; m[n] = (m[n] || 0) + 1; });
+        satelliteHotspots.forEach(f => { const n = f.properties?.ap_tn || 'ไม่ทราบ'; m[n] = (m[n] || 0) + 1; });
         return Object.entries(m).sort((a, b) => b[1] - a[1]);
-    }, [localHotspots]);
+    }, [satelliteHotspots]);
 
     const landuseStats = useMemo(() => {
         const m = {};
-        localHotspots.forEach(f => { const n = f.properties?.lu_name || 'อื่น ๆ'; m[n] = (m[n] || 0) + 1; });
+        satelliteHotspots.forEach(f => { const n = f.properties?.lu_name || 'อื่น ๆ'; m[n] = (m[n] || 0) + 1; });
         return Object.entries(m).sort((a, b) => b[1] - a[1]);
-    }, [localHotspots]);
+    }, [satelliteHotspots]);
+
+    const tambonStats = useMemo(() => {
+        if (!selectedAmphoe) return [];
+        const m = {};
+        satelliteHotspots
+            .filter(f => (f.properties?.ap_tn || 'ไม่ทราบ') === selectedAmphoe)
+            .forEach(f => { const n = f.properties?.tb_tn || 'ไม่ทราบตำบล'; m[n] = (m[n] || 0) + 1; });
+        return Object.entries(m).sort((a, b) => b[1] - a[1]);
+    }, [satelliteHotspots, selectedAmphoe]);
 
     const filteredHotspots = useMemo(() => {
-        if (!selectedAmphoe) return localHotspots;
-        return localHotspots.filter(f => (f.properties?.ap_tn || 'ไม่ทราบ') === selectedAmphoe);
-    }, [localHotspots, selectedAmphoe]);
+        return satelliteHotspots.filter(f => {
+            const p = f.properties || {};
+            if (selectedAmphoe && (p.ap_tn || 'ไม่ทราบ') !== selectedAmphoe) return false;
+            if (selectedTambon && (p.tb_tn || 'ไม่ทราบตำบล') !== selectedTambon) return false;
+            return true;
+        });
+    }, [satelliteHotspots, selectedAmphoe, selectedTambon]);
 
     const uniqueDates = useMemo(() => {
         const dates = new Set();
@@ -162,7 +263,73 @@ export default function HotspotWidget() {
     }, [filteredHotspots, selectedDateFilter]);
 
     const { MapContainer, TileLayer, CircleMarker, Tooltip, GeoJSON } = MapComponents || {};
-    const hasHotspots = localHotspots.length > 0;
+    const hasHotspots = satelliteHotspots.length > 0;
+
+    const handleExportExcel = async () => {
+        const XLSX = await import('xlsx');
+        const workbook = XLSX.utils.book_new();
+        const exportedAt = new Date().toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' });
+        const filterLabel = [
+            `รอบข้อมูล: ${dayRange} วัน`,
+            `ดาวเทียม: ${selectedSatellite === 'all' ? 'ทุกดาวเทียม' : selectedSatellite}`,
+            selectedAmphoe ? `อำเภอ: ${selectedAmphoe}` : 'อำเภอ: ทั้งหมด',
+            selectedTambon ? `ตำบล: ${selectedTambon}` : 'ตำบล: ทั้งหมด',
+            selectedDateFilter ? `วันที่: ${selectedDateFilter}` : 'วันที่: ทุกวัน',
+        ];
+        const detailRows = hotspotsForList.map(getHotspotExcelRow);
+        const introRows = [
+            ['รายงานจุดความร้อน จังหวัดนครปฐม'],
+            ['ข้อมูลจาก GISTDA VIIRS ยังไม่ได้รับการยืนยันในพื้นที่'],
+            [`ส่งออกเมื่อ ${exportedAt}`],
+            [filterLabel.join(' | ')],
+            [],
+        ];
+        const detailSheet = XLSX.utils.aoa_to_sheet(introRows);
+        XLSX.utils.sheet_add_json(detailSheet, detailRows, { origin: 'A6' });
+        detailSheet['!merges'] = [
+            { s: { r: 0, c: 0 }, e: { r: 0, c: 17 } },
+            { s: { r: 1, c: 0 }, e: { r: 1, c: 17 } },
+            { s: { r: 2, c: 0 }, e: { r: 2, c: 17 } },
+            { s: { r: 3, c: 0 }, e: { r: 3, c: 17 } },
+        ];
+        applySheetLayout(detailSheet, [8, 20, 14, 18, 18, 18, 14, 12, 20, 18, 14, 14, 10, 16, 14, 14, 42, 36]);
+        XLSX.utils.book_append_sheet(workbook, detailSheet, 'รายการจุด');
+
+        const summaryDistrict = XLSX.utils.json_to_sheet(countBy(hotspotsForList, f => f.properties?.ap_tn));
+        applySheetLayout(summaryDistrict, [8, 24, 12]);
+        XLSX.utils.book_append_sheet(workbook, summaryDistrict, 'สรุปอำเภอ');
+
+        const summaryTambon = XLSX.utils.json_to_sheet(countBy(hotspotsForList, f => {
+            const p = f.properties || {};
+            return [p.ap_tn, p.tb_tn].filter(Boolean).join(' / ');
+        }));
+        applySheetLayout(summaryTambon, [8, 34, 12]);
+        XLSX.utils.book_append_sheet(workbook, summaryTambon, 'สรุปตำบล');
+
+        const summaryLanduse = XLSX.utils.json_to_sheet(countBy(hotspotsForList, f => f.properties?.lu_name));
+        applySheetLayout(summaryLanduse, [8, 30, 12]);
+        XLSX.utils.book_append_sheet(workbook, summaryLanduse, 'สรุปพื้นที่');
+
+        const metaSheet = XLSX.utils.aoa_to_sheet([
+            ['หัวข้อ', 'ค่า'],
+            ['รอบข้อมูล', `${dayRange} วัน`],
+            ['ดาวเทียม', selectedSatellite === 'all' ? 'ทุกดาวเทียม' : selectedSatellite],
+            ['อำเภอ', selectedAmphoe || 'ทั้งหมด'],
+            ['ตำบล', selectedTambon || 'ทั้งหมด'],
+            ['วันที่', selectedDateFilter || 'ทุกวัน'],
+            ['จำนวนจุดที่ส่งออก', hotspotsForList.length],
+            ['แหล่งข้อมูล', 'GISTDA VIIRS'],
+            ['หมายเหตุ', 'ข้อมูลยังไม่ได้รับการยืนยันในพื้นที่'],
+            ['เวลาส่งออก', exportedAt],
+        ]);
+        applySheetLayout(metaSheet, [24, 70]);
+        XLSX.utils.book_append_sheet(workbook, metaSheet, 'เงื่อนไข');
+
+        const dateStamp = new Date().toISOString().slice(0, 10);
+        const satellitePart = selectedSatellite === 'all' ? 'all-satellite' : selectedSatellite.replace(/\s+/g, '-').toLowerCase();
+        const placePart = [selectedAmphoe, selectedTambon].filter(Boolean).join('-') || 'all-area';
+        XLSX.writeFile(workbook, `hotspots-npt-${dayRange}days-${satellitePart}-${placePart}-${dateStamp}.xlsx`, { compression: true });
+    };
 
     return (
         <div className="widget-box slide-up-anim" style={{ animationDelay: '0.25s', padding: 0, overflow: 'hidden' }}>
@@ -182,7 +349,24 @@ export default function HotspotWidget() {
                         <div style={{ fontSize: 10, color: '#94a3b8', fontWeight: 600 }}>VIIRS / GISTDA Satellite</div>
                     </div>
                 </div>
-                <div style={{ display: 'flex', gap: 4 }}>
+                <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+                    <select
+                        value={selectedSatellite}
+                        onChange={(e) => {
+                            setSelectedSatellite(e.target.value);
+                            setSelectedAmphoe(null);
+                        }}
+                        style={{
+                            height: 28, padding: '3px 8px', borderRadius: 8, cursor: 'pointer',
+                            border: '1px solid #e2e8f0', background: '#fff', color: '#475569',
+                            fontFamily: 'inherit', fontSize: 11, fontWeight: 700, outline: 'none',
+                        }}
+                        title="กรองตามดาวเทียม"
+                    >
+                        {SATELLITE_OPTIONS.map(o => (
+                            <option key={o.value} value={o.value}>{o.label}</option>
+                        ))}
+                    </select>
                     {DAY_OPTIONS.map(o => (
                         <button key={o.value}
                             className="hotspot-hover-float"
@@ -197,6 +381,21 @@ export default function HotspotWidget() {
                             }}
                         >{o.label}</button>
                     ))}
+                    <button
+                        className="hotspot-hover-float"
+                        onClick={handleExportExcel}
+                        disabled={hotspotsForList.length === 0}
+                        style={{
+                            padding: '4px 10px', borderRadius: 8, cursor: hotspotsForList.length ? 'pointer' : 'not-allowed',
+                            fontFamily: 'inherit', border: '1px solid #bbf7d0',
+                            background: hotspotsForList.length ? '#ecfdf5' : '#f8fafc',
+                            color: hotspotsForList.length ? '#047857' : '#94a3b8',
+                            fontWeight: 800, fontSize: 11, transition: 'all 0.2s',
+                        }}
+                        title="ดาวน์โหลด Excel ตามตัวกรองปัจจุบัน"
+                    >
+                        📥 Excel
+                    </button>
                 </div>
             </div>
 
@@ -224,7 +423,7 @@ export default function HotspotWidget() {
                                 <span style={{ fontSize: 32 }}>{hasHotspots ? '🔥' : '🌲'}</span>
                                 <div>
                                     <div style={{ fontSize: 28, fontWeight: 900, color: hasHotspots ? '#dc2626' : '#059669', lineHeight: 1 }}>
-                                        {localHotspots.length} <span style={{ fontSize: 13, fontWeight: 700 }}>จุด</span>
+                                        {satelliteHotspots.length} <span style={{ fontSize: 13, fontWeight: 700 }}>จุด</span>
                                     </div>
                                     <div style={{ fontSize: 10, color: '#64748b', fontWeight: 600, marginTop: 2 }}>
                                         {hasHotspots ? `สะสม ${dayRange} วัน` : 'ปลอดภัย 🌲'}
@@ -235,7 +434,7 @@ export default function HotspotWidget() {
                             {/* Amphoe grid — compact inline */}
                             {amphoeStats.length > 0 && (
                                 <div style={{ flex: 1, minWidth: 0 }}>
-                                    <div style={{ fontSize: 10, fontWeight: 700, color: '#94a3b8', marginBottom: 4, letterSpacing: '0.3px' }}>กดที่อำเภอ เพื่อดูแยกเป็นรายอำเภอ</div>
+                                    <div style={{ fontSize: 10, fontWeight: 700, color: '#94a3b8', marginBottom: 4, letterSpacing: '0.3px' }}>กดที่อำเภอ เพื่อกลั่นกรองตำบล</div>
                                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: 3 }}>
                                         {amphoeStats.map(([name, count]) => {
                                             const sel = selectedAmphoe === name;
@@ -261,6 +460,43 @@ export default function HotspotWidget() {
                                             );
                                         })}
                                     </div>
+                                    {selectedAmphoe && tambonStats.length > 0 && (
+                                        <div style={{ marginTop: 8, display: 'flex', flexWrap: 'wrap', gap: 5, alignItems: 'center' }}>
+                                            <span style={{ fontSize: 10, fontWeight: 700, color: '#94a3b8', marginRight: 2 }}>ตำบล:</span>
+                                            <button
+                                                className="hotspot-hover-float"
+                                                onClick={() => setSelectedTambon(null)}
+                                                style={{
+                                                    padding: '3px 8px', borderRadius: 12, cursor: 'pointer',
+                                                    border: !selectedTambon ? '1px solid #dc2626' : '1px solid #fecdd3',
+                                                    background: !selectedTambon ? '#dc2626' : '#fff',
+                                                    color: !selectedTambon ? '#fff' : '#dc2626',
+                                                    fontFamily: 'inherit', fontSize: 10, fontWeight: 800,
+                                                }}
+                                            >
+                                                ทั้งหมด {tambonStats.reduce((sum, [, count]) => sum + count, 0)}
+                                            </button>
+                                            {tambonStats.map(([name, count]) => {
+                                                const sel = selectedTambon === name;
+                                                return (
+                                                    <button
+                                                        key={name}
+                                                        className="hotspot-hover-float"
+                                                        onClick={() => setSelectedTambon(sel ? null : name)}
+                                                        style={{
+                                                            padding: '3px 8px', borderRadius: 12, cursor: 'pointer',
+                                                            border: sel ? '1px solid #dc2626' : '1px solid #fecdd3',
+                                                            background: sel ? '#dc2626' : '#fff',
+                                                            color: sel ? '#fff' : '#dc2626',
+                                                            fontFamily: 'inherit', fontSize: 10, fontWeight: 800,
+                                                        }}
+                                                    >
+                                                        {name} {count}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>
@@ -302,7 +538,7 @@ export default function HotspotWidget() {
                                     <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
                                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                                     {geoJSONData && (
-                                        <GeoJSON key={`geo-${selectedAmphoe || 'all'}-${dayRange}`} data={geoJSONData}
+                                        <GeoJSON key={`geo-${selectedSatellite}-${selectedAmphoe || 'all'}-${selectedTambon || 'all'}-${dayRange}`} data={geoJSONData}
                                             style={(feature) => {
                                                 const hl = selectedAmphoe && feature.properties?.amp_th === selectedAmphoe;
                                                 return {
@@ -362,7 +598,7 @@ export default function HotspotWidget() {
                                 <div style={{ padding: '10px 14px' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                                         <div style={{ fontSize: 11, fontWeight: 700, color: '#dc2626', letterSpacing: '0.3px' }}>
-                                            🔥 รายละเอียด {selectedAmphoe ? `อ.${selectedAmphoe}` : ''} ({hotspotsForList.length} จุด)
+                                            🔥 รายละเอียด {selectedAmphoe ? `อ.${selectedAmphoe}` : ''}{selectedTambon ? ` ต.${selectedTambon}` : ''} ({hotspotsForList.length} จุด)
                                         </div>
                                         <div style={{ fontSize: 10, color: '#64748b', fontWeight: 500 }}>
                                             <span style={{ cursor: 'pointer' }}>👆 คลิกเพื่อเปิดดู Google Map</span>
@@ -444,7 +680,7 @@ export default function HotspotWidget() {
 
                             {/* Footer */}
                             <div style={{ padding: '8px 14px', borderTop: '1px solid #f1f5f9', fontSize: 9, color: '#94a3b8', textAlign: 'center', fontWeight: 600, background: '#fafbfc' }}>
-                                ℹ️ VIIRS (GISTDA) • ย้อนหลัง {dayRange} วัน • <code style={{ background: '#e2e8f0', padding: '1px 3px', borderRadius: 3, fontSize: 9 }}>/{ENDPOINT_MAP[dayRange]}</code>
+                                ℹ️ VIIRS (GISTDA) • {selectedSatellite === 'all' ? 'ทุกดาวเทียม' : selectedSatellite} • ย้อนหลัง {dayRange} วัน • <code style={{ background: '#e2e8f0', padding: '1px 3px', borderRadius: 3, fontSize: 9 }}>/{ENDPOINT_MAP[dayRange]}</code>
                             </div>
                         </div>
                     </div>

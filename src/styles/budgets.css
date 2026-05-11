@@ -68,3 +68,17 @@
 .budget-progress-cell .ant-select {
     width: 100%;
 }
+
+.budget-top-scroll {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-bottom: 8px;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    background: #f6f8fa;
+}
+
+.budget-top-scroll::-webkit-scrollbar {
+    height: 12px;
+}
