@@ -11,15 +11,15 @@ import { supabase } from '../../supabaseClient';
 
 // Columns exactly matching the user's Excel import format
 const columns = [
-    { title: 'อำเภอ', dataIndex: 'district', key: 'district', width: 140 },
-    { title: 'รวม_จำนวนกลุ่ม', dataIndex: 'total_groups', key: 'total_groups', width: 130, align: 'right' },
-    { title: 'วิสาหกิจชุมชน_กลุ่ม', dataIndex: 'community_enterprise_groups', key: 'community_enterprise_groups', width: 150, align: 'right' },
-    { title: 'กลุ่มแม่บ้านเกษตรกร_กลุ่ม', dataIndex: 'housewives_groups', key: 'housewives_groups', width: 180, align: 'right' },
-    { title: 'กลุ่มยุวเกษตรกร_กลุ่ม', dataIndex: 'young_farmer_groups', key: 'young_farmer_groups', width: 160, align: 'right' },
-    { title: 'กลุ่มส่งเสริมอาชีพ_กลุ่ม', dataIndex: 'career_promotion_groups', key: 'career_promotion_groups', width: 170, align: 'right' },
-    { title: 'เกษตรกรหมู่บ้าน_ราย', dataIndex: 'village_farmers_count', key: 'village_farmers_count', width: 160, align: 'right' },
-    { title: 'Smart_Farmer_ราย', dataIndex: 'smart_farmer_count', key: 'smart_farmer_count', width: 150, align: 'right' },
-    { title: 'Young_Smart_Farmer_ราย', dataIndex: 'young_smart_farmer_count', key: 'young_smart_farmer_count', width: 180, align: 'right' },
+    { title: 'อำเภอ', dataIndex: 'district', key: 'district', width: 110 },
+    { title: 'รวมกลุ่ม', dataIndex: 'total_groups', key: 'total_groups', width: 100, align: 'right' },
+    { title: 'วิสาหกิจ', dataIndex: 'community_enterprise_groups', key: 'community_enterprise_groups', width: 110, align: 'right' },
+    { title: 'แม่บ้าน', dataIndex: 'housewives_groups', key: 'housewives_groups', width: 110, align: 'right' },
+    { title: 'ยุวเกษตรกร', dataIndex: 'young_farmer_groups', key: 'young_farmer_groups', width: 110, align: 'right' },
+    { title: 'ส่งเสริมอาชีพ', dataIndex: 'career_promotion_groups', key: 'career_promotion_groups', width: 120, align: 'right' },
+    { title: 'กม.', dataIndex: 'village_farmers_count', key: 'village_farmers_count', width: 90, align: 'right' },
+    { title: 'SF', dataIndex: 'smart_farmer_count', key: 'smart_farmer_count', width: 90, align: 'right' },
+    { title: 'YSF', dataIndex: 'young_smart_farmer_count', key: 'young_smart_farmer_count', width: 90, align: 'right' },
 ];
 
 const formFields = (

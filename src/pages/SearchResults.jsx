@@ -51,7 +51,6 @@ const COLUMN_LABELS = {
     farmer_type: 'ประเภทเกษตรกร',
     agency: 'หน่วยงาน',
     disaster_type: 'ประเภทภัย',
-    kpi_name: 'ตัวชี้วัด',
     project_name: 'โครงการ',
     total_area_rai: 'พื้นที่ (ไร่)',
     agri_crop_area_rai: 'พื้นที่เพาะปลูก (ไร่)',

@@ -16,9 +16,9 @@ const DEPARTMENT_GROUP_MAP = {
 // group key → tables ที่อยู่ในกลุ่ม
 const GROUP_TABLES = {
     admin: ['personnel', 'assets', 'budgets'],
-    strategy: ['farmer_registry', 'gis_areas', 'disasters', 'kpi_plans'],
+    strategy: ['farmer_registry', 'gis_areas'],
     production: ['large_plots', 'learning_centers', 'certifications', 'crop_production'],
-    development: ['community_enterprises', 'smart_farmers', 'farmer_groups', 'agri_tourism'],
+    development: ['community_enterprises', 'smart_farmers', 'farmer_groups', 'agri_tourism', 'disasters'],
     protection: ['forecast_plots', 'pest_centers', 'biocontrol_stock', 'fire_hotspots'],
 };
 

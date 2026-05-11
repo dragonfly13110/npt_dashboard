@@ -45,7 +45,6 @@ const AgriculturalAreas = lazy(() => import('./pages/strategy/AgriculturalAreas'
 const LearningCenters = lazy(() => import('./pages/strategy/LearningCenters'));
 const FarmerRegistry = lazy(() => import('./pages/strategy/FarmerRegistry'));
 const GisAreas = lazy(() => import('./pages/strategy/GisAreas'));
-const KpiPlans = lazy(() => import('./pages/strategy/KpiPlans'));
 const StrategyDashboard = lazy(() => import('./pages/strategy/StrategyDashboard'));
 const DailyWeather = lazy(() => import('./pages/strategy/DailyWeather'));
 
@@ -173,8 +172,7 @@ function AppRoutes() {
           <Route path="strategy/gis" element={<GisAreas />} />
           <Route path="strategy/agricultural-areas" element={<AgriculturalAreas />} />
           <Route path="strategy/learning-centers" element={<LearningCenters />} />
-          <Route path="strategy/kpi" element={<KpiPlans />} />
-          <Route path="strategy/disasters" element={<Disasters />} />
+          <Route path="strategy/disasters" element={<Navigate to="/dashboard/development/disasters" replace />} />
           <Route path="strategy/daily-weather" element={<DailyWeather />} />
 
           {/* Production */}
@@ -190,6 +188,7 @@ function AppRoutes() {
           <Route path="development/farmer-groups" element={<FarmerGroups />} />
           <Route path="development/farmer-institutes" element={<FarmerInstitutes />} />
           <Route path="development/agri-tourism" element={<AgriTourism />} />
+          <Route path="development/disasters" element={<Disasters />} />
 
           {/* Protection */}
           <Route path="protection/overview" element={<ProtectionDashboard />} />

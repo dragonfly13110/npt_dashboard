@@ -165,17 +165,27 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
             if (role === 'guest') {
                 const dataIdx = String(col.dataIndex || '');
                 const titleStr = String(col.title || '');
+                const isLargePlotName = tableName === 'large_plots' && dataIdx === 'plot_name';
+                const isHiddenForGuest = col.hideForGuest === true;
+
+                if (isLargePlotName) {
+                    return true;
+                }
                 
                 const isName = /name|ชื่อ|first_name|last_name|full_name/i.test(dataIdx) || /ชื่อ-สกุล|ชื่อ|สกุล/i.test(titleStr);
                 const isPresident = /president|chairman|ประธาน/i.test(dataIdx) || /ประธาน/i.test(titleStr);
                 
+                if (isHiddenForGuest) {
+                    return false;
+                }
+
                 if (isName && !isPresident) {
                     return false;
                 }
             }
             return true;
         });
-    }, [columns, role]);
+    }, [columns, role, tableName]);
 
     const handleExportCSV = () => {
         if (!data.length) return;

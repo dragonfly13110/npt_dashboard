@@ -11,18 +11,18 @@ import CrudTable from '../../components/DataTable/CrudTable';
 import { useApiCache } from '../../hooks/useApiCache';
 
 const columns = [
-    { title: 'รหัส', dataIndex: 'code', key: 'code', sorter: (a, b) => (Number(a.code) || 0) - (Number(b.code) || 0) },
-    { title: 'แปลงใหญ่ปี', dataIndex: 'year', key: 'year', align: 'center', sorter: (a, b) => (a.year || 0) - (b.year || 0) },
-    { title: 'กลุ่มสินค้า', dataIndex: 'commodity_group', key: 'commodity_group', sorter: (a, b) => String(a.commodity_group || '').localeCompare(String(b.commodity_group || ''), 'th') },
-    { title: 'สินค้าหลัก', dataIndex: 'commodity', key: 'commodity', sorter: (a, b) => String(a.commodity || '').localeCompare(String(b.commodity || ''), 'th') },
-    { title: 'สินค้ารอง', dataIndex: 'secondary_commodity', key: 'secondary_commodity', sorter: (a, b) => String(a.secondary_commodity || '').localeCompare(String(b.secondary_commodity || ''), 'th') },
-    { title: 'ชื่อแปลงใหญ่', dataIndex: 'plot_name', key: 'plot_name', sorter: (a, b) => String(a.plot_name || '').localeCompare(String(b.plot_name || ''), 'th') },
-    { title: 'อำเภอ', dataIndex: 'district', key: 'district', sorter: (a, b) => String(a.district || '').localeCompare(String(b.district || ''), 'th') },
-    { title: 'ตำบล', dataIndex: 'subdistrict', key: 'subdistrict', sorter: (a, b) => String(a.subdistrict || '').localeCompare(String(b.subdistrict || ''), 'th') },
-    { title: 'โทรศัพท์', dataIndex: 'phone', key: 'phone' },
-    { title: 'เกษตรกร', dataIndex: 'member_count', key: 'member_count', align: 'right', render: v => v?.toLocaleString() || '-', sorter: (a, b) => (a.member_count || 0) - (b.member_count || 0) },
-    { title: 'พื้นที่(ไร่)', dataIndex: 'area_rai', key: 'area_rai', align: 'right', render: v => v?.toLocaleString() || '-', sorter: (a, b) => (a.area_rai || 0) - (b.area_rai || 0) },
-    { title: 'หน่วยงาน', dataIndex: 'agency', key: 'agency', sorter: (a, b) => String(a.agency || '').localeCompare(String(b.agency || ''), 'th') },
+    { title: 'รหัส', dataIndex: 'code', key: 'code', width: 80, sorter: (a, b) => (Number(a.code) || 0) - (Number(b.code) || 0) },
+    { title: 'ปี', dataIndex: 'year', key: 'year', width: 80, align: 'center', sorter: (a, b) => (a.year || 0) - (b.year || 0) },
+    { title: 'กลุ่มสินค้า', dataIndex: 'commodity_group', key: 'commodity_group', width: 120, sorter: (a, b) => String(a.commodity_group || '').localeCompare(String(b.commodity_group || ''), 'th') },
+    { title: 'สินค้าหลัก', dataIndex: 'commodity', key: 'commodity', width: 110, sorter: (a, b) => String(a.commodity || '').localeCompare(String(b.commodity || ''), 'th') },
+    { title: 'สินค้ารอง', dataIndex: 'secondary_commodity', key: 'secondary_commodity', width: 110, sorter: (a, b) => String(a.secondary_commodity || '').localeCompare(String(b.secondary_commodity || ''), 'th') },
+    { title: 'ชื่อแปลงใหญ่', dataIndex: 'plot_name', key: 'plot_name', width: 260, sorter: (a, b) => String(a.plot_name || '').localeCompare(String(b.plot_name || ''), 'th') },
+    { title: 'อำเภอ', dataIndex: 'district', key: 'district', width: 110, sorter: (a, b) => String(a.district || '').localeCompare(String(b.district || ''), 'th') },
+    { title: 'ตำบล', dataIndex: 'subdistrict', key: 'subdistrict', width: 100, sorter: (a, b) => String(a.subdistrict || '').localeCompare(String(b.subdistrict || ''), 'th') },
+    { title: 'โทรศัพท์', dataIndex: 'phone', key: 'phone', width: 110, hideForGuest: true },
+    { title: 'เกษตรกร', dataIndex: 'member_count', key: 'member_count', width: 90, align: 'right', render: v => v?.toLocaleString() || '-', sorter: (a, b) => (a.member_count || 0) - (b.member_count || 0) },
+    { title: 'พื้นที่', dataIndex: 'area_rai', key: 'area_rai', width: 90, align: 'right', render: v => v?.toLocaleString() || '-', sorter: (a, b) => (a.area_rai || 0) - (b.area_rai || 0) },
+    { title: 'หน่วยงาน', dataIndex: 'agency', key: 'agency', width: 120, sorter: (a, b) => String(a.agency || '').localeCompare(String(b.agency || ''), 'th') },
 ];
 
 const formFields = (
@@ -274,7 +274,7 @@ export default function LargePlots() {
                 formFields={formFields}
                 searchField="plot_name"
                 filterConfig={filterConfig}
-                scrollX={800}
+                scrollX={1100}
             />
         </div>
     );

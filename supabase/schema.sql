@@ -111,18 +111,6 @@ CREATE TABLE IF NOT EXISTS disasters (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE IF NOT EXISTS kpi_plans (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  kpi_name TEXT NOT NULL,
-  unit TEXT,
-  target NUMERIC,
-  actual NUMERIC,
-  fiscal_year INTEGER,
-  notes TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-
 -- ==================== กลุ่ม 3: ส่งเสริมและพัฒนาการผลิต ====================
 
 CREATE TABLE IF NOT EXISTS large_plots (
@@ -299,7 +287,6 @@ ALTER TABLE budgets ENABLE ROW LEVEL SECURITY;
 ALTER TABLE farmer_registry ENABLE ROW LEVEL SECURITY;
 ALTER TABLE gis_areas ENABLE ROW LEVEL SECURITY;
 ALTER TABLE disasters ENABLE ROW LEVEL SECURITY;
-ALTER TABLE kpi_plans ENABLE ROW LEVEL SECURITY;
 ALTER TABLE large_plots ENABLE ROW LEVEL SECURITY;
 ALTER TABLE learning_centers ENABLE ROW LEVEL SECURITY;
 ALTER TABLE certifications ENABLE ROW LEVEL SECURITY;
@@ -323,7 +310,7 @@ BEGIN
   FOR tbl IN
     SELECT unnest(ARRAY[
       'profiles','personnel','assets','budgets',
-      'farmer_registry','gis_areas','disasters','kpi_plans',
+      'farmer_registry','gis_areas','disasters',
       'large_plots','learning_centers','certifications','crop_production',
       'community_enterprises','smart_farmers','farmer_groups','agri_tourism',
       'pest_outbreaks','pest_centers','biocontrol_stock','fire_hotspots'

@@ -26,7 +26,6 @@ const TABLE_LABELS = {
     farmer_registry: 'ทะเบียนเกษตรกร',
     gis_areas: 'พิกัด GIS',
     disasters: 'ภัยพิบัติ',
-    kpi_plans: 'แผน/KPI',
     large_plots: 'แปลงใหญ่',
     learning_centers: 'ศพก.',
     certifications: 'มาตรฐาน GAP',
@@ -119,7 +118,7 @@ export default function AuditLog() {
                         record.new_data.spot_name || record.new_data.center_name ||
                         record.new_data.crop_name || record.new_data.farm_name ||
                         record.new_data.group_name || record.new_data.product_name ||
-                        record.new_data.area_name || record.new_data.kpi_name || '';
+                        record.new_data.area_name || '';
                     return <span style={{ color: '#1a7f37' }}>เพิ่ม: {name}</span>;
                 }
                 if (record.action === 'DELETE' && record.old_data) {
@@ -129,7 +128,7 @@ export default function AuditLog() {
                         record.old_data.spot_name || record.old_data.center_name ||
                         record.old_data.crop_name || record.old_data.farm_name ||
                         record.old_data.group_name || record.old_data.product_name ||
-                        record.old_data.area_name || record.old_data.kpi_name || '';
+                        record.old_data.area_name || '';
                     return <span style={{ color: '#cf222e' }}>ลบ: {name}</span>;
                 }
                 if (record.action === 'UPDATE' && record.new_data) {

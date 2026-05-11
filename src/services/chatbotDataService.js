@@ -223,7 +223,6 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
             disasters: ['ภัย', 'น้ำท่วม', 'แล้ง', 'วาตภัย'],
             farmer_registry: ['ทะเบียน', 'เกษตรกร', 'ครัวเรือน'],
             gis_areas: ['gis', 'พิกัด', 'แผนที่'],
-            kpi_plans: ['kpi', 'ตัวชี้วัด', 'แผน', 'เป้าหมาย'],
             large_plots: ['แปลงใหญ่', 'สินค้า'],
             certifications: ['gap', 'มาตรฐาน', 'ใบรับรอง', 'อินทรีย์'],
             crop_production: ['ผลผลิต', 'เก็บเกี่ยว', 'ตัน'],
@@ -262,7 +261,6 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
             smart_farmers: ['learning_centers', 'farmer_groups'],
             certifications: ['large_plots', 'crop_production'],
             disasters: ['agricultural_areas', 'farmer_registry'],
-            budgets: ['kpi_plans'],
         };
         const existing = new Set(matchedTables);
         matchedTables.forEach(t => {

@@ -42,10 +42,9 @@ export const QWEN_MODEL = 'qwen/qwen3.5-397b-a17b';
 export const TABLE_CONFIG = {
     agricultural_areas: { label: 'พื้นที่การเกษตร', icon: '🌾', group: 'ยุทธศาสตร์', descTh: 'ข้อมูลพื้นที่เกษตรรายอำเภอ (ข้าว, พืชไร่, ไม้ผล, ผัก, ไม้ดอก, สมุนไพร)' },
     learning_centers: { label: 'ศูนย์เรียนรู้ (ศพก.)', icon: '🏫', group: 'ยุทธศาสตร์', descTh: 'ศูนย์เรียนรู้การเพิ่มประสิทธิภาพการผลิตสินค้าเกษตร' },
-    disasters: { label: 'ภัยพิบัติ', icon: '⛈️', group: 'ยุทธศาสตร์', descTh: 'ข้อมูลภัยพิบัติด้านการเกษตร' },
+    disasters: { label: 'ภัยพิบัติ', icon: '⛈️', group: 'พัฒนาเกษตรกร', descTh: 'ข้อมูลภัยพิบัติด้านการเกษตร' },
     farmer_registry: { label: 'ทะเบียนเกษตรกร', icon: '📋', group: 'ยุทธศาสตร์', descTh: 'ทะเบียนเกษตรกรรายอำเภอ' },
     gis_areas: { label: 'พิกัด GIS', icon: '📍', group: 'ยุทธศาสตร์', descTh: 'ข้อมูลพิกัดภูมิศาสตร์พื้นที่เกษตร' },
-    kpi_plans: { label: 'แผน/KPI', icon: '📊', group: 'ยุทธศาสตร์', descTh: 'ตัวชี้วัดและแผนงานประจำปี' },
     large_plots: { label: 'แปลงใหญ่', icon: '🌿', group: 'ส่งเสริมการผลิต', descTh: 'ข้อมูลแปลงใหญ่ (สินค้า, พื้นที่, สมาชิก)' },
     certifications: { label: 'มาตรฐาน GAP', icon: '✅', group: 'ส่งเสริมการผลิต', descTh: 'ใบรับรองมาตรฐาน GAP (ชื่อฟาร์ม, สินค้า, ประเภท)' },
     crop_production: { label: 'ผลผลิตพืช', icon: '🌽', group: 'ส่งเสริมการผลิต', descTh: 'ข้อมูลผลผลิตพืชรายอำเภอ' },
@@ -80,7 +79,6 @@ export const TABLE_SEARCH_COLS = {
     disasters: ['disaster_type', 'subdistrict'],
     farmer_registry: ['main_crop'],
     gis_areas: ['area_name', 'area_type'],
-    kpi_plans: ['kpi_name', 'project_name'],
     large_plots: ['plot_name', 'commodity', 'secondary_commodity', 'agency'],
     certifications: ['farm_name', 'commodity', 'cert_type'],
     crop_production: ['crop_name'],
@@ -152,11 +150,7 @@ export const SYSTEM_PROMPT = `คุณคือ "น้องข้าวหอ
 - หาอำเภอที่มี **ศักยภาพ** vs อำเภอที่ต้อง **พัฒนาเพิ่ม**
 - คำนวณ % สัดส่วนของแต่ละอำเภอ
 
-### 3. Gap Analysis (การวิเคราะห์ช่องว่าง)
-- เปรียบเทียบ KPI เป้าหมาย vs ผลงานจริง (ถ้ามีข้อมูล)
-- หาจุดที่ต้องปรับปรุง
-
-### 4. Cross-Correlation (ความสัมพันธ์ข้ามชุดข้อมูล)
+### 3. Cross-Correlation (ความสัมพันธ์ข้ามชุดข้อมูล)
 - พื้นที่เกษตรเยอะ → มีผลผลิตเยอะไหม?
 - อำเภอที่มีศูนย์เรียนรู้เยอะ → มี Smart Farmer เยอะไหม?
 - อำเภอที่มีภัยพิบัติบ่อย → กระทบพื้นที่เกษตรมากน้อยแค่ไหน?

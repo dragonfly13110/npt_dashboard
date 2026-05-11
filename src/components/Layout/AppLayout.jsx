@@ -33,7 +33,6 @@ const routeLabels = {
     'farmer-registry': 'ทะเบียนเกษตรกร',
     gis: 'พิกัด GIS',
     disasters: 'ภัยพิบัติ',
-    kpi: 'แผน/KPI',
     production: 'ส่งเสริมการผลิต',
     'large-plots': 'แปลงใหญ่',
     'learning-centers': 'ศพก.',

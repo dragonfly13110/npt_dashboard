@@ -7,10 +7,9 @@ import { TABLE_CONFIG, TABLE_SEARCH_COLS, DISTRICT_COLS } from '../utils/chatbot
 const TABLE_ROUTES = {
     agricultural_areas: '/dashboard/strategy/agricultural-areas',
     learning_centers: '/dashboard/strategy/learning-centers',
-    disasters: '/dashboard/strategy/disasters',
+    disasters: '/dashboard/development/disasters',
     farmer_registry: '/dashboard/strategy/farmer-registry',
     gis_areas: '/dashboard/strategy/gis',
-    kpi_plans: '/dashboard/strategy/kpi',
     large_plots: '/dashboard/production/large-plots',
     certifications: '/dashboard/production/certifications',
     crop_production: '/dashboard/production/crop-production',
