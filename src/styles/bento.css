@@ -43,9 +43,29 @@
 .dash-section-icon { font-size: 20px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: rgba(26, 127, 55, 0.08); border-radius: 8px; flex-shrink: 0; }
 
 /* --- Live Widgets Grid --- */
-.dash-live-widgets { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; margin-bottom: 24px; }
-.dash-live-left { display: flex; flex-direction: column; gap: 20px; }
-.dash-live-right { display: flex; flex-direction: column; }
+.dash-live-widgets {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: stretch;
+  gap: 20px;
+  height: clamp(780px, calc(100vh - 40px), 860px);
+  margin-bottom: 24px;
+}
+.dash-live-left {
+  display: grid;
+  grid-template-rows: minmax(380px, 0.95fr) minmax(380px, 1.05fr);
+  gap: 20px;
+  min-height: 0;
+}
+.dash-live-left > *,
+.dash-live-right > * {
+  min-height: 0;
+}
+.dash-live-right {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
 
 /* --- Bento Grid Override --- */
 .dash-bento-override { max-width: 100% !important; margin: 0 0 28px !important; padding: 0 !important; }
@@ -65,7 +85,10 @@
 
 /* --- Responsive --- */
 @media (max-width: 900px) {
-  .dash-live-widgets { grid-template-columns: 1fr; }
+  .dash-live-widgets {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
 }
 
 @media (max-width: 768px) {
