@@ -12,6 +12,7 @@ import {
     AimOutlined,
     BankOutlined,
     SafetyCertificateOutlined,
+    BarChartOutlined,
     ShopOutlined,
     UserSwitchOutlined,
     UsergroupAddOutlined,
