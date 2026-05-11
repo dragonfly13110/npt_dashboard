@@ -997,12 +997,100 @@
 .price-ios-tabs {
     display: flex;
     gap: 8px;
-    margin-top: 18px;
+    margin-top: 14px;
     padding: 6px;
     overflow-x: auto;
     border-radius: 22px;
     background: rgba(15, 23, 42, 0.045);
     scrollbar-width: none;
+}
+
+.price-ios-oil-strip {
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.62);
+    border: 1px solid rgba(16, 185, 129, 0.16);
+}
+
+.price-ios-oil-strip-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 9px;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.price-ios-oil-strip-head span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #065f46;
+    font-weight: 600;
+}
+
+.price-ios-oil-strip-head a {
+    color: #64748b;
+    text-decoration: none;
+}
+
+.price-ios-oil-strip-head a:hover {
+    color: #047857;
+}
+
+.price-ios-oil-list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.price-ios-oil-item {
+    display: grid;
+    gap: 3px;
+    min-width: 0;
+    padding: 9px 10px;
+    border-radius: 14px;
+    background: rgba(240, 253, 244, 0.78);
+    border: 1px solid rgba(187, 247, 208, 0.76);
+    color: #334155;
+    text-decoration: none;
+}
+
+.price-ios-oil-item span {
+    overflow: hidden;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.price-ios-oil-item strong {
+    color: #0f172a;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.price-ios-oil-item small {
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 400;
+}
+
+.price-ios-oil-loading {
+    min-height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.52);
+    color: #64748b;
+    font-size: 12px;
+    text-align: center;
 }
 
 .price-ios-tabs::-webkit-scrollbar {
@@ -1209,6 +1297,10 @@
         align-items: flex-start;
         flex-direction: column;
         gap: 8px;
+    }
+
+    .price-ios-oil-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .price-ios-value {

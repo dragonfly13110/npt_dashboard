@@ -73,6 +73,32 @@ function toDateOnly(thDate, acqDate) {
     } catch { return ''; }
 }
 
+function getIsoDate(properties = {}) {
+    const raw = properties.th_date || properties.acq_date || '';
+    if (!raw) return '';
+    try {
+        if (/^\d{4}-\d{2}-\d{2}/.test(raw)) return raw.slice(0, 10);
+        const d = new Date(raw);
+        if (Number.isNaN(d.getTime())) return '';
+        return d.toISOString().slice(0, 10);
+    } catch {
+        return '';
+    }
+}
+
+function getDateSpanDays(start, end) {
+    if (!start || !end) return 0;
+    const startMs = new Date(`${start}T00:00:00`).getTime();
+    const endMs = new Date(`${end}T00:00:00`).getTime();
+    if (Number.isNaN(startMs) || Number.isNaN(endMs)) return 0;
+    return Math.floor((endMs - startMs) / 86400000) + 1;
+}
+
+function isInIsoDateRange(date, start, end) {
+    if (!start || !end || !date) return true;
+    return date >= start && date <= end;
+}
+
 const LANDUSE_COLORS = {
     'พื้นที่เกษตร': '#dc2626', 'ชุมชนและอื่น ๆ': '#f59e0b', 'พื้นที่ริมทางหลวง': '#6366f1',
     'เขต สปก.': '#10b981', 'ป่าสงวน': '#059669',
@@ -162,6 +188,8 @@ export default function HotspotWidget() {
     const [selectedSatellite, setSelectedSatellite] = useState('Suomi NPP');
     const [selectedAmphoe, setSelectedAmphoe] = useState(null);
     const [selectedTambon, setSelectedTambon] = useState(null);
+    const [customDateRange, setCustomDateRange] = useState({ start: '', end: '' });
+    const [dateRangeError, setDateRangeError] = useState('');
     const [selectedDateFilter, setSelectedDateFilter] = useState(null);
     const [displayLimit, setDisplayLimit] = useState(20);
     const [MapComponents, setMapComponents] = useState(null);
@@ -170,7 +198,7 @@ export default function HotspotWidget() {
     useEffect(() => {
         setDisplayLimit(20);
         setSelectedDateFilter(null);
-    }, [dayRange, selectedSatellite, selectedAmphoe, selectedTambon]);
+    }, [dayRange, selectedSatellite, selectedAmphoe, selectedTambon, customDateRange.start, customDateRange.end]);
 
     useEffect(() => {
         setSelectedTambon(null);
@@ -189,14 +217,17 @@ export default function HotspotWidget() {
         });
     }, []);
 
+    const hasCustomDateRange = Boolean(customDateRange.start && customDateRange.end && !dateRangeError);
+    const fetchDayRange = hasCustomDateRange ? 30 : dayRange;
+
     const { data: rawFeatures, isLoading } = useApiCache(
-        ['hotspot_gistda_v3', dayRange],
-        () => fetchHotspotData(dayRange),
+        ['hotspot_gistda_v3', fetchDayRange],
+        () => fetchHotspotData(fetchDayRange),
         { staleMinutes: 10, cacheMinutes: 60 }
     );
 
     const useMock = !rawFeatures && !isLoading;
-    const mockFeatures = useMemo(() => useMock ? getMockHotspots(dayRange) : [], [useMock, dayRange]);
+    const mockFeatures = useMemo(() => useMock ? getMockHotspots(fetchDayRange) : [], [useMock, fetchDayRange]);
     const localHotspots = useMemo(() => {
         const raw = rawFeatures || mockFeatures || [];
         // เรียงลำดับจากใหม่สุดไปเก่าสุด
@@ -209,10 +240,15 @@ export default function HotspotWidget() {
         });
     }, [rawFeatures, mockFeatures]);
 
+    const rangedHotspots = useMemo(() => {
+        if (!hasCustomDateRange) return localHotspots;
+        return localHotspots.filter(f => isInIsoDateRange(getIsoDate(f.properties), customDateRange.start, customDateRange.end));
+    }, [customDateRange.end, customDateRange.start, hasCustomDateRange, localHotspots]);
+
     const satelliteHotspots = useMemo(() => {
-        if (selectedSatellite === 'all') return localHotspots;
-        return localHotspots.filter(f => getSatelliteName(f.properties) === selectedSatellite);
-    }, [localHotspots, selectedSatellite]);
+        if (selectedSatellite === 'all') return rangedHotspots;
+        return rangedHotspots.filter(f => getSatelliteName(f.properties) === selectedSatellite);
+    }, [rangedHotspots, selectedSatellite]);
 
     const amphoeStats = useMemo(() => {
         const m = {};
@@ -264,13 +300,38 @@ export default function HotspotWidget() {
 
     const { MapContainer, TileLayer, CircleMarker, Tooltip, GeoJSON } = MapComponents || {};
     const hasHotspots = satelliteHotspots.length > 0;
+    const activePeriodLabel = hasCustomDateRange
+        ? `${customDateRange.start} ถึง ${customDateRange.end}`
+        : `ย้อนหลัง ${dayRange} วัน`;
+
+    const handleDateRangeChange = (field, value) => {
+        const next = { ...customDateRange, [field]: value };
+        let error = '';
+        if (next.start && next.end) {
+            const spanDays = getDateSpanDays(next.start, next.end);
+            if (spanDays <= 0) error = 'วันที่เริ่มต้องไม่เกินวันที่สิ้นสุด';
+            if (spanDays > 30) error = 'เลือกช่วงได้สูงสุด 30 วัน';
+        }
+        setCustomDateRange(next);
+        setDateRangeError(error);
+        if (!error && next.start && next.end) {
+            setDayRange(30);
+            setSelectedAmphoe(null);
+            setSelectedTambon(null);
+        }
+    };
+
+    const clearDateRange = () => {
+        setCustomDateRange({ start: '', end: '' });
+        setDateRangeError('');
+    };
 
     const handleExportExcel = async () => {
         const XLSX = await import('xlsx');
         const workbook = XLSX.utils.book_new();
         const exportedAt = new Date().toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' });
         const filterLabel = [
-            `รอบข้อมูล: ${dayRange} วัน`,
+            `รอบข้อมูล: ${activePeriodLabel}`,
             `ดาวเทียม: ${selectedSatellite === 'all' ? 'ทุกดาวเทียม' : selectedSatellite}`,
             selectedAmphoe ? `อำเภอ: ${selectedAmphoe}` : 'อำเภอ: ทั้งหมด',
             selectedTambon ? `ตำบล: ${selectedTambon}` : 'ตำบล: ทั้งหมด',
@@ -312,7 +373,7 @@ export default function HotspotWidget() {
 
         const metaSheet = XLSX.utils.aoa_to_sheet([
             ['หัวข้อ', 'ค่า'],
-            ['รอบข้อมูล', `${dayRange} วัน`],
+            ['รอบข้อมูล', activePeriodLabel],
             ['ดาวเทียม', selectedSatellite === 'all' ? 'ทุกดาวเทียม' : selectedSatellite],
             ['อำเภอ', selectedAmphoe || 'ทั้งหมด'],
             ['ตำบล', selectedTambon || 'ทั้งหมด'],
@@ -345,8 +406,8 @@ export default function HotspotWidget() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     <div className="widget-icon" style={{ background: '#fee2e2', color: '#dc2626', width: 34, height: 34, fontSize: 15 }}><FireOutlined /></div>
                     <div>
-                        <h4 style={{ margin: 0, fontSize: 15, fontWeight: 800, color: '#1e293b' }}>จุดความร้อน จ.นครปฐม (ข้อมูลจาก GISTDA ยังไม่ได้รับการยืนยันในพื้นที่)</h4>
-                        <div style={{ fontSize: 10, color: '#94a3b8', fontWeight: 600 }}>VIIRS / GISTDA Satellite</div>
+                        <h4 style={{ margin: 0, fontSize: 15, fontWeight: 600, color: '#1e293b' }}>จุดความร้อน จ.นครปฐม (ข้อมูลจาก GISTDA ยังไม่ได้รับการยืนยันในพื้นที่)</h4>
+                        <div style={{ fontSize: 10, color: '#94a3b8', fontWeight: 400 }}>VIIRS / GISTDA Satellite</div>
                     </div>
                 </div>
                 <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
@@ -359,7 +420,7 @@ export default function HotspotWidget() {
                         style={{
                             height: 28, padding: '3px 8px', borderRadius: 8, cursor: 'pointer',
                             border: '1px solid #e2e8f0', background: '#fff', color: '#475569',
-                            fontFamily: 'inherit', fontSize: 11, fontWeight: 700, outline: 'none',
+                            fontFamily: 'inherit', fontSize: 11, fontWeight: 500, outline: 'none',
                         }}
                         title="กรองตามดาวเทียม"
                     >
@@ -370,17 +431,64 @@ export default function HotspotWidget() {
                     {DAY_OPTIONS.map(o => (
                         <button key={o.value}
                             className="hotspot-hover-float"
-                            onClick={() => { setDayRange(o.value); setSelectedAmphoe(null); }}
+                            onClick={() => { setDayRange(o.value); setSelectedAmphoe(null); clearDateRange(); }}
                             style={{
                                 padding: '4px 10px', borderRadius: 8, cursor: 'pointer', fontFamily: 'inherit',
-                                border: dayRange === o.value ? 'none' : '1px solid #e2e8f0',
-                                background: dayRange === o.value ? 'linear-gradient(135deg,#dc2626,#f97316)' : '#fff',
-                                color: dayRange === o.value ? '#fff' : '#64748b',
-                                fontWeight: 700, fontSize: 11, transition: 'all 0.2s',
-                                boxShadow: dayRange === o.value ? '0 2px 8px rgba(220,38,38,0.25)' : 'none',
+                                border: !hasCustomDateRange && dayRange === o.value ? 'none' : '1px solid #e2e8f0',
+                                background: !hasCustomDateRange && dayRange === o.value ? 'linear-gradient(135deg,#dc2626,#f97316)' : '#fff',
+                                color: !hasCustomDateRange && dayRange === o.value ? '#fff' : '#64748b',
+                                fontWeight: 500, fontSize: 11, transition: 'all 0.2s',
+                                boxShadow: !hasCustomDateRange && dayRange === o.value ? '0 2px 8px rgba(220,38,38,0.25)' : 'none',
                             }}
                         >{o.label}</button>
                     ))}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, position: 'relative' }}>
+                        <input
+                            type="date"
+                            value={customDateRange.start}
+                            onChange={(e) => handleDateRangeChange('start', e.target.value)}
+                            style={{
+                                height: 28, width: 118, padding: '2px 6px', borderRadius: 8,
+                                border: dateRangeError ? '1px solid #ef4444' : hasCustomDateRange ? '1px solid #dc2626' : '1px solid #e2e8f0',
+                                fontFamily: 'inherit', fontSize: 10, fontWeight: 500, color: '#475569',
+                            }}
+                            title="วันที่เริ่มต้น (เลือกได้สูงสุดช่วงละ 30 วัน)"
+                        />
+                        <span style={{ fontSize: 10, color: '#94a3b8', fontWeight: 500 }}>-</span>
+                        <input
+                            type="date"
+                            value={customDateRange.end}
+                            onChange={(e) => handleDateRangeChange('end', e.target.value)}
+                            style={{
+                                height: 28, width: 118, padding: '2px 6px', borderRadius: 8,
+                                border: dateRangeError ? '1px solid #ef4444' : hasCustomDateRange ? '1px solid #dc2626' : '1px solid #e2e8f0',
+                                fontFamily: 'inherit', fontSize: 10, fontWeight: 500, color: '#475569',
+                            }}
+                            title="วันที่สิ้นสุด (เลือกได้สูงสุดช่วงละ 30 วัน)"
+                        />
+                        {(customDateRange.start || customDateRange.end) && (
+                            <button
+                                type="button"
+                                onClick={clearDateRange}
+                                style={{
+                                    height: 28, width: 28, borderRadius: 8, border: '1px solid #e2e8f0',
+                                    background: '#fff', color: '#64748b', cursor: 'pointer', fontWeight: 800,
+                                }}
+                                title="ล้างช่วงวันที่"
+                            >
+                                ×
+                            </button>
+                        )}
+                        {dateRangeError && (
+                            <span style={{
+                                position: 'absolute', top: 31, left: 0, whiteSpace: 'nowrap',
+                                fontSize: 10, color: '#dc2626', fontWeight: 700, background: '#fff',
+                                border: '1px solid #fecaca', borderRadius: 6, padding: '2px 6px', zIndex: 20,
+                            }}>
+                                {dateRangeError}
+                            </span>
+                        )}
+                    </div>
                     <button
                         className="hotspot-hover-float"
                         onClick={handleExportExcel}
@@ -390,7 +498,7 @@ export default function HotspotWidget() {
                             fontFamily: 'inherit', border: '1px solid #bbf7d0',
                             background: hotspotsForList.length ? '#ecfdf5' : '#f8fafc',
                             color: hotspotsForList.length ? '#047857' : '#94a3b8',
-                            fontWeight: 800, fontSize: 11, transition: 'all 0.2s',
+                            fontWeight: 600, fontSize: 11, transition: 'all 0.2s',
                         }}
                         title="ดาวน์โหลด Excel ตามตัวกรองปัจจุบัน"
                     >
@@ -406,7 +514,7 @@ export default function HotspotWidget() {
             ) : (
                 <>
                     {!rawFeatures && (
-                        <div style={{ fontSize: 11, color: '#f97316', background: '#fffbeb', padding: '5px 12px', fontWeight: 600, textAlign: 'center', borderBottom: '1px solid #fde68a' }}>
+                        <div style={{ fontSize: 11, color: '#f97316', background: '#fffbeb', padding: '5px 12px', fontWeight: 500, textAlign: 'center', borderBottom: '1px solid #fde68a' }}>
                             ⚠️ ไม่สามารถเชื่อมต่อ GISTDA API — แสดงข้อมูลจำลอง
                         </div>
                     )}
@@ -422,11 +530,11 @@ export default function HotspotWidget() {
                             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
                                 <span style={{ fontSize: 32 }}>{hasHotspots ? '🔥' : '🌲'}</span>
                                 <div>
-                                    <div style={{ fontSize: 28, fontWeight: 900, color: hasHotspots ? '#dc2626' : '#059669', lineHeight: 1 }}>
-                                        {satelliteHotspots.length} <span style={{ fontSize: 13, fontWeight: 700 }}>จุด</span>
+                                    <div style={{ fontSize: 28, fontWeight: 800, color: hasHotspots ? '#dc2626' : '#059669', lineHeight: 1 }}>
+                                        {satelliteHotspots.length} <span style={{ fontSize: 13, fontWeight: 600 }}>จุด</span>
                                     </div>
-                                    <div style={{ fontSize: 10, color: '#64748b', fontWeight: 600, marginTop: 2 }}>
-                                        {hasHotspots ? `สะสม ${dayRange} วัน` : 'ปลอดภัย 🌲'}
+                                    <div style={{ fontSize: 10, color: '#64748b', fontWeight: 500, marginTop: 2 }}>
+                                        {hasHotspots ? activePeriodLabel : 'ปลอดภัย 🌲'}
                                     </div>
                                 </div>
                             </div>
@@ -434,7 +542,7 @@ export default function HotspotWidget() {
                             {/* Amphoe grid — compact inline */}
                             {amphoeStats.length > 0 && (
                                 <div style={{ flex: 1, minWidth: 0 }}>
-                                    <div style={{ fontSize: 10, fontWeight: 700, color: '#94a3b8', marginBottom: 4, letterSpacing: '0.3px' }}>กดที่อำเภอ เพื่อกลั่นกรองตำบล</div>
+                                    <div style={{ fontSize: 10, fontWeight: 500, color: '#94a3b8', marginBottom: 4, letterSpacing: '0.3px' }}>กดที่อำเภอ เพื่อกลั่นกรองตำบล</div>
                                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: 3 }}>
                                         {amphoeStats.map(([name, count]) => {
                                             const sel = selectedAmphoe === name;
@@ -450,10 +558,10 @@ export default function HotspotWidget() {
                                                         fontFamily: 'inherit', fontSize: 11, transition: 'all 0.15s',
                                                     }}
                                                 >
-                                                    <span style={{ color: sel ? '#dc2626' : '#475569', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>อ.{name}</span>
+                                                    <span style={{ color: sel ? '#b91c1c' : '#334155', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>อ.{name}</span>
                                                     <span style={{
-                                                        background: sel ? '#dc2626' : '#fecdd3', color: sel ? '#fff' : '#dc2626',
-                                                        padding: '1px 6px', borderRadius: 8, fontWeight: 800, fontSize: 10,
+                                                        background: sel ? '#dc2626' : '#e11d48', color: '#fff',
+                                                        padding: '1px 6px', borderRadius: 8, fontWeight: 700, fontSize: 10,
                                                         minWidth: 20, textAlign: 'center', flexShrink: 0, marginLeft: 4,
                                                     }}>{count}</span>
                                                 </button>
@@ -462,7 +570,7 @@ export default function HotspotWidget() {
                                     </div>
                                     {selectedAmphoe && tambonStats.length > 0 && (
                                         <div style={{ marginTop: 8, display: 'flex', flexWrap: 'wrap', gap: 5, alignItems: 'center' }}>
-                                            <span style={{ fontSize: 10, fontWeight: 700, color: '#94a3b8', marginRight: 2 }}>ตำบล:</span>
+                                            <span style={{ fontSize: 10, fontWeight: 500, color: '#94a3b8', marginRight: 2 }}>ตำบล:</span>
                                             <button
                                                 className="hotspot-hover-float"
                                                 onClick={() => setSelectedTambon(null)}
@@ -471,7 +579,7 @@ export default function HotspotWidget() {
                                                     border: !selectedTambon ? '1px solid #dc2626' : '1px solid #fecdd3',
                                                     background: !selectedTambon ? '#dc2626' : '#fff',
                                                     color: !selectedTambon ? '#fff' : '#dc2626',
-                                                    fontFamily: 'inherit', fontSize: 10, fontWeight: 800,
+                                                    fontFamily: 'inherit', fontSize: 10, fontWeight: 600,
                                                 }}
                                             >
                                                 ทั้งหมด {tambonStats.reduce((sum, [, count]) => sum + count, 0)}
@@ -488,7 +596,7 @@ export default function HotspotWidget() {
                                                             border: sel ? '1px solid #dc2626' : '1px solid #fecdd3',
                                                             background: sel ? '#dc2626' : '#fff',
                                                             color: sel ? '#fff' : '#dc2626',
-                                                            fontFamily: 'inherit', fontSize: 10, fontWeight: 800,
+                                                            fontFamily: 'inherit', fontSize: 10, fontWeight: 600,
                                                         }}
                                                     >
                                                         {name} {count}
@@ -504,20 +612,20 @@ export default function HotspotWidget() {
                         {/* Row 2: Landuse badges */}
                         {landuseStats.length > 0 && (
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, alignItems: 'center' }}>
-                                <span style={{ fontSize: 10, fontWeight: 700, color: '#94a3b8', marginRight: 4 }}>Landuse:</span>
+                                <span style={{ fontSize: 10, fontWeight: 500, color: '#94a3b8', marginRight: 4 }}>Landuse:</span>
                                 {landuseStats.map(([name, count]) => {
                                     const c = LANDUSE_COLORS[name] || '#64748b';
                                     return (
                                         <span key={name} style={{
                                             display: 'inline-flex', alignItems: 'center', gap: 4,
-                                            padding: '3px 8px', borderRadius: 12, fontSize: 10, fontWeight: 700,
-                                            background: `${c}14`, color: c, border: `1px solid ${c}22`,
+                                            padding: '3px 8px', borderRadius: 12, fontSize: 10, fontWeight: 500,
+                                            background: `${c}12`, color: '#334155', border: `1px solid ${c}33`,
                                         }}>
                                             {name}
                                             <span style={{
                                                 background: c, color: '#fff', borderRadius: '50%', width: 18, height: 18,
                                                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                                                fontSize: 9, fontWeight: 800,
+                                                fontSize: 9, fontWeight: 600,
                                             }}>{count}</span>
                                         </span>
                                     );
@@ -538,7 +646,7 @@ export default function HotspotWidget() {
                                     <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
                                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                                     {geoJSONData && (
-                                        <GeoJSON key={`geo-${selectedSatellite}-${selectedAmphoe || 'all'}-${selectedTambon || 'all'}-${dayRange}`} data={geoJSONData}
+                                        <GeoJSON key={`geo-${selectedSatellite}-${selectedAmphoe || 'all'}-${selectedTambon || 'all'}-${customDateRange.start || 'all'}-${customDateRange.end || dayRange}`} data={geoJSONData}
                                             style={(feature) => {
                                                 const hl = selectedAmphoe && feature.properties?.amp_th === selectedAmphoe;
                                                 return {
@@ -680,7 +788,7 @@ export default function HotspotWidget() {
 
                             {/* Footer */}
                             <div style={{ padding: '8px 14px', borderTop: '1px solid #f1f5f9', fontSize: 9, color: '#94a3b8', textAlign: 'center', fontWeight: 600, background: '#fafbfc' }}>
-                                ℹ️ VIIRS (GISTDA) • {selectedSatellite === 'all' ? 'ทุกดาวเทียม' : selectedSatellite} • ย้อนหลัง {dayRange} วัน • <code style={{ background: '#e2e8f0', padding: '1px 3px', borderRadius: 3, fontSize: 9 }}>/{ENDPOINT_MAP[dayRange]}</code>
+                                ℹ️ VIIRS (GISTDA) • {selectedSatellite === 'all' ? 'ทุกดาวเทียม' : selectedSatellite} • {activePeriodLabel} • <code style={{ background: '#e2e8f0', padding: '1px 3px', borderRadius: 3, fontSize: 9 }}>/{ENDPOINT_MAP[fetchDayRange]}</code>
                             </div>
                         </div>
                     </div>

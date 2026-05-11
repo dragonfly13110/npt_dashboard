@@ -30,7 +30,8 @@ function compactText(value, fallback = '-') {
 }
 
 function clampPercent(value) {
-    return Math.max(0, Math.min(100, Math.round(Number(value || 0))));
+    const clamped = Math.max(0, Math.min(100, Number(value || 0)));
+    return Math.round(clamped * 100) / 100;
 }
 
 function getBudgetStatusMeta(status) {

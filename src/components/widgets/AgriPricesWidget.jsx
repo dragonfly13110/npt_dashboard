@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react';
-import { LineChartOutlined, LinkOutlined } from '@ant-design/icons';
+import { CarOutlined, LineChartOutlined, LinkOutlined } from '@ant-design/icons';
 import { useApiCache } from '../../hooks/useApiCache';
 
 const SOURCE_URL = 'https://mex.moc.go.th/page/dit/checkprice/type/W/catid/4';
+const OIL_SOURCE_URL = 'https://oil-price.bangchak.co.th/BcpOilPrice2/th';
 const CATEGORIES = [
   { id: '3', label: 'ผัก' },
   { id: '4', label: 'ผลไม้' },
@@ -21,6 +22,56 @@ async function fetchAgriPrices(catid) {
   }
 
   return json;
+}
+
+async function fetchOilPrices() {
+  const res = await fetch('/.netlify/functions/bangchak-oil-price-proxy');
+  if (!res.ok) {
+    const fallback = await fetch('/api/bangchak-oil-price');
+    if (!fallback.ok) throw new Error(`Bangchak oil price proxy returned ${res.status}`);
+    const html = await fallback.text();
+    return {
+      success: true,
+      source: 'บริษัท บางจาก คอร์ปอเรชั่น จำกัด (มหาชน)',
+      sourceUrl: OIL_SOURCE_URL,
+      unit: 'บาท/ลิตร',
+      items: extractOilRows(html),
+    };
+  }
+
+  const json = await res.json();
+  if (!json.success || !Array.isArray(json.items)) {
+    throw new Error(json.message || 'Bangchak oil price proxy returned no data');
+  }
+
+  return json;
+}
+
+function decodeHtml(text = '') {
+  return text
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function stripHtml(text = '') {
+  return decodeHtml(text.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').replace(/<[^>]+>/g, ' '));
+}
+
+function extractOilRows(html) {
+  return [...html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi)]
+    .map((row) => [...row[1].matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi)].map((cell) => stripHtml(cell[1])).filter(Boolean))
+    .filter((cells) => cells.length >= 3)
+    .map(([name, today, tomorrow, diff]) => {
+      if (!name || /ชนิดน้ำมัน|oil type/i.test(name) || !/\d/.test(today || '')) return null;
+      return { name, today, tomorrow: tomorrow || '', diff: diff || '' };
+    })
+    .filter(Boolean);
 }
 
 function formatThaiDate(dateText) {
@@ -59,8 +110,14 @@ export default function AgriPricesWidget() {
     () => fetchAgriPrices(selectedCategory),
     { staleMinutes: 30, cacheMinutes: 120 }
   );
+  const { data: oilData, isLoading: isOilLoading, error: oilError } = useApiCache(
+    ['bangchak-oil-prices'],
+    fetchOilPrices,
+    { staleMinutes: 30, cacheMinutes: 120 }
+  );
 
   const items = useMemo(() => data?.items || [], [data]);
+  const oilItems = useMemo(() => oilData?.items?.slice(0, 4) || [], [oilData]);
   const dataDateText = formatThaiDate(data?.dataDate);
   const selectedLabel = data?.category || CATEGORIES.find((item) => item.id === selectedCategory)?.label;
 
@@ -87,6 +144,36 @@ export default function AgriPricesWidget() {
         >
           <LinkOutlined />
         </a>
+      </div>
+
+      <div className="price-ios-oil-strip" aria-label="ราคาน้ำมันบางจาก">
+        <div className="price-ios-oil-strip-head">
+          <span><CarOutlined /> ราคาน้ำมัน</span>
+          <a href={oilData?.sourceUrl || OIL_SOURCE_URL} target="_blank" rel="noreferrer">
+            อ้างอิง: บางจาก
+          </a>
+        </div>
+        {isOilLoading ? (
+          <div className="price-ios-oil-loading">กำลังดึงราคาน้ำมัน...</div>
+        ) : oilError ? (
+          <div className="price-ios-oil-loading">ยังดึงราคาน้ำมันไม่ได้ กดเปิดเว็บบางจากเพื่อดูข้อมูลล่าสุด</div>
+        ) : (
+          <div className="price-ios-oil-list">
+            {oilItems.map((item) => (
+              <a
+                className="price-ios-oil-item"
+                href={oilData?.sourceUrl || OIL_SOURCE_URL}
+                target="_blank"
+                rel="noreferrer"
+                key={item.name}
+                title={`${item.name} จากเว็บบางจาก`}
+              >
+                <span>{item.name}</span>
+                <strong>{item.today || '-'} <small>บาท/ลิตร</small></strong>
+              </a>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="price-ios-tabs" aria-label="เลือกหมวดราคา">
