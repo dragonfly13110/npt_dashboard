@@ -3,7 +3,7 @@ import { CarOutlined, LineChartOutlined, LinkOutlined } from '@ant-design/icons'
 import { useApiCache } from '../../hooks/useApiCache';
 
 const SOURCE_URL = 'https://mex.moc.go.th/page/dit/checkprice/type/W/catid/4';
-const OIL_SOURCE_URL = 'https://oil-price.bangchak.co.th/BcpOilPrice2/th';
+const OIL_SOURCE_URL = 'https://oil-price.bangchak.co.th/BcpOilPrice1/th';
 const CATEGORIES = [
   { id: '3', label: 'ผัก' },
   { id: '4', label: 'ผลไม้' },
@@ -63,12 +63,17 @@ function stripHtml(text = '') {
   return decodeHtml(text.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').replace(/<[^>]+>/g, ' '));
 }
 
+function isOilPriceText(text = '') {
+  return /^\d+(?:\.\d{1,2})?$/.test(text.trim());
+}
+
 function extractOilRows(html) {
   return [...html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi)]
     .map((row) => [...row[1].matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi)].map((cell) => stripHtml(cell[1])).filter(Boolean))
     .filter((cells) => cells.length >= 3)
     .map(([name, today, tomorrow, diff]) => {
-      if (!name || /ชนิดน้ำมัน|oil type/i.test(name) || !/\d/.test(today || '')) return null;
+      if (!name || /ชนิดน้ำมัน|oil type|iframe|row2|PriceToday|PriceTomorrow/i.test(name)) return null;
+      if (!isOilPriceText(today) && !isOilPriceText(tomorrow)) return null;
       return { name, today, tomorrow: tomorrow || '', diff: diff || '' };
     })
     .filter(Boolean);

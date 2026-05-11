@@ -1,4 +1,4 @@
-const SOURCE_URL = 'https://oil-price.bangchak.co.th/BcpOilPrice2/th';
+const SOURCE_URL = 'https://oil-price.bangchak.co.th/BcpOilPrice1/th';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -22,6 +22,10 @@ function stripTags(text = '') {
   return decodeHtml(text.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').replace(/<[^>]+>/g, ' '));
 }
 
+function isPriceText(text = '') {
+  return /^\d+(?:\.\d{1,2})?$/.test(text.trim());
+}
+
 function extractRows(html) {
   const rows = [...html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi)]
     .map((row) => [...row[1].matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi)].map((cell) => stripTags(cell[1])).filter(Boolean))
@@ -30,8 +34,8 @@ function extractRows(html) {
   return rows
     .map((cells) => {
       const [name, today, tomorrow, diff] = cells;
-      if (!name || /ชนิดน้ำมัน|oil type/i.test(name)) return null;
-      if (!/\d/.test(today || '')) return null;
+      if (!name || /ชนิดน้ำมัน|oil type|iframe|row2|PriceToday|PriceTomorrow/i.test(name)) return null;
+      if (!isPriceText(today) && !isPriceText(tomorrow)) return null;
       return { name, today, tomorrow: tomorrow || '', diff: diff || '' };
     })
     .filter(Boolean);

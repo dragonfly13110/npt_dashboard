@@ -47,7 +47,7 @@ export default defineConfig(({ mode }) => {
         '/api/bangchak-oil-price': {
           target: 'https://oil-price.bangchak.co.th',
           changeOrigin: true,
-          rewrite: () => '/BcpOilPrice2/th'
+          rewrite: () => '/BcpOilPrice1/th'
         },
         '/api/rss/kasetorganic': { target: 'https://www.kasetorganic.com', changeOrigin: true, rewrite: () => '/feed/' },
         '/api/rss/kasetkaoklai': { target: 'https://www.kasetkaoklai.com', changeOrigin: true, rewrite: () => '/home/feed' },
