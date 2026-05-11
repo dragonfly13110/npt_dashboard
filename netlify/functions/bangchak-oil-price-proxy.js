@@ -1,44 +1,60 @@
-const SOURCE_URL = 'https://oil-price.bangchak.co.th/BcpOilPrice1/th';
+const SOURCE_URL = 'https://oil-price.bangchak.co.th/ApiOilPrice2/th';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type',
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
 };
-
-function decodeHtml(text = '') {
-  return text
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
-function stripTags(text = '') {
-  return decodeHtml(text.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').replace(/<[^>]+>/g, ' '));
-}
+const COMMON_OIL_ORDER = [
+  'ดีเซล B20',
+  'ไฮดีเซล S',
+  'แก๊สโซฮอล 95 S EVO',
+  'แก๊สโซฮอล 91 S EVO',
+  'แก๊สโซฮอล E20 S EVO',
+  'แก๊สโซฮอล E85 S EVO',
+];
 
 function isPriceText(text = '') {
-  return /^\d+(?:\.\d{1,2})?$/.test(text.trim());
+  return /^\d+(?:\.\d{1,2})?$/.test(String(text).trim());
 }
 
-function extractRows(html) {
-  const rows = [...html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi)]
-    .map((row) => [...row[1].matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi)].map((cell) => stripTags(cell[1])).filter(Boolean))
-    .filter((cells) => cells.length >= 3);
+function isRegularOilPrice(text = '') {
+  const price = Number.parseFloat(String(text).trim());
+  return Number.isFinite(price) && price <= 50;
+}
 
-  return rows
-    .map((cells) => {
-      const [name, today, tomorrow, diff] = cells;
-      if (!name || /ชนิดน้ำมัน|oil type|iframe|row2|PriceToday|PriceTomorrow/i.test(name)) return null;
-      if (!isPriceText(today) && !isPriceText(tomorrow)) return null;
-      return { name, today, tomorrow: tomorrow || '', diff: diff || '' };
+function isValidOilName(name = '') {
+  return Boolean(String(name).trim()) && !/พรีเมียม|premium/i.test(name);
+}
+
+function getOilSortIndex(name) {
+  const index = COMMON_OIL_ORDER.indexOf(name);
+  return index === -1 ? COMMON_OIL_ORDER.length : index;
+}
+
+function normalizeOilItems(json) {
+  const payload = Array.isArray(json) ? json[0] : json;
+  const rawOilList = payload?.OilList;
+  const oilList = typeof rawOilList === 'string' ? JSON.parse(rawOilList) : rawOilList;
+  if (!Array.isArray(oilList)) return [];
+
+  return oilList
+    .map((item) => {
+      const name = String(item.OilName || '').trim();
+      const today = String(item.PriceToday || '').trim();
+      const tomorrow = String(item.PriceTomorrow || '').trim();
+      if (!isValidOilName(name) || (!isPriceText(today) && !isPriceText(tomorrow))) return null;
+      if (!isRegularOilPrice(today)) return null;
+      return {
+        name,
+        today,
+        tomorrow,
+        diff: String(item.PriceDifTomorrow || item.PriceDifYesterday || '').trim(),
+        icon: item.Icon || '',
+      };
     })
-    .filter(Boolean);
+    .filter(Boolean)
+    .sort((a, b) => getOilSortIndex(a.name) - getOilSortIndex(b.name));
 }
 
 export default async (request) => {
@@ -50,7 +66,7 @@ export default async (request) => {
     const response = await fetch(SOURCE_URL, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (compatible; NPTDashboard/1.0)',
-        Accept: 'text/html,application/xhtml+xml',
+        Accept: 'application/json,text/plain,*/*',
       },
     });
 
@@ -58,8 +74,8 @@ export default async (request) => {
       throw new Error(`Bangchak page returned ${response.status}`);
     }
 
-    const html = await response.text();
-    const items = extractRows(html);
+    const json = await response.json();
+    const items = normalizeOilItems(json);
 
     if (!items.length) {
       throw new Error('No oil price rows found');
@@ -76,7 +92,7 @@ export default async (request) => {
       headers: {
         ...CORS_HEADERS,
         'Content-Type': 'application/json; charset=utf-8',
-        'Cache-Control': 'public, max-age=1800, stale-while-revalidate=3600',
+        'Cache-Control': 'public, max-age=300, stale-while-revalidate=600',
       },
     });
   } catch (err) {
