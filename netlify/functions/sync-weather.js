@@ -7,6 +7,13 @@ const meteostatKey = '5a0b0d95b6msh6b69ddf45d7e6d6p1ed5abjsnf1039cc45642'; // Ha
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+const CORS_HEADERS = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Content-Type': 'application/json',
+};
+
 function getISODateNdaysAgo(n) {
     const d = new Date();
     d.setDate(d.getDate() - n);
@@ -16,7 +23,7 @@ function getISODateNdaysAgo(n) {
     return localISOTime.split('T')[0];
 }
 
-const syncHandler = async (event, context) => {
+const syncWeather = async () => {
     console.log('🔄 Triggering Daily Weather Sync (Meteostat)...');
 
     try {
@@ -44,7 +51,7 @@ const syncHandler = async (event, context) => {
         const records = json.data || [];
         
         if (records.length === 0) {
-            return { statusCode: 200, body: JSON.stringify({ message: "No weather data found" }) };
+            return { statusCode: 200, headers: CORS_HEADERS, body: JSON.stringify({ message: "No weather data found" }) };
         }
 
         const dbRecords = records.map(r => ({
@@ -57,20 +64,34 @@ const syncHandler = async (event, context) => {
             pres: r.pres
         }));
 
-        const { data, error } = await supabase.from('daily_weather').upsert(dbRecords, {
+        const { error } = await supabase.from('daily_weather').upsert(dbRecords, {
             onConflict: 'date'
         });
 
         if (error) throw error;
 
         console.log(`✅ Success: Sync'd ${dbRecords.length} weather records`);
-        return { statusCode: 200, body: JSON.stringify({ message: `Synced ${dbRecords.length} records` }) };
+        return { statusCode: 200, headers: CORS_HEADERS, body: JSON.stringify({ message: `Synced ${dbRecords.length} records` }) };
 
     } catch (err) {
         console.error('❌ Sync Error:', err.message);
-        return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
+        return { statusCode: 500, headers: CORS_HEADERS, body: JSON.stringify({ error: err.message }) };
     }
 };
 
+const syncHandler = async () => syncWeather();
+
+export const handler = async (event) => {
+    if (event.httpMethod === 'OPTIONS') {
+        return { statusCode: 204, headers: CORS_HEADERS, body: '' };
+    }
+
+    if (!['GET', 'POST'].includes(event.httpMethod)) {
+        return { statusCode: 405, headers: CORS_HEADERS, body: JSON.stringify({ error: 'Method not allowed' }) };
+    }
+
+    return syncWeather();
+};
+
 // Run this function every day at 22:00 UTC (approx 5 AM local time)
-export const handler = schedule("0 22 * * *", syncHandler);
+export const scheduled = schedule("0 22 * * *", syncHandler);
