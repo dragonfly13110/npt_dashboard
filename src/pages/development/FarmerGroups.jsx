@@ -1,7 +1,12 @@
-import { Form, Input, InputNumber } from 'antd';
+import { useEffect, useMemo, useState } from 'react';
+import { Card, Col, Empty, Form, Input, InputNumber, Progress, Row, Select, Space, Spin, Statistic, Table, Tag } from 'antd';
+import { EnvironmentOutlined, SearchOutlined, ShopOutlined, TeamOutlined, TrophyOutlined, WalletOutlined } from '@ant-design/icons';
 import CrudTable from '../../components/DataTable/CrudTable';
+import { supabase } from '../../supabaseClient';
+import { useApiCache } from '../../hooks/useApiCache';
+import districtGeoJSON from '../../data/nakhon_pathom_districts.json';
 
-const columns = [
+const baseColumns = [
     { title: 'ชื่อกลุ่ม', dataIndex: 'group_name', key: 'group_name', width: 220 },
     { title: 'อำเภอ', dataIndex: 'district', key: 'district', width: 130 },
     { title: 'ประธาน', dataIndex: 'chairman', key: 'chairman', width: 150 },
@@ -25,16 +30,369 @@ const formFields = (
     </>
 );
 
-export function HousewifeFarmerGroups() {
+const money = new Intl.NumberFormat('th-TH', { maximumFractionDigits: 0 });
+const number = new Intl.NumberFormat('th-TH');
+
+const hasValue = (value) => value !== null && value !== undefined && value !== '';
+const yes = (value) => String(value || '').trim() === 'มี';
+
+function countBy(rows, key) {
+    const map = new Map();
+    rows.forEach((row) => {
+        const label = row[key] || 'ไม่ระบุ';
+        map.set(label, (map.get(label) || 0) + 1);
+    });
+    return [...map.entries()].sort((a, b) => b[1] - a[1]);
+}
+
+function sum(rows, key) {
+    return rows.reduce((total, row) => total + (Number(row[key]) || 0), 0);
+}
+
+function StatCard({ title, value, suffix, icon, color }) {
     return (
-        <CrudTable
-            tableName="housewife_farmer_groups"
-            title="กลุ่มแม่บ้านเกษตรกร"
-            columns={columns}
-            formFields={formFields}
-            searchField="group_name"
-            searchFields={['group_name', 'district', 'chairman']}
-        />
+        <Card styles={{ body: { padding: 18 } }} style={{ height: '100%' }}>
+            <Space align="start" style={{ width: '100%', justifyContent: 'space-between' }}>
+                <Statistic title={title} value={value} suffix={suffix} valueStyle={{ fontSize: 26, fontWeight: 700 }} />
+                <div style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 8,
+                    display: 'grid',
+                    placeItems: 'center',
+                    color: '#fff',
+                    fontSize: 20,
+                    background: color,
+                }}>
+                    {icon}
+                </div>
+            </Space>
+        </Card>
+    );
+}
+
+function RankedList({ title, rows, suffix = 'กลุ่ม' }) {
+    const max = rows[0]?.[1] || 1;
+    return (
+        <Card title={title} style={{ height: '100%' }} styles={{ body: { paddingTop: 8 } }}>
+            <Space direction="vertical" size={12} style={{ width: '100%' }}>
+                {rows.slice(0, 6).map(([label, value]) => (
+                    <div key={label}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, marginBottom: 4 }}>
+                            <span style={{ fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{label}</span>
+                            <span style={{ color: '#57606a', flexShrink: 0 }}>{number.format(value)} {suffix}</span>
+                        </div>
+                        <Progress percent={Math.round((value / max) * 100)} showInfo={false} strokeColor="#1a7f37" />
+                    </div>
+                ))}
+            </Space>
+        </Card>
+    );
+}
+
+function YearComparison({ rows }) {
+    const byYear = countBy(rows, 'year').sort((a, b) => Number(a[0]) - Number(b[0]));
+    const max = Math.max(...byYear.map(([, value]) => value), 1);
+
+    return (
+        <Card title="จำนวนกลุ่มแยกตามปี" style={{ height: '100%' }} styles={{ body: { paddingTop: 8 } }}>
+            <Space direction="vertical" size={12} style={{ width: '100%' }}>
+                {byYear.map(([label, value]) => (
+                    <div key={label}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, marginBottom: 4 }}>
+                            <span style={{ fontWeight: 700 }}>{label}</span>
+                            <span style={{ color: '#57606a' }}>{number.format(value)} กลุ่ม</span>
+                        </div>
+                        <Progress percent={Math.round((value / max) * 100)} showInfo={false} strokeColor="#0969da" />
+                    </div>
+                ))}
+            </Space>
+        </Card>
+    );
+}
+
+function HousewifeMap({ rows, year }) {
+    const [MapComponents, setMapComponents] = useState(null);
+
+    useEffect(() => {
+        Promise.all([
+            import('leaflet'),
+            import('react-leaflet'),
+        ]).then(([L, RL]) => {
+            delete L.default.Icon.Default.prototype._getIconUrl;
+            L.default.Icon.Default.mergeOptions({
+                iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+                iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+            });
+            setMapComponents({ L: L.default, ...RL });
+        });
+    }, []);
+
+    const points = useMemo(() => rows
+        .filter((row) => row.year === year && hasValue(row.lat) && hasValue(row.lon))
+        .map((row) => ({ ...row, lat: Number(row.lat), lon: Number(row.lon) }))
+        .filter((row) => !Number.isNaN(row.lat) && !Number.isNaN(row.lon)), [rows, year]);
+
+    if (!MapComponents) {
+        return (
+            <Card title={`แผนที่กลุ่มแม่บ้านเกษตรกร ปี ${year}`}>
+                <div style={{ height: 420, display: 'grid', placeItems: 'center' }}>
+                    <Spin tip="กำลังโหลดแผนที่..." />
+                </div>
+            </Card>
+        );
+    }
+
+    if (!points.length) {
+        return (
+            <Card title={`แผนที่กลุ่มแม่บ้านเกษตรกร ปี ${year}`}>
+                <div style={{ height: 420, display: 'grid', placeItems: 'center' }}>
+                    <Empty description="ไม่มีพิกัดสำหรับปีนี้" />
+                </div>
+            </Card>
+        );
+    }
+
+    const { MapContainer, TileLayer, CircleMarker, Popup, GeoJSON, useMap } = MapComponents;
+
+    const FitBounds = () => {
+        const map = useMap();
+
+        useEffect(() => {
+            const bounds = MapComponents.L.latLngBounds(points.map((point) => [point.lat, point.lon]));
+            if (bounds.isValid()) {
+                map.invalidateSize();
+                map.fitBounds(bounds, { padding: [36, 36], maxZoom: 11, animate: false });
+            }
+        }, [map]);
+
+        return null;
+    };
+
+    return (
+        <Card
+            title={`แผนที่กลุ่มแม่บ้านเกษตรกร ปี ${year}`}
+            extra={`${number.format(points.length)} จุดพิกัด`}
+            style={{ marginBottom: 16 }}
+        >
+            <MapContainer
+                center={[13.82, 100.05]}
+                zoom={10}
+                zoomSnap={0.25}
+                zoomDelta={0.5}
+                style={{ height: 460, width: '100%', borderRadius: 8, border: '1px solid #e8ecf0' }}
+                scrollWheelZoom={true}
+            >
+                <FitBounds />
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <GeoJSON
+                    data={districtGeoJSON}
+                    style={{
+                        color: '#1a7f37',
+                        weight: 2,
+                        opacity: 0.75,
+                        fillColor: '#2da44e',
+                        fillOpacity: 0.08,
+                        dashArray: '5, 5',
+                    }}
+                    onEachFeature={(feature, layer) => {
+                        const name = feature.properties?.amp_th || feature.properties?.AMP_NAMT;
+                        if (name) layer.bindTooltip(`อำเภอ${name}`, { sticky: true });
+                    }}
+                />
+                {points.map((item) => {
+                    const color = yes(item.has_sales_channel) ? '#0969da' : '#bf8700';
+                    return (
+                        <CircleMarker
+                            key={item.id}
+                            center={[item.lat, item.lon]}
+                            radius={8}
+                            fillColor={color}
+                            fillOpacity={0.85}
+                            color="#fff"
+                            weight={2}
+                        >
+                            <Popup>
+                                <div style={{ minWidth: 220, fontFamily: 'inherit' }}>
+                                    <div style={{ fontWeight: 700, marginBottom: 6 }}>{item.group_name}</div>
+                                    <div style={{ color: '#57606a', fontSize: 13 }}>อ.{item.district} ต.{item.subdistrict}</div>
+                                    <div style={{ marginTop: 8, display: 'grid', gap: 4, fontSize: 13 }}>
+                                        <span>สมาชิก: <strong>{number.format(item.member_count || 0)}</strong> ราย</span>
+                                        <span>กิจกรรม: <strong>{item.activity || '-'}</strong></span>
+                                        <span>ศักยภาพ: <strong>{item.potential_level || '-'}</strong></span>
+                                        <span>ช่องทางจำหน่าย: <strong>{item.has_sales_channel || 'ไม่มี'}</strong></span>
+                                    </div>
+                                </div>
+                            </Popup>
+                        </CircleMarker>
+                    );
+                })}
+            </MapContainer>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 12, color: '#57606a', fontSize: 12 }}>
+                <span><EnvironmentOutlined style={{ color: '#0969da' }} /> มีช่องทางจำหน่าย</span>
+                <span><EnvironmentOutlined style={{ color: '#bf8700' }} /> ยังไม่มีช่องทางจำหน่าย</span>
+            </div>
+        </Card>
+    );
+}
+
+const housewifeColumns = [
+    { title: 'ปีข้อมูล', dataIndex: 'year', key: 'year', width: 95, fixed: 'left', align: 'center' },
+    { title: 'ชื่อกลุ่ม', dataIndex: 'group_name', key: 'group_name', width: 260, fixed: 'left' },
+    { title: 'อำเภอ', dataIndex: 'district', key: 'district', width: 140 },
+    { title: 'ตำบล', dataIndex: 'subdistrict', key: 'subdistrict', width: 140 },
+    { title: 'หมู่', dataIndex: 'moo', key: 'moo', width: 80, align: 'center' },
+    { title: 'เลขที่', dataIndex: 'address_no', key: 'address_no', width: 110 },
+    { title: 'สมาชิก', dataIndex: 'member_count', key: 'member_count', width: 100, align: 'right', render: (v) => number.format(v || 0) },
+    { title: 'กิจกรรมกลุ่ม', dataIndex: 'activity', key: 'activity', width: 260, ellipsis: true },
+    { title: 'ศักยภาพ', dataIndex: 'potential_level', key: 'potential_level', width: 120, render: (v) => v ? <Tag color={v === 'ดี' ? 'green' : 'gold'}>{v}</Tag> : '-' },
+    { title: 'ช่องทางจำหน่าย', dataIndex: 'has_sales_channel', key: 'has_sales_channel', width: 140, render: (v) => <Tag color={yes(v) ? 'blue' : 'default'}>{v || 'ไม่มี'}</Tag> },
+    { title: 'จดทะเบียนวิสาหกิจฯ', dataIndex: 'community_enterprise_registration', key: 'community_enterprise_registration', width: 180 },
+    { title: 'กลุ่มต้นแบบ', dataIndex: 'model_group', key: 'model_group', width: 120 },
+    { title: 'ทุน', dataIndex: 'fund_management', key: 'fund_management', width: 120, align: 'right', render: (v) => money.format(v || 0) },
+    { title: 'รายได้', dataIndex: 'income', key: 'income', width: 120, align: 'right', render: (v) => money.format(v || 0) },
+    { title: 'มาตรฐานการผลิต', dataIndex: 'production_standard', key: 'production_standard', width: 150, render: (v) => v || '-' },
+    { title: 'ออนไลน์ในประเทศ', dataIndex: 'online_domestic', key: 'online_domestic', width: 145, render: (v) => v || '-' },
+    { title: 'ออนไลน์ต่างประเทศ', dataIndex: 'online_international', key: 'online_international', width: 155, render: (v) => v || '-' },
+    { title: 'ออฟไลน์ในประเทศ', dataIndex: 'offline_domestic', key: 'offline_domestic', width: 150, render: (v) => v || '-' },
+    { title: 'ออฟไลน์ต่างประเทศ', dataIndex: 'offline_international', key: 'offline_international', width: 160, render: (v) => v || '-' },
+    { title: 'โทรศัพท์', dataIndex: 'phone', key: 'phone', width: 130, render: (v) => v && v !== '0' ? v : '-' },
+    { title: 'วันที่จัดตั้ง', dataIndex: 'established_text', key: 'established_text', width: 130 },
+    { title: 'Lat', dataIndex: 'lat', key: 'lat', width: 110, render: (v) => hasValue(v) ? Number(v).toFixed(6) : '-' },
+    { title: 'Lon', dataIndex: 'lon', key: 'lon', width: 110, render: (v) => hasValue(v) ? Number(v).toFixed(6) : '-' },
+];
+
+export function HousewifeFarmerGroups() {
+    const [search, setSearch] = useState('');
+    const [district, setDistrict] = useState('ทั้งหมด');
+    const [year, setYear] = useState(2568);
+
+    const fetchGroups = async () => {
+        const { data, error } = await supabase
+            .from('housewife_farmer_groups')
+            .select('*')
+            .order('year', { ascending: false })
+            .order('district', { ascending: true })
+            .order('group_name', { ascending: true });
+        if (error) throw error;
+        return data || [];
+    };
+
+    const { data: rows = [], isLoading } = useApiCache(['housewife_farmer_groups_full'], fetchGroups);
+
+    const districts = useMemo(() => ['ทั้งหมด', ...countBy(rows, 'district').map(([name]) => name)], [rows]);
+    const years = useMemo(() => countBy(rows, 'year').map(([name]) => name).sort((a, b) => Number(b) - Number(a)), [rows]);
+    const activeYear = years.includes(year) ? year : (years[0] || 2568);
+    const activeYearRows = useMemo(() => rows.filter((row) => row.year === activeYear), [rows, activeYear]);
+
+    const filteredRows = useMemo(() => {
+        const text = search.trim().toLowerCase();
+        return rows.filter((row) => {
+            const matchDistrict = district === 'ทั้งหมด' || row.district === district;
+            const matchYear = row.year === activeYear;
+            const matchText = !text || [
+                row.group_name,
+                row.district,
+                row.subdistrict,
+                row.activity,
+                row.potential_level,
+                row.has_sales_channel,
+            ].some((value) => String(value || '').toLowerCase().includes(text));
+            return matchDistrict && matchYear && matchText;
+        });
+    }, [rows, search, district, activeYear]);
+
+    const stats = useMemo(() => {
+        const sales = activeYearRows.filter((row) => yes(row.has_sales_channel)).length;
+        return {
+            total: activeYearRows.length,
+            members: sum(activeYearRows, 'member_count'),
+            sales,
+            salesPct: activeYearRows.length ? Math.round((sales / activeYearRows.length) * 100) : 0,
+            income: sum(activeYearRows, 'income'),
+            good: activeYearRows.filter((row) => row.potential_level === 'ดี').length,
+            districts: countBy(activeYearRows, 'district'),
+            activities: countBy(activeYearRows, 'activity'),
+            potential: countBy(activeYearRows, 'potential_level'),
+        };
+    }, [activeYearRows]);
+
+    return (
+        <div>
+            <div className="md-page-header">
+                <h2>กลุ่มแม่บ้านเกษตรกร</h2>
+                <p>ข้อมูลจากฐานข้อมูล Supabase แสดงปี {activeYear} เป็นหลัก พร้อมดูย้อนหลังแยกรายปี 2565-2568</p>
+            </div>
+
+            <Row gutter={[16, 16]} style={{ marginBottom: 16, alignItems: 'stretch' }}>
+                <Col xs={24} lg={18}>
+                    <HousewifeMap rows={rows} year={activeYear} />
+                </Col>
+                <Col xs={24} lg={6}>
+                    <YearComparison rows={rows} />
+                </Col>
+            </Row>
+
+            <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+                <Col xs={24} sm={12} xl={6}>
+                    <StatCard title="จำนวนกลุ่ม" value={stats.total} suffix="กลุ่ม" icon={<TeamOutlined />} color="#1a7f37" />
+                </Col>
+                <Col xs={24} sm={12} xl={6}>
+                    <StatCard title="สมาชิกทั้งหมด" value={stats.members} suffix="ราย" icon={<TrophyOutlined />} color="#0969da" />
+                </Col>
+                <Col xs={24} sm={12} xl={6}>
+                    <StatCard title="มีช่องทางจำหน่าย" value={stats.salesPct} suffix="%" icon={<ShopOutlined />} color="#bf8700" />
+                </Col>
+                <Col xs={24} sm={12} xl={6}>
+                    <StatCard title="รายได้รวม" value={stats.income} suffix="บาท" icon={<WalletOutlined />} color="#8250df" />
+                </Col>
+            </Row>
+
+            <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+                <Col xs={24} lg={8}>
+                    <RankedList title="อำเภอที่มีกลุ่มมากสุด" rows={stats.districts} />
+                </Col>
+                <Col xs={24} lg={8}>
+                    <RankedList title="กิจกรรมเด่น" rows={stats.activities} />
+                </Col>
+                <Col xs={24} lg={8}>
+                    <RankedList title="ระดับศักยภาพ" rows={stats.potential} />
+                </Col>
+            </Row>
+
+            <Card
+                title={`ตารางข้อมูลกลุ่มแม่บ้านเกษตรกร ปี ${activeYear}`}
+                extra={`${number.format(filteredRows.length)} / ${number.format(activeYearRows.length)} รายการ`}
+            >
+                <Space wrap style={{ marginBottom: 16, width: '100%', justifyContent: 'space-between' }}>
+                    <Input
+                        allowClear
+                        prefix={<SearchOutlined />}
+                        placeholder="ค้นหาชื่อกลุ่ม อำเภอ ตำบล กิจกรรม"
+                        value={search}
+                        onChange={(event) => setSearch(event.target.value)}
+                        style={{ width: 320, maxWidth: '100%' }}
+                    />
+                    <Space wrap>
+                        <Select value={activeYear} onChange={setYear} options={years.map((value) => ({ value, label: value }))} style={{ width: 130 }} />
+                        <Select value={district} onChange={setDistrict} options={districts.map((value) => ({ value, label: value }))} style={{ width: 180 }} />
+                    </Space>
+                </Space>
+                <Table
+                    rowKey="id"
+                    loading={isLoading}
+                    columns={housewifeColumns}
+                    dataSource={filteredRows}
+                    scroll={{ x: 3300 }}
+                    size="middle"
+                    pagination={{ pageSize: 10, showSizeChanger: true }}
+                />
+            </Card>
+        </div>
     );
 }
 
@@ -43,7 +401,7 @@ export function YoungFarmerGroups() {
         <CrudTable
             tableName="young_farmer_groups"
             title="กลุ่มยุวเกษตรกร"
-            columns={columns}
+            columns={baseColumns}
             formFields={formFields}
             searchField="group_name"
             searchFields={['group_name', 'district', 'chairman']}
