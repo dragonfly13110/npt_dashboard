@@ -34,15 +34,18 @@ async function fetchAgriPrices(catid) {
 
 async function fetchOilPrices() {
   const localProxy = await fetch('/api/bangchak-oil-price?source=api-v2');
-  if (localProxy.ok) {
+  if (localProxy.ok && localProxy.headers.get('content-type')?.includes('application/json')) {
     const json = await localProxy.json();
+    const items = normalizeOilItems(json);
+    if (items.length) {
     return {
       success: true,
       source: 'บริษัท บางจาก คอร์ปอเรชั่น จำกัด (มหาชน)',
       sourceUrl: OIL_SOURCE_URL,
       unit: 'บาท/ลิตร',
-      items: normalizeOilItems(json),
+      items,
     };
+    }
   }
 
   const res = await fetch('/.netlify/functions/bangchak-oil-price-proxy?source=api-v2');
