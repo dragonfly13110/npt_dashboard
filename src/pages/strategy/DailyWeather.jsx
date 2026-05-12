@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
-import { Form, InputNumber, DatePicker, Row, Col, Card } from 'antd';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend } from 'recharts';
+import { useState, useEffect, useCallback } from 'react';
+import { Form, InputNumber, DatePicker, Row, Col, Card, Button, message } from 'antd';
+import { SyncOutlined } from '@ant-design/icons';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import CrudTable from '../../components/DataTable/CrudTable';
 import { supabase } from '../../supabaseClient';
 import RainfallSummaryWidget from '../../components/widgets/RainfallSummaryWidget';
@@ -69,6 +70,8 @@ const filterConfig = [
 
 export default function DailyWeather() {
     const [chartData, setChartData] = useState([]);
+    const [refreshKey, setRefreshKey] = useState(0);
+    const [syncing, setSyncing] = useState(false);
 
     useEffect(() => {
         document.title = 'สภาพอากาศรายวันนครปฐม | ศูนย์ข้อมูลการเกษตรนครปฐม';
@@ -76,24 +79,40 @@ export default function DailyWeather() {
         if (meta) meta.setAttribute('content', 'ข้อมูลสภาพอากาศรายวันจังหวัดนครปฐม พร้อมอุณหภูมิ ปริมาณน้ำฝน และความเร็วลม');
     }, []);
 
-    useEffect(() => {
-        // Fetch latest records first, then reverse for chronological charting.
-        async function fetchCharts() {
-            const { data } = await supabase.from('daily_weather')
-                .select('date, tavg, tmin, tmax, prcp')
-                .order('date', { ascending: false })
-                .limit(90);
-            
-            if (data) setChartData([...data].reverse());
-        }
-        fetchCharts();
+    const fetchCharts = useCallback(async () => {
+        const { data } = await supabase.from('daily_weather')
+            .select('date, tavg, tmin, tmax, prcp')
+            .order('date', { ascending: false })
+            .limit(90);
+        
+        if (data) setChartData([...data].reverse());
     }, []);
+
+    useEffect(() => {
+        fetchCharts();
+    }, [fetchCharts, refreshKey]);
+
+    const handleSyncWeather = async (refetchTable) => {
+        setSyncing(true);
+        try {
+            const res = await fetch('/.netlify/functions/sync-weather');
+            const body = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(body.error || body.message || 'Sync weather failed');
+            message.success(body.message || 'อัปเดตข้อมูลอากาศล่าสุดแล้ว');
+            setRefreshKey(key => key + 1);
+            await refetchTable?.();
+        } catch (err) {
+            message.error(`อัปเดตข้อมูลไม่สำเร็จ: ${err.message}`);
+        } finally {
+            setSyncing(false);
+        }
+    };
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {/* Embed the Summary Strip here */}
             <div style={{ background: 'linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%)', padding: '16px', borderRadius: '16px', border: '1px solid #e0f2fe' }}>
-                 <RainfallSummaryWidget />
+                 <RainfallSummaryWidget key={refreshKey} />
             </div>
 
             <Row gutter={[16, 16]}>
@@ -143,6 +162,16 @@ export default function DailyWeather() {
                 searchField="date"
                 filterConfig={filterConfig}
                 defaultSort={{ field: 'date', order: 'descend' }}
+                extraActions={({ refetch }) => (
+                    <Button
+                        icon={<SyncOutlined spin={syncing} />}
+                        loading={syncing}
+                        onClick={() => handleSyncWeather(refetch)}
+                        className="export-btn"
+                    >
+                        อัปเดตอากาศ
+                    </Button>
+                )}
             />
         </div>
     );
