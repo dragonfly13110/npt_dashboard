@@ -22,7 +22,7 @@ const budgetStatusOptions = [
     { label: 'เบิกจ่ายเสร็จสิ้น', value: 'เบิกจ่ายเสร็จสิ้น', color: 'success', progress: 100 },
 ];
 const defaultBudgetStatus = 'กำลังดำเนินการ';
-const budgetTableScrollX = 1630;
+const budgetTableScrollX = 1414;
 
 function compactText(value, fallback = '-') {
     const text = String(value || '').trim();
@@ -435,8 +435,6 @@ export default function Budgets() {
         { title: 'เป้าหมาย', key: 'target', width: 104, align: 'center', render: (_, record) => <Text className="budget-nowrap">{compactText(record.target)} {compactText(record.unit, '')}</Text> },
         { title: 'งบประมาณ', dataIndex: 'budget', key: 'budget', width: 112, align: 'right', sorter: (a, b) => a.budget - b.budget, render: value => <Text strong>{money(value)}</Text> },
         { title: 'เบิกแล้ว', dataIndex: 'spentAmount', key: 'spentAmount', width: 108, align: 'right', sorter: (a, b) => a.spentAmount - b.spentAmount, render: value => <Text>{money(value)}</Text> },
-        { title: 'แผนดำเนินงาน', dataIndex: 'operationPlan', key: 'operationPlan', width: 108, align: 'center', render: value => <Text className="budget-nowrap">{compactText(value)}</Text> },
-        { title: 'แผนใช้จ่ายเงิน', dataIndex: 'paymentPlan', key: 'paymentPlan', width: 108, align: 'center', render: value => <Text className="budget-nowrap">{compactText(value)}</Text> },
         {
             title: 'ความคืบหน้า',
             dataIndex: 'status',
@@ -521,14 +519,14 @@ export default function Budgets() {
                 </div>
 
                 <Row className="budget-stat-grid" gutter={[16, 16]}>
-                    <Col xs={24} sm={12} lg={6}><Card className="budget-stat-card budget-stat-green"><Statistic title="งบประมาณรวม" value={totalBudget} formatter={value => `${money(value)} บาท`} /></Card></Col>
-                    <Col xs={24} sm={12} lg={6}><Card className="budget-stat-card budget-stat-blue"><Statistic title="เบิกจ่ายแล้ว" value={totalSpent} formatter={value => `${money(value)} บาท`} /></Card></Col>
-                    <Col xs={24} sm={12} lg={6}><Card className="budget-stat-card budget-stat-purple"><Statistic title="ความคืบหน้างบ" value={spendingPercent} suffix="%" /></Card></Col>
-                    <Col xs={24} sm={12} lg={6}><Card className="budget-stat-card budget-stat-amber"><Statistic title="ส่งเบิก/เบิกจ่ายเสร็จสิ้น" value={reimbursementRows} suffix={`จาก ${rows.length} รายการ`} /></Card></Col>
-                    <Col xs={24} sm={12} lg={6}><Card className="budget-stat-card budget-stat-cyan"><Statistic title="จำนวนโครงการ" value={projectSummary.length} suffix="โครงการ" /></Card></Col>
-                    <Col xs={24} sm={12} lg={6}><Card className="budget-stat-card budget-stat-lime"><Statistic title="เบิกจ่ายเสร็จสิ้น" value={completedRows} suffix="รายการ" /></Card></Col>
-                    <Col xs={24} sm={12} lg={6}><Card className="budget-stat-card budget-stat-mint"><Statistic title="งบตามตัวกรอง" value={filteredBudget} formatter={value => `${money(value)} บาท`} /></Card></Col>
-                    <Col xs={24} sm={12} lg={6}><Card className="budget-stat-card budget-stat-rose"><Statistic title="คืบหน้าตามตัวกรอง" value={filteredSpendingPercent} suffix="%" /></Card></Col>
+                    <Col xs={24} sm={12} lg={6}><Card className="budget-stat-card"><Statistic title="งบประมาณรวม" value={totalBudget} formatter={value => `${money(value)} บาท`} /></Card></Col>
+                    <Col xs={24} sm={12} lg={6}><Card className="budget-stat-card"><Statistic title="เบิกจ่ายแล้ว" value={totalSpent} formatter={value => `${money(value)} บาท`} /></Card></Col>
+                    <Col xs={24} sm={12} lg={6}><Card className="budget-stat-card"><Statistic title="ความคืบหน้างบ" value={spendingPercent} suffix="%" /></Card></Col>
+                    <Col xs={24} sm={12} lg={6}><Card className="budget-stat-card"><Statistic title="ส่งเบิก/เบิกจ่ายเสร็จสิ้น" value={reimbursementRows} suffix={`จาก ${rows.length} รายการ`} /></Card></Col>
+                    <Col xs={24} sm={12} lg={6}><Card className="budget-stat-card"><Statistic title="จำนวนโครงการ" value={projectSummary.length} suffix="โครงการ" /></Card></Col>
+                    <Col xs={24} sm={12} lg={6}><Card className="budget-stat-card"><Statistic title="เบิกจ่ายเสร็จสิ้น" value={completedRows} suffix="รายการ" /></Card></Col>
+                    <Col xs={24} sm={12} lg={6}><Card className="budget-stat-card"><Statistic title="งบตามตัวกรอง" value={filteredBudget} formatter={value => `${money(value)} บาท`} /></Card></Col>
+                    <Col xs={24} sm={12} lg={6}><Card className="budget-stat-card"><Statistic title="คืบหน้าตามตัวกรอง" value={filteredSpendingPercent} suffix="%" /></Card></Col>
                 </Row>
 
                 <Row gutter={[16, 16]}>

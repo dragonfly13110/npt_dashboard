@@ -1,12 +1,12 @@
 .budget-apple-page {
     position: relative;
     min-height: 100vh;
-    padding: 28px;
+    padding: 18px;
     overflow: hidden;
     background:
-        radial-gradient(circle at 10% 0%, rgba(187, 247, 208, 0.72), transparent 30%),
-        radial-gradient(circle at 82% 8%, rgba(191, 219, 254, 0.62), transparent 32%),
-        linear-gradient(145deg, #f8fafc 0%, #eefdf5 46%, #f8fbff 100%);
+        radial-gradient(circle at 12% 0%, rgba(187, 247, 208, 0.36), transparent 30%),
+        radial-gradient(circle at 88% 2%, rgba(209, 250, 229, 0.34), transparent 34%),
+        linear-gradient(145deg, #f8fafc 0%, #f3fbf7 48%, #f8fafc 100%);
 }
 
 .budget-apple-page::before {
@@ -27,17 +27,21 @@
     width: 100%;
 }
 
+.budget-apple-stack.ant-space-vertical {
+    gap: 14px !important;
+}
+
 .budget-apple-hero {
     position: relative;
     overflow: hidden;
-    padding: 24px 26px;
+    padding: 18px 22px;
     border: 1px solid rgba(255, 255, 255, 0.74);
-    border-radius: 28px;
+    border-radius: 22px;
     background:
-        linear-gradient(140deg, rgba(255, 255, 255, 0.92), rgba(241, 253, 247, 0.78)),
-        radial-gradient(circle at 92% 0%, rgba(52, 211, 153, 0.2), transparent 36%);
+        linear-gradient(140deg, rgba(255, 255, 255, 0.93), rgba(245, 252, 248, 0.82)),
+        radial-gradient(circle at 92% 0%, rgba(34, 197, 94, 0.12), transparent 34%);
     box-shadow:
-        0 26px 64px -34px rgba(15, 23, 42, 0.36),
+        0 20px 44px -34px rgba(15, 23, 42, 0.34),
         inset 0 1px 0 rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(18px);
 }
@@ -79,8 +83,8 @@
 }
 
 .budget-apple-title.ant-typography {
-    margin: 0 0 8px !important;
-    font-size: clamp(28px, 3vw, 42px);
+    margin: 0 0 6px !important;
+    font-size: clamp(25px, 2.4vw, 34px);
     font-weight: 700;
     line-height: 1.12;
     letter-spacing: 0;
@@ -94,85 +98,84 @@
     display: block;
     max-width: 1040px;
     color: #64748b !important;
-    font-size: 14px;
-    line-height: 1.7;
+    font-size: 13px;
+    line-height: 1.6;
 }
 
 .budget-apple-page .ant-card {
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.72);
-    border-radius: 22px;
+    border-radius: 18px;
     background:
-        linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(248, 253, 250, 0.74));
+        linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(248, 252, 250, 0.78));
     box-shadow:
-        0 22px 48px -34px rgba(15, 23, 42, 0.38),
+        0 18px 38px -32px rgba(15, 23, 42, 0.34),
         inset 0 1px 0 rgba(255, 255, 255, 0.94);
     backdrop-filter: blur(18px);
 }
 
 .budget-apple-page .ant-card-head {
-    min-height: 56px;
+    min-height: 48px;
     border-bottom: 1px solid rgba(226, 232, 240, 0.68);
     background: rgba(255, 255, 255, 0.28);
 }
 
 .budget-apple-page .ant-card-head-title {
     color: #0f172a;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
+}
+
+.budget-apple-page .ant-card-body {
+    padding: 18px;
+}
+
+.budget-stat-grid {
+    margin-top: -2px;
 }
 
 .budget-stat-card {
     position: relative;
-    min-height: 114px;
+    min-height: 92px;
 }
 
 .budget-stat-card::before {
     content: '';
     position: absolute;
     inset: 0 auto 0 0;
-    width: 5px;
-    background: var(--budget-accent, #16a34a);
+    width: 3px;
+    background: #15803d;
 }
 
 .budget-stat-card::after {
     content: '';
     position: absolute;
-    right: -44px;
-    top: -56px;
-    width: 140px;
-    height: 140px;
+    right: -46px;
+    top: -62px;
+    width: 132px;
+    height: 132px;
     border-radius: 999px;
-    background: radial-gradient(circle, var(--budget-glow, rgba(34, 197, 94, 0.24)), transparent 68%);
+    background: radial-gradient(circle, rgba(34, 197, 94, 0.16), transparent 68%);
 }
 
 .budget-stat-card .ant-card-body {
     position: relative;
     z-index: 1;
-    padding: 24px 26px;
+    padding: 17px 20px;
 }
 
 .budget-stat-card .ant-statistic-title {
     color: #64748b;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
 }
 
 .budget-stat-card .ant-statistic-content {
     color: #0f172a;
-    font-size: 27px;
+    font-size: 23px;
     font-weight: 650;
     line-height: 1.2;
 }
-
-.budget-stat-green { --budget-accent: #16a34a; --budget-glow: rgba(34, 197, 94, 0.25); }
-.budget-stat-blue { --budget-accent: #2563eb; --budget-glow: rgba(59, 130, 246, 0.22); }
-.budget-stat-purple { --budget-accent: #7c3aed; --budget-glow: rgba(124, 58, 237, 0.2); }
-.budget-stat-amber { --budget-accent: #f59e0b; --budget-glow: rgba(245, 158, 11, 0.23); }
-.budget-stat-cyan { --budget-accent: #0891b2; --budget-glow: rgba(6, 182, 212, 0.22); }
-.budget-stat-lime { --budget-accent: #65a30d; --budget-glow: rgba(132, 204, 22, 0.22); }
-.budget-stat-mint { --budget-accent: #0d9488; --budget-glow: rgba(20, 184, 166, 0.22); }
-.budget-stat-rose { --budget-accent: #e11d48; --budget-glow: rgba(244, 63, 94, 0.18); }
 
 .budget-apple-page .ant-select-selector,
 .budget-apple-page .ant-input,
@@ -183,6 +186,10 @@
     border-radius: 12px !important;
     background: rgba(255, 255, 255, 0.72) !important;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.budget-apple-page .ant-select-single {
+    height: 34px;
 }
 
 .budget-apple-page .ant-btn {
@@ -219,8 +226,8 @@
 }
 
 .budget-detail-table .ant-table-thead > tr > th {
-    padding: 8px 10px;
-    font-size: 13px;
+    padding: 7px 9px;
+    font-size: 12px;
     white-space: nowrap;
 }
 
@@ -229,7 +236,7 @@
 }
 
 .budget-detail-table .ant-table-tbody > tr > td {
-    padding: 6px 10px;
+    padding: 5px 9px;
     vertical-align: middle;
 }
 
@@ -247,8 +254,8 @@
     display: -webkit-box;
     overflow: hidden;
     color: #1f2328;
-    font-size: 13px;
-    line-height: 1.35;
+    font-size: 12px;
+    line-height: 1.32;
     -webkit-box-orient: vertical;
 }
 
@@ -266,17 +273,17 @@
 
 .budget-muted {
     color: #6e7781;
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .budget-nowrap {
     white-space: nowrap;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .budget-subtext {
     white-space: nowrap;
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .budget-progress-cell {
