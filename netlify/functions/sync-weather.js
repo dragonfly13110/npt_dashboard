@@ -79,14 +79,12 @@ const syncWeather = async () => {
     }
 };
 
-const syncHandler = async () => syncWeather();
-
-export const handler = async (event) => {
+const syncHandler = async (event = {}) => {
     if (event.httpMethod === 'OPTIONS') {
         return { statusCode: 204, headers: CORS_HEADERS, body: '' };
     }
 
-    if (!['GET', 'POST'].includes(event.httpMethod)) {
+    if (event.httpMethod && !['GET', 'POST'].includes(event.httpMethod)) {
         return { statusCode: 405, headers: CORS_HEADERS, body: JSON.stringify({ error: 'Method not allowed' }) };
     }
 
@@ -94,4 +92,4 @@ export const handler = async (event) => {
 };
 
 // Run this function every day at 22:00 UTC (approx 5 AM local time)
-export const scheduled = schedule("0 22 * * *", syncHandler);
+export const handler = schedule("0 22 * * *", syncHandler);
