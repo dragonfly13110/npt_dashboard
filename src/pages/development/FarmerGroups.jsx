@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Card, Col, Empty, Form, Input, InputNumber, Progress, Row, Select, Space, Spin, Statistic, Table, Tag } from 'antd';
-import { EnvironmentOutlined, SearchOutlined, ShopOutlined, TeamOutlined, TrophyOutlined, WalletOutlined } from '@ant-design/icons';
+import { Button, Card, Col, Empty, Form, Input, InputNumber, Modal, Popconfirm, Progress, Row, Select, Space, Spin, Statistic, Table, Tag, message } from 'antd';
+import { DeleteOutlined, EditOutlined, EnvironmentOutlined, PlusOutlined, SearchOutlined, ShopOutlined, TeamOutlined, TrophyOutlined, WalletOutlined } from '@ant-design/icons';
 import CrudTable from '../../components/DataTable/CrudTable';
 import { supabase } from '../../supabaseClient';
 import { useApiCache } from '../../hooks/useApiCache';
+import { useAuth } from '../../contexts/AuthContext';
 import districtGeoJSON from '../../data/nakhon_pathom_districts.json';
 
 const baseColumns = [
@@ -35,6 +36,7 @@ const number = new Intl.NumberFormat('th-TH');
 
 const hasValue = (value) => value !== null && value !== undefined && value !== '';
 const yes = (value) => String(value || '').trim() === 'มี';
+const HOUSEWIFE_TABLE = 'housewife_farmer_groups';
 
 function countBy(rows, key) {
     const map = new Map();
@@ -266,14 +268,129 @@ const housewifeColumns = [
     { title: 'Lon', dataIndex: 'lon', key: 'lon', width: 110, render: (v) => hasValue(v) ? Number(v).toFixed(6) : '-' },
 ];
 
+const normalizeHousewifeValues = (values) => ({
+    ...values,
+    year: values.year ? Number(values.year) : null,
+    moo: values.moo ? Number(values.moo) : null,
+    member_count: values.member_count ? Number(values.member_count) : 0,
+    fund_management: values.fund_management ? Number(values.fund_management) : 0,
+    income: values.income ? Number(values.income) : 0,
+    lat: values.lat ? Number(values.lat) : null,
+    lon: values.lon ? Number(values.lon) : null,
+});
+
+const housewifeFormFields = (
+    <>
+        <Row gutter={12}>
+            <Col xs={24} md={8}>
+                <Form.Item name="year" label="ปีข้อมูล" rules={[{ required: true }]}>
+                    <InputNumber min={2500} max={2600} style={{ width: '100%' }} />
+                </Form.Item>
+            </Col>
+            <Col xs={24} md={16}>
+                <Form.Item name="group_name" label="ชื่อกลุ่ม" rules={[{ required: true }]}>
+                    <Input />
+                </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+                <Form.Item name="district" label="อำเภอ">
+                    <Input />
+                </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+                <Form.Item name="subdistrict" label="ตำบล">
+                    <Input />
+                </Form.Item>
+            </Col>
+            <Col xs={12} md={4}>
+                <Form.Item name="moo" label="หมู่">
+                    <InputNumber style={{ width: '100%' }} />
+                </Form.Item>
+            </Col>
+            <Col xs={12} md={4}>
+                <Form.Item name="address_no" label="เลขที่">
+                    <Input />
+                </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+                <Form.Item name="member_count" label="สมาชิก">
+                    <InputNumber min={0} style={{ width: '100%' }} />
+                </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+                <Form.Item name="phone" label="โทรศัพท์">
+                    <Input />
+                </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+                <Form.Item name="established_text" label="วันที่จัดตั้ง">
+                    <Input />
+                </Form.Item>
+            </Col>
+            <Col xs={24}>
+                <Form.Item name="activity" label="กิจกรรมกลุ่ม">
+                    <Input />
+                </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+                <Form.Item name="potential_level" label="ศักยภาพ">
+                    <Select allowClear options={['ดี', 'ปานกลาง', 'ปรับปรุง'].map((value) => ({ value, label: value }))} />
+                </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+                <Form.Item name="has_sales_channel" label="ช่องทางจำหน่าย">
+                    <Select allowClear options={['มี', 'ไม่มี'].map((value) => ({ value, label: value }))} />
+                </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+                <Form.Item name="community_enterprise_registration" label="จดทะเบียนวิสาหกิจฯ">
+                    <Input />
+                </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+                <Form.Item name="model_group" label="กลุ่มต้นแบบ">
+                    <Input />
+                </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+                <Form.Item name="fund_management" label="ทุน">
+                    <InputNumber min={0} style={{ width: '100%' }} />
+                </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+                <Form.Item name="income" label="รายได้">
+                    <InputNumber min={0} style={{ width: '100%' }} />
+                </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+                <Form.Item name="lat" label="Lat">
+                    <InputNumber style={{ width: '100%' }} />
+                </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+                <Form.Item name="lon" label="Lon">
+                    <InputNumber style={{ width: '100%' }} />
+                </Form.Item>
+            </Col>
+        </Row>
+    </>
+);
+
 export function HousewifeFarmerGroups() {
+    const { canEdit, canDelete } = useAuth();
+    const userCanEdit = canEdit();
+    const userCanDelete = canDelete();
     const [search, setSearch] = useState('');
     const [district, setDistrict] = useState('ทั้งหมด');
     const [year, setYear] = useState(2568);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [editingRecord, setEditingRecord] = useState(null);
+    const [saving, setSaving] = useState(false);
+    const [form] = Form.useForm();
 
     const fetchGroups = async () => {
         const { data, error } = await supabase
-            .from('housewife_farmer_groups')
+            .from(HOUSEWIFE_TABLE)
             .select('*')
             .order('year', { ascending: false })
             .order('district', { ascending: true })
@@ -282,7 +399,7 @@ export function HousewifeFarmerGroups() {
         return data || [];
     };
 
-    const { data: rows = [], isLoading } = useApiCache(['housewife_farmer_groups_full'], fetchGroups);
+    const { data: rows = [], isLoading, refetch } = useApiCache(['housewife_farmer_groups_full'], fetchGroups);
 
     const districts = useMemo(() => ['ทั้งหมด', ...countBy(rows, 'district').map(([name]) => name)], [rows]);
     const years = useMemo(() => countBy(rows, 'year').map(([name]) => name).sort((a, b) => Number(b) - Number(a)), [rows]);
@@ -320,6 +437,82 @@ export function HousewifeFarmerGroups() {
             potential: countBy(activeYearRows, 'potential_level'),
         };
     }, [activeYearRows]);
+
+    const openAdd = () => {
+        setEditingRecord(null);
+        form.setFieldsValue({ year: activeYear, province: 'นครปฐม', has_sales_channel: 'ไม่มี' });
+        setModalOpen(true);
+    };
+
+    const openEdit = (record) => {
+        setEditingRecord(record);
+        form.setFieldsValue(record);
+        setModalOpen(true);
+    };
+
+    const handleSave = async () => {
+        try {
+            const values = normalizeHousewifeValues(await form.validateFields());
+            setSaving(true);
+
+            const result = editingRecord
+                ? await supabase.from(HOUSEWIFE_TABLE).update(values).eq('id', editingRecord.id)
+                : await supabase.from(HOUSEWIFE_TABLE).insert([values]);
+
+            if (result.error) throw result.error;
+
+            message.success(editingRecord ? 'แก้ไขข้อมูลแล้ว' : 'เพิ่มข้อมูลแล้ว');
+            setModalOpen(false);
+            setEditingRecord(null);
+            form.resetFields();
+            refetch();
+        } catch (err) {
+            if (err?.errorFields) return;
+            message.error(err.message || 'บันทึกข้อมูลไม่สำเร็จ');
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const handleDelete = async (id) => {
+        const { error } = await supabase.from(HOUSEWIFE_TABLE).delete().eq('id', id);
+        if (error) {
+            message.error(error.message || 'ลบข้อมูลไม่สำเร็จ');
+            return;
+        }
+        message.success('ลบข้อมูลแล้ว');
+        refetch();
+    };
+
+    const tableColumns = (!userCanEdit && !userCanDelete) ? housewifeColumns : [
+        ...housewifeColumns,
+        {
+            title: 'จัดการ',
+            key: 'actions',
+            width: 110,
+            fixed: 'right',
+            align: 'center',
+            render: (_, record) => (
+                <Space size={4}>
+                    {userCanEdit && (
+                        <Button icon={<EditOutlined />} onClick={() => openEdit(record)} />
+                    )}
+                    {userCanDelete && (
+                        <Popconfirm
+                            title="ยืนยันการลบ"
+                            description="ต้องการลบข้อมูลนี้ใช่ไหม?"
+                            okText="ลบ"
+                            cancelText="ยกเลิก"
+                            okButtonProps={{ danger: true }}
+                            onConfirm={() => handleDelete(record.id)}
+                        >
+                            <Button danger icon={<DeleteOutlined />} />
+                        </Popconfirm>
+                    )}
+                </Space>
+            ),
+        },
+    ];
 
     return (
         <div>
@@ -366,7 +559,16 @@ export function HousewifeFarmerGroups() {
 
             <Card
                 title={`ตารางข้อมูลกลุ่มแม่บ้านเกษตรกร ปี ${activeYear}`}
-                extra={`${number.format(filteredRows.length)} / ${number.format(activeYearRows.length)} รายการ`}
+                extra={
+                    <Space>
+                        <span>{number.format(filteredRows.length)} / {number.format(activeYearRows.length)} รายการ</span>
+                        {userCanEdit && (
+                            <Button type="primary" icon={<PlusOutlined />} onClick={openAdd}>
+                                เพิ่มข้อมูล
+                            </Button>
+                        )}
+                    </Space>
+                }
             >
                 <Space wrap style={{ marginBottom: 16, width: '100%', justifyContent: 'space-between' }}>
                     <Input
@@ -385,13 +587,29 @@ export function HousewifeFarmerGroups() {
                 <Table
                     rowKey="id"
                     loading={isLoading}
-                    columns={housewifeColumns}
+                    columns={tableColumns}
                     dataSource={filteredRows}
-                    scroll={{ x: 3300 }}
+                    scroll={{ x: userCanEdit || userCanDelete ? 3440 : 3300 }}
                     size="middle"
                     pagination={{ pageSize: 10, showSizeChanger: true }}
                 />
             </Card>
+
+            <Modal
+                title={editingRecord ? 'แก้ไขข้อมูลกลุ่มแม่บ้านเกษตรกร' : 'เพิ่มข้อมูลกลุ่มแม่บ้านเกษตรกร'}
+                open={modalOpen}
+                onCancel={() => setModalOpen(false)}
+                onOk={handleSave}
+                confirmLoading={saving}
+                width={900}
+                okText="บันทึก"
+                cancelText="ยกเลิก"
+                destroyOnHidden
+            >
+                <Form form={form} layout="vertical">
+                    {housewifeFormFields}
+                </Form>
+            </Modal>
         </div>
     );
 }
