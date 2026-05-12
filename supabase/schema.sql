@@ -209,6 +209,28 @@ CREATE TABLE IF NOT EXISTS farmer_groups (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS housewife_farmer_groups (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  group_name TEXT NOT NULL,
+  district TEXT,
+  chairman TEXT,
+  member_count INTEGER,
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS young_farmer_groups (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  group_name TEXT NOT NULL,
+  district TEXT,
+  chairman TEXT,
+  member_count INTEGER,
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 CREATE TABLE IF NOT EXISTS agri_tourism (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   spot_name TEXT NOT NULL,
@@ -294,6 +316,8 @@ ALTER TABLE crop_production ENABLE ROW LEVEL SECURITY;
 ALTER TABLE community_enterprises ENABLE ROW LEVEL SECURITY;
 ALTER TABLE smart_farmers ENABLE ROW LEVEL SECURITY;
 ALTER TABLE farmer_groups ENABLE ROW LEVEL SECURITY;
+ALTER TABLE housewife_farmer_groups ENABLE ROW LEVEL SECURITY;
+ALTER TABLE young_farmer_groups ENABLE ROW LEVEL SECURITY;
 ALTER TABLE agri_tourism ENABLE ROW LEVEL SECURITY;
 ALTER TABLE pest_outbreaks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE pest_centers ENABLE ROW LEVEL SECURITY;
@@ -312,7 +336,7 @@ BEGIN
       'profiles','personnel','assets','budgets',
       'farmer_registry','gis_areas','disasters',
       'large_plots','learning_centers','certifications','crop_production',
-      'community_enterprises','smart_farmers','farmer_groups','agri_tourism',
+      'community_enterprises','smart_farmers','farmer_groups','housewife_farmer_groups','young_farmer_groups','agri_tourism',
       'pest_outbreaks','pest_centers','biocontrol_stock','fire_hotspots'
     ])
   LOOP

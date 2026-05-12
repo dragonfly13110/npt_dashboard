@@ -42,6 +42,8 @@ const routeLabels = {
     'community-enterprises': 'วิสาหกิจชุมชน',
     'smart-farmers': 'เกษตรกรรุ่นใหม่',
     'farmer-groups': 'กลุ่มแม่บ้าน/ยุวฯ',
+    'housewife-farmer-groups': 'กลุ่มแม่บ้านเกษตรกร',
+    'young-farmer-groups': 'กลุ่มยุวเกษตรกร',
     'agri-tourism': 'ท่องเที่ยวเกษตร',
     protection: 'อารักขาพืช',
     'pest-outbreaks': 'แปลงพยากรณ์',

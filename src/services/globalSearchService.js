@@ -17,6 +17,8 @@ const TABLE_ROUTES = {
     community_enterprises: '/dashboard/development/community-enterprises',
     smart_farmers: '/dashboard/development/smart-farmers',
     farmer_groups: '/dashboard/development/farmer-groups',
+    housewife_farmer_groups: '/dashboard/development/housewife-farmer-groups',
+    young_farmer_groups: '/dashboard/development/young-farmer-groups',
     farmer_institutes: '/dashboard/development/farmer-institutes',
     agri_tourism: '/dashboard/development/agri-tourism',
     forecast_plots: '/dashboard/protection/pest-outbreaks',

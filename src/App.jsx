@@ -58,7 +58,8 @@ const CoconutAromaticSurvey = lazy(() => import('./pages/production/CoconutAroma
 // Development
 const CommunityEnterprises = lazy(() => import('./pages/development/CommunityEnterprises'));
 const SmartFarmers = lazy(() => import('./pages/development/SmartFarmers'));
-const FarmerGroups = lazy(() => import('./pages/development/FarmerGroups'));
+const HousewifeFarmerGroups = lazy(() => import('./pages/development/FarmerGroups').then(module => ({ default: module.HousewifeFarmerGroups })));
+const YoungFarmerGroups = lazy(() => import('./pages/development/FarmerGroups').then(module => ({ default: module.YoungFarmerGroups })));
 const FarmerInstitutes = lazy(() => import('./pages/development/FarmerInstitutes'));
 const AgriTourism = lazy(() => import('./pages/development/AgriTourism'));
 const DevelopmentDashboard = lazy(() => import('./pages/development/DevelopmentDashboard'));
@@ -187,7 +188,9 @@ function AppRoutes() {
           <Route path="development/overview" element={<DevelopmentDashboard />} />
           <Route path="development/community-enterprises" element={<CommunityEnterprises />} />
           <Route path="development/smart-farmers" element={<SmartFarmers />} />
-          <Route path="development/farmer-groups" element={<FarmerGroups />} />
+          <Route path="development/farmer-groups" element={<Navigate to="/dashboard/development/housewife-farmer-groups" replace />} />
+          <Route path="development/housewife-farmer-groups" element={<HousewifeFarmerGroups />} />
+          <Route path="development/young-farmer-groups" element={<YoungFarmerGroups />} />
           <Route path="development/farmer-institutes" element={<FarmerInstitutes />} />
           <Route path="development/agri-tourism" element={<AgriTourism />} />
           <Route path="development/disasters" element={<Disasters />} />
