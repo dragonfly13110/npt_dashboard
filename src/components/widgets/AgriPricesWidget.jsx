@@ -62,7 +62,7 @@ function isOilPriceText(text = '') {
 
 function isRegularOilPrice(text = '') {
   const price = Number.parseFloat(String(text).trim());
-  return Number.isFinite(price) && price <= 50;
+  return Number.isFinite(price) && price <= 80;
 }
 
 function isValidOilName(name = '') {
