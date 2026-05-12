@@ -12,6 +12,7 @@ import CsvImportModal from './CsvImportModal';
 import { useAuth } from '../../contexts/AuthContext';
 import { useApiCache } from '../../hooks/useApiCache';
 import { supabase } from '../../supabaseClient';
+import { getPublicColumns } from '../../utils/dataPrivacy';
 
 export default function CrudTable({ tableName, title, columns, formFields, searchField, searchFields, filterConfig = [], scrollX = 1000, defaultSort = null, extraActions = null, fetchDataOverride = null, fetchAllOverride = null }) {
     const { createRecord, updateRecord, deleteRecord, fetchAll } = useSupabaseCrud(tableName);
@@ -161,30 +162,7 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
 
     // Filter out name columns for guest, except for presidents
     const visibleColumns = useMemo(() => {
-        return columns.filter(col => {
-            if (role === 'guest') {
-                const dataIdx = String(col.dataIndex || '');
-                const titleStr = String(col.title || '');
-                const isLargePlotName = tableName === 'large_plots' && dataIdx === 'plot_name';
-                const isHiddenForGuest = col.hideForGuest === true;
-
-                if (isLargePlotName) {
-                    return true;
-                }
-                
-                const isName = /name|ชื่อ|first_name|last_name|full_name/i.test(dataIdx) || /ชื่อ-สกุล|ชื่อ|สกุล/i.test(titleStr);
-                const isPresident = /president|chairman|ประธาน/i.test(dataIdx) || /ประธาน/i.test(titleStr);
-                
-                if (isHiddenForGuest) {
-                    return false;
-                }
-
-                if (isName && !isPresident) {
-                    return false;
-                }
-            }
-            return true;
-        });
+        return getPublicColumns(tableName, columns, role);
     }, [columns, role, tableName]);
 
     const handleExportCSV = () => {

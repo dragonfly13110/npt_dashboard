@@ -9,6 +9,7 @@ import {
 import {
     globalSearch, getRecentSearches, clearRecentSearches
 } from '../../services/globalSearchService';
+import { useAuth } from '../../contexts/AuthContext';
 
 // Group color mapping
 const GROUP_COLORS = {
@@ -31,6 +32,7 @@ export default function GlobalSearch({ collapsed = false }) {
     const [open, setOpen] = useState(false);
     const [recentSearches, setRecentSearches] = useState([]);
     const navigate = useNavigate();
+    const { role } = useAuth();
     const debounceRef = useRef(null);
     const inputRef = useRef(null);
     const containerRef = useRef(null);
@@ -103,7 +105,7 @@ export default function GlobalSearch({ collapsed = false }) {
 
         debounceRef.current = setTimeout(async () => {
             try {
-                const data = await globalSearch(value, 5);
+                const data = await globalSearch(value, 5, role);
                 setResults(data);
                 setRecentSearches(getRecentSearches());
             } catch (err) {
@@ -113,7 +115,7 @@ export default function GlobalSearch({ collapsed = false }) {
                 setLoading(false);
             }
         }, 300);
-    }, []);
+    }, [role]);
 
     const handleResultClick = (tableResult) => {
         setOpen(false);

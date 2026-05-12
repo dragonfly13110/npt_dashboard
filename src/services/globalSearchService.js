@@ -1,5 +1,6 @@
 import { supabase } from '../supabaseClient';
 import { TABLE_CONFIG, TABLE_SEARCH_COLS, DISTRICT_COLS } from '../utils/chatbotConstants';
+import { getPublicColumns, isPrivateColumn } from '../utils/dataPrivacy';
 
 /**
  * Mapping: table name → dashboard route path
@@ -16,9 +17,11 @@ const TABLE_ROUTES = {
     coconut_aromatic_surveys: '/dashboard/production/coconut-aromatic-survey',
     community_enterprises: '/dashboard/development/community-enterprises',
     smart_farmers: '/dashboard/development/smart-farmers',
+    smart_farmer_sf: '/dashboard/development/smart-farmer-sf',
     farmer_groups: '/dashboard/development/farmer-groups',
     housewife_farmer_groups: '/dashboard/development/housewife-farmer-groups',
     young_farmer_groups: '/dashboard/development/young-farmer-groups',
+    young_farmer_groups_detailed: '/dashboard/development/young-farmer-groups',
     farmer_institutes: '/dashboard/development/farmer-institutes',
     agri_tourism: '/dashboard/development/agri-tourism',
     forecast_plots: '/dashboard/protection/pest-outbreaks',
@@ -125,11 +128,18 @@ function getResultSubtitle(row, table) {
     return parts.join(' • ') || null;
 }
 
-function enrichResults(rawResults) {
+function sanitizeRowForRole(table, row, role) {
+    if (role !== 'guest') return row;
+    const publicKeys = new Set(getPublicColumns(table, Object.keys(row).map((key) => ({ dataIndex: key })), role).map((column) => column.dataIndex));
+    return Object.fromEntries(Object.entries(row).filter(([key]) => publicKeys.has(key) || ['id', 'created_at', 'updated_at'].includes(key)));
+}
+
+function enrichResults(rawResults, role = 'viewer') {
     return rawResults
         .map((entry) => {
             const config = TABLE_CONFIG[entry.table];
             if (!config) return null;
+            const safeRows = (entry.results || []).map((row) => sanitizeRowForRole(entry.table, row, role));
             return {
                 table: entry.table,
                 label: config.label,
@@ -137,7 +147,7 @@ function enrichResults(rawResults) {
                 group: config.group,
                 route: TABLE_ROUTES[entry.table] || '/dashboard',
                 totalCount: entry.totalCount || entry.results?.length || 0,
-                results: (entry.results || []).map(row => ({
+                results: safeRows.map(row => ({
                     id: row.id,
                     title: getResultLabel(row, entry.table),
                     subtitle: getResultSubtitle(row, entry.table),
@@ -157,15 +167,17 @@ async function searchViaRPC(searchTerm, limitPerTable) {
     });
 
     if (error) throw error;
-    return enrichResults(data || []);
+    return data || [];
 }
 
 // ========== Fallback: parallel search (18 requests) ==========
-async function searchViaParallel(searchTerm, limitPerTable) {
+async function searchViaParallel(searchTerm, limitPerTable, role = 'viewer') {
     const tables = Object.keys(TABLE_CONFIG);
 
     const searchPromises = tables.map(async (table) => {
-        const searchCols = TABLE_SEARCH_COLS[table];
+            const searchCols = role === 'guest'
+                ? TABLE_SEARCH_COLS[table]?.filter((col) => !isPrivateColumn(table, { dataIndex: col }))
+                : TABLE_SEARCH_COLS[table];
         if (!searchCols || searchCols.length === 0) return null;
 
         try {
@@ -188,15 +200,15 @@ async function searchViaParallel(searchTerm, limitPerTable) {
     });
 
     const raw = (await Promise.all(searchPromises)).filter(Boolean);
-    return enrichResults(raw);
+    return enrichResults(raw, role);
 }
 
 // ========== Main Search Function ==========
-export async function globalSearch(query, limitPerTable = 5) {
+export async function globalSearch(query, limitPerTable = 5, role = 'viewer') {
     if (!query || query.trim().length < 2) return [];
 
     const searchTerm = query.trim();
-    const cacheKey = `${searchTerm}:${limitPerTable}`;
+    const cacheKey = `${role}:${searchTerm}:${limitPerTable}`;
 
     // Check cache first
     const cached = getCached(cacheKey);
@@ -204,12 +216,14 @@ export async function globalSearch(query, limitPerTable = 5) {
 
     let results;
     try {
-        // Try RPC first (1 request)
-        results = await searchViaRPC(searchTerm, limitPerTable);
+        // Try RPC first (1 request). Guest uses parallel path to avoid private search columns.
+        results = role === 'guest'
+            ? await searchViaParallel(searchTerm, limitPerTable, role)
+            : await searchViaRPC(searchTerm, limitPerTable).then((data) => enrichResults(data, role));
     } catch {
         // Fallback to parallel (18 requests)
         console.warn('RPC search failed, falling back to parallel search');
-        results = await searchViaParallel(searchTerm, limitPerTable);
+        results = await searchViaParallel(searchTerm, limitPerTable, role);
     }
 
     // Save to cache

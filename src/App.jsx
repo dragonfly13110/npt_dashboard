@@ -125,6 +125,7 @@ function AppRoutes() {
           { path: '/public/large-plots', Component: LargePlots },
           { path: '/public/smart-farmers', Component: SmartFarmers },
           { path: '/public/smart-farmer-sf', Component: SmartFarmerSf },
+          { path: '/public/young-farmer-groups', Component: YoungFarmerGroups },
           { path: '/public/community-enterprises', Component: CommunityEnterprises },
           { path: '/public/agri-tourism', Component: AgriTourism },
           { path: '/public/farmer-institutes', Component: FarmerInstitutes },
@@ -160,15 +161,15 @@ function AppRoutes() {
           <Route path="community/forum" element={<FarmerForum />} />
 
           {/* Admin */}
-          <Route path="admin/overview" element={<AdminDashboard />} />
-          <Route path="admin/personnel" element={<Personnel />} />
-          <Route path="admin/assets" element={<Assets />} />
-          <Route path="admin/budgets" element={<Budgets />} />
+          <Route path="admin/overview" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+          <Route path="admin/personnel" element={<AdminRoute><Personnel /></AdminRoute>} />
+          <Route path="admin/assets" element={<AdminRoute><Assets /></AdminRoute>} />
+          <Route path="admin/budgets" element={<AdminRoute><Budgets /></AdminRoute>} />
 
           {/* Admin-only: User Management & Audit Log */}
           <Route path="admin/users" element={<AdminRoute><UserManagement /></AdminRoute>} />
           <Route path="admin/audit-log" element={<AdminRoute><AuditLog /></AdminRoute>} />
-          <Route path="admin/recent-activities" element={<RecentActivities />} />
+          <Route path="admin/recent-activities" element={<AdminRoute><RecentActivities /></AdminRoute>} />
 
           {/* Strategy */}
           <Route path="strategy/overview" element={<StrategyDashboard />} />

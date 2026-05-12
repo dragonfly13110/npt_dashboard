@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Button, Card, Checkbox, Col, Input, InputNumber, Popover, Row, Select, Space, Spin, Statistic, Table, Tag, Tooltip } from 'antd';
-import { BarChartOutlined, DownloadOutlined, FileExcelOutlined, FilterOutlined, ReloadOutlined, SettingOutlined, TeamOutlined, UploadOutlined } from '@ant-design/icons';
+import { Button, Card, Checkbox, Col, Form, Input, InputNumber, Modal, Popconfirm, Popover, Row, Select, Space, Spin, Statistic, Table, Tag, Tooltip, message } from 'antd';
+import { BarChartOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, FileExcelOutlined, FilterOutlined, ReloadOutlined, SettingOutlined, TeamOutlined, UploadOutlined } from '@ant-design/icons';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip,
     ResponsiveContainer
@@ -8,6 +8,9 @@ import {
 import { supabase } from '../../supabaseClient';
 import { useApiCache } from '../../hooks/useApiCache';
 import CsvImportModal from '../../components/DataTable/CsvImportModal';
+import { useAuth } from '../../contexts/AuthContext';
+import { useSupabaseCrud } from '../../hooks/useSupabase';
+import { getPublicColumns } from '../../utils/dataPrivacy';
 
 const columns = [
     { title: 'ปีข้อมูล', dataIndex: 'data_year', key: 'data_year', width: 90, align: 'center', importHeader: 'ปีข้อมูล' },
@@ -64,6 +67,9 @@ const compactColumnConfig = {
     production_area: { title: 'พื้นที่', width: 120, ellipsis: true },
 };
 
+const numberFieldKeys = ['data_year', 'sequence_no', 'age', 'annual_agri_income'];
+const editableColumns = columns.filter((column) => column.dataIndex && !['id', 'full_name', 'created_at', 'updated_at'].includes(column.dataIndex));
+
 function countBy(rows, key, limit = 12) {
     const counts = rows.reduce((acc, row) => {
         const name = row[key] || 'ไม่ระบุ';
@@ -90,6 +96,13 @@ export default function SmartFarmerSf() {
     const tableWrapRef = useRef(null);
     const topScrollRef = useRef(null);
     const tableScrollX = 1680;
+    const { role, canEdit, canDelete } = useAuth();
+    const { updateRecord, deleteRecord } = useSupabaseCrud('smart_farmer_sf');
+    const [form] = Form.useForm();
+    const [editingRecord, setEditingRecord] = useState(null);
+    const [editOpen, setEditOpen] = useState(false);
+    const userCanEdit = canEdit();
+    const userCanDelete = canDelete();
 
     useEffect(() => {
         document.title = 'เกษตรกรปราดเปรื่อง (SF) | ศูนย์ข้อมูลการเกษตรนครปฐม';
@@ -142,19 +155,68 @@ export default function SmartFarmerSf() {
     const activityData = useMemo(() => countBy(filteredRows, 'agricultural_activity', 10), [filteredRows]);
     const totalIncome = useMemo(() => filteredRows.reduce((sum, row) => sum + (Number(row.annual_agri_income) || 0), 0), [filteredRows]);
     const activeFilterCount = Object.values(filters).filter((value) => value !== undefined && value !== null && value !== '').length;
-    const visibleColumns = useMemo(() => columns
+    const baseVisibleColumns = useMemo(() => getPublicColumns('smart_farmer_sf', columns, role)
         .filter((column) => (
             requiredColumnKeys.includes(column.dataIndex) || visibleOptionalColumns.includes(column.dataIndex)
         ))
-        .map((column) => ({ ...column, ...compactColumnConfig[column.dataIndex] })), [visibleOptionalColumns]);
+        .map((column) => ({ ...column, ...compactColumnConfig[column.dataIndex] })), [role, visibleOptionalColumns]);
+
+    const handleEdit = (record) => {
+        if (!userCanEdit) {
+            message.warning('ไม่มีสิทธิ์แก้ไข');
+            return;
+        }
+        setEditingRecord(record);
+        form.setFieldsValue(record);
+        setEditOpen(true);
+    };
+
+    const handleSave = async () => {
+        const values = await form.validateFields();
+        const ok = await updateRecord(editingRecord.id, values);
+        if (ok) {
+            setEditOpen(false);
+            setEditingRecord(null);
+            form.resetFields();
+            refetch();
+        }
+    };
+
+    const handleDelete = async (record) => {
+        const ok = await deleteRecord(record.id);
+        if (ok) refetch();
+    };
+
+    const actionColumn = userCanEdit ? {
+        title: 'จัดการ',
+        key: 'actions',
+        width: userCanDelete ? 96 : 56,
+        fixed: 'right',
+        align: 'center',
+        render: (_, record) => (
+            <Space size={4}>
+                <Tooltip title="แก้ไข">
+                    <Button icon={<EditOutlined />} onClick={() => handleEdit(record)} />
+                </Tooltip>
+                {userCanDelete && (
+                    <Popconfirm title="ยืนยันการลบ" description="ต้องการลบรายการนี้ใช่ไหม?" okText="ลบ" cancelText="ยกเลิก" okButtonProps={{ danger: true }} onConfirm={() => handleDelete(record)}>
+                        <Tooltip title="ลบ"><Button danger icon={<DeleteOutlined />} /></Tooltip>
+                    </Popconfirm>
+                )}
+            </Space>
+        ),
+    } : null;
+
+    const visibleColumns = actionColumn ? [...baseVisibleColumns, actionColumn] : baseVisibleColumns;
 
     const setFilter = (key, value) => setFilters((prev) => ({ ...prev, [key]: value }));
+    const selectableColumns = getPublicColumns('smart_farmer_sf', columns, role);
 
     const columnSelector = (
         <div style={{ width: 280, maxHeight: 420, overflowY: 'auto', padding: 12, background: '#fff', borderRadius: 8, boxShadow: '0 6px 18px rgba(0,0,0,0.12)' }}>
             <div style={{ fontWeight: 700, marginBottom: 8 }}>เลือกคอลัมน์ที่แสดง</div>
             <div style={{ display: 'grid', gap: 6 }}>
-                {columns.map((column) => {
+                {selectableColumns.map((column) => {
                     const locked = requiredColumnKeys.includes(column.dataIndex);
                     return (
                         <Checkbox
@@ -173,7 +235,7 @@ export default function SmartFarmerSf() {
                 })}
             </div>
             <Space style={{ marginTop: 12 }}>
-                <Button size="small" onClick={() => setVisibleOptionalColumns(columns.filter((column) => !requiredColumnKeys.includes(column.dataIndex)).map((column) => column.dataIndex))}>เลือกทั้งหมด</Button>
+                <Button size="small" onClick={() => setVisibleOptionalColumns(selectableColumns.filter((column) => !requiredColumnKeys.includes(column.dataIndex)).map((column) => column.dataIndex))}>เลือกทั้งหมด</Button>
                 <Button size="small" onClick={() => setVisibleOptionalColumns(defaultOptionalColumnKeys)}>ค่าเริ่มต้น</Button>
                 <Button size="small" onClick={() => setVisibleOptionalColumns([])}>หลักเท่านั้น</Button>
             </Space>
@@ -209,8 +271,9 @@ export default function SmartFarmerSf() {
     }, [filteredRows.length]);
 
     const exportRows = (format) => {
-        const headers = columns.filter((column) => column.dataIndex).map((column) => column.title);
-        const keys = columns.filter((column) => column.dataIndex).map((column) => column.dataIndex);
+        const exportColumns = getPublicColumns('smart_farmer_sf', columns, role).filter((column) => column.dataIndex);
+        const headers = exportColumns.map((column) => column.title);
+        const keys = exportColumns.map((column) => column.dataIndex);
         const exportData = filteredRows.map((row) => {
             const record = {};
             keys.forEach((key, index) => {
@@ -267,7 +330,7 @@ export default function SmartFarmerSf() {
                         <Tooltip title="รีเฟรช">
                             <Button icon={<ReloadOutlined />} onClick={() => refetch()} />
                         </Tooltip>
-                        <Button icon={<UploadOutlined />} onClick={() => setImportOpen(true)}>Import CSV</Button>
+                        {userCanEdit && <Button icon={<UploadOutlined />} onClick={() => setImportOpen(true)}>Import CSV</Button>}
                         <Button icon={<DownloadOutlined />} onClick={() => exportRows('csv')}>Export CSV</Button>
                         <Button icon={<FileExcelOutlined />} onClick={() => exportRows('xlsx')}>Export Excel</Button>
                     </Space>
@@ -322,7 +385,7 @@ export default function SmartFarmerSf() {
                     <div className="crud-header-right">
                         <Popover content={columnSelector} trigger="click" placement="bottomRight">
                             <Button icon={<SettingOutlined />}>
-                                คอลัมน์ {visibleColumns.length}/{columns.length}
+                                คอลัมน์ {baseVisibleColumns.length}/{selectableColumns.length}
                             </Button>
                         </Popover>
                     </div>
@@ -362,6 +425,30 @@ export default function SmartFarmerSf() {
                 columns={importColumns}
                 onSuccess={refetch}
             />
+            <Modal
+                title="แก้ไขข้อมูล SF"
+                open={editOpen}
+                onCancel={() => { setEditOpen(false); setEditingRecord(null); form.resetFields(); }}
+                onOk={handleSave}
+                okText="บันทึก"
+                cancelText="ยกเลิก"
+                width={760}
+                destroyOnClose
+            >
+                <Form form={form} layout="vertical" style={{ marginTop: 16 }}>
+                    <Row gutter={12}>
+                        {editableColumns.map((column) => (
+                            <Col xs={24} md={12} key={column.dataIndex}>
+                                <Form.Item name={column.dataIndex} label={column.title} rules={column.dataIndex === 'record_code' || column.dataIndex === 'data_year' ? [{ required: true }] : []}>
+                                    {numberFieldKeys.includes(column.dataIndex)
+                                        ? <InputNumber style={{ width: '100%' }} />
+                                        : <Input />}
+                                </Form.Item>
+                            </Col>
+                        ))}
+                    </Row>
+                </Form>
+            </Modal>
         </div>
     );
 }

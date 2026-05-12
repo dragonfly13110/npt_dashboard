@@ -415,10 +415,30 @@ BEGIN
       'profiles','personnel','assets','budgets',
       'farmer_registry','gis_areas','disasters',
       'large_plots','learning_centers','certifications','crop_production',
-      'community_enterprises','smart_farmers','smart_farmer_sf','farmer_groups','housewife_farmer_groups','young_farmer_groups','young_farmer_groups_detailed','agri_tourism',
+      'community_enterprises','smart_farmers','farmer_groups','housewife_farmer_groups','young_farmer_groups','agri_tourism',
       'pest_outbreaks','pest_centers','biocontrol_stock','fire_hotspots'
     ])
   LOOP
     EXECUTE format('CREATE POLICY "Allow authenticated full access" ON %I FOR ALL TO authenticated USING (true) WITH CHECK (true)', tbl);
   END LOOP;
 END $$;
+
+DROP POLICY IF EXISTS "Allow public read smart farmer sf" ON smart_farmer_sf;
+DROP POLICY IF EXISTS "Allow authenticated full access" ON smart_farmer_sf;
+CREATE POLICY "Allow public read smart farmer sf" ON smart_farmer_sf FOR SELECT TO anon, authenticated USING (true);
+DROP POLICY IF EXISTS "Allow editor insert smart farmer sf" ON smart_farmer_sf;
+CREATE POLICY "Allow editor insert smart farmer sf" ON smart_farmer_sf FOR INSERT TO authenticated WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
+DROP POLICY IF EXISTS "Allow editor update smart farmer sf" ON smart_farmer_sf;
+CREATE POLICY "Allow editor update smart farmer sf" ON smart_farmer_sf FOR UPDATE TO authenticated USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor'))) WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
+DROP POLICY IF EXISTS "Allow admin delete smart farmer sf" ON smart_farmer_sf;
+CREATE POLICY "Allow admin delete smart farmer sf" ON smart_farmer_sf FOR DELETE TO authenticated USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role = 'admin'));
+
+DROP POLICY IF EXISTS "Allow public read young farmer groups detailed" ON young_farmer_groups_detailed;
+DROP POLICY IF EXISTS "Allow authenticated full access" ON young_farmer_groups_detailed;
+CREATE POLICY "Allow public read young farmer groups detailed" ON young_farmer_groups_detailed FOR SELECT TO anon, authenticated USING (true);
+DROP POLICY IF EXISTS "Allow editor insert young farmer groups detailed" ON young_farmer_groups_detailed;
+CREATE POLICY "Allow editor insert young farmer groups detailed" ON young_farmer_groups_detailed FOR INSERT TO authenticated WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
+DROP POLICY IF EXISTS "Allow editor update young farmer groups detailed" ON young_farmer_groups_detailed;
+CREATE POLICY "Allow editor update young farmer groups detailed" ON young_farmer_groups_detailed FOR UPDATE TO authenticated USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor'))) WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
+DROP POLICY IF EXISTS "Allow admin delete young farmer groups detailed" ON young_farmer_groups_detailed;
+CREATE POLICY "Allow admin delete young farmer groups detailed" ON young_farmer_groups_detailed FOR DELETE TO authenticated USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role = 'admin'));

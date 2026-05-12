@@ -40,8 +40,22 @@ CREATE POLICY "Allow public read young farmer groups detailed"
   USING (true);
 
 DROP POLICY IF EXISTS "Allow authenticated write young farmer groups detailed" ON young_farmer_groups_detailed;
-CREATE POLICY "Allow authenticated write young farmer groups detailed"
-  ON young_farmer_groups_detailed FOR ALL
+DROP POLICY IF EXISTS "Allow authenticated full access" ON young_farmer_groups_detailed;
+DROP POLICY IF EXISTS "Allow editor insert young farmer groups detailed" ON young_farmer_groups_detailed;
+CREATE POLICY "Allow editor insert young farmer groups detailed"
+  ON young_farmer_groups_detailed FOR INSERT
   TO authenticated
-  USING (true)
-  WITH CHECK (true);
+  WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
+
+DROP POLICY IF EXISTS "Allow editor update young farmer groups detailed" ON young_farmer_groups_detailed;
+CREATE POLICY "Allow editor update young farmer groups detailed"
+  ON young_farmer_groups_detailed FOR UPDATE
+  TO authenticated
+  USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')))
+  WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
+
+DROP POLICY IF EXISTS "Allow admin delete young farmer groups detailed" ON young_farmer_groups_detailed;
+CREATE POLICY "Allow admin delete young farmer groups detailed"
+  ON young_farmer_groups_detailed FOR DELETE
+  TO authenticated
+  USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role = 'admin'));

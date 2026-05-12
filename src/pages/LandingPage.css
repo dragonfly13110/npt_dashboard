@@ -103,7 +103,7 @@
     line-height: 1.2;
     padding-bottom: 8px;
     margin-bottom: 20px;
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
     background: linear-gradient(135deg, #0f172a 0%, #166534 50%, #0f172a 100%);
     background-size: 200% auto;
     background-clip: text;
@@ -114,6 +114,11 @@
     animation: titleSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both, titleShimmer 4s ease-in-out infinite 1.5s;
     /* Clean shadow for light background */
     filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.8)) drop-shadow(0 2px 4px rgba(255, 255, 255, 0.9));
+}
+
+.bento-title-province {
+    display: block;
+    white-space: nowrap;
 }
 
 @keyframes titleSlideUp {
@@ -152,6 +157,9 @@
     .bento-title {
         font-size: 36px;
         margin-bottom: 16px;
+    }
+    .bento-title-province {
+        white-space: normal;
     }
     .bento-subtitle {
         font-size: 16px;

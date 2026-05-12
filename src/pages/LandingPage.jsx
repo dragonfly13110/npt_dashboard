@@ -73,7 +73,10 @@ export default function LandingPage() {
                 <div className="bento-header-bg"></div>
                 <div className="bento-header-content">
                     <div className="bento-badge" role="img" aria-label="สำนักงานเกษตรจังหวัดนครปฐม">🏛️ สำนักงานเกษตรจังหวัดนครปฐม</div>
-                    <h1 className="bento-title">ศูนย์ข้อมูลการเกษตรอัจฉริยะ จังหวัดนครปฐม</h1>
+                    <h1 className="bento-title">
+                        ศูนย์ข้อมูลการเกษตรอัจฉริยะ
+                        <span className="bento-title-province">จังหวัดนครปฐม</span>
+                    </h1>
                     <p className="bento-subtitle">
                         รวบรวมและอัปเดตข้อมูลเกษตรกร พื้นที่เพาะปลูก วิสาหกิจชุมชน Smart Farmer แปลงใหญ่ สภาพอากาศ ราคาสินค้าเกษตร และสถานการณ์ภัยพิบัติในจังหวัดนครปฐม
                         เพื่อสนับสนุนการบริหารจัดการที่แม่นยำและยกระดับการเกษตรอย่างยั่งยืน

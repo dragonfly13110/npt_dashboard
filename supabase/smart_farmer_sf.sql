@@ -37,8 +37,22 @@ CREATE POLICY "Allow public read smart farmer sf"
   USING (true);
 
 DROP POLICY IF EXISTS "Allow authenticated write smart farmer sf" ON smart_farmer_sf;
-CREATE POLICY "Allow authenticated write smart farmer sf"
-  ON smart_farmer_sf FOR ALL
+DROP POLICY IF EXISTS "Allow authenticated full access" ON smart_farmer_sf;
+DROP POLICY IF EXISTS "Allow editor insert smart farmer sf" ON smart_farmer_sf;
+CREATE POLICY "Allow editor insert smart farmer sf"
+  ON smart_farmer_sf FOR INSERT
   TO authenticated
-  USING (true)
-  WITH CHECK (true);
+  WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
+
+DROP POLICY IF EXISTS "Allow editor update smart farmer sf" ON smart_farmer_sf;
+CREATE POLICY "Allow editor update smart farmer sf"
+  ON smart_farmer_sf FOR UPDATE
+  TO authenticated
+  USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')))
+  WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
+
+DROP POLICY IF EXISTS "Allow admin delete smart farmer sf" ON smart_farmer_sf;
+CREATE POLICY "Allow admin delete smart farmer sf"
+  ON smart_farmer_sf FOR DELETE
+  TO authenticated
+  USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role = 'admin'));

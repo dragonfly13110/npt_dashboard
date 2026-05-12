@@ -6,6 +6,8 @@ import {
     ReloadOutlined, BulbOutlined
 } from '@ant-design/icons';
 import { globalSearch } from '../services/globalSearchService';
+import { useAuth } from '../contexts/AuthContext';
+import { isPrivateColumn } from '../utils/dataPrivacy';
 
 const { Text, Title } = Typography;
 
@@ -111,6 +113,7 @@ const SUGGESTIONS = [
 export default function SearchResults() {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
+    const { role } = useAuth();
     const initialQuery = searchParams.get('q') || '';
     const [query, setQuery] = useState(initialQuery);
     const [results, setResults] = useState([]);
@@ -124,7 +127,7 @@ export default function SearchResults() {
         }
         setLoading(true);
         try {
-            const data = await globalSearch(searchTerm, 50);
+            const data = await globalSearch(searchTerm, 50, role);
             setResults(data);
             if (data.length > 0) {
                 setExpandedTable(data[0].table);
@@ -135,7 +138,7 @@ export default function SearchResults() {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [role]);
 
     useEffect(() => {
         if (initialQuery) {
@@ -165,6 +168,7 @@ export default function SearchResults() {
         const sampleRow = tableResult.results[0].raw;
         const keys = Object.keys(sampleRow).filter(k =>
             !['id', 'created_at', 'updated_at'].includes(k) &&
+            !(role === 'guest' && isPrivateColumn(tableResult.table, { dataIndex: k })) &&
             !k.includes('image') && !k.includes('url') &&
             !k.includes('file') && !k.includes('path')
         );
