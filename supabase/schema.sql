@@ -197,6 +197,32 @@ CREATE TABLE IF NOT EXISTS smart_farmers (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS smart_farmer_sf (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  data_year INTEGER NOT NULL,
+  record_code TEXT NOT NULL,
+  sequence_no INTEGER,
+  citizen_id TEXT,
+  title TEXT,
+  first_name TEXT,
+  last_name TEXT,
+  full_name TEXT GENERATED ALWAYS AS (trim(coalesce(title, '') || ' ' || coalesce(first_name, '') || ' ' || coalesce(last_name, ''))) STORED,
+  age INTEGER,
+  district TEXT,
+  province TEXT,
+  farmer_status TEXT,
+  agricultural_activity TEXT,
+  phone TEXT,
+  education TEXT,
+  production_standard TEXT,
+  sales_channel TEXT,
+  annual_agri_income NUMERIC,
+  production_area TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE (data_year, record_code)
+);
+
 CREATE TABLE IF NOT EXISTS farmer_groups (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   group_name TEXT NOT NULL,
@@ -251,6 +277,35 @@ CREATE TABLE IF NOT EXISTS young_farmer_groups (
   notes TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS young_farmer_groups_detailed (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  data_year INTEGER NOT NULL,
+  record_code TEXT NOT NULL,
+  group_name TEXT NOT NULL,
+  address_no TEXT,
+  moo TEXT,
+  subdistrict TEXT,
+  district TEXT,
+  province TEXT,
+  phone TEXT,
+  mobile TEXT,
+  established_date DATE,
+  established_year_be INTEGER,
+  established_year_ce INTEGER,
+  member_count INTEGER,
+  model_group TEXT,
+  fund_management NUMERIC,
+  income NUMERIC,
+  activity TEXT,
+  activity_count INTEGER,
+  potential_level TEXT,
+  lat NUMERIC,
+  lon NUMERIC,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE (data_year, record_code)
 );
 
 CREATE TABLE IF NOT EXISTS agri_tourism (
@@ -337,9 +392,11 @@ ALTER TABLE certifications ENABLE ROW LEVEL SECURITY;
 ALTER TABLE crop_production ENABLE ROW LEVEL SECURITY;
 ALTER TABLE community_enterprises ENABLE ROW LEVEL SECURITY;
 ALTER TABLE smart_farmers ENABLE ROW LEVEL SECURITY;
+ALTER TABLE smart_farmer_sf ENABLE ROW LEVEL SECURITY;
 ALTER TABLE farmer_groups ENABLE ROW LEVEL SECURITY;
 ALTER TABLE housewife_farmer_groups ENABLE ROW LEVEL SECURITY;
 ALTER TABLE young_farmer_groups ENABLE ROW LEVEL SECURITY;
+ALTER TABLE young_farmer_groups_detailed ENABLE ROW LEVEL SECURITY;
 ALTER TABLE agri_tourism ENABLE ROW LEVEL SECURITY;
 ALTER TABLE pest_outbreaks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE pest_centers ENABLE ROW LEVEL SECURITY;
@@ -358,7 +415,7 @@ BEGIN
       'profiles','personnel','assets','budgets',
       'farmer_registry','gis_areas','disasters',
       'large_plots','learning_centers','certifications','crop_production',
-      'community_enterprises','smart_farmers','farmer_groups','housewife_farmer_groups','young_farmer_groups','agri_tourism',
+      'community_enterprises','smart_farmers','smart_farmer_sf','farmer_groups','housewife_farmer_groups','young_farmer_groups','young_farmer_groups_detailed','agri_tourism',
       'pest_outbreaks','pest_centers','biocontrol_stock','fire_hotspots'
     ])
   LOOP

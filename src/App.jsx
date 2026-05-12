@@ -58,8 +58,9 @@ const CoconutAromaticSurvey = lazy(() => import('./pages/production/CoconutAroma
 // Development
 const CommunityEnterprises = lazy(() => import('./pages/development/CommunityEnterprises'));
 const SmartFarmers = lazy(() => import('./pages/development/SmartFarmers'));
+const SmartFarmerSf = lazy(() => import('./pages/development/SmartFarmerSf'));
 const HousewifeFarmerGroups = lazy(() => import('./pages/development/FarmerGroups').then(module => ({ default: module.HousewifeFarmerGroups })));
-const YoungFarmerGroups = lazy(() => import('./pages/development/FarmerGroups').then(module => ({ default: module.YoungFarmerGroups })));
+const YoungFarmerGroups = lazy(() => import('./pages/development/YoungFarmerGroupsDashboard'));
 const FarmerInstitutes = lazy(() => import('./pages/development/FarmerInstitutes'));
 const AgriTourism = lazy(() => import('./pages/development/AgriTourism'));
 const DevelopmentDashboard = lazy(() => import('./pages/development/DevelopmentDashboard'));
@@ -123,6 +124,7 @@ function AppRoutes() {
         {[
           { path: '/public/large-plots', Component: LargePlots },
           { path: '/public/smart-farmers', Component: SmartFarmers },
+          { path: '/public/smart-farmer-sf', Component: SmartFarmerSf },
           { path: '/public/community-enterprises', Component: CommunityEnterprises },
           { path: '/public/agri-tourism', Component: AgriTourism },
           { path: '/public/farmer-institutes', Component: FarmerInstitutes },
@@ -187,6 +189,7 @@ function AppRoutes() {
           {/* Development */}
           <Route path="development/overview" element={<DevelopmentDashboard />} />
           <Route path="development/community-enterprises" element={<CommunityEnterprises />} />
+          <Route path="development/smart-farmer-sf" element={<SmartFarmerSf />} />
           <Route path="development/smart-farmers" element={<SmartFarmers />} />
           <Route path="development/farmer-groups" element={<Navigate to="/dashboard/development/housewife-farmer-groups" replace />} />
           <Route path="development/housewife-farmer-groups" element={<HousewifeFarmerGroups />} />

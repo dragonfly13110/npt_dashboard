@@ -228,7 +228,9 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
             crop_production: ['ผลผลิต', 'เก็บเกี่ยว', 'ตัน'],
             community_enterprises: ['วิสาหกิจ', 'ชุมชน'],
             smart_farmers: ['smart farmer', 'เกษตรกรรุ่นใหม่', 'young'],
+            smart_farmer_sf: ['เกษตรกรปราดเปรื่อง', 'smart farmer', 'sf', 'รายได้เกษตรกร', 'กิจกรรมทางการเกษตร'],
             farmer_groups: ['กลุ่มแม่บ้าน', 'ยุวเกษตรกร'],
+            young_farmer_groups_detailed: ['ยุวเกษตรกร', 'กยว', 'กลุ่มยุว', 'กลุ่มยุวเกษตรกร', 'ศักยภาพกลุ่มยุว'],
             farmer_institutes: ['สถาบัน', 'สหกรณ์'],
             agri_tourism: ['ท่องเที่ยว', 'ฟาร์มสเตย์'],
             forecast_plots: ['พยากรณ์', 'แมลง', 'ศัตรูพืช'],
@@ -259,6 +261,8 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
             farmer_registry: ['agricultural_areas', 'smart_farmers'],
             large_plots: ['certifications', 'crop_production'],
             smart_farmers: ['learning_centers', 'farmer_groups'],
+            smart_farmer_sf: ['learning_centers', 'farmer_institutes', 'young_farmer_groups_detailed'],
+            young_farmer_groups_detailed: ['smart_farmer_sf', 'farmer_institutes'],
             certifications: ['large_plots', 'crop_production'],
             disasters: ['agricultural_areas', 'farmer_registry'],
         };
