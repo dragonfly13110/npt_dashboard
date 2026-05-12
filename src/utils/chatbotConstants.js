@@ -48,6 +48,7 @@ export const TABLE_CONFIG = {
     large_plots: { label: 'แปลงใหญ่', icon: '🌿', group: 'ส่งเสริมการผลิต', descTh: 'ข้อมูลแปลงใหญ่ (สินค้า, พื้นที่, สมาชิก)' },
     certifications: { label: 'มาตรฐาน GAP', icon: '✅', group: 'ส่งเสริมการผลิต', descTh: 'ใบรับรองมาตรฐาน GAP (ชื่อฟาร์ม, สินค้า, ประเภท)' },
     crop_production: { label: 'ผลผลิตพืช', icon: '🌽', group: 'ส่งเสริมการผลิต', descTh: 'ข้อมูลผลผลิตพืชรายอำเภอ' },
+    coconut_aromatic_surveys: { label: 'แบบเก็บมะพร้าวน้ำหอม', icon: '🥥', group: 'ส่งเสริมการผลิต', descTh: 'ข้อมูลเกษตรกรผู้ปลูกมะพร้าวน้ำหอม จัดเก็บทุก 20 วัน มีพื้นที่ปลูก ต้นทุน ผลผลิต ราคา รายได้ และรอบจัดเก็บ' },
     community_enterprises: { label: 'วิสาหกิจชุมชน', icon: '🏪', group: 'พัฒนาเกษตรกร', descTh: 'ข้อมูลวิสาหกิจชุมชน (ชื่อ, ประธาน, สมาชิก, ประเภท)' },
     smart_farmers: { label: 'เกษตรกรรุ่นใหม่', icon: '👨‍🌾', group: 'พัฒนาเกษตรกร', descTh: 'ข้อมูล Smart Farmer / Young Smart Farmer' },
     farmer_groups: { label: 'กลุ่มแม่บ้าน/ยุวฯ', icon: '👩‍🌾', group: 'พัฒนาเกษตรกร', descTh: 'กลุ่มแม่บ้านเกษตรกร, ยุวเกษตรกร' },
@@ -82,6 +83,7 @@ export const TABLE_SEARCH_COLS = {
     large_plots: ['plot_name', 'commodity', 'secondary_commodity', 'agency'],
     certifications: ['farm_name', 'commodity', 'cert_type'],
     crop_production: ['crop_name'],
+    coconut_aromatic_surveys: ['farmer_code', 'farmer_name', 'subdistrict', 'district', 'round_label'],
     community_enterprises: ['enterprise_name', 'enterprise_type'],
     smart_farmers: ['full_name', 'main_product', 'farmer_type'],
     farmer_groups: ['group_name', 'chairman', 'group_type'],
@@ -98,6 +100,7 @@ export const TABLE_SEARCH_COLS = {
 export const DISTRICT_COLS = {
     certifications: 'district',
     forecast_plots: 'district',
+    coconut_aromatic_surveys: 'district',
     budgets: 'notes'
 };
 
@@ -108,6 +111,7 @@ export const NUMERIC_COLS = {
     large_plots: ['total_area_rai', 'member_count'],
     certifications: ['certified_area_rai'],
     crop_production: ['planted_area_rai', 'harvested_area_rai', 'yield_kg_per_rai', 'total_production_ton'],
+    coconut_aromatic_surveys: ['planted_area_rai', 'production_cost_per_rai', 'cost_per_fruit', 'standard_fruit_per_rai', 'small_fruit_per_rai', 'total_fruit_per_rai', 'income_per_rai', 'total_income'],
     community_enterprises: ['member_count', 'capital_baht'],
     farmer_institutes: ['group_count', 'sf_count', 'ysf_count'],
     disasters: ['affected_area_rai', 'affected_households', 'damage_baht'],
@@ -123,6 +127,7 @@ export const CATEGORY_COLS = {
     smart_farmers: ['farmer_type', 'main_product'],
     farmer_groups: ['group_type'],
     certifications: ['crop_name'],
+    coconut_aromatic_surveys: ['district', 'subdistrict', 'round_label'],
     agri_tourism: ['spot_type'],
     disasters: ['disaster_type'],
     gis_areas: ['area_type'],
