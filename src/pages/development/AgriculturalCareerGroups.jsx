@@ -1,6 +1,6 @@
 ﻿import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Card, Checkbox, Col, Form, Input, InputNumber, Modal, Popconfirm, Popover, Row, Select, Space, Spin, Statistic, Table, Tag, Tooltip, message } from 'antd';
-import { BarChartOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, FileExcelOutlined, FilterOutlined, ReloadOutlined, SettingOutlined, TeamOutlined, UploadOutlined } from '@ant-design/icons';
+import { BarChartOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, FileExcelOutlined, FilterOutlined, PlusOutlined, ReloadOutlined, SettingOutlined, TeamOutlined, UploadOutlined } from '@ant-design/icons';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip,
     ResponsiveContainer
@@ -96,7 +96,7 @@ export default function AgriculturalCareerGroups() {
     const topScrollRef = useRef(null);
     const tableScrollX = 1720;
     const { role, canEdit, canDelete } = useAuth();
-    const { updateRecord, deleteRecord } = useSupabaseCrud('agricultural_career_groups');
+    const { createRecord, updateRecord, deleteRecord } = useSupabaseCrud('agricultural_career_groups');
     const [form] = Form.useForm();
     const [editingRecord, setEditingRecord] = useState(null);
     const [editOpen, setEditOpen] = useState(false);
@@ -185,9 +185,21 @@ export default function AgriculturalCareerGroups() {
         setEditOpen(true);
     };
 
+    const handleAdd = () => {
+        if (!userCanEdit) {
+            message.warning('ไม่มีสิทธิ์เพิ่มข้อมูล');
+            return;
+        }
+        setEditingRecord(null);
+        form.setFieldsValue({ data_year: activeYear });
+        setEditOpen(true);
+    };
+
     const handleSave = async () => {
         const values = await form.validateFields();
-        const ok = await updateRecord(editingRecord.id, values);
+        const ok = editingRecord
+            ? await updateRecord(editingRecord.id, values)
+            : await createRecord(values);
         if (ok) {
             setEditOpen(false);
             setEditingRecord(null);
@@ -331,21 +343,6 @@ export default function AgriculturalCareerGroups() {
                         <span style={{ fontSize: 18, fontWeight: 700, color: '#1f2328' }}>กลุ่มส่งเสริมอาชีพการเกษตร</span>
                         <Tag color="green">ปี {activeYear || '-'}</Tag>
                     </div>
-                    <Space wrap>
-                        <Select
-                            value={activeYear}
-                            onChange={(year) => { setSelectedYear(year); setFilters({}); }}
-                            options={years.map((year) => ({ label: `ปี ${year}`, value: year }))}
-                            style={{ width: 150 }}
-                            placeholder="เลือกปี"
-                        />
-                        <Tooltip title="รีเฟรช">
-                            <Button icon={<ReloadOutlined />} onClick={() => refetch()} />
-                        </Tooltip>
-                        {userCanEdit && <Button icon={<UploadOutlined />} onClick={() => setImportOpen(true)}>Import CSV</Button>}
-                        <Button icon={<DownloadOutlined />} onClick={() => exportRows('csv')}>Export CSV</Button>
-                        <Button icon={<FileExcelOutlined />} onClick={() => exportRows('xlsx')}>Export Excel</Button>
-                    </Space>
                 </div>
 
                 <Row gutter={[16, 16]} style={{ marginBottom: 20 }}>
@@ -412,6 +409,22 @@ export default function AgriculturalCareerGroups() {
                         <Tag className="crud-count">{filteredRows.length} รายการ</Tag>
                     </div>
                     <div className="crud-header-right">
+                        <Space wrap>
+                            <Select
+                                value={activeYear}
+                                onChange={(year) => { setSelectedYear(year); setFilters({}); }}
+                                options={years.map((year) => ({ label: `ปี ${year}`, value: year }))}
+                                style={{ width: 140 }}
+                                placeholder="เลือกปี"
+                            />
+                            <Tooltip title="รีเฟรช">
+                                <Button icon={<ReloadOutlined />} onClick={() => refetch()} />
+                            </Tooltip>
+                            {userCanEdit && <Button icon={<PlusOutlined />} onClick={handleAdd}>เพิ่มข้อมูล</Button>}
+                            {userCanEdit && <Button icon={<UploadOutlined />} onClick={() => setImportOpen(true)}>Import CSV</Button>}
+                            <Button icon={<DownloadOutlined />} onClick={() => exportRows('csv')}>Export CSV</Button>
+                            <Button icon={<FileExcelOutlined />} onClick={() => exportRows('xlsx')}>Export Excel</Button>
+                        </Space>
                         <Popover content={columnSelector} trigger="click" placement="bottomRight">
                             <Button icon={<SettingOutlined />}>คอลัมน์ {baseVisibleColumns.length}/{selectableColumns.length}</Button>
                         </Popover>
@@ -449,7 +462,7 @@ export default function AgriculturalCareerGroups() {
                 onSuccess={refetch}
             />
             <Modal
-                title="แก้ไขข้อมูลกลุ่มส่งเสริมอาชีพการเกษตร"
+                title={editingRecord ? 'แก้ไขข้อมูลกลุ่มส่งเสริมอาชีพการเกษตร' : 'เพิ่มข้อมูลกลุ่มส่งเสริมอาชีพการเกษตร'}
                 open={editOpen}
                 onCancel={() => { setEditOpen(false); setEditingRecord(null); form.resetFields(); }}
                 onOk={handleSave}

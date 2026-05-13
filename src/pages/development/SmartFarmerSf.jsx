@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+﻿import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Card, Checkbox, Col, Form, Input, InputNumber, Modal, Popconfirm, Popover, Row, Select, Space, Spin, Statistic, Table, Tag, Tooltip, message } from 'antd';
-import { BarChartOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, FileExcelOutlined, FilterOutlined, ReloadOutlined, SettingOutlined, TeamOutlined, UploadOutlined } from '@ant-design/icons';
+import { BarChartOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, FileExcelOutlined, FilterOutlined, PlusOutlined, ReloadOutlined, SettingOutlined, TeamOutlined, UploadOutlined } from '@ant-design/icons';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip,
     ResponsiveContainer
@@ -13,43 +13,43 @@ import { useSupabaseCrud } from '../../hooks/useSupabase';
 import { getPublicColumns } from '../../utils/dataPrivacy';
 
 const columns = [
-    { title: 'ปีข้อมูล', dataIndex: 'data_year', key: 'data_year', width: 90, align: 'center', importHeader: 'ปีข้อมูล' },
-    { title: 'รหัสระเบียน', dataIndex: 'record_code', key: 'record_code', width: 130, importHeader: 'รหัสระเบียน' },
-    { title: 'ลำดับ', dataIndex: 'sequence_no', key: 'sequence_no', width: 80, align: 'center', importHeader: 'ลำดับ' },
-    { title: 'เลขประจำตัวประชาชน', dataIndex: 'citizen_id', key: 'citizen_id', width: 160, importHeader: 'เลขประจำตัวประชาชน' },
-    { title: 'คำนำหน้า', dataIndex: 'title', key: 'title', width: 90, importHeader: 'คำนำหน้า' },
-    { title: 'ชื่อ', dataIndex: 'first_name', key: 'first_name', width: 120, importHeader: 'ชื่อ' },
-    { title: 'นามสกุล', dataIndex: 'last_name', key: 'last_name', width: 140, importHeader: 'นามสกุล' },
-    { title: 'ชื่อ-สกุล', dataIndex: 'full_name', key: 'full_name', width: 180 },
-    { title: 'อายุ', dataIndex: 'age', key: 'age', width: 80, align: 'center', importHeader: 'อายุ' },
-    { title: 'อำเภอ', dataIndex: 'district', key: 'district', width: 130, importHeader: 'อำเภอ_จากที่อยู่' },
-    { title: 'จังหวัด', dataIndex: 'province', key: 'province', width: 120, importHeader: 'จังหวัด_จากที่อยู่' },
-    { title: 'สถานะ', dataIndex: 'farmer_status', key: 'farmer_status', width: 180, importHeader: 'สถานะเกษตรกร' },
-    { title: 'กิจกรรมทางการเกษตร', dataIndex: 'agricultural_activity', key: 'agricultural_activity', width: 180, importHeader: 'กิจกรรมทางการเกษตร' },
-    { title: 'เบอร์โทรศัพท์', dataIndex: 'phone', key: 'phone', width: 130, importHeader: 'เบอร์โทรศัพท์มือถือ' },
-    { title: 'การศึกษา', dataIndex: 'education', key: 'education', width: 160, importHeader: 'การศึกษา' },
-    { title: 'มาตรฐานการผลิต', dataIndex: 'production_standard', key: 'production_standard', width: 180, importHeader: 'การได้รับการรับรองมาตรฐานการผลิต' },
-    { title: 'ช่องทางจำหน่าย', dataIndex: 'sales_channel', key: 'sales_channel', width: 180, importHeader: 'ช่องทางการจำหน่ายผลผลิต/สินค้า' },
+    { title: 'à¸›à¸µà¸‚à¹‰à¸­à¸¡à¸¹à¸¥', dataIndex: 'data_year', key: 'data_year', width: 90, align: 'center', importHeader: 'à¸›à¸µà¸‚à¹‰à¸­à¸¡à¸¹à¸¥' },
+    { title: 'à¸£à¸«à¸±à¸ªà¸£à¸°à¹€à¸šà¸µà¸¢à¸™', dataIndex: 'record_code', key: 'record_code', width: 130, importHeader: 'à¸£à¸«à¸±à¸ªà¸£à¸°à¹€à¸šà¸µà¸¢à¸™' },
+    { title: 'à¸¥à¸³à¸”à¸±à¸š', dataIndex: 'sequence_no', key: 'sequence_no', width: 80, align: 'center', importHeader: 'à¸¥à¸³à¸”à¸±à¸š' },
+    { title: 'à¹€à¸¥à¸‚à¸›à¸£à¸°à¸ˆà¸³à¸•à¸±à¸§à¸›à¸£à¸°à¸Šà¸²à¸Šà¸™', dataIndex: 'citizen_id', key: 'citizen_id', width: 160, importHeader: 'à¹€à¸¥à¸‚à¸›à¸£à¸°à¸ˆà¸³à¸•à¸±à¸§à¸›à¸£à¸°à¸Šà¸²à¸Šà¸™' },
+    { title: 'à¸„à¸³à¸™à¸³à¸«à¸™à¹‰à¸²', dataIndex: 'title', key: 'title', width: 90, importHeader: 'à¸„à¸³à¸™à¸³à¸«à¸™à¹‰à¸²' },
+    { title: 'à¸Šà¸·à¹ˆà¸­', dataIndex: 'first_name', key: 'first_name', width: 120, importHeader: 'à¸Šà¸·à¹ˆà¸­' },
+    { title: 'à¸™à¸²à¸¡à¸ªà¸à¸¸à¸¥', dataIndex: 'last_name', key: 'last_name', width: 140, importHeader: 'à¸™à¸²à¸¡à¸ªà¸à¸¸à¸¥' },
+    { title: 'à¸Šà¸·à¹ˆà¸­-à¸ªà¸à¸¸à¸¥', dataIndex: 'full_name', key: 'full_name', width: 180 },
+    { title: 'à¸­à¸²à¸¢à¸¸', dataIndex: 'age', key: 'age', width: 80, align: 'center', importHeader: 'à¸­à¸²à¸¢à¸¸' },
+    { title: 'à¸­à¸³à¹€à¸ à¸­', dataIndex: 'district', key: 'district', width: 130, importHeader: 'à¸­à¸³à¹€à¸ à¸­_à¸ˆà¸²à¸à¸—à¸µà¹ˆà¸­à¸¢à¸¹à¹ˆ' },
+    { title: 'à¸ˆà¸±à¸‡à¸«à¸§à¸±à¸”', dataIndex: 'province', key: 'province', width: 120, importHeader: 'à¸ˆà¸±à¸‡à¸«à¸§à¸±à¸”_à¸ˆà¸²à¸à¸—à¸µà¹ˆà¸­à¸¢à¸¹à¹ˆ' },
+    { title: 'à¸ªà¸–à¸²à¸™à¸°', dataIndex: 'farmer_status', key: 'farmer_status', width: 180, importHeader: 'à¸ªà¸–à¸²à¸™à¸°à¹€à¸à¸©à¸•à¸£à¸à¸£' },
+    { title: 'à¸à¸´à¸ˆà¸à¸£à¸£à¸¡à¸—à¸²à¸‡à¸à¸²à¸£à¹€à¸à¸©à¸•à¸£', dataIndex: 'agricultural_activity', key: 'agricultural_activity', width: 180, importHeader: 'à¸à¸´à¸ˆà¸à¸£à¸£à¸¡à¸—à¸²à¸‡à¸à¸²à¸£à¹€à¸à¸©à¸•à¸£' },
+    { title: 'à¹€à¸šà¸­à¸£à¹Œà¹‚à¸—à¸£à¸¨à¸±à¸žà¸—à¹Œ', dataIndex: 'phone', key: 'phone', width: 130, importHeader: 'à¹€à¸šà¸­à¸£à¹Œà¹‚à¸—à¸£à¸¨à¸±à¸žà¸—à¹Œà¸¡à¸·à¸­à¸–à¸·à¸­' },
+    { title: 'à¸à¸²à¸£à¸¨à¸¶à¸à¸©à¸²', dataIndex: 'education', key: 'education', width: 160, importHeader: 'à¸à¸²à¸£à¸¨à¸¶à¸à¸©à¸²' },
+    { title: 'à¸¡à¸²à¸•à¸£à¸à¸²à¸™à¸à¸²à¸£à¸œà¸¥à¸´à¸•', dataIndex: 'production_standard', key: 'production_standard', width: 180, importHeader: 'à¸à¸²à¸£à¹„à¸”à¹‰à¸£à¸±à¸šà¸à¸²à¸£à¸£à¸±à¸šà¸£à¸­à¸‡à¸¡à¸²à¸•à¸£à¸à¸²à¸™à¸à¸²à¸£à¸œà¸¥à¸´à¸•' },
+    { title: 'à¸Šà¹ˆà¸­à¸‡à¸—à¸²à¸‡à¸ˆà¸³à¸«à¸™à¹ˆà¸²à¸¢', dataIndex: 'sales_channel', key: 'sales_channel', width: 180, importHeader: 'à¸Šà¹ˆà¸­à¸‡à¸—à¸²à¸‡à¸à¸²à¸£à¸ˆà¸³à¸«à¸™à¹ˆà¸²à¸¢à¸œà¸¥à¸œà¸¥à¸´à¸•/à¸ªà¸´à¸™à¸„à¹‰à¸²' },
     {
-        title: 'รายได้ภาคเกษตร',
+        title: 'à¸£à¸²à¸¢à¹„à¸”à¹‰à¸ à¸²à¸„à¹€à¸à¸©à¸•à¸£',
         dataIndex: 'annual_agri_income',
         key: 'annual_agri_income',
         width: 140,
         align: 'right',
-        importHeader: 'รายได้รวมภาคการเกษตรของครัวเรือนเกษตรกรปีที่ผ่านมา',
+        importHeader: 'à¸£à¸²à¸¢à¹„à¸”à¹‰à¸£à¸§à¸¡à¸ à¸²à¸„à¸à¸²à¸£à¹€à¸à¸©à¸•à¸£à¸‚à¸­à¸‡à¸„à¸£à¸±à¸§à¹€à¸£à¸·à¸­à¸™à¹€à¸à¸©à¸•à¸£à¸à¸£à¸›à¸µà¸—à¸µà¹ˆà¸œà¹ˆà¸²à¸™à¸¡à¸²',
         render: (value) => value ? Number(value).toLocaleString('th-TH') : '-',
     },
-    { title: 'พื้นที่การผลิต', dataIndex: 'production_area', key: 'production_area', width: 180, importHeader: 'พื้นที่การผลิต' },
+    { title: 'à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆà¸à¸²à¸£à¸œà¸¥à¸´à¸•', dataIndex: 'production_area', key: 'production_area', width: 180, importHeader: 'à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆà¸à¸²à¸£à¸œà¸¥à¸´à¸•' },
 ];
 
 const importColumns = columns.filter((column) => column.dataIndex !== 'full_name');
 const requiredColumnKeys = ['sequence_no', 'record_code', 'full_name', 'district', 'agricultural_activity'];
 const defaultOptionalColumnKeys = ['data_year', 'age', 'province', 'farmer_status', 'phone', 'education', 'annual_agri_income'];
 const compactColumnConfig = {
-    data_year: { title: 'ปี', width: 64 },
-    record_code: { title: 'รหัส', width: 116, ellipsis: true },
+    data_year: { title: 'à¸›à¸µ', width: 64 },
+    record_code: { title: 'à¸£à¸«à¸±à¸ª', width: 116, ellipsis: true },
     sequence_no: { width: 64 },
-    citizen_id: { title: 'เลขบัตร', width: 132, ellipsis: true },
+    citizen_id: { title: 'à¹€à¸¥à¸‚à¸šà¸±à¸•à¸£', width: 132, ellipsis: true },
     title: { width: 76, ellipsis: true },
     first_name: { width: 104, ellipsis: true },
     last_name: { width: 120, ellipsis: true },
@@ -58,13 +58,13 @@ const compactColumnConfig = {
     district: { width: 112, ellipsis: true },
     province: { width: 104, ellipsis: true },
     farmer_status: { width: 144, ellipsis: true },
-    agricultural_activity: { title: 'กิจกรรม', width: 160, ellipsis: true },
-    phone: { title: 'โทรศัพท์', width: 116, ellipsis: true },
+    agricultural_activity: { title: 'à¸à¸´à¸ˆà¸à¸£à¸£à¸¡', width: 160, ellipsis: true },
+    phone: { title: 'à¹‚à¸—à¸£à¸¨à¸±à¸žà¸—à¹Œ', width: 116, ellipsis: true },
     education: { width: 132, ellipsis: true },
-    production_standard: { title: 'มาตรฐาน', width: 132, ellipsis: true },
-    sales_channel: { title: 'ช่องทางขาย', width: 132, ellipsis: true },
-    annual_agri_income: { title: 'รายได้', width: 118 },
-    production_area: { title: 'พื้นที่', width: 120, ellipsis: true },
+    production_standard: { title: 'à¸¡à¸²à¸•à¸£à¸à¸²à¸™', width: 132, ellipsis: true },
+    sales_channel: { title: 'à¸Šà¹ˆà¸­à¸‡à¸—à¸²à¸‡à¸‚à¸²à¸¢', width: 132, ellipsis: true },
+    annual_agri_income: { title: 'à¸£à¸²à¸¢à¹„à¸”à¹‰', width: 118 },
+    production_area: { title: 'à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ', width: 120, ellipsis: true },
 };
 
 const numberFieldKeys = ['data_year', 'sequence_no', 'age', 'annual_agri_income'];
@@ -72,7 +72,7 @@ const editableColumns = columns.filter((column) => column.dataIndex && !['id', '
 
 function countBy(rows, key, limit = 12) {
     const counts = rows.reduce((acc, row) => {
-        const name = row[key] || 'ไม่ระบุ';
+        const name = row[key] || 'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸';
         acc[name] = (acc[name] || 0) + 1;
         return acc;
     }, {});
@@ -97,7 +97,7 @@ export default function SmartFarmerSf() {
     const topScrollRef = useRef(null);
     const tableScrollX = 1680;
     const { role, canEdit, canDelete } = useAuth();
-    const { updateRecord, deleteRecord } = useSupabaseCrud('smart_farmer_sf');
+    const { createRecord, updateRecord, deleteRecord } = useSupabaseCrud('smart_farmer_sf');
     const [form] = Form.useForm();
     const [editingRecord, setEditingRecord] = useState(null);
     const [editOpen, setEditOpen] = useState(false);
@@ -105,7 +105,7 @@ export default function SmartFarmerSf() {
     const userCanDelete = canDelete();
 
     useEffect(() => {
-        document.title = 'เกษตรกรปราดเปรื่อง (SF) | ศูนย์ข้อมูลการเกษตรนครปฐม';
+        document.title = 'à¹€à¸à¸©à¸•à¸£à¸à¸£à¸›à¸£à¸²à¸”à¹€à¸›à¸£à¸·à¹ˆà¸­à¸‡ (SF) | à¸¨à¸¹à¸™à¸¢à¹Œà¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸à¸²à¸£à¹€à¸à¸©à¸•à¸£à¸™à¸„à¸£à¸›à¸à¸¡';
     }, []);
 
     const fetchRows = async () => {
@@ -163,7 +163,7 @@ export default function SmartFarmerSf() {
 
     const handleEdit = (record) => {
         if (!userCanEdit) {
-            message.warning('ไม่มีสิทธิ์แก้ไข');
+            message.warning('à¹„à¸¡à¹ˆà¸¡à¸µà¸ªà¸´à¸—à¸˜à¸´à¹Œà¹à¸à¹‰à¹„à¸‚');
             return;
         }
         setEditingRecord(record);
@@ -171,9 +171,21 @@ export default function SmartFarmerSf() {
         setEditOpen(true);
     };
 
+    const handleAdd = () => {
+        if (!userCanEdit) {
+            message.warning('à¹„à¸¡à¹ˆà¸¡à¸µà¸ªà¸´à¸—à¸˜à¸´à¹Œà¹€à¸žà¸´à¹ˆà¸¡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥');
+            return;
+        }
+        setEditingRecord(null);
+        form.setFieldsValue({ data_year: activeYear });
+        setEditOpen(true);
+    };
+
     const handleSave = async () => {
         const values = await form.validateFields();
-        const ok = await updateRecord(editingRecord.id, values);
+        const ok = editingRecord
+            ? await updateRecord(editingRecord.id, values)
+            : await createRecord(values);
         if (ok) {
             setEditOpen(false);
             setEditingRecord(null);
@@ -188,19 +200,19 @@ export default function SmartFarmerSf() {
     };
 
     const actionColumn = userCanEdit ? {
-        title: 'จัดการ',
+        title: 'à¸ˆà¸±à¸”à¸à¸²à¸£',
         key: 'actions',
         width: userCanDelete ? 96 : 56,
         fixed: 'right',
         align: 'center',
         render: (_, record) => (
             <Space size={4}>
-                <Tooltip title="แก้ไข">
+                <Tooltip title="à¹à¸à¹‰à¹„à¸‚">
                     <Button icon={<EditOutlined />} onClick={() => handleEdit(record)} />
                 </Tooltip>
                 {userCanDelete && (
-                    <Popconfirm title="ยืนยันการลบ" description="ต้องการลบรายการนี้ใช่ไหม?" okText="ลบ" cancelText="ยกเลิก" okButtonProps={{ danger: true }} onConfirm={() => handleDelete(record)}>
-                        <Tooltip title="ลบ"><Button danger icon={<DeleteOutlined />} /></Tooltip>
+                    <Popconfirm title="à¸¢à¸·à¸™à¸¢à¸±à¸™à¸à¸²à¸£à¸¥à¸š" description="à¸•à¹‰à¸­à¸‡à¸à¸²à¸£à¸¥à¸šà¸£à¸²à¸¢à¸à¸²à¸£à¸™à¸µà¹‰à¹ƒà¸Šà¹ˆà¹„à¸«à¸¡?" okText="à¸¥à¸š" cancelText="à¸¢à¸à¹€à¸¥à¸´à¸" okButtonProps={{ danger: true }} onConfirm={() => handleDelete(record)}>
+                        <Tooltip title="à¸¥à¸š"><Button danger icon={<DeleteOutlined />} /></Tooltip>
                     </Popconfirm>
                 )}
             </Space>
@@ -214,7 +226,7 @@ export default function SmartFarmerSf() {
 
     const columnSelector = (
         <div style={{ width: 280, maxHeight: 420, overflowY: 'auto', padding: 12, background: '#fff', borderRadius: 8, boxShadow: '0 6px 18px rgba(0,0,0,0.12)' }}>
-            <div style={{ fontWeight: 700, marginBottom: 8 }}>เลือกคอลัมน์ที่แสดง</div>
+            <div style={{ fontWeight: 700, marginBottom: 8 }}>à¹€à¸¥à¸·à¸­à¸à¸„à¸­à¸¥à¸±à¸¡à¸™à¹Œà¸—à¸µà¹ˆà¹à¸ªà¸”à¸‡</div>
             <div style={{ display: 'grid', gap: 6 }}>
                 {selectableColumns.map((column) => {
                     const locked = requiredColumnKeys.includes(column.dataIndex);
@@ -229,15 +241,15 @@ export default function SmartFarmerSf() {
                                     : prev.filter((key) => key !== column.dataIndex));
                             }}
                         >
-                            {column.title}{locked ? ' (หลัก)' : ''}
+                            {column.title}{locked ? ' (à¸«à¸¥à¸±à¸)' : ''}
                         </Checkbox>
                     );
                 })}
             </div>
             <Space style={{ marginTop: 12 }}>
-                <Button size="small" onClick={() => setVisibleOptionalColumns(selectableColumns.filter((column) => !requiredColumnKeys.includes(column.dataIndex)).map((column) => column.dataIndex))}>เลือกทั้งหมด</Button>
-                <Button size="small" onClick={() => setVisibleOptionalColumns(defaultOptionalColumnKeys)}>ค่าเริ่มต้น</Button>
-                <Button size="small" onClick={() => setVisibleOptionalColumns([])}>หลักเท่านั้น</Button>
+                <Button size="small" onClick={() => setVisibleOptionalColumns(selectableColumns.filter((column) => !requiredColumnKeys.includes(column.dataIndex)).map((column) => column.dataIndex))}>à¹€à¸¥à¸·à¸­à¸à¸—à¸±à¹‰à¸‡à¸«à¸¡à¸”</Button>
+                <Button size="small" onClick={() => setVisibleOptionalColumns(defaultOptionalColumnKeys)}>à¸„à¹ˆà¸²à¹€à¸£à¸´à¹ˆà¸¡à¸•à¹‰à¸™</Button>
+                <Button size="small" onClick={() => setVisibleOptionalColumns([])}>à¸«à¸¥à¸±à¸à¹€à¸—à¹ˆà¸²à¸™à¸±à¹‰à¸™</Button>
             </Space>
         </div>
     );
@@ -307,7 +319,7 @@ export default function SmartFarmerSf() {
     };
 
     if (isLoading) {
-        return <div style={{ minHeight: 360, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Spin tip="กำลังโหลดข้อมูล SF..." /></div>;
+        return <div style={{ minHeight: 360, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Spin tip="à¸à¸³à¸¥à¸±à¸‡à¹‚à¸«à¸¥à¸”à¸‚à¹‰à¸­à¸¡à¸¹à¸¥ SF..." /></div>;
     }
 
     return (
@@ -316,34 +328,19 @@ export default function SmartFarmerSf() {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap', marginBottom: 20 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <TeamOutlined style={{ fontSize: 20, color: '#1a7f37' }} />
-                        <span style={{ fontSize: 18, fontWeight: 700, color: '#1f2328' }}>เกษตรกรปราดเปรื่อง (SF)</span>
-                        <Tag color="green">ปี {activeYear || '-'}</Tag>
+                        <span style={{ fontSize: 18, fontWeight: 700, color: '#1f2328' }}>à¹€à¸à¸©à¸•à¸£à¸à¸£à¸›à¸£à¸²à¸”à¹€à¸›à¸£à¸·à¹ˆà¸­à¸‡ (SF)</span>
+                        <Tag color="green">à¸›à¸µ {activeYear || '-'}</Tag>
                     </div>
-                    <Space wrap>
-                        <Select
-                            value={activeYear}
-                            onChange={(year) => { setSelectedYear(year); setFilters({}); }}
-                            options={years.map((year) => ({ label: `ปี ${year}`, value: year }))}
-                            style={{ width: 150 }}
-                            placeholder="เลือกปี"
-                        />
-                        <Tooltip title="รีเฟรช">
-                            <Button icon={<ReloadOutlined />} onClick={() => refetch()} />
-                        </Tooltip>
-                        {userCanEdit && <Button icon={<UploadOutlined />} onClick={() => setImportOpen(true)}>Import CSV</Button>}
-                        <Button icon={<DownloadOutlined />} onClick={() => exportRows('csv')}>Export CSV</Button>
-                        <Button icon={<FileExcelOutlined />} onClick={() => exportRows('xlsx')}>Export Excel</Button>
-                    </Space>
                 </div>
                 <Row gutter={[16, 16]} style={{ marginBottom: 20 }}>
-                    <Col xs={24} md={8}><Card size="small"><Statistic title="จำนวนเกษตรกร" value={filteredRows.length} suffix={`จาก ${yearRows.length} ราย`} /></Card></Col>
-                    <Col xs={24} md={8}><Card size="small"><Statistic title="จำนวนอำเภอ/พื้นที่" value={districtData.length} suffix="แห่ง" /></Card></Col>
-                    <Col xs={24} md={8}><Card size="small"><Statistic title="รายได้ภาคเกษตรรวม" value={totalIncome} formatter={(value) => Number(value).toLocaleString('th-TH')} suffix="บาท" /></Card></Col>
+                    <Col xs={24} md={8}><Card size="small"><Statistic title="à¸ˆà¸³à¸™à¸§à¸™à¹€à¸à¸©à¸•à¸£à¸à¸£" value={filteredRows.length} suffix={`à¸ˆà¸²à¸ ${yearRows.length} à¸£à¸²à¸¢`} /></Card></Col>
+                    <Col xs={24} md={8}><Card size="small"><Statistic title="à¸ˆà¸³à¸™à¸§à¸™à¸­à¸³à¹€à¸ à¸­/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ" value={districtData.length} suffix="à¹à¸«à¹ˆà¸‡" /></Card></Col>
+                    <Col xs={24} md={8}><Card size="small"><Statistic title="à¸£à¸²à¸¢à¹„à¸”à¹‰à¸ à¸²à¸„à¹€à¸à¸©à¸•à¸£à¸£à¸§à¸¡" value={totalIncome} formatter={(value) => Number(value).toLocaleString('th-TH')} suffix="à¸šà¸²à¸—" /></Card></Col>
                 </Row>
 
                 <Row gutter={[24, 24]}>
                     <Col xs={24} lg={12}>
-                        <Card title="จำนวน SF แยกตามอำเภอ" size="small" bordered={false} style={{ background: '#fafbfc' }}>
+                        <Card title="à¸ˆà¸³à¸™à¸§à¸™ SF à¹à¸¢à¸à¸•à¸²à¸¡à¸­à¸³à¹€à¸ à¸­" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                             <div style={{ height: 300 }}>
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={districtData} margin={{ top: 20, right: 20, left: 0, bottom: 40 }}>
@@ -351,14 +348,14 @@ export default function SmartFarmerSf() {
                                         <XAxis dataKey="name" tick={{ fontSize: 11 }} angle={-20} textAnchor="end" height={60} />
                                         <YAxis allowDecimals={false} />
                                         <RechartsTooltip />
-                                        <Bar dataKey="value" name="จำนวน" fill="#1a7f37" maxBarSize={42} />
+                                        <Bar dataKey="value" name="à¸ˆà¸³à¸™à¸§à¸™" fill="#1a7f37" maxBarSize={42} />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
                         </Card>
                     </Col>
                     <Col xs={24} lg={12}>
-                        <Card title="กิจกรรมทางการเกษตรยอดนิยม" size="small" bordered={false} style={{ background: '#fafbfc' }}>
+                        <Card title="à¸à¸´à¸ˆà¸à¸£à¸£à¸¡à¸—à¸²à¸‡à¸à¸²à¸£à¹€à¸à¸©à¸•à¸£à¸¢à¸­à¸”à¸™à¸´à¸¢à¸¡" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                             <div style={{ height: 320 }}>
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={activityData} layout="vertical" margin={{ top: 10, right: 30, left: 80, bottom: 10 }}>
@@ -366,7 +363,7 @@ export default function SmartFarmerSf() {
                                         <XAxis type="number" allowDecimals={false} />
                                         <YAxis type="category" dataKey="name" tick={{ fontSize: 12 }} width={110} />
                                         <RechartsTooltip />
-                                        <Bar dataKey="value" name="จำนวน" fill="#0969da" maxBarSize={28} />
+                                        <Bar dataKey="value" name="à¸ˆà¸³à¸™à¸§à¸™" fill="#0969da" maxBarSize={28} />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
@@ -379,27 +376,43 @@ export default function SmartFarmerSf() {
                 <div className="crud-header">
                     <div className="crud-header-left">
                         <BarChartOutlined style={{ color: '#1a7f37' }} />
-                        <span className="crud-title">ตารางข้อมูล SF ปี {activeYear || '-'}</span>
-                        <Tag className="crud-count">{filteredRows.length} รายการ</Tag>
+                        <span className="crud-title">à¸•à¸²à¸£à¸²à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥ SF à¸›à¸µ {activeYear || '-'}</span>
+                        <Tag className="crud-count">{filteredRows.length} à¸£à¸²à¸¢à¸à¸²à¸£</Tag>
                     </div>
                     <div className="crud-header-right">
+                        <Space wrap>
+                            <Select
+                                value={activeYear}
+                                onChange={(year) => { setSelectedYear(year); setFilters({}); }}
+                                options={years.map((year) => ({ label: `ปี ${year}`, value: year }))}
+                                style={{ width: 140 }}
+                                placeholder="เลือกปี"
+                            />
+                            <Tooltip title="รีเฟรช">
+                                <Button icon={<ReloadOutlined />} onClick={() => refetch()} />
+                            </Tooltip>
+                            {userCanEdit && <Button icon={<PlusOutlined />} onClick={handleAdd}>เพิ่มข้อมูล</Button>}
+                            {userCanEdit && <Button icon={<UploadOutlined />} onClick={() => setImportOpen(true)}>Import CSV</Button>}
+                            <Button icon={<DownloadOutlined />} onClick={() => exportRows('csv')}>Export CSV</Button>
+                            <Button icon={<FileExcelOutlined />} onClick={() => exportRows('xlsx')}>Export Excel</Button>
+                        </Space>
                         <Popover content={columnSelector} trigger="click" placement="bottomRight">
                             <Button icon={<SettingOutlined />}>
-                                คอลัมน์ {baseVisibleColumns.length}/{selectableColumns.length}
+                                à¸„à¸­à¸¥à¸±à¸¡à¸™à¹Œ {baseVisibleColumns.length}/{selectableColumns.length}
                             </Button>
                         </Popover>
                     </div>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12, marginBottom: 16, padding: 16, background: '#f6f8fa', borderRadius: 8, border: '1px solid #e8ecf0' }}>
-                    <Input.Search allowClear placeholder="ค้นหา ชื่อ/รหัส/โทร/กิจกรรม" value={filters.search} onChange={(event) => setFilter('search', event.target.value)} />
-                    <Select allowClear placeholder="อำเภอ" value={filters.district} onChange={(value) => setFilter('district', value)} options={districtOptions} showSearch />
-                    <Select allowClear placeholder="จังหวัด" value={filters.province} onChange={(value) => setFilter('province', value)} options={provinceOptions} showSearch />
-                    <Select allowClear placeholder="สถานะเกษตรกร" value={filters.farmer_status} onChange={(value) => setFilter('farmer_status', value)} options={statusOptions} showSearch />
-                    <Select allowClear placeholder="กิจกรรมทางการเกษตร" value={filters.agricultural_activity} onChange={(value) => setFilter('agricultural_activity', value)} options={activityOptions} showSearch />
-                    <Select allowClear placeholder="การศึกษา" value={filters.education} onChange={(value) => setFilter('education', value)} options={educationOptions} showSearch />
-                    <InputNumber placeholder="รายได้ต่ำสุด" value={filters.minIncome} onChange={(value) => setFilter('minIncome', value)} min={0} style={{ width: '100%' }} />
-                    <InputNumber placeholder="รายได้สูงสุด" value={filters.maxIncome} onChange={(value) => setFilter('maxIncome', value)} min={0} style={{ width: '100%' }} />
-                    <Button icon={<FilterOutlined />} onClick={() => setFilters({})} disabled={activeFilterCount === 0}>ล้างตัวกรอง {activeFilterCount ? `(${activeFilterCount})` : ''}</Button>
+                    <Input.Search allowClear placeholder="à¸„à¹‰à¸™à¸«à¸² à¸Šà¸·à¹ˆà¸­/à¸£à¸«à¸±à¸ª/à¹‚à¸—à¸£/à¸à¸´à¸ˆà¸à¸£à¸£à¸¡" value={filters.search} onChange={(event) => setFilter('search', event.target.value)} />
+                    <Select allowClear placeholder="à¸­à¸³à¹€à¸ à¸­" value={filters.district} onChange={(value) => setFilter('district', value)} options={districtOptions} showSearch />
+                    <Select allowClear placeholder="à¸ˆà¸±à¸‡à¸«à¸§à¸±à¸”" value={filters.province} onChange={(value) => setFilter('province', value)} options={provinceOptions} showSearch />
+                    <Select allowClear placeholder="à¸ªà¸–à¸²à¸™à¸°à¹€à¸à¸©à¸•à¸£à¸à¸£" value={filters.farmer_status} onChange={(value) => setFilter('farmer_status', value)} options={statusOptions} showSearch />
+                    <Select allowClear placeholder="à¸à¸´à¸ˆà¸à¸£à¸£à¸¡à¸—à¸²à¸‡à¸à¸²à¸£à¹€à¸à¸©à¸•à¸£" value={filters.agricultural_activity} onChange={(value) => setFilter('agricultural_activity', value)} options={activityOptions} showSearch />
+                    <Select allowClear placeholder="à¸à¸²à¸£à¸¨à¸¶à¸à¸©à¸²" value={filters.education} onChange={(value) => setFilter('education', value)} options={educationOptions} showSearch />
+                    <InputNumber placeholder="à¸£à¸²à¸¢à¹„à¸”à¹‰à¸•à¹ˆà¸³à¸ªà¸¸à¸”" value={filters.minIncome} onChange={(value) => setFilter('minIncome', value)} min={0} style={{ width: '100%' }} />
+                    <InputNumber placeholder="à¸£à¸²à¸¢à¹„à¸”à¹‰à¸ªà¸¹à¸‡à¸ªà¸¸à¸”" value={filters.maxIncome} onChange={(value) => setFilter('maxIncome', value)} min={0} style={{ width: '100%' }} />
+                    <Button icon={<FilterOutlined />} onClick={() => setFilters({})} disabled={activeFilterCount === 0}>à¸¥à¹‰à¸²à¸‡à¸•à¸±à¸§à¸à¸£à¸­à¸‡ {activeFilterCount ? `(${activeFilterCount})` : ''}</Button>
                 </div>
                 <div
                     ref={topScrollRef}
@@ -426,12 +439,12 @@ export default function SmartFarmerSf() {
                 onSuccess={refetch}
             />
             <Modal
-                title="แก้ไขข้อมูล SF"
+                title={editingRecord ? 'แก้ไขข้อมูล SF' : 'เพิ่มข้อมูล SF'}
                 open={editOpen}
                 onCancel={() => { setEditOpen(false); setEditingRecord(null); form.resetFields(); }}
                 onOk={handleSave}
-                okText="บันทึก"
-                cancelText="ยกเลิก"
+                okText="à¸šà¸±à¸™à¸—à¸¶à¸"
+                cancelText="à¸¢à¸à¹€à¸¥à¸´à¸"
                 width={760}
                 destroyOnClose
             >

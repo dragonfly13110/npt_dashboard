@@ -1,6 +1,6 @@
 ﻿import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Card, Checkbox, Col, Form, Input, InputNumber, Modal, Popconfirm, Popover, Row, Select, Space, Spin, Statistic, Table, Tag, Tooltip, message } from 'antd';
-import { BarChartOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, FileExcelOutlined, FilterOutlined, ReloadOutlined, SettingOutlined, TeamOutlined, UploadOutlined } from '@ant-design/icons';
+import { BarChartOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, FileExcelOutlined, FilterOutlined, PlusOutlined, ReloadOutlined, SettingOutlined, TeamOutlined, UploadOutlined } from '@ant-design/icons';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip,
     ResponsiveContainer
@@ -49,27 +49,40 @@ const columns = [
 
 const importColumns = columns.filter((column) => column.dataIndex !== 'full_name');
 const requiredColumnKeys = ['sequence_no', 'record_code', 'full_name', 'district', 'agricultural_activity'];
-const defaultOptionalColumnKeys = ['data_year', 'province', 'farmer_status', 'education', 'farm_area_rai', 'annual_agri_income', 'main_activity_type'];
+const defaultOptionalColumnKeys = ['data_year', 'province', 'education', 'farm_area_rai', 'annual_agri_income'];
 const compactColumnConfig = {
-    data_year: { title: 'ปี', width: 64 },
-    record_code: { title: 'รหัส', width: 116, ellipsis: true },
-    sequence_no: { width: 64 },
-    title: { width: 76, ellipsis: true },
-    first_name: { width: 104, ellipsis: true },
-    last_name: { width: 120, ellipsis: true },
-    full_name: { width: 160, ellipsis: true },
-    district: { width: 112, ellipsis: true },
-    province: { width: 104, ellipsis: true },
-    farmer_status: { width: 144, ellipsis: true },
-    agricultural_activity: { title: 'กิจกรรม', width: 160, ellipsis: true },
-    phone: { title: 'โทรศัพท์', width: 116, ellipsis: true },
-    education: { width: 132, ellipsis: true },
-    production_standard: { title: 'มาตรฐาน', width: 132, ellipsis: true },
-    sales_channel: { title: 'ช่องทางขาย', width: 132, ellipsis: true },
-    annual_agri_income: { title: 'รายได้', width: 118 },
-    production_area: { title: 'พื้นที่', width: 120, ellipsis: true },
-    farm_area_rai: { title: 'พื้นที่ (ไร่)', width: 110 },
-    main_activity_type: { title: 'กิจกรรมหลัก', width: 132, ellipsis: true },
+    data_year: { title: 'ปี', width: 54 },
+    record_code: { title: 'รหัส', width: 104, ellipsis: true },
+    sequence_no: { title: 'ลำดับ', width: 56 },
+    title: { width: 64, ellipsis: true },
+    first_name: { width: 92, ellipsis: true },
+    last_name: { width: 104, ellipsis: true },
+    full_name: { width: 146, ellipsis: true },
+    address_no: { title: 'เลขที่', width: 72, ellipsis: true },
+    moo: { width: 52 },
+    subdistrict: { title: 'ตำบล', width: 96, ellipsis: true },
+    district: { width: 100, ellipsis: true },
+    province: { width: 88, ellipsis: true },
+    farmer_status: { title: 'สถานภาพ', width: 126, ellipsis: true },
+    agricultural_activity: { title: 'กิจกรรม', width: 142, ellipsis: true },
+    phone: { title: 'โทรศัพท์', width: 104, ellipsis: true },
+    line_id: { title: 'LINE', width: 104, ellipsis: true },
+    email: { title: 'อีเมล', width: 130, ellipsis: true },
+    facebook: { width: 124, ellipsis: true },
+    education: { title: 'การศึกษา', width: 118, ellipsis: true },
+    education_major: { title: 'สาขา', width: 126, ellipsis: true },
+    production_standard: { title: 'มาตรฐาน', width: 116, ellipsis: true },
+    sales_channel: { title: 'ช่องทางขาย', width: 118, ellipsis: true },
+    annual_agri_income: { title: 'รายได้', width: 104 },
+    production_area: { title: 'พื้นที่', width: 108, ellipsis: true },
+    affiliated_district: { title: 'อำเภอสังกัด', width: 106, ellipsis: true },
+    farm_area_rai: { title: 'พื้นที่ไร่', width: 92 },
+    main_activity_type: { title: 'กิจกรรมหลัก', width: 118, ellipsis: true },
+    has_crop: { title: 'พืช', width: 66 },
+    has_livestock: { title: 'ปศุสัตว์', width: 78 },
+    has_fishery: { title: 'ประมง', width: 72 },
+    has_processing: { title: 'แปรรูป', width: 76 },
+    has_online_channel: { title: 'ออนไลน์', width: 78 },
 };
 
 const numberFieldKeys = ['data_year', 'sequence_no', 'farm_area_rai', 'annual_agri_income'];
@@ -100,9 +113,9 @@ function normalize(value) {
 export default function YoungSmartFarmerYsf() {
     const tableWrapRef = useRef(null);
     const topScrollRef = useRef(null);
-    const tableScrollX = 1680;
+    const minTableScrollX = 1040;
     const { role, canEdit, canDelete } = useAuth();
-    const { updateRecord, deleteRecord } = useSupabaseCrud('young_smart_farmer_ysf');
+    const { createRecord, updateRecord, deleteRecord } = useSupabaseCrud('young_smart_farmer_ysf');
     const [form] = Form.useForm();
     const [editingRecord, setEditingRecord] = useState(null);
     const [editOpen, setEditOpen] = useState(false);
@@ -157,7 +170,22 @@ export default function YoungSmartFarmerYsf() {
     const educationOptions = useMemo(() => makeOptions(yearRows, 'education'), [yearRows]);
 
     const districtData = useMemo(() => countBy(filteredRows, 'district'), [filteredRows]);
-    const activityData = useMemo(() => countBy(filteredRows, 'agricultural_activity', 10), [filteredRows]);
+    const avgIncomeByDistrictData = useMemo(() => {
+        const groups = filteredRows.reduce((acc, row) => {
+            const district = row.district || 'ไม่ระบุ';
+            const income = Number(row.annual_agri_income) || 0;
+            if (!acc[district]) acc[district] = { name: district, total: 0, count: 0 };
+            if (income > 0) {
+                acc[district].total += income;
+                acc[district].count += 1;
+            }
+            return acc;
+        }, {});
+        return Object.values(groups)
+            .filter((item) => item.count > 0)
+            .map((item) => ({ name: item.name, value: Math.round(item.total / item.count) }))
+            .sort((a, b) => b.value - a.value);
+    }, [filteredRows]);
     const totalIncome = useMemo(() => filteredRows.reduce((sum, row) => sum + (Number(row.annual_agri_income) || 0), 0), [filteredRows]);
     const activeFilterCount = Object.values(filters).filter((value) => value !== undefined && value !== null && value !== '').length;
     const baseVisibleColumns = useMemo(() => getPublicColumns('young_smart_farmer_ysf', columns, role)
@@ -176,9 +204,21 @@ export default function YoungSmartFarmerYsf() {
         setEditOpen(true);
     };
 
+    const handleAdd = () => {
+        if (!userCanEdit) {
+            message.warning('ไม่มีสิทธิ์เพิ่มข้อมูล');
+            return;
+        }
+        setEditingRecord(null);
+        form.setFieldsValue({ data_year: activeYear });
+        setEditOpen(true);
+    };
+
     const handleSave = async () => {
         const values = await form.validateFields();
-        const ok = await updateRecord(editingRecord.id, values);
+        const ok = editingRecord
+            ? await updateRecord(editingRecord.id, values)
+            : await createRecord(values);
         if (ok) {
             setEditOpen(false);
             setEditingRecord(null);
@@ -213,6 +253,7 @@ export default function YoungSmartFarmerYsf() {
     } : null;
 
     const visibleColumns = actionColumn ? [...baseVisibleColumns, actionColumn] : baseVisibleColumns;
+    const tableScrollX = Math.max(minTableScrollX, visibleColumns.reduce((sum, column) => sum + (Number(column.width) || 100), 0));
 
     const setFilter = (key, value) => setFilters((prev) => ({ ...prev, [key]: value }));
     const selectableColumns = getPublicColumns('young_smart_farmer_ysf', columns, role);
@@ -324,21 +365,6 @@ export default function YoungSmartFarmerYsf() {
                         <span style={{ fontSize: 18, fontWeight: 700, color: '#1f2328' }}>เกษตรกรรุ่นใหม่ (YSF)</span>
                         <Tag color="green">ปี {activeYear || '-'}</Tag>
                     </div>
-                    <Space wrap>
-                        <Select
-                            value={activeYear}
-                            onChange={(year) => { setSelectedYear(year); setFilters({}); }}
-                            options={years.map((year) => ({ label: `ปี ${year}`, value: year }))}
-                            style={{ width: 150 }}
-                            placeholder="เลือกปี"
-                        />
-                        <Tooltip title="รีเฟรช">
-                            <Button icon={<ReloadOutlined />} onClick={() => refetch()} />
-                        </Tooltip>
-                        {userCanEdit && <Button icon={<UploadOutlined />} onClick={() => setImportOpen(true)}>Import CSV</Button>}
-                        <Button icon={<DownloadOutlined />} onClick={() => exportRows('csv')}>Export CSV</Button>
-                        <Button icon={<FileExcelOutlined />} onClick={() => exportRows('xlsx')}>Export Excel</Button>
-                    </Space>
                 </div>
                 <Row gutter={[16, 16]} style={{ marginBottom: 20 }}>
                     <Col xs={24} md={8}><Card size="small"><Statistic title="จำนวนเกษตรกร" value={filteredRows.length} suffix={`จาก ${yearRows.length} ราย`} /></Card></Col>
@@ -363,15 +389,15 @@ export default function YoungSmartFarmerYsf() {
                         </Card>
                     </Col>
                     <Col xs={24} lg={12}>
-                        <Card title="กิจกรรมทางการเกษตรยอดนิยม" size="small" bordered={false} style={{ background: '#fafbfc' }}>
+                        <Card title="รายได้เกษตรเฉลี่ยแยกตามอำเภอ" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                             <div style={{ height: 320 }}>
                                 <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={activityData} layout="vertical" margin={{ top: 10, right: 30, left: 80, bottom: 10 }}>
+                                    <BarChart data={avgIncomeByDistrictData} layout="vertical" margin={{ top: 10, right: 30, left: 80, bottom: 10 }}>
                                         <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e8ecf0" />
-                                        <XAxis type="number" allowDecimals={false} />
+                                        <XAxis type="number" tickFormatter={(value) => Number(value).toLocaleString('th-TH')} />
                                         <YAxis type="category" dataKey="name" tick={{ fontSize: 12 }} width={110} />
-                                        <RechartsTooltip />
-                                        <Bar dataKey="value" name="จำนวน" fill="#0969da" maxBarSize={28} />
+                                        <RechartsTooltip formatter={(value) => `${Number(value).toLocaleString('th-TH')} บาท`} />
+                                        <Bar dataKey="value" name="รายได้เฉลี่ย" fill="#0969da" maxBarSize={28} />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
@@ -388,6 +414,22 @@ export default function YoungSmartFarmerYsf() {
                         <Tag className="crud-count">{filteredRows.length} รายการ</Tag>
                     </div>
                     <div className="crud-header-right">
+                        <Space wrap>
+                            <Select
+                                value={activeYear}
+                                onChange={(year) => { setSelectedYear(year); setFilters({}); }}
+                                options={years.map((year) => ({ label: `ปี ${year}`, value: year }))}
+                                style={{ width: 140 }}
+                                placeholder="เลือกปี"
+                            />
+                            <Tooltip title="รีเฟรช">
+                                <Button icon={<ReloadOutlined />} onClick={() => refetch()} />
+                            </Tooltip>
+                            {userCanEdit && <Button icon={<PlusOutlined />} onClick={handleAdd}>เพิ่มข้อมูล</Button>}
+                            {userCanEdit && <Button icon={<UploadOutlined />} onClick={() => setImportOpen(true)}>Import CSV</Button>}
+                            <Button icon={<DownloadOutlined />} onClick={() => exportRows('csv')}>Export CSV</Button>
+                            <Button icon={<FileExcelOutlined />} onClick={() => exportRows('xlsx')}>Export Excel</Button>
+                        </Space>
                         <Popover content={columnSelector} trigger="click" placement="bottomRight">
                             <Button icon={<SettingOutlined />}>
                                 คอลัมน์ {baseVisibleColumns.length}/{selectableColumns.length}
@@ -431,7 +473,7 @@ export default function YoungSmartFarmerYsf() {
                 onSuccess={refetch}
             />
             <Modal
-                title="แก้ไขข้อมูล YSF"
+                title={editingRecord ? 'แก้ไขข้อมูล YSF' : 'เพิ่มข้อมูล YSF'}
                 open={editOpen}
                 onCancel={() => { setEditOpen(false); setEditingRecord(null); form.resetFields(); }}
                 onOk={handleSave}
