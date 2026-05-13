@@ -17,35 +17,35 @@ const number = new Intl.NumberFormat('th-TH');
 const hasValue = (value) => value !== null && value !== undefined && value !== '';
 
 const columns = [
-    { title: 'à¸›à¸µà¸‚à¹‰à¸­à¸¡à¸¹à¸¥', dataIndex: 'data_year', key: 'data_year', width: 90, align: 'center', importHeader: 'à¸›à¸µà¸‚à¹‰à¸­à¸¡à¸¹à¸¥' },
-    { title: 'à¸£à¸«à¸±à¸ªà¸£à¸°à¹€à¸šà¸µà¸¢à¸™', dataIndex: 'record_code', key: 'record_code', width: 130, importHeader: 'à¸£à¸«à¸±à¸ªà¸£à¸°à¹€à¸šà¸µà¸¢à¸™' },
-    { title: 'à¸Šà¸·à¹ˆà¸­à¸à¸¥à¸¸à¹ˆà¸¡', dataIndex: 'group_name', key: 'group_name', width: 260, importHeader: 'à¸Šà¸·à¹ˆà¸­à¸à¸¥à¸¸à¹ˆà¸¡' },
-    { title: 'à¹€à¸¥à¸‚à¸—à¸µà¹ˆ', dataIndex: 'address_no', key: 'address_no', width: 90, importHeader: 'à¹€à¸¥à¸‚à¸—à¸µà¹ˆ' },
-    { title: 'à¸«à¸¡à¸¹à¹ˆ', dataIndex: 'moo', key: 'moo', width: 70, align: 'center', importHeader: 'à¸«à¸¡à¸¹à¹ˆ' },
-    { title: 'à¸•à¸³à¸šà¸¥', dataIndex: 'subdistrict', key: 'subdistrict', width: 120, importHeader: 'à¸•à¸³à¸šà¸¥' },
-    { title: 'à¸­à¸³à¹€à¸ à¸­', dataIndex: 'district', key: 'district', width: 130, importHeader: 'à¸­à¸³à¹€à¸ à¸­' },
-    { title: 'à¸ˆà¸±à¸‡à¸«à¸§à¸±à¸”', dataIndex: 'province', key: 'province', width: 110, importHeader: 'à¸ˆà¸±à¸‡à¸«à¸§à¸±à¸”' },
-    { title: 'à¹‚à¸—à¸£à¸¨à¸±à¸žà¸—à¹Œ', dataIndex: 'phone', key: 'phone', width: 120, importHeader: 'à¹€à¸šà¸­à¸£à¹Œà¹‚à¸—à¸£à¸¨à¸±à¸žà¸—à¹Œ' },
-    { title: 'à¸¡à¸·à¸­à¸–à¸·à¸­', dataIndex: 'mobile', key: 'mobile', width: 120, importHeader: 'à¹€à¸šà¸­à¸£à¹Œà¸¡à¸·à¸­à¸–à¸·à¸­' },
-    { title: 'à¸§à¸±à¸™à¸—à¸µà¹ˆà¸ˆà¸±à¸”à¸•à¸±à¹‰à¸‡', dataIndex: 'established_date', key: 'established_date', width: 120, importHeader: 'à¸§à¸±à¸™à¸—à¸µà¹ˆà¸ˆà¸±à¸”à¸•à¸±à¹‰à¸‡à¸à¸¥à¸¸à¹ˆà¸¡' },
-    { title: 'à¸›à¸µà¸•à¸±à¹‰à¸‡ à¸ž.à¸¨.', dataIndex: 'established_year_be', key: 'established_year_be', width: 100, importHeader: 'à¸›à¸µà¸ˆà¸±à¸”à¸•à¸±à¹‰à¸‡_à¸ž.à¸¨.' },
-    { title: 'à¸›à¸µà¸•à¸±à¹‰à¸‡ à¸„.à¸¨.', dataIndex: 'established_year_ce', key: 'established_year_ce', width: 100, importHeader: 'à¸›à¸µà¸ˆà¸±à¸”à¸•à¸±à¹‰à¸‡_à¸„.à¸¨.' },
-    { title: 'à¸ªà¸¡à¸²à¸Šà¸´à¸', dataIndex: 'member_count', key: 'member_count', width: 90, align: 'right', importHeader: 'à¸ˆà¸³à¸™à¸§à¸™à¸ªà¸¡à¸²à¸Šà¸´à¸à¸à¸¥à¸¸à¹ˆà¸¡', render: (value) => number.format(value || 0) },
-    { title: 'à¸à¸¥à¸¸à¹ˆà¸¡à¸•à¹‰à¸™à¹à¸šà¸š', dataIndex: 'model_group', key: 'model_group', width: 130, importHeader: 'à¸à¸²à¸£à¹€à¸›à¹‡à¸™à¸à¸¥à¸¸à¹ˆà¸¡à¸•à¹‰à¸™à¹à¸šà¸š' },
-    { title: 'à¸—à¸¸à¸™', dataIndex: 'fund_management', key: 'fund_management', width: 110, align: 'right', importHeader: 'à¸à¸²à¸£à¸šà¸£à¸´à¸«à¸²à¸£à¸ˆà¸±à¸”à¸à¸²à¸£à¸—à¸¸à¸™_à¸šà¸²à¸—', render: (value) => number.format(value || 0) },
-    { title: 'à¸£à¸²à¸¢à¹„à¸”à¹‰', dataIndex: 'income', key: 'income', width: 110, align: 'right', importHeader: 'à¸£à¸²à¸¢à¹„à¸”à¹‰à¸à¸¥à¸¸à¹ˆà¸¡_à¸šà¸²à¸—', render: (value) => number.format(value || 0) },
-    { title: 'à¸à¸´à¸ˆà¸à¸£à¸£à¸¡à¸à¸¥à¸¸à¹ˆà¸¡', dataIndex: 'activity', key: 'activity', width: 280, importHeader: 'à¸à¸´à¸ˆà¸à¸£à¸£à¸¡à¸à¸¥à¸¸à¹ˆà¸¡' },
-    { title: 'à¸ˆà¸³à¸™à¸§à¸™à¸à¸´à¸ˆà¸à¸£à¸£à¸¡', dataIndex: 'activity_count', key: 'activity_count', width: 110, align: 'center', importHeader: 'à¸ˆà¸³à¸™à¸§à¸™à¸à¸´à¸ˆà¸à¸£à¸£à¸¡à¸—à¸µà¹ˆà¸£à¸°à¸šà¸¸' },
-    { title: 'à¸¨à¸±à¸à¸¢à¸ à¸²à¸ž', dataIndex: 'potential_level', key: 'potential_level', width: 110, importHeader: 'à¸£à¸°à¸”à¸±à¸šà¸à¸²à¸£à¸›à¸£à¸°à¹€à¸¡à¸´à¸™à¸¨à¸±à¸à¸¢à¸ à¸²à¸ž', render: (value) => value ? <Tag color={value === 'à¸”à¸µ' ? 'green' : 'gold'}>{value}</Tag> : '-' },
+    { title: 'ปีข้อมูล', dataIndex: 'data_year', key: 'data_year', width: 90, align: 'center', importHeader: 'ปีข้อมูล' },
+    { title: 'รหัสระเบียน', dataIndex: 'record_code', key: 'record_code', width: 130, importHeader: 'รหัสระเบียน' },
+    { title: 'ชื่อกลุ่ม', dataIndex: 'group_name', key: 'group_name', width: 260, importHeader: 'ชื่อกลุ่ม' },
+    { title: 'เลขที่', dataIndex: 'address_no', key: 'address_no', width: 90, importHeader: 'เลขที่' },
+    { title: 'หมู่', dataIndex: 'moo', key: 'moo', width: 70, align: 'center', importHeader: 'หมู่' },
+    { title: 'ตำบล', dataIndex: 'subdistrict', key: 'subdistrict', width: 120, importHeader: 'ตำบล' },
+    { title: 'อำเภอ', dataIndex: 'district', key: 'district', width: 130, importHeader: 'อำเภอ' },
+    { title: 'จังหวัด', dataIndex: 'province', key: 'province', width: 110, importHeader: 'จังหวัด' },
+    { title: 'โทรศัพท์', dataIndex: 'phone', key: 'phone', width: 120, importHeader: 'เบอร์โทรศัพท์' },
+    { title: 'มือถือ', dataIndex: 'mobile', key: 'mobile', width: 120, importHeader: 'เบอร์มือถือ' },
+    { title: 'วันที่จัดตั้ง', dataIndex: 'established_date', key: 'established_date', width: 120, importHeader: 'วันที่จัดตั้งกลุ่ม' },
+    { title: 'ปีจัดตั้ง พ.ศ.', dataIndex: 'established_year_be', key: 'established_year_be', width: 100, importHeader: 'ปีจัดตั้ง_พ.ศ.' },
+    { title: 'ปีจัดตั้ง ค.ศ.', dataIndex: 'established_year_ce', key: 'established_year_ce', width: 100, importHeader: 'ปีจัดตั้ง_ค.ศ.' },
+    { title: 'สมาชิก', dataIndex: 'member_count', key: 'member_count', width: 90, align: 'right', importHeader: 'จำนวนสมาชิกกลุ่ม', render: (value) => number.format(value || 0) },
+    { title: 'กลุ่มต้นแบบ', dataIndex: 'model_group', key: 'model_group', width: 130, importHeader: 'การเป็นกลุ่มต้นแบบ' },
+    { title: 'ทุน', dataIndex: 'fund_management', key: 'fund_management', width: 110, align: 'right', importHeader: 'การบริหารจัดการทุน_บาท', render: (value) => number.format(value || 0) },
+    { title: 'รายได้', dataIndex: 'income', key: 'income', width: 110, align: 'right', importHeader: 'รายได้กลุ่ม_บาท', render: (value) => number.format(value || 0) },
+    { title: 'กิจกรรมกลุ่ม', dataIndex: 'activity', key: 'activity', width: 280, importHeader: 'กิจกรรมกลุ่ม' },
+    { title: 'จำนวนกิจกรรม', dataIndex: 'activity_count', key: 'activity_count', width: 110, align: 'center', importHeader: 'จำนวนกิจกรรมที่ระบุ' },
+    { title: 'ศักยภาพ', dataIndex: 'potential_level', key: 'potential_level', width: 110, importHeader: 'ระดับการประเมินศักยภาพ', render: (value) => value ? <Tag color={value === 'ดี' ? 'green' : 'gold'}>{value}</Tag> : '-' },
     { title: 'Lat', dataIndex: 'lat', key: 'lat', width: 100, importHeader: 'Lat', render: (value) => value ? Number(value).toFixed(6) : '-' },
     { title: 'Lon', dataIndex: 'lon', key: 'lon', width: 100, importHeader: 'Lon', render: (value) => value ? Number(value).toFixed(6) : '-' },
 ];
 
-const requiredColumnKeys = ['record_code', 'group_name', 'district', 'member_count', 'activity'];
+const requiredColumnKeysconst requiredColumnKeys = ['record_code', 'group_name', 'district', 'member_count', 'activity'];
 const defaultOptionalColumnKeys = ['data_year', 'subdistrict', 'phone', 'mobile', 'model_group', 'fund_management', 'income', 'potential_level'];
 const compactColumnConfig = {
-    data_year: { title: 'à¸›à¸µ', width: 64 },
-    record_code: { title: 'à¸£à¸«à¸±à¸ª', width: 116, ellipsis: true },
+    data_year: { title: 'ปี', width: 64 },
+    record_code: { title: 'รหัส', width: 116, ellipsis: true },
     group_name: { width: 220, ellipsis: true },
     address_no: { width: 72, ellipsis: true },
     moo: { width: 60 },
@@ -54,26 +54,26 @@ const compactColumnConfig = {
     province: { width: 96, ellipsis: true },
     phone: { width: 112, ellipsis: true },
     mobile: { width: 112, ellipsis: true },
-    established_date: { title: 'à¸§à¸±à¸™à¸—à¸µà¹ˆà¸•à¸±à¹‰à¸‡', width: 110 },
-    established_year_be: { title: 'à¸›à¸µà¸•à¸±à¹‰à¸‡', width: 76 },
-    established_year_ce: { title: 'à¸„.à¸¨.', width: 70 },
-    member_count: { title: 'à¸ªà¸¡à¸²à¸Šà¸´à¸', width: 82 },
-    model_group: { title: 'à¸•à¹‰à¸™à¹à¸šà¸š', width: 112, ellipsis: true },
-    fund_management: { title: 'à¸—à¸¸à¸™', width: 100 },
-    income: { title: 'à¸£à¸²à¸¢à¹„à¸”à¹‰', width: 100 },
-    activity: { title: 'à¸à¸´à¸ˆà¸à¸£à¸£à¸¡', width: 210, ellipsis: true },
-    activity_count: { title: 'à¸ˆà¸³à¸™à¸§à¸™à¸à¸´à¸ˆà¸à¸£à¸£à¸¡', width: 100 },
-    potential_level: { title: 'à¸¨à¸±à¸à¸¢à¸ à¸²à¸ž', width: 96 },
+    established_date: { title: 'วันที่จัดตั้ง', width: 110 },
+    established_year_be: { title: 'ปีจัดตั้ง', width: 76 },
+    established_year_ce: { title: 'ค.ศ.', width: 70 },
+    member_count: { title: 'สมาชิก', width: 82 },
+    model_group: { title: 'ต้นแบบ', width: 112, ellipsis: true },
+    fund_management: { title: 'ทุน', width: 100 },
+    income: { title: 'รายได้', width: 100 },
+    activity: { title: 'กิจกรรม', width: 210, ellipsis: true },
+    activity_count: { title: 'จำนวนกิจกรรม', width: 100 },
+    potential_level: { title: 'ศักยภาพ', width: 96 },
     lat: { width: 92 },
     lon: { width: 92 },
 };
 
-const numberFieldKeys = ['data_year', 'established_year_be', 'established_year_ce', 'member_count', 'fund_management', 'income', 'activity_count', 'lat', 'lon'];
+const numberFieldKeysconst numberFieldKeys = ['data_year', 'established_year_be', 'established_year_ce', 'member_count', 'fund_management', 'income', 'activity_count', 'lat', 'lon'];
 const editableColumns = columns.filter((column) => column.dataIndex && !['id', 'created_at', 'updated_at'].includes(column.dataIndex));
 
 function countBy(rows, key, limit = 12) {
     const counts = rows.reduce((acc, row) => {
-        const name = row[key] || 'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸';
+        const name = row[key] || 'ไม่ระบุ';
         acc[name] = (acc[name] || 0) + 1;
         return acc;
     }, {});
@@ -119,9 +119,9 @@ function YoungFarmerGroupsMap({ rows, year }) {
 
     if (!MapComponents) {
         return (
-            <Card title={`à¹à¸œà¸™à¸—à¸µà¹ˆà¸à¸¥à¸¸à¹ˆà¸¡à¸¢à¸¸à¸§à¹€à¸à¸©à¸•à¸£à¸à¸£ à¸›à¸µ ${year || '-'}`} style={{ marginTop: 24 }}>
+            <Card title={`แผนที่กลุ่มยุวเกษตรกร ปี ${year || '-'}`} style={{ marginTop: 24 }}>
                 <div style={{ height: 420, display: 'grid', placeItems: 'center' }}>
-                    <Spin tip="à¸à¸³à¸¥à¸±à¸‡à¹‚à¸«à¸¥à¸”à¹à¸œà¸™à¸—à¸µà¹ˆ..." />
+                    <Spin tip="กำลังโหลดข้อมูลกลุ่มยุวเกษตรกร..." />
                 </div>
             </Card>
         );
@@ -129,9 +129,9 @@ function YoungFarmerGroupsMap({ rows, year }) {
 
     if (!points.length) {
         return (
-            <Card title={`à¹à¸œà¸™à¸—à¸µà¹ˆà¸à¸¥à¸¸à¹ˆà¸¡à¸¢à¸¸à¸§à¹€à¸à¸©à¸•à¸£à¸à¸£ à¸›à¸µ ${year || '-'}`} style={{ marginTop: 24 }}>
+            <Card title={`แผนที่กลุ่มยุวเกษตรกร ปี ${year || '-'}`} style={{ marginTop: 24 }}>
                 <div style={{ height: 420, display: 'grid', placeItems: 'center' }}>
-                    <Empty description="à¹„à¸¡à¹ˆà¸¡à¸µà¸žà¸´à¸à¸±à¸”à¸ªà¸³à¸«à¸£à¸±à¸šà¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸—à¸µà¹ˆà¹€à¸¥à¸·à¸­à¸" />
+                    <Empty description="ไม่มีพิกัดสำหรับข้อมูลปีที่เลือก" />
                 </div>
             </Card>
         );
@@ -153,8 +153,8 @@ function YoungFarmerGroupsMap({ rows, year }) {
 
     return (
         <Card
-            title={`à¹à¸œà¸™à¸—à¸µà¹ˆà¸à¸¥à¸¸à¹ˆà¸¡à¸¢à¸¸à¸§à¹€à¸à¸©à¸•à¸£à¸à¸£ à¸›à¸µ ${year || '-'}`}
-            extra={`${number.format(points.length)} à¸ˆà¸¸à¸”à¸žà¸´à¸à¸±à¸”`}
+            title={`แผนที่กลุ่มยุวเกษตรกร ปี ${year || '-'}`}
+            extra={`${number.format(points.length)} จุดพิกัด`}
             style={{ marginTop: 24 }}
         >
             <MapContainer
@@ -232,7 +232,7 @@ export default function YoungFarmerGroupsDashboard() {
     const userCanDelete = canDelete();
 
     useEffect(() => {
-        document.title = 'à¸à¸¥à¸¸à¹ˆà¸¡à¸¢à¸¸à¸§à¹€à¸à¸©à¸•à¸£à¸à¸£ | à¸¨à¸¹à¸™à¸¢à¹Œà¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸à¸²à¸£à¹€à¸à¸©à¸•à¸£à¸™à¸„à¸£à¸›à¸à¸¡';
+        document.title = 'กลุ่มยุวเกษตรกร | ศูนย์ข้อมูลการเกษตรนครปฐม';
     }, []);
 
     const fetchRows = async () => {
@@ -305,7 +305,7 @@ export default function YoungFarmerGroupsDashboard() {
 
     const handleEdit = (record) => {
         if (!userCanEdit) {
-            message.warning('à¹„à¸¡à¹ˆà¸¡à¸µà¸ªà¸´à¸—à¸˜à¸´à¹Œà¹à¸à¹‰à¹„à¸‚');
+            message.warning('ไม่มีสิทธิ์ทำรายการ');
             return;
         }
         setEditingRecord(record);
@@ -315,7 +315,7 @@ export default function YoungFarmerGroupsDashboard() {
 
     const handleAdd = () => {
         if (!userCanEdit) {
-            message.warning('à¹„à¸¡à¹ˆà¸¡à¸µà¸ªà¸´à¸—à¸˜à¸´à¹Œà¹€à¸žà¸´à¹ˆà¸¡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥');
+            message.warning('ไม่มีสิทธิ์ทำรายการ');
             return;
         }
         setEditingRecord(null);
@@ -342,19 +342,19 @@ export default function YoungFarmerGroupsDashboard() {
     };
 
     const actionColumn = userCanEdit ? {
-        title: 'à¸ˆà¸±à¸”à¸à¸²à¸£',
+        title: '�¸��¸±�¸��¸�¸²�¸£',
         key: 'actions',
         width: userCanDelete ? 96 : 56,
         fixed: 'right',
         align: 'center',
         render: (_, record) => (
             <Space size={4}>
-                <Tooltip title="à¹à¸à¹‰à¹„à¸‚">
+                <Tooltip title="แก้ไข">
                     <Button icon={<EditOutlined />} onClick={() => handleEdit(record)} />
                 </Tooltip>
                 {userCanDelete && (
-                    <Popconfirm title="à¸¢à¸·à¸™à¸¢à¸±à¸™à¸à¸²à¸£à¸¥à¸š" description="à¸•à¹‰à¸­à¸‡à¸à¸²à¸£à¸¥à¸šà¸£à¸²à¸¢à¸à¸²à¸£à¸™à¸µà¹‰à¹ƒà¸Šà¹ˆà¹„à¸«à¸¡?" okText="à¸¥à¸š" cancelText="à¸¢à¸à¹€à¸¥à¸´à¸" okButtonProps={{ danger: true }} onConfirm={() => handleDelete(record)}>
-                        <Tooltip title="à¸¥à¸š"><Button danger icon={<DeleteOutlined />} /></Tooltip>
+                    <Popconfirm title="ยืนยันการลบ" description="ต้องการลบรายการนี้ใช่ไหม?" okText="บันทึก" cancelText="ยกเลิก" okButtonProps={{ danger: true }} onConfirm={() => handleDelete(record)}>
+                        <Tooltip title="แก้ไข"><Button danger icon={<DeleteOutlined />} /></Tooltip>
                     </Popconfirm>
                 )}
             </Space>
@@ -395,7 +395,7 @@ export default function YoungFarmerGroupsDashboard() {
 
     const columnSelector = (
         <div style={{ width: 280, maxHeight: 420, overflowY: 'auto', padding: 12, background: '#fff', borderRadius: 8, boxShadow: '0 6px 18px rgba(0,0,0,0.12)' }}>
-            <div style={{ fontWeight: 700, marginBottom: 8 }}>à¹€à¸¥à¸·à¸­à¸à¸„à¸­à¸¥à¸±à¸¡à¸™à¹Œà¸—à¸µà¹ˆà¹à¸ªà¸”à¸‡</div>
+            <div style={{ fontWeight: 700, marginBottom: 8 }}>เลือกคอลัมน์ที่แสดง</div>
             <div style={{ display: 'grid', gap: 6 }}>
                 {selectableColumns.map((column) => {
                     const locked = requiredColumnKeys.includes(column.dataIndex);
@@ -410,15 +410,15 @@ export default function YoungFarmerGroupsDashboard() {
                                     : prev.filter((key) => key !== column.dataIndex));
                             }}
                         >
-                            {column.title}{locked ? ' (à¸«à¸¥à¸±à¸)' : ''}
+                            {column.title}{locked ? ' (หลัก)' : ''}
                         </Checkbox>
                     );
                 })}
             </div>
             <Space style={{ marginTop: 12 }}>
-                <Button size="small" onClick={() => setVisibleOptionalColumns(selectableColumns.filter((column) => !requiredColumnKeys.includes(column.dataIndex)).map((column) => column.dataIndex))}>à¹€à¸¥à¸·à¸­à¸à¸—à¸±à¹‰à¸‡à¸«à¸¡à¸”</Button>
-                <Button size="small" onClick={() => setVisibleOptionalColumns(defaultOptionalColumnKeys)}>à¸„à¹ˆà¸²à¹€à¸£à¸´à¹ˆà¸¡à¸•à¹‰à¸™</Button>
-                <Button size="small" onClick={() => setVisibleOptionalColumns([])}>à¸«à¸¥à¸±à¸à¹€à¸—à¹ˆà¸²à¸™à¸±à¹‰à¸™</Button>
+                <Button size="small" onClick={() => setVisibleOptionalColumns(selectableColumns.filter((column) => !requiredColumnKeys.includes(column.dataIndex)).map((column) => column.dataIndex))}>�¹��¸¥�¸·�¸­�¸�¸��¸±�¹��¸��¸«�¸¡�¸�</Button>
+                <Button size="small" onClick={() => setVisibleOptionalColumns(defaultOptionalColumnKeys)}>�¸��¹��¸²�¹��¸£�¸´�¹��¸¡�¸��¹��¸�</Button>
+                <Button size="small" onClick={() => setVisibleOptionalColumns([])}>�¸«�¸¥�¸±�¸�¹��¸��¹��¸²�¸��¸±�¹��¸�</Button>
             </Space>
         </div>
     );
@@ -459,7 +459,7 @@ export default function YoungFarmerGroupsDashboard() {
     };
 
     if (isLoading) {
-        return <div style={{ minHeight: 360, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Spin tip="à¸à¸³à¸¥à¸±à¸‡à¹‚à¸«à¸¥à¸”à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸à¸¥à¸¸à¹ˆà¸¡à¸¢à¸¸à¸§à¹€à¸à¸©à¸•à¸£à¸à¸£..." /></div>;
+        return <div style={{ minHeight: 360, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Spin tip="กำลังโหลดข้อมูลกลุ่มยุวเกษตรกร..." /></div>;
     }
 
     return (
@@ -468,21 +468,21 @@ export default function YoungFarmerGroupsDashboard() {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap', marginBottom: 20 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <TeamOutlined style={{ fontSize: 20, color: '#1a7f37' }} />
-                        <span style={{ fontSize: 18, fontWeight: 700, color: '#1f2328' }}>à¸à¸¥à¸¸à¹ˆà¸¡à¸¢à¸¸à¸§à¹€à¸à¸©à¸•à¸£à¸à¸£</span>
-                        <Tag color="green">à¸›à¸µ {activeYear || '-'}</Tag>
+                        <span style={{ fontSize: 18, fontWeight: 700, color: '#1f2328' }}>�¸�¸¥�¸¸�¹��¸¡�¸¢�¸¸�¸§�¹��¸�¸©�¸��¸£�¸�¸£</span>
+                        <Tag color="green">�¸��¸µ {activeYear || '-'}</Tag>
                     </div>
                 </div>
 
                 <Row gutter={[16, 16]} style={{ marginBottom: 20 }}>
-                    <Col xs={24} md={6}><Card size="small"><Statistic title="à¸ˆà¸³à¸™à¸§à¸™à¸à¸¥à¸¸à¹ˆà¸¡" value={filteredRows.length} suffix={`à¸ˆà¸²à¸ ${yearRows.length} à¸à¸¥à¸¸à¹ˆà¸¡`} /></Card></Col>
-                    <Col xs={24} md={6}><Card size="small"><Statistic title="à¸ªà¸¡à¸²à¸Šà¸´à¸" value={totalMembers} formatter={(value) => Number(value).toLocaleString('th-TH')} suffix="à¸£à¸²à¸¢" /></Card></Col>
-                    <Col xs={24} md={6}><Card size="small"><Statistic title="à¸—à¸¸à¸™à¸£à¸§à¸¡" value={totalFund} formatter={(value) => Number(value).toLocaleString('th-TH')} suffix="à¸šà¸²à¸—" /></Card></Col>
-                    <Col xs={24} md={6}><Card size="small"><Statistic title="à¸£à¸²à¸¢à¹„à¸”à¹‰à¸£à¸§à¸¡" value={totalIncome} formatter={(value) => Number(value).toLocaleString('th-TH')} suffix="à¸šà¸²à¸—" /></Card></Col>
+                    <Col xs={24} md={6}><Card size="small"><Statistic title="จำนวนกลุ่ม" value={filteredRows.length} suffix={`จาก ${yearRows.length} กลุ่ม`} /></Card></Col>
+                    <Col xs={24} md={6}><Card size="small"><Statistic title="สมาชิก" value={totalMembers} formatter={(value) => Number(value).toLocaleString('th-TH')} suffix="ราย" /></Card></Col>
+                    <Col xs={24} md={6}><Card size="small"><Statistic title="ทุนรวม" value={totalFund} formatter={(value) => Number(value).toLocaleString('th-TH')} suffix="บาท" /></Card></Col>
+                    <Col xs={24} md={6}><Card size="small"><Statistic title="รายได้รวม" value={totalIncome} formatter={(value) => Number(value).toLocaleString('th-TH')} suffix="บาท" /></Card></Col>
                 </Row>
 
                 <Row gutter={[24, 24]}>
                     <Col xs={24} lg={8}>
-                        <Card title="à¸ˆà¸³à¸™à¸§à¸™à¸à¸¥à¸¸à¹ˆà¸¡à¹à¸¢à¸à¸•à¸²à¸¡à¸­à¸³à¹€à¸ à¸­" size="small" bordered={false} style={{ background: '#fafbfc' }}>
+                        <Card title="กิจกรรมยอดนิยม" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                             <div style={{ height: 300 }}>
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={districtData} margin={{ top: 20, right: 20, left: 0, bottom: 40 }}>
@@ -490,14 +490,14 @@ export default function YoungFarmerGroupsDashboard() {
                                         <XAxis dataKey="name" tick={{ fontSize: 11 }} angle={-20} textAnchor="end" height={60} />
                                         <YAxis allowDecimals={false} />
                                         <RechartsTooltip />
-                                        <Bar dataKey="value" name="à¸ˆà¸³à¸™à¸§à¸™" fill="#1a7f37" maxBarSize={42} />
+                                        <Bar dataKey="value" name="จำนวน" fill="#1a7f37" maxBarSize={42} />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
                         </Card>
                     </Col>
                     <Col xs={24} lg={8}>
-                        <Card title="à¸£à¸°à¸”à¸±à¸šà¸¨à¸±à¸à¸¢à¸ à¸²à¸ž" size="small" bordered={false} style={{ background: '#fafbfc' }}>
+                        <Card title="ระดับศักยภาพ" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                             <div style={{ height: 300 }}>
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={potentialData} margin={{ top: 20, right: 20, left: 0, bottom: 40 }}>
@@ -505,14 +505,14 @@ export default function YoungFarmerGroupsDashboard() {
                                         <XAxis dataKey="name" tick={{ fontSize: 11 }} />
                                         <YAxis allowDecimals={false} />
                                         <RechartsTooltip />
-                                        <Bar dataKey="value" name="à¸ˆà¸³à¸™à¸§à¸™" fill="#bf8700" maxBarSize={42} />
+                                        <Bar dataKey="value" name="จำนวน" fill="#bf8700" maxBarSize={42} />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
                         </Card>
                     </Col>
                     <Col xs={24} lg={8}>
-                        <Card title="à¸à¸´à¸ˆà¸à¸£à¸£à¸¡à¸¢à¸­à¸”à¸™à¸´à¸¢à¸¡" size="small" bordered={false} style={{ background: '#fafbfc' }}>
+                        <Card title="กิจกรรมยอดนิยม" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                             <div style={{ height: 300 }}>
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={activityData} layout="vertical" margin={{ top: 10, right: 30, left: 70, bottom: 10 }}>
@@ -520,7 +520,7 @@ export default function YoungFarmerGroupsDashboard() {
                                         <XAxis type="number" allowDecimals={false} />
                                         <YAxis type="category" dataKey="name" tick={{ fontSize: 12 }} width={100} />
                                         <RechartsTooltip />
-                                        <Bar dataKey="value" name="à¸ˆà¸³à¸™à¸§à¸™" fill="#0969da" maxBarSize={24} />
+                                        <Bar dataKey="value" name="จำนวน" fill="#0969da" maxBarSize={24} />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
@@ -533,8 +533,8 @@ export default function YoungFarmerGroupsDashboard() {
                 <div className="crud-header">
                     <div className="crud-header-left">
                         <BarChartOutlined style={{ color: '#1a7f37' }} />
-                        <span className="crud-title">à¸•à¸²à¸£à¸²à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸à¸¥à¸¸à¹ˆà¸¡à¸¢à¸¸à¸§à¹€à¸à¸©à¸•à¸£à¸à¸£ à¸›à¸µ {activeYear || '-'}</span>
-                        <Tag className="crud-count">{filteredRows.length} à¸£à¸²à¸¢à¸à¸²à¸£</Tag>
+                        <span className="crud-title">ตารางข้อมูลกลุ่มยุวเกษตรกร ปี {activeYear || '-'}</span>
+                        <Tag className="crud-count">{filteredRows.length} รายการ</Tag>
                     </div>
                     <div className="crud-header-right">
                         <Space wrap>
@@ -545,7 +545,7 @@ export default function YoungFarmerGroupsDashboard() {
                                 style={{ width: 140 }}
                                 placeholder="เลือกปี"
                             />
-                            <Tooltip title="รีเฟรช">
+                            <Tooltip title="แก้ไข">
                                 <Button icon={<ReloadOutlined />} onClick={() => refetch()} />
                             </Tooltip>
                             {userCanEdit && <Button icon={<PlusOutlined />} onClick={handleAdd}>เพิ่มข้อมูล</Button>}
@@ -554,19 +554,19 @@ export default function YoungFarmerGroupsDashboard() {
                             <Button icon={<FileExcelOutlined />} onClick={() => exportRows('xlsx')}>Export Excel</Button>
                         </Space>
                         <Popover content={columnSelector} trigger="click" placement="bottomRight">
-                            <Button icon={<SettingOutlined />}>à¸„à¸­à¸¥à¸±à¸¡à¸™à¹Œ {baseVisibleColumns.length}/{selectableColumns.length}</Button>
+                            <Button icon={<SettingOutlined />}>คอลัมน์ {baseVisibleColumns.length}/{selectableColumns.length}</Button>
                         </Popover>
                     </div>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12, marginBottom: 16, padding: 16, background: '#f6f8fa', borderRadius: 8, border: '1px solid #e8ecf0' }}>
-                    <Input.Search allowClear placeholder="à¸„à¹‰à¸™à¸«à¸² à¸Šà¸·à¹ˆà¸­/à¸£à¸«à¸±à¸ª/à¹‚à¸—à¸£/à¸à¸´à¸ˆà¸à¸£à¸£à¸¡" value={filters.search} onChange={(event) => setFilter('search', event.target.value)} />
-                    <Select allowClear placeholder="à¸­à¸³à¹€à¸ à¸­" value={filters.district} onChange={(value) => setFilter('district', value)} options={districtOptions} showSearch />
-                    <Select allowClear placeholder="à¸•à¸³à¸šà¸¥" value={filters.subdistrict} onChange={(value) => setFilter('subdistrict', value)} options={subdistrictOptions} showSearch />
-                    <Select allowClear placeholder="à¸¨à¸±à¸à¸¢à¸ à¸²à¸ž" value={filters.potential_level} onChange={(value) => setFilter('potential_level', value)} options={potentialOptions} showSearch />
-                    <Select allowClear placeholder="à¸à¸¥à¸¸à¹ˆà¸¡à¸•à¹‰à¸™à¹à¸šà¸š" value={filters.model_group} onChange={(value) => setFilter('model_group', value)} options={modelGroupOptions} showSearch />
-                    <InputNumber placeholder="à¸—à¸¸à¸™à¸‚à¸±à¹‰à¸™à¸•à¹ˆà¸³" value={filters.minFund} onChange={(value) => setFilter('minFund', value)} min={0} style={{ width: '100%' }} />
-                    <InputNumber placeholder="à¸£à¸²à¸¢à¹„à¸”à¹‰à¸‚à¸±à¹‰à¸™à¸•à¹ˆà¸³" value={filters.minIncome} onChange={(value) => setFilter('minIncome', value)} min={0} style={{ width: '100%' }} />
-                    <Button icon={<FilterOutlined />} onClick={() => setFilters({})} disabled={activeFilterCount === 0}>à¸¥à¹‰à¸²à¸‡à¸•à¸±à¸§à¸à¸£à¸­à¸‡ {activeFilterCount ? `(${activeFilterCount})` : ''}</Button>
+                    <Input.Search allowClear placeholder="ค้นหา ชื่อ/รหัส/โทร/กิจกรรม" value={filters.search} onChange={(event) => setFilter('search', event.target.value)} />
+                    <Select allowClear placeholder="อำเภอ" value={filters.district} onChange={(value) => setFilter('district', value)} options={districtOptions} showSearch />
+                    <Select allowClear placeholder="ตำบล" value={filters.subdistrict} onChange={(value) => setFilter('subdistrict', value)} options={subdistrictOptions} showSearch />
+                    <Select allowClear placeholder="ศักยภาพ" value={filters.potential_level} onChange={(value) => setFilter('potential_level', value)} options={potentialOptions} showSearch />
+                    <Select allowClear placeholder="กลุ่มต้นแบบ" value={filters.model_group} onChange={(value) => setFilter('model_group', value)} options={modelGroupOptions} showSearch />
+                    <InputNumber placeholder="ทุนขั้นต่ำ" value={filters.minFund} onChange={(value) => setFilter('minFund', value)} min={0} style={{ width: '100%' }} />
+                    <InputNumber placeholder="รายได้ขั้นต่ำ" value={filters.minIncome} onChange={(value) => setFilter('minIncome', value)} min={0} style={{ width: '100%' }} />
+                    <Button icon={<FilterOutlined />} onClick={() => setFilters({})} disabled={activeFilterCount === 0}>ล้างตัวกรอง {activeFilterCount ? `(${activeFilterCount})` : ''}</Button>
                 </div>
                 <div ref={topScrollRef} style={{ overflowX: 'auto', overflowY: 'hidden', height: 16, marginBottom: 8 }}>
                     <div style={{ width: tableScrollX, height: 1 }} />
@@ -595,8 +595,8 @@ export default function YoungFarmerGroupsDashboard() {
                 open={editOpen}
                 onCancel={() => { setEditOpen(false); setEditingRecord(null); form.resetFields(); }}
                 onOk={handleSave}
-                okText="à¸šà¸±à¸™à¸—à¸¶à¸"
-                cancelText="à¸¢à¸à¹€à¸¥à¸´à¸"
+                okText="บันทึก"
+                cancelText="ยกเลิก"
                 width={760}
                 destroyOnClose
             >

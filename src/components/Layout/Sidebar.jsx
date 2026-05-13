@@ -114,7 +114,6 @@ const allMenuItems = [
             { key: '/dashboard/development/community-enterprises', icon: <ShopOutlined />, label: 'วิสาหกิจชุมชน' },
             { key: '/dashboard/development/smart-farmer-sf', icon: <UserSwitchOutlined />, label: 'เกษตรกรปราดเปรื่อง (SF)' },
             { key: '/dashboard/development/young-smart-farmer-ysf', icon: <UserSwitchOutlined />, label: 'เกษตรกรรุ่นใหม่ (YSF)' },
-            { key: '/dashboard/development/smart-farmers', icon: <UserSwitchOutlined />, label: 'เกษตรกรรุ่นใหม่' },
             { key: '/dashboard/development/agricultural-career-groups', icon: <UsergroupAddOutlined />, label: 'กลุ่มส่งเสริมอาชีพการเกษตร' },
             { key: '/dashboard/development/housewife-farmer-groups', icon: <UsergroupAddOutlined />, label: 'กลุ่มแม่บ้านเกษตรกร' },
             { key: '/dashboard/development/young-farmer-groups', icon: <UsergroupAddOutlined />, label: 'กลุ่มยุวเกษตรกร' },
