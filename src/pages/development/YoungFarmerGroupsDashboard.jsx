@@ -41,7 +41,7 @@ const columns = [
     { title: 'Lon', dataIndex: 'lon', key: 'lon', width: 100, importHeader: 'Lon', render: (value) => value ? Number(value).toFixed(6) : '-' },
 ];
 
-const requiredColumnKeysconst requiredColumnKeys = ['record_code', 'group_name', 'district', 'member_count', 'activity'];
+const requiredColumnKeys = ['record_code', 'group_name', 'district', 'member_count', 'activity'];
 const defaultOptionalColumnKeys = ['data_year', 'subdistrict', 'phone', 'mobile', 'model_group', 'fund_management', 'income', 'potential_level'];
 const compactColumnConfig = {
     data_year: { title: 'ปี', width: 64 },
@@ -68,7 +68,7 @@ const compactColumnConfig = {
     lon: { width: 92 },
 };
 
-const numberFieldKeysconst numberFieldKeys = ['data_year', 'established_year_be', 'established_year_ce', 'member_count', 'fund_management', 'income', 'activity_count', 'lat', 'lon'];
+const numberFieldKeys = ['data_year', 'established_year_be', 'established_year_ce', 'member_count', 'fund_management', 'income', 'activity_count', 'lat', 'lon'];
 const editableColumns = columns.filter((column) => column.dataIndex && !['id', 'created_at', 'updated_at'].includes(column.dataIndex));
 
 function countBy(rows, key, limit = 12) {

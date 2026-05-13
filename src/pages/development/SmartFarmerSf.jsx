@@ -34,7 +34,7 @@ const columns = [
     { title: 'พื้นที่การผลิต', dataIndex: 'production_area', key: 'production_area', width: 180, importHeader: 'พื้นที่การผลิต' },
 ];
 
-const importColumnsconst importColumns = columns.filter((column) => column.dataIndex !== 'full_name');
+const importColumns = columns.filter((column) => column.dataIndex !== 'full_name');
 const requiredColumnKeys = ['sequence_no', 'record_code', 'full_name', 'district', 'agricultural_activity'];
 const defaultOptionalColumnKeys = ['data_year', 'age', 'province', 'farmer_status', 'phone', 'education', 'annual_agri_income'];
 const compactColumnConfig = {
@@ -59,7 +59,7 @@ const compactColumnConfig = {
     production_area: { title: 'พื้นที่', width: 120, ellipsis: true },
 };
 
-const numberFieldKeysconst numberFieldKeys = ['data_year', 'sequence_no', 'age', 'annual_agri_income'];
+const numberFieldKeys = ['data_year', 'sequence_no', 'age', 'annual_agri_income'];
 const editableColumns = columns.filter((column) => column.dataIndex && !['id', 'full_name', 'created_at', 'updated_at'].includes(column.dataIndex));
 
 function countBy(rows, key, limit = 12) {
