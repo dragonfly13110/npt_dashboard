@@ -18,6 +18,8 @@ const TABLE_ROUTES = {
     community_enterprises: '/dashboard/development/community-enterprises',
     smart_farmers: '/dashboard/development/smart-farmers',
     smart_farmer_sf: '/dashboard/development/smart-farmer-sf',
+    young_smart_farmer_ysf: '/dashboard/development/young-smart-farmer-ysf',
+    agricultural_career_groups: '/dashboard/development/agricultural-career-groups',
     farmer_groups: '/dashboard/development/farmer-groups',
     housewife_farmer_groups: '/dashboard/development/housewife-farmer-groups',
     young_farmer_groups: '/dashboard/development/young-farmer-groups',

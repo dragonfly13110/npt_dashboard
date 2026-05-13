@@ -308,6 +308,74 @@ CREATE TABLE IF NOT EXISTS young_farmer_groups_detailed (
   UNIQUE (data_year, record_code)
 );
 
+CREATE TABLE IF NOT EXISTS young_smart_farmer_ysf (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  data_year INTEGER NOT NULL,
+  record_code TEXT NOT NULL,
+  sequence_no INTEGER,
+  title TEXT,
+  first_name TEXT,
+  last_name TEXT,
+  full_name TEXT GENERATED ALWAYS AS (trim(coalesce(title, '') || ' ' || coalesce(first_name, '') || ' ' || coalesce(last_name, ''))) STORED,
+  address_no TEXT,
+  moo TEXT,
+  subdistrict TEXT,
+  district TEXT,
+  province TEXT,
+  phone TEXT,
+  line_id TEXT,
+  email TEXT,
+  facebook TEXT,
+  education TEXT,
+  education_major TEXT,
+  production_area TEXT,
+  agricultural_activity TEXT,
+  production_standard TEXT,
+  farmer_status TEXT,
+  sales_channel TEXT,
+  affiliated_district TEXT,
+  farm_area_rai NUMERIC,
+  annual_agri_income NUMERIC,
+  main_activity_type TEXT,
+  has_crop TEXT,
+  has_livestock TEXT,
+  has_fishery TEXT,
+  has_processing TEXT,
+  has_online_channel TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE (data_year, record_code)
+);
+
+CREATE TABLE IF NOT EXISTS agricultural_career_groups (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  data_year INTEGER NOT NULL,
+  record_code TEXT NOT NULL,
+  group_name TEXT NOT NULL,
+  address_no TEXT,
+  moo TEXT,
+  subdistrict TEXT,
+  district TEXT,
+  province TEXT,
+  mobile TEXT,
+  established_date TEXT,
+  established_date_ce DATE,
+  established_year_be INTEGER,
+  member_count INTEGER,
+  community_enterprise_registration TEXT,
+  fund_management NUMERIC,
+  income NUMERIC,
+  activity TEXT,
+  main_activity TEXT,
+  production_standard TEXT,
+  potential_level TEXT,
+  lat NUMERIC,
+  lon NUMERIC,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE (data_year, record_code)
+);
+
 CREATE TABLE IF NOT EXISTS agri_tourism (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   spot_name TEXT NOT NULL,
@@ -393,6 +461,8 @@ ALTER TABLE crop_production ENABLE ROW LEVEL SECURITY;
 ALTER TABLE community_enterprises ENABLE ROW LEVEL SECURITY;
 ALTER TABLE smart_farmers ENABLE ROW LEVEL SECURITY;
 ALTER TABLE smart_farmer_sf ENABLE ROW LEVEL SECURITY;
+ALTER TABLE young_smart_farmer_ysf ENABLE ROW LEVEL SECURITY;
+ALTER TABLE agricultural_career_groups ENABLE ROW LEVEL SECURITY;
 ALTER TABLE farmer_groups ENABLE ROW LEVEL SECURITY;
 ALTER TABLE housewife_farmer_groups ENABLE ROW LEVEL SECURITY;
 ALTER TABLE young_farmer_groups ENABLE ROW LEVEL SECURITY;
@@ -432,6 +502,26 @@ DROP POLICY IF EXISTS "Allow editor update smart farmer sf" ON smart_farmer_sf;
 CREATE POLICY "Allow editor update smart farmer sf" ON smart_farmer_sf FOR UPDATE TO authenticated USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor'))) WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
 DROP POLICY IF EXISTS "Allow admin delete smart farmer sf" ON smart_farmer_sf;
 CREATE POLICY "Allow admin delete smart farmer sf" ON smart_farmer_sf FOR DELETE TO authenticated USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role = 'admin'));
+
+DROP POLICY IF EXISTS "Allow public read young smart farmer ysf" ON young_smart_farmer_ysf;
+DROP POLICY IF EXISTS "Allow authenticated full access" ON young_smart_farmer_ysf;
+CREATE POLICY "Allow public read young smart farmer ysf" ON young_smart_farmer_ysf FOR SELECT TO anon, authenticated USING (true);
+DROP POLICY IF EXISTS "Allow editor insert young smart farmer ysf" ON young_smart_farmer_ysf;
+CREATE POLICY "Allow editor insert young smart farmer ysf" ON young_smart_farmer_ysf FOR INSERT TO authenticated WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
+DROP POLICY IF EXISTS "Allow editor update young smart farmer ysf" ON young_smart_farmer_ysf;
+CREATE POLICY "Allow editor update young smart farmer ysf" ON young_smart_farmer_ysf FOR UPDATE TO authenticated USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor'))) WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
+DROP POLICY IF EXISTS "Allow admin delete young smart farmer ysf" ON young_smart_farmer_ysf;
+CREATE POLICY "Allow admin delete young smart farmer ysf" ON young_smart_farmer_ysf FOR DELETE TO authenticated USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role = 'admin'));
+
+DROP POLICY IF EXISTS "Allow public read agricultural career groups" ON agricultural_career_groups;
+DROP POLICY IF EXISTS "Allow authenticated full access" ON agricultural_career_groups;
+CREATE POLICY "Allow public read agricultural career groups" ON agricultural_career_groups FOR SELECT TO anon, authenticated USING (true);
+DROP POLICY IF EXISTS "Allow editor insert agricultural career groups" ON agricultural_career_groups;
+CREATE POLICY "Allow editor insert agricultural career groups" ON agricultural_career_groups FOR INSERT TO authenticated WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
+DROP POLICY IF EXISTS "Allow editor update agricultural career groups" ON agricultural_career_groups;
+CREATE POLICY "Allow editor update agricultural career groups" ON agricultural_career_groups FOR UPDATE TO authenticated USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor'))) WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
+DROP POLICY IF EXISTS "Allow admin delete agricultural career groups" ON agricultural_career_groups;
+CREATE POLICY "Allow admin delete agricultural career groups" ON agricultural_career_groups FOR DELETE TO authenticated USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role = 'admin'));
 
 DROP POLICY IF EXISTS "Allow public read young farmer groups detailed" ON young_farmer_groups_detailed;
 DROP POLICY IF EXISTS "Allow authenticated full access" ON young_farmer_groups_detailed;

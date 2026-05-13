@@ -18,7 +18,7 @@ const GROUP_TABLES = {
     admin: ['personnel', 'assets', 'budgets'],
     strategy: ['farmer_registry', 'gis_areas'],
     production: ['large_plots', 'learning_centers', 'certifications', 'crop_production', 'coconut_aromatic_surveys'],
-    development: ['community_enterprises', 'smart_farmers', 'smart_farmer_sf', 'farmer_groups', 'housewife_farmer_groups', 'young_farmer_groups', 'young_farmer_groups_detailed', 'agri_tourism', 'disasters'],
+    development: ['community_enterprises', 'smart_farmers', 'smart_farmer_sf', 'young_smart_farmer_ysf', 'agricultural_career_groups', 'farmer_groups', 'housewife_farmer_groups', 'young_farmer_groups', 'young_farmer_groups_detailed', 'agri_tourism', 'disasters'],
     protection: ['forecast_plots', 'pest_centers', 'biocontrol_stock', 'fire_hotspots'],
 };
 
