@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Button, Card, Col, Empty, Form, Input, InputNumber, Modal, Popconfirm, Progress, Row, Select, Space, Spin, Statistic, Table, Tag, message } from 'antd';
-import { DeleteOutlined, EditOutlined, EnvironmentOutlined, PlusOutlined, SearchOutlined, ShopOutlined, TeamOutlined, TrophyOutlined, WalletOutlined } from '@ant-design/icons';
+import { Button, Card, Checkbox, Col, Empty, Form, Input, InputNumber, Modal, Popconfirm, Popover, Progress, Row, Select, Space, Spin, Statistic, Table, Tag, message } from 'antd';
+import { AppstoreOutlined, DeleteOutlined, EditOutlined, EnvironmentOutlined, PlusOutlined, SearchOutlined, ShopOutlined, TeamOutlined, TrophyOutlined, WalletOutlined } from '@ant-design/icons';
 import CrudTable from '../../components/DataTable/CrudTable';
 import { supabase } from '../../supabaseClient';
 import { useApiCache } from '../../hooks/useApiCache';
@@ -268,6 +268,12 @@ const housewifeColumns = [
     { title: 'Lon', dataIndex: 'lon', key: 'lon', width: 110, render: (v) => hasValue(v) ? Number(v).toFixed(6) : '-' },
 ];
 
+// Column picker config
+const REQUIRED_KEYS = ['year', 'group_name', 'district', 'subdistrict', 'member_count', 'activity'];
+const DEFAULT_KEYS = ['year', 'group_name', 'district', 'subdistrict', 'member_count', 'activity', 'potential_level', 'has_sales_channel', 'fund_management', 'income'];
+const ALL_OPTIONAL_KEYS = housewifeColumns.filter((c) => !REQUIRED_KEYS.includes(c.key)).map((c) => c.key);
+const DEFAULT_OPTIONAL_KEYS = DEFAULT_KEYS.filter((k) => !REQUIRED_KEYS.includes(k));
+
 const normalizeHousewifeValues = (values) => ({
     ...values,
     year: values.year ? Number(values.year) : null,
@@ -386,6 +392,7 @@ export function HousewifeFarmerGroups() {
     const [modalOpen, setModalOpen] = useState(false);
     const [editingRecord, setEditingRecord] = useState(null);
     const [saving, setSaving] = useState(false);
+    const [visibleOptionalColumns, setVisibleOptionalColumns] = useState(DEFAULT_OPTIONAL_KEYS);
     const [form] = Form.useForm();
 
     const fetchGroups = async () => {
@@ -484,8 +491,44 @@ export function HousewifeFarmerGroups() {
         refetch();
     };
 
-    const tableColumns = (!userCanEdit && !userCanDelete) ? housewifeColumns : [
-        ...housewifeColumns,
+    // --- Column picker logic ---
+    const visibleKeys = new Set([...REQUIRED_KEYS, ...visibleOptionalColumns]);
+    const filteredHousewifeColumns = housewifeColumns.filter((c) => visibleKeys.has(c.key));
+    const totalColCount = housewifeColumns.length;
+    const visibleColCount = filteredHousewifeColumns.length;
+
+    const columnPickerContent = (
+        <div style={{ maxWidth: 340 }}>
+            <Space size={4} style={{ marginBottom: 8 }}>
+                <Button size="small" onClick={() => setVisibleOptionalColumns([...ALL_OPTIONAL_KEYS])}>เลือกทั้งหมด</Button>
+                <Button size="small" onClick={() => setVisibleOptionalColumns(DEFAULT_OPTIONAL_KEYS)}>ค่าเริ่มต้น</Button>
+                <Button size="small" onClick={() => setVisibleOptionalColumns([])}>หลักเท่านั้น</Button>
+            </Space>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 0' }}>
+                {housewifeColumns.map((col) => {
+                    const isRequired = REQUIRED_KEYS.includes(col.key);
+                    return (
+                        <Checkbox
+                            key={col.key}
+                            checked={isRequired || visibleOptionalColumns.includes(col.key)}
+                            disabled={isRequired}
+                            onChange={(e) => {
+                                setVisibleOptionalColumns((prev) =>
+                                    e.target.checked ? [...prev, col.key] : prev.filter((k) => k !== col.key)
+                                );
+                            }}
+                            style={{ width: '50%', marginInlineStart: 0 }}
+                        >
+                            {col.title}{isRequired ? ' (หลัก)' : ''}
+                        </Checkbox>
+                    );
+                })}
+            </div>
+        </div>
+    );
+
+    const tableColumns = (!userCanEdit && !userCanDelete) ? filteredHousewifeColumns : [
+        ...filteredHousewifeColumns,
         {
             title: 'จัดการ',
             key: 'actions',
@@ -560,13 +603,16 @@ export function HousewifeFarmerGroups() {
             <Card
                 title={`ตารางข้อมูลกลุ่มแม่บ้านเกษตรกร ปี ${activeYear}`}
                 extra={
-                    <Space>
+                    <Space wrap>
                         <span>{number.format(filteredRows.length)} / {number.format(activeYearRows.length)} รายการ</span>
                         {userCanEdit && (
                             <Button type="primary" icon={<PlusOutlined />} onClick={openAdd}>
                                 เพิ่มข้อมูล
                             </Button>
                         )}
+                        <Popover content={columnPickerContent} title="เลือกคอลัมน์ที่แสดง" trigger="click" placement="bottomRight">
+                            <Button icon={<AppstoreOutlined />}>คอลัมน์ {visibleColCount}/{totalColCount}</Button>
+                        </Popover>
                     </Space>
                 }
             >
