@@ -84,35 +84,28 @@ export default function Personnel() {
         provincial: 0,
         district: 0
     });
+    const [rawData, setRawData] = useState([]);
     const [positionData, setPositionData] = useState([]);
     const [locationData, setLocationData] = useState([]);
+    const [selectedPosition, setSelectedPosition] = useState('all');
 
     const fetchStats = async () => {
         const { data, error } = await supabase.from('personnel').select('office_type, position, district');
         if (!error && data) {
+            setRawData(data);
             setStats({
                 total: data.length,
                 provincial: data.filter(d => d.office_type === 'Provincial').length,
                 district: data.filter(d => d.office_type === 'District').length
             });
 
-            // Process position counts
+            // Process position counts for the pie chart (always shows all data)
             const posCounts = {};
-            const locCounts = {};
             data.forEach(d => {
                 const pos = d.position || 'ไม่ระบุ';
                 posCounts[pos] = (posCounts[pos] || 0) + 1;
-                
-                // Group by location
-                if (d.office_type === 'Provincial') {
-                    locCounts['ระดับจังหวัด (รวม)'] = (locCounts['ระดับจังหวัด (รวม)'] || 0) + 1;
-                } else {
-                    const dist = d.district ? `อ.${d.district}` : 'ไม่ระบุอำเภอ';
-                    locCounts[dist] = (locCounts[dist] || 0) + 1;
-                }
             });
 
-            // Format for charts (Top 6 + Others for pie)
             const formatForPie = (counts) => {
                 const sorted = Object.entries(counts).sort((a,b) => b[1] - a[1]);
                 const top = sorted.slice(0, 6).map(([name, value]) => ({ name, value }));
@@ -121,20 +114,44 @@ export default function Personnel() {
                 return top;
             };
 
-            const formatForBar = (counts) => {
-                return Object.entries(counts)
-                    .map(([name, value]) => ({ name, value }))
-                    .sort((a,b) => b.value - a.value);
-            };
-
             setPositionData(formatForPie(posCounts));
-            setLocationData(formatForBar(locCounts));
         }
     };
 
     useEffect(() => {
         fetchStats();
     }, []);
+
+    useEffect(() => {
+        if (rawData.length > 0) {
+            const locCounts = {};
+            
+            // Filter data if a specific position is selected
+            const filteredData = selectedPosition === 'all' 
+                ? rawData 
+                : rawData.filter(d => (d.position || 'ไม่ระบุ') === selectedPosition);
+
+            filteredData.forEach(d => {
+                if (d.office_type === 'Provincial') {
+                    locCounts['ระดับจังหวัด (รวม)'] = (locCounts['ระดับจังหวัด (รวม)'] || 0) + 1;
+                } else {
+                    const dist = d.district ? `อ.${d.district}` : 'ไม่ระบุอำเภอ';
+                    locCounts[dist] = (locCounts[dist] || 0) + 1;
+                }
+            });
+
+            const formatForBar = (counts) => {
+                return Object.entries(counts)
+                    .map(([name, value]) => ({ name, value }))
+                    .sort((a,b) => b.value - a.value);
+            };
+
+            setLocationData(formatForBar(locCounts));
+        }
+    }, [rawData, selectedPosition]);
+
+    // Extract unique positions for the dropdown
+    const uniquePositions = [...new Set(rawData.map(d => d.position || 'ไม่ระบุ'))].sort();
 
     return (
         <div style={{ paddingBottom: 24 }}>
@@ -186,7 +203,24 @@ export default function Personnel() {
                     </Card>
                 </Col>
                 <Col xs={24} md={12}>
-                    <Card title="บุคลากรแยกตามหน่วยงาน/อำเภอ" bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.05)', height: '100%' }}>
+                    <Card 
+                        title="บุคลากรแยกตามหน่วยงาน/อำเภอ" 
+                        bordered={false} 
+                        style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.05)', height: '100%' }}
+                        extra={
+                            <Select 
+                                value={selectedPosition} 
+                                onChange={setSelectedPosition} 
+                                style={{ width: 160 }} 
+                                placeholder="ทุกตำแหน่ง"
+                            >
+                                <Select.Option value="all">ทุกตำแหน่ง</Select.Option>
+                                {uniquePositions.map(pos => (
+                                    <Select.Option key={pos} value={pos}>{pos}</Select.Option>
+                                ))}
+                            </Select>
+                        }
+                    >
                         <div style={{ height: 350 }}>
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={locationData} layout="vertical" margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>
