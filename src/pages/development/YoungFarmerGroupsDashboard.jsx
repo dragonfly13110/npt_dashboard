@@ -342,7 +342,7 @@ export default function YoungFarmerGroupsDashboard() {
     };
 
     const actionColumn = userCanEdit ? {
-        title: '�¸��¸±�¸��¸�¸²�¸£',
+        title: 'จัดการ',
         key: 'actions',
         width: userCanDelete ? 96 : 56,
         fixed: 'right',
@@ -416,9 +416,9 @@ export default function YoungFarmerGroupsDashboard() {
                 })}
             </div>
             <Space style={{ marginTop: 12 }}>
-                <Button size="small" onClick={() => setVisibleOptionalColumns(selectableColumns.filter((column) => !requiredColumnKeys.includes(column.dataIndex)).map((column) => column.dataIndex))}>�¹��¸¥�¸·�¸­�¸�¸��¸±�¹��¸��¸«�¸¡�¸�</Button>
-                <Button size="small" onClick={() => setVisibleOptionalColumns(defaultOptionalColumnKeys)}>�¸��¹��¸²�¹��¸£�¸´�¹��¸¡�¸��¹��¸�</Button>
-                <Button size="small" onClick={() => setVisibleOptionalColumns([])}>�¸«�¸¥�¸±�¸�¹��¸��¹��¸²�¸��¸±�¹��¸�</Button>
+                <Button size="small" onClick={() => setVisibleOptionalColumns(selectableColumns.filter((column) => !requiredColumnKeys.includes(column.dataIndex)).map((column) => column.dataIndex))}>เลือกทั้งหมด</Button>
+                <Button size="small" onClick={() => setVisibleOptionalColumns(defaultOptionalColumnKeys)}>ค่าเริ่มต้น</Button>
+                <Button size="small" onClick={() => setVisibleOptionalColumns([])}>หลักเท่านั้น</Button>
             </Space>
         </div>
     );
@@ -468,8 +468,8 @@ export default function YoungFarmerGroupsDashboard() {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap', marginBottom: 20 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <TeamOutlined style={{ fontSize: 20, color: '#1a7f37' }} />
-                        <span style={{ fontSize: 18, fontWeight: 700, color: '#1f2328' }}>�¸�¸¥�¸¸�¹��¸¡�¸¢�¸¸�¸§�¹��¸�¸©�¸��¸£�¸�¸£</span>
-                        <Tag color="green">�¸��¸µ {activeYear || '-'}</Tag>
+                        <span style={{ fontSize: 18, fontWeight: 700, color: '#1f2328' }}>กลุ่มยุวเกษตรกร</span>
+                        <Tag color="green">ปี {activeYear || '-'}</Tag>
                     </div>
                 </div>
 

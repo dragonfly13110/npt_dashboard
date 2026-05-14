@@ -1,11 +1,11 @@
 import { useState, useMemo } from 'react';
 import {
-    Table, Button, Input, Modal, Form, Space, Popconfirm, Tag, Tooltip, Empty, Select, message
+    Table, Button, Input, Modal, Form, Space, Popconfirm, Tag, Tooltip, Empty, Select, message, Popover, Checkbox
 } from 'antd';
 import {
     PlusOutlined, EditOutlined, DeleteOutlined,
     SearchOutlined, DownloadOutlined, ReloadOutlined, UploadOutlined,
-    FileExcelOutlined, FilterOutlined
+    FileExcelOutlined, FilterOutlined, SettingOutlined
 } from '@ant-design/icons';
 import { useSupabaseCrud } from '../../hooks/useSupabase';
 import CsvImportModal from './CsvImportModal';
@@ -14,7 +14,7 @@ import { useApiCache } from '../../hooks/useApiCache';
 import { supabase } from '../../supabaseClient';
 import { getPublicColumns } from '../../utils/dataPrivacy';
 
-export default function CrudTable({ tableName, title, columns, formFields, searchField, searchFields, filterConfig = [], scrollX = 1000, defaultSort = null, extraActions = null, fetchDataOverride = null, fetchAllOverride = null }) {
+export default function CrudTable({ tableName, title, columns, formFields, searchField, searchFields, filterConfig = [], scrollX = 1000, defaultSort = null, extraActions = null, fetchDataOverride = null, fetchAllOverride = null, requiredColumns = null, defaultColumns = null }) {
     const { createRecord, updateRecord, deleteRecord, fetchAll } = useSupabaseCrud(tableName);
     const { canEdit, canDelete, role } = useAuth();
     const [modalOpen, setModalOpen] = useState(false);
@@ -29,6 +29,20 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
 
     const userCanEdit = canEdit();
     const userCanDelete = canDelete();
+
+    // Column picker: derive selectable, required, default, and optional column keys
+    const selectableColumnKeys = useMemo(() => columns.filter(c => c.dataIndex).map(c => c.dataIndex), [columns]);
+    const requiredColumnKeys = useMemo(() => {
+        if (requiredColumns) return requiredColumns;
+        // Default: first 4 data columns are required
+        return selectableColumnKeys.slice(0, Math.min(4, selectableColumnKeys.length));
+    }, [requiredColumns, selectableColumnKeys]);
+    const defaultOptionalColumnKeys = useMemo(() => {
+        if (defaultColumns) return defaultColumns.filter(k => !requiredColumnKeys.includes(k));
+        // Default: show first 8 optional columns
+        return selectableColumnKeys.filter(k => !requiredColumnKeys.includes(k)).slice(0, 8);
+    }, [defaultColumns, requiredColumnKeys, selectableColumnKeys]);
+    const [visibleOptionalColumns, setVisibleOptionalColumns] = useState(() => defaultOptionalColumnKeys);
 
     const fetchTableData = async () => {
         if (fetchDataOverride) {
@@ -161,9 +175,49 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
     const activeFilterCount = Object.values(filters).filter(v => v !== undefined && v !== null && v !== '').length;
 
     // Filter out name columns for guest, except for presidents
-    const visibleColumns = useMemo(() => {
+    const allPublicColumns = useMemo(() => {
         return getPublicColumns(tableName, columns, role);
     }, [columns, role, tableName]);
+
+    // Apply column picker filter
+    const visibleColumns = useMemo(() => {
+        return allPublicColumns.filter(col => {
+            if (!col.dataIndex) return true; // keep action columns etc.
+            return requiredColumnKeys.includes(col.dataIndex) || visibleOptionalColumns.includes(col.dataIndex);
+        });
+    }, [allPublicColumns, requiredColumnKeys, visibleOptionalColumns]);
+
+    // Column selector popover content
+    const columnSelector = useMemo(() => (
+        <div style={{ width: 280, maxHeight: 420, overflowY: 'auto', padding: 12 }}>
+            <div style={{ fontWeight: 700, marginBottom: 8 }}>เลือกคอลัมน์ที่แสดง</div>
+            <div style={{ display: 'grid', gap: 6 }}>
+                {allPublicColumns.filter(c => c.dataIndex).map(col => {
+                    const locked = requiredColumnKeys.includes(col.dataIndex);
+                    return (
+                        <Checkbox
+                            key={col.dataIndex}
+                            checked={locked || visibleOptionalColumns.includes(col.dataIndex)}
+                            disabled={locked}
+                            onChange={(e) => {
+                                setVisibleOptionalColumns(prev => e.target.checked
+                                    ? [...prev, col.dataIndex]
+                                    : prev.filter(k => k !== col.dataIndex)
+                                );
+                            }}
+                        >
+                            {typeof col.title === 'string' ? col.title : col.dataIndex}{locked ? ' (หลัก)' : ''}
+                        </Checkbox>
+                    );
+                })}
+            </div>
+            <Space style={{ marginTop: 12 }}>
+                <Button size="small" onClick={() => setVisibleOptionalColumns(allPublicColumns.filter(c => c.dataIndex && !requiredColumnKeys.includes(c.dataIndex)).map(c => c.dataIndex))}>เลือกทั้งหมด</Button>
+                <Button size="small" onClick={() => setVisibleOptionalColumns(defaultOptionalColumnKeys)}>ค่าเริ่มต้น</Button>
+                <Button size="small" onClick={() => setVisibleOptionalColumns([])}>หลักเท่านั้น</Button>
+            </Space>
+        </div>
+    ), [allPublicColumns, requiredColumnKeys, visibleOptionalColumns, defaultOptionalColumnKeys]);
 
     const handleExportCSV = () => {
         if (!data.length) return;
@@ -296,6 +350,11 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
                     <Button icon={<FileExcelOutlined />} onClick={handleExportExcel} className="export-btn export-excel-btn">
                         Export Excel
                     </Button>
+                    <Popover content={columnSelector} trigger="click" placement="bottomRight">
+                        <Button icon={<SettingOutlined />} className="export-btn">
+                            คอลัมน์ {visibleColumns.filter(c => c.dataIndex).length}/{allPublicColumns.filter(c => c.dataIndex).length}
+                        </Button>
+                    </Popover>
                     {userCanEdit && (
                         <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd} className="add-btn">
                             เพิ่มข้อมูล
