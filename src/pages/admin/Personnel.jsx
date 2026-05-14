@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Form, Input, Select, DatePicker, Row, Col, Card, Statistic } from 'antd';
-import { TeamOutlined, BankOutlined, EnvironmentOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import { TeamOutlined, BankOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { PieChart, Pie, Cell, Tooltip as RechartsTooltip, ResponsiveContainer, Legend } from 'recharts';
 import CrudTable from '../../components/DataTable/CrudTable';
 import { supabase } from '../../supabaseClient';
 
@@ -75,23 +76,47 @@ const filterConfig = [
     { key: 'status', label: 'สถานะ', options: ['ปฏิบัติงาน', 'ลาศึกษาต่อ', 'ช่วยราชการ', 'เกษียณ'] }
 ];
 
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#ffc658', '#8dd1e1', '#a4de6c'];
+
 export default function Personnel() {
     const [stats, setStats] = useState({
         total: 0,
         provincial: 0,
-        district: 0,
-        working: 0
+        district: 0
     });
+    const [positionData, setPositionData] = useState([]);
+    const [departmentData, setDepartmentData] = useState([]);
 
     const fetchStats = async () => {
-        const { data, error } = await supabase.from('personnel').select('office_type, status');
+        const { data, error } = await supabase.from('personnel').select('office_type, position, department');
         if (!error && data) {
             setStats({
                 total: data.length,
                 provincial: data.filter(d => d.office_type === 'Provincial').length,
-                district: data.filter(d => d.office_type === 'District').length,
-                working: data.filter(d => !d.status || d.status === 'ปฏิบัติงาน').length
+                district: data.filter(d => d.office_type === 'District').length
             });
+
+            // Process position counts
+            const posCounts = {};
+            const depCounts = {};
+            data.forEach(d => {
+                const pos = d.position || 'ไม่ระบุ';
+                const dep = d.department || 'ไม่ระบุ';
+                posCounts[pos] = (posCounts[pos] || 0) + 1;
+                depCounts[dep] = (depCounts[dep] || 0) + 1;
+            });
+
+            // Format for charts (Top 6 + Others)
+            const formatForChart = (counts) => {
+                const sorted = Object.entries(counts).sort((a,b) => b[1] - a[1]);
+                const top = sorted.slice(0, 6).map(([name, value]) => ({ name, value }));
+                const others = sorted.slice(6).reduce((sum, curr) => sum + curr[1], 0);
+                if (others > 0) top.push({ name: 'อื่นๆ', value: others });
+                return top;
+            };
+
+            setPositionData(formatForChart(posCounts));
+            setDepartmentData(formatForChart(depCounts));
         }
     };
 
@@ -99,27 +124,71 @@ export default function Personnel() {
         fetchStats();
     }, []);
 
+    const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
+        if (percent < 0.05) return null; // Don't show labels for tiny slices
+        const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+        const x = cx + radius * Math.cos(-midAngle * (Math.PI / 180));
+        const y = cy + radius * Math.sin(-midAngle * (Math.PI / 180));
+        return (
+            <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" fontSize={12} fontWeight="bold">
+                {`${(percent * 100).toFixed(0)}%`}
+            </text>
+        );
+    };
+
     return (
         <div style={{ paddingBottom: 24 }}>
-            <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
-                <Col xs={12} sm={6}>
+            <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+                <Col xs={24} sm={8}>
                     <Card bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
                         <Statistic title="บุคลากรทั้งหมด" value={stats.total} prefix={<TeamOutlined style={{ color: '#1890ff' }} />} suffix="คน" />
                     </Card>
                 </Col>
-                <Col xs={12} sm={6}>
+                <Col xs={12} sm={8}>
                     <Card bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
                         <Statistic title="ระดับจังหวัด" value={stats.provincial} prefix={<BankOutlined style={{ color: '#52c41a' }} />} suffix="คน" />
                     </Card>
                 </Col>
-                <Col xs={12} sm={6}>
+                <Col xs={12} sm={8}>
                     <Card bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
                         <Statistic title="ระดับอำเภอ" value={stats.district} prefix={<EnvironmentOutlined style={{ color: '#fa8c16' }} />} suffix="คน" />
                     </Card>
                 </Col>
-                <Col xs={12} sm={6}>
-                    <Card bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
-                        <Statistic title="กำลังปฏิบัติงาน" value={stats.working} prefix={<CheckCircleOutlined style={{ color: '#13c2c2' }} />} suffix="คน" />
+            </Row>
+
+            <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
+                <Col xs={24} md={12}>
+                    <Card title="สัดส่วนบุคลากรแยกตามตำแหน่ง" bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.05)', height: '100%' }}>
+                        <div style={{ height: 300 }}>
+                            <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                    <Pie data={positionData} cx="50%" cy="50%" labelLine={false} label={renderCustomizedLabel} outerRadius={100} fill="#8884d8" dataKey="value">
+                                        {positionData.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                    <RechartsTooltip formatter={(value) => [`${value} คน`, 'จำนวน']} />
+                                    <Legend layout="horizontal" verticalAlign="bottom" align="center" wrapperStyle={{ fontSize: '12px' }} />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </Card>
+                </Col>
+                <Col xs={24} md={12}>
+                    <Card title="สัดส่วนบุคลากรแยกตามกลุ่มงาน/อำเภอ" bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.05)', height: '100%' }}>
+                        <div style={{ height: 300 }}>
+                            <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                    <Pie data={departmentData} cx="50%" cy="50%" labelLine={false} label={renderCustomizedLabel} outerRadius={100} fill="#82ca9d" dataKey="value">
+                                        {departmentData.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[(index + 3) % COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                    <RechartsTooltip formatter={(value) => [`${value} คน`, 'จำนวน']} />
+                                    <Legend layout="horizontal" verticalAlign="bottom" align="center" wrapperStyle={{ fontSize: '12px' }} />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        </div>
                     </Card>
                 </Col>
             </Row>
@@ -134,7 +203,6 @@ export default function Personnel() {
                 filterConfig={filterConfig}
                 defaultSort={{ field: 'sort_order', order: 'ascend' }}
                 extraActions={() => {
-                    // Refetch stats when table reloads
                     fetchStats();
                     return null;
                 }}
