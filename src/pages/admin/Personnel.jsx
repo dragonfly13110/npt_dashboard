@@ -1,5 +1,8 @@
-import { Form, Input, Select, DatePicker } from 'antd';
+import { useState, useEffect } from 'react';
+import { Form, Input, Select, DatePicker, Row, Col, Card, Statistic } from 'antd';
+import { TeamOutlined, BankOutlined, EnvironmentOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import CrudTable from '../../components/DataTable/CrudTable';
+import { supabase } from '../../supabaseClient';
 
 const columns = [
     { title: 'ชื่อ-นามสกุล', dataIndex: 'full_name', key: 'full_name', width: 220 },
@@ -24,14 +27,6 @@ const columns = [
             </span>
         )
     },
-];
-
-const departments = [
-    'ฝ่ายบริหารทั่วไป',
-    'กลุ่มยุทธศาสตร์และสารสนเทศ',
-    'กลุ่มส่งเสริมและพัฒนาการผลิต',
-    'กลุ่มส่งเสริมและพัฒนาเกษตรกร',
-    'กลุ่มอารักขาพืช',
 ];
 
 const formFields = (
@@ -81,16 +76,69 @@ const filterConfig = [
 ];
 
 export default function Personnel() {
+    const [stats, setStats] = useState({
+        total: 0,
+        provincial: 0,
+        district: 0,
+        working: 0
+    });
+
+    const fetchStats = async () => {
+        const { data, error } = await supabase.from('personnel').select('office_type, status');
+        if (!error && data) {
+            setStats({
+                total: data.length,
+                provincial: data.filter(d => d.office_type === 'Provincial').length,
+                district: data.filter(d => d.office_type === 'District').length,
+                working: data.filter(d => !d.status || d.status === 'ปฏิบัติงาน').length
+            });
+        }
+    };
+
+    useEffect(() => {
+        fetchStats();
+    }, []);
+
     return (
-        <CrudTable
-            tableName="personnel"
-            title="ข้อมูลบุคลากร"
-            columns={columns}
-            formFields={formFields}
-            searchField="full_name"
-            searchFields={['full_name', 'department', 'district', 'position']}
-            filterConfig={filterConfig}
-            defaultSort={{ field: 'sort_order', order: 'ascend' }}
-        />
+        <div style={{ paddingBottom: 24 }}>
+            <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
+                <Col xs={12} sm={6}>
+                    <Card bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+                        <Statistic title="บุคลากรทั้งหมด" value={stats.total} prefix={<TeamOutlined style={{ color: '#1890ff' }} />} suffix="คน" />
+                    </Card>
+                </Col>
+                <Col xs={12} sm={6}>
+                    <Card bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+                        <Statistic title="ระดับจังหวัด" value={stats.provincial} prefix={<BankOutlined style={{ color: '#52c41a' }} />} suffix="คน" />
+                    </Card>
+                </Col>
+                <Col xs={12} sm={6}>
+                    <Card bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+                        <Statistic title="ระดับอำเภอ" value={stats.district} prefix={<EnvironmentOutlined style={{ color: '#fa8c16' }} />} suffix="คน" />
+                    </Card>
+                </Col>
+                <Col xs={12} sm={6}>
+                    <Card bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+                        <Statistic title="กำลังปฏิบัติงาน" value={stats.working} prefix={<CheckCircleOutlined style={{ color: '#13c2c2' }} />} suffix="คน" />
+                    </Card>
+                </Col>
+            </Row>
+
+            <CrudTable
+                tableName="personnel"
+                title="ข้อมูลบุคลากร"
+                columns={columns}
+                formFields={formFields}
+                searchField="full_name"
+                searchFields={['full_name', 'department', 'district', 'position']}
+                filterConfig={filterConfig}
+                defaultSort={{ field: 'sort_order', order: 'ascend' }}
+                extraActions={() => {
+                    // Refetch stats when table reloads
+                    fetchStats();
+                    return null;
+                }}
+            />
+        </div>
     );
 }
