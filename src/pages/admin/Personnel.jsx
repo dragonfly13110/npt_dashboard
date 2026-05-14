@@ -124,18 +124,6 @@ export default function Personnel() {
         fetchStats();
     }, []);
 
-    const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
-        if (percent < 0.05) return null; // Don't show labels for tiny slices
-        const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-        const x = cx + radius * Math.cos(-midAngle * (Math.PI / 180));
-        const y = cy + radius * Math.sin(-midAngle * (Math.PI / 180));
-        return (
-            <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" fontSize={12} fontWeight="bold">
-                {`${(percent * 100).toFixed(0)}%`}
-            </text>
-        );
-    };
-
     return (
         <div style={{ paddingBottom: 24 }}>
             <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
@@ -159,10 +147,21 @@ export default function Personnel() {
             <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
                 <Col xs={24} md={12}>
                     <Card title="สัดส่วนบุคลากรแยกตามตำแหน่ง" bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.05)', height: '100%' }}>
-                        <div style={{ height: 300 }}>
+                        <div style={{ height: 350 }}>
                             <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
-                                    <Pie data={positionData} cx="50%" cy="50%" labelLine={false} label={renderCustomizedLabel} outerRadius={100} fill="#8884d8" dataKey="value">
+                                    <Pie 
+                                        data={positionData} 
+                                        cx="50%" 
+                                        cy="45%" 
+                                        labelLine={true} 
+                                        label 
+                                        outerRadius={100} 
+                                        fill="#8884d8" 
+                                        dataKey="value"
+                                        nameKey="name"
+                                        isAnimationActive={false}
+                                    >
                                         {positionData.map((entry, index) => (
                                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                         ))}
@@ -176,10 +175,21 @@ export default function Personnel() {
                 </Col>
                 <Col xs={24} md={12}>
                     <Card title="สัดส่วนบุคลากรแยกตามกลุ่มงาน/อำเภอ" bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.05)', height: '100%' }}>
-                        <div style={{ height: 300 }}>
+                        <div style={{ height: 350 }}>
                             <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
-                                    <Pie data={departmentData} cx="50%" cy="50%" labelLine={false} label={renderCustomizedLabel} outerRadius={100} fill="#82ca9d" dataKey="value">
+                                    <Pie 
+                                        data={departmentData} 
+                                        cx="50%" 
+                                        cy="45%" 
+                                        labelLine={true} 
+                                        label 
+                                        outerRadius={100} 
+                                        fill="#82ca9d" 
+                                        dataKey="value"
+                                        nameKey="name"
+                                        isAnimationActive={false}
+                                    >
                                         {departmentData.map((entry, index) => (
                                             <Cell key={`cell-${index}`} fill={COLORS[(index + 3) % COLORS.length]} />
                                         ))}
