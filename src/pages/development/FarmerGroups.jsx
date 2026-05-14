@@ -271,7 +271,7 @@ const housewifeColumns = [
 
 // Column picker config
 const REQUIRED_KEYS = ['year', 'group_name', 'district', 'subdistrict', 'member_count', 'activity'];
-const DEFAULT_KEYS = ['year', 'group_name', 'district', 'subdistrict', 'member_count', 'activity', 'potential_level', 'has_sales_channel', 'fund_management', 'income'];
+const DEFAULT_KEYS = ['year', 'group_name', 'district', 'subdistrict', 'member_count', 'activity', 'potential_level', 'has_sales_channel', 'community_enterprise_registration', 'model_group', 'fund_management', 'income', 'production_standard', 'phone'];
 const ALL_OPTIONAL_KEYS = housewifeColumns.filter((c) => !REQUIRED_KEYS.includes(c.key)).map((c) => c.key);
 const DEFAULT_OPTIONAL_KEYS = DEFAULT_KEYS.filter((k) => !REQUIRED_KEYS.includes(k));
 
