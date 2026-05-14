@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Button, Card, Checkbox, Col, Empty, Form, Input, InputNumber, Modal, Popconfirm, Popover, Progress, Row, Select, Space, Spin, Statistic, Table, Tag, message } from 'antd';
-import { AppstoreOutlined, DeleteOutlined, EditOutlined, EnvironmentOutlined, PlusOutlined, SearchOutlined, ShopOutlined, TeamOutlined, TrophyOutlined, WalletOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, EnvironmentOutlined, FileExcelOutlined, PlusOutlined, SearchOutlined, ShopOutlined, TeamOutlined, TrophyOutlined, UploadOutlined, WalletOutlined } from '@ant-design/icons';
 import CrudTable from '../../components/DataTable/CrudTable';
+import CsvImportModal from '../../components/DataTable/CsvImportModal';
 import { supabase } from '../../supabaseClient';
 import { useApiCache } from '../../hooks/useApiCache';
 import { useAuth } from '../../contexts/AuthContext';
@@ -390,6 +391,7 @@ export function HousewifeFarmerGroups() {
     const [district, setDistrict] = useState('ทั้งหมด');
     const [year, setYear] = useState(2568);
     const [modalOpen, setModalOpen] = useState(false);
+    const [importModalOpen, setImportModalOpen] = useState(false);
     const [editingRecord, setEditingRecord] = useState(null);
     const [saving, setSaving] = useState(false);
     const [visibleOptionalColumns, setVisibleOptionalColumns] = useState(DEFAULT_OPTIONAL_KEYS);
@@ -484,11 +486,54 @@ export function HousewifeFarmerGroups() {
     const handleDelete = async (id) => {
         const { error } = await supabase.from(HOUSEWIFE_TABLE).delete().eq('id', id);
         if (error) {
-            message.error(error.message || 'ลบข้อมูลไม่สำเร็จ');
+            message.error(`ลบข้อมูลล้มเหลว: ${error.message}`);
             return;
         }
-        message.success('ลบข้อมูลแล้ว');
+        message.success('ลบข้อมูลสำเร็จ');
         refetch();
+    };
+
+    const handleExportCSV = () => {
+        if (!filteredRows.length) return;
+        const visibleCols = housewifeColumns.filter((c) => visibleKeys.has(c.key));
+        const headers = visibleCols.map(c => c.title);
+        const keys = visibleCols.map(c => c.dataIndex);
+        const csvContent = [
+            headers.join(','),
+            ...filteredRows.map(row => keys.map(k => `"${row[k] ?? ''}"`).join(','))
+        ].join('\n');
+        const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `HousewifeFarmerGroups_${activeYear}_${new Date().toISOString().slice(0, 10)}.csv`;
+        link.click();
+        URL.revokeObjectURL(url);
+    };
+
+    const handleExportExcel = async () => {
+        try {
+            if (!filteredRows.length) return;
+            const { utils, writeFile } = await import('xlsx');
+            const visibleCols = housewifeColumns.filter((c) => visibleKeys.has(c.key));
+            const headers = visibleCols.map(c => c.title);
+            const keys = visibleCols.map(c => c.dataIndex);
+            
+            const excelRows = filteredRows.map(row => {
+                const obj = {};
+                keys.forEach((k, i) => { obj[headers[i]] = row[k] ?? ''; });
+                return obj;
+            });
+
+            const ws = utils.json_to_sheet(excelRows);
+            ws['!cols'] = headers.map(h => ({ wch: Math.max(h.length * 2, 15) }));
+            const wb = utils.book_new();
+            utils.book_append_sheet(wb, ws, `กลุ่มแม่บ้าน ${activeYear}`);
+            writeFile(wb, `HousewifeFarmerGroups_${activeYear}_${new Date().toISOString().slice(0, 10)}.xlsx`);
+        } catch (err) {
+            console.error('Excel export error:', err);
+            message.error('Export Excel ล้มเหลว');
+        }
     };
 
     // --- Column picker logic ---
@@ -605,14 +650,25 @@ export function HousewifeFarmerGroups() {
                 extra={
                     <Space wrap>
                         <span>{number.format(filteredRows.length)} / {number.format(activeYearRows.length)} รายการ</span>
+                        {(userCanEdit || userCanDelete) && (
+                            <Button icon={<UploadOutlined />} onClick={() => setImportModalOpen(true)}>
+                                Import CSV
+                            </Button>
+                        )}
+                        <Button icon={<DownloadOutlined />} onClick={handleExportCSV}>
+                            Export CSV
+                        </Button>
+                        <Button icon={<FileExcelOutlined />} onClick={handleExportExcel} style={{ color: '#52c41a', borderColor: '#b7eb8f' }}>
+                            Export Excel
+                        </Button>
+                        <Popover content={columnPickerContent} title="เลือกคอลัมน์ที่แสดง" trigger="click" placement="bottomRight">
+                            <Button icon={<AppstoreOutlined />}>คอลัมน์ {visibleColCount}/{totalColCount}</Button>
+                        </Popover>
                         {userCanEdit && (
                             <Button type="primary" icon={<PlusOutlined />} onClick={openAdd}>
                                 เพิ่มข้อมูล
                             </Button>
                         )}
-                        <Popover content={columnPickerContent} title="เลือกคอลัมน์ที่แสดง" trigger="click" placement="bottomRight">
-                            <Button icon={<AppstoreOutlined />}>คอลัมน์ {visibleColCount}/{totalColCount}</Button>
-                        </Popover>
                     </Space>
                 }
             >
@@ -641,8 +697,16 @@ export function HousewifeFarmerGroups() {
                 />
             </Card>
 
+            <CsvImportModal
+                open={importModalOpen}
+                onClose={() => setImportModalOpen(false)}
+                tableName={HOUSEWIFE_TABLE}
+                columns={housewifeColumns}
+                onSuccess={refetch}
+            />
+
             <Modal
-                title={editingRecord ? 'แก้ไขข้อมูลกลุ่มแม่บ้านเกษตรกร' : 'เพิ่มข้อมูลกลุ่มแม่บ้านเกษตรกร'}
+                title={editingRecord ? 'แก้ไขข้อมูล' : 'เพิ่มข้อมูล'}
                 open={modalOpen}
                 onCancel={() => setModalOpen(false)}
                 onOk={handleSave}
