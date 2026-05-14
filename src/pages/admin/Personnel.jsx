@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Form, Input, Select, DatePicker, Row, Col, Card, Statistic } from 'antd';
 import { TeamOutlined, BankOutlined, EnvironmentOutlined } from '@ant-design/icons';
-import { PieChart, Pie, Cell, Tooltip as RechartsTooltip, ResponsiveContainer, Legend } from 'recharts';
+import { PieChart, Pie, BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell, Tooltip as RechartsTooltip, ResponsiveContainer, Legend } from 'recharts';
 import CrudTable from '../../components/DataTable/CrudTable';
 import { supabase } from '../../supabaseClient';
 
@@ -76,7 +76,7 @@ const filterConfig = [
     { key: 'status', label: 'สถานะ', options: ['ปฏิบัติงาน', 'ลาศึกษาต่อ', 'ช่วยราชการ', 'เกษียณ'] }
 ];
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#ffc658', '#8dd1e1', '#a4de6c'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#ffc658', '#8dd1e1', '#a4de6c', '#d0ed57', '#ffc658'];
 
 export default function Personnel() {
     const [stats, setStats] = useState({
@@ -85,10 +85,10 @@ export default function Personnel() {
         district: 0
     });
     const [positionData, setPositionData] = useState([]);
-    const [departmentData, setDepartmentData] = useState([]);
+    const [locationData, setLocationData] = useState([]);
 
     const fetchStats = async () => {
-        const { data, error } = await supabase.from('personnel').select('office_type, position, department');
+        const { data, error } = await supabase.from('personnel').select('office_type, position, district');
         if (!error && data) {
             setStats({
                 total: data.length,
@@ -98,16 +98,22 @@ export default function Personnel() {
 
             // Process position counts
             const posCounts = {};
-            const depCounts = {};
+            const locCounts = {};
             data.forEach(d => {
                 const pos = d.position || 'ไม่ระบุ';
-                const dep = d.department || 'ไม่ระบุ';
                 posCounts[pos] = (posCounts[pos] || 0) + 1;
-                depCounts[dep] = (depCounts[dep] || 0) + 1;
+                
+                // Group by location
+                if (d.office_type === 'Provincial') {
+                    locCounts['ระดับจังหวัด (รวม)'] = (locCounts['ระดับจังหวัด (รวม)'] || 0) + 1;
+                } else {
+                    const dist = d.district ? `อ.${d.district}` : 'ไม่ระบุอำเภอ';
+                    locCounts[dist] = (locCounts[dist] || 0) + 1;
+                }
             });
 
-            // Format for charts (Top 6 + Others)
-            const formatForChart = (counts) => {
+            // Format for charts (Top 6 + Others for pie)
+            const formatForPie = (counts) => {
                 const sorted = Object.entries(counts).sort((a,b) => b[1] - a[1]);
                 const top = sorted.slice(0, 6).map(([name, value]) => ({ name, value }));
                 const others = sorted.slice(6).reduce((sum, curr) => sum + curr[1], 0);
@@ -115,8 +121,14 @@ export default function Personnel() {
                 return top;
             };
 
-            setPositionData(formatForChart(posCounts));
-            setDepartmentData(formatForChart(depCounts));
+            const formatForBar = (counts) => {
+                return Object.entries(counts)
+                    .map(([name, value]) => ({ name, value }))
+                    .sort((a,b) => b.value - a.value);
+            };
+
+            setPositionData(formatForPie(posCounts));
+            setLocationData(formatForBar(locCounts));
         }
     };
 
@@ -174,29 +186,20 @@ export default function Personnel() {
                     </Card>
                 </Col>
                 <Col xs={24} md={12}>
-                    <Card title="สัดส่วนบุคลากรแยกตามกลุ่มงาน/อำเภอ" bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.05)', height: '100%' }}>
+                    <Card title="บุคลากรแยกตามหน่วยงาน/อำเภอ" bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.05)', height: '100%' }}>
                         <div style={{ height: 350 }}>
                             <ResponsiveContainer width="100%" height="100%">
-                                <PieChart>
-                                    <Pie 
-                                        data={departmentData} 
-                                        cx="50%" 
-                                        cy="45%" 
-                                        labelLine={true} 
-                                        label 
-                                        outerRadius={100} 
-                                        fill="#82ca9d" 
-                                        dataKey="value"
-                                        nameKey="name"
-                                        isAnimationActive={false}
-                                    >
-                                        {departmentData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS[(index + 3) % COLORS.length]} />
+                                <BarChart data={locationData} layout="vertical" margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>
+                                    <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+                                    <XAxis type="number" allowDecimals={false} />
+                                    <YAxis dataKey="name" type="category" width={100} fontSize={12} tick={{ fill: '#555' }} />
+                                    <RechartsTooltip cursor={{ fill: 'transparent' }} formatter={(value) => [`${value} คน`, 'จำนวน']} />
+                                    <Bar dataKey="value" fill="#82ca9d" radius={[0, 4, 4, 0]} isAnimationActive={false}>
+                                        {locationData.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[(index + 4) % COLORS.length]} />
                                         ))}
-                                    </Pie>
-                                    <RechartsTooltip formatter={(value) => [`${value} คน`, 'จำนวน']} />
-                                    <Legend layout="horizontal" verticalAlign="bottom" align="center" wrapperStyle={{ fontSize: '12px' }} />
-                                </PieChart>
+                                    </Bar>
+                                </BarChart>
                             </ResponsiveContainer>
                         </div>
                     </Card>
