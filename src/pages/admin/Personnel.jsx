@@ -89,6 +89,13 @@ export default function Personnel() {
     const [locationData, setLocationData] = useState([]);
     const [selectedPosition, setSelectedPosition] = useState('all');
 
+    const normalizePosition = (pos) => {
+        if (!pos) return 'ไม่ระบุ';
+        if (pos.startsWith('เกษตรอำเภอ')) return 'เกษตรอำเภอ';
+        if (pos.startsWith('เกษตรจังหวัด')) return 'เกษตรจังหวัด';
+        return pos;
+    };
+
     const fetchStats = async () => {
         const { data, error } = await supabase.from('personnel').select('office_type, position, district');
         if (!error && data) {
@@ -102,7 +109,7 @@ export default function Personnel() {
             // Process position counts for the pie chart (always shows all data)
             const posCounts = {};
             data.forEach(d => {
-                const pos = d.position || 'ไม่ระบุ';
+                const pos = normalizePosition(d.position);
                 posCounts[pos] = (posCounts[pos] || 0) + 1;
             });
 
@@ -129,7 +136,7 @@ export default function Personnel() {
             // Filter data if a specific position is selected
             const filteredData = selectedPosition === 'all' 
                 ? rawData 
-                : rawData.filter(d => (d.position || 'ไม่ระบุ') === selectedPosition);
+                : rawData.filter(d => normalizePosition(d.position) === selectedPosition);
 
             filteredData.forEach(d => {
                 if (d.office_type === 'Provincial') {
@@ -151,7 +158,7 @@ export default function Personnel() {
     }, [rawData, selectedPosition]);
 
     // Extract unique positions for the dropdown
-    const uniquePositions = [...new Set(rawData.map(d => d.position || 'ไม่ระบุ'))].sort();
+    const uniquePositions = [...new Set(rawData.map(d => normalizePosition(d.position)))].sort();
 
     return (
         <div style={{ paddingBottom: 24 }}>
