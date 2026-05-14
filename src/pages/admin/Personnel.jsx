@@ -74,6 +74,12 @@ const formFields = (
     </>
 );
 
+const filterConfig = [
+    { key: 'office_type', label: 'ระดับหน่วยงาน', options: [{ label: 'ระดับจังหวัด', value: 'Provincial' }, { label: 'ระดับอำเภอ', value: 'District' }] },
+    { key: 'district', label: 'อำเภอ', options: ['เมืองนครปฐม', 'กำแพงแสน', 'นครชัยศรี', 'ดอนตูม', 'บางเลน', 'สามพราน', 'พุทธมณฑล'] },
+    { key: 'status', label: 'สถานะ', options: ['ปฏิบัติงาน', 'ลาศึกษาต่อ', 'ช่วยราชการ', 'เกษียณ'] }
+];
+
 export default function Personnel() {
     return (
         <CrudTable
@@ -83,6 +89,8 @@ export default function Personnel() {
             formFields={formFields}
             searchField="full_name"
             searchFields={['full_name', 'department', 'district', 'position']}
+            filterConfig={filterConfig}
+            defaultSort={{ field: 'sort_order', order: 'ascend' }}
         />
     );
 }
