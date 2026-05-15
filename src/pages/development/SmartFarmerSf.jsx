@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Card, Checkbox, Col, Form, Input, InputNumber, Modal, Popconfirm, Popover, Row, Select, Space, Spin, Statistic, Table, Tag, Tooltip, message } from 'antd';
 import { BarChartOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, FileExcelOutlined, FilterOutlined, PlusOutlined, ReloadOutlined, SettingOutlined, TeamOutlined, UploadOutlined } from '@ant-design/icons';
 import {
@@ -325,9 +325,11 @@ export default function SmartFarmerSf() {
                     </div>
                 </div>
                 <Row gutter={[16, 16]} style={{ marginBottom: 20 }}>
-                    <Col xs={24} md={8}><Card size="small"><Statistic title="จำนวนเกษตรกร" value={filteredRows.length} suffix={`จาก ${yearRows.length} ราย`} /></Card></Col>
-                    <Col xs={24} md={8}><Card size="small"><Statistic title="จำนวนอำเภอ/พื้นที่" value={districtData.length} suffix="แห่ง" /></Card></Col>
-                    <Col xs={24} md={8}><Card size="small"><Statistic title="รายได้ภาคเกษตรรวม" value={totalIncome} formatter={(value) => Number(value).toLocaleString('th-TH')} suffix="บาท" /></Card></Col>
+                    <Col xs={24} md={role === 'guest' ? 12 : 8}><Card size="small"><Statistic title="จำนวนเกษตรกร" value={filteredRows.length} suffix={`จาก ${yearRows.length} ราย`} /></Card></Col>
+                    <Col xs={24} md={role === 'guest' ? 12 : 8}><Card size="small"><Statistic title="จำนวนอำเภอ/พื้นที่" value={districtData.length} suffix="แห่ง" /></Card></Col>
+                    {role !== 'guest' && (
+                        <Col xs={24} md={8}><Card size="small"><Statistic title="รายได้ภาคเกษตรรวม" value={totalIncome} formatter={(value) => Number(value).toLocaleString('th-TH')} suffix="บาท" /></Card></Col>
+                    )}
                 </Row>
 
                 <Row gutter={[24, 24]}>
@@ -400,8 +402,12 @@ export default function SmartFarmerSf() {
                     <Select allowClear placeholder="สถานะเกษตรกร" value={filters.farmer_status} onChange={(value) => setFilter('farmer_status', value)} options={statusOptions} showSearch />
                     <Select allowClear placeholder="กิจกรรมทางการเกษตร" value={filters.agricultural_activity} onChange={(value) => setFilter('agricultural_activity', value)} options={activityOptions} showSearch />
                     <Select allowClear placeholder="การศึกษา" value={filters.education} onChange={(value) => setFilter('education', value)} options={educationOptions} showSearch />
-                    <InputNumber placeholder="รายได้ต่ำสุด" value={filters.minIncome} onChange={(value) => setFilter('minIncome', value)} min={0} style={{ width: '100%' }} />
-                    <InputNumber placeholder="รายได้สูงสุด" value={filters.maxIncome} onChange={(value) => setFilter('maxIncome', value)} min={0} style={{ width: '100%' }} />
+                    {role !== 'guest' && (
+                        <>
+                            <InputNumber placeholder="รายได้ต่ำสุด" value={filters.minIncome} onChange={(value) => setFilter('minIncome', value)} min={0} style={{ width: '100%' }} />
+                            <InputNumber placeholder="รายได้สูงสุด" value={filters.maxIncome} onChange={(value) => setFilter('maxIncome', value)} min={0} style={{ width: '100%' }} />
+                        </>
+                    )}
                     <Button icon={<FilterOutlined />} onClick={() => setFilters({})} disabled={activeFilterCount === 0}>ล้างตัวกรอง {activeFilterCount ? `(${activeFilterCount})` : ''}</Button>
                 </div>
                 <div

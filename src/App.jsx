@@ -57,6 +57,7 @@ const CoconutAromaticSurvey = lazy(() => import('./pages/production/CoconutAroma
 
 // Development
 const CommunityEnterprises = lazy(() => import('./pages/development/CommunityEnterprises'));
+const SmartFarmers = lazy(() => import('./pages/development/SmartFarmers'));
 const SmartFarmerSf = lazy(() => import('./pages/development/SmartFarmerSf'));
 const YoungSmartFarmerYsf = lazy(() => import('./pages/development/YoungSmartFarmerYsf'));
 const AgriculturalCareerGroups = lazy(() => import('./pages/development/AgriculturalCareerGroups'));
@@ -124,6 +125,7 @@ function AppRoutes() {
         {/* ===== PUBLIC VIEW PAGES (ไม่ต้อง Login) ===== */}
         {[
           { path: '/public/large-plots', Component: LargePlots },
+          { path: '/public/smart-farmers', Component: SmartFarmers },
           { path: '/public/smart-farmer-sf', Component: SmartFarmerSf },
           { path: '/public/young-smart-farmer-ysf', Component: YoungSmartFarmerYsf },
           { path: '/public/agricultural-career-groups', Component: AgriculturalCareerGroups },
@@ -192,6 +194,7 @@ function AppRoutes() {
           {/* Development */}
           <Route path="development/overview" element={<DevelopmentDashboard />} />
           <Route path="development/community-enterprises" element={<CommunityEnterprises />} />
+          <Route path="development/smart-farmers" element={<SmartFarmers />} />
           <Route path="development/smart-farmer-sf" element={<SmartFarmerSf />} />
           <Route path="development/young-smart-farmer-ysf" element={<YoungSmartFarmerYsf />} />
           <Route path="development/agricultural-career-groups" element={<AgriculturalCareerGroups />} />

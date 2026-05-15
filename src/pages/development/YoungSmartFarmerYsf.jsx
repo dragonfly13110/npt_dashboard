@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Card, Checkbox, Col, Form, Input, InputNumber, Modal, Popconfirm, Popover, Row, Select, Space, Spin, Statistic, Table, Tag, Tooltip, message } from 'antd';
 import { BarChartOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, FileExcelOutlined, FilterOutlined, PlusOutlined, ReloadOutlined, SettingOutlined, TeamOutlined, UploadOutlined } from '@ant-design/icons';
 import {
@@ -367,13 +367,15 @@ export default function YoungSmartFarmerYsf() {
                     </div>
                 </div>
                 <Row gutter={[16, 16]} style={{ marginBottom: 20 }}>
-                    <Col xs={24} md={8}><Card size="small"><Statistic title="จำนวนเกษตรกร" value={filteredRows.length} suffix={`จาก ${yearRows.length} ราย`} /></Card></Col>
-                    <Col xs={24} md={8}><Card size="small"><Statistic title="จำนวนอำเภอ/พื้นที่" value={districtData.length} suffix="แห่ง" /></Card></Col>
-                    <Col xs={24} md={8}><Card size="small"><Statistic title="รายได้ภาคเกษตรรวม" value={totalIncome} formatter={(value) => Number(value).toLocaleString('th-TH')} suffix="บาท" /></Card></Col>
+                    <Col xs={24} md={role === 'guest' ? 12 : 8}><Card size="small"><Statistic title="จำนวนเกษตรกร" value={filteredRows.length} suffix={`จาก ${yearRows.length} ราย`} /></Card></Col>
+                    <Col xs={24} md={role === 'guest' ? 12 : 8}><Card size="small"><Statistic title="จำนวนอำเภอ/พื้นที่" value={districtData.length} suffix="แห่ง" /></Card></Col>
+                    {role !== 'guest' && (
+                        <Col xs={24} md={8}><Card size="small"><Statistic title="รายได้ภาคเกษตรรวม" value={totalIncome} formatter={(value) => Number(value).toLocaleString('th-TH')} suffix="บาท" /></Card></Col>
+                    )}
                 </Row>
 
                 <Row gutter={[24, 24]}>
-                    <Col xs={24} lg={12}>
+                    <Col xs={24} lg={role === 'guest' ? 24 : 12}>
                         <Card title="จำนวน YSF แยกตามอำเภอ" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                             <div style={{ height: 300 }}>
                                 <ResponsiveContainer width="100%" height="100%">
@@ -388,21 +390,23 @@ export default function YoungSmartFarmerYsf() {
                             </div>
                         </Card>
                     </Col>
-                    <Col xs={24} lg={12}>
-                        <Card title="รายได้เกษตรเฉลี่ยแยกตามอำเภอ" size="small" bordered={false} style={{ background: '#fafbfc' }}>
-                            <div style={{ height: 320 }}>
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={avgIncomeByDistrictData} layout="vertical" margin={{ top: 10, right: 30, left: 80, bottom: 10 }}>
-                                        <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e8ecf0" />
-                                        <XAxis type="number" tickFormatter={(value) => Number(value).toLocaleString('th-TH')} />
-                                        <YAxis type="category" dataKey="name" tick={{ fontSize: 12 }} width={110} />
-                                        <RechartsTooltip formatter={(value) => `${Number(value).toLocaleString('th-TH')} บาท`} />
-                                        <Bar dataKey="value" name="รายได้เฉลี่ย" fill="#0969da" maxBarSize={28} />
-                                    </BarChart>
-                                </ResponsiveContainer>
-                            </div>
-                        </Card>
-                    </Col>
+                    {role !== 'guest' && (
+                        <Col xs={24} lg={12}>
+                            <Card title="รายได้เกษตรเฉลี่ยแยกตามอำเภอ" size="small" bordered={false} style={{ background: '#fafbfc' }}>
+                                <div style={{ height: 320 }}>
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <BarChart data={avgIncomeByDistrictData} layout="vertical" margin={{ top: 10, right: 30, left: 80, bottom: 10 }}>
+                                            <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e8ecf0" />
+                                            <XAxis type="number" tickFormatter={(value) => Number(value).toLocaleString('th-TH')} />
+                                            <YAxis type="category" dataKey="name" tick={{ fontSize: 12 }} width={110} />
+                                            <RechartsTooltip formatter={(value) => `${Number(value).toLocaleString('th-TH')} บาท`} />
+                                            <Bar dataKey="value" name="รายได้เฉลี่ย" fill="#0969da" maxBarSize={28} />
+                                        </BarChart>
+                                    </ResponsiveContainer>
+                                </div>
+                            </Card>
+                        </Col>
+                    )}
                 </Row>
             </div>
 
@@ -444,8 +448,12 @@ export default function YoungSmartFarmerYsf() {
                     <Select allowClear placeholder="สถานภาพเกษตรกร" value={filters.farmer_status} onChange={(value) => setFilter('farmer_status', value)} options={statusOptions} showSearch />
                     <Select allowClear placeholder="กิจกรรมทางการเกษตร" value={filters.agricultural_activity} onChange={(value) => setFilter('agricultural_activity', value)} options={activityOptions} showSearch />
                     <Select allowClear placeholder="การศึกษา" value={filters.education} onChange={(value) => setFilter('education', value)} options={educationOptions} showSearch />
-                    <InputNumber placeholder="รายได้ต่ำสุด" value={filters.minIncome} onChange={(value) => setFilter('minIncome', value)} min={0} style={{ width: '100%' }} />
-                    <InputNumber placeholder="รายได้สูงสุด" value={filters.maxIncome} onChange={(value) => setFilter('maxIncome', value)} min={0} style={{ width: '100%' }} />
+                    {role !== 'guest' && (
+                        <>
+                            <InputNumber placeholder="รายได้ต่ำสุด" value={filters.minIncome} onChange={(value) => setFilter('minIncome', value)} min={0} style={{ width: '100%' }} />
+                            <InputNumber placeholder="รายได้สูงสุด" value={filters.maxIncome} onChange={(value) => setFilter('maxIncome', value)} min={0} style={{ width: '100%' }} />
+                        </>
+                    )}
                     <Button icon={<FilterOutlined />} onClick={() => setFilters({})} disabled={activeFilterCount === 0}>ล้างตัวกรอง {activeFilterCount ? `(${activeFilterCount})` : ''}</Button>
                 </div>
                 <div

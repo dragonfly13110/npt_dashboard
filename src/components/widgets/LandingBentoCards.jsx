@@ -30,29 +30,37 @@ const BentoGridSkeleton = ({ count = 4, height = '40px' }) => (
 // CARDS COMPONENTS
 // =======================
 
-export const SmartFarmersCard = ({ data, loading }) => {
+export const SmartFarmersCard = ({ stats, loading }) => {
+    const sf = stats?.sf || 0;
+    const ysf = stats?.ysf || 0;
+    const total = sf + ysf;
+
     return (
         <div className="bento-card" style={{ gridArea: 'sf' }}>
             <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div><h3>🧑‍🌾 Smart Farmer</h3></div>
                 <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
-                    ทั้งหมด {data.count} ราย
+                    ทั้งหมด {total.toLocaleString()} ราย
                 </div>
             </div>
-            <div className="bento-card-body">
-                {loading ? <BentoListSkeleton /> : (
-                    data.list.length === 0 ? <div className="bento-empty">รอเพิ่มข้อมูล...</div> :
-                        <div className="bento-list">
-                            {data.list.map(item => (
-                                <div key={item.id} className="bento-list-item">
-                                    <div className="bento-item-icon bg-orange-100 text-orange-600"><TeamOutlined /></div>
-                                    <div className="bento-item-content">
-                                        <h4>{item.full_name}</h4>
-                                        <p>อ.{item.district || '-'} &bull; {item.main_product || 'ไม่ระบุสินค้า'}</p>
-                                    </div>
-                                </div>
-                            ))}
+            <div className="bento-card-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px' }}>
+                {loading ? <BentoGridSkeleton count={2} height="50px" /> : (
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '12px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', background: '#fff7ed', borderRadius: '8px', border: '1px solid #fed7aa' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <span style={{ fontSize: '20px' }}>🧑‍🌾</span>
+                                <span style={{ fontSize: 14, color: '#c2410c', fontWeight: 600 }}>Smart Farmer (SF)</span>
+                            </div>
+                            <span style={{ fontSize: 18, fontWeight: 800, color: '#9a3412' }}>{sf.toLocaleString()}</span>
                         </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', background: '#f0fdf4', borderRadius: '8px', border: '1px solid #bbf7d0' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <span style={{ fontSize: '20px' }}>🌱</span>
+                                <span style={{ fontSize: 14, color: '#15803d', fontWeight: 600 }}>Young Smart Farmer (YSF)</span>
+                            </div>
+                            <span style={{ fontSize: 18, fontWeight: 800, color: '#166534' }}>{ysf.toLocaleString()}</span>
+                        </div>
+                    </div>
                 )}
             </div>
             <a href="/public/smart-farmers" style={{ display: 'block', textAlign: 'center', padding: '10px 16px', background: '#fff7ed', color: '#c2410c', fontSize: 13, fontWeight: 600, textDecoration: 'none', borderTop: '1px solid #fed7aa', borderRadius: '0 0 14px 14px' }}>📊 ดูรายละเอียดทั้งหมด →</a>

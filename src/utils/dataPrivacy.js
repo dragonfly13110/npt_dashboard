@@ -10,8 +10,8 @@ const PUBLIC_NAME_ALLOW_PATTERNS = [
 ];
 
 const TABLE_PRIVATE_COLUMNS = {
-    smart_farmer_sf: ['citizen_id', 'title', 'first_name', 'last_name', 'full_name', 'phone'],
-    young_smart_farmer_ysf: ['title', 'first_name', 'last_name', 'full_name', 'address_no', 'moo', 'subdistrict', 'phone', 'line_id', 'email', 'facebook'],
+    smart_farmer_sf: ['citizen_id', 'title', 'first_name', 'last_name', 'full_name', 'phone', 'annual_agri_income'],
+    young_smart_farmer_ysf: ['title', 'first_name', 'last_name', 'full_name', 'address_no', 'moo', 'subdistrict', 'phone', 'line_id', 'email', 'facebook', 'annual_agri_income'],
     agricultural_career_groups: ['address_no', 'moo', 'mobile'],
     young_farmer_groups_detailed: ['address_no', 'moo', 'phone', 'mobile'],
     smart_farmers: ['full_name', 'phone', 'address'],

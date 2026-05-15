@@ -62,8 +62,9 @@ export default function LandingPage() {
                         <span className="brand-emoji" role="img" aria-label="รวงข้าว">🌾</span>
                         <span>เกษตรจังหวัดนครปฐม</span>
                     </a>
-                    <button className="landing-login-btn" onClick={() => navigate('/login')} aria-label="เข้าสู่ระบบสำหรับเจ้าหน้าที่และบุคคลทั่วไป">
-                        เข้าสู่ระบบ
+                    <button className="landing-login-btn" onClick={() => navigate('/login')} aria-label="เข้าสู่ระบบสำหรับเจ้าหน้าที่และบุคคลทั่วไป" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: '1.4' }}>
+                        <span>เข้าสู่ระบบ</span>
+                        <span style={{ fontSize: '11px', opacity: 0.9, fontWeight: '500' }}>สำหรับบุคคลทั่วไปและเจ้าหน้าที่</span>
                     </button>
                 </div>
             </nav>
@@ -159,7 +160,7 @@ export default function LandingPage() {
 
                     {/* 2. Smart Farmers */}
                     <Suspense fallback={<WidgetSkeleton />}>
-                        <SmartFarmersCard data={smartFarmers} loading={loading} />
+                        <SmartFarmersCard stats={instituteStats} loading={loading} />
                     </Suspense>
 
                     {/* 3. Community Enterprises */}

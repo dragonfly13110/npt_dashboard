@@ -195,7 +195,7 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                <SmartFarmersCard data={smartFarmers} loading={loading} />
+                <SmartFarmersCard stats={instituteStats} loading={loading} />
                 <CommunityEnterprisesCard count={enterprises.count} districtStats={ceDistrictStats} loading={loading} />
                 <LargePlotsCard stats={lpStats} loading={loading} />
                 <AgriTourismCard data={tourism} loading={loading} />
