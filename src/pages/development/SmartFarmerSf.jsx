@@ -192,7 +192,7 @@ export default function SmartFarmerSf() {
     };
 
     const actionColumn = userCanEdit ? {
-        title: '�¸��¸±�¸��¸�¸²�¸£',
+        title: 'การจัดการ',
         key: 'actions',
         width: userCanDelete ? 96 : 56,
         fixed: 'right',
@@ -203,8 +203,8 @@ export default function SmartFarmerSf() {
                     <Button icon={<EditOutlined />} onClick={() => handleEdit(record)} />
                 </Tooltip>
                 {userCanDelete && (
-                    <Popconfirm title="ยืนยันการลบ" description="ต้องการลบรายการนี้ใช่ไหม?" okText="บันทึก" cancelText="ยกเลิก" okButtonProps={{ danger: true }} onConfirm={() => handleDelete(record)}>
-                        <Tooltip title="แก้ไข"><Button danger icon={<DeleteOutlined />} /></Tooltip>
+                    <Popconfirm title="ยืนยันการลบ" description="ต้องการลบรายการนี้ใช่ไหม?" okText="ลบ" cancelText="ยกเลิก" okButtonProps={{ danger: true }} onConfirm={() => handleDelete(record)}>
+                        <Tooltip title="ลบ"><Button danger icon={<DeleteOutlined />} /></Tooltip>
                     </Popconfirm>
                 )}
             </Space>

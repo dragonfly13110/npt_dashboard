@@ -8,6 +8,7 @@ import {
   Form,
   Input,
   Modal,
+  Popconfirm,
   Radio,
   Select,
   Space,
@@ -688,9 +689,11 @@ export default function DataRequests() {
               <Tooltip title="ดาวน์โหลดข้อมูลคำตอบ">
                 <Button icon={<DownloadOutlined />} onClick={() => exportResults(record)} />
               </Tooltip>
-              <Tooltip title="ลบคำขอนี้">
-                <Button danger icon={<DeleteOutlined />} onClick={() => deleteRequest(record)} />
-              </Tooltip>
+              <Popconfirm title="ยืนยันการลบ" description="ต้องการลบคำขอนี้ใช่ไหม?" okText="ลบ" cancelText="ยกเลิก" okButtonProps={{ danger: true }} onConfirm={() => deleteRequest(record)}>
+                <Tooltip title="ลบคำขอนี้">
+                  <Button danger icon={<DeleteOutlined />} />
+                </Tooltip>
+              </Popconfirm>
             </>
           ) : (
             <Button type="primary" icon={<SendOutlined />} onClick={() => openFill(record)}>กรอกข้อมูล</Button>

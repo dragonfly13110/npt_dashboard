@@ -594,7 +594,9 @@ export function HousewifeFarmerGroups() {
                             okButtonProps={{ danger: true }}
                             onConfirm={() => handleDelete(record.id)}
                         >
-                            <Button danger icon={<DeleteOutlined />} />
+                            <Tooltip title="ลบ">
+                                <Button danger icon={<DeleteOutlined />} />
+                            </Tooltip>
                         </Popconfirm>
                     )}
                 </Space>
