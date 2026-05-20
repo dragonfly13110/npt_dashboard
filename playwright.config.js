@@ -1,6 +1,6 @@
-const { defineConfig, devices } = require('@playwright/test');
+import { defineConfig, devices } from '@playwright/test';
 
-module.exports = defineConfig({
+export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
@@ -18,7 +18,7 @@ module.exports = defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run dev',
+    command: 'npm run dev -- --port 5174',
     url: 'http://localhost:5174',
     reuseExistingServer: !process.env.CI,
     timeout: 120000,

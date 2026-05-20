@@ -1,8 +1,20 @@
-import { useEffect, lazy, Suspense } from 'react';
+import { useEffect, lazy, Suspense, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDashboardData } from '../hooks/useDashboardData';
-import { FloatButton } from 'antd';
-import { ArrowUpOutlined } from '@ant-design/icons';
+import { FloatButton, Modal } from 'antd';
+import {
+    ArrowUpOutlined,
+    AuditOutlined,
+    BankOutlined,
+    BookOutlined,
+    CalculatorOutlined,
+    CloudOutlined,
+    EnvironmentOutlined,
+    ExperimentOutlined,
+    ReadOutlined,
+    TeamOutlined,
+    UserSwitchOutlined
+} from '@ant-design/icons';
 import './LandingPage.css';
 import './SaastyTheme.css';
 
@@ -38,6 +50,59 @@ const AgriTourismCard = lazy(() => import('../components/widgets/LandingBentoCar
 const FarmerInstitutesCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.FarmerInstitutesCard })));
 const AgriAreasCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.AgriAreasCard })));
 
+const quickNavItems = [
+    { href: '#live-data', label: 'สภาพอากาศและราคา', Icon: CloudOutlined },
+    { href: '#agri-overview', label: 'แผนที่และภาพรวม', Icon: EnvironmentOutlined },
+    { href: '#soil-water', label: 'ดินและน้ำ', Icon: ExperimentOutlined },
+    { href: '#agri-news', label: 'ข่าวและประกาศ', Icon: ReadOutlined },
+];
+
+const infoNavItems = [
+    { key: 'audience', label: 'ระบบนี้ช่วยใคร', Icon: TeamOutlined },
+];
+
+const externalSystemLinks = [
+    {
+        href: 'https://kasetinfo.netlify.app/',
+        title: 'คลังความรู้เกษตร',
+        subtitle: 'Infographic',
+        Icon: BookOutlined,
+    },
+    {
+        href: 'https://agrilabcost-ai.vercel.app/',
+        title: 'Crop Cost Lab',
+        subtitle: 'วิเคราะห์ต้นทุนการผลิต',
+        Icon: CalculatorOutlined,
+    },
+];
+
+const audienceItems = [
+    {
+        title: 'ผู้บริหารจังหวัดและผู้บริหารสำนักงาน',
+        outcome: 'เห็นภาพรวมสถานการณ์เกษตรระดับจังหวัดจากหน้าเดียว ทั้งพื้นที่ ครัวเรือน กลุ่มเกษตรกร ภัยพิบัติ น้ำ และราคาตลาด',
+        actions: ['ติดตามตัวชี้วัดสำคัญ', 'ใช้ประกอบการประชุม', 'มองเห็นพื้นที่ที่ควรเร่งประสานงาน'],
+        Icon: BankOutlined,
+    },
+    {
+        title: 'เจ้าหน้าที่กลุ่มงาน',
+        outcome: 'ลดเวลารวบรวมข้อมูลจากหลายไฟล์ หลายตาราง และหลายแหล่ง ให้ค้นหา ตรวจสอบ และเปิดรายละเอียดตามภารกิจได้เร็วขึ้น',
+        actions: ['ดูข้อมูลแยกกลุ่มงาน', 'เปิดหน้ารายละเอียดสาธารณะ', 'เตรียมรายงานหรือส่งต่อข้อมูล'],
+        Icon: AuditOutlined,
+    },
+    {
+        title: 'เกษตรกร ประชาชน และหน่วยงานภายนอก',
+        outcome: 'เข้าถึงข้อมูลสาธารณะที่เข้าใจง่าย เช่น อากาศ PM2.5 ราคา จุดความร้อน ข่าว และภาพรวมเกษตรของนครปฐมโดยไม่ต้องเข้าสู่ระบบ',
+        actions: ['เช็กข้อมูลประจำวัน', 'ดูแผนที่และข่าว', 'เข้าสู่กระดานถามตอบ'],
+        Icon: TeamOutlined,
+    },
+    {
+        title: 'ผู้ดูแลข้อมูลและผู้ดูแลระบบ',
+        outcome: 'มีโครงสร้างกลางสำหรับดูแลข้อมูล ผู้ใช้ สิทธิ์ การนำเข้าข้อมูล และ audit trail เพื่อให้ระบบต่อยอดได้ต่อเนื่อง',
+        actions: ['ควบคุมสิทธิ์ตามบทบาท', 'ตรวจสอบข้อมูลย้อนหลัง', 'ดูแลชุดข้อมูลกลาง'],
+        Icon: UserSwitchOutlined,
+    },
+];
+
 export default function LandingPage() {
     const {
         loading, mapData, districtStats, smartFarmers, enterprises,
@@ -45,6 +110,7 @@ export default function LandingPage() {
     } = useDashboardData();
 
     const navigate = useNavigate();
+    const [activeInfoModal, setActiveInfoModal] = useState(null);
 
     // SEO: Set dynamic page title & meta description
     useEffect(() => {
@@ -60,8 +126,25 @@ export default function LandingPage() {
                 <div className="landing-nav-inner padding-x">
                     <a href="/" className="landing-nav-brand" aria-label="หน้าหลัก สำนักงานเกษตรจังหวัดนครปฐม">
                         <span className="brand-emoji" role="img" aria-label="รวงข้าว">🌾</span>
-                        <span>เกษตรจังหวัดนครปฐม</span>
+                        <span>สำนักงานเกษตรจังหวัดนครปฐม</span>
                     </a>
+                    <div className="landing-system-tabs" aria-label="ทางลัดไปยังระบบอื่น">
+                        {externalSystemLinks.map(({ href, title, subtitle, Icon }) => (
+                            <a
+                                key={href}
+                                href={href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="landing-system-tab"
+                            >
+                                <Icon aria-hidden="true" />
+                                <span>
+                                    <strong>{title}</strong>
+                                    <small>{subtitle}</small>
+                                </span>
+                            </a>
+                        ))}
+                    </div>
                     <button className="landing-login-btn" onClick={() => navigate('/login')} aria-label="เข้าสู่ระบบสำหรับเจ้าหน้าที่และบุคคลทั่วไป" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: '1.4' }}>
                         <span>เข้าสู่ระบบ</span>
                         <span style={{ fontSize: '11px', opacity: 0.9, fontWeight: '500' }}>สำหรับบุคคลทั่วไปและเจ้าหน้าที่</span>
@@ -122,9 +205,33 @@ export default function LandingPage() {
             </header>
 
             <main>
+                <nav className="landing-quick-nav" aria-label="เมนูลัดข้อมูล">
+                    <div className="landing-quick-nav-inner">
+                        <span className="quick-nav-label">ไปยังข้อมูลสำคัญ</span>
+                        <div className="quick-nav-links">
+                            {quickNavItems.map(({ href, label, Icon }) => (
+                                <a key={href} href={href} className="quick-nav-link">
+                                    <Icon aria-hidden="true" />
+                                    <span>{label}</span>
+                                </a>
+                            ))}
+                            {infoNavItems.map(({ key, label, Icon }) => (
+                                <button
+                                    key={key}
+                                    type="button"
+                                    className="quick-nav-link quick-nav-button"
+                                    onClick={() => setActiveInfoModal(key)}
+                                >
+                                    <Icon aria-hidden="true" />
+                                    <span>{label}</span>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </nav>
 
                 {/* ===== LIVE WIDGETS ===== */}
-                <section aria-label="ข้อมูลสภาพอากาศและราคาสินค้าเกษตร">
+                <section id="live-data" aria-label="ข้อมูลสภาพอากาศและราคาสินค้าเกษตร">
                     <div className="top-widgets-container">
                         <div className="top-widgets-col">
                             <Suspense fallback={<WidgetSkeleton />}><WeatherWidget /></Suspense>
@@ -139,7 +246,7 @@ export default function LandingPage() {
                 </section>
 
                 {/* ===== BENTO GRID LATEST LISTS ===== */}
-                <div className="dept-stats-header">
+                <div id="agri-overview" className="dept-stats-header">
                     <h2>📊 ภาพรวมข้อมูลการเกษตรจังหวัด</h2>
                     <p>สถิติและข้อมูลสารสนเทศการเกษตรในพื้นที่</p>
                 </div>
@@ -192,7 +299,7 @@ export default function LandingPage() {
 
 
                 {/* ===== SOIL & WATER WIDGETS ===== */}
-                <section aria-label="ข้อมูลดินและสถานการณ์น้ำ">
+                <section id="soil-water" aria-label="ข้อมูลดินและสถานการณ์น้ำ">
                     <div className="dept-stats-header">
                         <h2>🌍 สถานการณ์ดินและน้ำ</h2>
                         <p>ข้อมูลสดจากเซ็นเซอร์ดินและกรมชลประทาน เพื่อการเกษตรที่แม่นยำ</p>
@@ -204,7 +311,7 @@ export default function LandingPage() {
                 </section>
 
                 {/* ===== AGRI GOV NEWS (ข่าวจากหน่วยงานภาครัฐ) ===== */}
-                <div className="widget-section-container">
+                <div id="agri-news" className="widget-section-container">
                     <Suspense fallback={<WidgetSkeleton />}><AgriGovNewsWidget /></Suspense>
                 </div>
 
@@ -245,6 +352,36 @@ export default function LandingPage() {
                 </section>
 
             </main>
+
+            <Modal
+                title="ระบบนี้ช่วยใคร"
+                open={activeInfoModal === 'audience'}
+                onCancel={() => setActiveInfoModal(null)}
+                footer={null}
+                width={1040}
+                className="landing-info-modal"
+            >
+                <div className="modal-section-heading">
+                    <div>
+                        <h2>ออกแบบให้เห็นข้อมูลเดียวกัน แต่ใช้ต่างบทบาทได้จริง</h2>
+                        <p>
+                            ระบบนี้เป็นทางเข้ากลางของข้อมูลเกษตรจังหวัดนครปฐม ทั้งฝั่งสาธารณะและฝั่งงานภายในสำนักงาน
+                        </p>
+                    </div>
+                </div>
+                <div className="audience-grid modal-grid">
+                    {audienceItems.map(({ title, outcome, actions, Icon }) => (
+                        <article className="audience-card" key={title}>
+                            <div className="audience-card-icon"><Icon aria-hidden="true" /></div>
+                            <h3>{title}</h3>
+                            <p>{outcome}</p>
+                            <ul>
+                                {actions.map(action => <li key={action}>{action}</li>)}
+                            </ul>
+                        </article>
+                    ))}
+                </div>
+            </Modal>
 
             {/* ===== FOOTER ===== */}
             <footer className="landing-footer" role="contentinfo" itemScope itemType="https://schema.org/GovernmentOrganization">
