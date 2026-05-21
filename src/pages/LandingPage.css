@@ -811,7 +811,7 @@
     grid-template-columns: repeat(10, 1fr);
     grid-template-areas:
         "ag ag ag ag map map map map map map"
-        "ce ce ce ce ce ce lp lp lp lp"
+        "ce ce ce ce ce lp lp lp lp lp"
         "at at at at at at at at at at"
         "fi2 fi2 fi2 fi2 fi2 fi2 fi2 fi2 fi2 fi2";
     position: relative;
@@ -821,7 +821,7 @@
 .bento-container-no-tourism {
     grid-template-areas:
         "ag ag ag ag map map map map map map"
-        "ce ce ce ce ce ce lp lp lp lp"
+        "ce ce ce ce ce lp lp lp lp lp"
         "fi2 fi2 fi2 fi2 fi2 fi2 fi2 fi2 fi2 fi2";
 }
 
@@ -832,7 +832,8 @@
             "ag ag"
             "map map"
             "ce ce"
-            "lp at"
+            "lp lp"
+            "at at"
             "fi2 fi2";
     }
 
@@ -880,7 +881,7 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.community-enterprise-card .ce-detail-body {
+.ce-detail-body {
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -890,7 +891,7 @@
 
 .ce-filter-row {
     display: grid;
-    grid-template-columns: minmax(150px, 0.8fr) minmax(150px, 0.8fr) minmax(220px, 1.4fr) auto;
+    grid-template-columns: minmax(110px, 1fr) minmax(110px, 1fr) minmax(160px, 1.5fr) auto;
     gap: 10px;
     align-items: end;
 }
@@ -1161,14 +1162,14 @@
     font-weight: 800;
 }
 
-.ce-bars div {
+.ce-bars button > div {
     height: 8px;
     border-radius: 999px;
     background: #e0f2fe;
     overflow: hidden;
 }
 
-.ce-bars i {
+.ce-bars button i {
     display: block;
     height: 100%;
     border-radius: inherit;
@@ -1227,6 +1228,47 @@
     color: #94a3b8;
     font-size: 13px;
     font-weight: 800;
+}
+
+/* --- Large Plots Color Theme Overrides (Yellow/Gold) --- */
+.large-plots-card .ce-filter-row button {
+    border-color: #fde68a;
+    color: #854d0e;
+    background: #fef9c3;
+}
+
+.large-plots-card .ce-filter-row button:hover {
+    background: #fef08a;
+}
+
+.large-plots-card .ce-bars button {
+    border-color: #fde68a;
+    background: #fefdf0;
+    color: #854d0e;
+}
+
+.large-plots-card .ce-bars button.is-active {
+    background: #fef9c3;
+    border-color: #eab308;
+    color: #713f12;
+}
+
+.large-plots-card .ce-bars button > div {
+    background: #fef9c3;
+}
+
+.large-plots-card .ce-bars button i {
+    background: #eab308;
+}
+
+.large-plots-card .ce-result-item {
+    border-color: #fef9c3;
+    border-left: 4px solid #eab308;
+    background: #ffffff;
+}
+
+.large-plots-card .ce-result-item span {
+    color: #854d0e;
 }
 
 @media (max-width: 768px) {

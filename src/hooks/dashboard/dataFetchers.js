@@ -96,7 +96,7 @@ export async function fetchCommunityData(supabase) {
         supabase.from('smart_farmers').select('district, full_name, main_product').order('id', { ascending: false }).limit(3),
         supabase.from('community_enterprises').select('id, enterprise_type, enterprise_name, approval_date, district, subdistrict, village_no', { count: 'exact' }).order('id', { ascending: false }),
         supabase.from('agri_tourism').select('district, spot_name, spot_type').order('id', { ascending: false }).limit(3),
-        supabase.from('large_plots').select('district, member_count, area_rai, commodity_group'),
+        supabase.from('large_plots').select('id, plot_name, commodity, district, subdistrict, member_count, area_rai, commodity_group, year'),
         supabase.from('farmer_institutes').select('district, housewives_groups, young_farmer_groups, career_promotion_groups, village_farmers_count, total_groups, community_enterprise_groups, smart_farmer_count, young_smart_farmer_count'),
         supabase.from('agricultural_areas').select('district, farmer_households, total_area_rai, agri_crop_area_rai, rice_in_season_rai, rice_off_season_rai, field_crops_rai, horticulture_rai, fruit_trees_rai, vegetables_rai, flowers_rai, herbs_spices_rai').neq('district', 'รวม'),
         supabase.from('learning_centers').select('district'),

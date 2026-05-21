@@ -23,6 +23,8 @@ import {
 import FarmerInstitutesV2Widget from '../components/widgets/FarmerInstitutesV2Widget';
 
 import '../pages/LandingPage.css';
+
+import '../pages/LandingPage.css';
 import '../pages/PaperThemeOverride.css';
 
 import { useDashboardData, groupConfig, PIE_COLORS } from '../hooks/useDashboardData';
@@ -32,7 +34,7 @@ export default function Dashboard() {
     const {
         stats, loading, mapData, districtStats, smartFarmers, enterprises,
         ceDistrictStats, tourism, instituteStats, lpStats, agriStats,
-        agriPie, lpPie
+        agriPie, lpPie, largePlotsList
     } = useDashboardData();
 
     const [pdfExporting, setPdfExporting] = useState(false);
@@ -203,7 +205,7 @@ export default function Dashboard() {
                     details={enterprises}
                     loading={loading}
                 />
-                <LargePlotsCard stats={lpStats} loading={loading} />
+                <LargePlotsCard largePlotsList={largePlotsList} loading={loading} />
                 {hasTourismData && <AgriTourismCard data={tourism} loading={loading} />}
                 <FarmerInstitutesV2Widget />
                 <AgriAreasCard stats={agriStats} loading={loading} />

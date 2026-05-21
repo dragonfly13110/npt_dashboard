@@ -118,6 +118,7 @@ export function useDashboardData() {
             tourism: { list: atData || [], count: atData ? atData.length : 0 },
             instituteStats,
             lpStats,
+            largePlotsList: rawLpData || [],
             agriStats
         };
     };
@@ -137,6 +138,7 @@ export function useDashboardData() {
         tourism = { list: [], count: 0 },
         instituteStats = {},
         lpStats = {},
+        largePlotsList = [],
         agriStats = {}
     } = dashData || {};
 
@@ -147,6 +149,6 @@ export function useDashboardData() {
         stats, loading, error, refetch, agriData, largePlots, fiData,
         mapData, districtStats, smartFarmers, enterprises,
         ceDistrictStats, tourism, instituteStats, lpStats, agriStats,
-        agriPie, lpPie
+        agriPie, lpPie, largePlotsList
     };
 }

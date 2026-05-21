@@ -105,7 +105,7 @@ const audienceItems = [
 export default function LandingPage() {
     const {
         loading, mapData, districtStats, smartFarmers, enterprises,
-        ceDistrictStats, tourism, instituteStats, lpStats, agriStats
+        ceDistrictStats, tourism, instituteStats, lpStats, agriStats, largePlotsList
     } = useDashboardData();
 
     const navigate = useNavigate();
@@ -277,7 +277,7 @@ export default function LandingPage() {
 
                     {/* 3. Large Plots */}
                     <Suspense fallback={<WidgetSkeleton />}>
-                        <LargePlotsCard stats={lpStats} loading={loading} />
+                        <LargePlotsCard largePlotsList={largePlotsList} loading={loading} />
                     </Suspense>
 
                     {/* 4. Agri Tourism */}

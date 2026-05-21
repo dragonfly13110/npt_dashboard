@@ -1,11 +1,36 @@
 import { useState, useEffect, useMemo } from 'react';
 import { FireOutlined } from '@ant-design/icons';
 import { useApiCache } from '../../hooks/useApiCache';
+import { supabase } from '../../supabaseClient';
 import './HotspotWidget.css';
 
 const ENDPOINT_MAP = { 1: '1day', 3: '3days', 7: '7days', 30: '30days' };
 
 async function fetchHotspotData(dayRange) {
+    if (dayRange === 60) {
+        const sixtyDaysAgo = new Date();
+        sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
+        const dateStr = sixtyDaysAgo.toISOString().split('T')[0];
+
+        const { data, error } = await supabase
+            .from('fire_hotspots')
+            .select('*')
+            .gte('acq_date', dateStr);
+
+        if (error) throw error;
+
+        return (data || []).map(row => ({
+            geometry: { coordinates: [row.longitude, row.latitude] },
+            properties: {
+                ...row,
+                ap_tn: row.district,
+                tb_tn: row.subdistrict,
+                lu_name: row.land_use,
+                brightness: parseFloat(row.bright_ti4 || row.bright_ti5 || 0),
+            }
+        }));
+    }
+
     const endpoint = ENDPOINT_MAP[dayRange] || '7days';
     const url = `/api/gistda/api/2.0/resources/features/viirs/${endpoint}?limit=1000&offset=0&ct_tn=${encodeURIComponent('ราชอาณาจักรไทย')}&pv_idn=73`;
     const res = await fetch(url, { headers: { 'accept': 'application/json' } });
@@ -26,7 +51,7 @@ function getMockHotspots(dayRange) {
     const districts = ['เมืองนครปฐม', 'กำแพงแสน', 'บางเลน', 'ดอนตูม', 'นครชัยศรี', 'สามพราน', 'พุทธมณฑล'];
     const landuses = ['พื้นที่เกษตร', 'ชุมชนและอื่น ๆ', 'พื้นที่ริมทางหลวง', 'เขต สปก.'];
     const satellites = ['Suomi NPP', 'NOAA-20', 'NOAA-21'];
-    const n = dayRange === 1 ? 3 : dayRange === 3 ? 8 : dayRange === 7 ? 15 : 40;
+    const n = dayRange === 1 ? 3 : dayRange === 3 ? 8 : dayRange === 7 ? 15 : dayRange === 30 ? 40 : dayRange === 60 ? 75 : 40;
     return Array.from({ length: n }, (_, i) => ({
         geometry: { coordinates: [100.06 + (Math.random() - 0.5) * 0.3, 13.82 + (Math.random() - 0.5) * 0.3] },
         properties: {
@@ -106,6 +131,7 @@ const LANDUSE_COLORS = {
 const DAY_OPTIONS = [
     { value: 1, label: '1 วัน' }, { value: 3, label: '3 วัน' },
     { value: 7, label: '7 วัน' }, { value: 30, label: '30 วัน' },
+    { value: 60, label: '60 วัน' },
 ];
 const SATELLITE_OPTIONS = [
     { value: 'all', label: 'ทุกดาวเทียม' },

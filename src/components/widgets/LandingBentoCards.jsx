@@ -238,58 +238,184 @@ export const CommunityEnterprisesCard = ({ count, districtStats, details = {}, l
     );
 };
 
-export const LargePlotsCard = ({ stats, loading }) => {
+export const LargePlotsCard = ({ largePlotsList = [], loading }) => {
+    const [selectedGroup, setSelectedGroup] = useState('all');
+    const [selectedDistrict, setSelectedDistrict] = useState('all');
+    const [search, setSearch] = useState('');
+
+    const groupOptions = useMemo(() => {
+        const counts = {};
+        largePlotsList.forEach(item => {
+            const g = item.commodity_group || 'ไม่ระบุ';
+            counts[g] = (counts[g] || 0) + 1;
+        });
+        return Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    }, [largePlotsList]);
+
+    const districtOptions = useMemo(() => {
+        const counts = {};
+        largePlotsList.forEach(item => {
+            const d = item.district || 'ไม่ระบุ';
+            counts[d] = (counts[d] || 0) + 1;
+        });
+        return Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    }, [largePlotsList]);
+
+    const filteredList = useMemo(() => {
+        const query = search.trim().toLowerCase();
+        return largePlotsList.filter((item) => {
+            if (selectedGroup !== 'all' && (item.commodity_group || 'ไม่ระบุ') !== selectedGroup) return false;
+            if (selectedDistrict !== 'all' && item.district !== selectedDistrict) return false;
+            if (!query) return true;
+            return [
+                item.plot_name,
+                item.commodity,
+                item.district,
+                item.subdistrict,
+                item.commodity_group,
+                item.year
+            ].some((value) => String(value || '').toLowerCase().includes(query));
+        });
+    }, [largePlotsList, search, selectedDistrict, selectedGroup]);
+
+    const kpis = useMemo(() => {
+        let members = 0;
+        let area = 0;
+        filteredList.forEach(item => {
+            members += Number(item.member_count) || 0;
+            area += Number(item.area_rai) || 0;
+        });
+        return {
+            members,
+            area,
+            count: filteredList.length
+        };
+    }, [filteredList]);
+
+    const filteredDistricts = useMemo(() => {
+        const counts = countBy(filteredList, 'district');
+        return Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    }, [filteredList]);
+
+    const hasFilter = selectedGroup !== 'all' || selectedDistrict !== 'all' || search.trim();
+
     return (
-        <div className="bento-card" style={{ gridArea: 'lp' }}>
+        <div className="bento-card large-plots-card" style={{ gridArea: 'lp' }}>
             <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div><h3>🌾 แปลงใหญ่</h3></div>
-                <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
-                    ทั้งหมด {stats.total} แปลง
+                <div className="lp-total-badge" style={{ background: '#fef9c3', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#854d0e' }}>
+                    ทั้งหมด {largePlotsList.length.toLocaleString()} แปลง
                 </div>
             </div>
-            <div className="bento-card-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px' }}>
-                <div>
-                    <div style={{ fontSize: 12, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>กลุ่มสินค้าหลัก (แปลง)</div>
-                    {loading ? <BentoGridSkeleton count={4} height="32px" /> : (
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#fef9c3', borderRadius: '6px' }}>
-                                <span style={{ fontSize: 12, color: '#854d0e', fontWeight: 500 }}>ข้าว</span>
-                                <span style={{ fontSize: 13, fontWeight: 700, color: '#ca8a04' }}>{stats.rice}</span>
+            <div className="bento-card-body ce-detail-body">
+                {loading ? (
+                    <>
+                        <BentoGridSkeleton count={4} height="56px" />
+                        <BentoGridSkeleton count={8} height="34px" />
+                    </>
+                ) : (
+                    <>
+                        <div className="ce-filter-row">
+                            <label>
+                                <span>กลุ่มสินค้า</span>
+                                <select value={selectedGroup} onChange={(event) => setSelectedGroup(event.target.value)}>
+                                    <option value="all">ทุกกลุ่มสินค้า</option>
+                                    {groupOptions.map(([group]) => <option key={group} value={group}>{group}</option>)}
+                                </select>
+                            </label>
+                            <label>
+                                <span>อำเภอ</span>
+                                <select value={selectedDistrict} onChange={(event) => setSelectedDistrict(event.target.value)}>
+                                    <option value="all">ทุกอำเภอ</option>
+                                    {districtOptions.map(([district]) => <option key={district} value={district}>{district}</option>)}
+                                </select>
+                            </label>
+                            <label className="ce-search">
+                                <span>ค้นหา</span>
+                                <input
+                                    value={search}
+                                    onChange={(event) => setSearch(event.target.value)}
+                                    placeholder="ชื่อแปลง / ชนิดสินค้า / ตำบล / อำเภอ"
+                                />
+                            </label>
+                            {hasFilter && (
+                                <button type="button" onClick={() => {
+                                    setSelectedGroup('all');
+                                    setSelectedDistrict('all');
+                                    setSearch('');
+                                }}>
+                                    ล้างตัวกรอง
+                                </button>
+                            )}
+                        </div>
+
+                        <div className="ce-kpi-grid">
+                            <div className="ce-kpi">
+                                <span>แปลงใหญ่ที่แสดง</span>
+                                <strong>{kpis.count.toLocaleString()}</strong>
+                                <small>แปลง</small>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#dcfce3', borderRadius: '6px' }}>
-                                <span style={{ fontSize: 12, color: '#166534', fontWeight: 500 }}>ผัก/สมุนไพร</span>
-                                <span style={{ fontSize: 13, fontWeight: 700, color: '#15803d' }}>{stats.veg_herb}</span>
+                            <div className="ce-kpi">
+                                <span>สมาชิกรวม</span>
+                                <strong>{kpis.members.toLocaleString()}</strong>
+                                <small>ราย</small>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#fef3c7', borderRadius: '6px' }}>
-                                <span style={{ fontSize: 12, color: '#92400e', fontWeight: 500 }}>ไม้ผล</span>
-                                <span style={{ fontSize: 13, fontWeight: 700, color: '#b45309' }}>{stats.fruit}</span>
+                            <div className="ce-kpi">
+                                <span>พื้นที่รวม</span>
+                                <strong>{kpis.area.toLocaleString()}</strong>
+                                <small>ไร่</small>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f5f5f4', borderRadius: '6px' }}>
-                                <span style={{ fontSize: 12, color: '#57534e', fontWeight: 500 }}>พืชไร่</span>
-                                <span style={{ fontSize: 13, fontWeight: 700, color: '#44403c' }}>{stats.field_crop}</span>
-                            </div>
-                            <div style={{ gridColumn: 'span 2', display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f3e8ff', borderRadius: '6px' }}>
-                                <span style={{ fontSize: 12, color: '#6b21a8', fontWeight: 500 }}>กลุ่มอื่นๆ (ปศุสัตว์/ประมง/...)</span>
-                                <span style={{ fontSize: 13, fontWeight: 700, color: '#7e22ce' }}>{stats.other}</span>
+                            <div className="ce-kpi">
+                                <span>แปลงทั้งหมด</span>
+                                <strong>{largePlotsList.length.toLocaleString()}</strong>
+                                <small>แปลง</small>
                             </div>
                         </div>
-                    )}
-                </div>
-                <div>
-                    <div style={{ fontSize: 12, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>ปริมาณรวม (ราย/ไร่)</div>
-                    {loading ? <div className="skeleton-box" style={{ width: '100%', height: '70px', borderRadius: '6px' }}></div> : (
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '8px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
-                                <span style={{ fontSize: 12, color: '#475569', fontWeight: 500 }}>จำนวนสมาชิกรวม</span>
-                                <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>{stats.members.toLocaleString()}</span>
+
+                        <div className="ce-v2-body">
+                            <div className="ce-panel">
+                                <div className="ce-section-title">สรุปตามอำเภอ</div>
+                                <div className="ce-bars">
+                                    {filteredDistricts.slice(0, 8).map(([district, value]) => {
+                                        const max = filteredDistricts[0]?.[1] || 1;
+                                        return (
+                                            <button
+                                                type="button"
+                                                key={district}
+                                                className={selectedDistrict === district ? 'is-active' : ''}
+                                                onClick={() => setSelectedDistrict(selectedDistrict === district ? 'all' : district)}
+                                            >
+                                                <span>{district}</span>
+                                                <div><i style={{ width: `${Math.max(8, (value / max) * 100)}%` }} /></div>
+                                                <strong>{value.toLocaleString()}</strong>
+                                            </button>
+                                        );
+                                    })}
+                                    {!filteredDistricts.length && <div style={{ fontSize: 13, color: '#64748b', padding: '8px 0' }}>ไม่มีข้อมูล</div>}
+                                </div>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
-                                <span style={{ fontSize: 12, color: '#475569', fontWeight: 500 }}>พื้นที่รวม (ไร่)</span>
-                                <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>{stats.area.toLocaleString()}</span>
+
+                            <div className="ce-panel">
+                                <div className="ce-section-title">รายละเอียด ({filteredList.length.toLocaleString()} รายการ)</div>
+                                <div className="ce-result-list">
+                                    {filteredList.slice(0, 8).map((item) => (
+                                        <article key={item.id || item.plot_name} className="ce-result-item">
+                                            <span>{item.commodity || item.commodity_group || 'ไม่ระบุสินค้า'}</span>
+                                            <strong>{item.plot_name || 'ไม่ระบุชื่อแปลง'}</strong>
+                                            <p>
+                                                อ.{item.district || '-'} / ต.{item.subdistrict || '-'} 
+                                                {item.year ? ` • ปีจัดตั้ง ${item.year}` : ''}
+                                                {item.member_count ? ` • สมาชิก ${Number(item.member_count).toLocaleString()} ราย` : ''}
+                                                {item.area_rai ? ` • พื้นที่ ${Number(item.area_rai).toLocaleString()} ไร่` : ''}
+                                            </p>
+                                        </article>
+                                    ))}
+                                    {!filteredList.length && <div className="ce-empty">ไม่พบข้อมูลตามตัวกรอง</div>}
+                                </div>
                             </div>
                         </div>
-                    )}
-                </div>
+                    </>
+                )}
             </div>
             <a href="/public/large-plots" style={{ display: 'block', textAlign: 'center', padding: '10px 16px', background: '#fef9c3', color: '#854d0e', fontSize: 13, fontWeight: 600, textDecoration: 'none', borderTop: '1px solid #fde68a', borderRadius: '0 0 14px 14px' }}>📊 ดูรายละเอียดทั้งหมด →</a>
         </div>
