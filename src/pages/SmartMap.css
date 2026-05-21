@@ -283,6 +283,101 @@
     box-shadow: 0 0 6px currentColor;
 }
 
+/* Custom Checkbox controls */
+.control-toggle-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid rgba(15, 23, 42, 0.02);
+    border-radius: 10px;
+    background: transparent;
+    color: #475569;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    position: relative;
+}
+
+.control-toggle-checkbox-label:hover {
+    background: rgba(15, 23, 42, 0.03);
+    color: #0f172a;
+}
+
+.control-toggle-checkbox-label.active {
+    color: #0f172a;
+    background: rgba(15, 23, 42, 0.015);
+}
+
+.control-toggle-checkbox-input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.control-toggle-checkbox-custom {
+    position: relative;
+    height: 16px;
+    width: 16px;
+    border: 2px solid rgba(15, 23, 42, 0.2);
+    border-radius: 5px;
+    background-color: transparent;
+    transition: all 0.2s ease;
+    flex: 0 0 auto;
+}
+
+.control-toggle-checkbox-label:hover .control-toggle-checkbox-custom {
+    border-color: rgba(15, 23, 42, 0.4);
+}
+
+.control-toggle-checkbox-input:checked ~ .control-toggle-checkbox-custom {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 8px var(--accent-color);
+}
+
+.control-toggle-checkbox-custom::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 4.5px;
+    top: 1px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.control-toggle-checkbox-input:checked ~ .control-toggle-checkbox-custom::after {
+    display: block;
+}
+
+.control-toggle-checkbox-label .control-toggle-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex: 0 0 auto;
+    opacity: 0.3;
+    transition: opacity 0.2s ease;
+}
+
+.control-toggle-checkbox-label.active .control-toggle-dot {
+    opacity: 1;
+    box-shadow: 0 0 6px currentColor;
+}
+
+.control-toggle-text {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
 /* ---------- LEGEND ---------- */
 .smart-map-legend {
     margin-top: 4px;
@@ -817,31 +912,14 @@
     }
 }
 
-@keyframes pulse-tour {
-    0% {
-        stroke-width: 1.5;
-        stroke-opacity: 0.8;
-        fill-opacity: 0.9;
-    }
-    50% {
-        stroke-width: 8;
-        stroke-opacity: 0.3;
-        fill-opacity: 0.7;
-    }
-    100% {
-        stroke-width: 1.5;
-        stroke-opacity: 0.8;
-        fill-opacity: 0.9;
-    }
-}
 
-.pulse-marker-gis {
-    animation: pulse-gis 2s infinite ease-in-out;
+.pulse-marker-young_farmer {
+    animation: pulse-gis 2.1s infinite ease-in-out;
     transform-origin: center;
 }
 
-.pulse-marker-tour {
-    animation: pulse-tour 2s infinite ease-in-out;
+.pulse-marker-career_group {
+    animation: pulse-gis 2.3s infinite ease-in-out;
     transform-origin: center;
 }
 
@@ -1187,3 +1265,729 @@
     white-space: pre-line;
 }
 
+/* ========================================================= */
+/* ============ AUTOCOMPLETE SEARCH BAR STYLES ============ */
+/* ========================================================= */
+.smart-map-search-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 14px;
+    padding: 0 12px;
+    height: 42px;
+    box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+    transition: all 0.25s ease;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.search-input-wrapper:focus-within {
+    background: #ffffff;
+    border-color: #10b981;
+    box-shadow: 0 4px 24px rgba(16, 185, 129, 0.15);
+}
+
+.search-icon {
+    font-size: 16px;
+    color: #64748b;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.smart-map-search-input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e293b;
+    width: 170px;
+    transition: width 0.25s ease;
+}
+
+.smart-map-search-input:focus {
+    width: 210px;
+}
+
+.smart-map-search-input::placeholder {
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.search-clear-btn {
+    border: none;
+    background: rgba(15, 23, 42, 0.05);
+    color: #64748b;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 10px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: 6px;
+    flex-shrink: 0;
+}
+
+.search-clear-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    color: #dc2626;
+}
+
+.search-suggestions-list {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    min-width: 220px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 14px;
+    list-style: none;
+    padding: 6px;
+    margin: 0;
+    z-index: 1100;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.search-suggestion-item {
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.search-suggestion-item:hover {
+    background: rgba(16, 185, 129, 0.08);
+    color: #065f46;
+    padding-left: 18px;
+}
+
+/* ========================================================= */
+/* ================ BASEMAP SELECTOR STYLES ================ */
+/* ========================================================= */
+.basemap-selector-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.basemap-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px 6px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #475569;
+    border: 1px solid rgba(15, 23, 42, 0.04);
+    border-radius: 8px;
+    background: rgba(15, 23, 42, 0.02);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.basemap-btn:hover {
+    background: rgba(15, 23, 42, 0.05);
+    color: #0f172a;
+}
+
+.basemap-btn.active {
+    background: rgba(16, 185, 129, 0.12);
+    border-color: rgba(16, 185, 129, 0.25);
+    color: #047857;
+}
+
+/* ========================================================= */
+/* ================== WEATHER CARD STYLES ================== */
+/* ========================================================= */
+.weather-live-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.015), rgba(15, 23, 42, 0.03));
+    border: 1px solid rgba(15, 23, 42, 0.04);
+    border-radius: 16px;
+    padding: 14px;
+}
+
+.weather-loading, .weather-error {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    text-align: center;
+    padding: 14px 8px;
+}
+
+.weather-error {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.05);
+    border-radius: 8px;
+}
+
+.weather-detail-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 10px;
+}
+
+.weather-main-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 8px 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(15, 23, 42, 0.03);
+}
+
+.weather-icon-large {
+    font-size: 28px;
+}
+
+.weather-temp-val {
+    font-size: 20px;
+    font-weight: 950;
+    color: #0f172a;
+    line-height: 1.1;
+}
+
+.weather-desc {
+    font-size: 10px;
+    font-weight: 700;
+    color: #475569;
+    margin-top: 1px;
+}
+
+.weather-pm25-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.85);
+    border-left: 4px solid #64748b;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+}
+
+.pm25-val-wrapper {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+}
+
+.pm25-number {
+    font-size: 22px;
+    font-weight: 950;
+    line-height: 1;
+}
+
+.pm25-unit {
+    font-size: 9px;
+    font-weight: 700;
+    color: #64748b;
+}
+
+.pm25-badge {
+    align-self: flex-start;
+    font-size: 8px;
+    font-weight: 900;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 3px;
+    white-space: nowrap;
+}
+
+.pm25-label {
+    font-size: 8px;
+    font-weight: 600;
+    color: #64748b;
+    margin-top: 1px;
+}
+
+.weather-sub-details {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 2px;
+}
+
+.weather-sub-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(15, 23, 42, 0.03);
+    border-radius: 10px;
+}
+
+.sub-icon {
+    font-size: 14px;
+}
+
+.sub-val {
+    font-size: 12px;
+    font-weight: 800;
+    color: #1e293b;
+    line-height: 1.2;
+}
+
+.sub-lbl {
+    font-size: 9px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+/* ---------- WEATHER TOOLTIP STYLES ---------- */
+.tooltip-divider {
+    height: 1px;
+    background: rgba(15, 23, 42, 0.08);
+    margin: 8px 0;
+}
+
+.tooltip-weather {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.tooltip-weather-main {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tooltip-weather-icon {
+    font-size: 18px;
+}
+
+.tooltip-weather-temp {
+    font-size: 14px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.tooltip-weather-desc {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.tooltip-pm-badge {
+    font-size: 10px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.tooltip-weather-loading {
+    font-size: 10px;
+    font-weight: 600;
+    color: #64748b;
+    text-align: center;
+    padding: 4px 0;
+}
+
+/* ========================================================= */
+/* ================ DISTRICT LABELS ENHANCED ============== */
+/* ========================================================= */
+.district-map-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-family: 'Prompt', 'Kanit', sans-serif !important;
+}
+
+.map-label-name {
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.map-label-stats {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 2px;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+.map-label-temp {
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.district-map-label.selected .map-label-temp {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.map-label-pm {
+    color: #ffffff;
+    font-size: 8px;
+    font-weight: 900;
+    padding: 1px 4px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================================= */
+/* ================== EXTRA PULSING MARKERS ================ */
+/* ========================================================= */
+@keyframes pulse-forecast {
+    0% { stroke-width: 1.5; stroke-opacity: 0.8; fill-opacity: 0.9; }
+    50% { stroke-width: 8; stroke-opacity: 0.3; fill-opacity: 0.7; }
+    100% { stroke-width: 1.5; stroke-opacity: 0.8; fill-opacity: 0.9; }
+}
+
+@keyframes pulse-hotspot {
+    0% { stroke-width: 2; stroke-opacity: 0.9; fill-opacity: 0.9; }
+    50% { stroke-width: 10; stroke-opacity: 0.4; fill-opacity: 0.7; }
+    100% { stroke-width: 2; stroke-opacity: 0.9; fill-opacity: 0.9; }
+}
+
+.pulse-marker-forecast {
+    animation: pulse-forecast 2.2s infinite ease-in-out;
+    transform-origin: center;
+}
+
+.pulse-marker-hotspot {
+    animation: pulse-hotspot 1.5s infinite ease-in-out;
+    transform-origin: center;
+}
+
+/* ========================================================= */
+/* ================ DISTRICT COMPARISON STYLES ============= */
+/* ========================================================= */
+.panel-compare-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    border: 1px solid rgba(16, 185, 129, 0.15);
+    border-radius: 10px;
+    background: rgba(16, 185, 129, 0.06);
+    color: #065f46;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.panel-compare-btn:hover {
+    background: rgba(16, 185, 129, 0.12);
+    border-color: rgba(16, 185, 129, 0.25);
+    transform: translateY(-1px);
+}
+
+.district-compare-modal-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 24px;
+}
+
+.district-compare-modal {
+    width: 100%;
+    max-width: 860px;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 24px;
+    box-shadow: 0 24px 64px rgba(15, 23, 42, 0.18);
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 48px);
+    overflow: hidden;
+    animation: modalPop 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes modalPop {
+    0% { opacity: 0; transform: scale(0.96) translateY(20px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.compare-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.compare-modal-header h2 {
+    font-size: 18px;
+    font-weight: 800;
+    margin: 0;
+    background: linear-gradient(135deg, #059669, #0891b2);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.compare-modal-close {
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 10px;
+    background: rgba(15, 23, 42, 0.02);
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 700;
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.compare-modal-close:hover {
+    background: rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.2);
+    color: #dc2626;
+}
+
+.compare-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 24px;
+    background: linear-gradient(180deg, transparent, rgba(15, 23, 42, 0.01));
+}
+
+.compare-column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.compare-column-a {
+    border-right: 1px solid rgba(15, 23, 42, 0.06);
+    padding-right: 24px;
+}
+
+.compare-column-header {
+    background: rgba(15, 23, 42, 0.02);
+    border: 1px solid rgba(15, 23, 42, 0.03);
+    border-radius: 16px;
+    padding: 14px 18px;
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.compare-district-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.compare-district-subtitle {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+.compare-selector-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.compare-selector-wrapper label {
+    font-size: 12px;
+    font-weight: 800;
+    color: #475569;
+}
+
+.compare-district-select {
+    flex: 1;
+    padding: 6px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    background: #ffffff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    outline: none;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    transition: all 0.2s;
+}
+
+.compare-district-select:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+.compare-section {
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.04);
+    border-radius: 16px;
+    padding: 14px;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.01);
+}
+
+.compare-section h3 {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    margin: 0 0 10px 0;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.04);
+}
+
+.compare-stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #475569;
+    padding: 6px 0;
+    border-bottom: 1px dashed rgba(15, 23, 42, 0.03);
+}
+
+.compare-stat-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.compare-stat-row strong {
+    color: #0f172a;
+    font-weight: 700;
+}
+
+/* Compare Weather specific styling */
+.compare-weather-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.compare-weather-main {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 800;
+    color: #1e293b;
+}
+
+.compare-weather-icon {
+    font-size: 24px;
+}
+
+.compare-pm-badge {
+    font-size: 11px;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    text-align: center;
+}
+
+.compare-weather-subs {
+    display: flex;
+    gap: 16px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.compare-no-data {
+    font-size: 12px;
+    font-weight: 600;
+    color: #94a3b8;
+    text-align: center;
+    padding: 20px;
+}
+
+/* What-if section in modal */
+.compare-policy-box {
+    background: rgba(15, 23, 42, 0.02) !important;
+}
+
+.compare-sim-results {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 14px;
+    border-top: 1px solid rgba(15, 23, 42, 0.06);
+    padding-top: 12px;
+}
+
+.sim-res-item {
+    font-size: 10px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.sim-res-item strong {
+    font-size: 11px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+/* Mobile responsive for modal */
+@media (max-width: 768px) {
+    .district-compare-modal-overlay {
+        padding: 12px;
+    }
+    
+    .district-compare-modal {
+        max-height: calc(100vh - 24px);
+    }
+    
+    .compare-modal-body {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 16px;
+    }
+    
+    .compare-column-a {
+        border-right: none;
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+        padding-right: 0;
+        padding-bottom: 20px;
+    }
+}

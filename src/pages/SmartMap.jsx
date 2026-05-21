@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDashboardData } from '../hooks/useDashboardData';
+import { supabase } from '../supabaseClient';
+import { utmToLatLng } from '../utils/geo';
 import './SmartMap.css';
 
 // ===== CHOROPLETH CONFIG =====
@@ -12,8 +14,10 @@ const METRICS = [
 ];
 
 const MARKER_LAYERS = [
-    { key: 'gis', label: 'พื้นที่ GIS', color: '#3b82f6', icon: '📍' },
-    { key: 'tourism', label: 'ท่องเที่ยวเกษตร', color: '#22c55e', icon: '🏕️' },
+    { key: 'young_farmer', label: 'กลุ่มยุวเกษตรกร', color: '#fbbf24', icon: '🧑‍🌾' },
+    { key: 'career_group', label: 'กลุ่มอาชีพการเกษตร', color: '#a855f7', icon: '🚜' },
+    { key: 'forecast', label: 'แปลงพยากรณ์', color: '#ec4899', icon: '🔬' },
+    { key: 'hotspot', label: 'จุดความร้อน', color: '#ef4444', icon: '🔥' },
 ];
 
 const DISTRICT_CENTROIDS = {
@@ -24,6 +28,38 @@ const DISTRICT_CENTROIDS = {
     'นครชัยศรี': [13.80, 100.18],
     'สามพราน': [13.72, 100.22],
     'พุทธมณฑล': [13.78, 100.32],
+};
+
+// ===== WEATHER & PM2.5 HELPERS =====
+const getWeatherDetails = (code) => {
+    if (code === null || code === undefined) return { label: 'ไม่ทราบ', icon: '❓' };
+    if (code === 0) return { label: 'ท้องฟ้าแจ่มใส', icon: '☀️' };
+    if ([1, 2, 3].includes(code)) return { label: 'มีเมฆบางส่วน', icon: '⛅' };
+    if ([45, 48].includes(code)) return { label: 'มีหมอก', icon: '🌫️' };
+    if ([51, 53, 55].includes(code)) return { label: 'ฝนละออง', icon: '🌧️' };
+    if ([61, 63, 65].includes(code)) return { label: 'ฝนตก', icon: '🌧️' };
+    if ([71, 73, 75].includes(code)) return { label: 'หิมะตก', icon: '❄️' };
+    if ([80, 81, 82].includes(code)) return { label: 'ฝนตกชุก', icon: '🌦️' };
+    if ([95, 96, 99].includes(code)) return { label: 'พายุฝนฟ้าคะนอง', icon: '⛈️' };
+    return { label: 'มีฝน/มีเมฆ', icon: '🌧️' };
+};
+
+const getPm25Color = (val) => {
+    if (val === null || val === undefined) return '#64748b';
+    if (val <= 15) return '#06b6d4';     // ดีมาก (Very Good) - ฟ้า/เขียวเข้ม
+    if (val <= 25) return '#10b981';     // ดี (Good) - เขียว
+    if (val <= 37.5) return '#eab308';   // ปานกลาง (Moderate) - เหลือง
+    if (val <= 75) return '#f97316';     // เริ่มมีผลกระทบ (Unhealthy for Sensitive) - ส้ม
+    return '#ef4444';                   // มีผลกระทบต่อสุขภาพ (Unhealthy) - แดง
+};
+
+const getPm25LevelLabel = (val) => {
+    if (val === null || val === undefined) return 'ไม่มีข้อมูล';
+    if (val <= 15) return 'ดีมาก';
+    if (val <= 25) return 'ดี';
+    if (val <= 37.5) return 'ปานกลาง';
+    if (val <= 75) return 'เริ่มมีผลกระทบ';
+    return 'อันตรายต่อสุขภาพ';
 };
 
 // ===== MINI BAR CHART (pure CSS) =====
@@ -63,10 +99,17 @@ function AnimatedNumber({ value, duration = 800 }) {
     const [display, setDisplay] = useState(0);
 
     useEffect(() => {
-        if (!value) { setDisplay(0); return; }
+        let active = true;
+        if (!value) {
+            requestAnimationFrame(() => {
+                if (active) setDisplay(0);
+            });
+            return;
+        }
         let start = 0;
         const startTime = performance.now();
         const animate = (now) => {
+            if (!active) return;
             const elapsed = now - startTime;
             const progress = Math.min(elapsed / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3);
@@ -75,20 +118,70 @@ function AnimatedNumber({ value, duration = 800 }) {
             if (progress < 1) requestAnimationFrame(animate);
         };
         requestAnimationFrame(animate);
+        return () => {
+            active = false;
+        };
     }, [value, duration]);
 
     return <>{display.toLocaleString()}</>;
 }
 
+// ===== FIT BOUNDS COMPONENT =====
+function FitBounds({ useMap, geoJSONData, L, resetKey, selectedDistrict }) {
+    const map = useMap();
+    useEffect(() => {
+        if (!geoJSONData || !L) return;
+        const bounds = L.geoJSON(geoJSONData).getBounds();
+        if (!bounds.isValid()) return;
+        map.invalidateSize();
+        map.fitBounds(bounds, {
+            paddingTopLeft: [selectedDistrict ? 360 : 28, 80],
+            paddingBottomRight: [240, 100],
+            maxZoom: 11,
+            animate: true,
+        });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [geoJSONData, L, map, resetKey]);
+    return null;
+}
+
+// ===== FLY TO DISTRICT CENTROID =====
+function MapFlyTo({ useMap, selectedDistrict, L }) {
+    const map = useMap();
+    useEffect(() => {
+        if (!selectedDistrict || !L) return;
+        const coords = DISTRICT_CENTROIDS[selectedDistrict.name];
+        if (coords) {
+            map.flyTo(coords, 11, {
+                animate: true,
+                duration: 1.2
+            });
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedDistrict, map, L]);
+    return null;
+}
+
+// ===== MAP ZOOM TRACKER =====
+function MapZoomTracker({ useMapEvents, setMapZoom }) {
+    const map = useMapEvents({
+        zoomend() {
+            setMapZoom(map.getZoom());
+        }
+    });
+    return null;
+}
+
 // ===== MAIN COMPONENT =====
 export default function SmartMap() {
     const navigate = useNavigate();
-    const { loading: dataLoading, districtStats, mapData } = useDashboardData();
+    const { loading: dataLoading, districtStats } = useDashboardData();
 
     const [MapComponents, setMapComponents] = useState(null);
     const [geoJSONData, setGeoJSONData] = useState(null);
     const [activeMetric, setActiveMetric] = useState('area');
-    const [visibleLayers, setVisibleLayers] = useState({ gis: true, tourism: true });
+    const [visibleLayers, setVisibleLayers] = useState({ young_farmer: false, career_group: false, forecast: false, hotspot: false });
+    const [mapZoom, setMapZoom] = useState(10);
     const [selectedDistrict, setSelectedDistrict] = useState(null);
     const [panelClosing, setPanelClosing] = useState(false);
     const [resetKey, setResetKey] = useState(0);
@@ -101,6 +194,21 @@ export default function SmartMap() {
     // Simulation Sliders states
     const [simRiceConversion, setSimRiceConversion] = useState(0);
     const [simResidueManagement, setSimResidueManagement] = useState(0);
+
+    // Basemap selector & Search & Weather states
+    const [basemap, setBasemap] = useState('osm'); // default to Thai OpenStreetMap
+    const [searchQuery, setSearchQuery] = useState('');
+    const [isSearchFocused, setIsSearchFocused] = useState(false);
+    const [weatherData, setWeatherData] = useState({});
+
+    // All farm coordinates
+    const [allCoords, setAllCoords] = useState({ young_farmer: [], career_group: [], forecast: [], hotspot: [] });
+
+    // Comparison Mode states
+    const [isCompareOpen, setIsCompareOpen] = useState(false);
+    const [compareWithDistrictName, setCompareWithDistrictName] = useState(null);
+    const [compSimRiceConversion, setCompSimRiceConversion] = useState(0);
+    const [compSimResidueManagement, setCompSimResidueManagement] = useState(0);
 
     // Reset simulation and AI error when district changes
     useEffect(() => {
@@ -138,6 +246,177 @@ export default function SmartMap() {
         });
     }, []);
 
+    // Fetch live weather and PM2.5 for all districts
+    const fetchWeatherAndAirQuality = useCallback(async () => {
+        const results = {};
+        await Promise.all(
+            Object.entries(DISTRICT_CENTROIDS).map(async ([name, [lat, lon]]) => {
+                try {
+                    const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m`;
+                    const weatherRes = await fetch(weatherUrl);
+                    const weatherDataJson = await weatherRes.json();
+
+                    const aqUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=pm2_5,european_aqi`;
+                    const aqRes = await fetch(aqUrl);
+                    const aqDataJson = await aqRes.json();
+
+                    results[name] = {
+                        temp: weatherDataJson.current?.temperature_2m ?? null,
+                        humidity: weatherDataJson.current?.relative_humidity_2m ?? null,
+                        windSpeed: weatherDataJson.current?.wind_speed_10m ?? null,
+                        weatherCode: weatherDataJson.current?.weather_code ?? null,
+                        pm25: aqDataJson.current?.pm2_5 ?? null,
+                        aqi: aqDataJson.current?.european_aqi ?? null,
+                        loading: false
+                    };
+                } catch (e) {
+                    console.error(`Failed to fetch weather for ${name}`, e);
+                    results[name] = { loading: false, error: true };
+                }
+            })
+        );
+        setWeatherData(results);
+    }, []);
+
+    useEffect(() => {
+        fetchWeatherAndAirQuality();
+    }, [fetchWeatherAndAirQuality]);
+
+    // Fetch coordinates for GIS, Young Farmers, Career Groups, Forecast Plots, and Fire Hotspots from Supabase
+    useEffect(() => {
+        const fetchCoordinates = async () => {
+            try {
+                // Fetch Young Farmers (all that have coordinates)
+                const { data: youngFarmerData } = await supabase
+                    .from('young_farmer_groups_detailed')
+                    .select('group_name, district, subdistrict, member_count, activity, lat, lon')
+                    .not('lat', 'is', null)
+                    .not('lon', 'is', null);
+
+                // Fetch Agricultural Career Groups (all that have coordinates)
+                const { data: careerGroupData } = await supabase
+                    .from('agricultural_career_groups')
+                    .select('group_name, district, subdistrict, member_count, activity, lat, lon')
+                    .not('lat', 'is', null)
+                    .not('lon', 'is', null);
+
+                // Fetch Forecast Plots (all that have coord_x, coord_y)
+                const { data: forecastData } = await supabase
+                    .from('forecast_plots')
+                    .select('id, owner_name, district, subdistrict, crop_type, planted_area_rai, crop_status, coord_x, coord_y');
+
+                // Fetch Fire Hotspots (all that have coordinates)
+                const { data: hotspotData } = await supabase
+                    .from('fire_hotspots')
+                    .select('id, acq_date, acq_time, confidence, frp, district, subdistrict, latitude, longitude')
+                    .not('latitude', 'is', null);
+
+                // Parse Young Farmer
+                const youngFarmerPts = (youngFarmerData || []).map(r => ({
+                    name: r.group_name,
+                    district: r.district,
+                    subdistrict: r.subdistrict,
+                    memberCount: r.member_count,
+                    activity: r.activity,
+                    lat: parseFloat(r.lat),
+                    lon: parseFloat(r.lon),
+                    type: 'young_farmer',
+                    typeLabel: 'กลุ่มยุวเกษตรกร'
+                })).filter(p => !isNaN(p.lat) && !isNaN(p.lon));
+
+                // Parse Career Group
+                const careerGroupPts = (careerGroupData || []).map(r => ({
+                    name: r.group_name,
+                    district: r.district,
+                    subdistrict: r.subdistrict,
+                    memberCount: r.member_count,
+                    activity: r.activity,
+                    lat: parseFloat(r.lat),
+                    lon: parseFloat(r.lon),
+                    type: 'career_group',
+                    typeLabel: 'กลุ่มอาชีพการเกษตร'
+                })).filter(p => !isNaN(p.lat) && !isNaN(p.lon));
+
+                // Parse Forecast (UTM to Lat/Lng)
+                const forecastPts = (forecastData || []).map(item => {
+                    const x = parseFloat(item.coord_x);
+                    const y = parseFloat(item.coord_y);
+                    if (isNaN(x) || isNaN(y) || x === 0 || y === 0) return null;
+                    const { lat, lng } = utmToLatLng(x, y, 47, 'N');
+                    if (lat === 0 && lng === 0) return null;
+                    return {
+                        id: item.id,
+                        name: item.owner_name || 'ไม่ระบุเจ้าของ',
+                        district: item.district,
+                        subdistrict: item.subdistrict,
+                        lat,
+                        lon: lng,
+                        type: 'forecast',
+                        typeLabel: 'แปลงพยากรณ์',
+                        cropType: item.crop_type,
+                        area: item.planted_area_rai,
+                        status: item.crop_status
+                    };
+                }).filter(Boolean);
+
+                // Parse Hotspots
+                const hotspotPts = (hotspotData || []).map(r => ({
+                    id: r.id,
+                    name: `จุดความร้อน ${r.acq_date} ${r.acq_time ? r.acq_time.substring(0,2) + ':' + r.acq_time.substring(2) + ' น.' : ''}`,
+                    district: r.district,
+                    subdistrict: r.subdistrict,
+                    lat: parseFloat(r.latitude),
+                    lon: parseFloat(r.longitude),
+                    confidence: r.confidence,
+                    frp: r.frp,
+                    type: 'hotspot',
+                    typeLabel: 'จุดความร้อนสะสม'
+                })).filter(p => !isNaN(p.lat) && !isNaN(p.lon));
+
+                setAllCoords({
+                    young_farmer: youngFarmerPts,
+                    career_group: careerGroupPts,
+                    forecast: forecastPts,
+                    hotspot: hotspotPts
+                });
+            } catch (err) {
+                console.error("Error fetching map coordinates data:", err);
+            }
+        };
+
+        fetchCoordinates();
+    }, []);
+
+    // Search Suggestions logic
+    const suggestions = useMemo(() => {
+        if (!searchQuery) return [];
+        const cleanQuery = searchQuery.replace(/^อ\./, '').trim();
+        if (!cleanQuery) return [];
+        return Object.keys(DISTRICT_CENTROIDS).filter(name =>
+            name.includes(cleanQuery)
+        );
+    }, [searchQuery]);
+
+    const handleSelectDistrictByName = useCallback((name) => {
+        setSearchQuery(`อ.${name}`);
+        let areaSqkm = 0;
+        if (geoJSONData && geoJSONData.features) {
+            const feat = geoJSONData.features.find(f => f.properties?.amp_th === name);
+            if (feat) {
+                areaSqkm = feat.properties?.area_sqkm || 0;
+            }
+        }
+        setPanelClosing(false);
+        setSelectedDistrict({
+            name,
+            areaSqkm
+        });
+    }, [geoJSONData]);
+
+    const handleSearchChange = useCallback((val) => {
+        setSearchQuery(val);
+    }, []);
+
     // Toggle marker layers
     const toggleLayer = useCallback((key) => {
         setVisibleLayers(prev => ({ ...prev, [key]: !prev[key] }));
@@ -154,7 +433,9 @@ export default function SmartMap() {
 
     const handleResetView = useCallback(() => {
         closePanel();
-        setResetKey(prev => prev + 1);
+        setTimeout(() => {
+            setResetKey(prev => prev + 1);
+        }, 300);
     }, [closePanel]);
 
     // Get metric info
@@ -280,30 +561,7 @@ ${cropsStr}
         );
     }
 
-    const { L, MapContainer, TileLayer, CircleMarker, Marker, Popup, GeoJSON, useMap, ZoomControl } = MapComponents;
-
-    // ===== FIT BOUNDS COMPONENT =====
-    function FitBounds() {
-        const map = useMap();
-        useEffect(() => {
-            if (!geoJSONData || !L) return;
-            const bounds = L.geoJSON(geoJSONData).getBounds();
-            if (!bounds.isValid()) return;
-            map.invalidateSize();
-            map.fitBounds(bounds, {
-                paddingTopLeft: [selectedDistrict ? 360 : 28, 80],
-                paddingBottomRight: [240, 100],
-                maxZoom: 11,
-                animate: true,
-            });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [geoJSONData, L, map, resetKey]);
-        return null;
-    }
-
-    // ===== GIS + TOURISM MARKERS =====
-    const gisMarkers = mapData.filter(d => d.type === 'gis');
-    const tourMarkers = mapData.filter(d => d.type === 'tourism');
+    const { L, MapContainer, TileLayer, CircleMarker, Marker, Popup, GeoJSON, useMap, useMapEvents, ZoomControl } = MapComponents;
 
     // ===== CROP DATA FOR SELECTED DISTRICT =====
     const cropChartData = selectedData ? [
@@ -317,7 +575,7 @@ ${cropsStr}
 
     return (
         <div className="smart-map-page">
-            {/* ===== ACTION BUTTONS ===== */}
+            {/* ===== ACTION BUTTONS & SEARCH ===== */}
             <div className="smart-map-action-group">
                 <button className="smart-map-back" onClick={() => navigate('/')}>
                     ← กลับหน้าหลัก
@@ -325,6 +583,40 @@ ${cropsStr}
                 <button className="smart-map-reset" onClick={handleResetView}>
                     🔄 รีเซ็ตมุมมอง
                 </button>
+
+                {/* Autocomplete Search Bar */}
+                <div className="smart-map-search-container">
+                    <div className="search-input-wrapper">
+                        <span className="search-icon">🔍</span>
+                        <input
+                            type="text"
+                            placeholder="ค้นหาอำเภอในนครปฐม..."
+                            value={searchQuery}
+                            onChange={(e) => handleSearchChange(e.target.value)}
+                            onFocus={() => setIsSearchFocused(true)}
+                            onBlur={() => setTimeout(() => setIsSearchFocused(false), 250)}
+                            className="smart-map-search-input"
+                        />
+                        {searchQuery && (
+                            <button className="search-clear-btn" onClick={() => { setSearchQuery(''); closePanel(); }}>
+                                ✕
+                            </button>
+                        )}
+                    </div>
+                    {isSearchFocused && suggestions.length > 0 && (
+                        <ul className="search-suggestions-list">
+                            {suggestions.map(name => (
+                                <li
+                                    key={name}
+                                    onMouseDown={() => handleSelectDistrictByName(name)}
+                                    className="search-suggestion-item"
+                                >
+                                    📍 อ.{name}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
             </div>
 
             {/* ===== PAGE TITLE ===== */}
@@ -349,17 +641,56 @@ ${cropsStr}
                 ))}
 
                 <div className="controls-divider" />
-                <div className="controls-section-title">ชั้นข้อมูล</div>
+                <div className="controls-section-title">ชั้นข้อมูลพิกัดฟาร์ม</div>
                 {MARKER_LAYERS.map(ml => (
-                    <button
+                    <label
                         key={ml.key}
-                        className={`control-toggle ${visibleLayers[ml.key] ? 'active' : ''}`}
-                        onClick={() => toggleLayer(ml.key)}
+                        className={`control-toggle-checkbox-label ${visibleLayers[ml.key] ? 'active' : ''}`}
                     >
+                        <input
+                            type="checkbox"
+                            checked={visibleLayers[ml.key]}
+                            onChange={() => toggleLayer(ml.key)}
+                            className="control-toggle-checkbox-input"
+                        />
+                        <span className="control-toggle-checkbox-custom" style={{ '--accent-color': ml.color }} />
                         <span className="control-toggle-dot" style={{ background: ml.color }} />
-                        <span>{ml.icon} {ml.label}</span>
-                    </button>
+                        <span className="control-toggle-text">{ml.icon} {ml.label}</span>
+                    </label>
                 ))}
+
+                <div className="controls-divider" />
+                <div className="controls-section-title">แผนที่พื้นหลัง</div>
+                <div className="basemap-selector-grid">
+                    <button
+                        className={`basemap-btn ${basemap === 'osm' ? 'active' : ''}`}
+                        onClick={() => setBasemap('osm')}
+                        title="OpenStreetMap ภาษาไทย"
+                    >
+                        🗺️ OSM
+                    </button>
+                    <button
+                        className={`basemap-btn ${basemap === 'google-road' ? 'active' : ''}`}
+                        onClick={() => setBasemap('google-road')}
+                        title="Google Maps ถนนภาษาไทย"
+                    >
+                        🛣️ Google
+                    </button>
+                    <button
+                        className={`basemap-btn ${basemap === 'google-hybrid' ? 'active' : ''}`}
+                        onClick={() => setBasemap('google-hybrid')}
+                        title="Google Satellite ดาวเทียมภาษาไทย"
+                    >
+                        🛰️ Hybrid
+                    </button>
+                    <button
+                        className={`basemap-btn ${basemap === 'carto' ? 'active' : ''}`}
+                        onClick={() => setBasemap('carto')}
+                        title="Carto Light เคลียร์ตา"
+                    >
+                        ⚪ Carto
+                    </button>
+                </div>
 
                 {/* ===== LEGEND ===== */}
                 <div className="smart-map-legend">
@@ -385,7 +716,78 @@ ${cropsStr}
                                 พื้นที่ {selectedDistrict.areaSqkm?.toFixed(1)} ตร.กม.
                             </div>
                         </div>
-                        <button className="panel-close-btn" onClick={closePanel}>✕</button>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <button
+                                className="panel-compare-btn"
+                                onClick={() => {
+                                    setIsCompareOpen(true);
+                                    const otherDistricts = Object.keys(DISTRICT_CENTROIDS).filter(n => n !== selectedDistrict.name);
+                                    setCompareWithDistrictName(otherDistricts[0]);
+                                }}
+                                title="เปรียบเทียบข้อมูลรายอำเภอ"
+                            >
+                                📊 เปรียบเทียบ
+                            </button>
+                            <button className="panel-close-btn" onClick={closePanel}>✕</button>
+                        </div>
+                    </div>
+
+                    {/* ===== WEATHER & PM2.5 CARD ===== */}
+                    <div className="panel-section weather-live-card">
+                        <div className="panel-section-title">🌤️ สภาพอากาศสดและฝุ่น PM2.5</div>
+                        {weatherData[selectedDistrict.name] ? (
+                            (() => {
+                                const w = weatherData[selectedDistrict.name];
+                                if (w.loading) {
+                                    return <div className="weather-loading">กำลังโหลดข้อมูลสภาพอากาศ...</div>;
+                                }
+                                if (w.error) {
+                                    return <div className="weather-error">ไม่สามารถดึงข้อมูลสภาพอากาศได้</div>;
+                                }
+                                const weatherInfo = getWeatherDetails(w.weatherCode);
+                                const pmColor = getPm25Color(w.pm25);
+                                const pmLabel = getPm25LevelLabel(w.pm25);
+                                return (
+                                    <div className="weather-detail-grid">
+                                        <div className="weather-main-info">
+                                            <span className="weather-icon-large">{weatherInfo.icon}</span>
+                                            <div>
+                                                <div className="weather-temp-val">{w.temp !== null ? `${w.temp}°C` : '--'}</div>
+                                                <div className="weather-desc">{weatherInfo.label}</div>
+                                            </div>
+                                        </div>
+                                        <div className="weather-pm25-card" style={{ borderLeftColor: pmColor }}>
+                                            <div className="pm25-val-wrapper">
+                                                <span className="pm25-number" style={{ color: pmColor }}>{w.pm25 !== null ? w.pm25 : '--'}</span>
+                                                <span className="pm25-unit">µg/m³</span>
+                                            </div>
+                                            <div className="pm25-badge" style={{ backgroundColor: pmColor + '15', color: pmColor }}>
+                                                {pmLabel}
+                                            </div>
+                                            <div className="pm25-label">ระดับฝุ่น PM2.5</div>
+                                        </div>
+                                        <div className="weather-sub-details">
+                                            <div className="weather-sub-item">
+                                                <span className="sub-icon">💧</span>
+                                                <div>
+                                                    <div className="sub-val">{w.humidity !== null ? `${w.humidity}%` : '--'}</div>
+                                                    <div className="sub-lbl">ความชื้น</div>
+                                                </div>
+                                            </div>
+                                            <div className="weather-sub-item">
+                                                <span className="sub-icon">💨</span>
+                                                <div>
+                                                    <div className="sub-val">{w.windSpeed !== null ? `${w.windSpeed} กม./ชม.` : '--'}</div>
+                                                    <div className="sub-lbl">ความเร็วลม</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })()
+                        ) : (
+                            <div className="weather-loading">กำลังโหลดข้อมูลสภาพอากาศ...</div>
+                        )}
                     </div>
 
                     <div className="panel-section">
@@ -652,6 +1054,330 @@ ${cropsStr}
                 </div>
             </div>
 
+            {/* ===== DISTRICT COMPARISON MODAL ===== */}
+            {isCompareOpen && selectedDistrict && selectedData && (
+                <div className="district-compare-modal-overlay">
+                    <div className="district-compare-modal">
+                        <div className="compare-modal-header">
+                            <h2>📊 เปรียบเทียบข้อมูลรายอำเภอ (District Comparison)</h2>
+                            <button className="compare-modal-close" onClick={() => setIsCompareOpen(false)}>✕</button>
+                        </div>
+                        
+                        <div className="compare-modal-body">
+                            {/* Column A (Selected District) */}
+                            <div className="compare-column compare-column-a">
+                                <div className="compare-column-header">
+                                    <div className="compare-district-title">อ.{selectedDistrict.name} (หลัก)</div>
+                                    <div className="compare-district-subtitle">พื้นที่ {selectedDistrict.areaSqkm?.toFixed(1)} ตร.กม.</div>
+                                </div>
+                                
+                                {/* Stats A */}
+                                <div className="compare-section">
+                                    <h3>🌾 สถิติหลัก</h3>
+                                    <div className="compare-stat-row">
+                                        <span>พื้นที่เกษตรกรรม</span>
+                                        <strong>{(selectedData.area || 0).toLocaleString()} ไร่</strong>
+                                    </div>
+                                    <div className="compare-stat-row">
+                                        <span>ครัวเรือนเกษตร</span>
+                                        <strong>{(selectedData.house || 0).toLocaleString()} ราย</strong>
+                                    </div>
+                                    <div className="compare-stat-row">
+                                        <span>วิสาหกิจชุมชน</span>
+                                        <strong>{(selectedData.ce || 0).toLocaleString()} แห่ง</strong>
+                                    </div>
+                                    <div className="compare-stat-row">
+                                        <span>แปลงใหญ่</span>
+                                        <strong>{(selectedData.lp || 0).toLocaleString()} แปลง</strong>
+                                    </div>
+                                    <div className="compare-stat-row">
+                                        <span>Smart Farmer</span>
+                                        <strong>{(selectedData.sfSfCount || 0).toLocaleString()} ราย</strong>
+                                    </div>
+                                    <div className="compare-stat-row">
+                                        <span>Young Smart Farmer</span>
+                                        <strong>{(selectedData.ysfCount || 0).toLocaleString()} ราย</strong>
+                                    </div>
+                                </div>
+
+                                {/* Weather A */}
+                                <div className="compare-section compare-weather">
+                                    <h3>🌤️ อากาศสด & PM2.5</h3>
+                                    {weatherData[selectedDistrict.name] ? (
+                                        (() => {
+                                            const w = weatherData[selectedDistrict.name];
+                                            const weatherInfo = getWeatherDetails(w.weatherCode);
+                                            const pmColor = getPm25Color(w.pm25);
+                                            return (
+                                                <div className="compare-weather-grid">
+                                                    <div className="compare-weather-main">
+                                                        <span className="compare-weather-icon">{weatherInfo.icon}</span>
+                                                        <span>{w.temp !== null ? `${w.temp}°C` : '--'} ({weatherInfo.label})</span>
+                                                    </div>
+                                                    <div className="compare-pm-badge" style={{ backgroundColor: pmColor + '15', color: pmColor, borderColor: pmColor }}>
+                                                        PM2.5: {w.pm25 !== null ? w.pm25 : '--'} µg/m³ ({getPm25LevelLabel(w.pm25)})
+                                                    </div>
+                                                    <div className="compare-weather-subs">
+                                                        <span>💧 ชื้น: {w.humidity !== null ? `${w.humidity}%` : '--'}</span>
+                                                        <span>💨 ลม: {w.windSpeed !== null ? `${w.windSpeed} กม./ชม.` : '--'}</span>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })()
+                                    ) : (
+                                        <div className="compare-no-data">ไม่มีข้อมูลสภาพอากาศ</div>
+                                    )}
+                                </div>
+
+                                {/* Crops A */}
+                                <div className="compare-section">
+                                    <h3>🚜 สัดส่วนพื้นที่เพาะปลูก</h3>
+                                    <MiniBarChart data={cropChartData} />
+                                </div>
+
+                                {/* Disasters & Fire A */}
+                                <div className="compare-section">
+                                    <h3>⚠️ ภัยพิบัติ & จุดความร้อน</h3>
+                                    <div className="compare-stat-row">
+                                        <span>พื้นที่ประสบภัย</span>
+                                        <strong>{(selectedData.disasterArea || 0).toLocaleString()} ไร่</strong>
+                                    </div>
+                                    <div className="compare-stat-row">
+                                        <span>ศัตรูพืชระบาด</span>
+                                        <strong>{(selectedData.pestArea || 0).toLocaleString()} ไร่</strong>
+                                    </div>
+                                    <div className="compare-stat-row">
+                                        <span>จุดความร้อนสะสม</span>
+                                        <strong>{(selectedData.fireCount || 0).toLocaleString()} จุด</strong>
+                                    </div>
+                                </div>
+
+                                {/* What-If A */}
+                                <div className="compare-section compare-policy-box">
+                                    <h3>🎛️ จำลองผลลัพธ์ยุทธศาสตร์ (What-If)</h3>
+                                    
+                                    <div className="simulation-slider-group">
+                                        <div className="slider-header">
+                                            <span className="slider-label">เปลี่ยนนาปรัง: {simRiceConversion}%</span>
+                                        </div>
+                                        <input
+                                            type="range"
+                                            min="0"
+                                            max="50"
+                                            step="5"
+                                            value={simRiceConversion}
+                                            onChange={(e) => setSimRiceConversion(parseInt(e.target.value))}
+                                            disabled={!(selectedData.ricePrung > 0)}
+                                            className="sim-range-input"
+                                        />
+                                    </div>
+
+                                    <div className="simulation-slider-group">
+                                        <div className="slider-header">
+                                            <span className="slider-label">ลดการเผา: {simResidueManagement}%</span>
+                                        </div>
+                                        <input
+                                            type="range"
+                                            min="0"
+                                            max="100"
+                                            step="10"
+                                            value={simResidueManagement}
+                                            onChange={(e) => setSimResidueManagement(parseInt(e.target.value))}
+                                            disabled={!(((selectedData.ricePi || 0) + (selectedData.ricePrung || 0)) > 0)}
+                                            className="sim-range-input"
+                                        />
+                                    </div>
+
+                                    <div className="compare-sim-results">
+                                        <div className="sim-res-item">💧 ประหยัดน้ำ: <strong>{simulationResults.waterSaved.toLocaleString()}</strong> ลบ.ม.</div>
+                                        <div className="sim-res-item">💰 รายได้เพิ่ม: <strong>+{simulationResults.incomeAdded.toLocaleString()}</strong> บาท</div>
+                                        <div className="sim-res-item">🍃 ลด CO2e: <strong>{simulationResults.co2Reduced.toFixed(1)}</strong> ตัน</div>
+                                        <div className="sim-res-item">🔥 ลดจุดร้อน: <strong>-{simulationResults.hotspotReduction.toFixed(1)}%</strong></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Column B (District to compare) */}
+                            <div className="compare-column compare-column-b">
+                                <div className="compare-column-header">
+                                    <div className="compare-selector-wrapper">
+                                        <label>เปรียบเทียบกับ:</label>
+                                        <select
+                                            value={compareWithDistrictName || ''}
+                                            onChange={(e) => setCompareWithDistrictName(e.target.value)}
+                                            className="compare-district-select"
+                                        >
+                                            {Object.keys(DISTRICT_CENTROIDS)
+                                                .filter(n => n !== selectedDistrict.name)
+                                                .map(name => (
+                                                    <option key={name} value={name}>อ.{name}</option>
+                                                ))
+                                            }
+                                        </select>
+                                    </div>
+                                    <div className="compare-district-subtitle">
+                                        พื้นที่ {geoJSONData.features?.find(f => f.properties?.amp_th === compareWithDistrictName)?.properties?.area_sqkm?.toFixed(1) || '--'} ตร.กม.
+                                    </div>
+                                </div>
+
+                                {(() => {
+                                    const compData = districtStats[compareWithDistrictName];
+                                    if (!compData) return <div className="compare-no-data">ไม่มีข้อมูลสำหรับอำเภอนี้</div>;
+                                    
+                                    // Comp Crop Data
+                                    const compCropChartData = [
+                                        { label: 'นาปี', value: compData.ricePi || 0, color: '#22c55e' },
+                                        { label: 'นาปรัง', value: compData.ricePrung || 0, color: '#3b82f6' },
+                                        { label: 'พืชไร่', value: compData.field || 0, color: '#eab308' },
+                                        { label: 'ไม้ผล', value: compData.fruit || 0, color: '#f97316' },
+                                        { label: 'ผัก/สมุนไพร', value: (compData.veg || 0) + (compData.herb || 0), color: '#8b5cf6' },
+                                        { label: 'ไม้ดอก', value: compData.flow || 0, color: '#ec4899' },
+                                    ].filter(d => d.value > 0);
+
+                                    // Comp Simulation results
+                                    const compRicePrung = compData.ricePrung || 0;
+                                    const compRicePi = compData.ricePi || 0;
+                                    const compTotalRice = compRicePrung + compRicePi;
+                                    const compWaterSaved = Math.round((compRicePrung * (compSimRiceConversion / 100)) * 600);
+                                    const compIncomeAdded = Math.round((compRicePrung * (compSimRiceConversion / 100)) * 12000);
+                                    const compHotspotReduction = compSimResidueManagement * 0.8;
+                                    const compCo2Reduced = (compTotalRice * (compSimResidueManagement / 100)) * 0.35;
+
+                                    return (
+                                        <>
+                                            {/* Stats B */}
+                                            <div className="compare-section">
+                                                <h3>🌾 สถิติหลัก</h3>
+                                                <div className="compare-stat-row">
+                                                    <span>พื้นที่เกษตรกรรม</span>
+                                                    <strong>{(compData.area || 0).toLocaleString()} ไร่</strong>
+                                                </div>
+                                                <div className="compare-stat-row">
+                                                    <span>ครัวเรือนเกษตร</span>
+                                                    <strong>{(compData.house || 0).toLocaleString()} ราย</strong>
+                                                </div>
+                                                <div className="compare-stat-row">
+                                                    <span>วิสาหกิจชุมชน</span>
+                                                    <strong>{(compData.ce || 0).toLocaleString()} แห่ง</strong>
+                                                </div>
+                                                <div className="compare-stat-row">
+                                                    <span>แปลงใหญ่</span>
+                                                    <strong>{(compData.lp || 0).toLocaleString()} แปลง</strong>
+                                                </div>
+                                                <div className="compare-stat-row">
+                                                    <span>Smart Farmer</span>
+                                                    <strong>{(compData.sfSfCount || 0).toLocaleString()} ราย</strong>
+                                                </div>
+                                                <div className="compare-stat-row">
+                                                    <span>Young Smart Farmer</span>
+                                                    <strong>{(compData.ysfCount || 0).toLocaleString()} ราย</strong>
+                                                </div>
+                                            </div>
+
+                                            {/* Weather B */}
+                                            <div className="compare-section compare-weather">
+                                                <h3>🌤️ อากาศสด & PM2.5</h3>
+                                                {weatherData[compareWithDistrictName] ? (
+                                                    (() => {
+                                                        const w = weatherData[compareWithDistrictName];
+                                                        const weatherInfo = getWeatherDetails(w.weatherCode);
+                                                        const pmColor = getPm25Color(w.pm25);
+                                                        return (
+                                                            <div className="compare-weather-grid">
+                                                                <div className="compare-weather-main">
+                                                                    <span className="compare-weather-icon">{weatherInfo.icon}</span>
+                                                                    <span>{w.temp !== null ? `${w.temp}°C` : '--'} ({weatherInfo.label})</span>
+                                                                </div>
+                                                                <div className="compare-pm-badge" style={{ backgroundColor: pmColor + '15', color: pmColor, borderColor: pmColor }}>
+                                                                    PM2.5: {w.pm25 !== null ? w.pm25 : '--'} µg/m³ ({getPm25LevelLabel(w.pm25)})
+                                                                </div>
+                                                                <div className="compare-weather-subs">
+                                                                    <span>💧 ชื้น: {w.humidity !== null ? `${w.humidity}%` : '--'}</span>
+                                                                    <span>💨 ลม: {w.windSpeed !== null ? `${w.windSpeed} กม./ชม.` : '--'}</span>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    })()
+                                                ) : (
+                                                    <div className="compare-no-data">ไม่มีข้อมูลสภาพอากาศ</div>
+                                                )}
+                                            </div>
+
+                                            {/* Crops B */}
+                                            <div className="compare-section">
+                                                <h3>🚜 สัดส่วนพื้นที่เพาะปลูก</h3>
+                                                <MiniBarChart data={compCropChartData} />
+                                            </div>
+
+                                            {/* Disasters & Fire B */}
+                                            <div className="compare-section">
+                                                <h3>⚠️ ภัยพิบัติ & จุดความร้อน</h3>
+                                                <div className="compare-stat-row">
+                                                    <span>พื้นที่ประสบภัย</span>
+                                                    <strong>{(compData.disasterArea || 0).toLocaleString()} ไร่</strong>
+                                                </div>
+                                                <div className="compare-stat-row">
+                                                    <span>ศัตรูพืชระบาด</span>
+                                                    <strong>{(compData.pestArea || 0).toLocaleString()} ไร่</strong>
+                                                </div>
+                                                <div className="compare-stat-row">
+                                                    <span>จุดความร้อนสะสม</span>
+                                                    <strong>{(compData.fireCount || 0).toLocaleString()} จุด</strong>
+                                                </div>
+                                            </div>
+
+                                            {/* What-If B */}
+                                            <div className="compare-section compare-policy-box">
+                                                <h3>🎛️ จำลองผลลัพธ์ยุทธศาสตร์ (What-If)</h3>
+                                                
+                                                <div className="simulation-slider-group">
+                                                    <div className="slider-header">
+                                                        <span className="slider-label">เปลี่ยนนาปรัง: {compSimRiceConversion}%</span>
+                                                    </div>
+                                                    <input
+                                                        type="range"
+                                                        min="0"
+                                                        max="50"
+                                                        step="5"
+                                                        value={compSimRiceConversion}
+                                                        onChange={(e) => setCompSimRiceConversion(parseInt(e.target.value))}
+                                                        disabled={!(compData.ricePrung > 0)}
+                                                        className="sim-range-input"
+                                                    />
+                                                </div>
+
+                                                <div className="simulation-slider-group">
+                                                    <div className="slider-header">
+                                                        <span className="slider-label">ลดการเผา: {compSimResidueManagement}%</span>
+                                                    </div>
+                                                    <input
+                                                        type="range"
+                                                        min="0"
+                                                        max="100"
+                                                        step="10"
+                                                        value={compSimResidueManagement}
+                                                        onChange={(e) => setCompSimResidueManagement(parseInt(e.target.value))}
+                                                        disabled={!(((compData.ricePi || 0) + (compData.ricePrung || 0)) > 0)}
+                                                        className="sim-range-input"
+                                                    />
+                                                </div>
+
+                                                <div className="compare-sim-results">
+                                                    <div className="sim-res-item">💧 ประหยัดน้ำ: <strong>{compWaterSaved.toLocaleString()}</strong> ลบ.ม.</div>
+                                                    <div className="sim-res-item">💰 รายได้เพิ่ม: <strong>+{compIncomeAdded.toLocaleString()}</strong> บาท</div>
+                                                    <div className="sim-res-item">🍃 ลด CO2e: <strong>{compCo2Reduced.toFixed(1)}</strong> ตัน</div>
+                                                    <div className="sim-res-item">🔥 ลดจุดร้อน: <strong>-{compHotspotReduction.toFixed(1)}%</strong></div>
+                                                </div>
+                                            </div>
+                                        </>
+                                    );
+                                })()}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* ===== MAP ===== */}
             <div className="smart-map-container">
                 <MapContainer
@@ -663,17 +1389,42 @@ ${cropsStr}
                     scrollWheelZoom={true}
                     zoomControl={false}
                 >
-                    <FitBounds />
+                    <FitBounds
+                        useMap={useMap}
+                        geoJSONData={geoJSONData}
+                        L={L}
+                        resetKey={resetKey}
+                        selectedDistrict={selectedDistrict}
+                    />
+                    <MapFlyTo
+                        useMap={useMap}
+                        selectedDistrict={selectedDistrict}
+                        L={L}
+                    />
+                    <MapZoomTracker
+                        useMapEvents={useMapEvents}
+                        setMapZoom={setMapZoom}
+                    />
                     <TileLayer
-                        attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-                        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+                        key={basemap}
+                        attribution={
+                            basemap === 'osm' ? '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' :
+                            basemap === 'google-road' || basemap === 'google-hybrid' ? '&copy; Google Maps' :
+                            '&copy; <a href="https://carto.com/">CARTO</a>'
+                        }
+                        url={
+                            basemap === 'osm' ? 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' :
+                            basemap === 'google-road' ? 'https://mt1.google.com/vt/lyrs=m&hl=th&x={x}&y={y}&z={z}' :
+                            basemap === 'google-hybrid' ? 'https://mt1.google.com/vt/lyrs=y&hl=th&x={x}&y={y}&z={z}' :
+                            'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'
+                        }
                     />
                     <ZoomControl position="topright" />
 
                     {/* ===== CHOROPLETH GEOJSON ===== */}
                     {Object.keys(districtStats).length > 0 && (
                         <GeoJSON
-                            key={`choropleth-${activeMetric}-${selectedDistrict ? selectedDistrict.name : 'none'}`}
+                            key={`choropleth-${activeMetric}-${selectedDistrict ? selectedDistrict.name : 'none'}-weather-${Object.keys(weatherData).length}`}
                             data={geoJSONData}
                             style={(feature) => {
                                 const distName = feature.properties?.amp_th;
@@ -693,6 +1444,35 @@ ${cropsStr}
                                 const stats = districtStats[distName];
                                 if (!distName || !stats) return;
 
+                                // Fetch weather stats for tooltip
+                                const w = weatherData[distName];
+                                let weatherHtml = '';
+                                if (w && !w.loading && !w.error) {
+                                    const weatherInfo = getWeatherDetails(w.weatherCode);
+                                    const pmColor = getPm25Color(w.pm25);
+                                    const pmLabel = getPm25LevelLabel(w.pm25);
+                                    weatherHtml = `
+                                        <div class="tooltip-divider"></div>
+                                        <div class="tooltip-weather">
+                                            <div class="tooltip-weather-main">
+                                                <span class="tooltip-weather-icon">${weatherInfo.icon}</span>
+                                                <span class="tooltip-weather-temp">${w.temp !== null ? `${w.temp}°C` : '--'}</span>
+                                                <span class="tooltip-weather-desc">${weatherInfo.label}</span>
+                                            </div>
+                                            <div class="tooltip-pm-badge" style="background-color: ${pmColor}15; color: ${pmColor}; border-color: ${pmColor}">
+                                                ฝุ่น PM2.5: ${w.pm25 !== null ? w.pm25 : '--'} µg/m³ (${pmLabel})
+                                            </div>
+                                        </div>
+                                    `;
+                                } else {
+                                    weatherHtml = `
+                                        <div class="tooltip-divider"></div>
+                                        <div class="tooltip-weather-loading">
+                                            ⏳ กำลังโหลดข้อมูลสภาพอากาศ...
+                                        </div>
+                                    `;
+                                }
+
                                 // Tooltip
                                 const html = `
                                     <div class="tooltip-name">🎯 อ.${distName}</div>
@@ -700,6 +1480,7 @@ ${cropsStr}
                                     <div class="tooltip-row"><span>🏠 ครัวเรือน</span><strong>${(stats.house || 0).toLocaleString()} ราย</strong></div>
                                     <div class="tooltip-row"><span>🤝 วิสาหกิจ</span><strong>${(stats.ce || 0).toLocaleString()} แห่ง</strong></div>
                                     <div class="tooltip-row"><span>🌱 แปลงใหญ่</span><strong>${(stats.lp || 0).toLocaleString()} แปลง</strong></div>
+                                    ${weatherHtml}
                                     <div class="tooltip-hint">คลิกเพื่อดูรายละเอียด</div>
                                 `;
                                 layer.bindTooltip(html, {
@@ -739,8 +1520,22 @@ ${cropsStr}
                     )}
 
                     {/* ===== DISTRICT LABELS ===== */}
-                    {L && Object.entries(DISTRICT_CENTROIDS).map(([name, coords]) => {
+                    {mapZoom >= 10 && L && Object.entries(DISTRICT_CENTROIDS).map(([name, coords]) => {
                         const isSelected = selectedDistrict && selectedDistrict.name === name;
+                        const w = weatherData[name];
+                        
+                        let labelHtml = `<div class="map-label-name">${name}</div>`;
+                        if (w && !w.loading && !w.error) {
+                            const weatherInfo = getWeatherDetails(w.weatherCode);
+                            const pmColor = getPm25Color(w.pm25);
+                            labelHtml += `
+                                <div class="map-label-stats">
+                                    <span class="map-label-temp">${weatherInfo.icon} ${w.temp !== null ? `${w.temp}°` : ''}</span>
+                                    ${w.pm25 !== null ? `<span class="map-label-pm" style="background: ${pmColor}">${w.pm25}</span>` : ''}
+                                </div>
+                            `;
+                        }
+
                         return (
                             <Marker
                                 key={`label-${name}`}
@@ -748,63 +1543,156 @@ ${cropsStr}
                                 interactive={false}
                                 icon={L.divIcon({
                                     className: 'district-map-label-container',
-                                    html: `<div class="district-map-label ${isSelected ? 'selected' : ''}">${name}</div>`,
+                                    html: `<div class="district-map-label ${isSelected ? 'selected' : ''}">${labelHtml}</div>`,
                                     iconSize: [0, 0],
                                 })}
                             />
                         );
                     })}
 
-                    {/* ===== GIS MARKERS ===== */}
-                    {visibleLayers.gis && gisMarkers.map((item, idx) => (
+
+
+                    {/* ===== YOUNG FARMER MARKERS ===== */}
+                    {visibleLayers.young_farmer && allCoords.young_farmer.map((item, idx) => (
                         <CircleMarker
-                            key={`gis-${idx}`}
+                            key={`young_farmer-${idx}`}
                             center={[item.lat, item.lon]}
                             radius={7}
-                            fillColor="#3b82f6"
+                            fillColor="#fbbf24"
                             fillOpacity={0.9}
                             color="rgba(255,255,255,0.6)"
                             weight={1.5}
-                            className="pulse-marker-gis"
+                            className="pulse-marker-young_farmer"
                         >
                             <Popup>
-                                <div style={{ fontFamily: 'Kanit, sans-serif', minWidth: 140 }}>
-                                    <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, color: '#1e293b' }}>
+                                <div style={{ fontFamily: 'Kanit, sans-serif', minWidth: 180 }}>
+                                    <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, color: '#b45309' }}>
                                         {item.name}
                                     </div>
-                                    <div style={{ fontSize: 12, color: '#64748b' }}>
-                                        <span style={{ background: '#dbeafe', color: '#1d4ed8', padding: '2px 6px', borderRadius: 4, fontWeight: 600 }}>
+                                    {item.memberCount > 0 && (
+                                        <div style={{ fontSize: 12, color: '#475569', marginBottom: 4 }}>
+                                            👥 <strong>สมาชิก:</strong> {item.memberCount.toLocaleString()} ราย
+                                        </div>
+                                    )}
+                                    {item.activity && (
+                                        <div style={{ fontSize: 12, color: '#475569', marginBottom: 6 }}>
+                                            🌾 <strong>กิจกรรมหลัก:</strong> {item.activity}
+                                        </div>
+                                    )}
+                                    <div style={{ fontSize: 11, color: '#64748b' }}>
+                                        <span style={{ background: '#fef3c7', color: '#b45309', padding: '2px 6px', borderRadius: 4, fontWeight: 600 }}>
                                             {item.typeLabel}
                                         </span>
-                                        {' '}อ.{item.district}
+                                        {' '}{item.subdistrict ? `ต.${item.subdistrict} ` : ''}อ.{item.district}
                                     </div>
                                 </div>
                             </Popup>
                         </CircleMarker>
                     ))}
 
-                    {/* ===== TOURISM MARKERS ===== */}
-                    {visibleLayers.tourism && tourMarkers.map((item, idx) => (
+                    {/* ===== AGRICULTURAL CAREER MARKERS ===== */}
+                    {visibleLayers.career_group && allCoords.career_group.map((item, idx) => (
                         <CircleMarker
-                            key={`tour-${idx}`}
+                            key={`career_group-${idx}`}
                             center={[item.lat, item.lon]}
                             radius={7}
-                            fillColor="#22c55e"
+                            fillColor="#a855f7"
                             fillOpacity={0.9}
                             color="rgba(255,255,255,0.6)"
                             weight={1.5}
-                            className="pulse-marker-tour"
+                            className="pulse-marker-career_group"
                         >
                             <Popup>
-                                <div style={{ fontFamily: 'Kanit, sans-serif', minWidth: 140 }}>
-                                    <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, color: '#1e293b' }}>
+                                <div style={{ fontFamily: 'Kanit, sans-serif', minWidth: 180 }}>
+                                    <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, color: '#6b21a8' }}>
                                         {item.name}
                                     </div>
-                                    <div style={{ fontSize: 12, color: '#64748b' }}>
-                                        <span style={{ background: '#dcfce7', color: '#166534', padding: '2px 6px', borderRadius: 4, fontWeight: 600 }}>
+                                    {item.memberCount > 0 && (
+                                        <div style={{ fontSize: 12, color: '#475569', marginBottom: 4 }}>
+                                            👥 <strong>สมาชิก:</strong> {item.memberCount.toLocaleString()} ราย
+                                        </div>
+                                    )}
+                                    {item.activity && (
+                                        <div style={{ fontSize: 12, color: '#475569', marginBottom: 6 }}>
+                                            🌾 <strong>กิจกรรมหลัก:</strong> {item.activity}
+                                        </div>
+                                    )}
+                                    <div style={{ fontSize: 11, color: '#64748b' }}>
+                                        <span style={{ background: '#f3e8ff', color: '#6b21a8', padding: '2px 6px', borderRadius: 4, fontWeight: 600 }}>
                                             {item.typeLabel}
                                         </span>
-                                        {' '}อ.{item.district}
+                                        {' '}{item.subdistrict ? `ต.${item.subdistrict} ` : ''}อ.{item.district}
+                                    </div>
+                                </div>
+                            </Popup>
+                        </CircleMarker>
+                    ))}
+
+                    {/* ===== FORECAST MARKERS ===== */}
+                    {visibleLayers.forecast && allCoords.forecast.map((item, idx) => (
+                        <CircleMarker
+                            key={`forecast-${idx}`}
+                            center={[item.lat, item.lon]}
+                            radius={7}
+                            fillColor="#ec4899"
+                            fillOpacity={0.9}
+                            color="rgba(255,255,255,0.6)"
+                            weight={1.5}
+                            className="pulse-marker-forecast"
+                        >
+                            <Popup>
+                                <div style={{ fontFamily: 'Kanit, sans-serif', minWidth: 180 }}>
+                                    <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, color: '#1e293b' }}>
+                                        แปลงคุณ{item.name}
+                                    </div>
+                                    <div style={{ fontSize: 12, color: '#475569', marginBottom: 4 }}>
+                                        🌾 <strong>ชนิดพืช:</strong> {item.cropType || 'ไม่ระบุ'}
+                                    </div>
+                                    <div style={{ fontSize: 12, color: '#475569', marginBottom: 4 }}>
+                                        📐 <strong>ขนาดพื้นที่:</strong> {item.area ? `${item.area.toLocaleString()} ไร่` : 'ไม่ระบุ'}
+                                    </div>
+                                    <div style={{ fontSize: 12, color: '#475569', marginBottom: 6 }}>
+                                        📈 <strong>สถานะแปลง:</strong> {item.status || 'ไม่ระบุ'}
+                                    </div>
+                                    <div style={{ fontSize: 11, color: '#64748b' }}>
+                                        <span style={{ background: '#f3e8ff', color: '#6b21a8', padding: '2px 6px', borderRadius: 4, fontWeight: 600 }}>
+                                            {item.typeLabel}
+                                        </span>
+                                        {' '}ต.{item.subdistrict} อ.{item.district}
+                                    </div>
+                                </div>
+                            </Popup>
+                        </CircleMarker>
+                    ))}
+
+                    {/* ===== HOTSPOT MARKERS ===== */}
+                    {visibleLayers.hotspot && allCoords.hotspot.map((item, idx) => (
+                        <CircleMarker
+                            key={`hotspot-${idx}`}
+                            center={[item.lat, item.lon]}
+                            radius={8}
+                            fillColor="#ef4444"
+                            fillOpacity={0.9}
+                            color="rgba(255,255,255,0.8)"
+                            weight={2}
+                            className="pulse-marker-hotspot"
+                        >
+                            <Popup>
+                                <div style={{ fontFamily: 'Kanit, sans-serif', minWidth: 180 }}>
+                                    <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, color: '#dc2626' }}>
+                                        🔥 {item.name}
+                                    </div>
+                                    <div style={{ fontSize: 12, color: '#475569', marginBottom: 4 }}>
+                                        🎯 <strong>ความมั่นใจ:</strong> {item.confidence}%
+                                    </div>
+                                    <div style={{ fontSize: 12, color: '#475569', marginBottom: 6 }}>
+                                        ⚡ <strong>กำลังความร้อน (FRP):</strong> {item.frp} MW
+                                    </div>
+                                    <div style={{ fontSize: 11, color: '#64748b' }}>
+                                        <span style={{ background: '#fee2e2', color: '#991b1b', padding: '2px 6px', borderRadius: 4, fontWeight: 600 }}>
+                                            {item.typeLabel}
+                                        </span>
+                                        {' '}ต.{item.subdistrict || '-'} อ.{item.district || '-'}
                                     </div>
                                 </div>
                             </Popup>
