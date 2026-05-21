@@ -91,7 +91,7 @@ export function useDashboardData() {
         const dStats = createEmptyDistrictStats();
         
         // Enterprise stats
-        const { ceCount, distCounts } = selectEnterpriseStats({ ceData, dStats });
+        const { ceCount, distCounts, typeCounts, subdistrictCounts, ceList } = selectEnterpriseStats({ ceData, dStats });
         
         // Institute stats
         const { instituteStats } = selectInstituteStats({ instData: instData || [], dStats });
@@ -113,7 +113,7 @@ export function useDashboardData() {
             mapData,
             districtStats: dStats,
             smartFarmers: { list: sfData || [], count: sfData ? sfData.length : 0 },
-            enterprises: { list: [], count: ceCount },
+            enterprises: { list: ceList || [], count: ceCount, typeCounts, subdistrictCounts },
             ceDistrictStats: distCounts,
             tourism: { list: atData || [], count: atData ? atData.length : 0 },
             instituteStats,
@@ -122,7 +122,7 @@ export function useDashboardData() {
         };
     };
 
-    const { data: dashData, isLoading: loading, error, refetch } = useApiCache('dashboard-overall-data', fetchDashboardData);
+    const { data: dashData, isLoading: loading, error, refetch } = useApiCache('dashboard-overall-data-v2', fetchDashboardData);
 
     const {
         stats = [],

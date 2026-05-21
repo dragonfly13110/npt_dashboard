@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { TeamOutlined, EnvironmentOutlined } from '@ant-design/icons';
 
 // =======================
@@ -68,35 +68,184 @@ export const SmartFarmersCard = ({ stats, loading }) => {
     );
 };
 
-export const CommunityEnterprisesCard = ({ count, districtStats, loading }) => {
+const formatThaiDate = (value) => {
+    if (!value) return '';
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+    return date.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' });
+};
+
+const countBy = (items, key) => {
+    const map = {};
+    items.forEach((item) => {
+        const name = item[key] || 'ไม่ระบุ';
+        map[name] = (map[name] || 0) + 1;
+    });
+    return map;
+};
+
+export const CommunityEnterprisesCard = ({ count, districtStats, details = {}, loading }) => {
+    const typeCounts = details.typeCounts || {};
+    const list = details.list || [];
+    const [selectedType, setSelectedType] = useState('all');
+    const [selectedDistrict, setSelectedDistrict] = useState('all');
+    const [search, setSearch] = useState('');
+
+    const typeOptions = useMemo(() => Object.entries(typeCounts).sort((a, b) => b[1] - a[1]), [typeCounts]);
+    const districtOptions = useMemo(() => Object.entries(districtStats || {}).sort((a, b) => b[1] - a[1]), [districtStats]);
+
+    const filteredList = useMemo(() => {
+        const query = search.trim().toLowerCase();
+        return list.filter((item) => {
+            if (selectedType !== 'all' && (item.enterprise_type || 'ไม่ระบุประเภท') !== selectedType) return false;
+            if (selectedDistrict !== 'all' && item.district !== selectedDistrict) return false;
+            if (!query) return true;
+            return [
+                item.enterprise_name,
+                item.enterprise_type,
+                item.district,
+                item.subdistrict,
+                item.village_no,
+            ].some((value) => String(value || '').toLowerCase().includes(query));
+        });
+    }, [list, search, selectedDistrict, selectedType]);
+
+    const filteredDistricts = useMemo(() => (
+        Object.entries(countBy(filteredList, 'district')).sort((a, b) => b[1] - a[1])
+    ), [filteredList]);
+    const filteredTypes = useMemo(() => (
+        Object.entries(countBy(filteredList, 'enterprise_type')).sort((a, b) => b[1] - a[1])
+    ), [filteredList]);
+    const selectedTypeCount = selectedType === 'all'
+        ? filteredList.length
+        : filteredList.filter((item) => (item.enterprise_type || 'ไม่ระบุประเภท') === selectedType).length;
+    const hasFilter = selectedType !== 'all' || selectedDistrict !== 'all' || search.trim();
+
     return (
-        <div className="bento-card" style={{ gridArea: 'ce' }}>
+        <div className="bento-card community-enterprise-card" style={{ gridArea: 'ce' }}>
             <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div><h3>🤝 วิสาหกิจชุมชน</h3></div>
                 <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
                     ทั้งหมด {count} แห่ง
                 </div>
             </div>
-            <div className="bento-card-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px' }}>
-                <div>
-                    <div style={{ fontSize: 12, fontWeight: 700, color: '#64748b', marginBottom: 8, paddingLeft: 2 }}>จำนวนตามอำเภอ (แห่ง)</div>
-                    {loading ? <BentoGridSkeleton count={6} height="32px" /> : (
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                            {Object.entries(districtStats)
-                                .sort((a, b) => b[1] - a[1])
-                                .map(([dist, dCount]) => (
-                                    <div key={dist} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#e0f2fe', borderRadius: '6px', border: '1px solid #bae6fd' }}>
-                                        <span style={{ fontSize: 12, color: '#0369a1', fontWeight: 500 }}>{dist}</span>
-                                        <span style={{ fontSize: 13, fontWeight: 700, color: '#0369a1' }}>{dCount}</span>
-                                    </div>
-                                ))
-                            }
-                            {Object.keys(districtStats).length === 0 && (
-                                <div style={{ gridColumn: 'span 2', textAlign: 'center', color: '#94a3b8', fontSize: 13, padding: 8 }}>รอเพิ่มข้อมูล...</div>
+            <div className="bento-card-body ce-detail-body">
+                {loading ? (
+                    <>
+                        <BentoGridSkeleton count={4} height="56px" />
+                        <BentoGridSkeleton count={8} height="34px" />
+                    </>
+                ) : (
+                    <>
+                        <div className="ce-filter-row">
+                            <label>
+                                <span>ประเภท</span>
+                                <select value={selectedType} onChange={(event) => setSelectedType(event.target.value)}>
+                                    <option value="all">ทุกประเภท</option>
+                                    {typeOptions.map(([type]) => <option key={type} value={type}>{type}</option>)}
+                                </select>
+                            </label>
+                            <label>
+                                <span>อำเภอ</span>
+                                <select value={selectedDistrict} onChange={(event) => setSelectedDistrict(event.target.value)}>
+                                    <option value="all">ทุกอำเภอ</option>
+                                    {districtOptions.map(([district]) => <option key={district} value={district}>{district}</option>)}
+                                </select>
+                            </label>
+                            <label className="ce-search">
+                                <span>ค้นหา</span>
+                                <input
+                                    value={search}
+                                    onChange={(event) => setSearch(event.target.value)}
+                                    placeholder="ชื่อวิสาหกิจ / ตำบล / อำเภอ"
+                                />
+                            </label>
+                            {hasFilter && (
+                                <button type="button" onClick={() => {
+                                    setSelectedType('all');
+                                    setSelectedDistrict('all');
+                                    setSearch('');
+                                }}>
+                                    ล้างตัวกรอง
+                                </button>
                             )}
                         </div>
-                    )}
-                </div>
+
+                        <div className="ce-kpi-grid">
+                            <div className="ce-kpi">
+                                <span>แสดงผล</span>
+                                <strong>{filteredList.length.toLocaleString()}</strong>
+                                <small>แห่ง</small>
+                            </div>
+                            <div className="ce-kpi">
+                                <span>อำเภอที่มีข้อมูล</span>
+                                <strong>{filteredDistricts.length.toLocaleString()}</strong>
+                                <small>อำเภอ</small>
+                            </div>
+                            <div className="ce-kpi">
+                                <span>ประเภท</span>
+                                <strong>{filteredTypes.length.toLocaleString()}</strong>
+                                <small>ประเภท</small>
+                            </div>
+                            <div className="ce-kpi">
+                                <span>ทั้งหมด</span>
+                                <strong>{Number(count || 0).toLocaleString()}</strong>
+                                <small>แห่ง</small>
+                            </div>
+                        </div>
+
+                        <div className="ce-v2-body">
+                            <div className="ce-panel">
+                                <div className="ce-section-title">ประเภทวิสาหกิจ</div>
+                                <div className="ce-type-select-card">
+                                    <select value={selectedType} onChange={(event) => setSelectedType(event.target.value)}>
+                                        <option value="all">ทุกประเภท</option>
+                                        {typeOptions.map(([type, value]) => (
+                                            <option key={type} value={type}>{type} ({value.toLocaleString()})</option>
+                                        ))}
+                                    </select>
+                                    <div>
+                                        <span>{selectedType === 'all' ? 'ทุกประเภท' : selectedType}</span>
+                                        <strong>{selectedTypeCount.toLocaleString()} แห่ง</strong>
+                                    </div>
+                                </div>
+
+                                <div className="ce-section-title ce-section-title-spaced">สรุปตามอำเภอ</div>
+                                <div className="ce-bars">
+                                    {filteredDistricts.slice(0, 8).map(([district, value]) => {
+                                        const max = filteredDistricts[0]?.[1] || 1;
+                                        return (
+                                            <button
+                                                type="button"
+                                                key={district}
+                                                className={selectedDistrict === district ? 'is-active' : ''}
+                                                onClick={() => setSelectedDistrict(selectedDistrict === district ? 'all' : district)}
+                                            >
+                                                <span>{district}</span>
+                                                <div><i style={{ width: `${Math.max(8, (value / max) * 100)}%` }} /></div>
+                                                <strong>{value.toLocaleString()}</strong>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            <div className="ce-panel">
+                                <div className="ce-section-title">รายละเอียด ({filteredList.length.toLocaleString()} รายการ)</div>
+                                <div className="ce-result-list">
+                                    {filteredList.slice(0, 8).map((item) => (
+                                        <article key={item.id || item.enterprise_name} className="ce-result-item">
+                                            <span>{item.enterprise_type || 'ไม่ระบุประเภท'}</span>
+                                            <strong>{item.enterprise_name || 'ไม่ระบุชื่อวิสาหกิจ'}</strong>
+                                            <p>{item.district || '-'} / {item.subdistrict || '-'}{item.approval_date ? ` • อนุมัติ ${formatThaiDate(item.approval_date)}` : ''}</p>
+                                        </article>
+                                    ))}
+                                    {!filteredList.length && <div className="ce-empty">ไม่พบข้อมูลตามตัวกรอง</div>}
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )}
             </div>
             <a href="/public/community-enterprises" style={{ display: 'block', textAlign: 'center', padding: '10px 16px', background: '#e0f2fe', color: '#0369a1', fontSize: 13, fontWeight: 600, textDecoration: 'none', borderTop: '1px solid #bae6fd', borderRadius: '0 0 14px 14px' }}>📊 ดูรายละเอียดทั้งหมด →</a>
         </div>

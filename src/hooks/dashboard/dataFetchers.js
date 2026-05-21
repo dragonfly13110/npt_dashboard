@@ -94,7 +94,7 @@ export async function fetchMapData(supabase) {
 export async function fetchCommunityData(supabase) {
     const [{ data: sfData }, ceData, { data: atData }, { data: lpData }, { data: instData }, { data: agriAreaData }, { data: lcData }, { data: pcData }, { data: sfcData }] = await Promise.all([
         supabase.from('smart_farmers').select('district, full_name, main_product').order('id', { ascending: false }).limit(3),
-        supabase.from('community_enterprises').select('district', { count: 'exact' }),
+        supabase.from('community_enterprises').select('id, enterprise_type, enterprise_name, approval_date, district, subdistrict, village_no', { count: 'exact' }).order('id', { ascending: false }),
         supabase.from('agri_tourism').select('district, spot_name, spot_type').order('id', { ascending: false }).limit(3),
         supabase.from('large_plots').select('district, member_count, area_rai, commodity_group'),
         supabase.from('farmer_institutes').select('district, housewives_groups, young_farmer_groups, career_promotion_groups, village_farmers_count, total_groups, community_enterprise_groups, smart_farmer_count, young_smart_farmer_count'),

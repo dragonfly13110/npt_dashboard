@@ -17,9 +17,10 @@ import HotspotWidget from '../components/widgets/HotspotWidget';
 
 import LandingMap from '../components/widgets/LandingMap';
 import {
-    SmartFarmersCard, CommunityEnterprisesCard, LargePlotsCard,
-    AgriTourismCard, FarmerInstitutesCard, AgriAreasCard
+    CommunityEnterprisesCard, LargePlotsCard,
+    AgriTourismCard, AgriAreasCard
 } from '../components/widgets/LandingBentoCards';
+import FarmerInstitutesV2Widget from '../components/widgets/FarmerInstitutesV2Widget';
 
 import '../pages/LandingPage.css';
 import '../pages/PaperThemeOverride.css';
@@ -37,6 +38,7 @@ export default function Dashboard() {
     const [pdfExporting, setPdfExporting] = useState(false);
     const dashRef = useRef(null);
     const [visits, setVisits] = useState(0);
+    const hasTourismData = loading || (tourism.count > 0 || tourism.list.length > 0);
 
     useEffect(() => {
         const trackVisit = async () => {
@@ -183,7 +185,7 @@ export default function Dashboard() {
                 <span className="dash-section-icon">📅</span>
                 <span>ข้อมูลเกษตรกร แปลงใหญ่ วิสาหกิจชุมชน แหล่งท่องเที่ยว และแผนที่</span>
             </div>
-            <section className="bento-container dash-bento-override" style={{ marginTop: 0 }}>
+            <section className={`bento-container dash-bento-override ${hasTourismData ? '' : 'bento-container-no-tourism'}`} style={{ marginTop: 0 }}>
                 {/* Map Card */}
                 <div className="bento-card bento-card-map" style={{ gridArea: 'map' }}>
                     <div className="bento-card-header">
@@ -195,11 +197,15 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                <SmartFarmersCard stats={instituteStats} loading={loading} />
-                <CommunityEnterprisesCard count={enterprises.count} districtStats={ceDistrictStats} loading={loading} />
+                <CommunityEnterprisesCard
+                    count={enterprises.count}
+                    districtStats={ceDistrictStats}
+                    details={enterprises}
+                    loading={loading}
+                />
                 <LargePlotsCard stats={lpStats} loading={loading} />
-                <AgriTourismCard data={tourism} loading={loading} />
-                <FarmerInstitutesCard stats={instituteStats} loading={loading} />
+                {hasTourismData && <AgriTourismCard data={tourism} loading={loading} />}
+                <FarmerInstitutesV2Widget />
                 <AgriAreasCard stats={agriStats} loading={loading} />
             </section>
 

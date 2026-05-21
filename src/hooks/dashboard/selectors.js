@@ -19,14 +19,20 @@ export function selectEnterpriseStats({ ceData, dStats: inputStats }) {
     const ceList = ceData.data || [];
     const ceCount = ceData.count || ceList.length;
     const distCounts = {};
+    const typeCounts = {};
+    const subdistrictCounts = {};
     
     ceList.forEach(row => {
         let d = normalizeDistrict(row.district || 'ไม่ระบุ');
         distCounts[d] = (distCounts[d] || 0) + 1;
+        const type = row.enterprise_type || 'ไม่ระบุประเภท';
+        const subdistrict = row.subdistrict || 'ไม่ระบุตำบล';
+        typeCounts[type] = (typeCounts[type] || 0) + 1;
+        subdistrictCounts[subdistrict] = (subdistrictCounts[subdistrict] || 0) + 1;
         if (dStats[d]) dStats[d].ce += 1;
     });
 
-    return { dStats, ceCount, distCounts };
+    return { dStats, ceCount, distCounts, typeCounts, subdistrictCounts, ceList };
 }
 
 export function selectInstituteStats({ instData, dStats }) {

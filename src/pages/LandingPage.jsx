@@ -41,13 +41,12 @@ const AgriMediaNewsWidget = lazy(() => import('../components/widgets/AgriMediaNe
 const LandingMap = lazy(() => import('../components/widgets/LandingMap'));
 const SoilMoistureWidget = lazy(() => import('../components/widgets/SoilMoistureWidget'));
 const DamReservoirWidget = lazy(() => import('../components/widgets/DamReservoirWidget'));
+const FarmerInstitutesV2Widget = lazy(() => import('../components/widgets/FarmerInstitutesV2Widget'));
 
 // Bento Cards specific lazy imports
-const SmartFarmersCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.SmartFarmersCard })));
 const CommunityEnterprisesCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.CommunityEnterprisesCard })));
 const LargePlotsCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.LargePlotsCard })));
 const AgriTourismCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.AgriTourismCard })));
-const FarmerInstitutesCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.FarmerInstitutesCard })));
 const AgriAreasCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.AgriAreasCard })));
 
 const quickNavItems = [
@@ -111,6 +110,7 @@ export default function LandingPage() {
 
     const navigate = useNavigate();
     const [activeInfoModal, setActiveInfoModal] = useState(null);
+    const hasTourismData = loading || (tourism.count > 0 || tourism.list.length > 0);
 
     // SEO: Set dynamic page title & meta description
     useEffect(() => {
@@ -250,7 +250,7 @@ export default function LandingPage() {
                     <h2>📊 ภาพรวมข้อมูลการเกษตรจังหวัด</h2>
                     <p>สถิติและข้อมูลสารสนเทศการเกษตรในพื้นที่</p>
                 </div>
-                <section className="bento-container">
+                <section className={`bento-container ${hasTourismData ? '' : 'bento-container-no-tourism'}`}>
 
                     {/* 1. Map Card (Large) */}
                     <div className="bento-card bento-card-map">
@@ -265,32 +265,34 @@ export default function LandingPage() {
                         </div>
                     </div>
 
-                    {/* 2. Smart Farmers */}
+                    {/* 2. Community Enterprises */}
                     <Suspense fallback={<WidgetSkeleton />}>
-                        <SmartFarmersCard stats={instituteStats} loading={loading} />
+                        <CommunityEnterprisesCard
+                            count={enterprises.count}
+                            districtStats={ceDistrictStats}
+                            details={enterprises}
+                            loading={loading}
+                        />
                     </Suspense>
 
-                    {/* 3. Community Enterprises */}
-                    <Suspense fallback={<WidgetSkeleton />}>
-                        <CommunityEnterprisesCard count={enterprises.count} districtStats={ceDistrictStats} loading={loading} />
-                    </Suspense>
-
-                    {/* 4. Large Plots */}
+                    {/* 3. Large Plots */}
                     <Suspense fallback={<WidgetSkeleton />}>
                         <LargePlotsCard stats={lpStats} loading={loading} />
                     </Suspense>
 
-                    {/* 5. Agri Tourism */}
+                    {/* 4. Agri Tourism */}
+                    {hasTourismData && (
+                        <Suspense fallback={<WidgetSkeleton />}>
+                            <AgriTourismCard data={tourism} loading={loading} />
+                        </Suspense>
+                    )}
+
+                    {/* 5. Farmer Institutes v2 */}
                     <Suspense fallback={<WidgetSkeleton />}>
-                        <AgriTourismCard data={tourism} loading={loading} />
+                        <FarmerInstitutesV2Widget />
                     </Suspense>
 
-                    {/* 6. Farmer Institutes */}
-                    <Suspense fallback={<WidgetSkeleton />}>
-                        <FarmerInstitutesCard stats={instituteStats} loading={loading} />
-                    </Suspense>
-
-                    {/* 7. Agri Areas */}
+                    {/* 6. Agri Areas */}
                     <Suspense fallback={<WidgetSkeleton />}>
                         <AgriAreasCard stats={agriStats} loading={loading} />
                     </Suspense>

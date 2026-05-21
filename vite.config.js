@@ -1,12 +1,58 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
+import { createClient } from '@supabase/supabase-js'
+
+function publicFarmerInstitutesV2Plugin(env) {
+  const supabaseUrl = env.VITE_SUPABASE_URL || 'https://cjjirwqoovypymndhvwt.supabase.co'
+  const supabaseKey = env.SUPABASE_SERVICE_ROLE_KEY || env.VITE_SUPABASE_ANON_KEY
+  const supabase = createClient(supabaseUrl, supabaseKey)
+
+  return {
+    name: 'local-public-farmer-institutes-v2',
+    configureServer(server) {
+      server.middlewares.use('/api/public-farmer-institutes-v2', async (req, res) => {
+        try {
+          const [
+            smartFarmers,
+            youngSmartFarmers,
+            housewifeGroups,
+            youngFarmerGroups,
+            careerGroups,
+          ] = await Promise.all([
+            supabase.from('smart_farmer_sf').select('id,data_year,record_code,sequence_no,district,agricultural_activity,production_standard,farmer_status,annual_agri_income,production_area').order('data_year', { ascending: false }),
+            supabase.from('young_smart_farmer_ysf').select('id,data_year,record_code,sequence_no,district,subdistrict,agricultural_activity,production_standard,farmer_status,farm_area_rai,annual_agri_income,main_activity_type').order('data_year', { ascending: false }),
+            supabase.from('housewife_farmer_groups').select('id,year,group_name,district,subdistrict,member_count,income,fund_management,activity,production_standard,potential_level,model_group,community_enterprise_registration').order('year', { ascending: false }),
+            supabase.from('young_farmer_groups_detailed').select('id,data_year,group_name,district,subdistrict,member_count,income,fund_management,activity,potential_level,model_group').order('data_year', { ascending: false }),
+            supabase.from('agricultural_career_groups').select('id,data_year,group_name,district,subdistrict,member_count,income,fund_management,activity,main_activity,production_standard,potential_level,community_enterprise_registration').order('data_year', { ascending: false }),
+          ])
+          const failures = [smartFarmers, youngSmartFarmers, housewifeGroups, youngFarmerGroups, careerGroups]
+            .filter(result => result.error)
+            .map(result => result.error.message)
+          if (failures.length) throw new Error(failures.join(', '))
+          res.setHeader('Content-Type', 'application/json')
+          res.end(JSON.stringify({
+            smartFarmers: smartFarmers.data || [],
+            youngSmartFarmers: youngSmartFarmers.data || [],
+            housewifeGroups: housewifeGroups.data || [],
+            youngFarmerGroups: youngFarmerGroups.data || [],
+            careerGroups: careerGroups.data || [],
+          }))
+        } catch (err) {
+          res.statusCode = 500
+          res.setHeader('Content-Type', 'application/json')
+          res.end(JSON.stringify({ error: err.message }))
+        }
+      })
+    },
+  }
+}
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   
   return {
-    plugins: [react()],
+    plugins: [publicFarmerInstitutesV2Plugin(env), react()],
     cacheDir: 'output/vite-cache',
     server: {
       proxy: {
