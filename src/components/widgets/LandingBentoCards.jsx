@@ -196,21 +196,7 @@ export const CommunityEnterprisesCard = ({ count, districtStats, details = {}, l
 
                         <div className="ce-v2-body">
                             <div className="ce-panel">
-                                <div className="ce-section-title">ประเภทวิสาหกิจ</div>
-                                <div className="ce-type-select-card">
-                                    <select value={selectedType} onChange={(event) => setSelectedType(event.target.value)}>
-                                        <option value="all">ทุกประเภท</option>
-                                        {typeOptions.map(([type, value]) => (
-                                            <option key={type} value={type}>{type} ({value.toLocaleString()})</option>
-                                        ))}
-                                    </select>
-                                    <div>
-                                        <span>{selectedType === 'all' ? 'ทุกประเภท' : selectedType}</span>
-                                        <strong>{selectedTypeCount.toLocaleString()} แห่ง</strong>
-                                    </div>
-                                </div>
-
-                                <div className="ce-section-title ce-section-title-spaced">สรุปตามอำเภอ</div>
+                                <div className="ce-section-title">สรุปตามอำเภอ</div>
                                 <div className="ce-bars">
                                     {filteredDistricts.slice(0, 8).map(([district, value]) => {
                                         const max = filteredDistricts[0]?.[1] || 1;
