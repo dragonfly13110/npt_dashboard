@@ -11,6 +11,7 @@ import {
     CloudOutlined,
     EnvironmentOutlined,
     ExperimentOutlined,
+    FacebookOutlined,
     ReadOutlined,
     TeamOutlined,
     UserSwitchOutlined
@@ -58,6 +59,7 @@ const quickNavItems = [
 
 const infoNavItems = [
     { key: 'audience', label: 'ระบบนี้ช่วยใคร', Icon: TeamOutlined },
+    { key: 'contacts', label: 'ติดต่อสำนักงานเกษตรอำเภอ (FACEBOOK)', Icon: FacebookOutlined },
 ];
 
 const externalSystemLinks = [
@@ -100,6 +102,66 @@ const audienceItems = [
         actions: ['ควบคุมสิทธิ์ตามบทบาท', 'ตรวจสอบข้อมูลย้อนหลัง', 'ดูแลชุดข้อมูลกลาง'],
         Icon: UserSwitchOutlined,
     },
+];
+
+const contactItems = [
+    {
+        name: 'สำนักงานเกษตรจังหวัดนครปฐม (เกษตรจังหวัด)',
+        type: 'provincial',
+        facebookUrl: 'https://www.facebook.com/profile.php?id=61566480174328',
+        tel: '0 3425 3992',
+        address: '131 ถนนทรงพล อำเภอเมือง จังหวัดนครปฐม 73000',
+        isProvincial: true
+    },
+    {
+        name: 'สำนักงานเกษตรอำเภอเมืองนครปฐม',
+        type: 'district',
+        facebookUrl: 'https://www.facebook.com/muangpathom',
+        tel: '0 3425 2753',
+        address: 'อำเภอเมืองนครปฐม'
+    },
+    {
+        name: 'สำนักงานเกษตรอำเภอกำแพงแสน',
+        type: 'district',
+        facebookUrl: 'https://www.facebook.com/snng.kes.tr.xaphex.kaph.ngs.n.canghwad.nkhrpthm',
+        tel: '0 3435 1312',
+        address: 'อำเภอกำแพงแสน'
+    },
+    {
+        name: 'สำนักงานเกษตรอำเภอนครชัยศรี',
+        type: 'district',
+        facebookUrl: 'https://www.facebook.com/profile.php?id=61557741274035',
+        tel: '0 3433 1862',
+        address: 'อำเภอนครชัยศรี'
+    },
+    {
+        name: 'สำนักงานเกษตรอำเภอดอนตูม',
+        type: 'district',
+        facebookUrl: 'https://www.facebook.com/kasetamperdontoom/',
+        tel: '0 3438 1124',
+        address: 'อำเภอดอนตูม'
+    },
+    {
+        name: 'สำนักงานเกษตรอำเภอบางเลน',
+        type: 'district',
+        facebookUrl: 'https://www.facebook.com/profile.php?id=61585093269788',
+        tel: '0 3439 1115',
+        address: 'อำเภอบางเลน'
+    },
+    {
+        name: 'สำนักงานเกษตรอำเภอพุทธมณฑล',
+        type: 'district',
+        facebookUrl: 'https://www.facebook.com/phuttamonthon.doae/',
+        tel: '0 2441 0837',
+        address: 'อำเภอพุทธมณฑล'
+    },
+    {
+        name: 'สำนักงานเกษตรอำเภอสามพราน',
+        type: 'district',
+        facebookUrl: 'https://www.facebook.com/kasetsamphran/',
+        tel: '0 3432 1972',
+        address: 'อำเภอสามพราน'
+    }
 ];
 
 export default function LandingPage() {
@@ -382,6 +444,79 @@ export default function LandingPage() {
                             </ul>
                         </article>
                     ))}
+                </div>
+            </Modal>
+
+            <Modal
+                title="ช่องทางการติดต่อสำนักงานเกษตร"
+                open={activeInfoModal === 'contacts'}
+                onCancel={() => setActiveInfoModal(null)}
+                footer={null}
+                width={1040}
+                className="landing-info-modal landing-contacts-modal"
+            >
+                <div className="modal-section-heading">
+                    <div>
+                        <h2>ติดต่อสอบถามและติดตามข้อมูลข่าวสาร</h2>
+                        <p>
+                            ช่องทางการติดต่อสำนักงานเกษตรจังหวัดนครปฐม และสำนักงานเกษตรอำเภอผ่านทาง Facebook Page และหมายเลขโทรศัพท์ติดต่อ
+                        </p>
+                    </div>
+                </div>
+                
+                <div className="contacts-modal-body">
+                    {/* Provincial Office (Highlighted) */}
+                    {contactItems.filter(item => item.isProvincial).map(prov => (
+                        <div className="contacts-provincial-card" key={prov.name}>
+                            <div className="contacts-card-left">
+                                <div className="contacts-provincial-icon">
+                                    <FacebookOutlined className="fb-icon-large" />
+                                </div>
+                                <div className="contacts-provincial-details">
+                                    <span className="contacts-badge">หน่วยงานหลักระดับจังหวัด</span>
+                                    <h3>{prov.name}</h3>
+                                    <p className="contacts-address">📍 {prov.address}</p>
+                                    <p className="contacts-phone">📞 เบอร์โทรศัพท์: <a href={`tel:${prov.tel.replace(/\s+/g, '')}`}>{prov.tel}</a></p>
+                                </div>
+                            </div>
+                            <a 
+                                href={prov.facebookUrl} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="contacts-visit-btn"
+                            >
+                                <FacebookOutlined /> ไปยังเพจ Facebook
+                            </a>
+                        </div>
+                    ))}
+
+                    <h4 className="contacts-grid-title">สำนักงานเกษตรอำเภอ (ทั้ง 7 อำเภอในจังหวัดนครปฐม)</h4>
+                    
+                    {/* District Grid */}
+                    <div className="contacts-districts-grid">
+                        {contactItems.filter(item => !item.isProvincial).map(dist => (
+                            <div className="contacts-district-card" key={dist.name}>
+                                <div className="contacts-district-header">
+                                    <h3>{dist.name}</h3>
+                                    <span className="contacts-district-badge">อ. {dist.name.replace('สำนักงานเกษตรอำเภอ', '')}</span>
+                                </div>
+                                <div className="contacts-district-body">
+                                    <div className="contacts-phone-info">
+                                        <span>📞 โทรศัพท์:</span>
+                                        <a href={`tel:${dist.tel.replace(/\s+/g, '')}`}>{dist.tel}</a>
+                                    </div>
+                                    <a 
+                                        href={dist.facebookUrl} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        className="contacts-district-link"
+                                    >
+                                        <FacebookOutlined /> ติดต่อผ่าน Facebook
+                                    </a>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </Modal>
 
