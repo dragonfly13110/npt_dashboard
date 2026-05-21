@@ -184,8 +184,8 @@ export default function FarmerInstitutesV2Widget() {
         <section className="inst-v2-widget bento-card" style={{ gridArea: 'fi2' }}>
             <div className="inst-v2-head">
                 <div>
-                    <div className="inst-v2-eyebrow"><TeamOutlined /> สถาบันเกษตรกร v2</div>
-                    <h3>ข้อมูลละเอียดรายคน/รายกลุ่ม</h3>
+                    <div className="inst-v2-eyebrow"><TeamOutlined /> ข้อมูลละเอียดรายคน/รายกลุ่ม</div>
+                    <h3>สถาบันเกษตรกร</h3>
                     <p>รวม SF, YSF, แม่บ้านเกษตรกร, ยุวเกษตรกร และกลุ่มส่งเสริมอาชีพ</p>
                 </div>
                 <button type="button" className="inst-v2-refresh" onClick={refetch} aria-label="โหลดข้อมูลใหม่">
