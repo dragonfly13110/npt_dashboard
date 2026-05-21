@@ -82,7 +82,12 @@ export function createEmptyDistrictStats() {
             ce: 0, lp: 0, area: 0, house: 0,
             ricePi: 0, ricePrung: 0, field: 0, fruit: 0, veg: 0, flow: 0, herb: 0,
             lc: 0, pc: 0, sfc: 0,
-            instHousewives: 0, instYoung: 0, instCareer: 0, instVillage: 0
+            instHousewives: 0, instYoung: 0, instCareer: 0, instVillage: 0,
+            sfSfCount: 0, ysfCount: 0,
+            disasterFarmers: 0, disasterArea: 0,
+            pestArea: 0, fireCount: 0,
+            coconutArea: 0, coconutIncome: 0,
+            certGap: 0
         };
         return acc;
     }, {});

@@ -63,6 +63,13 @@ const infoNavItems = [
 
 const externalSystemLinks = [
     {
+        href: '/smart-map',
+        title: 'แผนที่อัจฉริยะ',
+        subtitle: 'Smart Agri Map',
+        Icon: EnvironmentOutlined,
+        isInternal: true,
+    },
+    {
         href: 'https://kasetinfo.netlify.app/',
         title: 'คลังความรู้เกษตร',
         subtitle: 'Infographic',
@@ -190,20 +197,35 @@ export default function LandingPage() {
                         <span>สำนักงานเกษตรจังหวัดนครปฐม</span>
                     </a>
                     <div className="landing-system-tabs" aria-label="ทางลัดไปยังระบบอื่น">
-                        {externalSystemLinks.map(({ href, title, subtitle, Icon }) => (
-                            <a
-                                key={href}
-                                href={href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="landing-system-tab"
-                            >
-                                <Icon aria-hidden="true" />
-                                <span>
-                                    <strong>{title}</strong>
-                                    <small>{subtitle}</small>
-                                </span>
-                            </a>
+                        {externalSystemLinks.map(({ href, title, subtitle, Icon, isInternal }) => (
+                            isInternal ? (
+                                <button
+                                    key={href}
+                                    className="landing-system-tab"
+                                    onClick={() => navigate(href)}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <Icon aria-hidden="true" />
+                                    <span>
+                                        <strong>{title}</strong>
+                                        <small>{subtitle}</small>
+                                    </span>
+                                </button>
+                            ) : (
+                                <a
+                                    key={href}
+                                    href={href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="landing-system-tab"
+                                >
+                                    <Icon aria-hidden="true" />
+                                    <span>
+                                        <strong>{title}</strong>
+                                        <small>{subtitle}</small>
+                                    </span>
+                                </a>
+                            )
                         ))}
                     </div>
                     <button className="landing-login-btn" onClick={() => navigate('/login')} aria-label="เข้าสู่ระบบสำหรับเจ้าหน้าที่และบุคคลทั่วไป" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: '1.4' }}>

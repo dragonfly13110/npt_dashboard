@@ -92,7 +92,24 @@ export async function fetchMapData(supabase) {
  * Fetch community data and compute stats
  */
 export async function fetchCommunityData(supabase) {
-    const [{ data: sfData }, ceData, { data: atData }, { data: lpData }, { data: instData }, { data: agriAreaData }, { data: lcData }, { data: pcData }, { data: sfcData }] = await Promise.all([
+    const [
+        { data: sfData },
+        ceData,
+        { data: atData },
+        { data: lpData },
+        { data: instData },
+        { data: agriAreaData },
+        { data: lcData },
+        { data: pcData },
+        { data: sfcData },
+        { data: sfSfData },
+        { data: ysfData },
+        { data: disasterData },
+        { data: pestData },
+        { data: fireData },
+        { data: coconutData },
+        { data: certData }
+    ] = await Promise.all([
         supabase.from('smart_farmers').select('district, full_name, main_product').order('id', { ascending: false }).limit(3),
         supabase.from('community_enterprises').select('id, enterprise_type, enterprise_name, approval_date, district, subdistrict, village_no', { count: 'exact' }).order('id', { ascending: false }),
         supabase.from('agri_tourism').select('district, spot_name, spot_type').order('id', { ascending: false }).limit(3),
@@ -101,8 +118,18 @@ export async function fetchCommunityData(supabase) {
         supabase.from('agricultural_areas').select('district, farmer_households, total_area_rai, agri_crop_area_rai, rice_in_season_rai, rice_off_season_rai, field_crops_rai, horticulture_rai, fruit_trees_rai, vegetables_rai, flowers_rai, herbs_spices_rai').neq('district', 'รวม'),
         supabase.from('learning_centers').select('district'),
         supabase.from('pest_centers').select('district'),
-        supabase.from('soil_fertilizer_centers').select('district')
+        supabase.from('soil_fertilizer_centers').select('district'),
+        supabase.from('smart_farmer_sf').select('district'),
+        supabase.from('young_smart_farmer_ysf').select('district'),
+        supabase.from('disasters').select('district, damaged_area, affected_farmers'),
+        supabase.from('pest_outbreaks').select('district, outbreak_area'),
+        supabase.from('fire_hotspots').select('district'),
+        supabase.from('coconut_aromatic_surveys').select('district, planted_area_rai, total_income'),
+        supabase.from('certifications').select('district')
     ]);
 
-    return { sfData, ceData, atData, lpData, instData, agriAreaData, lcData, pcData, sfcData };
+    return {
+        sfData, ceData, atData, lpData, instData, agriAreaData, lcData, pcData, sfcData,
+        sfSfData, ysfData, disasterData, pestData, fireData, coconutData, certData
+    };
 }

@@ -23,6 +23,7 @@ const queryClient = new QueryClient({
 const Login = lazy(() => import('./pages/Login'));
 const LandingPage = lazy(() => import('./pages/LandingPage'));
 const InteractiveDashboard = lazy(() => import('./pages/InteractiveDashboard'));
+const SmartMap = lazy(() => import('./pages/SmartMap'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Chatbot = lazy(() => import('./pages/Chatbot'));
@@ -121,6 +122,9 @@ function AppRoutes() {
         
         {/* Interactive Dashboard — PUBLIC */}
         <Route path="/interactive-dashboard" element={<InteractiveDashboard />} />
+
+        {/* Smart Map — PUBLIC */}
+        <Route path="/smart-map" element={<SmartMap />} />
 
         {/* ===== PUBLIC VIEW PAGES (ไม่ต้อง Login) ===== */}
         {[

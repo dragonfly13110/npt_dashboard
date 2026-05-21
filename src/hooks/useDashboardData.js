@@ -15,7 +15,8 @@ import {
     selectAgriStats,
     selectCenterCounts,
     createAgriPieData,
-    createLpPieData
+    createLpPieData,
+    selectEnrichedStats
 } from './dashboard/selectors';
 
 export { DISTRICT_LIST, allTables } from './dashboard/config';
@@ -84,7 +85,8 @@ export function useDashboardData() {
 
         // 4. Load Community Data
         const {
-            sfData, ceData, atData, lpData: rawLpData, instData, agriAreaData, lcData, pcData, sfcData
+            sfData, ceData, atData, lpData: rawLpData, instData, agriAreaData, lcData, pcData, sfcData,
+            sfSfData, ysfData, disasterData, pestData, fireData, coconutData, certData
         } = await fetchCommunityData(supabase);
 
         // 5. Compute Stats
@@ -104,6 +106,9 @@ export function useDashboardData() {
         
         // Center counts
         selectCenterCounts({ lcData: lcData || [], pcData: pcData || [], sfcData: sfcData || [], dStats });
+
+        // Enriched stats
+        selectEnrichedStats({ sfSfData, ysfData, disasterData, pestData, fireData, coconutData, certData, dStats });
 
         return {
             stats: statsResults,

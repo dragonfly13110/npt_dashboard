@@ -5,7 +5,12 @@ const createDistrictStats = () => ({
     ce: 0, lp: 0, area: 0, house: 0,
     ricePi: 0, ricePrung: 0, field: 0, fruit: 0, veg: 0, flow: 0, herb: 0,
     lc: 0, pc: 0, sfc: 0,
-    instHousewives: 0, instYoung: 0, instCareer: 0, instVillage: 0
+    instHousewives: 0, instYoung: 0, instCareer: 0, instVillage: 0,
+    sfSfCount: 0, ysfCount: 0,
+    disasterFarmers: 0, disasterArea: 0,
+    pestArea: 0, fireCount: 0,
+    coconutArea: 0, coconutIncome: 0,
+    certGap: 0
 });
 
 function ensureDistrictStats(dStats) {
@@ -145,4 +150,60 @@ export function createLpPieData(largePlots) {
         map[cg] = (map[cg] || 0) + 1;
     });
     return Object.entries(map).map(([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value);
+}
+
+export function selectEnrichedStats({ sfSfData, ysfData, disasterData, pestData, fireData, coconutData, certData, dStats }) {
+    // 1. Smart Farmer SF count
+    (sfSfData || []).forEach(row => {
+        let d = normalizeDistrict(row.district);
+        if (dStats[d]) dStats[d].sfSfCount += 1;
+    });
+
+    // 2. Young Smart Farmer YSF count
+    (ysfData || []).forEach(row => {
+        let d = normalizeDistrict(row.district);
+        if (dStats[d]) dStats[d].ysfCount += 1;
+    });
+
+    // 3. Disasters
+    (disasterData || []).forEach(row => {
+        let d = normalizeDistrict(row.district);
+        if (dStats[d]) {
+            dStats[d].disasterArea += Number(row.damaged_area) || 0;
+            dStats[d].disasterFarmers += Number(row.affected_farmers) || 0;
+        }
+    });
+
+    // 4. Pest outbreaks
+    (pestData || []).forEach(row => {
+        let d = normalizeDistrict(row.district);
+        if (dStats[d]) {
+            dStats[d].pestArea += Number(row.outbreak_area) || 0;
+        }
+    });
+
+    // 5. Fire hotspots
+    (fireData || []).forEach(row => {
+        let d = normalizeDistrict(row.district);
+        if (dStats[d]) dStats[d].fireCount += 1;
+    });
+
+    // 6. Coconut aromatic surveys
+    (coconutData || []).forEach(row => {
+        let d = normalizeDistrict(row.district);
+        if (dStats[d]) {
+            dStats[d].coconutArea += Number(row.planted_area_rai) || 0;
+            dStats[d].coconutIncome += Number(row.total_income) || 0;
+        }
+    });
+
+    // 7. Certifications
+    (certData || []).forEach(row => {
+        let d = normalizeDistrict(row.district);
+        if (dStats[d]) {
+            dStats[d].certGap += 1;
+        }
+    });
+
+    return dStats;
 }
