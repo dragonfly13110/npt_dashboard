@@ -58,7 +58,7 @@ const quickNavItems = [
 
 const infoNavItems = [
     { key: 'audience', label: 'ระบบนี้ช่วยใคร', Icon: TeamOutlined },
-    { key: 'contacts', label: 'ติดต่อสำนักงานเกษตรอำเภอ (FACEBOOK)', Icon: FacebookOutlined },
+    { key: 'contacts', label: 'ติดต่อสำนักงานเกษตรอำเภอ', Icon: FacebookOutlined },
 ];
 
 const externalSystemLinks = [
@@ -451,7 +451,7 @@ export default function LandingPage() {
                 open={activeInfoModal === 'contacts'}
                 onCancel={() => setActiveInfoModal(null)}
                 footer={null}
-                width={1040}
+                width={880}
                 className="landing-info-modal landing-contacts-modal"
             >
                 <div className="modal-section-heading">

@@ -3654,7 +3654,7 @@
 .contacts-modal-body {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
     margin-top: 12px;
 }
 
@@ -3664,8 +3664,8 @@
     justify-content: space-between;
     align-items: center;
     background: linear-gradient(135deg, #1877f2 0%, #16a34a 100%);
-    padding: 28px;
-    border-radius: 20px;
+    padding: 16px 20px;
+    border-radius: 16px;
     color: #ffffff;
     box-shadow: 0 12px 30px -10px rgba(24, 119, 242, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -3693,14 +3693,14 @@
 .contacts-card-left {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 16px;
 }
 
 .contacts-provincial-icon {
-    width: 72px;
-    height: 72px;
+    width: 56px;
+    height: 56px;
     background: rgba(255, 255, 255, 0.2);
-    border-radius: 18px;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3709,22 +3709,22 @@
 }
 
 .contacts-provincial-icon .fb-icon-large {
-    font-size: 40px;
+    font-size: 28px;
     color: #ffffff;
 }
 
 .contacts-provincial-details {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
 }
 
 .contacts-badge {
     align-self: flex-start;
     background: rgba(255, 255, 255, 0.25);
-    padding: 4px 12px;
+    padding: 3px 10px;
     border-radius: 20px;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 800;
     letter-spacing: 0.5px;
     text-transform: uppercase;
@@ -3732,8 +3732,8 @@
 }
 
 .contacts-provincial-details h3 {
-    margin: 4px 0 2px 0;
-    font-size: 22px;
+    margin: 2px 0 1px 0;
+    font-size: 18px;
     font-weight: 900;
     color: #ffffff;
     font-family: 'Kanit', sans-serif;
@@ -3741,14 +3741,14 @@
 }
 
 .contacts-address {
-    font-size: 14px;
+    font-size: 13px;
     opacity: 0.9;
     margin: 0;
     font-weight: 500;
 }
 
 .contacts-phone {
-    font-size: 15px;
+    font-size: 14px;
     margin: 0;
     font-weight: 700;
     display: flex;
@@ -3770,10 +3770,10 @@
 .contacts-visit-btn {
     background: #ffffff;
     color: #1877f2;
-    padding: 14px 24px;
-    border-radius: 12px;
+    padding: 10px 18px;
+    border-radius: 10px;
     font-weight: 800;
-    font-size: 15px;
+    font-size: 13px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -3792,11 +3792,11 @@
 
 /* Grid & Section Title */
 .contacts-grid-title {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 800;
     color: #334155;
-    margin: 12px 0 0 0;
-    padding-bottom: 8px;
+    margin: 8px 0 0 0;
+    padding-bottom: 6px;
     border-bottom: 2px solid #e2e8f0;
     font-family: 'Kanit', sans-serif;
 }
@@ -3804,13 +3804,13 @@
 .contacts-districts-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
+    gap: 12px;
 }
 
 /* District Card */
 .contacts-district-card {
     background: #ffffff;
-    border-radius: 16px;
+    border-radius: 12px;
     border: 1px solid rgba(226, 232, 240, 0.8);
     box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.05);
     display: flex;
@@ -3827,7 +3827,7 @@
 }
 
 .contacts-district-header {
-    padding: 18px 20px;
+    padding: 12px 14px;
     background: #f8fafc;
     border-bottom: 1px solid #f1f5f9;
     display: flex;
@@ -3838,7 +3838,7 @@
 
 .contacts-district-header h3 {
     margin: 0;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 800;
     color: #1e293b;
     font-family: 'Kanit', sans-serif;
@@ -3848,23 +3848,23 @@
 .contacts-district-badge {
     background: #e2e8f0;
     color: #475569;
-    padding: 2px 8px;
+    padding: 1px 6px;
     border-radius: 12px;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 800;
     white-space: nowrap;
 }
 
 .contacts-district-body {
-    padding: 18px 20px;
+    padding: 12px 14px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 10px;
     flex-grow: 1;
 }
 
 .contacts-phone-info {
-    font-size: 13px;
+    font-size: 12px;
     color: #64748b;
     display: flex;
     flex-wrap: wrap;
@@ -3888,9 +3888,9 @@
     background: #f0f9ff;
     color: #0284c7;
     border: 1px solid #e0f2fe;
-    padding: 10px 16px;
-    border-radius: 10px;
-    font-size: 13px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
     font-weight: 700;
     display: flex;
     align-items: center;
