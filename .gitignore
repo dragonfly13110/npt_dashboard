@@ -34,3 +34,7 @@ output/playwright/
 
 # Local Netlify folder
 .netlify
+
+# Test reports & results
+playwright-report/
+test-results/

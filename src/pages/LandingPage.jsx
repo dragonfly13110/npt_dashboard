@@ -51,7 +51,6 @@ const AgriTourismCard = lazy(() => import('../components/widgets/LandingBentoCar
 const AgriAreasCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.AgriAreasCard })));
 
 const quickNavItems = [
-    { href: '#live-data', label: 'สภาพอากาศและราคา', Icon: CloudOutlined },
     { href: '#agri-overview', label: 'แผนที่และภาพรวม', Icon: EnvironmentOutlined },
     { href: '#soil-water', label: 'ดินและน้ำ', Icon: ExperimentOutlined },
     { href: '#agri-news', label: 'ข่าวและประกาศ', Icon: ReadOutlined },
