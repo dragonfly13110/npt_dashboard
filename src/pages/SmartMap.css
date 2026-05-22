@@ -326,7 +326,7 @@
     height: 16px;
     width: 16px;
     border: 2px solid rgba(15, 23, 42, 0.2);
-    border-radius: 5px;
+    border-radius: 50%; /* Rounded circle for radio style */
     background-color: transparent;
     transition: all 0.2s ease;
     flex: 0 0 auto;
@@ -346,13 +346,13 @@
     content: "";
     position: absolute;
     display: none;
-    left: 4.5px;
-    top: 1px;
-    width: 4px;
-    height: 8px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
+    left: 50%;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: white;
+    transform: translate(-50%, -50%); /* Center dot for radio style */
 }
 
 .control-toggle-checkbox-input:checked ~ .control-toggle-checkbox-custom::after {
@@ -857,7 +857,7 @@
 .district-map-label-container {
     background: transparent !important;
     border: none !important;
-    pointer-events: none !important;
+    pointer-events: auto !important;
     box-shadow: none !important;
 }
 
@@ -875,7 +875,8 @@
     padding: 6px 14px;
     border-radius: 40px;
     box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(0, 0, 0, 0.02);
-    pointer-events: none;
+    pointer-events: auto;
+    cursor: pointer;
     transition: all 0.25s ease;
     display: inline-block;
     position: absolute;
@@ -1990,4 +1991,30 @@
         padding-right: 0;
         padding-bottom: 20px;
     }
+}
+
+/* ---------- CUSTOM PREMIUM TOOLTIP ---------- */
+.leaflet-tooltip.smart-map-marker-tooltip {
+    background: rgba(255, 255, 255, 0.94) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.1) !important;
+    padding: 12px 14px !important;
+    font-family: 'Prompt', 'Kanit', sans-serif !important;
+    color: #1e293b !important;
+}
+
+.leaflet-tooltip-top.smart-map-marker-tooltip::before {
+    border-top-color: rgba(255, 255, 255, 0.94) !important;
+}
+.leaflet-tooltip-bottom.smart-map-marker-tooltip::before {
+    border-bottom-color: rgba(255, 255, 255, 0.94) !important;
+}
+.leaflet-tooltip-left.smart-map-marker-tooltip::before {
+    border-left-color: rgba(255, 255, 255, 0.94) !important;
+}
+.leaflet-tooltip-right.smart-map-marker-tooltip::before {
+    border-right-color: rgba(255, 255, 255, 0.94) !important;
 }

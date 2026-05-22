@@ -23,9 +23,11 @@ CREATE TABLE IF NOT EXISTS forecast_plots (
 -- Enable RLS
 ALTER TABLE forecast_plots ENABLE ROW LEVEL SECURITY;
 
--- Allow authenticated read
-CREATE POLICY "Allow authenticated read" ON forecast_plots
-    FOR SELECT TO authenticated USING (true);
+-- Allow read for anon and authenticated
+DROP POLICY IF EXISTS "Allow authenticated read" ON forecast_plots;
+DROP POLICY IF EXISTS "Allow public read forecast plots" ON forecast_plots;
+CREATE POLICY "Allow public read forecast plots" ON forecast_plots
+    FOR SELECT TO anon, authenticated USING (true);
 
 -- Allow authenticated insert
 CREATE POLICY "Allow authenticated insert" ON forecast_plots

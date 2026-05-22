@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useMemo } from 'react';
+import { useEffect, useState, useCallback, useMemo, Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDashboardData } from '../hooks/useDashboardData';
 import { supabase } from '../supabaseClient';
@@ -28,6 +28,16 @@ const DISTRICT_CENTROIDS = {
     'นครชัยศรี': [13.80, 100.18],
     'สามพราน': [13.72, 100.22],
     'พุทธมณฑล': [13.78, 100.32],
+};
+
+const DISTRICT_LABEL_POSITIONS = {
+    'กำแพงแสน': [14.07, 99.85],       // Northwest outer edge (inside polygon)
+    'บางเลน': [14.14, 100.26],         // Northeast outer edge (inside polygon)
+    'ดอนตูม': [14.03, 100.08],         // Northern edge (inside polygon)
+    'เมืองนครปฐม': [13.75, 99.95],     // Southwest outer edge (inside polygon)
+    'นครชัยศรี': [13.90, 100.25],       // Northeast/East outer edge (inside polygon)
+    'สามพราน': [13.66, 100.09],         // Southern/Southwest outer edge (inside polygon)
+    'พุทธมณฑล': [13.82, 100.32],       // Northern/Northeast tip (inside polygon)
 };
 
 // ===== WEATHER & PM2.5 HELPERS =====
@@ -417,9 +427,15 @@ export default function SmartMap() {
         setSearchQuery(val);
     }, []);
 
-    // Toggle marker layers
+    // Toggle marker layers (mutually exclusive)
     const toggleLayer = useCallback((key) => {
-        setVisibleLayers(prev => ({ ...prev, [key]: !prev[key] }));
+        setVisibleLayers(prev => {
+            const nextState = {};
+            Object.keys(prev).forEach(k => {
+                nextState[k] = k === key ? !prev[k] : false;
+            });
+            return nextState;
+        });
     }, []);
 
     // Close panel with animation
@@ -561,7 +577,7 @@ ${cropsStr}
         );
     }
 
-    const { L, MapContainer, TileLayer, CircleMarker, Marker, Popup, GeoJSON, useMap, useMapEvents, ZoomControl } = MapComponents;
+    const { L, MapContainer, TileLayer, CircleMarker, Marker, Popup, Tooltip, GeoJSON, useMap, useMapEvents, ZoomControl, Polyline } = MapComponents;
 
     // ===== CROP DATA FOR SELECTED DISTRICT =====
     const cropChartData = selectedData ? [
@@ -683,13 +699,7 @@ ${cropsStr}
                     >
                         🛰️ Hybrid
                     </button>
-                    <button
-                        className={`basemap-btn ${basemap === 'carto' ? 'active' : ''}`}
-                        onClick={() => setBasemap('carto')}
-                        title="Carto Light เคลียร์ตา"
-                    >
-                        ⚪ Carto
-                    </button>
+
                 </div>
 
                 {/* ===== LEGEND ===== */}
@@ -1409,14 +1419,12 @@ ${cropsStr}
                         key={basemap}
                         attribution={
                             basemap === 'osm' ? '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' :
-                            basemap === 'google-road' || basemap === 'google-hybrid' ? '&copy; Google Maps' :
-                            '&copy; <a href="https://carto.com/">CARTO</a>'
+                            '&copy; Google Maps'
                         }
                         url={
                             basemap === 'osm' ? 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' :
                             basemap === 'google-road' ? 'https://mt1.google.com/vt/lyrs=m&hl=th&x={x}&y={y}&z={z}' :
-                            basemap === 'google-hybrid' ? 'https://mt1.google.com/vt/lyrs=y&hl=th&x={x}&y={y}&z={z}' :
-                            'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'
+                            'https://mt1.google.com/vt/lyrs=y&hl=th&x={x}&y={y}&z={z}'
                         }
                     />
                     <ZoomControl position="topright" />
@@ -1522,31 +1530,42 @@ ${cropsStr}
                     {/* ===== DISTRICT LABELS ===== */}
                     {mapZoom >= 10 && L && Object.entries(DISTRICT_CENTROIDS).map(([name, coords]) => {
                         const isSelected = selectedDistrict && selectedDistrict.name === name;
-                        const w = weatherData[name];
-                        
-                        let labelHtml = `<div class="map-label-name">${name}</div>`;
-                        if (w && !w.loading && !w.error) {
-                            const weatherInfo = getWeatherDetails(w.weatherCode);
-                            const pmColor = getPm25Color(w.pm25);
-                            labelHtml += `
-                                <div class="map-label-stats">
-                                    <span class="map-label-temp">${weatherInfo.icon} ${w.temp !== null ? `${w.temp}°` : ''}</span>
-                                    ${w.pm25 !== null ? `<span class="map-label-pm" style="background: ${pmColor}">${w.pm25}</span>` : ''}
-                                </div>
-                            `;
-                        }
+                        const labelHtml = `<div class="map-label-name">${name}</div>`;
+                        const labelPos = DISTRICT_LABEL_POSITIONS[name] || coords;
 
                         return (
-                            <Marker
-                                key={`label-${name}`}
-                                position={coords}
-                                interactive={false}
-                                icon={L.divIcon({
-                                    className: 'district-map-label-container',
-                                    html: `<div class="district-map-label ${isSelected ? 'selected' : ''}">${labelHtml}</div>`,
-                                    iconSize: [0, 0],
-                                })}
-                            />
+                            <Fragment key={`label-group-${name}`}>
+                                <Polyline
+                                    positions={[coords, labelPos]}
+                                    pathOptions={{
+                                        color: isSelected ? '#10b981' : '#64748b',
+                                        weight: isSelected ? 2 : 1.2,
+                                        dashArray: '5, 5',
+                                        opacity: isSelected ? 0.8 : 0.4,
+                                    }}
+                                    interactive={false}
+                                />
+                                <Marker
+                                    key={`label-${name}`}
+                                    position={labelPos}
+                                    interactive={true}
+                                    eventHandlers={{
+                                        click: () => {
+                                            setPanelClosing(false);
+                                            const feat = geoJSONData?.features?.find(f => f.properties?.amp_th === name);
+                                            setSelectedDistrict({
+                                                name,
+                                                areaSqkm: feat?.properties?.area_sqkm || 0,
+                                            });
+                                        }
+                                    }}
+                                    icon={L.divIcon({
+                                        className: 'district-map-label-container',
+                                        html: `<div class="district-map-label ${isSelected ? 'selected' : ''}">${labelHtml}</div>`,
+                                        iconSize: [0, 0],
+                                    })}
+                                />
+                            </Fragment>
                         );
                     })}
 
@@ -1563,9 +1582,10 @@ ${cropsStr}
                             color="rgba(255,255,255,0.6)"
                             weight={1.5}
                             className="pulse-marker-young_farmer"
+                            pane="markerPane"
                         >
-                            <Popup>
-                                <div style={{ fontFamily: 'Kanit, sans-serif', minWidth: 180 }}>
+                            <Tooltip className="smart-map-marker-tooltip" direction="top" offset={[0, -5]} opacity={1}>
+                                <div style={{ minWidth: 180 }}>
                                     <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, color: '#b45309' }}>
                                         {item.name}
                                     </div>
@@ -1586,7 +1606,7 @@ ${cropsStr}
                                         {' '}{item.subdistrict ? `ต.${item.subdistrict} ` : ''}อ.{item.district}
                                     </div>
                                 </div>
-                            </Popup>
+                            </Tooltip>
                         </CircleMarker>
                     ))}
 
@@ -1601,9 +1621,10 @@ ${cropsStr}
                             color="rgba(255,255,255,0.6)"
                             weight={1.5}
                             className="pulse-marker-career_group"
+                            pane="markerPane"
                         >
-                            <Popup>
-                                <div style={{ fontFamily: 'Kanit, sans-serif', minWidth: 180 }}>
+                            <Tooltip className="smart-map-marker-tooltip" direction="top" offset={[0, -5]} opacity={1}>
+                                <div style={{ minWidth: 180 }}>
                                     <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, color: '#6b21a8' }}>
                                         {item.name}
                                     </div>
@@ -1624,7 +1645,7 @@ ${cropsStr}
                                         {' '}{item.subdistrict ? `ต.${item.subdistrict} ` : ''}อ.{item.district}
                                     </div>
                                 </div>
-                            </Popup>
+                            </Tooltip>
                         </CircleMarker>
                     ))}
 
@@ -1639,9 +1660,10 @@ ${cropsStr}
                             color="rgba(255,255,255,0.6)"
                             weight={1.5}
                             className="pulse-marker-forecast"
+                            pane="markerPane"
                         >
-                            <Popup>
-                                <div style={{ fontFamily: 'Kanit, sans-serif', minWidth: 180 }}>
+                            <Tooltip className="smart-map-marker-tooltip" direction="top" offset={[0, -5]} opacity={1}>
+                                <div style={{ minWidth: 180 }}>
                                     <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, color: '#1e293b' }}>
                                         แปลงคุณ{item.name}
                                     </div>
@@ -1661,7 +1683,7 @@ ${cropsStr}
                                         {' '}ต.{item.subdistrict} อ.{item.district}
                                     </div>
                                 </div>
-                            </Popup>
+                            </Tooltip>
                         </CircleMarker>
                     ))}
 
@@ -1676,9 +1698,10 @@ ${cropsStr}
                             color="rgba(255,255,255,0.8)"
                             weight={2}
                             className="pulse-marker-hotspot"
+                            pane="markerPane"
                         >
-                            <Popup>
-                                <div style={{ fontFamily: 'Kanit, sans-serif', minWidth: 180 }}>
+                            <Tooltip className="smart-map-marker-tooltip" direction="top" offset={[0, -5]} opacity={1}>
+                                <div style={{ minWidth: 180 }}>
                                     <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, color: '#dc2626' }}>
                                         🔥 {item.name}
                                     </div>
@@ -1695,7 +1718,7 @@ ${cropsStr}
                                         {' '}ต.{item.subdistrict || '-'} อ.{item.district || '-'}
                                     </div>
                                 </div>
-                            </Popup>
+                            </Tooltip>
                         </CircleMarker>
                     ))}
                 </MapContainer>
