@@ -124,7 +124,7 @@ export default function ForecastMap({ data = [] }) {
                             <Popup>
                                 <div style={{ fontFamily: 'inherit', minWidth: 200, fontSize: 13 }}>
                                     <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 6, color: '#1f2328' }}>
-                                        แปลงพยากรณ์ #{item.id || item.row_number || idx + 1}
+                                        แปลงพยากรณ์
                                     </div>
                                     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                                         <tbody>
