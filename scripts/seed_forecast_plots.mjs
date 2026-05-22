@@ -107,7 +107,7 @@ const rawPlots = [
     { district: 'สามพราน', subdistrict: 'ยายชา', owner_name: 'เอกชัย เกษตรดี', crop_type: 'ฝรั่ง', variety: 'หวานพิรุณ', planted_area_rai: 10, crop_status: 'ห่อผล/เตรียมเก็บ', latOffset: 0.008, lngOffset: -0.010 },
     { district: 'สามพราน', subdistrict: 'สามพราน', owner_name: 'ศิริพร ผลดี', crop_type: 'กล้วยไม้', variety: 'หวายคละสี', planted_area_rai: 14, crop_status: 'บำรุงช่อดอก', latOffset: -0.010, lngOffset: 0.012 },
     { district: 'พุทธมณฑล', subdistrict: 'ศาลายา', owner_name: 'พงษ์ศักดิ์ รักษ์ดิน', crop_type: 'ข้าวนาปี', variety: 'กข43', planted_area_rai: 22, crop_status: 'เพิ่งปักดำ', latOffset: 0.010, lngOffset: 0.010 },
-    { district: 'พุทธมณฑล', subdistrict: 'คลองโยง', owner_name: 'รัตนา เกษตรใหม่', crop_type: 'บัวหลวง', variety: 'ปทุมปัทมา', planted_area_rai: 15, crop_status: 'เก็บเกี่ยวผลผลิต', latOffset: -0.012, lngOffset: -0.015 },
+    { district: 'พุทธมณฑล', subdistrict: 'คลองโยง', owner_name: 'รัตนา เกษตรใหม่', crop_type: 'บัวหลวง', variety: 'ปทุมปัทมา', planted_area_rai: 15, crop_status: 'เก็บเกี่ยวผลผลิต', latOffset: -0.005, lngOffset: -0.005 },
 ];
 
 async function runQuery(projectRef, accessToken, query) {
@@ -163,7 +163,7 @@ async function main() {
             province: 'นครปฐม',
             district: plot.district,
             subdistrict: plot.subdistrict,
-            owner_name: `เกษตรกรรายที่ ${idx + 1}`,
+            owner_name: plot.owner_name,
             crop_type: plot.crop_type,
             variety: plot.variety,
             planted_area_rai: plot.planted_area_rai,
