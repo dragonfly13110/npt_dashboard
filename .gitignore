@@ -38,3 +38,7 @@ output/playwright/
 # Test reports & results
 playwright-report/
 test-results/
+
+# Temporary/Debug files
+/tmp/
+/check_*.js
