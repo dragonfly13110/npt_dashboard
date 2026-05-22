@@ -163,7 +163,7 @@ async function main() {
             province: 'นครปฐม',
             district: plot.district,
             subdistrict: plot.subdistrict,
-            owner_name: plot.owner_name,
+            owner_name: `เกษตรกรรายที่ ${idx + 1}`,
             crop_type: plot.crop_type,
             variety: plot.variety,
             planted_area_rai: plot.planted_area_rai,

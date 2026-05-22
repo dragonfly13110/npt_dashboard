@@ -1665,7 +1665,7 @@ ${cropsStr}
                             <Tooltip className="smart-map-marker-tooltip" direction="top" offset={[0, -5]} opacity={1}>
                                 <div style={{ minWidth: 180 }}>
                                     <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, color: '#1e293b' }}>
-                                        แปลงคุณ{item.name}
+                                        แปลงพยากรณ์ #{item.id}
                                     </div>
                                     <div style={{ fontSize: 12, color: '#475569', marginBottom: 4 }}>
                                         🌾 <strong>ชนิดพืช:</strong> {item.cropType || 'ไม่ระบุ'}
