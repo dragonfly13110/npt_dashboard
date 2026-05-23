@@ -602,7 +602,12 @@ ${cropsStr}
                 </button>
 
                 {/* Autocomplete Search Bar */}
-                <div className="smart-map-search-container">
+                <div 
+                    className="smart-map-search-container"
+                    onClick={(e) => e.stopPropagation()}
+                    onTouchStart={(e) => e.stopPropagation()}
+                    onMouseDown={(e) => e.stopPropagation()}
+                >
                     <div className="search-input-wrapper">
                         <span className="search-icon">🔍</span>
                         <input
@@ -615,7 +620,11 @@ ${cropsStr}
                             className="smart-map-search-input"
                         />
                         {searchQuery && (
-                            <button className="search-clear-btn" onClick={() => { setSearchQuery(''); closePanel(); }}>
+                            <button 
+                                className="search-clear-btn" 
+                                onClick={(e) => { e.stopPropagation(); setSearchQuery(''); closePanel(); }}
+                                onTouchStart={(e) => { e.stopPropagation(); setSearchQuery(''); closePanel(); }}
+                            >
                                 ✕
                             </button>
                         )}
@@ -625,7 +634,8 @@ ${cropsStr}
                             {suggestions.map(name => (
                                 <li
                                     key={name}
-                                    onMouseDown={() => handleSelectDistrictByName(name)}
+                                    onMouseDown={(e) => { e.stopPropagation(); handleSelectDistrictByName(name); }}
+                                    onTouchStart={(e) => { e.stopPropagation(); handleSelectDistrictByName(name); }}
                                     className="search-suggestion-item"
                                 >
                                     📍 อ.{name}
@@ -646,21 +656,36 @@ ${cropsStr}
             {/* Toggle button for controls on mobile */}
             <button
                 className={`smart-map-controls-toggle ${isControlsOpen ? 'active' : ''}`}
-                onClick={() => setIsControlsOpen(prev => !prev)}
+                onClick={(e) => { e.stopPropagation(); setIsControlsOpen(prev => !prev); }}
+                onTouchStart={(e) => { e.stopPropagation(); setIsControlsOpen(prev => !prev); }}
                 title="ตัวเลือกแผนที่"
             >
                 {isControlsOpen ? '✕' : '🥞 เลเยอร์'}
             </button>
 
             {isControlsOpen && (
-                <div className="smart-map-controls-backdrop" onClick={() => setIsControlsOpen(false)} />
+                <div 
+                    className="smart-map-controls-backdrop" 
+                    onClick={(e) => { e.stopPropagation(); setIsControlsOpen(false); }} 
+                    onTouchStart={(e) => { e.stopPropagation(); setIsControlsOpen(false); }} 
+                />
             )}
 
             {/* ===== LAYER CONTROL PANEL ===== */}
-            <div className={`smart-map-controls ${isControlsOpen ? 'open' : ''}`}>
+            <div 
+                className={`smart-map-controls ${isControlsOpen ? 'open' : ''}`}
+                onClick={(e) => e.stopPropagation()}
+                onTouchStart={(e) => e.stopPropagation()}
+                onMouseDown={(e) => e.stopPropagation()}
+            >
+                <div className="panel-drag-handle"></div>
                 <div className="controls-mobile-header">
                     <span>ตัวเลือกแผนที่</span>
-                    <button className="controls-close-btn" onClick={() => setIsControlsOpen(false)}>✕</button>
+                    <button 
+                        className="controls-close-btn" 
+                        onClick={(e) => { e.stopPropagation(); setIsControlsOpen(false); }}
+                        onTouchStart={(e) => { e.stopPropagation(); setIsControlsOpen(false); }}
+                    >✕</button>
                 </div>
                 <div className="controls-section-title">ตัวชี้วัด Choropleth</div>
                 {METRICS.map(m => (
@@ -736,7 +761,12 @@ ${cropsStr}
 
             {/* ===== DISTRICT DETAIL PANEL ===== */}
             {selectedDistrict && selectedData && (
-                <div className={`district-panel ${panelClosing ? 'district-panel-closing' : ''}`}>
+                <div 
+                    className={`district-panel ${panelClosing ? 'district-panel-closing' : ''}`}
+                    onClick={(e) => e.stopPropagation()}
+                    onTouchStart={(e) => e.stopPropagation()}
+                    onMouseDown={(e) => e.stopPropagation()}
+                >
                     <div className="panel-drag-handle"></div>
                     <div className="panel-header">
                         <div>
@@ -757,7 +787,11 @@ ${cropsStr}
                             >
                                 📊 เปรียบเทียบ
                             </button>
-                            <button className="panel-close-btn" onClick={closePanel}>✕</button>
+                            <button 
+                                className="panel-close-btn" 
+                                onClick={(e) => { e.stopPropagation(); closePanel(); }}
+                                onTouchStart={(e) => { e.stopPropagation(); closePanel(); }}
+                            >✕</button>
                         </div>
                     </div>
 
@@ -1087,11 +1121,20 @@ ${cropsStr}
 
             {/* ===== DISTRICT COMPARISON MODAL ===== */}
             {isCompareOpen && selectedDistrict && selectedData && (
-                <div className="district-compare-modal-overlay">
-                    <div className="district-compare-modal">
+                <div className="district-compare-modal-overlay" onClick={() => setIsCompareOpen(false)}>
+                    <div 
+                        className="district-compare-modal"
+                        onClick={(e) => e.stopPropagation()}
+                        onTouchStart={(e) => e.stopPropagation()}
+                        onMouseDown={(e) => e.stopPropagation()}
+                    >
                         <div className="compare-modal-header">
                             <h2>📊 เปรียบเทียบข้อมูลรายอำเภอ (District Comparison)</h2>
-                            <button className="compare-modal-close" onClick={() => setIsCompareOpen(false)}>✕</button>
+                            <button 
+                                className="compare-modal-close" 
+                                onClick={(e) => { e.stopPropagation(); setIsCompareOpen(false); }}
+                                onTouchStart={(e) => { e.stopPropagation(); setIsCompareOpen(false); }}
+                            >✕</button>
                         </div>
                         
                         <div className="compare-modal-body">

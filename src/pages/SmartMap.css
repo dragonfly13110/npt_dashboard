@@ -787,7 +787,7 @@
         position: absolute;
         top: 110px;
         right: 16px;
-        z-index: 1001;
+        z-index: 1030;
         padding: 10px 16px;
         border: 1px solid rgba(15, 23, 42, 0.08);
         border-radius: 14px;
@@ -813,10 +813,10 @@
         display: block;
         position: absolute;
         inset: 0;
-        background: rgba(15, 23, 42, 0.3);
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-        z-index: 1009;
+        background: rgba(15, 23, 42, 0.05);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        z-index: 1040;
         animation: fadeIn 0.2s ease-out;
     }
 
@@ -827,21 +827,21 @@
 
     .smart-map-controls {
         position: fixed;
-        top: 0;
+        top: auto;
         right: 0;
         bottom: 0;
-        left: auto;
-        width: 280px;
-        height: 100vh;
-        max-height: 100vh;
-        border-radius: 0;
+        left: 0;
+        width: 100%;
+        height: 60vh;
+        max-height: 60vh;
+        border-radius: 24px 24px 0 0;
         border: none;
-        border-left: 1px solid rgba(15, 23, 42, 0.08);
-        background: rgba(255, 255, 255, 0.98);
-        z-index: 1010;
-        transform: translateX(105%);
-        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        box-shadow: -8px 0 32px rgba(15, 23, 42, 0.12);
+        background: #ffffff;
+        z-index: 1050;
+        transform: translateY(100%);
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        animation: none;
+        box-shadow: 0 -8px 32px rgba(15, 23, 42, 0.08);
         margin: 0;
         padding: 20px;
         overflow-y: auto;
@@ -851,7 +851,7 @@
     }
 
     .smart-map-controls.open {
-        transform: translateX(0);
+        transform: translateY(0);
     }
 
     .controls-mobile-header {
@@ -869,13 +869,13 @@
     .controls-close-btn {
         display: grid;
         place-items: center;
-        width: 28px;
-        height: 28px;
+        width: 40px;
+        height: 40px;
         border: 1px solid rgba(15, 23, 42, 0.08);
-        border-radius: 8px;
+        border-radius: 10px;
         background: rgba(15, 23, 42, 0.02);
         color: #64748b;
-        font-size: 12px;
+        font-size: 16px;
         cursor: pointer;
         transition: all 0.2s;
     }
@@ -899,6 +899,12 @@
         border-radius: 24px 24px 0 0;
         box-shadow: 0 -8px 32px rgba(15, 23, 42, 0.1);
         padding: 16px 20px 24px;
+    }
+
+    .panel-close-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
     }
 
     .smart-map-kpi-bar {
@@ -2108,6 +2114,12 @@
         border-bottom: 1px solid rgba(15, 23, 42, 0.08);
         padding-right: 0;
         padding-bottom: 20px;
+    }
+
+    .compare-modal-close {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
     }
 }
 
