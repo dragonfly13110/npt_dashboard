@@ -476,22 +476,8 @@ ALTER TABLE fire_hotspots ENABLE ROW LEVEL SECURITY;
 -- Policy: Authenticated users สามารถ CRUD ทุกข้อมูลได้
 -- (ในอนาคตสามารถแยกสิทธิ์ตามกลุ่มงานเพิ่มเติม)
 
-DO $$
-DECLARE
-  tbl TEXT;
-BEGIN
-  FOR tbl IN
-    SELECT unnest(ARRAY[
-      'profiles','personnel','assets','budgets',
-      'farmer_registry','gis_areas','disasters',
-      'large_plots','learning_centers','certifications','crop_production',
-      'community_enterprises','smart_farmers','farmer_groups','young_farmer_groups','agri_tourism',
-      'pest_outbreaks','pest_centers','biocontrol_stock','fire_hotspots'
-    ])
-  LOOP
-    EXECUTE format('CREATE POLICY "Allow authenticated full access" ON %I FOR ALL TO authenticated USING (true) WITH CHECK (true)', tbl);
-  END LOOP;
-END $$;
+-- Broad authenticated full-access policies were removed.
+-- Apply supabase/rls_role_hardening.sql after this schema for role-based access.
 
 DROP POLICY IF EXISTS "Allow public read smart farmer sf" ON smart_farmer_sf;
 DROP POLICY IF EXISTS "Allow authenticated full access" ON smart_farmer_sf;

@@ -1,6 +1,6 @@
 ﻿import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Card, Checkbox, Col, Form, Input, InputNumber, Modal, Popconfirm, Popover, Row, Select, Space, Spin, Statistic, Table, Tag, Tooltip, message } from 'antd';
-import { BarChartOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, FileExcelOutlined, FilterOutlined, PlusOutlined, ReloadOutlined, SettingOutlined, TeamOutlined, UploadOutlined } from '@ant-design/icons';
+import { BarChartOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, FilterOutlined, PlusOutlined, ReloadOutlined, SettingOutlined, TeamOutlined, UploadOutlined } from '@ant-design/icons';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip,
     ResponsiveContainer
@@ -295,7 +295,7 @@ export default function AgriculturalCareerGroups() {
         </div>
     );
 
-    const exportRows = (format) => {
+    const exportRows = () => {
         const exportColumns = getPublicColumns('agricultural_career_groups', columns, role).filter((column) => column.dataIndex);
         const headers = exportColumns.map((column) => column.title);
         const exportData = filteredRows.map((row) => {
@@ -305,17 +305,6 @@ export default function AgriculturalCareerGroups() {
             });
             return record;
         });
-
-        if (format === 'xlsx') {
-            import('xlsx').then(({ utils, writeFile }) => {
-                const worksheet = utils.json_to_sheet(exportData);
-                worksheet['!cols'] = headers.map((header) => ({ wch: Math.max(String(header).length * 2, 15) }));
-                const workbook = utils.book_new();
-                utils.book_append_sheet(workbook, worksheet, `YFG_${activeYear || 'all'}`);
-                writeFile(workbook, `agricultural_career_groups_${activeYear || 'all'}.xlsx`);
-            });
-            return;
-        }
 
         const csv = [
             headers.join(','),
@@ -422,8 +411,7 @@ export default function AgriculturalCareerGroups() {
                             </Tooltip>
                             {userCanEdit && <Button icon={<PlusOutlined />} onClick={handleAdd}>เพิ่มข้อมูล</Button>}
                             {userCanEdit && <Button icon={<UploadOutlined />} onClick={() => setImportOpen(true)}>Import CSV</Button>}
-                            <Button icon={<DownloadOutlined />} onClick={() => exportRows('csv')}>Export CSV</Button>
-                            <Button icon={<FileExcelOutlined />} onClick={() => exportRows('xlsx')}>Export Excel</Button>
+                            <Button icon={<DownloadOutlined />} onClick={exportRows}>Export CSV</Button>
                         </Space>
                         <Popover content={columnSelector} trigger="click" placement="bottomRight">
                             <Button icon={<SettingOutlined />}>คอลัมน์ {baseVisibleColumns.length}/{selectableColumns.length}</Button>

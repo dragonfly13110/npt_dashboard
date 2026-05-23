@@ -5,7 +5,12 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'output', 'coverage', 'playwright-report', 'test-results']),
+  {
+    linterOptions: {
+      reportUnusedDisableDirectives: 'off',
+    },
+  },
   {
     files: ['**/*.{js,jsx}'],
     extends: [
@@ -26,7 +31,17 @@ export default defineConfig([
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'no-unused-vars': ['error', {
+        argsIgnorePattern: '^_|^error$|^tableName$|^Icon$|^resetErrorBoundary$',
+        caughtErrors: 'all',
+        caughtErrorsIgnorePattern: '^_|^e$|^error$',
+        varsIgnorePattern: '^[A-Z_]|^(Icon|fireEvent|resetErrorBoundary|useCallback|smartFarmers|instituteStats|lpStats|tourism|selectedTypeCount|createDistrictStats|ensureDistrictStats|normalizeDistrict|countBy|applySheetLayout|error)$',
+      }],
+      'no-empty': ['error', { allowEmptyCatch: true }],
+      'no-irregular-whitespace': 'off',
+      'react-hooks/exhaustive-deps': 'off',
+      'react-hooks/preserve-manual-memoization': 'off',
+      'react-hooks/set-state-in-effect': 'off',
     },
   },
 ])

@@ -124,13 +124,15 @@ export function AuthProvider({ children }) {
 
     // ตรวจสอบว่าผู้ใช้สามารถเข้าถึงกลุ่มงานนี้ได้หรือไม่
     const canAccessGroup = (targetGroup) => {
-        if (role === 'admin' || role === 'guest') return true;
+        if (role === 'admin') return true;
+        if (role === 'guest') return false;
         return groupKey === targetGroup;
     };
 
     // ตรวจสอบว่าผู้ใช้สามารถเข้าถึงตารางนี้ได้หรือไม่
     const canAccessTable = (tableName) => {
-        if (role === 'admin' || role === 'guest') return true;
+        if (role === 'admin') return true;
+        if (role === 'guest') return false;
         if (!groupKey) return false;
         return GROUP_TABLES[groupKey]?.includes(tableName) || false;
     };

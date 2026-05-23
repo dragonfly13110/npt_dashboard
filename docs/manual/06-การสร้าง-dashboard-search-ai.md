@@ -1204,9 +1204,9 @@ buildContextForAI(analysis)
 
 | provider | env ที่ใช้ |
 |---|---|
-| `gemini` | `GEMINI_API_KEY` หรือ fallback `VITE_GEMINI_API_KEY` |
-| `openrouter` | `OPENROUTER_API_KEY` หรือ fallback `VITE_OPENROUTER_API_KEY` |
-| `nvidia` | `NVIDIA_API_KEY` หรือ fallback `VITE_NVIDIA_API_KEY` |
+| `gemini` | `GEMINI_API_KEY` |
+| `openrouter` | `OPENROUTER_API_KEY` |
+| `nvidia` | `NVIDIA_API_KEY` |
 
 ข้อควรปฏิบัติ
 

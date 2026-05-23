@@ -13,6 +13,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useApiCache } from '../../hooks/useApiCache';
 import { supabase } from '../../supabaseClient';
 import { getPublicColumns } from '../../utils/dataPrivacy';
+import { downloadCsv, objectsToCsv } from '../../utils/csv';
 
 export default function CrudTable({ tableName, title, columns, formFields, searchField, searchFields, filterConfig = [], scrollX = 1000, defaultSort = null, extraActions = null, fetchDataOverride = null, fetchAllOverride = null, requiredColumns = null, defaultColumns = null }) {
     const { createRecord, updateRecord, deleteRecord, fetchAll } = useSupabaseCrud(tableName);
@@ -236,12 +237,11 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
         URL.revokeObjectURL(url);
     };
 
-    const handleExportExcel = async () => {
+    const handleExportAllCSV = async () => {
         try {
             const allData = fetchAllOverride ? await fetchAllOverride() : await fetchAll();
             if (!allData.length) return;
 
-            const { utils, writeFile } = await import('xlsx');
             const headers = visibleColumns.filter(c => c.dataIndex).map(c => c.title);
             const keys = visibleColumns.filter(c => c.dataIndex).map(c => c.dataIndex);
             const rows = allData.map(row => {
@@ -250,13 +250,9 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
                 return obj;
             });
 
-            const ws = utils.json_to_sheet(rows);
-            ws['!cols'] = headers.map(h => ({ wch: Math.max(h.length * 2, 15) }));
-            const wb = utils.book_new();
-            utils.book_append_sheet(wb, ws, title.slice(0, 31));
-            writeFile(wb, `${tableName}_${new Date().toISOString().slice(0, 10)}.xlsx`);
+            downloadCsv(`${tableName}_${new Date().toISOString().slice(0, 10)}_all.csv`, objectsToCsv(rows));
         } catch (err) {
-            console.error('Excel export error:', err);
+            console.error('CSV export error:', err);
         }
     };
 
@@ -347,8 +343,8 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
                     <Button icon={<DownloadOutlined />} onClick={handleExportCSV} className="export-btn">
                         Export CSV
                     </Button>
-                    <Button icon={<FileExcelOutlined />} onClick={handleExportExcel} className="export-btn export-excel-btn">
-                        Export Excel
+                    <Button icon={<FileExcelOutlined />} onClick={handleExportAllCSV} className="export-btn export-excel-btn">
+                        Export All CSV
                     </Button>
                     <Popover content={columnSelector} trigger="click" placement="bottomRight">
                         <Button icon={<SettingOutlined />} className="export-btn">

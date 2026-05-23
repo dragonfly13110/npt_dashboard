@@ -1,42 +1,42 @@
 import React, { useState } from 'react';
 import { Card, Button, Input, Select, Switch, Tabs, Table, Tag, Form, message, Typography, Divider, Radio, Space, Upload, Alert } from 'antd';
 import { PlusOutlined, DeleteOutlined, SaveOutlined, SendOutlined, DownloadOutlined, UploadOutlined, MinusCircleOutlined, ThunderboltOutlined } from '@ant-design/icons';
-import * as XLSX from 'xlsx';
+import { downloadCsv, parseCsvFile, rowsToCsv } from '../utils/csv';
 
 const { Option } = Select;
 const { Title, Text } = Typography;
 
 const PlantProtectionFormDemo = () => {
-  // สเตตจำลองสำหรับการเก็บตัวสร้างเอกสาร (JSON Schema)
-  // ค่าเริ่มต้นเป็นแบบง่าย
+  // à¸ªà¹€à¸•à¸•à¸ˆà¸³à¸¥à¸­à¸‡à¸ªà¸³à¸«à¸£à¸±à¸šà¸à¸²à¸£à¹€à¸à¹‡à¸šà¸•à¸±à¸§à¸ªà¸£à¹‰à¸²à¸‡à¹€à¸­à¸à¸ªà¸²à¸£ (JSON Schema)
+  // à¸„à¹ˆà¸²à¹€à¸£à¸´à¹ˆà¸¡à¸•à¹‰à¸™à¹€à¸›à¹‡à¸™à¹à¸šà¸šà¸‡à¹ˆà¸²à¸¢
   const simpleSchema = [
-    { id: 'sys-1', type: 'select', label: 'อำเภอ', required: true, options: 'เมืองนครปฐม,กำแพงแสน,นครชัยศรี,ดอนตูม,บางเลน,สามพราน,พุทธมณฑล' },
-    { id: 'sys-2', type: 'text', label: 'ตำบล', required: true },
-    { id: '1', type: 'text', label: 'ชื่อผู้รายงาน (เกษตรกร/กลุ่ม)', required: true },
-    { id: '2', type: 'select', label: 'ชนิดศัตรูพืชที่พบ', required: true, options: 'เพลี้ยกระโดด,หนอนกระทู้,โรคใบด่าง' },
-    { id: '3', type: 'number', label: 'พื้นที่เสียหายโดยประมาณ (ไร่)', required: false }
+    { id: 'sys-1', type: 'select', label: 'à¸­à¸³à¹€à¸ à¸­', required: true, options: 'à¹€à¸¡à¸·à¸­à¸‡à¸™à¸„à¸£à¸›à¸à¸¡,à¸à¸³à¹à¸žà¸‡à¹à¸ªà¸™,à¸™à¸„à¸£à¸Šà¸±à¸¢à¸¨à¸£à¸µ,à¸”à¸­à¸™à¸•à¸¹à¸¡,à¸šà¸²à¸‡à¹€à¸¥à¸™,à¸ªà¸²à¸¡à¸žà¸£à¸²à¸™,à¸žà¸¸à¸—à¸˜à¸¡à¸“à¸‘à¸¥' },
+    { id: 'sys-2', type: 'text', label: 'à¸•à¸³à¸šà¸¥', required: true },
+    { id: '1', type: 'text', label: 'à¸Šà¸·à¹ˆà¸­à¸œà¸¹à¹‰à¸£à¸²à¸¢à¸‡à¸²à¸™ (à¹€à¸à¸©à¸•à¸£à¸à¸£/à¸à¸¥à¸¸à¹ˆà¸¡)', required: true },
+    { id: '2', type: 'select', label: 'à¸Šà¸™à¸´à¸”à¸¨à¸±à¸•à¸£à¸¹à¸žà¸·à¸Šà¸—à¸µà¹ˆà¸žà¸š', required: true, options: 'à¹€à¸žà¸¥à¸µà¹‰à¸¢à¸à¸£à¸°à¹‚à¸”à¸”,à¸«à¸™à¸­à¸™à¸à¸£à¸°à¸—à¸¹à¹‰,à¹‚à¸£à¸„à¹ƒà¸šà¸”à¹ˆà¸²à¸‡' },
+    { id: '3', type: 'number', label: 'à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆà¹€à¸ªà¸µà¸¢à¸«à¸²à¸¢à¹‚à¸”à¸¢à¸›à¸£à¸°à¸¡à¸²à¸“ (à¹„à¸£à¹ˆ)', required: false }
   ];
 
   const [formSchema, setFormSchema] = useState(simpleSchema);
   const [responses, setResponses] = useState([]);
-  
-  // สำหรับการสลับโหมดใน Tab 2
-  const [entryViewMode, setEntryViewMode] = useState('form'); 
-  const [gridData, setGridData] = useState([{}]); // เก็บข้อมูลตาราง (เริ่ม 1 แถวเปล่า)
+
+  // à¸ªà¸³à¸«à¸£à¸±à¸šà¸à¸²à¸£à¸ªà¸¥à¸±à¸šà¹‚à¸«à¸¡à¸”à¹ƒà¸™ Tab 2
+  const [entryViewMode, setEntryViewMode] = useState('form');
+  const [gridData, setGridData] = useState([{}]); // à¹€à¸à¹‡à¸šà¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸•à¸²à¸£à¸²à¸‡ (à¹€à¸£à¸´à¹ˆà¸¡ 1 à¹à¸–à¸§à¹€à¸›à¸¥à¹ˆà¸²)
 
   const [antForm] = Form.useForm();
-  
-  // Watch ค่าทั้งหมดเพื่อทำ Conditional Logic
+
+  // Watch à¸„à¹ˆà¸²à¸—à¸±à¹‰à¸‡à¸«à¸¡à¸”à¹€à¸žà¸·à¹ˆà¸­à¸—à¸³ Conditional Logic
   const currentValues = Form.useWatch([], antForm);
 
-  // ฟังชั่นเช็คว่าฟิลด์นี้ควรแสดงไหม
+  // à¸Ÿà¸±à¸‡à¸Šà¸±à¹ˆà¸™à¹€à¸Šà¹‡à¸„à¸§à¹ˆà¸²à¸Ÿà¸´à¸¥à¸”à¹Œà¸™à¸µà¹‰à¸„à¸§à¸£à¹à¸ªà¸”à¸‡à¹„à¸«à¸¡
   const isFieldVisible = (field) => {
     if (!field.visible_if) return true;
     const watchValue = currentValues?.[field.visible_if.field];
     return watchValue === field.visible_if.equals;
   };
 
-  // --- Functions สำหรับเครื่องมือสร้างฟอร์ม (Builder) ---
+  // --- Functions à¸ªà¸³à¸«à¸£à¸±à¸šà¹€à¸„à¸£à¸·à¹ˆà¸­à¸‡à¸¡à¸·à¸­à¸ªà¸£à¹‰à¸²à¸‡à¸Ÿà¸­à¸£à¹Œà¸¡ (Builder) ---
   const updateBuilderField = (id, key, value) => {
     setFormSchema(prev => prev.map(f => f.id === id ? { ...f, [key]: value } : f));
   };
@@ -50,48 +50,36 @@ const PlantProtectionFormDemo = () => {
     setFormSchema(prev => [...prev, { id: newId, type: 'text', label: '', required: false }]);
   };
 
-  const handleBuildFromExcel = (file) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const data = e.target.result;
-        const workbook = XLSX.read(data, { type: 'binary' });
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
-        
-        // อ่านแบบดึงเฉพาะหัวคอลัมน์ (row แรกสุด)
-        const rawData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-        if(rawData.length > 0) {
-          const headers = rawData[0]; // แถวแรกของ Excel
+  const handleBuildFromCsv = (file) => {
+    parseCsvFile(file)
+      .then((rawData) => {
+        if (rawData.length > 0) {
+          const headers = rawData[0];
           const newSchema = headers.filter(h => h).map((header, index) => ({
               id: `ex-${Date.now()}-${index}`,
-              type: 'text', // ค่าเริ่มต้นให้เป็นกรอกข้อความก่อน
+              type: 'text',
               label: header,
               required: false
           }));
-          
           setFormSchema(newSchema);
-          message.success(`สร้างฟอร์มจาก Excel ลุล่วง! พบทั้งหมด ${newSchema.length} คำถาม`);
+          message.success(`สร้างฟอร์มจาก CSV สำเร็จ พบทั้งหมด ${newSchema.length} คำถาม`);
         } else {
-          message.warning("ไม่พบหัวคอลัมน์ในไฟล์ Excel");
+          message.warning('ไม่พบหัวคอลัมน์ในไฟล์ CSV');
         }
-      } catch (err) { // eslint-disable-line no-unused-vars
-        message.error("เกิดข้อผิดพลาดในการอ่านไฟล์ Excel");
-      }
-    };
-    reader.readAsBinaryString(file);
-    return false; // หยุด default upload behavior
+      })
+      .catch(() => message.error('เกิดข้อผิดพลาดในการอ่านไฟล์ CSV'));
+    return false;
   };
 
   const handleSingleSubmit = (values) => {
     const newResponse = { id: Date.now().toString(), timestamp: new Date().toLocaleString('th-TH'), answers: values };
     setResponses([...responses, newResponse]);
-    message.success('บันทึกข้อมูลเข้าระบบสำเร็จ!');
+    message.success('à¸šà¸±à¸™à¸—à¸¶à¸à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹€à¸‚à¹‰à¸²à¸£à¸°à¸šà¸šà¸ªà¸³à¹€à¸£à¹‡à¸ˆ!');
     antForm.resetFields();
   };
 
-  // --- Functions สำหรับตารางจำลอง Excel (Grid Mode) ---
-  const flatSchema = formSchema.filter(f => f.type !== 'repeater'); // ตารางแบนๆ ไม่รองรับ repeater ตอนนี้
+  // --- Functions à¸ªà¸³à¸«à¸£à¸±à¸šà¸•à¸²à¸£à¸²à¸‡à¸ˆà¸³à¸¥à¸­à¸‡ CSV (Grid Mode) ---
+  const flatSchema = formSchema.filter(f => f.type !== 'repeater'); // à¸•à¸²à¸£à¸²à¸‡à¹à¸šà¸™à¹† à¹„à¸¡à¹ˆà¸£à¸­à¸‡à¸£à¸±à¸š repeater à¸•à¸­à¸™à¸™à¸µà¹‰
 
   const updateGridValue = (rowIndex, fieldId, value) => {
     const newData = [...gridData];
@@ -104,7 +92,7 @@ const PlantProtectionFormDemo = () => {
     const pasteText = e.clipboardData.getData('Text');
     if (!pasteText) return;
 
-    // แยกแถว (บรรทัด) และ คอลัมน์ (tab) แบบที่ Excel ชอบใช้ก็อปปี้
+    // à¹à¸¢à¸à¹à¸–à¸§ (à¸šà¸£à¸£à¸—à¸±à¸”) à¹à¸¥à¸° à¸„à¸­à¸¥à¸±à¸¡à¸™à¹Œ (tab) à¹à¸šà¸šà¸—à¸µà¹ˆ CSV à¸Šà¸­à¸šà¹ƒà¸Šà¹‰à¸à¹‡à¸­à¸›à¸›à¸µà¹‰
     const rows = pasteText.split(/\r?\n/).filter(r => r.length > 0 || r.trim() !== '');
     const pasteData = rows.map(r => r.split('\t'));
 
@@ -115,7 +103,7 @@ const PlantProtectionFormDemo = () => {
 
     pasteData.forEach((rowValues, i) => {
       const targetRow = startRowIndex + i;
-      if (!newData[targetRow]) newData[targetRow] = {}; // สร้างแถวใหม่ถ้ายังไม่มี
+      if (!newData[targetRow]) newData[targetRow] = {}; // à¸ªà¸£à¹‰à¸²à¸‡à¹à¸–à¸§à¹ƒà¸«à¸¡à¹ˆà¸–à¹‰à¸²à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µ
 
       rowValues.forEach((cellValue, j) => {
         const targetCol = startColIndex + j;
@@ -133,57 +121,38 @@ const PlantProtectionFormDemo = () => {
     setGridData([...gridData, {}]);
   };
 
-  const handleDataFromExcel = (file) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const data = e.target.result;
-        const workbook = XLSX.read(data, { type: 'binary' });
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
-        
-        // อ่านข้อมูลมาเป็น 2D Array
-        const rawData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-        if (rawData.length > 1) { // แถวที่ 0 คือ Header เราต้องการข้อมูลตั้งแต่แถว 1
+  const handleDataFromCsv = (file) => {
+    parseCsvFile(file)
+      .then((rawData) => {
+        if (rawData.length > 1) {
            const newGridData = [];
-           for (let i = 1; i < rawData.length; i++) {
+           for (let i = 1; i < rawData.length; i += 1) {
              const rowValues = rawData[i];
-             // ข้ามแถวที่ว่างสนิท
              if (!rowValues || rowValues.length === 0 || rowValues.every(c => c === undefined || c === null || c === '')) continue;
-             
-             let newRowObj = {};
+             const newRowObj = {};
              rowValues.forEach((cellValue, j) => {
-                if (j < flatSchema.length) {
-                   const fieldId = flatSchema[j].id;
-                   newRowObj[fieldId] = cellValue;
-                }
+                if (j < flatSchema.length) newRowObj[flatSchema[j].id] = cellValue;
              });
              newGridData.push(newRowObj);
            }
            if (newGridData.length > 0) {
              setGridData(newGridData);
-             message.success(`นำเข้าข้อมูลลงตารางให้ตรวจสอบได้ ${newGridData.length} รายการ (กรุณากดปุ่มส่งข้อมูลเข้าระบบอีกครั้ง)`);
+             message.success(`นำเข้าข้อมูลลงตารางให้ตรวจสอบได้ ${newGridData.length} รายการ`);
            } else {
-             message.warning("ไม่พบข้อมูลในไฟล์ Excel (เห็นแค่หัวตาราง)");
+             message.warning('ไม่พบข้อมูลในไฟล์ CSV');
            }
         } else {
-             message.warning("ไฟล์ Excel นี้ว่างเปล่า หรือไม่มีแถวข้อมูลถัดจากหัวตาราง");
+             message.warning('ไฟล์ CSV นี้ว่างเปล่า หรือไม่มีแถวข้อมูลถัดจากหัวตาราง');
         }
-      } catch (err) { // eslint-disable-line no-unused-vars
-        message.error("เกิดปัญหาในการดึงข้อมูลจาก Excel");
-      }
-    };
-    reader.readAsBinaryString(file);
+      })
+      .catch(() => message.error('เกิดปัญหาในการดึงข้อมูลจาก CSV'));
     return false;
   };
 
   const handleDownloadTemplate = () => {
      const headers = flatSchema.map(f => f.label);
-     const worksheet = XLSX.utils.aoa_to_sheet([headers]);
-     const workbook = XLSX.utils.book_new();
-     XLSX.utils.book_append_sheet(workbook, worksheet, "Template");
-     XLSX.writeFile(workbook, "แบบฟอร์มฟอร์มกรอกข้อมูลระดับอำเภอ.xlsx");
-     message.success("สร้างไฟล์ Template สำเร็จ!");
+     downloadCsv('plant-protection-template.csv', rowsToCsv([headers]));
+     message.success('สร้างไฟล์ Template สำเร็จ!');
   };
 
   const handleGridSubmit = () => {
@@ -192,10 +161,10 @@ const PlantProtectionFormDemo = () => {
       timestamp: new Date().toLocaleString('th-TH'),
       answers: row
     }));
-    
+
     setResponses([...responses, ...newResponses]);
-    setGridData([{}]); // รีเซ็ตเป็นค่าว่าง
-    message.success(`นำเข้าและบันทึกข้อมูลจากตารางสำเร็จ ${newResponses.length} รายการ!`);
+    setGridData([{}]); // à¸£à¸µà¹€à¸‹à¹‡à¸•à¹€à¸›à¹‡à¸™à¸„à¹ˆà¸²à¸§à¹ˆà¸²à¸‡
+    message.success(`à¸™à¸³à¹€à¸‚à¹‰à¸²à¹à¸¥à¸°à¸šà¸±à¸™à¸—à¸¶à¸à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ˆà¸²à¸à¸•à¸²à¸£à¸²à¸‡à¸ªà¸³à¹€à¸£à¹‡à¸ˆ ${newResponses.length} à¸£à¸²à¸¢à¸à¸²à¸£!`);
   };
 
   const gridColumns = flatSchema.map(field => ({
@@ -203,21 +172,21 @@ const PlantProtectionFormDemo = () => {
     dataIndex: field.id,
     key: field.id,
     render: (text, record, index) => (
-      <Input 
-        value={record[field.id] || ''} 
+      <Input
+        value={record[field.id] || ''}
         onChange={(e) => updateGridValue(index, field.id, e.target.value)}
         onPaste={(e) => handleGridPaste(e, index, field.id)}
-        placeholder={`กรอก ${field.label}`}
+        placeholder={`à¸à¸£à¸­à¸ ${field.label}`}
         style={{ minWidth: 150 }}
       />
     )
   }));
 
   const renderFieldInput = (type, options) => {
-    if (type === 'text') return <Input placeholder="พิมพ์ข้อความ..." />;
+    if (type === 'text') return <Input placeholder="à¸žà¸´à¸¡à¸žà¹Œà¸‚à¹‰à¸­à¸„à¸§à¸²à¸¡..." />;
     if (type === 'number') return <Input type="number" placeholder="0" style={{ width: '100%' }} />;
     if (type === 'select') return (
-      <Select placeholder="-- กรุณาเลือก --">
+      <Select placeholder="-- à¸à¸£à¸¸à¸“à¸²à¹€à¸¥à¸·à¸­à¸ --">
         {options?.split(',').map(opt => <Option key={opt} value={opt.trim()}>{opt.trim()}</Option>)}
       </Select>
     );
@@ -227,81 +196,81 @@ const PlantProtectionFormDemo = () => {
   return (
     <div style={{ padding: '24px', background: '#f0f2f5', minHeight: '100vh' }}>
       <Space align="center" style={{ marginBottom: 16 }}>
-        <Title level={2} style={{ margin: 0 }}>ระบบสร้างคำขอข้อมูลด่วน (Fast Entry Builder)</Title>
-        <Upload beforeUpload={handleBuildFromExcel} showUploadList={false} accept=".xlsx,.xls">
+        <Title level={2} style={{ margin: 0 }}>à¸£à¸°à¸šà¸šà¸ªà¸£à¹‰à¸²à¸‡à¸„à¸³à¸‚à¸­à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸”à¹ˆà¸§à¸™ (Fast Entry Builder)</Title>
+        <Upload beforeUpload={handleBuildFromCsv} showUploadList={false} accept=".csv,text/csv">
           <Button style={{ background: '#108ee9', color: '#fff' }} icon={<UploadOutlined />}>
-            นำเข้าไฟล์ Excel สร้างฟอร์มอัตโนมัติ!
+            à¸™à¸³à¹€à¸‚à¹‰à¸²à¹„à¸Ÿà¸¥à¹Œ CSV à¸ªà¸£à¹‰à¸²à¸‡à¸Ÿà¸­à¸£à¹Œà¸¡à¸­à¸±à¸•à¹‚à¸™à¸¡à¸±à¸•à¸´!
           </Button>
         </Upload>
       </Space>
-      
+
       <Tabs defaultActiveKey="1" type="card">
-        
+
         {/* Tab 1: Form Builder */}
-        <Tabs.TabPane tab="1. การออกแบบฟอร์ม (หน้าจอของจังหวัด)" key="1">
-          <Card title="เครื่องมือสร้างคำถาม (แบบง่าย)" extra={<Button type="primary" icon={<SaveOutlined />}>บันทึกโครงสร้างฟอร์ม</Button>}>
-            <Alert message="สามารถกด 'เพิ่มคำถามใหม่' หรือกดปุ่มอัปโหลด Excel สีฟ้าด้านบนเพื่อให้ระบบแกะหัวคอลัมน์มาเป็นคำถามแบบอัตโนมัติ" type="info" showIcon style={{ marginBottom: 20 }} />
+        <Tabs.TabPane tab="1. à¸à¸²à¸£à¸­à¸­à¸à¹à¸šà¸šà¸Ÿà¸­à¸£à¹Œà¸¡ (à¸«à¸™à¹‰à¸²à¸ˆà¸­à¸‚à¸­à¸‡à¸ˆà¸±à¸‡à¸«à¸§à¸±à¸”)" key="1">
+          <Card title="à¹€à¸„à¸£à¸·à¹ˆà¸­à¸‡à¸¡à¸·à¸­à¸ªà¸£à¹‰à¸²à¸‡à¸„à¸³à¸–à¸²à¸¡ (à¹à¸šà¸šà¸‡à¹ˆà¸²à¸¢)" extra={<Button type="primary" icon={<SaveOutlined />}>à¸šà¸±à¸™à¸—à¸¶à¸à¹‚à¸„à¸£à¸‡à¸ªà¸£à¹‰à¸²à¸‡à¸Ÿà¸­à¸£à¹Œà¸¡</Button>}>
+            <Alert message="à¸ªà¸²à¸¡à¸²à¸£à¸–à¸à¸” 'à¹€à¸žà¸´à¹ˆà¸¡à¸„à¸³à¸–à¸²à¸¡à¹ƒà¸«à¸¡à¹ˆ' à¸«à¸£à¸·à¸­à¸à¸”à¸›à¸¸à¹ˆà¸¡à¸­à¸±à¸›à¹‚à¸«à¸¥à¸” CSV à¸ªà¸µà¸Ÿà¹‰à¸²à¸”à¹‰à¸²à¸™à¸šà¸™à¹€à¸žà¸·à¹ˆà¸­à¹ƒà¸«à¹‰à¸£à¸°à¸šà¸šà¹à¸à¸°à¸«à¸±à¸§à¸„à¸­à¸¥à¸±à¸¡à¸™à¹Œà¸¡à¸²à¹€à¸›à¹‡à¸™à¸„à¸³à¸–à¸²à¸¡à¹à¸šà¸šà¸­à¸±à¸•à¹‚à¸™à¸¡à¸±à¸•à¸´" type="info" showIcon style={{ marginBottom: 20 }} />
 
             <div style={{ background: '#fff', padding: '16px', borderRadius: '8px', border: '1px solid #d9d9d9' }}>
                <Space direction="vertical" style={{ width: '100%' }} size="middle">
-                  
-                  {/* แสดงฟิลด์ที่จังหวัดเพิ่มเอง */}
+
+                  {/* à¹à¸ªà¸”à¸‡à¸Ÿà¸´à¸¥à¸”à¹Œà¸—à¸µà¹ˆà¸ˆà¸±à¸‡à¸«à¸§à¸±à¸”à¹€à¸žà¸´à¹ˆà¸¡à¹€à¸­à¸‡ */}
                   {formSchema.filter(f => !f.id.startsWith('sys-')).map((field, index) => (
                      <div key={field.id} style={{ display: 'flex', gap: '10px', alignItems: 'center', background: '#fff', padding: '8px', borderBottom: '1px solid #f0f0f0' }}>
                        <span style={{ fontWeight: 'bold', width: '20px' }}>{index + 1}.</span>
-                       <Input 
-                         value={field.label} 
+                       <Input
+                         value={field.label}
                          onChange={(e) => updateBuilderField(field.id, 'label', e.target.value)}
-                         placeholder="คำถาม เช่น จำนวนประชากร, พื้นที่เพาะปลูก" 
-                         style={{ width: 400 }} 
+                         placeholder="à¸„à¸³à¸–à¸²à¸¡ à¹€à¸Šà¹ˆà¸™ à¸ˆà¸³à¸™à¸§à¸™à¸›à¸£à¸°à¸Šà¸²à¸à¸£, à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆà¹€à¸žà¸²à¸°à¸›à¸¥à¸¹à¸"
+                         style={{ width: 400 }}
                        />
-                       <Select 
-                         value={field.type} 
+                       <Select
+                         value={field.type}
                          onChange={(e) => updateBuilderField(field.id, 'type', e)}
                          style={{ width: 120 }}
                        >
-                         <Option value="text">ข้อความ</Option>
-                         <Option value="number">ตัวเลข</Option>
+                         <Option value="text">à¸‚à¹‰à¸­à¸„à¸§à¸²à¸¡</Option>
+                         <Option value="number">à¸•à¸±à¸§à¹€à¸¥à¸‚</Option>
                        </Select>
-                       <Button danger type="text" icon={<DeleteOutlined />} onClick={() => removeBuilderField(field.id)}>ลบ</Button>
+                       <Button danger type="text" icon={<DeleteOutlined />} onClick={() => removeBuilderField(field.id)}>à¸¥à¸š</Button>
                      </div>
                   ))}
 
                   <Button type="dashed" onClick={addBuilderField} block icon={<PlusOutlined />} style={{ marginTop: 8 }}>
-                    เพิ่มคำถามใหม่
+                    à¹€à¸žà¸´à¹ˆà¸¡à¸„à¸³à¸–à¸²à¸¡à¹ƒà¸«à¸¡à¹ˆ
                   </Button>
                </Space>
             </div>
           </Card>
         </Tabs.TabPane>
 
-        {/* Tab 2: Form Viewer (รวบรวมวิธีกรอกข้อมูล) */}
-        <Tabs.TabPane tab="2. ส่วนบันทึกข้อมูล (เข้าใช้งานโดยอำเภอ)" key="2">
+        {/* Tab 2: Form Viewer (à¸£à¸§à¸šà¸£à¸§à¸¡à¸§à¸´à¸˜à¸µà¸à¸£à¸­à¸à¸‚à¹‰à¸­à¸¡à¸¹à¸¥) */}
+        <Tabs.TabPane tab="2. à¸ªà¹ˆà¸§à¸™à¸šà¸±à¸™à¸—à¸¶à¸à¸‚à¹‰à¸­à¸¡à¸¹à¸¥ (à¹€à¸‚à¹‰à¸²à¹ƒà¸Šà¹‰à¸‡à¸²à¸™à¹‚à¸”à¸¢à¸­à¸³à¹€à¸ à¸­)" key="2">
           <Card>
             <div style={{ background: '#fffbe6', border: '1px solid #ffe58f', padding: '16px', borderRadius: '8px', marginBottom: '24px' }}>
-              <Title level={4} style={{ color: '#d48806', margin: 0 }}>💡 พรีวิวฟอร์มที่สร้าง:</Title>
-              <Text style={{ color: '#5c5c5c' }}>นี่คือหน้าตาที่ผู้ใช้งานระดับอำเภอจะเห็น คุณสามารถทดสอบกรอกข้อมูลหรืออัปโหลด Excel เพื่อส่งเข้าส่วนกลางได้เลย</Text>
+              <Title level={4} style={{ color: '#d48806', margin: 0 }}>ðŸ’¡ à¸žà¸£à¸µà¸§à¸´à¸§à¸Ÿà¸­à¸£à¹Œà¸¡à¸—à¸µà¹ˆà¸ªà¸£à¹‰à¸²à¸‡:</Title>
+              <Text style={{ color: '#5c5c5c' }}>à¸™à¸µà¹ˆà¸„à¸·à¸­à¸«à¸™à¹‰à¸²à¸•à¸²à¸—à¸µà¹ˆà¸œà¸¹à¹‰à¹ƒà¸Šà¹‰à¸‡à¸²à¸™à¸£à¸°à¸”à¸±à¸šà¸­à¸³à¹€à¸ à¸­à¸ˆà¸°à¹€à¸«à¹‡à¸™ à¸„à¸¸à¸“à¸ªà¸²à¸¡à¸²à¸£à¸–à¸—à¸”à¸ªà¸­à¸šà¸à¸£à¸­à¸à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸«à¸£à¸·à¸­à¸­à¸±à¸›à¹‚à¸«à¸¥à¸” CSV à¹€à¸žà¸·à¹ˆà¸­à¸ªà¹ˆà¸‡à¹€à¸‚à¹‰à¸²à¸ªà¹ˆà¸§à¸™à¸à¸¥à¸²à¸‡à¹„à¸”à¹‰à¹€à¸¥à¸¢</Text>
             </div>
 
             <Divider />
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-              <Title level={5} style={{ margin: 0 }}>ช่องทางกรอกข้อมูล</Title>
+              <Title level={5} style={{ margin: 0 }}>à¸Šà¹ˆà¸­à¸‡à¸—à¸²à¸‡à¸à¸£à¸­à¸à¸‚à¹‰à¸­à¸¡à¸¹à¸¥</Title>
               <Radio.Group value={entryViewMode} onChange={e => setEntryViewMode(e.target.value)} optionType="button" buttonStyle="solid">
-                <Radio.Button value="form">โหมดฟอร์มปกติ (ทีละรายการ)</Radio.Button>
-                <Radio.Button value="grid">โหมดตาราง Excel (รองรับการก็อปปี้วาง)</Radio.Button>
+                <Radio.Button value="form">à¹‚à¸«à¸¡à¸”à¸Ÿà¸­à¸£à¹Œà¸¡à¸›à¸à¸•à¸´ (à¸—à¸µà¸¥à¸°à¸£à¸²à¸¢à¸à¸²à¸£)</Radio.Button>
+                <Radio.Button value="grid">à¹‚à¸«à¸¡à¸”à¸•à¸²à¸£à¸²à¸‡ CSV (à¸£à¸­à¸‡à¸£à¸±à¸šà¸à¸²à¸£à¸à¹‡à¸­à¸›à¸›à¸µà¹‰à¸§à¸²à¸‡)</Radio.Button>
               </Radio.Group>
             </div>
 
             {entryViewMode === 'form' ? (
               <div style={{ maxWidth: 800, margin: '0 auto' }}>
                 <Form form={antForm} layout="vertical" onFinish={handleSingleSubmit} initialValues={{ q_plots: [{}] }}>
-                  
+
                   {formSchema.map((field) => {
-                    // ข้ามหากติดเงื่อนไขวิสัยทัศน์ (Conditional Logic)
+                    // à¸‚à¹‰à¸²à¸¡à¸«à¸²à¸à¸•à¸´à¸”à¹€à¸‡à¸·à¹ˆà¸­à¸™à¹„à¸‚à¸§à¸´à¸ªà¸±à¸¢à¸—à¸±à¸¨à¸™à¹Œ (Conditional Logic)
                     if (!isFieldVisible(field)) return null;
 
-                    // ส่วนการเรนเดอร์แบบ Repeater (ฟอร์มซ้อน)
+                    // à¸ªà¹ˆà¸§à¸™à¸à¸²à¸£à¹€à¸£à¸™à¹€à¸”à¸­à¸£à¹Œà¹à¸šà¸š Repeater (à¸Ÿà¸­à¸£à¹Œà¸¡à¸‹à¹‰à¸­à¸™)
                     if (field.type === 'repeater') {
                       return (
                         <Card key={field.id} size="small" type="inner" title={field.label} style={{ marginBottom: 24, background: '#fafafa' }}>
@@ -310,7 +279,7 @@ const PlantProtectionFormDemo = () => {
                               <>
                                 {subFields.map(({ key, name, ...restField }) => (
                                   <div key={key} style={{ display: 'flex', gap: 16, alignItems: 'flex-end', marginBottom: 16, padding: '12px', background: '#fff', border: '1px solid #e8e8e8', borderRadius: 4 }}>
-                                    
+
                                     {field.sub_fields.map(subItem => (
                                       <Form.Item
                                         key={subItem.id}
@@ -322,15 +291,15 @@ const PlantProtectionFormDemo = () => {
                                         {renderFieldInput(subItem.type, subItem.options)}
                                       </Form.Item>
                                     ))}
-                                    
+
                                     {subFields.length > 1 && (
                                       <Button danger icon={<MinusCircleOutlined />} onClick={() => remove(name)} />
                                     )}
                                   </div>
                                 ))}
-                                
+
                                 <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                                  {`เพิ่มข้อมูลแปลงเพาะปลูกที่ ${subFields.length + 1}`}
+                                  {`à¹€à¸žà¸´à¹ˆà¸¡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹à¸›à¸¥à¸‡à¹€à¸žà¸²à¸°à¸›à¸¥à¸¹à¸à¸—à¸µà¹ˆ ${subFields.length + 1}`}
                                 </Button>
                               </>
                             )}
@@ -339,64 +308,64 @@ const PlantProtectionFormDemo = () => {
                       );
                     }
 
-                    // ฟิลด์ธรรมดา
+                    // à¸Ÿà¸´à¸¥à¸”à¹Œà¸˜à¸£à¸£à¸¡à¸”à¸²
                     return (
-                      <Form.Item key={field.id} name={field.id} label={field.label} rules={[{ required: field.required, message: `กรุณากรอกข้อมูล` }]}>
+                      <Form.Item key={field.id} name={field.id} label={field.label} rules={[{ required: field.required, message: `à¸à¸£à¸¸à¸“à¸²à¸à¸£à¸­à¸à¸‚à¹‰à¸­à¸¡à¸¹à¸¥` }]}>
                         {renderFieldInput(field.type, field.options)}
                       </Form.Item>
                     );
                   })}
-                  
+
                   <Button type="primary" htmlType="submit" icon={<SendOutlined />} size="large" block>
-                    บันทึกข้อมูลทีละรายการ 
+                    à¸šà¸±à¸™à¸—à¸¶à¸à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸—à¸µà¸¥à¸°à¸£à¸²à¸¢à¸à¸²à¸£
                   </Button>
                 </Form>
               </div>
             ) : (
               <div>
-                <Alert message="อัจฉริยะกว่าเดิม!: คุณสามารถไป Copy ข้อมูลใน Excel (ลากคลุมหลายเซลล์) แล้วเอาเมาส์มาคลิกที่ช่องซ้ายบนสุดอันแรก จากนั้นกด Ctrl+V วางพรวดเดียวได้เลย ข้อมูลจะแตกกระจุยลงล็อกให้อัตโนมัติ!" type="info" showIcon style={{ marginBottom: 16 }} />
-                
+                <Alert message="à¸­à¸±à¸ˆà¸‰à¸£à¸´à¸¢à¸°à¸à¸§à¹ˆà¸²à¹€à¸”à¸´à¸¡!: à¸„à¸¸à¸“à¸ªà¸²à¸¡à¸²à¸£à¸–à¹„à¸› Copy à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹ƒà¸™ CSV (à¸¥à¸²à¸à¸„à¸¥à¸¸à¸¡à¸«à¸¥à¸²à¸¢à¹€à¸‹à¸¥à¸¥à¹Œ) à¹à¸¥à¹‰à¸§à¹€à¸­à¸²à¹€à¸¡à¸²à¸ªà¹Œà¸¡à¸²à¸„à¸¥à¸´à¸à¸—à¸µà¹ˆà¸Šà¹ˆà¸­à¸‡à¸‹à¹‰à¸²à¸¢à¸šà¸™à¸ªà¸¸à¸”à¸­à¸±à¸™à¹à¸£à¸ à¸ˆà¸²à¸à¸™à¸±à¹‰à¸™à¸à¸” Ctrl+V à¸§à¸²à¸‡à¸žà¸£à¸§à¸”à¹€à¸”à¸µà¸¢à¸§à¹„à¸”à¹‰à¹€à¸¥à¸¢ à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ˆà¸°à¹à¸•à¸à¸à¸£à¸°à¸ˆà¸¸à¸¢à¸¥à¸‡à¸¥à¹‡à¸­à¸à¹ƒà¸«à¹‰à¸­à¸±à¸•à¹‚à¸™à¸¡à¸±à¸•à¸´!" type="info" showIcon style={{ marginBottom: 16 }} />
+
                 <Space style={{ marginBottom: 16 }}>
                    <Button icon={<DownloadOutlined />} onClick={handleDownloadTemplate}>
-                     1. โหลดเทมเพลต Excel ไปกรอก
+                     1. à¹‚à¸«à¸¥à¸”à¹€à¸—à¸¡à¹€à¸žà¸¥à¸• CSV à¹„à¸›à¸à¸£à¸­à¸
                    </Button>
-                   <Upload beforeUpload={handleDataFromExcel} showUploadList={false} accept=".xlsx,.xls">
+                   <Upload beforeUpload={handleDataFromCsv} showUploadList={false} accept=".csv,text/csv">
                       <Button style={{ background: '#52c41a', color: '#fff' }} icon={<UploadOutlined />}>
-                        2. อัปโหลด Excel ที่กรอกเสร็จแล้ว
+                        2. à¸­à¸±à¸›à¹‚à¸«à¸¥à¸” CSV à¸—à¸µà¹ˆà¸à¸£à¸­à¸à¹€à¸ªà¸£à¹‡à¸ˆà¹à¸¥à¹‰à¸§
                       </Button>
                    </Upload>
                 </Space>
 
-                <Table 
-                  columns={gridColumns} 
-                  dataSource={gridData.map((d, i) => ({...d, key: i}))} 
-                  pagination={false} 
+                <Table
+                  columns={gridColumns}
+                  dataSource={gridData.map((d, i) => ({...d, key: i}))}
+                  pagination={false}
                   scroll={{ x: 'max-content' }}
                   size="small"
                   bordered
                 />
                 <Space style={{ marginTop: 16, width: '100%', justifyContent: 'space-between' }}>
-                  <Button type="dashed" onClick={addGridRow} icon={<PlusOutlined />}>เพิ่มแถวเปล่า 1 แถว</Button>
-                  <Button type="primary" onClick={handleGridSubmit} icon={<SendOutlined />} size="large">บันทึกข้อมูลตารางทั้งหมดเข้าระบบส่วนกลาง</Button>
+                  <Button type="dashed" onClick={addGridRow} icon={<PlusOutlined />}>à¹€à¸žà¸´à¹ˆà¸¡à¹à¸–à¸§à¹€à¸›à¸¥à¹ˆà¸² 1 à¹à¸–à¸§</Button>
+                  <Button type="primary" onClick={handleGridSubmit} icon={<SendOutlined />} size="large">à¸šà¸±à¸™à¸—à¸¶à¸à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸•à¸²à¸£à¸²à¸‡à¸—à¸±à¹‰à¸‡à¸«à¸¡à¸”à¹€à¸‚à¹‰à¸²à¸£à¸°à¸šà¸šà¸ªà¹ˆà¸§à¸™à¸à¸¥à¸²à¸‡</Button>
                 </Space>
               </div>
             )}
-            
+
           </Card>
         </Tabs.TabPane>
 
         {/* Tab 3: Dashboard */}
-        <Tabs.TabPane tab={`3. ฐานข้อมูลส่วนกลาง (ได้รับแล้ว ${responses.length} รายการ)`} key="3">
-          <Card title="ข้อมูล JSON ใน Database ของการเก็บซับซ้อน">
+        <Tabs.TabPane tab={`3. à¸à¸²à¸™à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ªà¹ˆà¸§à¸™à¸à¸¥à¸²à¸‡ (à¹„à¸”à¹‰à¸£à¸±à¸šà¹à¸¥à¹‰à¸§ ${responses.length} à¸£à¸²à¸¢à¸à¸²à¸£)`} key="3">
+          <Card title="à¸‚à¹‰à¸­à¸¡à¸¹à¸¥ JSON à¹ƒà¸™ Database à¸‚à¸­à¸‡à¸à¸²à¸£à¹€à¸à¹‡à¸šà¸‹à¸±à¸šà¸‹à¹‰à¸­à¸™">
             {responses.length === 0 ? (
-              <Text type="secondary">กรุณาทดลองบันทึกข้อมูลในโหมดต่างๆ เพื่อมาแสดงผลหน้านี้</Text>
+              <Text type="secondary">à¸à¸£à¸¸à¸“à¸²à¸—à¸”à¸¥à¸­à¸‡à¸šà¸±à¸™à¸—à¸¶à¸à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹ƒà¸™à¹‚à¸«à¸¡à¸”à¸•à¹ˆà¸²à¸‡à¹† à¹€à¸žà¸·à¹ˆà¸­à¸¡à¸²à¹à¸ªà¸”à¸‡à¸œà¸¥à¸«à¸™à¹‰à¸²à¸™à¸µà¹‰</Text>
             ) : (
               <div>
-                <Alert message="เมื่อฟอร์มมีความซับซ้อน การรันให้เป็นตาราง Excel แบบ 2 มิติจะเป็นเรื่องยาก ระบบมักจะบันทึกเป็น JSON แบบลึก (Nested JSON) แทน ซึ่งมันเอาไปทำกราฟบน Dashboard ต่อได้ง่ายมากๆ!" type="success" showIcon />
-                
+                <Alert message="à¹€à¸¡à¸·à¹ˆà¸­à¸Ÿà¸­à¸£à¹Œà¸¡à¸¡à¸µà¸„à¸§à¸²à¸¡à¸‹à¸±à¸šà¸‹à¹‰à¸­à¸™ à¸à¸²à¸£à¸£à¸±à¸™à¹ƒà¸«à¹‰à¹€à¸›à¹‡à¸™à¸•à¸²à¸£à¸²à¸‡ CSV à¹à¸šà¸š 2 à¸¡à¸´à¸•à¸´à¸ˆà¸°à¹€à¸›à¹‡à¸™à¹€à¸£à¸·à¹ˆà¸­à¸‡à¸¢à¸²à¸ à¸£à¸°à¸šà¸šà¸¡à¸±à¸à¸ˆà¸°à¸šà¸±à¸™à¸—à¸¶à¸à¹€à¸›à¹‡à¸™ JSON à¹à¸šà¸šà¸¥à¸¶à¸ (Nested JSON) à¹à¸—à¸™ à¸‹à¸¶à¹ˆà¸‡à¸¡à¸±à¸™à¹€à¸­à¸²à¹„à¸›à¸—à¸³à¸à¸£à¸²à¸Ÿà¸šà¸™ Dashboard à¸•à¹ˆà¸­à¹„à¸”à¹‰à¸‡à¹ˆà¸²à¸¢à¸¡à¸²à¸à¹†!" type="success" showIcon />
+
                 {responses.map((resp, i) => (
                   <div key={resp.id} style={{ marginTop: 20, padding: 16, background: '#141414', borderRadius: 8 }}>
-                    <Text style={{ color: '#49aa19', fontWeight: 'bold' }}>รายการส่งที่ {i + 1} (เวลา {resp.timestamp})</Text>
+                    <Text style={{ color: '#49aa19', fontWeight: 'bold' }}>à¸£à¸²à¸¢à¸à¸²à¸£à¸ªà¹ˆà¸‡à¸—à¸µà¹ˆ {i + 1} (à¹€à¸§à¸¥à¸² {resp.timestamp})</Text>
                     <pre style={{ color: '#d4b106', margin: 0, marginTop: 10 }}>{JSON.stringify(resp.answers, null, 2)}</pre>
                   </div>
                 ))}

@@ -3,6 +3,14 @@
 
 export default async (request) => {
     const url = new URL(request.url);
+    const gistdaKey = process.env.GISTDA_API_KEY || process.env.VITE_GISTDA_API_KEY;
+
+    if (!gistdaKey) {
+        return new Response(JSON.stringify({ error: 'GISTDA API key is not configured' }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' },
+        });
+    }
     
     // Extract the GISTDA path after /api/gistda/
     const gistdaPath = url.pathname.replace(/^\/api\/gistda\//, '');
@@ -12,7 +20,7 @@ export default async (request) => {
         const response = await fetch(targetUrl, {
             method: request.method,
             headers: {
-                'API-Key': '2lAkC1Ob7uugojJ1JlgHJPveFRdtCRg51qkZazYqh1fmEf18Me2DtLMsWLOT1aMi',
+                'API-Key': gistdaKey,
                 'accept': 'application/json',
             },
         });

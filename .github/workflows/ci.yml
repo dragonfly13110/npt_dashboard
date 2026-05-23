@@ -2,37 +2,47 @@ name: CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  test:
+  quality:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Use Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Build
-      run: npm run build
+      - uses: actions/checkout@v4
 
-    - name: Run Unit Tests
-      run: npx vitest run --passWithNoTests
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
 
-    # E2E Tests disabled — ต้องตั้ง GitHub Secrets ก่อน (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY)
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint source
+        run: npm run lint:src
+
+      - name: Run unit tests
+        run: npm run test -- --passWithNoTests
+
+      - name: Build
+        run: npm run build
+
+      - name: Security audit
+        run: npm audit --audit-level=moderate
+
+    # E2E is intentionally not part of the primary CI path yet.
+    # Enable after GitHub Secrets are configured:
+    # VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY.
     # - name: Run E2E Tests (Playwright)
     #   run: |
-    #     npx playwright install --with-deps
+    #     npx playwright install --with-deps chromium
     #     npm run test:e2e
-    #   env:
-    #     VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-    #     VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}

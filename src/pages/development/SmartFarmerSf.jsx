@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Card, Checkbox, Col, Form, Input, InputNumber, Modal, Popconfirm, Popover, Row, Select, Space, Spin, Statistic, Table, Tag, Tooltip, message } from 'antd';
-import { BarChartOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, FileExcelOutlined, FilterOutlined, PlusOutlined, ReloadOutlined, SettingOutlined, TeamOutlined, UploadOutlined } from '@ant-design/icons';
+import { BarChartOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, FilterOutlined, PlusOutlined, ReloadOutlined, SettingOutlined, TeamOutlined, UploadOutlined } from '@ant-design/icons';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip,
     ResponsiveContainer
@@ -274,7 +274,7 @@ export default function SmartFarmerSf() {
         };
     }, [filteredRows.length]);
 
-    const exportRows = (format) => {
+    const exportRows = () => {
         const exportColumns = getPublicColumns('smart_farmer_sf', columns, role).filter((column) => column.dataIndex);
         const headers = exportColumns.map((column) => column.title);
         const keys = exportColumns.map((column) => column.dataIndex);
@@ -285,17 +285,6 @@ export default function SmartFarmerSf() {
             });
             return record;
         });
-
-        if (format === 'xlsx') {
-            import('xlsx').then(({ utils, writeFile }) => {
-                const worksheet = utils.json_to_sheet(exportData);
-                worksheet['!cols'] = headers.map((header) => ({ wch: Math.max(String(header).length * 2, 15) }));
-                const workbook = utils.book_new();
-                utils.book_append_sheet(workbook, worksheet, `SF_${activeYear || 'all'}`);
-                writeFile(workbook, `smart_farmer_sf_${activeYear || 'all'}.xlsx`);
-            });
-            return;
-        }
 
         const csv = [
             headers.join(','),
@@ -387,8 +376,7 @@ export default function SmartFarmerSf() {
                             </Tooltip>
                             {userCanEdit && <Button icon={<PlusOutlined />} onClick={handleAdd}>เพิ่มข้อมูล</Button>}
                             {userCanEdit && <Button icon={<UploadOutlined />} onClick={() => setImportOpen(true)}>Import CSV</Button>}
-                            <Button icon={<DownloadOutlined />} onClick={() => exportRows('csv')}>Export CSV</Button>
-                            <Button icon={<FileExcelOutlined />} onClick={() => exportRows('xlsx')}>Export Excel</Button>
+                            <Button icon={<DownloadOutlined />} onClick={exportRows}>Export CSV</Button>
                         </Space>
                         <Popover content={columnSelector} trigger="click" placement="bottomRight">
                             <Button icon={<SettingOutlined />}>คอลัมน์ {baseVisibleColumns.length}/{selectableColumns.length}</Button>
