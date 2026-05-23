@@ -244,29 +244,29 @@ function HousewifeMap({ rows, year }) {
 }
 
 const housewifeColumns = [
-    { title: 'ปีข้อมูล', dataIndex: 'year', key: 'year', width: 95, fixed: 'left', align: 'center' },
-    { title: 'ชื่อกลุ่ม', dataIndex: 'group_name', key: 'group_name', width: 260, fixed: 'left' },
-    { title: 'อำเภอ', dataIndex: 'district', key: 'district', width: 140 },
-    { title: 'ตำบล', dataIndex: 'subdistrict', key: 'subdistrict', width: 140 },
-    { title: 'หมู่', dataIndex: 'moo', key: 'moo', width: 80, align: 'center' },
-    { title: 'เลขที่', dataIndex: 'address_no', key: 'address_no', width: 110 },
-    { title: 'สมาชิก', dataIndex: 'member_count', key: 'member_count', width: 100, align: 'right', render: (v) => number.format(v || 0) },
-    { title: 'กิจกรรมกลุ่ม', dataIndex: 'activity', key: 'activity', width: 260, ellipsis: true },
-    { title: 'ศักยภาพ', dataIndex: 'potential_level', key: 'potential_level', width: 120, render: (v) => v ? <Tag color={v === 'ดี' ? 'green' : 'gold'}>{v}</Tag> : '-' },
-    { title: 'ช่องทางจำหน่าย', dataIndex: 'has_sales_channel', key: 'has_sales_channel', width: 140, render: (v) => <Tag color={yes(v) ? 'blue' : 'default'}>{v || 'ไม่มี'}</Tag> },
-    { title: 'จดทะเบียนวิสาหกิจฯ', dataIndex: 'community_enterprise_registration', key: 'community_enterprise_registration', width: 180 },
-    { title: 'กลุ่มต้นแบบ', dataIndex: 'model_group', key: 'model_group', width: 120 },
-    { title: 'ทุน', dataIndex: 'fund_management', key: 'fund_management', width: 120, align: 'right', render: (v) => money.format(v || 0) },
-    { title: 'รายได้', dataIndex: 'income', key: 'income', width: 120, align: 'right', render: (v) => money.format(v || 0) },
-    { title: 'มาตรฐานการผลิต', dataIndex: 'production_standard', key: 'production_standard', width: 150, render: (v) => v || '-' },
-    { title: 'ออนไลน์ในประเทศ', dataIndex: 'online_domestic', key: 'online_domestic', width: 145, render: (v) => v || '-' },
-    { title: 'ออนไลน์ต่างประเทศ', dataIndex: 'online_international', key: 'online_international', width: 155, render: (v) => v || '-' },
-    { title: 'ออฟไลน์ในประเทศ', dataIndex: 'offline_domestic', key: 'offline_domestic', width: 150, render: (v) => v || '-' },
-    { title: 'ออฟไลน์ต่างประเทศ', dataIndex: 'offline_international', key: 'offline_international', width: 160, render: (v) => v || '-' },
-    { title: 'โทรศัพท์', dataIndex: 'phone', key: 'phone', width: 130, render: (v) => v && v !== '0' ? v : '-' },
-    { title: 'วันที่จัดตั้ง', dataIndex: 'established_text', key: 'established_text', width: 130 },
-    { title: 'Lat', dataIndex: 'lat', key: 'lat', width: 110, render: (v) => hasValue(v) ? Number(v).toFixed(6) : '-' },
-    { title: 'Lon', dataIndex: 'lon', key: 'lon', width: 110, render: (v) => hasValue(v) ? Number(v).toFixed(6) : '-' },
+    { title: 'ปีข้อมูล', dataIndex: 'year', key: 'year', width: 75, fixed: 'left', align: 'center' },
+    { title: 'ชื่อกลุ่ม', dataIndex: 'group_name', key: 'group_name', width: 220, fixed: 'left', ellipsis: true },
+    { title: 'อำเภอ', dataIndex: 'district', key: 'district', width: 100 },
+    { title: 'ตำบล', dataIndex: 'subdistrict', key: 'subdistrict', width: 100 },
+    { title: 'หมู่', dataIndex: 'moo', key: 'moo', width: 60, align: 'center' },
+    { title: 'เลขที่', dataIndex: 'address_no', key: 'address_no', width: 80 },
+    { title: 'สมาชิก', dataIndex: 'member_count', key: 'member_count', width: 80, align: 'right', render: (v) => number.format(v || 0) },
+    { title: 'กิจกรรมกลุ่ม', dataIndex: 'activity', key: 'activity', width: 200, ellipsis: true },
+    { title: 'ศักยภาพ', dataIndex: 'potential_level', key: 'potential_level', width: 95, render: (v) => v ? <Tag color={v === 'ดี' ? 'green' : 'gold'}>{v}</Tag> : '-' },
+    { title: 'ช่องทางจำหน่าย', dataIndex: 'has_sales_channel', key: 'has_sales_channel', width: 110, render: (v) => <Tag color={yes(v) ? 'blue' : 'default'}>{v || 'ไม่มี'}</Tag> },
+    { title: 'จดทะเบียนวิสาหกิจฯ', dataIndex: 'community_enterprise_registration', key: 'community_enterprise_registration', width: 150, ellipsis: true },
+    { title: 'กลุ่มต้นแบบ', dataIndex: 'model_group', key: 'model_group', width: 100, ellipsis: true },
+    { title: 'ทุน', dataIndex: 'fund_management', key: 'fund_management', width: 100, align: 'right', render: (v) => money.format(v || 0) },
+    { title: 'รายได้', dataIndex: 'income', key: 'income', width: 100, align: 'right', render: (v) => money.format(v || 0) },
+    { title: 'มาตรฐานการผลิต', dataIndex: 'production_standard', key: 'production_standard', width: 130, render: (v) => v || '-', ellipsis: true },
+    { title: 'ออนไลน์ในประเทศ', dataIndex: 'online_domestic', key: 'online_domestic', width: 120, render: (v) => v || '-', ellipsis: true },
+    { title: 'ออนไลน์ต่างประเทศ', dataIndex: 'online_international', key: 'online_international', width: 130, render: (v) => v || '-', ellipsis: true },
+    { title: 'ออฟไลน์ในประเทศ', dataIndex: 'offline_domestic', key: 'offline_domestic', width: 120, render: (v) => v || '-', ellipsis: true },
+    { title: 'ออฟไลน์ต่างประเทศ', dataIndex: 'offline_international', key: 'offline_international', width: 130, render: (v) => v || '-', ellipsis: true },
+    { title: 'โทรศัพท์', dataIndex: 'phone', key: 'phone', width: 110, render: (v) => v && v !== '0' ? v : '-' },
+    { title: 'วันที่จัดตั้ง', dataIndex: 'established_text', key: 'established_text', width: 110, ellipsis: true },
+    { title: 'Lat', dataIndex: 'lat', key: 'lat', width: 90, render: (v) => hasValue(v) ? Number(v).toFixed(6) : '-' },
+    { title: 'Lon', dataIndex: 'lon', key: 'lon', width: 90, render: (v) => hasValue(v) ? Number(v).toFixed(6) : '-' },
 ];
 
 // Column picker config
@@ -577,7 +577,7 @@ export function HousewifeFarmerGroups() {
         {
             title: 'จัดการ',
             key: 'actions',
-            width: 110,
+            width: 90,
             fixed: 'right',
             align: 'center',
             render: (_, record) => (
@@ -603,6 +603,10 @@ export function HousewifeFarmerGroups() {
             ),
         },
     ];
+
+    const scrollX = useMemo(() => {
+        return tableColumns.reduce((sum, col) => sum + (col.width || 120), 0);
+    }, [tableColumns]);
 
     return (
         <div>
@@ -693,7 +697,7 @@ export function HousewifeFarmerGroups() {
                     loading={isLoading}
                     columns={tableColumns}
                     dataSource={filteredRows}
-                    scroll={{ x: userCanEdit || userCanDelete ? 3440 : 3300 }}
+                    scroll={{ x: scrollX }}
                     size="middle"
                     pagination={{ pageSize: 10, showSizeChanger: true }}
                 />

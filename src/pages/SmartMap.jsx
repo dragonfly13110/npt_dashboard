@@ -210,6 +210,7 @@ export default function SmartMap() {
     const [searchQuery, setSearchQuery] = useState('');
     const [isSearchFocused, setIsSearchFocused] = useState(false);
     const [weatherData, setWeatherData] = useState({});
+    const [isControlsOpen, setIsControlsOpen] = useState(false);
 
     // All farm coordinates
     const [allCoords, setAllCoords] = useState({ young_farmer: [], career_group: [], forecast: [], hotspot: [] });
@@ -642,8 +643,25 @@ ${cropsStr}
                 <span className="smart-map-title-sub">Smart Agri Map</span>
             </div>
 
+            {/* Toggle button for controls on mobile */}
+            <button
+                className={`smart-map-controls-toggle ${isControlsOpen ? 'active' : ''}`}
+                onClick={() => setIsControlsOpen(prev => !prev)}
+                title="ตัวเลือกแผนที่"
+            >
+                {isControlsOpen ? '✕' : '🥞 เลเยอร์'}
+            </button>
+
+            {isControlsOpen && (
+                <div className="smart-map-controls-backdrop" onClick={() => setIsControlsOpen(false)} />
+            )}
+
             {/* ===== LAYER CONTROL PANEL ===== */}
-            <div className="smart-map-controls">
+            <div className={`smart-map-controls ${isControlsOpen ? 'open' : ''}`}>
+                <div className="controls-mobile-header">
+                    <span>ตัวเลือกแผนที่</span>
+                    <button className="controls-close-btn" onClick={() => setIsControlsOpen(false)}>✕</button>
+                </div>
                 <div className="controls-section-title">ตัวชี้วัด Choropleth</div>
                 {METRICS.map(m => (
                     <button
@@ -719,6 +737,7 @@ ${cropsStr}
             {/* ===== DISTRICT DETAIL PANEL ===== */}
             {selectedDistrict && selectedData && (
                 <div className={`district-panel ${panelClosing ? 'district-panel-closing' : ''}`}>
+                    <div className="panel-drag-handle"></div>
                     <div className="panel-header">
                         <div>
                             <div className="panel-district-name">อ.{selectedDistrict.name}</div>
@@ -1041,28 +1060,30 @@ ${cropsStr}
             )}
 
             {/* ===== KPI STATS BAR ===== */}
-            <div className="smart-map-kpi-bar">
-                <div className="kpi-card">
-                    <span className="kpi-icon">🏠</span>
-                    <span className="kpi-value"><AnimatedNumber value={totals.house} /></span>
-                    <span className="kpi-label">ครัวเรือนเกษตรกร</span>
+            {!selectedDistrict && (
+                <div className="smart-map-kpi-bar">
+                    <div className="kpi-card">
+                        <span className="kpi-icon">🏠</span>
+                        <span className="kpi-value"><AnimatedNumber value={totals.house} /></span>
+                        <span className="kpi-label">ครัวเรือนเกษตรกร</span>
+                    </div>
+                    <div className="kpi-card">
+                        <span className="kpi-icon">🌾</span>
+                        <span className="kpi-value"><AnimatedNumber value={totals.area} /></span>
+                        <span className="kpi-label">พื้นที่เกษตร (ไร่)</span>
+                    </div>
+                    <div className="kpi-card">
+                        <span className="kpi-icon">🤝</span>
+                        <span className="kpi-value"><AnimatedNumber value={totals.ce} /></span>
+                        <span className="kpi-label">วิสาหกิจชุมชน</span>
+                    </div>
+                    <div className="kpi-card">
+                        <span className="kpi-icon">🌱</span>
+                        <span className="kpi-value"><AnimatedNumber value={totals.lp} /></span>
+                        <span className="kpi-label">แปลงใหญ่</span>
+                    </div>
                 </div>
-                <div className="kpi-card">
-                    <span className="kpi-icon">🌾</span>
-                    <span className="kpi-value"><AnimatedNumber value={totals.area} /></span>
-                    <span className="kpi-label">พื้นที่เกษตร (ไร่)</span>
-                </div>
-                <div className="kpi-card">
-                    <span className="kpi-icon">🤝</span>
-                    <span className="kpi-value"><AnimatedNumber value={totals.ce} /></span>
-                    <span className="kpi-label">วิสาหกิจชุมชน</span>
-                </div>
-                <div className="kpi-card">
-                    <span className="kpi-icon">🌱</span>
-                    <span className="kpi-value"><AnimatedNumber value={totals.lp} /></span>
-                    <span className="kpi-label">แปลงใหญ่</span>
-                </div>
-            </div>
+            )}
 
             {/* ===== DISTRICT COMPARISON MODAL ===== */}
             {isCompareOpen && selectedDistrict && selectedData && (
