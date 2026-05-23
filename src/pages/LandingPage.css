@@ -2433,6 +2433,7 @@
 }
 
 .price-ios-product {
+    flex: 1 1 auto;
     min-width: 0;
 }
 
@@ -2550,9 +2551,26 @@
     }
 
     .price-ios-item {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 8px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        align-items: start;
+        gap: 7px;
+        min-height: auto;
+        padding: 12px 14px;
+    }
+
+    .price-ios-product,
+    .price-ios-value {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .price-ios-product strong,
+    .price-ios-product span,
+    .price-ios-value span {
+        overflow: visible;
+        text-overflow: clip;
+        white-space: normal;
     }
 
     .price-ios-oil-list {
@@ -2560,9 +2578,14 @@
     }
 
     .price-ios-value {
-        width: 100%;
         min-width: 0;
         text-align: left;
+    }
+
+    .price-ios-value strong {
+        overflow-wrap: anywhere;
+        font-size: 16px;
+        line-height: 1.25;
     }
 }
 

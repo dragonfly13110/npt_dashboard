@@ -485,7 +485,7 @@ BEGIN
       'profiles','personnel','assets','budgets',
       'farmer_registry','gis_areas','disasters',
       'large_plots','learning_centers','certifications','crop_production',
-      'community_enterprises','smart_farmers','farmer_groups','housewife_farmer_groups','young_farmer_groups','agri_tourism',
+      'community_enterprises','smart_farmers','farmer_groups','young_farmer_groups','agri_tourism',
       'pest_outbreaks','pest_centers','biocontrol_stock','fire_hotspots'
     ])
   LOOP
@@ -532,3 +532,13 @@ DROP POLICY IF EXISTS "Allow editor update young farmer groups detailed" ON youn
 CREATE POLICY "Allow editor update young farmer groups detailed" ON young_farmer_groups_detailed FOR UPDATE TO authenticated USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor'))) WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
 DROP POLICY IF EXISTS "Allow admin delete young farmer groups detailed" ON young_farmer_groups_detailed;
 CREATE POLICY "Allow admin delete young farmer groups detailed" ON young_farmer_groups_detailed FOR DELETE TO authenticated USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role = 'admin'));
+
+DROP POLICY IF EXISTS "Allow public read housewife farmer groups" ON housewife_farmer_groups;
+DROP POLICY IF EXISTS "Allow authenticated full access" ON housewife_farmer_groups;
+CREATE POLICY "Allow public read housewife farmer groups" ON housewife_farmer_groups FOR SELECT TO anon, authenticated USING (true);
+DROP POLICY IF EXISTS "Allow editor insert housewife farmer groups" ON housewife_farmer_groups;
+CREATE POLICY "Allow editor insert housewife farmer groups" ON housewife_farmer_groups FOR INSERT TO authenticated WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
+DROP POLICY IF EXISTS "Allow editor update housewife farmer groups" ON housewife_farmer_groups;
+CREATE POLICY "Allow editor update housewife farmer groups" ON housewife_farmer_groups FOR UPDATE TO authenticated USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor'))) WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
+DROP POLICY IF EXISTS "Allow admin delete housewife farmer groups" ON housewife_farmer_groups;
+CREATE POLICY "Allow admin delete housewife farmer groups" ON housewife_farmer_groups FOR DELETE TO authenticated USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role = 'admin'));
