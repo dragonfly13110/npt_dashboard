@@ -167,7 +167,6 @@ function MapFlyTo({ useMap, selectedDistrict, L }) {
                 duration: 1.2
             });
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedDistrict, map, L]);
     return null;
 }
@@ -623,7 +622,6 @@ ${cropsStr}
                             <button 
                                 className="search-clear-btn" 
                                 onClick={(e) => { e.stopPropagation(); setSearchQuery(''); closePanel(); }}
-                                onTouchStart={(e) => { e.stopPropagation(); setSearchQuery(''); closePanel(); }}
                             >
                                 ✕
                             </button>
@@ -635,7 +633,6 @@ ${cropsStr}
                                 <li
                                     key={name}
                                     onMouseDown={(e) => { e.stopPropagation(); handleSelectDistrictByName(name); }}
-                                    onTouchStart={(e) => { e.stopPropagation(); handleSelectDistrictByName(name); }}
                                     className="search-suggestion-item"
                                 >
                                     📍 อ.{name}
@@ -657,7 +654,6 @@ ${cropsStr}
             <button
                 className={`smart-map-controls-toggle ${isControlsOpen ? 'active' : ''}`}
                 onClick={(e) => { e.stopPropagation(); setIsControlsOpen(prev => !prev); }}
-                onTouchStart={(e) => { e.stopPropagation(); setIsControlsOpen(prev => !prev); }}
                 title="ตัวเลือกแผนที่"
             >
                 {isControlsOpen ? '✕' : '🥞 เลเยอร์'}
@@ -667,7 +663,6 @@ ${cropsStr}
                 <div 
                     className="smart-map-controls-backdrop" 
                     onClick={(e) => { e.stopPropagation(); setIsControlsOpen(false); }} 
-                    onTouchStart={(e) => { e.stopPropagation(); setIsControlsOpen(false); }} 
                 />
             )}
 
@@ -684,7 +679,6 @@ ${cropsStr}
                     <button 
                         className="controls-close-btn" 
                         onClick={(e) => { e.stopPropagation(); setIsControlsOpen(false); }}
-                        onTouchStart={(e) => { e.stopPropagation(); setIsControlsOpen(false); }}
                     >✕</button>
                 </div>
                 <div className="controls-section-title">ตัวชี้วัด Choropleth</div>
@@ -790,7 +784,6 @@ ${cropsStr}
                             <button 
                                 className="panel-close-btn" 
                                 onClick={(e) => { e.stopPropagation(); closePanel(); }}
-                                onTouchStart={(e) => { e.stopPropagation(); closePanel(); }}
                             >✕</button>
                         </div>
                     </div>
