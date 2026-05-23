@@ -28,8 +28,9 @@
 }
 
 .landing-page .landing-login-btn {
-    background: rgba(16, 185, 129, 0.1) !important;
-    color: #10b981 !important;
+    background: rgba(16, 185, 129, 0.15) !important;
+    color: #047857 !important;
+    border: 1px solid rgba(16, 185, 129, 0.25) !important;
     border-radius: 9999px !important;
     padding: 8px 24px !important;
     font-weight: 700 !important;
@@ -37,9 +38,10 @@
 }
 
 .landing-page .landing-login-btn:hover {
-    background: #10b981 !important;
+    background: #047857 !important;
     color: #ffffff !important;
-    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3) !important;
+    border-color: #047857 !important;
+    box-shadow: 0 4px 14px rgba(4, 120, 87, 0.3) !important;
 }
 
 /* Header Section overrides removed to allow LandingPage.css dark majestic theme */
