@@ -25,6 +25,7 @@ const LandingPage = lazy(() => import('./pages/LandingPage'));
 const InteractiveDashboard = lazy(() => import('./pages/InteractiveDashboard'));
 const SmartMap = lazy(() => import('./pages/SmartMap'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
+const SituationRoom = lazy(() => import('./pages/SituationRoom'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Chatbot = lazy(() => import('./pages/Chatbot'));
 const SearchResults = lazy(() => import('./pages/SearchResults'));
@@ -167,6 +168,7 @@ function AppRoutes() {
           </ProtectedRoute>
         }>
           <Route index element={<Dashboard />} />
+          <Route path="situation-room" element={<NonGuestRoute><SituationRoom /></NonGuestRoute>} />
           <Route path="chatbot" element={<NonGuestRoute><Chatbot /></NonGuestRoute>} />
           <Route path="search" element={<SearchResults />} />
           <Route path="data-requests" element={<DataRequestRoute><DataRequests /></DataRequestRoute>} />

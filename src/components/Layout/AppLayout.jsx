@@ -21,6 +21,7 @@ const ROLE_BADGE = {
 // Route → Thai label mapping
 const routeLabels = {
     dashboard: 'แดชบอร์ด',
+    'situation-room': 'Executive Situation Room',
     admin: 'ฝ่ายบริหารทั่วไป',
     personnel: 'ข้อมูลบุคลากร',
     assets: 'พัสดุ/ครุภัณฑ์',

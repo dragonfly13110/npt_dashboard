@@ -30,6 +30,7 @@ import {
     CloudOutlined,
     FormOutlined,
     FileExcelOutlined,
+    AlertOutlined,
 } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
 import { useAuth } from '../../contexts/AuthContext';
@@ -53,6 +54,11 @@ const allMenuItems = [
         key: '/dashboard',
         icon: <DashboardOutlined />,
         label: 'แดชบอร์ดรวม',
+    },
+    {
+        key: '/dashboard/situation-room',
+        icon: <AlertOutlined />,
+        label: 'Executive Situation Room',
     },
     {
         key: '/dashboard/chatbot',
@@ -168,9 +174,9 @@ function getFilteredMenuItems(role, department) {
     // editor/viewer เห็นเฉพาะ Dashboard รวม + กลุ่มงานตัวเอง
     const userGroup = department ? GROUP_KEYS[department] : null;
     const filtered = allMenuItems.filter(item => {
-        if (role === 'guest' && ['/dashboard/chatbot', '/dashboard/data-requests'].includes(item.key)) return false;
+        if (role === 'guest' && ['/dashboard/situation-room', '/dashboard/chatbot', '/dashboard/data-requests'].includes(item.key)) return false;
         // เมนูเบื้องต้นที่ทุกคนเห็นเสมอ
-        if (['/dashboard', '/dashboard/chatbot', '/dashboard/data-requests', '/dashboard/community/forum'].includes(item.key)) return true;
+        if (['/dashboard', '/dashboard/situation-room', '/dashboard/chatbot', '/dashboard/data-requests', '/dashboard/community/forum'].includes(item.key)) return true;
         if (role === 'guest' && item.group) return PUBLIC_GUEST_GROUPS.includes(item.group);
         // กลุ่มงานของตัวเอง
         if (item.group && item.group === userGroup) return true;
