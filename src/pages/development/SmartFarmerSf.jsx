@@ -10,7 +10,7 @@ import { useApiCache } from '../../hooks/useApiCache';
 import CsvImportModal from '../../components/DataTable/CsvImportModal';
 import { useAuth } from '../../contexts/AuthContext';
 import { useSupabaseCrud } from '../../hooks/useSupabase';
-import { getPublicColumns } from '../../utils/dataPrivacy';
+import { getPublicColumns, getPublicSelectColumns } from '../../utils/dataPrivacy';
 
 const columns = [
     { title: 'ปีข้อมูล', dataIndex: 'data_year', key: 'data_year', width: 90, align: 'center', importHeader: 'ปีข้อมูล' },
@@ -103,14 +103,14 @@ export default function SmartFarmerSf() {
     const fetchRows = async () => {
         const { data, error } = await supabase
             .from('smart_farmer_sf')
-            .select('*')
+            .select(getPublicSelectColumns('smart_farmer_sf', columns, role))
             .order('data_year', { ascending: false })
             .order('sequence_no', { ascending: true });
         if (error) throw error;
         return data || [];
     };
 
-    const { data: rows = [], isLoading, refetch } = useApiCache('smart_farmer_sf_all', fetchRows);
+    const { data: rows = [], isLoading, refetch } = useApiCache(['smart_farmer_sf_all', role], fetchRows);
     const years = useMemo(() => [...new Set(rows.map((row) => row.data_year).filter(Boolean))].sort((a, b) => b - a), [rows]);
     const [selectedYear, setSelectedYear] = useState(null);
     const [filters, setFilters] = useState({});

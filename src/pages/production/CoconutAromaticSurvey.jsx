@@ -17,6 +17,7 @@ import {
   toNumber,
 } from '../../utils/coconutAromatic';
 import { parseCsvFile } from '../../utils/csv';
+import { getPublicColumns, getPublicSelectColumns } from '../../utils/dataPrivacy';
 
 const COLORS = ['#1a7f37', '#0969da', '#bf8700', '#cf222e', '#8250df', '#0550ae', '#2da44e', '#d97706'];
 
@@ -50,24 +51,27 @@ const columns = [
 
 export default function CoconutAromaticSurvey() {
   const [form] = Form.useForm();
-  const { canEdit } = useAuth();
+  const { canEdit, role } = useAuth();
   const userCanEdit = canEdit();
   const [modalOpen, setModalOpen] = useState(false);
   const [filters, setFilters] = useState({ round_no: undefined, district: undefined, subdistrict: undefined, search: '' });
   const [calculated, setCalculated] = useState(calculateCoconutRecord({}));
 
   const fetchRows = async () => {
-    let query = supabase.from('coconut_aromatic_surveys').select('*').order('record_date', { ascending: false });
+    let query = supabase.from('coconut_aromatic_surveys')
+      .select(getPublicSelectColumns('coconut_aromatic_surveys', columns, role))
+      .order('record_date', { ascending: false });
     if (filters.round_no) query = query.eq('round_no', filters.round_no);
     if (filters.district) query = query.eq('district', filters.district);
     if (filters.subdistrict) query = query.eq('subdistrict', filters.subdistrict);
-    if (filters.search) query = query.ilike('farmer_name', `%${filters.search}%`);
+    if (role !== 'guest' && filters.search) query = query.ilike('farmer_name', `%${filters.search}%`);
     const { data, error } = await query;
     if (error) throw error;
     return data || [];
   };
 
-  const { data: rows = [], isLoading, refetch } = useApiCache(['coconut_aromatic_surveys', filters], fetchRows);
+  const { data: rows = [], isLoading, refetch } = useApiCache(['coconut_aromatic_surveys', role, filters], fetchRows);
+  const visibleColumns = useMemo(() => getPublicColumns('coconut_aromatic_surveys', columns, role), [role]);
 
   const summary = useMemo(() => {
     const totals = rows.reduce((acc, item) => {
@@ -193,7 +197,7 @@ export default function CoconutAromaticSurvey() {
           <Select placeholder="รอบจัดเก็บ" allowClear options={roundOptions} value={filters.round_no} onChange={value => setFilters(prev => ({ ...prev, round_no: value }))} style={{ width: 260 }} />
           <Select placeholder="อำเภอ" allowClear options={districtOptions} value={filters.district} onChange={value => setFilters(prev => ({ ...prev, district: value, subdistrict: undefined }))} style={{ width: 160 }} />
           <Select placeholder="ตำบล" allowClear options={subdistrictOptions} value={filters.subdistrict} onChange={value => setFilters(prev => ({ ...prev, subdistrict: value }))} style={{ width: 160 }} />
-          <Input.Search placeholder="ค้นหาชื่อเกษตรกร" allowClear onSearch={value => setFilters(prev => ({ ...prev, search: value }))} style={{ width: 220 }} />
+          {role !== 'guest' && <Input.Search placeholder="ค้นหาชื่อเกษตรกร" allowClear onSearch={value => setFilters(prev => ({ ...prev, search: value }))} style={{ width: 220 }} />}
           <Button icon={<ReloadOutlined />} onClick={() => refetch()}>รีเฟรช</Button>
           {userCanEdit && <Upload accept=".csv,text/csv" showUploadList={false} beforeUpload={handleImport}><Button icon={<UploadOutlined />}>Import CSV</Button></Upload>}
           {userCanEdit && <Button type="primary" icon={<PlusOutlined />} onClick={openAdd}>เพิ่มข้อมูล</Button>}
@@ -237,7 +241,7 @@ export default function CoconutAromaticSurvey() {
       <Table
         rowKey="id"
         dataSource={rows}
-        columns={columns}
+        columns={visibleColumns}
         loading={isLoading}
         size="small"
         scroll={{ x: 1600 }}

@@ -157,7 +157,7 @@ const adminOnlyItems = [
     },
 ];
 
-const PUBLIC_GUEST_GROUPS = ['admin'];
+const PUBLIC_GUEST_GROUPS = ['admin', 'strategy', 'production', 'development', 'protection', 'community'];
 
 function getFilteredMenuItems(role, department) {
     // Admin เห็นทุกเมนู

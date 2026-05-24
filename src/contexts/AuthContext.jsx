@@ -16,14 +16,28 @@ const DEPARTMENT_GROUP_MAP = {
 // group key → tables ที่อยู่ในกลุ่ม
 const GROUP_TABLES = {
     admin: ['personnel', 'assets', 'budgets'],
-    strategy: ['farmer_registry', 'gis_areas'],
+    strategy: ['farmer_registry', 'gis_areas', 'agricultural_areas', 'learning_centers', 'disasters', 'daily_weather'],
     production: ['large_plots', 'learning_centers', 'certifications', 'crop_production', 'coconut_aromatic_surveys'],
-    development: ['community_enterprises', 'smart_farmers', 'smart_farmer_sf', 'young_smart_farmer_ysf', 'agricultural_career_groups', 'farmer_groups', 'housewife_farmer_groups', 'young_farmer_groups', 'young_farmer_groups_detailed', 'agri_tourism', 'disasters'],
-    protection: ['forecast_plots', 'pest_centers', 'biocontrol_stock', 'fire_hotspots'],
+    development: ['community_enterprises', 'smart_farmers', 'smart_farmer_sf', 'young_smart_farmer_ysf', 'agricultural_career_groups', 'farmer_groups', 'housewife_farmer_groups', 'young_farmer_groups', 'young_farmer_groups_detailed', 'farmer_institutes', 'agri_tourism', 'disasters'],
+    protection: ['forecast_plots', 'pest_outbreaks', 'pest_centers', 'soil_fertilizer_centers', 'biocontrol_stock', 'fire_hotspots'],
+    community: ['forum_posts', 'forum_comments'],
 };
 
-const PUBLIC_READ_GROUPS = ['admin'];
-const PUBLIC_READ_TABLES = ['personnel', 'assets', 'budgets'];
+const PUBLIC_READ_GROUPS = ['admin', 'strategy', 'production', 'development', 'protection', 'community'];
+const PUBLIC_READ_TABLES = [
+    ...new Set([
+        ...Object.values(GROUP_TABLES).flat(),
+        'agricultural_areas',
+        'learning_centers',
+        'pest_outbreaks',
+        'soil_fertilizer_centers',
+        'farmer_institutes',
+        'daily_weather',
+        'site_statistics',
+        'forum_posts',
+        'forum_comments',
+    ]),
+];
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);

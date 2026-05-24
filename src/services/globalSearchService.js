@@ -1,6 +1,6 @@
 import { supabase } from '../supabaseClient';
 import { TABLE_CONFIG, TABLE_SEARCH_COLS, DISTRICT_COLS } from '../utils/chatbotConstants';
-import { getPublicColumns, isPrivateColumn } from '../utils/dataPrivacy';
+import { getPublicColumns, getPublicSelectColumns, isPrivateColumn } from '../utils/dataPrivacy';
 
 /**
  * Mapping: table name → dashboard route path
@@ -187,9 +187,12 @@ async function searchViaParallel(searchTerm, limitPerTable, role = 'viewer') {
             const allCols = [...new Set([...searchCols, distCol])];
             const orString = allCols.map(c => `${c}.ilike.%${searchTerm}%`).join(',');
 
+            const selectColumns = role === 'guest'
+                ? getPublicSelectColumns(table, allCols.map((dataIndex) => ({ dataIndex })), role)
+                : '*';
             const { data, count, error } = await supabase
                 .from(table)
-                .select('*', { count: 'exact' })
+                .select(selectColumns, { count: 'exact' })
                 .or(orString)
                 .limit(limitPerTable);
 

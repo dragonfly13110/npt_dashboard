@@ -11,6 +11,7 @@ import {
 import dayjs from 'dayjs';
 import 'dayjs/locale/th';
 import { supabase } from '../../supabaseClient';
+import { useAuth } from '../../contexts/AuthContext';
 
 dayjs.locale('th');
 
@@ -78,6 +79,8 @@ const INITIAL_POSTS = [
 ];
 
 export default function FarmerForum() {
+    const { role } = useAuth();
+    const isGuest = role === 'guest';
     const [posts, setPosts] = useState(INITIAL_POSTS);
     const [searchText, setSearchText] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
@@ -145,6 +148,7 @@ export default function FarmerForum() {
     }, [posts, searchText, selectedCategory]);
 
     const handleCreatePost = async (values) => {
+        if (isGuest) return;
         const insertData = {
             title: values.title,
             content: values.content,
@@ -183,6 +187,7 @@ export default function FarmerForum() {
     };
 
     const handleAddComment = async () => {
+        if (isGuest) return;
         if (!commentText.trim()) return;
         
         const insertData = {
@@ -256,7 +261,7 @@ export default function FarmerForum() {
         setSelectedPost(updatedPost);
         setIsDrawerVisible(true);
 
-        if (typeof post.id !== 'number') {
+        if (!isGuest && typeof post.id !== 'number') {
             await supabase
                 .from('forum_posts')
                 .update({ views: post.views + 1 })
@@ -283,7 +288,7 @@ export default function FarmerForum() {
                     </Title>
                     <Text type="secondary">พื้นที่แลกเปลี่ยนเรียนรู้ ถามตอบปัญหา และแชร์ประสบการณ์เพื่อเกษตรกรนครปฐม</Text>
                 </div>
-                <Button 
+                {!isGuest && <Button 
                     type="primary" 
                     icon={<PlusOutlined />} 
                     size="large"
@@ -291,7 +296,7 @@ export default function FarmerForum() {
                     style={{ backgroundColor: '#1a7f37' }}
                 >
                     ตั้งกระทู้ใหม่
-                </Button>
+                </Button>}
             </div>
 
             {/* Main Content Area */}
@@ -557,7 +562,7 @@ export default function FarmerForum() {
                         </div>
 
                         {/* Comment Input Sticky Bottom */}
-                        <div style={{ padding: '16px 24px', backgroundColor: '#ffffff', borderTop: '1px solid #f0f0f0' }}>
+                        {!isGuest && <div style={{ padding: '16px 24px', backgroundColor: '#ffffff', borderTop: '1px solid #f0f0f0' }}>
                             <Space.Compact style={{ width: '100%' }}>
                                 <Input 
                                     size="large" 
@@ -570,7 +575,7 @@ export default function FarmerForum() {
                                     ส่ง
                                 </Button>
                             </Space.Compact>
-                        </div>
+                        </div>}
                     </div>
                 )}
             </Drawer>

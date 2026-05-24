@@ -12,7 +12,7 @@ import CsvImportModal from './CsvImportModal';
 import { useAuth } from '../../contexts/AuthContext';
 import { useApiCache } from '../../hooks/useApiCache';
 import { supabase } from '../../supabaseClient';
-import { getPublicColumns } from '../../utils/dataPrivacy';
+import { getPublicColumns, getPublicSelectColumns } from '../../utils/dataPrivacy';
 import { downloadCsv, objectsToCsv } from '../../utils/csv';
 
 export default function CrudTable({ tableName, title, columns, formFields, searchField, searchFields, filterConfig = [], scrollX = 1000, defaultSort = null, extraActions = null, fetchDataOverride = null, fetchAllOverride = null, requiredColumns = null, defaultColumns = null }) {
@@ -65,7 +65,8 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
         const from = (pagination.current - 1) * pagination.pageSize;
         const to = from + pagination.pageSize - 1;
 
-        let query = supabase.from(tableName).select('*', { count: 'exact' });
+        const selectColumns = getPublicSelectColumns(tableName, columns, role);
+        let query = supabase.from(tableName).select(selectColumns, { count: 'exact' });
 
         if (search) {
             if (searchField) {
@@ -239,7 +240,11 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
 
     const handleExportAllCSV = async () => {
         try {
-            const allData = fetchAllOverride ? await fetchAllOverride() : await fetchAll();
+            const allData = fetchAllOverride
+                ? await fetchAllOverride()
+                : role === 'guest'
+                    ? (await supabase.from(tableName).select(getPublicSelectColumns(tableName, columns, role))).data || []
+                    : await fetchAll();
             if (!allData.length) return;
 
             const headers = visibleColumns.filter(c => c.dataIndex).map(c => c.title);

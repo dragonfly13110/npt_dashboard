@@ -10,6 +10,7 @@ import {
 } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
 import { useApiCache } from '../../hooks/useApiCache';
+import { useAuth } from '../../contexts/AuthContext';
 
 const COLORS = ['#43a047', '#1565c0', '#e65100', '#6a1b9a', '#c62828', '#00695c'];
 
@@ -66,7 +67,7 @@ async function fetchTrend(tableCfg) {
     return months.map(m => ({ name: m.month, รายการ: m.count }));
 }
 
-async function fetchRecentActivity(tableCfg) {
+async function fetchRecentActivity(tableCfg, role) {
     const activities = [];
     for (const cfg of tableCfg) {
         try {
@@ -81,7 +82,7 @@ async function fetchRecentActivity(tableCfg) {
                         table: cfg.label,
                         icon: cfg.icon,
                         color: cfg.color,
-                        name: row.full_name || row.name || row.project_name || row.title || cfg.label,
+                        name: role === 'guest' ? cfg.label : (row.full_name || row.name || row.project_name || row.title || cfg.label),
                         created_at: row.created_at,
                     });
                 });
@@ -95,6 +96,7 @@ async function fetchRecentActivity(tableCfg) {
 }
 
 export default function AdminDashboard() {
+    const { role } = useAuth();
     const fetchAdminDashboardData = async () => {
         const statsResults = [];
         for (const tbl of tables) {
@@ -110,13 +112,13 @@ export default function AdminDashboard() {
 
         const [trendData, actData] = await Promise.all([
             fetchTrend(tables),
-            fetchRecentActivity(tables)
+            fetchRecentActivity(tables, role)
         ]);
 
         return { stats: statsResults, trendData, activities: actData };
     };
 
-    const { data, isLoading } = useApiCache('admin-dashboard-data', fetchAdminDashboardData);
+    const { data, isLoading } = useApiCache(['admin-dashboard-data', role], fetchAdminDashboardData);
 
     const stats = data?.stats || [];
     const trendData = data?.trendData || [];

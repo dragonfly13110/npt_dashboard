@@ -20,7 +20,9 @@ const TABLE_PRIVATE_COLUMNS = {
     certifications: ['owner_name', 'phone', 'address'],
     large_plots: ['contact_person', 'phone', 'address'],
     agri_tourism: ['contact_person', 'phone', 'address'],
-    personnel: ['phone', 'email', 'address'],
+    personnel: ['full_name', 'phone', 'email', 'address'],
+    forum_posts: ['author_name', 'avatar'],
+    forum_comments: ['author_name', 'avatar'],
 };
 
 export function isPrivateColumn(tableName, column = {}) {
@@ -39,4 +41,13 @@ export function isPrivateColumn(tableName, column = {}) {
 export function getPublicColumns(tableName, columns, role) {
     if (role !== 'guest') return columns;
     return columns.filter((column) => !isPrivateColumn(tableName, column));
+}
+
+export function getPublicSelectColumns(tableName, columns, role, extraColumns = []) {
+    if (role !== 'guest') return '*';
+    const baseColumns = ['id', 'created_at', 'updated_at', ...extraColumns];
+    const publicColumns = getPublicColumns(tableName, columns, role)
+        .map((column) => column.dataIndex)
+        .filter(Boolean);
+    return [...new Set([...baseColumns, ...publicColumns])].join(',');
 }
