@@ -3,7 +3,7 @@ import path from 'node:path';
 import process from 'node:process';
 import { parseCsv } from '../src/utils/csv.js';
 
-const workbookPath = 'C:/Users/TOR_HOME/OneDrive/à¹€à¸”à¸ªà¸à¹Œà¸—à¹‡à¸­à¸›/boot/à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹€à¸à¸©à¸•à¸£à¸à¸£à¹à¸¥à¸°à¸ªà¸–à¸²à¸šà¸±à¸™à¹€à¸à¸©à¸•à¸£à¸à¸£/à¸£à¸§à¸¡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥_YSF_2565_2569_dashboard.csv';
+const workbookPath = 'C:/Users/TOR_HOME/OneDrive/เดสก์ท็อป/boot/ข้อมูลเกษตรกรและสถาบันเกษตรกร/รวมข้อมูล_YSF_2565_2569_dashboard.csv';
 const schemaPath = path.resolve('supabase/young_smart_farmer_ysf.sql');
 
 function readEnv(filePath = '.env') {
@@ -48,37 +48,37 @@ function sqlNumber(value) {
 
 function rowToRecord(row) {
   return {
-    data_year: toInteger(row['à¸›à¸µà¸‚à¹‰à¸­à¸¡à¸¹à¸¥']),
-    record_code: row['à¸£à¸«à¸±à¸ªà¸£à¸°à¹€à¸šà¸µà¸¢à¸™'],
+    data_year: toInteger(row['ปีข้อมูล']),
+    record_code: row['รหัสระเบียน'],
     sequence_no: toInteger(row['#']),
-    title: row['à¸„à¸³à¸™à¸³à¸«à¸™à¹‰à¸²'],
-    first_name: row['à¸Šà¸·à¹ˆà¸­'],
-    last_name: row['à¸™à¸²à¸¡à¸ªà¸à¸¸à¸¥'],
-    address_no: row['à¸šà¹‰à¸²à¸™à¹€à¸¥à¸‚à¸—à¸µà¹ˆ'],
-    moo: row['à¸«à¸¡à¸¹à¹ˆ'],
-    subdistrict: row['à¹à¸‚à¸§à¸‡/à¸•à¸³à¸šà¸¥'],
-    district: row['à¹€à¸‚à¸•/à¸­à¸³à¹€à¸ à¸­'],
-    province: row['à¸ˆà¸±à¸‡à¸«à¸§à¸±à¸”'],
-    phone: row['à¹€à¸šà¸­à¸£à¹Œà¹‚à¸—à¸£à¸¨à¸±à¸žà¸—à¹Œà¸¡à¸·à¸­à¸–à¸·à¸­'],
+    title: row['คำนำหน้า'],
+    first_name: row['ชื่อ'],
+    last_name: row['นามสกุล'],
+    address_no: row['บ้านเลขที่'],
+    moo: row['หมู่'],
+    subdistrict: row['แขวง/ตำบล'],
+    district: row['เขต/อำเภอ'],
+    province: row['จังหวัด'],
+    phone: row['เบอร์โทรศัพท์มือถือ'],
     line_id: row['LINE'],
-    email: row['à¸­à¸µà¹€à¸¡à¸¥'],
+    email: row['อีเมล'],
     facebook: row['Facebook'],
-    education: row['à¸£à¸°à¸”à¸±à¸šà¸à¸²à¸£à¸¨à¸¶à¸à¸©à¸²'],
-    education_major: row['à¸ªà¸²à¸‚à¸²à¸—à¸µà¹ˆà¸¨à¸¶à¸à¸©à¸²/à¸ˆà¸šà¸à¸²à¸£à¸¨à¸¶à¸à¸©à¸²'],
-    production_area: row['à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆà¸—à¸³à¸à¸²à¸£à¹€à¸à¸©à¸•à¸£ (à¹„à¸£à¹ˆ-à¸‡à¸²à¸™-à¸•à¸£.à¸§à¸²)'],
-    agricultural_activity: row['à¸à¸´à¸ˆà¸à¸£à¸£à¸¡à¸—à¸²à¸‡à¸à¸²à¸£à¹€à¸à¸©à¸•à¸£'],
-    production_standard: row['à¸à¸²à¸£à¸£à¸±à¸šà¸£à¸­à¸‡à¸¡à¸²à¸•à¸£à¸à¸²à¸™'],
-    farmer_status: row['à¸ªà¸–à¸²à¸™à¸ à¸²à¸žà¹€à¸à¸©à¸•à¸£à¸à¸£/à¸à¸²à¸£à¹€à¸›à¹‡à¸™à¸ªà¸¡à¸²à¸Šà¸´à¸'],
-    sales_channel: row['à¸Šà¹ˆà¸­à¸‡à¸—à¸²à¸‡à¸à¸²à¸£à¸ˆà¸³à¸«à¸™à¹ˆà¸²à¸¢à¸ªà¸´à¸™à¸„à¹‰à¸²'],
-    affiliated_district: row['à¸­à¸³à¹€à¸ à¸­à¸—à¸µà¹ˆà¸ªà¸±à¸‡à¸à¸±à¸”'],
-    farm_area_rai: toNumber(row['à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆà¸—à¸³à¸à¸²à¸£à¹€à¸à¸©à¸•à¸£_à¹„à¸£à¹ˆ']),
-    annual_agri_income: toNumber(row['à¸£à¸²à¸¢à¹„à¸”à¹‰à¸—à¸²à¸‡à¸à¸²à¸£à¹€à¸à¸©à¸•à¸£à¹€à¸‰à¸¥à¸µà¹ˆà¸¢à¸•à¹ˆà¸­à¸›à¸µ_à¸šà¸²à¸—']),
-    main_activity_type: row['à¸›à¸£à¸°à¹€à¸ à¸—à¸à¸´à¸ˆà¸à¸£à¸£à¸¡à¸«à¸¥à¸±à¸'],
-    has_crop: row['à¸¡à¸µà¸žà¸·à¸Š'],
-    has_livestock: row['à¸¡à¸µà¸›à¸¨à¸¸à¸ªà¸±à¸•à¸§à¹Œ'],
-    has_fishery: row['à¸¡à¸µà¸›à¸£à¸°à¸¡à¸‡'],
-    has_processing: row['à¸¡à¸µà¹à¸›à¸£à¸£à¸¹à¸›'],
-    has_online_channel: row['à¸¡à¸µà¸Šà¹ˆà¸­à¸‡à¸—à¸²à¸‡à¸­à¸­à¸™à¹„à¸¥à¸™à¹Œ'],
+    education: row['ระดับการศึกษา'],
+    education_major: row['สาขาที่ศึกษา/จบการศึกษา'],
+    production_area: row['พื้นที่ทำการเกษตร (ไร่-งาน-ตร.วา)'],
+    agricultural_activity: row['กิจกรรมทางการเกษตร'],
+    production_standard: row['การรับรองมาตรฐาน'],
+    farmer_status: row['สถานภาพเกษตรกร/การเป็นสมาชิก'],
+    sales_channel: row['ช่องทางการจำหน่ายสินค้า'],
+    affiliated_district: row['อำเภอที่สังกัด'],
+    farm_area_rai: toNumber(row['พื้นที่ทำการเกษตร_ไร่']),
+    annual_agri_income: toNumber(row['รายได้ทางการเกษตรเฉลี่ยต่อปี_บาท']),
+    main_activity_type: row['ประเภทกิจกรรมหลัก'],
+    has_crop: row['มีพืช'],
+    has_livestock: row['มีปศุสัตว์'],
+    has_fishery: row['มีประมง'],
+    has_processing: row['มีแปรรูป'],
+    has_online_channel: row['มีช่องทางออนไลน์'],
   };
 }
 

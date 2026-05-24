@@ -3,7 +3,7 @@ import path from 'node:path';
 import process from 'node:process';
 import { parseCsv } from '../src/utils/csv.js';
 
-const workbookPath = 'C:/Users/TOR_HOME/OneDrive/à¹€à¸”à¸ªà¸à¹Œà¸—à¹‡à¸­à¸›/boot/à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹€à¸à¸©à¸•à¸£à¸à¸£à¹à¸¥à¸°à¸ªà¸–à¸²à¸šà¸±à¸™à¹€à¸à¸©à¸•à¸£à¸à¸£/à¸£à¸§à¸¡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥_à¸à¸ªà¸­_2565_2568_dashboard.csv';
+const workbookPath = 'C:/Users/TOR_HOME/OneDrive/เดสก์ท็อป/boot/ข้อมูลเกษตรกรและสถาบันเกษตรกร/รวมข้อมูล_กสอ_2565_2568_dashboard.csv';
 const schemaPath = path.resolve('supabase/agricultural_career_groups.sql');
 
 function readEnv(filePath = '.env') {
@@ -47,28 +47,28 @@ function sqlNumber(value) {
 }
 
 function rowToRecord(row, index) {
-  const year = toInteger(row['à¸›à¸µà¸‚à¹‰à¸­à¸¡à¸¹à¸¥']);
+  const year = toInteger(row['ปีข้อมูล']);
   return {
     data_year: year,
     record_code: `KSO${year}-${String(index + 1).padStart(4, '0')}`,
-    group_name: row['à¸Šà¸·à¹ˆà¸­à¸à¸¥à¸¸à¹ˆà¸¡'],
-    address_no: row['à¹€à¸¥à¸‚à¸—à¸µà¹ˆ'],
-    moo: row['à¸«à¸¡à¸¹à¹ˆ'],
-    subdistrict: row['à¸•à¸³à¸šà¸¥'],
-    district: row['à¸­à¸³à¹€à¸ à¸­'],
-    province: row['à¸ˆà¸±à¸‡à¸«à¸§à¸±à¸”'],
-    mobile: row['à¹€à¸šà¸­à¸£à¹Œà¸¡à¸·à¸­à¸–à¸·à¸­'],
-    established_date: row['à¸§à¸±à¸™à¸—à¸µà¹ˆà¸ˆà¸±à¸”à¸•à¸±à¹‰à¸‡à¸à¸¥à¸¸à¹ˆà¸¡'],
-    established_date_ce: row['à¸§à¸±à¸™à¸—à¸µà¹ˆà¸ˆà¸±à¸”à¸•à¸±à¹‰à¸‡à¸à¸¥à¸¸à¹ˆà¸¡_à¸„.à¸¨.'],
-    established_year_be: toInteger(row['à¸›à¸µà¸ˆà¸±à¸”à¸•à¸±à¹‰à¸‡_à¸ž.à¸¨.']),
-    member_count: toInteger(row['à¸ˆà¸³à¸™à¸§à¸™à¸ªà¸¡à¸²à¸Šà¸´à¸à¸à¸¥à¸¸à¹ˆà¸¡_à¸•à¸±à¸§à¹€à¸¥à¸‚']),
-    community_enterprise_registration: row['à¸à¸²à¸£à¸ˆà¸”à¸—à¸°à¹€à¸šà¸µà¸¢à¸™à¸§à¸´à¸ªà¸²à¸«à¸à¸´à¸ˆà¸Šà¸¸à¸¡à¸Šà¸™'],
-    fund_management: toNumber(row['à¸à¸²à¸£à¸šà¸£à¸´à¸«à¸²à¸£à¸ˆà¸±à¸”à¸à¸²à¸£à¸—à¸¸à¸™']),
-    income: toNumber(row['à¸£à¸²à¸¢à¹„à¸”à¹‰à¸à¸¥à¸¸à¹ˆà¸¡_à¸•à¸±à¸§à¹€à¸¥à¸‚']),
-    activity: row['à¸à¸´à¸ˆà¸à¸£à¸£à¸¡à¸à¸¥à¸¸à¹ˆà¸¡'],
-    main_activity: row['à¸à¸´à¸ˆà¸à¸£à¸£à¸¡à¸«à¸¥à¸±à¸'],
-    production_standard: row['à¸¡à¸²à¸•à¸£à¸à¸²à¸™à¸à¸²à¸£à¸œà¸¥à¸´à¸•'],
-    potential_level: row['à¸£à¸°à¸”à¸±à¸šà¸à¸²à¸£à¸›à¸£à¸°à¹€à¸¡à¸´à¸™à¸¨à¸±à¸à¸¢à¸ à¸²à¸ž'],
+    group_name: row['ชื่อกลุ่ม'],
+    address_no: row['เลขที่'],
+    moo: row['หมู่'],
+    subdistrict: row['ตำบล'],
+    district: row['อำเภอ'],
+    province: row['จังหวัด'],
+    mobile: row['เบอร์มือถือ'],
+    established_date: row['วันที่จัดตั้งกลุ่ม'],
+    established_date_ce: row['วันที่จัดตั้งกลุ่ม_ค.ศ.'],
+    established_year_be: toInteger(row['ปีจัดตั้ง_พ.ศ.']),
+    member_count: toInteger(row['จำนวนสมาชิกกลุ่ม_ตัวเลข']),
+    community_enterprise_registration: row['การจดทะเบียนวิสาหกิจชุมชน'],
+    fund_management: toNumber(row['การบริหารจัดการทุน']),
+    income: toNumber(row['รายได้กลุ่ม_ตัวเลข']),
+    activity: row['กิจกรรมกลุ่ม'],
+    main_activity: row['กิจกรรมหลัก'],
+    production_standard: row['มาตรฐานการผลิต'],
+    potential_level: row['ระดับการประเมินศักยภาพ'],
     lat: toNumber(row['Lat']),
     lon: toNumber(row['Lon']),
   };

@@ -3,7 +3,7 @@ import path from 'node:path';
 import process from 'node:process';
 import { parseCsv } from '../src/utils/csv.js';
 
-const workbookPath = 'C:/Users/TOR_HOME/OneDrive/à¹€à¸”à¸ªà¸à¹Œà¸—à¹‡à¸­à¸›/boot/à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹€à¸à¸©à¸•à¸£à¸à¸£à¹à¸¥à¸°à¸ªà¸–à¸²à¸šà¸±à¸™à¹€à¸à¸©à¸•à¸£à¸à¸£/à¸£à¸§à¸¡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥_à¸à¸¢à¸§_2565_2568_dashboardv1.csv';
+const workbookPath = 'C:/Users/TOR_HOME/OneDrive/เดสก์ท็อป/boot/ข้อมูลเกษตรกรและสถาบันเกษตรกร/รวมข้อมูล_กยว_2565_2568_dashboardv1.csv';
 const schemaPath = path.resolve('supabase/young_farmer_groups_detailed.sql');
 
 function readEnv(filePath = '.env') {
@@ -55,26 +55,26 @@ function sqlNumber(value) {
 
 function rowToRecord(row) {
   return {
-    data_year: toInteger(row['à¸›à¸µà¸‚à¹‰à¸­à¸¡à¸¹à¸¥']),
-    record_code: cleanText(row['à¸£à¸«à¸±à¸ªà¸£à¸°à¹€à¸šà¸µà¸¢à¸™']),
-    group_name: cleanText(row['à¸Šà¸·à¹ˆà¸­à¸à¸¥à¸¸à¹ˆà¸¡']),
-    address_no: cleanText(row['à¹€à¸¥à¸‚à¸—à¸µà¹ˆ']),
-    moo: cleanText(row['à¸«à¸¡à¸¹à¹ˆ']),
-    subdistrict: cleanText(row['à¸•à¸³à¸šà¸¥']),
-    district: cleanText(row['à¸­à¸³à¹€à¸ à¸­']),
-    province: cleanText(row['à¸ˆà¸±à¸‡à¸«à¸§à¸±à¸”']),
-    phone: cleanText(row['à¹€à¸šà¸­à¸£à¹Œà¹‚à¸—à¸£à¸¨à¸±à¸žà¸—à¹Œ']),
-    mobile: cleanText(row['à¹€à¸šà¸­à¸£à¹Œà¸¡à¸·à¸­à¸–à¸·à¸­']),
-    established_date: cleanText(row['à¸§à¸±à¸™à¸—à¸µà¹ˆà¸ˆà¸±à¸”à¸•à¸±à¹‰à¸‡à¸à¸¥à¸¸à¹ˆà¸¡']),
-    established_year_be: toInteger(row['à¸›à¸µà¸ˆà¸±à¸”à¸•à¸±à¹‰à¸‡_à¸ž.à¸¨.']),
-    established_year_ce: toInteger(row['à¸›à¸µà¸ˆà¸±à¸”à¸•à¸±à¹‰à¸‡_à¸„.à¸¨.']),
-    member_count: toInteger(row['à¸ˆà¸³à¸™à¸§à¸™à¸ªà¸¡à¸²à¸Šà¸´à¸à¸à¸¥à¸¸à¹ˆà¸¡']),
-    model_group: cleanText(row['à¸à¸²à¸£à¹€à¸›à¹‡à¸™à¸à¸¥à¸¸à¹ˆà¸¡à¸•à¹‰à¸™à¹à¸šà¸š']),
-    fund_management: toNumber(row['à¸à¸²à¸£à¸šà¸£à¸´à¸«à¸²à¸£à¸ˆà¸±à¸”à¸à¸²à¸£à¸—à¸¸à¸™_à¸šà¸²à¸—']),
-    income: toNumber(row['à¸£à¸²à¸¢à¹„à¸”à¹‰à¸à¸¥à¸¸à¹ˆà¸¡_à¸šà¸²à¸—']),
-    activity: cleanText(row['à¸à¸´à¸ˆà¸à¸£à¸£à¸¡à¸à¸¥à¸¸à¹ˆà¸¡']),
-    activity_count: toInteger(row['à¸ˆà¸³à¸™à¸§à¸™à¸à¸´à¸ˆà¸à¸£à¸£à¸¡à¸—à¸µà¹ˆà¸£à¸°à¸šà¸¸']),
-    potential_level: cleanText(row['à¸£à¸°à¸”à¸±à¸šà¸à¸²à¸£à¸›à¸£à¸°à¹€à¸¡à¸´à¸™à¸¨à¸±à¸à¸¢à¸ à¸²à¸ž']),
+    data_year: toInteger(row['ปีข้อมูล']),
+    record_code: cleanText(row['รหัสระเบียน']),
+    group_name: cleanText(row['ชื่อกลุ่ม']),
+    address_no: cleanText(row['เลขที่']),
+    moo: cleanText(row['หมู่']),
+    subdistrict: cleanText(row['ตำบล']),
+    district: cleanText(row['อำเภอ']),
+    province: cleanText(row['จังหวัด']),
+    phone: cleanText(row['เบอร์โทรศัพท์']),
+    mobile: cleanText(row['เบอร์มือถือ']),
+    established_date: cleanText(row['วันที่จัดตั้งกลุ่ม']),
+    established_year_be: toInteger(row['ปีจัดตั้ง_พ.ศ.']),
+    established_year_ce: toInteger(row['ปีจัดตั้ง_ค.ศ.']),
+    member_count: toInteger(row['จำนวนสมาชิกกลุ่ม']),
+    model_group: cleanText(row['การเป็นกลุ่มต้นแบบ']),
+    fund_management: toNumber(row['การบริหารจัดการทุน_บาท']),
+    income: toNumber(row['รายได้กลุ่ม_บาท']),
+    activity: cleanText(row['กิจกรรมกลุ่ม']),
+    activity_count: toInteger(row['จำนวนกิจกรรมที่ระบุ']),
+    potential_level: cleanText(row['ระดับการประเมินศักยภาพ']),
     lat: toNumber(row.Lat),
     lon: toNumber(row.Lon),
   };

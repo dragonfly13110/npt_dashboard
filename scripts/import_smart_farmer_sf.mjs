@@ -3,7 +3,7 @@ import path from 'node:path';
 import process from 'node:process';
 import { parseCsv } from '../src/utils/csv.js';
 
-const workbookPath = 'C:/Users/TOR_HOME/OneDrive/à¹€à¸”à¸ªà¸à¹Œà¸—à¹‡à¸­à¸›/boot/à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹€à¸à¸©à¸•à¸£à¸à¸£à¹à¸¥à¸°à¸ªà¸–à¸²à¸šà¸±à¸™à¹€à¸à¸©à¸•à¸£à¸à¸£/à¸£à¸§à¸¡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥_SF_2565_2569_dashboard.csv';
+const workbookPath = 'C:/Users/TOR_HOME/OneDrive/เดสก์ท็อป/boot/ข้อมูลเกษตรกรและสถาบันเกษตรกร/รวมข้อมูล_SF_2565_2569_dashboard.csv';
 const schemaPath = path.resolve('supabase/smart_farmer_sf.sql');
 
 function readEnv(filePath = '.env') {
@@ -49,24 +49,24 @@ function sqlNumber(value) {
 
 function rowToRecord(row) {
   return {
-    data_year: toInteger(row['à¸›à¸µà¸‚à¹‰à¸­à¸¡à¸¹à¸¥']),
-    record_code: row['à¸£à¸«à¸±à¸ªà¸£à¸°à¹€à¸šà¸µà¸¢à¸™'],
-    sequence_no: toInteger(row['à¸¥à¸³à¸”à¸±à¸š']),
-    citizen_id: row['à¹€à¸¥à¸‚à¸›à¸£à¸°à¸ˆà¸³à¸•à¸±à¸§à¸›à¸£à¸°à¸Šà¸²à¸Šà¸™'],
-    title: row['à¸„à¸³à¸™à¸³à¸«à¸™à¹‰à¸²'],
-    first_name: row['à¸Šà¸·à¹ˆà¸­'],
-    last_name: row['à¸™à¸²à¸¡à¸ªà¸à¸¸à¸¥'],
-    age: toInteger(row['à¸­à¸²à¸¢à¸¸']),
-    district: row['à¸­à¸³à¹€à¸ à¸­_à¸ˆà¸²à¸à¸—à¸µà¹ˆà¸­à¸¢à¸¹à¹ˆ'],
-    province: row['à¸ˆà¸±à¸‡à¸«à¸§à¸±à¸”_à¸ˆà¸²à¸à¸—à¸µà¹ˆà¸­à¸¢à¸¹à¹ˆ'],
-    farmer_status: row['à¸ªà¸–à¸²à¸™à¸°à¹€à¸à¸©à¸•à¸£à¸à¸£'],
-    agricultural_activity: row['à¸à¸´à¸ˆà¸à¸£à¸£à¸¡à¸—à¸²à¸‡à¸à¸²à¸£à¹€à¸à¸©à¸•à¸£'],
-    phone: row['à¹€à¸šà¸­à¸£à¹Œà¹‚à¸—à¸£à¸¨à¸±à¸žà¸—à¹Œà¸¡à¸·à¸­à¸–à¸·à¸­'],
-    education: row['à¸à¸²à¸£à¸¨à¸¶à¸à¸©à¸²'],
-    production_standard: row['à¸à¸²à¸£à¹„à¸”à¹‰à¸£à¸±à¸šà¸à¸²à¸£à¸£à¸±à¸šà¸£à¸­à¸‡à¸¡à¸²à¸•à¸£à¸à¸²à¸™à¸à¸²à¸£à¸œà¸¥à¸´à¸•'],
-    sales_channel: row['à¸Šà¹ˆà¸­à¸‡à¸—à¸²à¸‡à¸à¸²à¸£à¸ˆà¸³à¸«à¸™à¹ˆà¸²à¸¢à¸œà¸¥à¸œà¸¥à¸´à¸•/à¸ªà¸´à¸™à¸„à¹‰à¸²'],
-    annual_agri_income: toNumber(row['à¸£à¸²à¸¢à¹„à¸”à¹‰à¸£à¸§à¸¡à¸ à¸²à¸„à¸à¸²à¸£à¹€à¸à¸©à¸•à¸£à¸‚à¸­à¸‡à¸„à¸£à¸±à¸§à¹€à¸£à¸·à¸­à¸™à¹€à¸à¸©à¸•à¸£à¸à¸£à¸›à¸µà¸—à¸µà¹ˆà¸œà¹ˆà¸²à¸™à¸¡à¸²']),
-    production_area: row['à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆà¸à¸²à¸£à¸œà¸¥à¸´à¸•'],
+    data_year: toInteger(row['ปีข้อมูล']),
+    record_code: row['รหัสระเบียน'],
+    sequence_no: toInteger(row['ลำดับ']),
+    citizen_id: row['เลขประจำตัวประชาชน'],
+    title: row['คำนำหน้า'],
+    first_name: row['ชื่อ'],
+    last_name: row['นามสกุล'],
+    age: toInteger(row['อายุ']),
+    district: row['อำเภอ_จากที่อยู่'],
+    province: row['จังหวัด_จากที่อยู่'],
+    farmer_status: row['สถานะเกษตรกร'],
+    agricultural_activity: row['กิจกรรมทางการเกษตร'],
+    phone: row['เบอร์โทรศัพท์มือถือ'],
+    education: row['การศึกษา'],
+    production_standard: row['การได้รับการรับรองมาตรฐานการผลิต'],
+    sales_channel: row['ช่องทางการจำหน่ายผลผลิต/สินค้า'],
+    annual_agri_income: toNumber(row['รายได้รวมภาคการเกษตรของครัวเรือนเกษตรกรปีที่ผ่านมา']),
+    production_area: row['พื้นที่การผลิต'],
   };
 }
 

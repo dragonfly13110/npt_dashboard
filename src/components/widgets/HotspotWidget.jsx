@@ -33,7 +33,7 @@ async function fetchHotspotData(dayRange) {
     }
 
     const endpoint = ENDPOINT_MAP[dayRange] || '7days';
-    const url = `/api/gistda/api/2.0/resources/features/viirs/${endpoint}?limit=1000&offset=0&ct_tn=${encodeURIComponent('à¸£à¸²à¸Šà¸­à¸²à¸“à¸²à¸ˆà¸±à¸à¸£à¹„à¸—à¸¢')}&pv_idn=73`;
+    const url = `/api/gistda/api/2.0/resources/features/viirs/${endpoint}?limit=1000&offset=0&ct_tn=${encodeURIComponent('ราชอาณาจักรไทย')}&pv_idn=73`;
     const res = await fetch(url, { headers: { 'accept': 'application/json' } });
     if (!res.ok) throw new Error(`Hotspot API: ${res.status}`);
     const json = await res.json();
@@ -49,8 +49,8 @@ async function fetchHotspotData(dayRange) {
 }
 
 function getMockHotspots(dayRange) {
-    const districts = ['à¹€à¸¡à¸·à¸­à¸‡à¸™à¸„à¸£à¸›à¸à¸¡', 'à¸à¸³à¹à¸žà¸‡à¹à¸ªà¸™', 'à¸šà¸²à¸‡à¹€à¸¥à¸™', 'à¸”à¸­à¸™à¸•à¸¹à¸¡', 'à¸™à¸„à¸£à¸Šà¸±à¸¢à¸¨à¸£à¸µ', 'à¸ªà¸²à¸¡à¸žà¸£à¸²à¸™', 'à¸žà¸¸à¸—à¸˜à¸¡à¸“à¸‘à¸¥'];
-    const landuses = ['à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆà¹€à¸à¸©à¸•à¸£', 'à¸Šà¸¸à¸¡à¸Šà¸™à¹à¸¥à¸°à¸­à¸·à¹ˆà¸™ à¹†', 'à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆà¸£à¸´à¸¡à¸—à¸²à¸‡à¸«à¸¥à¸§à¸‡', 'à¹€à¸‚à¸• à¸ªà¸›à¸.'];
+    const districts = ['เมืองนครปฐม', 'กำแพงแสน', 'บางเลน', 'ดอนตูม', 'นครชัยศรี', 'สามพราน', 'พุทธมณฑล'];
+    const landuses = ['พื้นที่เกษตร', 'ชุมชนและอื่น ๆ', 'พื้นที่ริมทางหลวง', 'เขต สปก.'];
     const satellites = ['Suomi NPP', 'NOAA-20', 'NOAA-21'];
     const n = dayRange === 1 ? 3 : dayRange === 3 ? 8 : dayRange === 7 ? 15 : dayRange === 30 ? 40 : dayRange === 60 ? 75 : 40;
     return Array.from({ length: n }, (_, i) => ({
@@ -59,9 +59,9 @@ function getMockHotspots(dayRange) {
             brightness: 310 + Math.random() * 20, confidence: ['high', 'nominal', 'low'][i % 3],
             acq_date: new Date().toISOString().split('T')[0] + 'T00:00:00',
             acq_time: `${String(10 + Math.floor(Math.random() * 12)).padStart(2, '0')}${String(Math.floor(Math.random() * 59)).padStart(2, '0')}`,
-            ap_tn: districts[i % districts.length], tb_tn: 'à¸•à¸³à¸šà¸¥à¸•à¸±à¸§à¸­à¸¢à¹ˆà¸²à¸‡',
+            ap_tn: districts[i % districts.length], tb_tn: 'ตำบลตัวอย่าง',
             satellite: satellites[i % satellites.length],
-            lu_name: landuses[i % landuses.length], th_date: new Date().toISOString(), th_time: '0240', village: 'à¸šà¹‰à¸²à¸™à¸•à¸±à¸§à¸­à¸¢à¹ˆà¸²à¸‡',
+            lu_name: landuses[i % landuses.length], th_date: new Date().toISOString(), th_time: '0240', village: 'บ้านตัวอย่าง',
         }
     }));
 }
@@ -126,16 +126,16 @@ function isInIsoDateRange(date, start, end) {
 }
 
 const LANDUSE_COLORS = {
-    'à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆà¹€à¸à¸©à¸•à¸£': '#dc2626', 'à¸Šà¸¸à¸¡à¸Šà¸™à¹à¸¥à¸°à¸­à¸·à¹ˆà¸™ à¹†': '#f59e0b', 'à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆà¸£à¸´à¸¡à¸—à¸²à¸‡à¸«à¸¥à¸§à¸‡': '#6366f1',
-    'à¹€à¸‚à¸• à¸ªà¸›à¸.': '#10b981', 'à¸›à¹ˆà¸²à¸ªà¸‡à¸§à¸™': '#059669',
+    'พื้นที่เกษตร': '#dc2626', 'ชุมชนและอื่น ๆ': '#f59e0b', 'พื้นที่ริมทางหลวง': '#6366f1',
+    'เขต สปก.': '#10b981', 'ป่าสงวน': '#059669',
 };
 const DAY_OPTIONS = [
-    { value: 1, label: '1 à¸§à¸±à¸™' }, { value: 3, label: '3 à¸§à¸±à¸™' },
-    { value: 7, label: '7 à¸§à¸±à¸™' }, { value: 30, label: '30 à¸§à¸±à¸™' },
-    { value: 60, label: '60 à¸§à¸±à¸™' },
+    { value: 1, label: '1 วัน' }, { value: 3, label: '3 วัน' },
+    { value: 7, label: '7 วัน' }, { value: 30, label: '30 วัน' },
+    { value: 60, label: '60 วัน' },
 ];
 const SATELLITE_OPTIONS = [
-    { value: 'all', label: 'à¸—à¸¸à¸à¸”à¸²à¸§à¹€à¸—à¸µà¸¢à¸¡' },
+    { value: 'all', label: 'ทุกดาวเทียม' },
     { value: 'Suomi NPP', label: 'Suomi NPP' },
     { value: 'NOAA-20', label: 'NOAA-20' },
     { value: 'NOAA-21', label: 'NOAA-21' },
@@ -167,36 +167,36 @@ function getHotspotExcelRow(feature, index) {
     const p = feature.properties || {};
     const [lon, lat] = feature.geometry?.coordinates || [];
     return {
-        'à¸¥à¸³à¸”à¸±à¸š': index + 1,
-        'à¸§à¸±à¸™à¸—à¸µà¹ˆ-à¹€à¸§à¸¥à¸² (à¹„à¸—à¸¢)': toThaiTime(p.th_date, p.th_time, p.acq_date, p.acq_time),
-        'à¸§à¸±à¸™à¸—à¸µà¹ˆ': toDateOnly(p.th_date, p.acq_date),
-        'à¸­à¸³à¹€à¸ à¸­': p.ap_tn || '-',
-        'à¸•à¸³à¸šà¸¥': p.tb_tn || '-',
-        'à¸«à¸¡à¸¹à¹ˆà¸šà¹‰à¸²à¸™': p.village || '-',
-        'à¸”à¸²à¸§à¹€à¸—à¸µà¸¢à¸¡': getSatelliteName(p) || '-',
-        'à¹€à¸„à¸£à¸·à¹ˆà¸­à¸‡à¸¡à¸·à¸­': p.instrument || 'VIIRS',
-        'à¸›à¸£à¸°à¹€à¸ à¸—à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ': p.lu_name || '-',
-        'à¸›à¸£à¸°à¹€à¸ à¸—à¸¢à¹ˆà¸­à¸¢': p.lu_hp_name || '-',
-        'à¸„à¸§à¸²à¸¡à¹€à¸Šà¸·à¹ˆà¸­à¸¡à¸±à¹ˆà¸™': p.confidence || '-',
+        'ลำดับ': index + 1,
+        'วันที่-เวลา (ไทย)': toThaiTime(p.th_date, p.th_time, p.acq_date, p.acq_time),
+        'วันที่': toDateOnly(p.th_date, p.acq_date),
+        'อำเภอ': p.ap_tn || '-',
+        'ตำบล': p.tb_tn || '-',
+        'หมู่บ้าน': p.village || '-',
+        'ดาวเทียม': getSatelliteName(p) || '-',
+        'เครื่องมือ': p.instrument || 'VIIRS',
+        'ประเภทพื้นที่': p.lu_name || '-',
+        'ประเภทย่อย': p.lu_hp_name || '-',
+        'ความเชื่อมั่น': p.confidence || '-',
         'Brightness (K)': p.brightness ? Number(p.brightness).toFixed(1) : '-',
         'FRP': p.frp || '-',
-        'à¸à¸¥à¸²à¸‡à¸§à¸±à¸™/à¸à¸¥à¸²à¸‡à¸„à¸·à¸™': p.daynight || '-',
+        'กลางวัน/กลางคืน': p.daynight || '-',
         'Latitude': lat || '',
         'Longitude': lon || '',
         'Google Map': p.linkgmap || (lat && lon ? `https://maps.google.com/maps?q=${lat},${lon}` : ''),
-        'à¹à¸«à¸¥à¹ˆà¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥': 'GISTDA VIIRS (à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¹„à¸”à¹‰à¸£à¸±à¸šà¸à¸²à¸£à¸¢à¸·à¸™à¸¢à¸±à¸™à¹ƒà¸™à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ)',
+        'แหล่งข้อมูล': 'GISTDA VIIRS (ยังไม่ได้รับการยืนยันในพื้นที่)',
     };
 }
 
 function countBy(features, getter) {
     const counts = {};
     features.forEach((feature) => {
-        const key = getter(feature) || 'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸';
+        const key = getter(feature) || 'ไม่ระบุ';
         counts[key] = (counts[key] || 0) + 1;
     });
     return Object.entries(counts)
         .sort((a, b) => b[1] - a[1])
-        .map(([name, count], index) => ({ 'à¸¥à¸³à¸”à¸±à¸š': index + 1, 'à¸£à¸²à¸¢à¸à¸²à¸£': name, 'à¸ˆà¸³à¸™à¸§à¸™à¸ˆà¸¸à¸”': count }));
+        .map(([name, count], index) => ({ 'ลำดับ': index + 1, 'รายการ': name, 'จำนวนจุด': count }));
 }
 
 function applySheetLayout(sheet, widths) {
@@ -257,7 +257,7 @@ export default function HotspotWidget() {
     const mockFeatures = useMemo(() => useMock ? getMockHotspots(fetchDayRange) : [], [useMock, fetchDayRange]);
     const localHotspots = useMemo(() => {
         const raw = rawFeatures || mockFeatures || [];
-        // à¹€à¸£à¸µà¸¢à¸‡à¸¥à¸³à¸”à¸±à¸šà¸ˆà¸²à¸à¹ƒà¸«à¸¡à¹ˆà¸ªà¸¸à¸”à¹„à¸›à¹€à¸à¹ˆà¸²à¸ªà¸¸à¸”
+        // เรียงลำดับจากใหม่สุดไปเก่าสุด
         return [...raw].sort((a, b) => {
             const dateA = a.properties?.acq_date || a.properties?.th_date || '';
             const dateB = b.properties?.acq_date || b.properties?.th_date || '';
@@ -279,13 +279,13 @@ export default function HotspotWidget() {
 
     const amphoeStats = useMemo(() => {
         const m = {};
-        satelliteHotspots.forEach(f => { const n = f.properties?.ap_tn || 'à¹„à¸¡à¹ˆà¸—à¸£à¸²à¸š'; m[n] = (m[n] || 0) + 1; });
+        satelliteHotspots.forEach(f => { const n = f.properties?.ap_tn || 'ไม่ทราบ'; m[n] = (m[n] || 0) + 1; });
         return Object.entries(m).sort((a, b) => b[1] - a[1]);
     }, [satelliteHotspots]);
 
     const landuseStats = useMemo(() => {
         const m = {};
-        satelliteHotspots.forEach(f => { const n = f.properties?.lu_name || 'à¸­à¸·à¹ˆà¸™ à¹†'; m[n] = (m[n] || 0) + 1; });
+        satelliteHotspots.forEach(f => { const n = f.properties?.lu_name || 'อื่น ๆ'; m[n] = (m[n] || 0) + 1; });
         return Object.entries(m).sort((a, b) => b[1] - a[1]);
     }, [satelliteHotspots]);
 
@@ -293,16 +293,16 @@ export default function HotspotWidget() {
         if (!selectedAmphoe) return [];
         const m = {};
         satelliteHotspots
-            .filter(f => (f.properties?.ap_tn || 'à¹„à¸¡à¹ˆà¸—à¸£à¸²à¸š') === selectedAmphoe)
-            .forEach(f => { const n = f.properties?.tb_tn || 'à¹„à¸¡à¹ˆà¸—à¸£à¸²à¸šà¸•à¸³à¸šà¸¥'; m[n] = (m[n] || 0) + 1; });
+            .filter(f => (f.properties?.ap_tn || 'ไม่ทราบ') === selectedAmphoe)
+            .forEach(f => { const n = f.properties?.tb_tn || 'ไม่ทราบตำบล'; m[n] = (m[n] || 0) + 1; });
         return Object.entries(m).sort((a, b) => b[1] - a[1]);
     }, [satelliteHotspots, selectedAmphoe]);
 
     const filteredHotspots = useMemo(() => {
         return satelliteHotspots.filter(f => {
             const p = f.properties || {};
-            if (selectedAmphoe && (p.ap_tn || 'à¹„à¸¡à¹ˆà¸—à¸£à¸²à¸š') !== selectedAmphoe) return false;
-            if (selectedTambon && (p.tb_tn || 'à¹„à¸¡à¹ˆà¸—à¸£à¸²à¸šà¸•à¸³à¸šà¸¥') !== selectedTambon) return false;
+            if (selectedAmphoe && (p.ap_tn || 'ไม่ทราบ') !== selectedAmphoe) return false;
+            if (selectedTambon && (p.tb_tn || 'ไม่ทราบตำบล') !== selectedTambon) return false;
             return true;
         });
     }, [satelliteHotspots, selectedAmphoe, selectedTambon]);
@@ -328,16 +328,16 @@ export default function HotspotWidget() {
     const { MapContainer, TileLayer, CircleMarker, Tooltip, GeoJSON } = MapComponents || {};
     const hasHotspots = satelliteHotspots.length > 0;
     const activePeriodLabel = hasCustomDateRange
-        ? `${customDateRange.start} à¸–à¸¶à¸‡ ${customDateRange.end}`
-        : `à¸¢à¹‰à¸­à¸™à¸«à¸¥à¸±à¸‡ ${dayRange} à¸§à¸±à¸™`;
+        ? `${customDateRange.start} ถึง ${customDateRange.end}`
+        : `ย้อนหลัง ${dayRange} วัน`;
 
     const handleDateRangeChange = (field, value) => {
         const next = { ...customDateRange, [field]: value };
         let error = '';
         if (next.start && next.end) {
             const spanDays = getDateSpanDays(next.start, next.end);
-            if (spanDays <= 0) error = 'à¸§à¸±à¸™à¸—à¸µà¹ˆà¹€à¸£à¸´à¹ˆà¸¡à¸•à¹‰à¸­à¸‡à¹„à¸¡à¹ˆà¹€à¸à¸´à¸™à¸§à¸±à¸™à¸—à¸µà¹ˆà¸ªà¸´à¹‰à¸™à¸ªà¸¸à¸”';
-            if (spanDays > 30) error = 'à¹€à¸¥à¸·à¸­à¸à¸Šà¹ˆà¸§à¸‡à¹„à¸”à¹‰à¸ªà¸¹à¸‡à¸ªà¸¸à¸” 30 à¸§à¸±à¸™';
+            if (spanDays <= 0) error = 'วันที่เริ่มต้องไม่เกินวันที่สิ้นสุด';
+            if (spanDays > 30) error = 'เลือกช่วงได้สูงสุด 30 วัน';
         }
         setCustomDateRange(next);
         setDateRangeError(error);
@@ -379,7 +379,7 @@ export default function HotspotWidget() {
     return (
         <div className="widget-box slide-up-anim" style={{ animationDelay: '0.25s', padding: 0, overflow: 'hidden' }}>
 
-            {/* â•â•â•â•â•â•â• TOP SECTION â€” full width â•â•â•â•â•â•â• */}
+            {/* ═══════ TOP SECTION — full width ═══════ */}
 
             {/* Header */}
             <div style={{
@@ -390,7 +390,7 @@ export default function HotspotWidget() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     <div className="widget-icon" style={{ background: '#fee2e2', color: '#dc2626', width: 34, height: 34, fontSize: 15 }}><FireOutlined /></div>
                     <div>
-                        <h4 style={{ margin: 0, fontSize: 15, fontWeight: 600, color: '#1e293b' }}>à¸ˆà¸¸à¸”à¸„à¸§à¸²à¸¡à¸£à¹‰à¸­à¸™ à¸ˆ.à¸™à¸„à¸£à¸›à¸à¸¡ (à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ˆà¸²à¸ GISTDA à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¹„à¸”à¹‰à¸£à¸±à¸šà¸à¸²à¸£à¸¢à¸·à¸™à¸¢à¸±à¸™à¹ƒà¸™à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ)</h4>
+                        <h4 style={{ margin: 0, fontSize: 15, fontWeight: 600, color: '#1e293b' }}>จุดความร้อน จ.นครปฐม (ข้อมูลจาก GISTDA ยังไม่ได้รับการยืนยันในพื้นที่)</h4>
                         <div style={{ fontSize: 10, color: '#94a3b8', fontWeight: 400 }}>VIIRS / GISTDA Satellite</div>
                     </div>
                 </div>
@@ -406,7 +406,7 @@ export default function HotspotWidget() {
                             border: '1px solid #e2e8f0', background: '#fff', color: '#475569',
                             fontFamily: 'inherit', fontSize: 11, fontWeight: 500, outline: 'none',
                         }}
-                        title="à¸à¸£à¸­à¸‡à¸•à¸²à¸¡à¸”à¸²à¸§à¹€à¸—à¸µà¸¢à¸¡"
+                        title="กรองตามดาวเทียม"
                     >
                         {SATELLITE_OPTIONS.map(o => (
                             <option key={o.value} value={o.value}>{o.label}</option>
@@ -436,7 +436,7 @@ export default function HotspotWidget() {
                                 border: dateRangeError ? '1px solid #ef4444' : hasCustomDateRange ? '1px solid #dc2626' : '1px solid #e2e8f0',
                                 fontFamily: 'inherit', fontSize: 10, fontWeight: 500, color: '#475569',
                             }}
-                            title="à¸§à¸±à¸™à¸—à¸µà¹ˆà¹€à¸£à¸´à¹ˆà¸¡à¸•à¹‰à¸™ (à¹€à¸¥à¸·à¸­à¸à¹„à¸”à¹‰à¸ªà¸¹à¸‡à¸ªà¸¸à¸”à¸Šà¹ˆà¸§à¸‡à¸¥à¸° 30 à¸§à¸±à¸™)"
+                            title="วันที่เริ่มต้น (เลือกได้สูงสุดช่วงละ 30 วัน)"
                         />
                         <span style={{ fontSize: 10, color: '#94a3b8', fontWeight: 500 }}>-</span>
                         <input
@@ -448,7 +448,7 @@ export default function HotspotWidget() {
                                 border: dateRangeError ? '1px solid #ef4444' : hasCustomDateRange ? '1px solid #dc2626' : '1px solid #e2e8f0',
                                 fontFamily: 'inherit', fontSize: 10, fontWeight: 500, color: '#475569',
                             }}
-                            title="à¸§à¸±à¸™à¸—à¸µà¹ˆà¸ªà¸´à¹‰à¸™à¸ªà¸¸à¸” (à¹€à¸¥à¸·à¸­à¸à¹„à¸”à¹‰à¸ªà¸¹à¸‡à¸ªà¸¸à¸”à¸Šà¹ˆà¸§à¸‡à¸¥à¸° 30 à¸§à¸±à¸™)"
+                            title="วันที่สิ้นสุด (เลือกได้สูงสุดช่วงละ 30 วัน)"
                         />
                         {(customDateRange.start || customDateRange.end) && (
                             <button
@@ -458,9 +458,9 @@ export default function HotspotWidget() {
                                     height: 28, width: 28, borderRadius: 8, border: '1px solid #e2e8f0',
                                     background: '#fff', color: '#64748b', cursor: 'pointer', fontWeight: 800,
                                 }}
-                                title="à¸¥à¹‰à¸²à¸‡à¸Šà¹ˆà¸§à¸‡à¸§à¸±à¸™à¸—à¸µà¹ˆ"
+                                title="ล้างช่วงวันที่"
                             >
-                                Ã—
+                                ×
                             </button>
                         )}
                         {dateRangeError && (
@@ -484,22 +484,22 @@ export default function HotspotWidget() {
                             color: hotspotsForList.length ? '#047857' : '#94a3b8',
                             fontWeight: 600, fontSize: 11, transition: 'all 0.2s',
                         }}
-                        title="à¸”à¸²à¸§à¸™à¹Œà¹‚à¸«à¸¥à¸” Excel à¸•à¸²à¸¡à¸•à¸±à¸§à¸à¸£à¸­à¸‡à¸›à¸±à¸ˆà¸ˆà¸¸à¸šà¸±à¸™"
+                        title="ดาวน์โหลด Excel ตามตัวกรองปัจจุบัน"
                     >
-                        ðŸ“¥ Excel
+                        📥 Excel
                     </button>
                 </div>
             </div>
 
             {isLoading ? (
                 <div className="skeleton-pulse" style={{ height: 450, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <div className="w-loader">à¸à¸³à¸¥à¸±à¸‡à¸•à¸£à¸§à¸ˆà¸ªà¸­à¸šà¸ˆà¸¸à¸”à¸„à¸§à¸²à¸¡à¸£à¹‰à¸­à¸™...</div>
+                    <div className="w-loader">กำลังตรวจสอบจุดความร้อน...</div>
                 </div>
             ) : (
                 <>
                     {!rawFeatures && (
                         <div style={{ fontSize: 11, color: '#f97316', background: '#fffbeb', padding: '5px 12px', fontWeight: 500, textAlign: 'center', borderBottom: '1px solid #fde68a' }}>
-                            âš ï¸ à¹„à¸¡à¹ˆà¸ªà¸²à¸¡à¸²à¸£à¸–à¹€à¸Šà¸·à¹ˆà¸­à¸¡à¸•à¹ˆà¸­ GISTDA API â€” à¹à¸ªà¸”à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ˆà¸³à¸¥à¸­à¸‡
+                            ⚠️ ไม่สามารถเชื่อมต่อ GISTDA API — แสดงข้อมูลจำลอง
                         </div>
                     )}
 
@@ -512,21 +512,21 @@ export default function HotspotWidget() {
                         <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start', marginBottom: landuseStats.length > 0 ? 10 : 0 }}>
                             {/* Count */}
                             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
-                                <span style={{ fontSize: 32 }}>{hasHotspots ? 'ðŸ”¥' : 'ðŸŒ²'}</span>
+                                <span style={{ fontSize: 32 }}>{hasHotspots ? '🔥' : '🌲'}</span>
                                 <div>
                                     <div style={{ fontSize: 28, fontWeight: 800, color: hasHotspots ? '#dc2626' : '#059669', lineHeight: 1 }}>
-                                        {satelliteHotspots.length} <span style={{ fontSize: 13, fontWeight: 600 }}>à¸ˆà¸¸à¸”</span>
+                                        {satelliteHotspots.length} <span style={{ fontSize: 13, fontWeight: 600 }}>จุด</span>
                                     </div>
                                     <div style={{ fontSize: 10, color: '#64748b', fontWeight: 500, marginTop: 2 }}>
-                                        {hasHotspots ? activePeriodLabel : 'à¸›à¸¥à¸­à¸”à¸ à¸±à¸¢ ðŸŒ²'}
+                                        {hasHotspots ? activePeriodLabel : 'ปลอดภัย 🌲'}
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Amphoe grid â€” compact inline */}
+                            {/* Amphoe grid — compact inline */}
                             {amphoeStats.length > 0 && (
                                 <div style={{ flex: 1, minWidth: 0 }}>
-                                    <div style={{ fontSize: 10, fontWeight: 500, color: '#94a3b8', marginBottom: 4, letterSpacing: '0.3px' }}>à¸à¸”à¸—à¸µà¹ˆà¸­à¸³à¹€à¸ à¸­ à¹€à¸žà¸·à¹ˆà¸­à¸à¸¥à¸±à¹ˆà¸™à¸à¸£à¸­à¸‡à¸•à¸³à¸šà¸¥</div>
+                                    <div style={{ fontSize: 10, fontWeight: 500, color: '#94a3b8', marginBottom: 4, letterSpacing: '0.3px' }}>กดที่อำเภอ เพื่อกลั่นกรองตำบล</div>
                                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: 3 }}>
                                         {amphoeStats.map(([name, count]) => {
                                             const sel = selectedAmphoe === name;
@@ -542,7 +542,7 @@ export default function HotspotWidget() {
                                                         fontFamily: 'inherit', fontSize: 11, transition: 'all 0.15s',
                                                     }}
                                                 >
-                                                    <span style={{ color: sel ? '#b91c1c' : '#334155', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>à¸­.{name}</span>
+                                                    <span style={{ color: sel ? '#b91c1c' : '#334155', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>อ.{name}</span>
                                                     <span style={{
                                                         background: sel ? '#dc2626' : '#e11d48', color: '#fff',
                                                         padding: '1px 6px', borderRadius: 8, fontWeight: 700, fontSize: 10,
@@ -554,7 +554,7 @@ export default function HotspotWidget() {
                                     </div>
                                     {selectedAmphoe && tambonStats.length > 0 && (
                                         <div style={{ marginTop: 8, display: 'flex', flexWrap: 'wrap', gap: 5, alignItems: 'center' }}>
-                                            <span style={{ fontSize: 10, fontWeight: 500, color: '#94a3b8', marginRight: 2 }}>à¸•à¸³à¸šà¸¥:</span>
+                                            <span style={{ fontSize: 10, fontWeight: 500, color: '#94a3b8', marginRight: 2 }}>ตำบล:</span>
                                             <button
                                                 className="hotspot-hover-float"
                                                 onClick={() => setSelectedTambon(null)}
@@ -566,7 +566,7 @@ export default function HotspotWidget() {
                                                     fontFamily: 'inherit', fontSize: 10, fontWeight: 600,
                                                 }}
                                             >
-                                                à¸—à¸±à¹‰à¸‡à¸«à¸¡à¸” {tambonStats.reduce((sum, [, count]) => sum + count, 0)}
+                                                ทั้งหมด {tambonStats.reduce((sum, [, count]) => sum + count, 0)}
                                             </button>
                                             {tambonStats.map(([name, count]) => {
                                                 const sel = selectedTambon === name;
@@ -619,10 +619,10 @@ export default function HotspotWidget() {
                     </div>
 
 
-                    {/* â•â•â•â•â•â•â• BOTTOM SECTION â€” two columns â•â•â•â•â•â•â• */}
+                    {/* ═══════ BOTTOM SECTION — two columns ═══════ */}
                     <div style={{ display: 'flex', minHeight: 450 }}>
 
-                        {/* BOTTOM LEFT â€” Map */}
+                        {/* BOTTOM LEFT — Map */}
                         <div style={{ flex: '1 1 55%', minWidth: 0, position: 'relative', borderRight: '1px solid #f1f5f9' }}>
                             {MapComponents ? (
                                 <MapContainer center={[13.85, 100.04]} zoom={10} zoomSnap={0.25}
@@ -643,7 +643,7 @@ export default function HotspotWidget() {
                                                 const name = feature.properties?.amp_th;
                                                 if (!name) return;
                                                 const cnt = amphoeStats.find(([n]) => n === name)?.[1] || 0;
-                                                layer.bindTooltip(`<b>à¸­.${name}</b>${cnt > 0 ? `<br/>ðŸ”¥ ${cnt} à¸ˆà¸¸à¸”` : '<br/>âœ… à¸›à¸¥à¸­à¸”à¸ à¸±à¸¢'}`, { sticky: true, direction: 'auto' });
+                                                layer.bindTooltip(`<b>อ.${name}</b>${cnt > 0 ? `<br/>🔥 ${cnt} จุด` : '<br/>✅ ปลอดภัย'}`, { sticky: true, direction: 'auto' });
                                                 layer.on({
                                                     click: () => setSelectedAmphoe(p => p === name ? null : name),
                                                     mouseover: e => e.target.setStyle({ fillOpacity: 0.25, weight: 3 }),
@@ -665,12 +665,12 @@ export default function HotspotWidget() {
                                                 radius={6} fillColor="#dc2626" fillOpacity={0.9} color="#fff" weight={2}>
                                                 <Tooltip sticky direction="top">
                                                     <div style={{ fontSize: 11, lineHeight: 1.6, fontFamily: 'inherit' }}>
-                                                        {p.ap_tn && <div><b>à¸­à¸³à¹€à¸ à¸­:</b> {p.ap_tn}</div>}
-                                                        {p.tb_tn && <div><b>à¸•à¸³à¸šà¸¥:</b> {p.tb_tn}</div>}
-                                                        {p.village && <div><b>à¸«à¸¡à¸¹à¹ˆà¸šà¹‰à¸²à¸™:</b> {p.village}</div>}
-                                                        <div><b>à¸›à¸£à¸°à¹€à¸ à¸—:</b> {p.lu_name || '-'}{p.lu_hp_name ? ` (${p.lu_hp_name})` : ''}</div>
-                                                        {thaiTime && <div><b>à¹€à¸§à¸¥à¸²:</b> {thaiTime} à¸™.</div>}
-                                                        <div><b>à¸„à¸§à¸²à¸¡à¸£à¹‰à¸­à¸™:</b> {p.brightness ? `${Number(p.brightness).toFixed(1)} K` : '-'}</div>
+                                                        {p.ap_tn && <div><b>อำเภอ:</b> {p.ap_tn}</div>}
+                                                        {p.tb_tn && <div><b>ตำบล:</b> {p.tb_tn}</div>}
+                                                        {p.village && <div><b>หมู่บ้าน:</b> {p.village}</div>}
+                                                        <div><b>ประเภท:</b> {p.lu_name || '-'}{p.lu_hp_name ? ` (${p.lu_hp_name})` : ''}</div>
+                                                        {thaiTime && <div><b>เวลา:</b> {thaiTime} น.</div>}
+                                                        <div><b>ความร้อน:</b> {p.brightness ? `${Number(p.brightness).toFixed(1)} K` : '-'}</div>
                                                     </div>
                                                 </Tooltip>
                                             </CircleMarker>
@@ -679,21 +679,21 @@ export default function HotspotWidget() {
                                 </MapContainer>
                             ) : (
                                 <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', fontSize: 13 }}>
-                                    à¸à¸³à¸¥à¸±à¸‡à¹‚à¸«à¸¥à¸”à¹à¸œà¸™à¸—à¸µà¹ˆ...
+                                    กำลังโหลดแผนที่...
                                 </div>
                             )}
                         </div>
 
-                        {/* BOTTOM RIGHT â€” Detail list */}
+                        {/* BOTTOM RIGHT — Detail list */}
                         <div style={{ flex: '1 1 45%', minWidth: 0, overflowY: 'auto', maxHeight: 450 }}>
                             {filteredHotspots.length > 0 ? (
                                 <div style={{ padding: '10px 14px' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                                         <div style={{ fontSize: 11, fontWeight: 700, color: '#dc2626', letterSpacing: '0.3px' }}>
-                                            ðŸ”¥ à¸£à¸²à¸¢à¸¥à¸°à¹€à¸­à¸µà¸¢à¸” {selectedAmphoe ? `à¸­.${selectedAmphoe}` : ''}{selectedTambon ? ` à¸•.${selectedTambon}` : ''} ({hotspotsForList.length} à¸ˆà¸¸à¸”)
+                                            🔥 รายละเอียด {selectedAmphoe ? `อ.${selectedAmphoe}` : ''}{selectedTambon ? ` ต.${selectedTambon}` : ''} ({hotspotsForList.length} จุด)
                                         </div>
                                         <div style={{ fontSize: 10, color: '#64748b', fontWeight: 500 }}>
-                                            <span style={{ cursor: 'pointer' }}>ðŸ‘† à¸„à¸¥à¸´à¸à¹€à¸žà¸·à¹ˆà¸­à¹€à¸›à¸´à¸”à¸”à¸¹ Google Map</span>
+                                            <span style={{ cursor: 'pointer' }}>👆 คลิกเพื่อเปิดดู Google Map</span>
                                         </div>
                                     </div>
 
@@ -708,9 +708,9 @@ export default function HotspotWidget() {
                                                     background: '#f8fafc', color: '#1e293b', outline: 'none'
                                                 }}
                                             >
-                                                <option value="">ðŸ—“ï¸ à¸—à¸±à¹‰à¸‡à¸«à¸¡à¸” (à¸—à¸¸à¸à¸§à¸±à¸™)</option>
+                                                <option value="">🗓️ ทั้งหมด (ทุกวัน)</option>
                                                 {uniqueDates.map(d => (
-                                                    <option key={d} value={d}>ðŸ“… {d}</option>
+                                                    <option key={d} value={d}>📅 {d}</option>
                                                 ))}
                                             </select>
                                         </div>
@@ -730,13 +730,13 @@ export default function HotspotWidget() {
                                                     }}>
                                                         <div style={{ flex: 1, minWidth: 0 }}>
                                                             <div style={{ color: '#334155', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                                                ðŸ“ {p.ap_tn || `${f.geometry.coordinates[1].toFixed(3)},${f.geometry.coordinates[0].toFixed(3)}`}
+                                                                📍 {p.ap_tn || `${f.geometry.coordinates[1].toFixed(3)},${f.geometry.coordinates[0].toFixed(3)}`}
                                                             </div>
                                                             <div style={{ fontSize: 9, color: '#94a3b8', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                                                {p.tb_tn || ''}{p.village ? ` â€¢ ${p.village}` : ''}{p.lu_name ? ` â€¢ ${p.lu_name}` : ''}{p.lu_hp_name ? ` (${p.lu_hp_name})` : ''}
+                                                                {p.tb_tn || ''}{p.village ? ` • ${p.village}` : ''}{p.lu_name ? ` • ${p.lu_name}` : ''}{p.lu_hp_name ? ` (${p.lu_hp_name})` : ''}
                                                             </div>
                                                         </div>
-                                                        {thaiTime && <span style={{ fontWeight: 700, color: '#475569', whiteSpace: 'nowrap', marginLeft: 6, fontSize: 10, background: '#f1f5f9', padding: '2px 6px', borderRadius: '4px' }}>ðŸ•’ {thaiTime}</span>}
+                                                        {thaiTime && <span style={{ fontWeight: 700, color: '#475569', whiteSpace: 'nowrap', marginLeft: 6, fontSize: 10, background: '#f1f5f9', padding: '2px 6px', borderRadius: '4px' }}>🕒 {thaiTime}</span>}
                                                     </a>
                                                 );
                                             })}
@@ -754,25 +754,25 @@ export default function HotspotWidget() {
                                                     onMouseOver={(e) => { e.currentTarget.style.background = '#e2e8f0'; e.currentTarget.style.color = '#334155'; }}
                                                     onMouseOut={(e) => { e.currentTarget.style.background = '#f1f5f9'; e.currentTarget.style.color = '#475569'; }}
                                                 >
-                                                    âž• à¹‚à¸«à¸¥à¸”à¹€à¸žà¸´à¹ˆà¸¡à¸­à¸µà¸ ({hotspotsForList.length - displayLimit} à¸ˆà¸¸à¸”)
+                                                    ➕ โหลดเพิ่มอีก ({hotspotsForList.length - displayLimit} จุด)
                                                 </button>
                                             )}
                                         </>
                                     ) : (
                                         <div style={{ textAlign: 'center', padding: '20px 0', color: '#94a3b8', fontSize: 11 }}>
-                                            à¹„à¸¡à¹ˆà¸žà¸šà¸ˆà¸¸à¸”à¸„à¸§à¸²à¸¡à¸£à¹‰à¸­à¸™à¹ƒà¸™à¸§à¸±à¸™à¸—à¸µà¹ˆà¹€à¸¥à¸·à¸­à¸
+                                            ไม่พบจุดความร้อนในวันที่เลือก
                                         </div>
                                     )}
                                 </div>
                             ) : (
                                 <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', fontSize: 12 }}>
-                                    âœ… à¹„à¸¡à¹ˆà¸žà¸šà¸ˆà¸¸à¸”à¸„à¸§à¸²à¸¡à¸£à¹‰à¸­à¸™à¹ƒà¸™à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ
+                                    ✅ ไม่พบจุดความร้อนในพื้นที่
                                 </div>
                             )}
 
                             {/* Footer */}
                             <div style={{ padding: '8px 14px', borderTop: '1px solid #f1f5f9', fontSize: 9, color: '#94a3b8', textAlign: 'center', fontWeight: 600, background: '#fafbfc' }}>
-                                â„¹ï¸ VIIRS (GISTDA) â€¢ {selectedSatellite === 'all' ? 'à¸—à¸¸à¸à¸”à¸²à¸§à¹€à¸—à¸µà¸¢à¸¡' : selectedSatellite} â€¢ {activePeriodLabel} â€¢ <code style={{ background: '#e2e8f0', padding: '1px 3px', borderRadius: 3, fontSize: 9 }}>/{ENDPOINT_MAP[fetchDayRange]}</code>
+                                ℹ️ VIIRS (GISTDA) • {selectedSatellite === 'all' ? 'ทุกดาวเทียม' : selectedSatellite} • {activePeriodLabel} • <code style={{ background: '#e2e8f0', padding: '1px 3px', borderRadius: 3, fontSize: 9 }}>/{ENDPOINT_MAP[fetchDayRange]}</code>
                             </div>
                         </div>
                     </div>

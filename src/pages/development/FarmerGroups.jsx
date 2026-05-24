@@ -9,24 +9,24 @@ import { useAuth } from '../../contexts/AuthContext';
 import districtGeoJSON from '../../data/nakhon_pathom_districts.json';
 
 const baseColumns = [
-    { title: 'à¸Šà¸·à¹ˆà¸­à¸à¸¥à¸¸à¹ˆà¸¡', dataIndex: 'group_name', key: 'group_name', width: 220 },
-    { title: 'à¸­à¸³à¹€à¸ à¸­', dataIndex: 'district', key: 'district', width: 130 },
-    { title: 'à¸›à¸£à¸°à¸˜à¸²à¸™', dataIndex: 'chairman', key: 'chairman', width: 150 },
-    { title: 'à¸ªà¸¡à¸²à¸Šà¸´à¸', dataIndex: 'member_count', key: 'member_count', width: 100, align: 'right' },
+    { title: 'ชื่อกลุ่ม', dataIndex: 'group_name', key: 'group_name', width: 220 },
+    { title: 'อำเภอ', dataIndex: 'district', key: 'district', width: 130 },
+    { title: 'ประธาน', dataIndex: 'chairman', key: 'chairman', width: 150 },
+    { title: 'สมาชิก', dataIndex: 'member_count', key: 'member_count', width: 100, align: 'right' },
 ];
 
 const formFields = (
     <>
-        <Form.Item name="group_name" label="à¸Šà¸·à¹ˆà¸­à¸à¸¥à¸¸à¹ˆà¸¡" rules={[{ required: true }]}>
+        <Form.Item name="group_name" label="ชื่อกลุ่ม" rules={[{ required: true }]}>
             <Input />
         </Form.Item>
-        <Form.Item name="district" label="à¸­à¸³à¹€à¸ à¸­">
+        <Form.Item name="district" label="อำเภอ">
             <Input />
         </Form.Item>
-        <Form.Item name="chairman" label="à¸›à¸£à¸°à¸˜à¸²à¸™">
+        <Form.Item name="chairman" label="ประธาน">
             <Input />
         </Form.Item>
-        <Form.Item name="member_count" label="à¸ˆà¸³à¸™à¸§à¸™à¸ªà¸¡à¸²à¸Šà¸´à¸">
+        <Form.Item name="member_count" label="จำนวนสมาชิก">
             <InputNumber style={{ width: '100%' }} />
         </Form.Item>
     </>
@@ -36,13 +36,13 @@ const money = new Intl.NumberFormat('th-TH', { maximumFractionDigits: 0 });
 const number = new Intl.NumberFormat('th-TH');
 
 const hasValue = (value) => value !== null && value !== undefined && value !== '';
-const yes = (value) => String(value || '').trim() === 'à¸¡à¸µ';
+const yes = (value) => String(value || '').trim() === 'มี';
 const HOUSEWIFE_TABLE = 'housewife_farmer_groups';
 
 function countBy(rows, key) {
     const map = new Map();
     rows.forEach((row) => {
-        const label = row[key] || 'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸';
+        const label = row[key] || 'ไม่ระบุ';
         map.set(label, (map.get(label) || 0) + 1);
     });
     return [...map.entries()].sort((a, b) => b[1] - a[1]);
@@ -74,7 +74,7 @@ function StatCard({ title, value, suffix, icon, color }) {
     );
 }
 
-function RankedList({ title, rows, suffix = 'à¸à¸¥à¸¸à¹ˆà¸¡' }) {
+function RankedList({ title, rows, suffix = 'กลุ่ม' }) {
     const max = rows[0]?.[1] || 1;
     return (
         <Card title={title} style={{ height: '100%' }} styles={{ body: { paddingTop: 8 } }}>
@@ -98,13 +98,13 @@ function YearComparison({ rows }) {
     const max = Math.max(...byYear.map(([, value]) => value), 1);
 
     return (
-        <Card title="à¸ˆà¸³à¸™à¸§à¸™à¸à¸¥à¸¸à¹ˆà¸¡à¹à¸¢à¸à¸•à¸²à¸¡à¸›à¸µ" style={{ height: '100%' }} styles={{ body: { paddingTop: 8 } }}>
+        <Card title="จำนวนกลุ่มแยกตามปี" style={{ height: '100%' }} styles={{ body: { paddingTop: 8 } }}>
             <Space direction="vertical" size={12} style={{ width: '100%' }}>
                 {byYear.map(([label, value]) => (
                     <div key={label}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, marginBottom: 4 }}>
                             <span style={{ fontWeight: 700 }}>{label}</span>
-                            <span style={{ color: '#57606a' }}>{number.format(value)} à¸à¸¥à¸¸à¹ˆà¸¡</span>
+                            <span style={{ color: '#57606a' }}>{number.format(value)} กลุ่ม</span>
                         </div>
                         <Progress percent={Math.round((value / max) * 100)} showInfo={false} strokeColor="#0969da" />
                     </div>
@@ -139,9 +139,9 @@ function HousewifeMap({ rows, year }) {
 
     if (!MapComponents) {
         return (
-            <Card title={`à¹à¸œà¸™à¸—à¸µà¹ˆà¸à¸¥à¸¸à¹ˆà¸¡à¹à¸¡à¹ˆà¸šà¹‰à¸²à¸™à¹€à¸à¸©à¸•à¸£à¸à¸£ à¸›à¸µ ${year}`}>
+            <Card title={`แผนที่กลุ่มแม่บ้านเกษตรกร ปี ${year}`}>
                 <div style={{ height: 420, display: 'grid', placeItems: 'center' }}>
-                    <Spin tip="à¸à¸³à¸¥à¸±à¸‡à¹‚à¸«à¸¥à¸”à¹à¸œà¸™à¸—à¸µà¹ˆ..." />
+                    <Spin tip="กำลังโหลดแผนที่..." />
                 </div>
             </Card>
         );
@@ -149,9 +149,9 @@ function HousewifeMap({ rows, year }) {
 
     if (!points.length) {
         return (
-            <Card title={`à¹à¸œà¸™à¸—à¸µà¹ˆà¸à¸¥à¸¸à¹ˆà¸¡à¹à¸¡à¹ˆà¸šà¹‰à¸²à¸™à¹€à¸à¸©à¸•à¸£à¸à¸£ à¸›à¸µ ${year}`}>
+            <Card title={`แผนที่กลุ่มแม่บ้านเกษตรกร ปี ${year}`}>
                 <div style={{ height: 420, display: 'grid', placeItems: 'center' }}>
-                    <Empty description="à¹„à¸¡à¹ˆà¸¡à¸µà¸žà¸´à¸à¸±à¸”à¸ªà¸³à¸«à¸£à¸±à¸šà¸›à¸µà¸™à¸µà¹‰" />
+                    <Empty description="ไม่มีพิกัดสำหรับปีนี้" />
                 </div>
             </Card>
         );
@@ -175,8 +175,8 @@ function HousewifeMap({ rows, year }) {
 
     return (
         <Card
-            title={`à¹à¸œà¸™à¸—à¸µà¹ˆà¸à¸¥à¸¸à¹ˆà¸¡à¹à¸¡à¹ˆà¸šà¹‰à¸²à¸™à¹€à¸à¸©à¸•à¸£à¸à¸£ à¸›à¸µ ${year}`}
-            extra={`${number.format(points.length)} à¸ˆà¸¸à¸”à¸žà¸´à¸à¸±à¸”`}
+            title={`แผนที่กลุ่มแม่บ้านเกษตรกร ปี ${year}`}
+            extra={`${number.format(points.length)} จุดพิกัด`}
             style={{ marginBottom: 16 }}
         >
             <MapContainer
@@ -204,7 +204,7 @@ function HousewifeMap({ rows, year }) {
                     }}
                     onEachFeature={(feature, layer) => {
                         const name = feature.properties?.amp_th || feature.properties?.AMP_NAMT;
-                        if (name) layer.bindTooltip(`à¸­à¸³à¹€à¸ à¸­${name}`, { sticky: true });
+                        if (name) layer.bindTooltip(`อำเภอ${name}`, { sticky: true });
                     }}
                 />
                 {points.map((item) => {
@@ -222,12 +222,12 @@ function HousewifeMap({ rows, year }) {
                             <Popup>
                                 <div style={{ minWidth: 220, fontFamily: 'inherit' }}>
                                     <div style={{ fontWeight: 700, marginBottom: 6 }}>{item.group_name}</div>
-                                    <div style={{ color: '#57606a', fontSize: 13 }}>à¸­.{item.district} à¸•.{item.subdistrict}</div>
+                                    <div style={{ color: '#57606a', fontSize: 13 }}>อ.{item.district} ต.{item.subdistrict}</div>
                                     <div style={{ marginTop: 8, display: 'grid', gap: 4, fontSize: 13 }}>
-                                        <span>à¸ªà¸¡à¸²à¸Šà¸´à¸: <strong>{number.format(item.member_count || 0)}</strong> à¸£à¸²à¸¢</span>
-                                        <span>à¸à¸´à¸ˆà¸à¸£à¸£à¸¡: <strong>{item.activity || '-'}</strong></span>
-                                        <span>à¸¨à¸±à¸à¸¢à¸ à¸²à¸ž: <strong>{item.potential_level || '-'}</strong></span>
-                                        <span>à¸Šà¹ˆà¸­à¸‡à¸—à¸²à¸‡à¸ˆà¸³à¸«à¸™à¹ˆà¸²à¸¢: <strong>{item.has_sales_channel || 'à¹„à¸¡à¹ˆà¸¡à¸µ'}</strong></span>
+                                        <span>สมาชิก: <strong>{number.format(item.member_count || 0)}</strong> ราย</span>
+                                        <span>กิจกรรม: <strong>{item.activity || '-'}</strong></span>
+                                        <span>ศักยภาพ: <strong>{item.potential_level || '-'}</strong></span>
+                                        <span>ช่องทางจำหน่าย: <strong>{item.has_sales_channel || 'ไม่มี'}</strong></span>
                                     </div>
                                 </div>
                             </Popup>
@@ -236,35 +236,35 @@ function HousewifeMap({ rows, year }) {
                 })}
             </MapContainer>
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 12, color: '#57606a', fontSize: 12 }}>
-                <span><EnvironmentOutlined style={{ color: '#0969da' }} /> à¸¡à¸µà¸Šà¹ˆà¸­à¸‡à¸—à¸²à¸‡à¸ˆà¸³à¸«à¸™à¹ˆà¸²à¸¢</span>
-                <span><EnvironmentOutlined style={{ color: '#bf8700' }} /> à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µà¸Šà¹ˆà¸­à¸‡à¸—à¸²à¸‡à¸ˆà¸³à¸«à¸™à¹ˆà¸²à¸¢</span>
+                <span><EnvironmentOutlined style={{ color: '#0969da' }} /> มีช่องทางจำหน่าย</span>
+                <span><EnvironmentOutlined style={{ color: '#bf8700' }} /> ยังไม่มีช่องทางจำหน่าย</span>
             </div>
         </Card>
     );
 }
 
 const housewifeColumns = [
-    { title: 'à¸›à¸µà¸‚à¹‰à¸­à¸¡à¸¹à¸¥', dataIndex: 'year', key: 'year', width: 75, fixed: 'left', align: 'center' },
-    { title: 'à¸Šà¸·à¹ˆà¸­à¸à¸¥à¸¸à¹ˆà¸¡', dataIndex: 'group_name', key: 'group_name', width: 220, fixed: 'left', ellipsis: true },
-    { title: 'à¸­à¸³à¹€à¸ à¸­', dataIndex: 'district', key: 'district', width: 100 },
-    { title: 'à¸•à¸³à¸šà¸¥', dataIndex: 'subdistrict', key: 'subdistrict', width: 100 },
-    { title: 'à¸«à¸¡à¸¹à¹ˆ', dataIndex: 'moo', key: 'moo', width: 60, align: 'center' },
-    { title: 'à¹€à¸¥à¸‚à¸—à¸µà¹ˆ', dataIndex: 'address_no', key: 'address_no', width: 80 },
-    { title: 'à¸ªà¸¡à¸²à¸Šà¸´à¸', dataIndex: 'member_count', key: 'member_count', width: 80, align: 'right', render: (v) => number.format(v || 0) },
-    { title: 'à¸à¸´à¸ˆà¸à¸£à¸£à¸¡à¸à¸¥à¸¸à¹ˆà¸¡', dataIndex: 'activity', key: 'activity', width: 200, ellipsis: true },
-    { title: 'à¸¨à¸±à¸à¸¢à¸ à¸²à¸ž', dataIndex: 'potential_level', key: 'potential_level', width: 95, render: (v) => v ? <Tag color={v === 'à¸”à¸µ' ? 'green' : 'gold'}>{v}</Tag> : '-' },
-    { title: 'à¸Šà¹ˆà¸­à¸‡à¸—à¸²à¸‡à¸ˆà¸³à¸«à¸™à¹ˆà¸²à¸¢', dataIndex: 'has_sales_channel', key: 'has_sales_channel', width: 110, render: (v) => <Tag color={yes(v) ? 'blue' : 'default'}>{v || 'à¹„à¸¡à¹ˆà¸¡à¸µ'}</Tag> },
-    { title: 'à¸ˆà¸”à¸—à¸°à¹€à¸šà¸µà¸¢à¸™à¸§à¸´à¸ªà¸²à¸«à¸à¸´à¸ˆà¸¯', dataIndex: 'community_enterprise_registration', key: 'community_enterprise_registration', width: 150, ellipsis: true },
-    { title: 'à¸à¸¥à¸¸à¹ˆà¸¡à¸•à¹‰à¸™à¹à¸šà¸š', dataIndex: 'model_group', key: 'model_group', width: 100, ellipsis: true },
-    { title: 'à¸—à¸¸à¸™', dataIndex: 'fund_management', key: 'fund_management', width: 100, align: 'right', render: (v) => money.format(v || 0) },
-    { title: 'à¸£à¸²à¸¢à¹„à¸”à¹‰', dataIndex: 'income', key: 'income', width: 100, align: 'right', render: (v) => money.format(v || 0) },
-    { title: 'à¸¡à¸²à¸•à¸£à¸à¸²à¸™à¸à¸²à¸£à¸œà¸¥à¸´à¸•', dataIndex: 'production_standard', key: 'production_standard', width: 130, render: (v) => v || '-', ellipsis: true },
-    { title: 'à¸­à¸­à¸™à¹„à¸¥à¸™à¹Œà¹ƒà¸™à¸›à¸£à¸°à¹€à¸—à¸¨', dataIndex: 'online_domestic', key: 'online_domestic', width: 120, render: (v) => v || '-', ellipsis: true },
-    { title: 'à¸­à¸­à¸™à¹„à¸¥à¸™à¹Œà¸•à¹ˆà¸²à¸‡à¸›à¸£à¸°à¹€à¸—à¸¨', dataIndex: 'online_international', key: 'online_international', width: 130, render: (v) => v || '-', ellipsis: true },
-    { title: 'à¸­à¸­à¸Ÿà¹„à¸¥à¸™à¹Œà¹ƒà¸™à¸›à¸£à¸°à¹€à¸—à¸¨', dataIndex: 'offline_domestic', key: 'offline_domestic', width: 120, render: (v) => v || '-', ellipsis: true },
-    { title: 'à¸­à¸­à¸Ÿà¹„à¸¥à¸™à¹Œà¸•à¹ˆà¸²à¸‡à¸›à¸£à¸°à¹€à¸—à¸¨', dataIndex: 'offline_international', key: 'offline_international', width: 130, render: (v) => v || '-', ellipsis: true },
-    { title: 'à¹‚à¸—à¸£à¸¨à¸±à¸žà¸—à¹Œ', dataIndex: 'phone', key: 'phone', width: 110, render: (v) => v && v !== '0' ? v : '-' },
-    { title: 'à¸§à¸±à¸™à¸—à¸µà¹ˆà¸ˆà¸±à¸”à¸•à¸±à¹‰à¸‡', dataIndex: 'established_text', key: 'established_text', width: 110, ellipsis: true },
+    { title: 'ปีข้อมูล', dataIndex: 'year', key: 'year', width: 75, fixed: 'left', align: 'center' },
+    { title: 'ชื่อกลุ่ม', dataIndex: 'group_name', key: 'group_name', width: 220, fixed: 'left', ellipsis: true },
+    { title: 'อำเภอ', dataIndex: 'district', key: 'district', width: 100 },
+    { title: 'ตำบล', dataIndex: 'subdistrict', key: 'subdistrict', width: 100 },
+    { title: 'หมู่', dataIndex: 'moo', key: 'moo', width: 60, align: 'center' },
+    { title: 'เลขที่', dataIndex: 'address_no', key: 'address_no', width: 80 },
+    { title: 'สมาชิก', dataIndex: 'member_count', key: 'member_count', width: 80, align: 'right', render: (v) => number.format(v || 0) },
+    { title: 'กิจกรรมกลุ่ม', dataIndex: 'activity', key: 'activity', width: 200, ellipsis: true },
+    { title: 'ศักยภาพ', dataIndex: 'potential_level', key: 'potential_level', width: 95, render: (v) => v ? <Tag color={v === 'ดี' ? 'green' : 'gold'}>{v}</Tag> : '-' },
+    { title: 'ช่องทางจำหน่าย', dataIndex: 'has_sales_channel', key: 'has_sales_channel', width: 110, render: (v) => <Tag color={yes(v) ? 'blue' : 'default'}>{v || 'ไม่มี'}</Tag> },
+    { title: 'จดทะเบียนวิสาหกิจฯ', dataIndex: 'community_enterprise_registration', key: 'community_enterprise_registration', width: 150, ellipsis: true },
+    { title: 'กลุ่มต้นแบบ', dataIndex: 'model_group', key: 'model_group', width: 100, ellipsis: true },
+    { title: 'ทุน', dataIndex: 'fund_management', key: 'fund_management', width: 100, align: 'right', render: (v) => money.format(v || 0) },
+    { title: 'รายได้', dataIndex: 'income', key: 'income', width: 100, align: 'right', render: (v) => money.format(v || 0) },
+    { title: 'มาตรฐานการผลิต', dataIndex: 'production_standard', key: 'production_standard', width: 130, render: (v) => v || '-', ellipsis: true },
+    { title: 'ออนไลน์ในประเทศ', dataIndex: 'online_domestic', key: 'online_domestic', width: 120, render: (v) => v || '-', ellipsis: true },
+    { title: 'ออนไลน์ต่างประเทศ', dataIndex: 'online_international', key: 'online_international', width: 130, render: (v) => v || '-', ellipsis: true },
+    { title: 'ออฟไลน์ในประเทศ', dataIndex: 'offline_domestic', key: 'offline_domestic', width: 120, render: (v) => v || '-', ellipsis: true },
+    { title: 'ออฟไลน์ต่างประเทศ', dataIndex: 'offline_international', key: 'offline_international', width: 130, render: (v) => v || '-', ellipsis: true },
+    { title: 'โทรศัพท์', dataIndex: 'phone', key: 'phone', width: 110, render: (v) => v && v !== '0' ? v : '-' },
+    { title: 'วันที่จัดตั้ง', dataIndex: 'established_text', key: 'established_text', width: 110, ellipsis: true },
     { title: 'Lat', dataIndex: 'lat', key: 'lat', width: 90, render: (v) => hasValue(v) ? Number(v).toFixed(6) : '-' },
     { title: 'Lon', dataIndex: 'lon', key: 'lon', width: 90, render: (v) => hasValue(v) ? Number(v).toFixed(6) : '-' },
 ];
@@ -290,82 +290,82 @@ const housewifeFormFields = (
     <>
         <Row gutter={12}>
             <Col xs={24} md={8}>
-                <Form.Item name="year" label="à¸›à¸µà¸‚à¹‰à¸­à¸¡à¸¹à¸¥" rules={[{ required: true }]}>
+                <Form.Item name="year" label="ปีข้อมูล" rules={[{ required: true }]}>
                     <InputNumber min={2500} max={2600} style={{ width: '100%' }} />
                 </Form.Item>
             </Col>
             <Col xs={24} md={16}>
-                <Form.Item name="group_name" label="à¸Šà¸·à¹ˆà¸­à¸à¸¥à¸¸à¹ˆà¸¡" rules={[{ required: true }]}>
+                <Form.Item name="group_name" label="ชื่อกลุ่ม" rules={[{ required: true }]}>
                     <Input />
                 </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-                <Form.Item name="district" label="à¸­à¸³à¹€à¸ à¸­">
+                <Form.Item name="district" label="อำเภอ">
                     <Input />
                 </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-                <Form.Item name="subdistrict" label="à¸•à¸³à¸šà¸¥">
+                <Form.Item name="subdistrict" label="ตำบล">
                     <Input />
                 </Form.Item>
             </Col>
             <Col xs={12} md={4}>
-                <Form.Item name="moo" label="à¸«à¸¡à¸¹à¹ˆ">
+                <Form.Item name="moo" label="หมู่">
                     <InputNumber style={{ width: '100%' }} />
                 </Form.Item>
             </Col>
             <Col xs={12} md={4}>
-                <Form.Item name="address_no" label="à¹€à¸¥à¸‚à¸—à¸µà¹ˆ">
+                <Form.Item name="address_no" label="เลขที่">
                     <Input />
                 </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-                <Form.Item name="member_count" label="à¸ªà¸¡à¸²à¸Šà¸´à¸">
+                <Form.Item name="member_count" label="สมาชิก">
                     <InputNumber min={0} style={{ width: '100%' }} />
                 </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-                <Form.Item name="phone" label="à¹‚à¸—à¸£à¸¨à¸±à¸žà¸—à¹Œ">
+                <Form.Item name="phone" label="โทรศัพท์">
                     <Input />
                 </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-                <Form.Item name="established_text" label="à¸§à¸±à¸™à¸—à¸µà¹ˆà¸ˆà¸±à¸”à¸•à¸±à¹‰à¸‡">
+                <Form.Item name="established_text" label="วันที่จัดตั้ง">
                     <Input />
                 </Form.Item>
             </Col>
             <Col xs={24}>
-                <Form.Item name="activity" label="à¸à¸´à¸ˆà¸à¸£à¸£à¸¡à¸à¸¥à¸¸à¹ˆà¸¡">
+                <Form.Item name="activity" label="กิจกรรมกลุ่ม">
                     <Input />
                 </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-                <Form.Item name="potential_level" label="à¸¨à¸±à¸à¸¢à¸ à¸²à¸ž">
-                    <Select allowClear options={['à¸”à¸µ', 'à¸›à¸²à¸™à¸à¸¥à¸²à¸‡', 'à¸›à¸£à¸±à¸šà¸›à¸£à¸¸à¸‡'].map((value) => ({ value, label: value }))} />
+                <Form.Item name="potential_level" label="ศักยภาพ">
+                    <Select allowClear options={['ดี', 'ปานกลาง', 'ปรับปรุง'].map((value) => ({ value, label: value }))} />
                 </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-                <Form.Item name="has_sales_channel" label="à¸Šà¹ˆà¸­à¸‡à¸—à¸²à¸‡à¸ˆà¸³à¸«à¸™à¹ˆà¸²à¸¢">
-                    <Select allowClear options={['à¸¡à¸µ', 'à¹„à¸¡à¹ˆà¸¡à¸µ'].map((value) => ({ value, label: value }))} />
+                <Form.Item name="has_sales_channel" label="ช่องทางจำหน่าย">
+                    <Select allowClear options={['มี', 'ไม่มี'].map((value) => ({ value, label: value }))} />
                 </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-                <Form.Item name="community_enterprise_registration" label="à¸ˆà¸”à¸—à¸°à¹€à¸šà¸µà¸¢à¸™à¸§à¸´à¸ªà¸²à¸«à¸à¸´à¸ˆà¸¯">
+                <Form.Item name="community_enterprise_registration" label="จดทะเบียนวิสาหกิจฯ">
                     <Input />
                 </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-                <Form.Item name="model_group" label="à¸à¸¥à¸¸à¹ˆà¸¡à¸•à¹‰à¸™à¹à¸šà¸š">
+                <Form.Item name="model_group" label="กลุ่มต้นแบบ">
                     <Input />
                 </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-                <Form.Item name="fund_management" label="à¸—à¸¸à¸™">
+                <Form.Item name="fund_management" label="ทุน">
                     <InputNumber min={0} style={{ width: '100%' }} />
                 </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-                <Form.Item name="income" label="à¸£à¸²à¸¢à¹„à¸”à¹‰">
+                <Form.Item name="income" label="รายได้">
                     <InputNumber min={0} style={{ width: '100%' }} />
                 </Form.Item>
             </Col>
@@ -388,7 +388,7 @@ export function HousewifeFarmerGroups() {
     const userCanEdit = canEdit();
     const userCanDelete = canDelete();
     const [search, setSearch] = useState('');
-    const [district, setDistrict] = useState('à¸—à¸±à¹‰à¸‡à¸«à¸¡à¸”');
+    const [district, setDistrict] = useState('ทั้งหมด');
     const [year, setYear] = useState(2568);
     const [modalOpen, setModalOpen] = useState(false);
     const [importModalOpen, setImportModalOpen] = useState(false);
@@ -410,7 +410,7 @@ export function HousewifeFarmerGroups() {
 
     const { data: rows = [], isLoading, refetch } = useApiCache(['housewife_farmer_groups_full'], fetchGroups);
 
-    const districts = useMemo(() => ['à¸—à¸±à¹‰à¸‡à¸«à¸¡à¸”', ...countBy(rows, 'district').map(([name]) => name)], [rows]);
+    const districts = useMemo(() => ['ทั้งหมด', ...countBy(rows, 'district').map(([name]) => name)], [rows]);
     const years = useMemo(() => countBy(rows, 'year').map(([name]) => name).sort((a, b) => Number(b) - Number(a)), [rows]);
     const activeYear = years.includes(year) ? year : (years[0] || 2568);
     const activeYearRows = useMemo(() => rows.filter((row) => row.year === activeYear), [rows, activeYear]);
@@ -418,7 +418,7 @@ export function HousewifeFarmerGroups() {
     const filteredRows = useMemo(() => {
         const text = search.trim().toLowerCase();
         return rows.filter((row) => {
-            const matchDistrict = district === 'à¸—à¸±à¹‰à¸‡à¸«à¸¡à¸”' || row.district === district;
+            const matchDistrict = district === 'ทั้งหมด' || row.district === district;
             const matchYear = row.year === activeYear;
             const matchText = !text || [
                 row.group_name,
@@ -440,7 +440,7 @@ export function HousewifeFarmerGroups() {
             sales,
             salesPct: activeYearRows.length ? Math.round((sales / activeYearRows.length) * 100) : 0,
             income: sum(activeYearRows, 'income'),
-            good: activeYearRows.filter((row) => row.potential_level === 'à¸”à¸µ').length,
+            good: activeYearRows.filter((row) => row.potential_level === 'ดี').length,
             districts: countBy(activeYearRows, 'district'),
             activities: countBy(activeYearRows, 'activity'),
             potential: countBy(activeYearRows, 'potential_level'),
@@ -449,7 +449,7 @@ export function HousewifeFarmerGroups() {
 
     const openAdd = () => {
         setEditingRecord(null);
-        form.setFieldsValue({ year: activeYear, province: 'à¸™à¸„à¸£à¸›à¸à¸¡', has_sales_channel: 'à¹„à¸¡à¹ˆà¸¡à¸µ' });
+        form.setFieldsValue({ year: activeYear, province: 'นครปฐม', has_sales_channel: 'ไม่มี' });
         setModalOpen(true);
     };
 
@@ -470,14 +470,14 @@ export function HousewifeFarmerGroups() {
 
             if (result.error) throw result.error;
 
-            message.success(editingRecord ? 'à¹à¸à¹‰à¹„à¸‚à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹à¸¥à¹‰à¸§' : 'à¹€à¸žà¸´à¹ˆà¸¡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹à¸¥à¹‰à¸§');
+            message.success(editingRecord ? 'แก้ไขข้อมูลแล้ว' : 'เพิ่มข้อมูลแล้ว');
             setModalOpen(false);
             setEditingRecord(null);
             form.resetFields();
             refetch();
         } catch (err) {
             if (err?.errorFields) return;
-            message.error(err.message || 'à¸šà¸±à¸™à¸—à¸¶à¸à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ');
+            message.error(err.message || 'บันทึกข้อมูลไม่สำเร็จ');
         } finally {
             setSaving(false);
         }
@@ -486,10 +486,10 @@ export function HousewifeFarmerGroups() {
     const handleDelete = async (id) => {
         const { error } = await supabase.from(HOUSEWIFE_TABLE).delete().eq('id', id);
         if (error) {
-            message.error(`à¸¥à¸šà¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸¥à¹‰à¸¡à¹€à¸«à¸¥à¸§: ${error.message}`);
+            message.error(`ลบข้อมูลล้มเหลว: ${error.message}`);
             return;
         }
-        message.success('à¸¥à¸šà¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ªà¸³à¹€à¸£à¹‡à¸ˆ');
+        message.success('ลบข้อมูลสำเร็จ');
         refetch();
     };
 
@@ -520,9 +520,9 @@ export function HousewifeFarmerGroups() {
     const columnPickerContent = (
         <div style={{ maxWidth: 340 }}>
             <Space size={4} style={{ marginBottom: 8 }}>
-                <Button size="small" onClick={() => setVisibleOptionalColumns([...ALL_OPTIONAL_KEYS])}>à¹€à¸¥à¸·à¸­à¸à¸—à¸±à¹‰à¸‡à¸«à¸¡à¸”</Button>
-                <Button size="small" onClick={() => setVisibleOptionalColumns(DEFAULT_OPTIONAL_KEYS)}>à¸„à¹ˆà¸²à¹€à¸£à¸´à¹ˆà¸¡à¸•à¹‰à¸™</Button>
-                <Button size="small" onClick={() => setVisibleOptionalColumns([])}>à¸«à¸¥à¸±à¸à¹€à¸—à¹ˆà¸²à¸™à¸±à¹‰à¸™</Button>
+                <Button size="small" onClick={() => setVisibleOptionalColumns([...ALL_OPTIONAL_KEYS])}>เลือกทั้งหมด</Button>
+                <Button size="small" onClick={() => setVisibleOptionalColumns(DEFAULT_OPTIONAL_KEYS)}>ค่าเริ่มต้น</Button>
+                <Button size="small" onClick={() => setVisibleOptionalColumns([])}>หลักเท่านั้น</Button>
             </Space>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 0' }}>
                 {housewifeColumns.map((col) => {
@@ -539,7 +539,7 @@ export function HousewifeFarmerGroups() {
                             }}
                             style={{ width: '50%', marginInlineStart: 0 }}
                         >
-                            {col.title}{isRequired ? ' (à¸«à¸¥à¸±à¸)' : ''}
+                            {col.title}{isRequired ? ' (หลัก)' : ''}
                         </Checkbox>
                     );
                 })}
@@ -550,7 +550,7 @@ export function HousewifeFarmerGroups() {
     const tableColumns = (!userCanEdit && !userCanDelete) ? filteredHousewifeColumns : [
         ...filteredHousewifeColumns,
         {
-            title: 'à¸ˆà¸±à¸”à¸à¸²à¸£',
+            title: 'จัดการ',
             key: 'actions',
             width: 90,
             fixed: 'right',
@@ -562,14 +562,14 @@ export function HousewifeFarmerGroups() {
                     )}
                     {userCanDelete && (
                         <Popconfirm
-                            title="à¸¢à¸·à¸™à¸¢à¸±à¸™à¸à¸²à¸£à¸¥à¸š"
-                            description="à¸•à¹‰à¸­à¸‡à¸à¸²à¸£à¸¥à¸šà¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸™à¸µà¹‰à¹ƒà¸Šà¹ˆà¹„à¸«à¸¡?"
-                            okText="à¸¥à¸š"
-                            cancelText="à¸¢à¸à¹€à¸¥à¸´à¸"
+                            title="ยืนยันการลบ"
+                            description="ต้องการลบข้อมูลนี้ใช่ไหม?"
+                            okText="ลบ"
+                            cancelText="ยกเลิก"
                             okButtonProps={{ danger: true }}
                             onConfirm={() => handleDelete(record.id)}
                         >
-                            <Tooltip title="à¸¥à¸š">
+                            <Tooltip title="ลบ">
                                 <Button danger icon={<DeleteOutlined />} />
                             </Tooltip>
                         </Popconfirm>
@@ -586,8 +586,8 @@ export function HousewifeFarmerGroups() {
     return (
         <div>
             <div className="md-page-header">
-                <h2>à¸à¸¥à¸¸à¹ˆà¸¡à¹à¸¡à¹ˆà¸šà¹‰à¸²à¸™à¹€à¸à¸©à¸•à¸£à¸à¸£</h2>
-                <p>à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ˆà¸²à¸à¸à¸²à¸™à¸‚à¹‰à¸­à¸¡à¸¹à¸¥ Supabase à¹à¸ªà¸”à¸‡à¸›à¸µ {activeYear} à¹€à¸›à¹‡à¸™à¸«à¸¥à¸±à¸ à¸žà¸£à¹‰à¸­à¸¡à¸”à¸¹à¸¢à¹‰à¸­à¸™à¸«à¸¥à¸±à¸‡à¹à¸¢à¸à¸£à¸²à¸¢à¸›à¸µ 2565-2568</p>
+                <h2>กลุ่มแม่บ้านเกษตรกร</h2>
+                <p>ข้อมูลจากฐานข้อมูล Supabase แสดงปี {activeYear} เป็นหลัก พร้อมดูย้อนหลังแยกรายปี 2565-2568</p>
             </div>
 
             <Row gutter={[16, 16]} style={{ marginBottom: 16, alignItems: 'stretch' }}>
@@ -601,36 +601,36 @@ export function HousewifeFarmerGroups() {
 
             <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
                 <Col xs={24} sm={12} xl={6}>
-                    <StatCard title="à¸ˆà¸³à¸™à¸§à¸™à¸à¸¥à¸¸à¹ˆà¸¡" value={stats.total} suffix="à¸à¸¥à¸¸à¹ˆà¸¡" icon={<TeamOutlined />} color="#1a7f37" />
+                    <StatCard title="จำนวนกลุ่ม" value={stats.total} suffix="กลุ่ม" icon={<TeamOutlined />} color="#1a7f37" />
                 </Col>
                 <Col xs={24} sm={12} xl={6}>
-                    <StatCard title="à¸ªà¸¡à¸²à¸Šà¸´à¸à¸—à¸±à¹‰à¸‡à¸«à¸¡à¸”" value={stats.members} suffix="à¸£à¸²à¸¢" icon={<TrophyOutlined />} color="#0969da" />
+                    <StatCard title="สมาชิกทั้งหมด" value={stats.members} suffix="ราย" icon={<TrophyOutlined />} color="#0969da" />
                 </Col>
                 <Col xs={24} sm={12} xl={6}>
-                    <StatCard title="à¸¡à¸µà¸Šà¹ˆà¸­à¸‡à¸—à¸²à¸‡à¸ˆà¸³à¸«à¸™à¹ˆà¸²à¸¢" value={stats.salesPct} suffix="%" icon={<ShopOutlined />} color="#bf8700" />
+                    <StatCard title="มีช่องทางจำหน่าย" value={stats.salesPct} suffix="%" icon={<ShopOutlined />} color="#bf8700" />
                 </Col>
                 <Col xs={24} sm={12} xl={6}>
-                    <StatCard title="à¸£à¸²à¸¢à¹„à¸”à¹‰à¸£à¸§à¸¡" value={stats.income} suffix="à¸šà¸²à¸—" icon={<WalletOutlined />} color="#8250df" />
+                    <StatCard title="รายได้รวม" value={stats.income} suffix="บาท" icon={<WalletOutlined />} color="#8250df" />
                 </Col>
             </Row>
 
             <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
                 <Col xs={24} lg={8}>
-                    <RankedList title="à¸­à¸³à¹€à¸ à¸­à¸—à¸µà¹ˆà¸¡à¸µà¸à¸¥à¸¸à¹ˆà¸¡à¸¡à¸²à¸à¸ªà¸¸à¸”" rows={stats.districts} />
+                    <RankedList title="อำเภอที่มีกลุ่มมากสุด" rows={stats.districts} />
                 </Col>
                 <Col xs={24} lg={8}>
-                    <RankedList title="à¸à¸´à¸ˆà¸à¸£à¸£à¸¡à¹€à¸”à¹ˆà¸™" rows={stats.activities} />
+                    <RankedList title="กิจกรรมเด่น" rows={stats.activities} />
                 </Col>
                 <Col xs={24} lg={8}>
-                    <RankedList title="à¸£à¸°à¸”à¸±à¸šà¸¨à¸±à¸à¸¢à¸ à¸²à¸ž" rows={stats.potential} />
+                    <RankedList title="ระดับศักยภาพ" rows={stats.potential} />
                 </Col>
             </Row>
 
             <Card
-                title={`à¸•à¸²à¸£à¸²à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸à¸¥à¸¸à¹ˆà¸¡à¹à¸¡à¹ˆà¸šà¹‰à¸²à¸™à¹€à¸à¸©à¸•à¸£à¸à¸£ à¸›à¸µ ${activeYear}`}
+                title={`ตารางข้อมูลกลุ่มแม่บ้านเกษตรกร ปี ${activeYear}`}
                 extra={
                     <Space wrap>
-                        <span>{number.format(filteredRows.length)} / {number.format(activeYearRows.length)} à¸£à¸²à¸¢à¸à¸²à¸£</span>
+                        <span>{number.format(filteredRows.length)} / {number.format(activeYearRows.length)} รายการ</span>
                         {(userCanEdit || userCanDelete) && (
                             <Button icon={<UploadOutlined />} onClick={() => setImportModalOpen(true)}>
                                 Import CSV
@@ -639,12 +639,12 @@ export function HousewifeFarmerGroups() {
                         <Button icon={<DownloadOutlined />} onClick={handleExportCSV}>
                             Export CSV
                         </Button>
-                        <Popover content={columnPickerContent} title="à¹€à¸¥à¸·à¸­à¸à¸„à¸­à¸¥à¸±à¸¡à¸™à¹Œà¸—à¸µà¹ˆà¹à¸ªà¸”à¸‡" trigger="click" placement="bottomRight">
-                            <Button icon={<AppstoreOutlined />}>à¸„à¸­à¸¥à¸±à¸¡à¸™à¹Œ {visibleColCount}/{totalColCount}</Button>
+                        <Popover content={columnPickerContent} title="เลือกคอลัมน์ที่แสดง" trigger="click" placement="bottomRight">
+                            <Button icon={<AppstoreOutlined />}>คอลัมน์ {visibleColCount}/{totalColCount}</Button>
                         </Popover>
                         {userCanEdit && (
                             <Button type="primary" icon={<PlusOutlined />} onClick={openAdd}>
-                                à¹€à¸žà¸´à¹ˆà¸¡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥
+                                เพิ่มข้อมูล
                             </Button>
                         )}
                     </Space>
@@ -654,7 +654,7 @@ export function HousewifeFarmerGroups() {
                     <Input
                         allowClear
                         prefix={<SearchOutlined />}
-                        placeholder="à¸„à¹‰à¸™à¸«à¸²à¸Šà¸·à¹ˆà¸­à¸à¸¥à¸¸à¹ˆà¸¡ à¸­à¸³à¹€à¸ à¸­ à¸•à¸³à¸šà¸¥ à¸à¸´à¸ˆà¸à¸£à¸£à¸¡"
+                        placeholder="ค้นหาชื่อกลุ่ม อำเภอ ตำบล กิจกรรม"
                         value={search}
                         onChange={(event) => setSearch(event.target.value)}
                         style={{ width: 320, maxWidth: '100%' }}
@@ -684,14 +684,14 @@ export function HousewifeFarmerGroups() {
             />
 
             <Modal
-                title={editingRecord ? 'à¹à¸à¹‰à¹„à¸‚à¸‚à¹‰à¸­à¸¡à¸¹à¸¥' : 'à¹€à¸žà¸´à¹ˆà¸¡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥'}
+                title={editingRecord ? 'แก้ไขข้อมูล' : 'เพิ่มข้อมูล'}
                 open={modalOpen}
                 onCancel={() => setModalOpen(false)}
                 onOk={handleSave}
                 confirmLoading={saving}
                 width={900}
-                okText="à¸šà¸±à¸™à¸—à¸¶à¸"
-                cancelText="à¸¢à¸à¹€à¸¥à¸´à¸"
+                okText="บันทึก"
+                cancelText="ยกเลิก"
                 destroyOnHidden
             >
                 <Form form={form} layout="vertical">
@@ -706,7 +706,7 @@ export function YoungFarmerGroups() {
     return (
         <CrudTable
             tableName="young_farmer_groups"
-            title="à¸à¸¥à¸¸à¹ˆà¸¡à¸¢à¸¸à¸§à¹€à¸à¸©à¸•à¸£à¸à¸£"
+            title="กลุ่มยุวเกษตรกร"
             columns={baseColumns}
             formFields={formFields}
             searchField="group_name"

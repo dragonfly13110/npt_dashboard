@@ -53,16 +53,16 @@ import { downloadCsv, objectsToCsv, parseCsvFile, rowsToCsv } from '../../utils/
 
 const { Text, Title } = Typography;
 const DEFAULT_SCHEMA = [
-  createField({ id: 'district', label: 'à¸­à¸³à¹€à¸ à¸­', type: 'select', required: true, options: DISTRICTS.join(','), order: 0 }),
-  createField({ id: 'subdistrict', label: 'à¸•à¸³à¸šà¸¥', type: 'text', required: true, order: 1 }),
-  createField({ id: 'reporter', label: 'à¸œà¸¹à¹‰à¸£à¸²à¸¢à¸‡à¸²à¸™', type: 'text', required: true, order: 2 }),
-  createField({ id: 'amount', label: 'à¸ˆà¸³à¸™à¸§à¸™/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ', type: 'number', required: false, order: 3 }),
+  createField({ id: 'district', label: 'อำเภอ', type: 'select', required: true, options: DISTRICTS.join(','), order: 0 }),
+  createField({ id: 'subdistrict', label: 'ตำบล', type: 'text', required: true, order: 1 }),
+  createField({ id: 'reporter', label: 'ผู้รายงาน', type: 'text', required: true, order: 2 }),
+  createField({ id: 'amount', label: 'จำนวน/พื้นที่', type: 'number', required: false, order: 3 }),
 ];
 
 function statusTag(status) {
-  if (status === 'published') return <Tag color="green">à¹€à¸›à¸´à¸”à¸£à¸±à¸šà¸‚à¹‰à¸­à¸¡à¸¹à¸¥</Tag>;
-  if (status === 'closed') return <Tag color="red">à¸›à¸´à¸”à¹à¸¥à¹‰à¸§</Tag>;
-  return <Tag>à¸£à¹ˆà¸²à¸‡</Tag>;
+  if (status === 'published') return <Tag color="green">เปิดรับข้อมูล</Tag>;
+  if (status === 'closed') return <Tag color="red">ปิดแล้ว</Tag>;
+  return <Tag>ร่าง</Tag>;
 }
 
 function assignmentSummary(assignments = []) {
@@ -72,8 +72,8 @@ function assignmentSummary(assignments = []) {
 
 function candidateConfidenceLabel(candidate) {
   if (!candidate) return '';
-  if (candidate.confidence >= 0.72) return 'à¸£à¸°à¸šà¸šà¹à¸™à¸°à¸™à¸³';
-  return 'à¸„à¸§à¸£à¸•à¸£à¸§à¸ˆà¸”à¸¹';
+  if (candidate.confidence >= 0.72) return 'ระบบแนะนำ';
+  return 'ควรตรวจดู';
 }
 
 function toOptions(options = '') {
@@ -100,7 +100,7 @@ function fieldInput(field, value, onChange, error) {
         onChange={onChange}
         options={toOptions(field.options)}
         style={{ minWidth: 160 }}
-        placeholder="à¹€à¸¥à¸·à¸­à¸"
+        placeholder="เลือก"
       />
     );
   }
@@ -172,7 +172,7 @@ export default function DataRequests() {
       setAssignments(assignmentResult.data || []);
       setResponses(responseResult.data || []);
     } catch (err) {
-      message.error(`à¹‚à¸«à¸¥à¸”à¸„à¸³à¸‚à¸­à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ: ${err.message}`);
+      message.error(`โหลดคำขอข้อมูลไม่สำเร็จ: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -215,7 +215,7 @@ export default function DataRequests() {
       const values = await requestForm.validateFields();
       const cleanSchema = normalizeSchema(schema).filter(field => field.label.trim());
       if (!cleanSchema.length) {
-        message.warning('à¸•à¹‰à¸­à¸‡à¸¡à¸µà¸„à¸³à¸–à¸²à¸¡à¸­à¸¢à¹ˆà¸²à¸‡à¸™à¹‰à¸­à¸¢ 1 à¸Šà¹ˆà¸­à¸‡');
+        message.warning('ต้องมีคำถามอย่างน้อย 1 ช่อง');
         return;
       }
 
@@ -234,7 +234,7 @@ export default function DataRequests() {
         let { error } = await supabase.from('data_requests').update(payload).eq('id', activeRequest.id);
         const retryPayload = removeMissingSupabaseColumn(payload, error);
         if (error && retryPayload !== payload) {
-          message.warning('à¸à¸²à¸™à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µà¸Šà¹ˆà¸­à¸‡à¹€à¸à¹‡à¸šà¸¥à¸´à¸‡à¸à¹Œ Google Sheet à¸£à¸°à¸šà¸šà¸ˆà¸°à¸šà¸±à¸™à¸—à¸¶à¸à¸„à¸³à¸‚à¸­à¹‚à¸”à¸¢à¹„à¸¡à¹ˆà¹€à¸à¹‡à¸šà¸¥à¸´à¸‡à¸à¹Œà¸™à¸µà¹‰');
+          message.warning('ฐานข้อมูลยังไม่มีช่องเก็บลิงก์ Google Sheet ระบบจะบันทึกคำขอโดยไม่เก็บลิงก์นี้');
           ({ error } = await supabase.from('data_requests').update(retryPayload).eq('id', activeRequest.id));
         }
         if (error) throw error;
@@ -246,7 +246,7 @@ export default function DataRequests() {
           .single();
         const retryPayload = removeMissingSupabaseColumn(payload, error);
         if (error && retryPayload !== payload) {
-          message.warning('à¸à¸²à¸™à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µà¸Šà¹ˆà¸­à¸‡à¹€à¸à¹‡à¸šà¸¥à¸´à¸‡à¸à¹Œ Google Sheet à¸£à¸°à¸šà¸šà¸ˆà¸°à¸šà¸±à¸™à¸—à¸¶à¸à¸„à¸³à¸‚à¸­à¹‚à¸”à¸¢à¹„à¸¡à¹ˆà¹€à¸à¹‡à¸šà¸¥à¸´à¸‡à¸à¹Œà¸™à¸µà¹‰');
+          message.warning('ฐานข้อมูลยังไม่มีช่องเก็บลิงก์ Google Sheet ระบบจะบันทึกคำขอโดยไม่เก็บลิงก์นี้');
           ({ data, error } = await supabase
             .from('data_requests')
             .insert([{ ...retryPayload, created_by: user?.id }])
@@ -275,34 +275,34 @@ export default function DataRequests() {
         if (error) throw error;
       }
 
-      message.success('à¸šà¸±à¸™à¸—à¸¶à¸à¸„à¸³à¸‚à¸­à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹à¸¥à¹‰à¸§');
+      message.success('บันทึกคำขอข้อมูลแล้ว');
       setBuilderOpen(false);
       await loadData();
     } catch (err) {
       if (err?.errorFields) return;
-      message.error(`à¸šà¸±à¸™à¸—à¸¶à¸à¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ: ${err.message}`);
+      message.error(`บันทึกไม่สำเร็จ: ${err.message}`);
     }
   };
 
   const deleteRequest = async (record) => {
     Modal.confirm({
-      title: 'à¸¥à¸šà¸„à¸³à¸‚à¸­à¸™à¸µà¹‰?',
-      content: `à¸„à¸³à¸‚à¸­ "${record.title}" à¹à¸¥à¸°à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸—à¸µà¹ˆà¸­à¸³à¹€à¸ à¸­à¸ªà¹ˆà¸‡à¹ƒà¸™à¸„à¸³à¸‚à¸­à¸™à¸µà¹‰à¸ˆà¸°à¸–à¸¹à¸à¸¥à¸šà¹„à¸›à¸”à¹‰à¸§à¸¢`,
-      okText: 'à¸¥à¸š',
+      title: 'ลบคำขอนี้?',
+      content: `คำขอ "${record.title}" และข้อมูลที่อำเภอส่งในคำขอนี้จะถูกลบไปด้วย`,
+      okText: 'ลบ',
       okType: 'danger',
-      cancelText: 'à¸¢à¸à¹€à¸¥à¸´à¸',
+      cancelText: 'ยกเลิก',
       async onOk() {
         try {
           const { data, error } = await supabase.from('data_requests').delete().eq('id', record.id);
           if (error) throw error;
           if (!data || data.length === 0) {
-            message.error('à¹„à¸¡à¹ˆà¸ªà¸²à¸¡à¸²à¸£à¸–à¸¥à¸šà¹„à¸”à¹‰ â€” à¸„à¸¸à¸“à¹„à¸¡à¹ˆà¸¡à¸µà¸ªà¸´à¸—à¸˜à¸´à¹Œà¸¥à¸š à¸«à¸£à¸·à¸­à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸–à¸¹à¸à¸¥à¸šà¹„à¸›à¹à¸¥à¹‰à¸§');
+            message.error('ไม่สามารถลบได้ — คุณไม่มีสิทธิ์ลบ หรือข้อมูลถูกลบไปแล้ว');
             return;
           }
-          message.success('à¸¥à¸šà¸„à¸³à¸‚à¸­à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹à¸¥à¹‰à¸§');
+          message.success('ลบคำขอข้อมูลแล้ว');
           await loadData();
         } catch (err) {
-          message.error(`à¸¥à¸šà¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ: ${err.message}`);
+          message.error(`ลบไม่สำเร็จ: ${err.message}`);
         }
       },
     });
@@ -345,14 +345,14 @@ export default function DataRequests() {
     const first = nextCandidates[0] || null;
     setSelectedCandidateId(first?.id || null);
     if (!first) {
-      message.warning('à¹„à¸¡à¹ˆà¸žà¸šà¸•à¸²à¸£à¸²à¸‡à¸—à¸µà¹ˆà¸­à¹ˆà¸²à¸™à¹„à¸”à¹‰à¸ˆà¸²à¸à¹à¸«à¸¥à¹ˆà¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸™à¸µà¹‰');
+      message.warning('ไม่พบตารางที่อ่านได้จากแหล่งข้อมูลนี้');
       return;
     }
     const second = nextCandidates[1];
     if (first.confidence >= 0.72 && (!second || first.score - second.score >= 3)) {
       analyzeCandidateWithAi(first, meta);
     } else {
-      message.info('à¸žà¸šà¸«à¸¥à¸²à¸¢à¸•à¸²à¸£à¸²à¸‡à¹ƒà¸™à¹„à¸Ÿà¸¥à¹Œ à¹€à¸¥à¸·à¸­à¸à¸•à¸²à¸£à¸²à¸‡à¸—à¸µà¹ˆà¸•à¹‰à¸­à¸‡à¸à¸²à¸£à¸à¹ˆà¸­à¸™à¹ƒà¸«à¹‰à¸£à¸°à¸šà¸šà¸Šà¹ˆà¸§à¸¢à¸ˆà¸±à¸”à¸Šà¹ˆà¸­à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥');
+      message.info('พบหลายตารางในไฟล์ เลือกตารางที่ต้องการก่อนให้ระบบช่วยจัดช่องข้อมูล');
     }
   };
 
@@ -369,21 +369,21 @@ export default function DataRequests() {
 
   const readAiGoogleSheetSource = async () => {
     if (!aiSheetUrl.trim()) {
-      message.warning('à¸§à¸²à¸‡ Google Sheet URL à¸à¹ˆà¸­à¸™');
+      message.warning('วาง Google Sheet URL ก่อน');
       return;
     }
     setAiLoading(true);
     try {
       const csvUrl = googleSheetUrlToCsvUrl(aiSheetUrl);
       const result = await fetch(csvUrl);
-      if (!result.ok) throw new Error(`Google Sheet à¸•à¸­à¸šà¸à¸¥à¸±à¸š ${result.status}`);
+      if (!result.ok) throw new Error(`Google Sheet ตอบกลับ ${result.status}`);
       const rows = parseCsv(await result.text());
       chooseCandidates(detectCandidateTables(rows, { sheetName: 'Google Sheet' }), {
         sourceType: 'google_sheet',
         sheetUrl: aiSheetUrl,
       });
     } catch (err) {
-      message.error(`à¸­à¹ˆà¸²à¸™ Google Sheet à¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ: ${err.message}`);
+      message.error(`อ่าน Google Sheet ไม่สำเร็จ: ${err.message}`);
     } finally {
       setAiLoading(false);
     }
@@ -391,20 +391,20 @@ export default function DataRequests() {
 
   const analyzeCandidateWithAi = async (candidate, meta = aiSourceMeta) => {
     if (!candidate) {
-      message.warning('à¹€à¸¥à¸·à¸­à¸à¸•à¸²à¸£à¸²à¸‡à¸•à¸±à¸§à¸­à¸¢à¹ˆà¸²à¸‡à¸à¹ˆà¸­à¸™');
+      message.warning('เลือกตารางตัวอย่างก่อน');
       return;
     }
     setAiLoading(true);
     try {
-      const systemPrompt = `à¸„à¸¸à¸“à¹€à¸›à¹‡à¸™à¸œà¸¹à¹‰à¸Šà¹ˆà¸§à¸¢à¸­à¸­à¸à¹à¸šà¸š schema à¸ªà¸³à¸«à¸£à¸±à¸šà¹à¸šà¸šà¸Ÿà¸­à¸£à¹Œà¸¡à¸‚à¸­à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸£à¸²à¸Šà¸à¸²à¸£à¹„à¸—à¸¢
-à¸•à¸­à¸šà¹€à¸›à¹‡à¸™ JSON object à¹€à¸—à¹ˆà¸²à¸™à¸±à¹‰à¸™ à¸«à¹‰à¸²à¸¡à¸¡à¸µ markdown
-à¸£à¸¹à¸›à¹à¸šà¸š:
-{"confidence":0.0-1.0,"note":"à¸ªà¸£à¸¸à¸›à¸ªà¸±à¹‰à¸™","fields":[{"label":"à¸Šà¸·à¹ˆà¸­à¸Šà¹ˆà¸­à¸‡","type":"text|number|select|date|textarea","required":true|false,"options":["à¸•à¸±à¸§à¹€à¸¥à¸·à¸­à¸"],"note":"à¹€à¸«à¸•à¸¸à¸œà¸¥à¸ªà¸±à¹‰à¸™"}]}
-à¸à¸•à¸´à¸à¸²:
-- à¹ƒà¸Šà¹‰ type à¸—à¸µà¹ˆà¸à¸³à¸«à¸™à¸”à¹€à¸—à¹ˆà¸²à¸™à¸±à¹‰à¸™
-- à¸–à¹‰à¸²à¸„à¸­à¸¥à¸±à¸¡à¸™à¹Œà¹€à¸›à¹‡à¸™à¸„à¹ˆà¸²à¸„à¸³à¸™à¸§à¸“à¸ˆà¸²à¸à¸ªà¸¹à¸•à¸£ à¹ƒà¸«à¹‰à¹€à¸à¹‡à¸šà¹€à¸›à¹‡à¸™ number/date/text à¸•à¸²à¸¡à¸„à¹ˆà¸²à¸œà¸¥à¸¥à¸±à¸žà¸˜à¹Œ à¹„à¸¡à¹ˆà¸•à¹‰à¸­à¸‡à¸ªà¸£à¹‰à¸²à¸‡à¸ªà¸¹à¸•à¸£
-- à¹€à¸¥à¸·à¸­à¸ required à¹€à¸‰à¸žà¸²à¸°à¸Šà¹ˆà¸­à¸‡à¸—à¸µà¹ˆà¸™à¹ˆà¸²à¸ˆà¸³à¹€à¸›à¹‡à¸™à¸•à¹ˆà¸­à¸à¸²à¸£à¸£à¸§à¸¡à¸œà¸¥
-- à¸–à¹‰à¸²à¹€à¸›à¹‡à¸™ select à¹ƒà¸«à¹‰à¹ƒà¸ªà¹ˆ options à¹€à¸‰à¸žà¸²à¸°à¹€à¸¡à¸·à¹ˆà¸­à¹€à¸«à¹‡à¸™à¸•à¸±à¸§à¹€à¸¥à¸·à¸­à¸à¸Šà¸±à¸”à¹€à¸ˆà¸™à¸ˆà¸²à¸à¸•à¸±à¸§à¸­à¸¢à¹ˆà¸²à¸‡`;
+      const systemPrompt = `คุณเป็นผู้ช่วยออกแบบ schema สำหรับแบบฟอร์มขอข้อมูลราชการไทย
+ตอบเป็น JSON object เท่านั้น ห้ามมี markdown
+รูปแบบ:
+{"confidence":0.0-1.0,"note":"สรุปสั้น","fields":[{"label":"ชื่อช่อง","type":"text|number|select|date|textarea","required":true|false,"options":["ตัวเลือก"],"note":"เหตุผลสั้น"}]}
+กติกา:
+- ใช้ type ที่กำหนดเท่านั้น
+- ถ้าคอลัมน์เป็นค่าคำนวณจากสูตร ให้เก็บเป็น number/date/text ตามค่าผลลัพธ์ ไม่ต้องสร้างสูตร
+- เลือก required เฉพาะช่องที่น่าจำเป็นต่อการรวมผล
+- ถ้าเป็น select ให้ใส่ options เฉพาะเมื่อเห็นตัวเลือกชัดเจนจากตัวอย่าง`;
       const userPrompt = JSON.stringify({
         source: meta,
         table: {
@@ -416,7 +416,7 @@ export default function DataRequests() {
       });
       const aiText = await callAI('gemini', systemPrompt, userPrompt, { deepThinking: false });
       const suggestion = parseAiSchemaSuggestion(aiText, candidate);
-      if (!suggestion.schema.length) throw new Error('AI à¹„à¸¡à¹ˆà¹„à¸”à¹‰à¸ªà¹ˆà¸‡ schema à¸—à¸µà¹ˆà¹ƒà¸Šà¹‰à¹„à¸”à¹‰');
+      if (!suggestion.schema.length) throw new Error('AI ไม่ได้ส่ง schema ที่ใช้ได้');
       setAiSuggestedSchema(suggestion.schema);
       setAiSuggestionInfo({
         confidence: suggestion.confidence,
@@ -424,17 +424,17 @@ export default function DataRequests() {
         source: meta,
         table: candidate,
       });
-      message.success('AI à¹à¸™à¸°à¸™à¸³à¹‚à¸„à¸£à¸‡à¸ªà¸£à¹‰à¸²à¸‡à¹à¸¥à¹‰à¸§ à¸•à¸£à¸§à¸ˆà¹à¸¥à¸°à¹à¸à¹‰à¸à¹ˆà¸­à¸™à¹ƒà¸Šà¹‰à¸‡à¸²à¸™');
+      message.success('AI แนะนำโครงสร้างแล้ว ตรวจและแก้ก่อนใช้งาน');
     } catch (err) {
       const fallback = parseAiSchemaSuggestion('', candidate);
       setAiSuggestedSchema(fallback.schema);
       setAiSuggestionInfo({
         confidence: fallback.confidence,
-        note: `à¹ƒà¸Šà¹‰ schema à¸ªà¸³à¸£à¸­à¸‡à¸ˆà¸²à¸à¸«à¸±à¸§à¸•à¸²à¸£à¸²à¸‡ à¹€à¸žà¸£à¸²à¸° AI à¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ: ${err.message}`,
+        note: `ใช้ schema สำรองจากหัวตาราง เพราะ AI ไม่สำเร็จ: ${err.message}`,
         source: meta,
         table: candidate,
       });
-      message.warning('AI à¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ à¸£à¸°à¸šà¸šà¸ªà¸£à¹‰à¸²à¸‡à¹‚à¸„à¸£à¸‡à¸ªà¸£à¹‰à¸²à¸‡à¸ªà¸³à¸£à¸­à¸‡à¸ˆà¸²à¸à¸«à¸±à¸§à¸•à¸²à¸£à¸²à¸‡à¹ƒà¸«à¹‰à¹à¸à¹‰à¸•à¹ˆà¸­');
+      message.warning('AI ไม่สำเร็จ ระบบสร้างโครงสร้างสำรองจากหัวตารางให้แก้ต่อ');
     } finally {
       setAiLoading(false);
     }
@@ -451,7 +451,7 @@ export default function DataRequests() {
   const applyAiSchema = () => {
     const cleanSchema = normalizeSchema(aiSuggestedSchema).filter(field => field.label.trim());
     if (!cleanSchema.length) {
-      message.warning('à¹„à¸¡à¹ˆà¸¡à¸µà¹‚à¸„à¸£à¸‡à¸ªà¸£à¹‰à¸²à¸‡à¹ƒà¸«à¹‰à¹ƒà¸Šà¹‰');
+      message.warning('ไม่มีโครงสร้างให้ใช้');
       return;
     }
     setSchema(cleanSchema);
@@ -459,7 +459,7 @@ export default function DataRequests() {
       requestForm.setFieldsValue({ sheet_url: aiSuggestionInfo.source.sheetUrl });
     }
     setAiBuilderOpen(false);
-    message.success('à¸™à¸³à¸Šà¹ˆà¸­à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹€à¸‚à¹‰à¸²à¹à¸šà¸šà¸Ÿà¸­à¸£à¹Œà¸¡à¹à¸¥à¹‰à¸§ à¸•à¸£à¸§à¸ˆà¸­à¸µà¸à¸„à¸£à¸±à¹‰à¸‡à¸à¹ˆà¸­à¸™à¸šà¸±à¸™à¸—à¸¶à¸');
+    message.success('นำช่องข้อมูลเข้าแบบฟอร์มแล้ว ตรวจอีกครั้งก่อนบันทึก');
   };
 
   const openFill = (record) => {
@@ -487,13 +487,13 @@ export default function DataRequests() {
     const errors = validateRows(rows, cleanSchema);
     setCellErrors(errors);
     if (Object.keys(errors).length) {
-      message.warning('à¸•à¸£à¸§à¸ˆà¸žà¸šà¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹„à¸¡à¹ˆà¸„à¸£à¸šà¸«à¸£à¸·à¸­à¸£à¸¹à¸›à¹à¸šà¸šà¹„à¸¡à¹ˆà¸–à¸¹à¸à¸•à¹‰à¸­à¸‡');
+      message.warning('ตรวจพบข้อมูลไม่ครบหรือรูปแบบไม่ถูกต้อง');
       return;
     }
 
     const district = profileDistrict || selectedSubmitDistrict || rows[0]?.district || (requestAssignments[activeRequest.id] || [])[0]?.district;
     if (!district) {
-      message.error('à¹„à¸¡à¹ˆà¸žà¸šà¸­à¸³à¹€à¸ à¸­à¸‚à¸­à¸‡à¸œà¸¹à¹‰à¸ªà¹ˆà¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥');
+      message.error('ไม่พบอำเภอของผู้ส่งข้อมูล');
       return;
     }
 
@@ -516,11 +516,11 @@ export default function DataRequests() {
         .eq('district', district);
       if (assignmentError) throw assignmentError;
 
-      message.success('à¸ªà¹ˆà¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹à¸¥à¹‰à¸§');
+      message.success('ส่งข้อมูลแล้ว');
       setFillOpen(false);
       await loadData();
     } catch (err) {
-      message.error(`à¸ªà¹ˆà¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ: ${err.message}`);
+      message.error(`ส่งข้อมูลไม่สำเร็จ: ${err.message}`);
     }
   };
 
@@ -568,23 +568,23 @@ export default function DataRequests() {
   const syncGoogleSheet = async (record, districtOverride = null) => {
     const district = districtOverride || selectedSubmitDistrict || profileDistrict || (requestAssignments[record.id] || [])[0]?.district;
     if (!record.sheet_url) {
-      message.warning('à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µ Google Sheet URL');
+      message.warning('ยังไม่มี Google Sheet URL');
       return;
     }
     if (!district) {
-      message.warning('à¹€à¸¥à¸·à¸­à¸à¸­à¸³à¹€à¸ à¸­à¸à¹ˆà¸­à¸™ sync');
+      message.warning('เลือกอำเภอก่อน sync');
       return;
     }
 
     try {
       const csvUrl = googleSheetUrlToCsvUrl(record.sheet_url);
       const result = await fetch(csvUrl);
-      if (!result.ok) throw new Error(`Google Sheet à¸•à¸­à¸šà¸à¸¥à¸±à¸š ${result.status}`);
+      if (!result.ok) throw new Error(`Google Sheet ตอบกลับ ${result.status}`);
       const csv = await result.text();
       const rows = tabularRowsToAnswerRows(parseCsv(csv), record.schema);
       const errors = validateRows(rows, record.schema);
       if (Object.keys(errors).length) {
-        message.warning('à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹ƒà¸™ Sheet à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸œà¹ˆà¸²à¸™ validation');
+        message.warning('ข้อมูลใน Sheet ยังไม่ผ่าน validation');
         setActiveRequest(record);
         setSelectedSubmitDistrict(district);
         setGridRows(rows.length ? rows : [{}]);
@@ -611,10 +611,10 @@ export default function DataRequests() {
         .eq('district', district);
       if (assignmentError) throw assignmentError;
 
-      message.success(`sync à¸ˆà¸²à¸ Google Sheet à¹à¸¥à¹‰à¸§ ${rows.length} à¹à¸–à¸§`);
+      message.success(`sync จาก Google Sheet แล้ว ${rows.length} แถว`);
       await loadData();
     } catch (err) {
-      message.error(`sync à¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ: ${err.message}`);
+      message.error(`sync ไม่สำเร็จ: ${err.message}`);
     }
   };
 
@@ -625,58 +625,58 @@ export default function DataRequests() {
 
   const columns = [
     {
-      title: 'à¸„à¸³à¸‚à¸­à¸‚à¹‰à¸­à¸¡à¸¹à¸¥',
+      title: 'คำขอข้อมูล',
       dataIndex: 'title',
       render: (title, record) => (
         <Space direction="vertical" size={0}>
           <Text strong>{title}</Text>
-          <Text type="secondary">{record.description || 'à¹„à¸¡à¹ˆà¸¡à¸µà¸„à¸³à¸­à¸˜à¸´à¸šà¸²à¸¢'}</Text>
+          <Text type="secondary">{record.description || 'ไม่มีคำอธิบาย'}</Text>
         </Space>
       ),
     },
     {
-      title: 'à¸ªà¸–à¸²à¸™à¸°',
+      title: 'สถานะ',
       dataIndex: 'status',
       width: 130,
       render: statusTag,
     },
     {
-      title: 'à¸à¸³à¸«à¸™à¸”à¸ªà¹ˆà¸‡',
+      title: 'กำหนดส่ง',
       dataIndex: 'deadline',
       width: 130,
       render: value => value ? dayjs(value).format('DD/MM/YYYY') : '-',
     },
     {
-      title: 'à¸ªà¹ˆà¸‡à¹à¸¥à¹‰à¸§',
+      title: 'ส่งแล้ว',
       width: 110,
       render: (_, record) => assignmentSummary(requestAssignments[record.id] || []),
     },
     {
-      title: 'à¸ˆà¸±à¸”à¸à¸²à¸£',
+      title: 'จัดการ',
       width: isAdmin ? 290 : 150,
       render: (_, record) => (
         <Space wrap>
           {isAdmin ? (
             <>
-              <Button type="primary" icon={<SendOutlined />} onClick={() => openFill(record)}>à¸à¸£à¸­à¸à¹à¸—à¸™</Button>
+              <Button type="primary" icon={<SendOutlined />} onClick={() => openFill(record)}>กรอกแทน</Button>
               <Button icon={<SyncOutlined />} onClick={() => {
                 const district = (requestAssignments[record.id] || [])[0]?.district || null;
                 setSelectedSubmitDistrict(district);
                 syncGoogleSheet(record, district);
-              }}>à¸”à¸¶à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ˆà¸²à¸ Sheet</Button>
-              <Button icon={<EditOutlined />} onClick={() => openEdit(record)}>à¹à¸à¹‰à¹„à¸‚</Button>
-              <Button icon={<FileTextOutlined />} onClick={() => { setActiveRequest(record); setResultOpen(true); }}>à¸œà¸¥à¸¥à¸±à¸žà¸˜à¹Œ</Button>
-              <Tooltip title="à¸”à¸²à¸§à¸™à¹Œà¹‚à¸«à¸¥à¸”à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸„à¸³à¸•à¸­à¸š">
+              }}>ดึงข้อมูลจาก Sheet</Button>
+              <Button icon={<EditOutlined />} onClick={() => openEdit(record)}>แก้ไข</Button>
+              <Button icon={<FileTextOutlined />} onClick={() => { setActiveRequest(record); setResultOpen(true); }}>ผลลัพธ์</Button>
+              <Tooltip title="ดาวน์โหลดข้อมูลคำตอบ">
                 <Button icon={<DownloadOutlined />} onClick={() => exportResults(record)} />
               </Tooltip>
-              <Popconfirm title="à¸¢à¸·à¸™à¸¢à¸±à¸™à¸à¸²à¸£à¸¥à¸š" description="à¸•à¹‰à¸­à¸‡à¸à¸²à¸£à¸¥à¸šà¸„à¸³à¸‚à¸­à¸™à¸µà¹‰à¹ƒà¸Šà¹ˆà¹„à¸«à¸¡?" okText="à¸¥à¸š" cancelText="à¸¢à¸à¹€à¸¥à¸´à¸" okButtonProps={{ danger: true }} onConfirm={() => deleteRequest(record)}>
-                <Tooltip title="à¸¥à¸šà¸„à¸³à¸‚à¸­à¸™à¸µà¹‰">
+              <Popconfirm title="ยืนยันการลบ" description="ต้องการลบคำขอนี้ใช่ไหม?" okText="ลบ" cancelText="ยกเลิก" okButtonProps={{ danger: true }} onConfirm={() => deleteRequest(record)}>
+                <Tooltip title="ลบคำขอนี้">
                   <Button danger icon={<DeleteOutlined />} />
                 </Tooltip>
               </Popconfirm>
             </>
           ) : (
-            <Button type="primary" icon={<SendOutlined />} onClick={() => openFill(record)}>à¸à¸£à¸­à¸à¸‚à¹‰à¸­à¸¡à¸¹à¸¥</Button>
+            <Button type="primary" icon={<SendOutlined />} onClick={() => openFill(record)}>กรอกข้อมูล</Button>
           )}
         </Space>
       ),
@@ -686,7 +686,7 @@ export default function DataRequests() {
   const selectedCandidate = aiCandidates.find(item => item.id === selectedCandidateId) || aiCandidates[0] || null;
   const candidatePreviewColumns = selectedCandidate
     ? selectedCandidate.headers.map((header, index) => ({
-      title: header || `à¸„à¸­à¸¥à¸±à¸¡à¸™à¹Œ ${index + 1}`,
+      title: header || `คอลัมน์ ${index + 1}`,
       dataIndex: `col_${index}`,
       width: 150,
       ellipsis: true,
@@ -744,15 +744,15 @@ export default function DataRequests() {
     : [];
 
   const resultColumns = [
-    { title: 'à¸­à¸³à¹€à¸ à¸­', dataIndex: 'district', fixed: 'left', width: 140 },
-    { title: 'à¸§à¸±à¸™à¸—à¸µà¹ˆà¸ªà¹ˆà¸‡', dataIndex: 'submitted_at', width: 160, render: value => value ? dayjs(value).format('DD/MM/YYYY HH:mm') : '-' },
+    { title: 'อำเภอ', dataIndex: 'district', fixed: 'left', width: 140 },
+    { title: 'วันที่ส่ง', dataIndex: 'submitted_at', width: 160, render: value => value ? dayjs(value).format('DD/MM/YYYY HH:mm') : '-' },
     ...cleanActiveSchema.map(field => ({ title: field.label, dataIndex: field.id, width: 180, ellipsis: true })),
   ];
 
   if (!isAdmin && !isEditor) {
     return (
       <Card>
-        <Empty description="à¸„à¸¸à¸“à¹„à¸¡à¹ˆà¸¡à¸µà¸ªà¸´à¸—à¸˜à¸´à¹Œà¹ƒà¸Šà¹‰à¸‡à¸²à¸™à¸£à¸°à¸šà¸šà¸„à¸³à¸‚à¸­à¸‚à¹‰à¸­à¸¡à¸¹à¸¥" />
+        <Empty description="คุณไม่มีสิทธิ์ใช้งานระบบคำขอข้อมูล" />
       </Card>
     );
   }
@@ -760,11 +760,11 @@ export default function DataRequests() {
   return (
     <div style={{ padding: 24 }}>
       <Card
-        title={<Title level={3} style={{ margin: 0 }}>à¸„à¸³à¸‚à¸­à¸‚à¹‰à¸­à¸¡à¸¹à¸¥</Title>}
+        title={<Title level={3} style={{ margin: 0 }}>คำขอข้อมูล</Title>}
         extra={(
           <Space>
-            <Button icon={<ReloadOutlined />} onClick={loadData}>à¸£à¸µà¹€à¸Ÿà¸£à¸Š</Button>
-            {isAdmin && <Button type="primary" icon={<PlusOutlined />} onClick={openCreate}>à¸ªà¸£à¹‰à¸²à¸‡à¸„à¸³à¸‚à¸­</Button>}
+            <Button icon={<ReloadOutlined />} onClick={loadData}>รีเฟรช</Button>
+            {isAdmin && <Button type="primary" icon={<PlusOutlined />} onClick={openCreate}>สร้างคำขอ</Button>}
           </Space>
         )}
       >
@@ -772,7 +772,7 @@ export default function DataRequests() {
           type="info"
           showIcon
           style={{ marginBottom: 16 }}
-          message={isAdmin ? 'à¸ˆà¸±à¸‡à¸«à¸§à¸±à¸”à¸ªà¸£à¹‰à¸²à¸‡à¹à¸šà¸šà¸Ÿà¸­à¸£à¹Œà¸¡à¹à¸¥à¸°à¸•à¸´à¸”à¸•à¸²à¸¡à¸à¸²à¸£à¸ªà¹ˆà¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸£à¸²à¸¢à¸­à¸³à¹€à¸ à¸­à¹„à¸”à¹‰à¸ˆà¸²à¸à¸«à¸™à¹‰à¸²à¸™à¸µà¹‰' : 'à¹€à¸¥à¸·à¸­à¸à¸„à¸³à¸‚à¸­à¸‚à¹‰à¸­à¸¡à¸¹à¸¥ à¹à¸¥à¹‰à¸§à¸à¸£à¸­à¸à¹à¸šà¸šà¸•à¸²à¸£à¸²à¸‡à¸«à¸£à¸·à¸­à¸§à¸²à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ˆà¸²à¸ CSV à¹„à¸”à¹‰'}
+          message={isAdmin ? 'จังหวัดสร้างแบบฟอร์มและติดตามการส่งข้อมูลรายอำเภอได้จากหน้านี้' : 'เลือกคำขอข้อมูล แล้วกรอกแบบตารางหรือวางข้อมูลจาก CSV ได้'}
         />
         <Table
           rowKey="id"
@@ -784,49 +784,49 @@ export default function DataRequests() {
       </Card>
 
       <Modal
-        title={activeRequest ? 'à¹à¸à¹‰à¹„à¸‚à¸„à¸³à¸‚à¸­à¸‚à¹‰à¸­à¸¡à¸¹à¸¥' : 'à¸‚à¸­à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ˆà¸²à¸à¸­à¸³à¹€à¸ à¸­'}
+        title={activeRequest ? 'แก้ไขคำขอข้อมูล' : 'ขอข้อมูลจากอำเภอ'}
         open={builderOpen}
         onCancel={() => setBuilderOpen(false)}
         onOk={saveRequest}
-        okText="à¸šà¸±à¸™à¸—à¸¶à¸à¸„à¸³à¸‚à¸­"
-        cancelText="à¸¢à¸à¹€à¸¥à¸´à¸"
+        okText="บันทึกคำขอ"
+        cancelText="ยกเลิก"
         width={1040}
         destroyOnClose
       >
         <Form form={requestForm} layout="vertical">
-          <Form.Item name="title" label="à¸Šà¸·à¹ˆà¸­à¸„à¸³à¸‚à¸­" rules={[{ required: true, message: 'à¸à¸£à¸¸à¸“à¸²à¸à¸£à¸­à¸à¸Šà¸·à¹ˆà¸­à¸„à¸³à¸‚à¸­' }]}>
-            <Input placeholder="à¹€à¸Šà¹ˆà¸™ à¸ªà¸³à¸£à¸§à¸ˆà¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆà¸£à¸°à¸šà¸²à¸”à¸¨à¸±à¸•à¸£à¸¹à¸žà¸·à¸Šà¸£à¸²à¸¢à¸­à¸³à¹€à¸ à¸­" />
+          <Form.Item name="title" label="ชื่อคำขอ" rules={[{ required: true, message: 'กรุณากรอกชื่อคำขอ' }]}>
+            <Input placeholder="เช่น สำรวจพื้นที่ระบาดศัตรูพืชรายอำเภอ" />
           </Form.Item>
-          <Form.Item name="description" label="à¸„à¸³à¸­à¸˜à¸´à¸šà¸²à¸¢">
-            <Input.TextArea rows={2} placeholder="à¸£à¸²à¸¢à¸¥à¸°à¹€à¸­à¸µà¸¢à¸”à¸—à¸µà¹ˆà¸­à¸³à¹€à¸ à¸­à¸•à¹‰à¸­à¸‡à¸—à¸£à¸²à¸šà¸à¹ˆà¸­à¸™à¸à¸£à¸­à¸" />
+          <Form.Item name="description" label="คำอธิบาย">
+            <Input.TextArea rows={2} placeholder="รายละเอียดที่อำเภอต้องทราบก่อนกรอก" />
           </Form.Item>
           <Form.Item name="sheet_url" label="Google Sheet URL">
-            <Input placeholder="à¸§à¸²à¸‡à¸¥à¸´à¸‡à¸à¹Œ Google Sheet à¸«à¸£à¸·à¸­ CSV export URL à¸ªà¸³à¸«à¸£à¸±à¸š sync à¸‚à¹‰à¸­à¸¡à¸¹à¸¥" />
+            <Input placeholder="วางลิงก์ Google Sheet หรือ CSV export URL สำหรับ sync ข้อมูล" />
           </Form.Item>
           <Space align="start" wrap>
-            <Form.Item name="deadline" label="à¸à¸³à¸«à¸™à¸”à¸ªà¹ˆà¸‡">
+            <Form.Item name="deadline" label="กำหนดส่ง">
               <DatePicker format="DD/MM/YYYY" />
             </Form.Item>
-            <Form.Item name="status" label="à¸ªà¸–à¸²à¸™à¸°" rules={[{ required: true }]}>
+            <Form.Item name="status" label="สถานะ" rules={[{ required: true }]}>
               <Select style={{ width: 180 }} options={[
-                { label: 'à¸£à¹ˆà¸²à¸‡', value: 'draft' },
-                { label: 'à¹€à¸›à¸´à¸”à¸£à¸±à¸šà¸‚à¹‰à¸­à¸¡à¸¹à¸¥', value: 'published' },
-                { label: 'à¸›à¸´à¸”à¹à¸¥à¹‰à¸§', value: 'closed' },
+                { label: 'ร่าง', value: 'draft' },
+                { label: 'เปิดรับข้อมูล', value: 'published' },
+                { label: 'ปิดแล้ว', value: 'closed' },
               ]} />
             </Form.Item>
           </Space>
-          <Form.Item name="districts" label="à¸­à¸³à¹€à¸ à¸­à¸—à¸µà¹ˆà¸•à¹‰à¸­à¸‡à¸ªà¹ˆà¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥" rules={[{ required: true, message: 'à¹€à¸¥à¸·à¸­à¸à¸­à¸¢à¹ˆà¸²à¸‡à¸™à¹‰à¸­à¸¢ 1 à¸­à¸³à¹€à¸ à¸­' }]}>
+          <Form.Item name="districts" label="อำเภอที่ต้องส่งข้อมูล" rules={[{ required: true, message: 'เลือกอย่างน้อย 1 อำเภอ' }]}>
             <Select mode="multiple" options={DISTRICTS.map(district => ({ label: district, value: district }))} />
           </Form.Item>
         </Form>
 
         <Card
           size="small"
-          title="à¸Šà¹ˆà¸­à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸—à¸µà¹ˆà¸•à¹‰à¸­à¸‡à¸à¸²à¸£à¹€à¸à¹‡à¸š"
+          title="ช่องข้อมูลที่ต้องการเก็บ"
           extra={(
             <Space>
-              <Button icon={<FileTextOutlined />} onClick={openAiBuilder}>à¹€à¸£à¸´à¹ˆà¸¡à¸ˆà¸²à¸à¹„à¸Ÿà¸¥à¹Œ CSV/Google Sheet à¹€à¸”à¸´à¸¡</Button>
-              <Button icon={<PlusOutlined />} onClick={addField}>à¹€à¸žà¸´à¹ˆà¸¡à¸Šà¹ˆà¸­à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥</Button>
+              <Button icon={<FileTextOutlined />} onClick={openAiBuilder}>เริ่มจากไฟล์ CSV/Google Sheet เดิม</Button>
+              <Button icon={<PlusOutlined />} onClick={addField}>เพิ่มช่องข้อมูล</Button>
             </Space>
           )}
         >
@@ -834,22 +834,22 @@ export default function DataRequests() {
             type="info"
             showIcon
             style={{ marginBottom: 12 }}
-            message="à¸à¸³à¸«à¸™à¸”à¸Šà¹ˆà¸­à¸‡à¸—à¸µà¹ˆà¸­à¸³à¹€à¸ à¸­à¸•à¹‰à¸­à¸‡à¸ªà¹ˆà¸‡ à¹€à¸Šà¹ˆà¸™ à¸­à¸³à¹€à¸ à¸­ à¸•à¸³à¸šà¸¥ à¸Šà¸™à¸´à¸”à¸žà¸·à¸Š à¸ˆà¸³à¸™à¸§à¸™ à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ à¸«à¸£à¸·à¸­à¸«à¸¡à¸²à¸¢à¹€à¸«à¸•à¸¸"
+            message="กำหนดช่องที่อำเภอต้องส่ง เช่น อำเภอ ตำบล ชนิดพืช จำนวน พื้นที่ หรือหมายเหตุ"
           />
           <Space direction="vertical" style={{ width: '100%' }}>
             {normalizeSchema(schema).map((field, index) => (
               <div key={field.id} style={{ display: 'grid', gridTemplateColumns: '32px 1fr 150px 110px 1fr 42px', gap: 8, alignItems: 'center' }}>
                 <Text>{index + 1}</Text>
-                <Input value={field.label} placeholder="à¸Šà¸·à¹ˆà¸­à¸„à¸³à¸–à¸²à¸¡" onChange={e => updateField(field.id, { label: e.target.value })} />
+                <Input value={field.label} placeholder="ชื่อคำถาม" onChange={e => updateField(field.id, { label: e.target.value })} />
                 <Select value={field.type} options={FIELD_TYPES} onChange={value => updateField(field.id, { type: value })} />
                 <Space>
                   <Switch checked={field.required} onChange={checked => updateField(field.id, { required: checked })} />
-                  <Text>à¸šà¸±à¸‡à¸„à¸±à¸š</Text>
+                  <Text>บังคับ</Text>
                 </Space>
                 <Input
                   disabled={field.type !== 'select'}
                   value={field.options}
-                  placeholder="à¸•à¸±à¸§à¹€à¸¥à¸·à¸­à¸à¸„à¸±à¹ˆà¸™à¸”à¹‰à¸§à¸¢ comma"
+                  placeholder="ตัวเลือกคั่นด้วย comma"
                   onChange={e => updateField(field.id, { options: e.target.value })}
                 />
                 <Button danger type="text" icon={<DeleteOutlined />} onClick={() => removeField(field.id)} />
@@ -860,21 +860,21 @@ export default function DataRequests() {
       </Modal>
 
       <Modal
-        title="à¸Šà¹ˆà¸§à¸¢à¸ˆà¸±à¸”à¸Šà¹ˆà¸­à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ˆà¸²à¸à¹„à¸Ÿà¸¥à¹Œà¹€à¸”à¸´à¸¡"
+        title="ช่วยจัดช่องข้อมูลจากไฟล์เดิม"
         open={aiBuilderOpen}
         onCancel={() => setAiBuilderOpen(false)}
         width={1180}
         destroyOnClose
         footer={(
           <Space>
-            <Button onClick={() => setAiBuilderOpen(false)}>à¸¢à¸à¹€à¸¥à¸´à¸</Button>
+            <Button onClick={() => setAiBuilderOpen(false)}>ยกเลิก</Button>
             <Button
               icon={<SyncOutlined />}
               loading={aiLoading}
               disabled={!selectedCandidate}
               onClick={() => analyzeCandidateWithAi(selectedCandidate, aiSourceMeta)}
             >
-              à¹ƒà¸«à¹‰à¸£à¸°à¸šà¸šà¸Šà¹ˆà¸§à¸¢à¸ˆà¸±à¸”à¸Šà¹ˆà¸­à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥
+              ให้ระบบช่วยจัดช่องข้อมูล
             </Button>
             <Button
               type="primary"
@@ -882,7 +882,7 @@ export default function DataRequests() {
               disabled={!aiSuggestedSchema.length}
               onClick={applyAiSchema}
             >
-              à¸™à¸³à¸Šà¹ˆà¸­à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹„à¸›à¹ƒà¸Šà¹‰
+              นำช่องข้อมูลไปใช้
             </Button>
           </Space>
         )}
@@ -891,12 +891,12 @@ export default function DataRequests() {
           type="info"
           showIcon
           style={{ marginBottom: 16 }}
-          message="à¹€à¸¥à¸·à¸­à¸à¹„à¸Ÿà¸¥à¹Œà¸—à¸µà¹ˆà¹ƒà¸Šà¹‰à¸­à¸¢à¸¹à¹ˆà¸«à¸£à¸·à¸­à¸§à¸²à¸‡à¸¥à¸´à¸‡à¸à¹Œ Google Sheet à¸£à¸°à¸šà¸šà¸ˆà¸°à¸­à¹ˆà¸²à¸™à¸•à¸²à¸£à¸²à¸‡à¸•à¸±à¸§à¸­à¸¢à¹ˆà¸²à¸‡ à¹à¸¥à¹‰à¸§à¸Šà¹ˆà¸§à¸¢à¹€à¸ªà¸™à¸­à¸Šà¹ˆà¸­à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹ƒà¸«à¹‰à¸•à¸£à¸§à¸ˆà¹à¸à¹‰à¸à¹ˆà¸­à¸™à¸™à¸³à¹„à¸›à¹ƒà¸Šà¹‰"
+          message="เลือกไฟล์ที่ใช้อยู่หรือวางลิงก์ Google Sheet ระบบจะอ่านตารางตัวอย่าง แล้วช่วยเสนอช่องข้อมูลให้ตรวจแก้ก่อนนำไปใช้"
         />
         <Space direction="vertical" style={{ width: '100%' }} size={16}>
           <Radio.Group value={aiSourceType} onChange={e => setAiSourceType(e.target.value)} optionType="button" buttonStyle="solid">
-            <Radio.Button value="csv">à¹„à¸Ÿà¸¥à¹Œ CSV</Radio.Button>
-            <Radio.Button value="google_sheet">à¸¥à¸´à¸‡à¸à¹Œ Google Sheet</Radio.Button>
+            <Radio.Button value="csv">ไฟล์ CSV</Radio.Button>
+            <Radio.Button value="google_sheet">ลิงก์ Google Sheet</Radio.Button>
           </Radio.Group>
 
           {aiSourceType === 'excel' ? (
@@ -911,23 +911,23 @@ export default function DataRequests() {
                   e.target.value = '';
                 }}
               />
-              <Button icon={<FileTextOutlined />} loading={aiLoading}>à¹€à¸¥à¸·à¸­à¸à¹„à¸Ÿà¸¥à¹Œ CSV à¸—à¸µà¹ˆà¹ƒà¸Šà¹‰à¸­à¸¢à¸¹à¹ˆ</Button>
+              <Button icon={<FileTextOutlined />} loading={aiLoading}>เลือกไฟล์ CSV ที่ใช้อยู่</Button>
             </label>
           ) : (
             <Space.Compact style={{ width: '100%' }}>
               <Input
                 value={aiSheetUrl}
                 onChange={e => setAiSheetUrl(e.target.value)}
-                placeholder="à¸§à¸²à¸‡à¸¥à¸´à¸‡à¸à¹Œ Google Sheet"
+                placeholder="วางลิงก์ Google Sheet"
               />
-              <Button type="primary" loading={aiLoading} onClick={readAiGoogleSheetSource}>à¸­à¹ˆà¸²à¸™à¸‚à¹‰à¸­à¸¡à¸¹à¸¥</Button>
+              <Button type="primary" loading={aiLoading} onClick={readAiGoogleSheetSource}>อ่านข้อมูล</Button>
             </Space.Compact>
           )}
 
           {!!aiCandidates.length && (
-            <Card size="small" title="à¸•à¸²à¸£à¸²à¸‡à¸—à¸µà¹ˆà¸£à¸°à¸šà¸šà¸žà¸šà¹ƒà¸™à¹„à¸Ÿà¸¥à¹Œ">
+            <Card size="small" title="ตารางที่ระบบพบในไฟล์">
               <Space direction="vertical" style={{ width: '100%' }}>
-                <Text type="secondary">à¸–à¹‰à¸²à¹„à¸Ÿà¸¥à¹Œà¸¡à¸µà¸«à¸¥à¸²à¸¢à¸•à¸²à¸£à¸²à¸‡ à¹ƒà¸«à¹‰à¹€à¸¥à¸·à¸­à¸à¸•à¸²à¸£à¸²à¸‡à¸—à¸µà¹ˆà¸­à¸³à¹€à¸ à¸­à¸•à¹‰à¸­à¸‡à¸à¸£à¸­à¸à¸ˆà¸£à¸´à¸‡</Text>
+                <Text type="secondary">ถ้าไฟล์มีหลายตาราง ให้เลือกตารางที่อำเภอต้องกรอกจริง</Text>
                 <Select
                   value={selectedCandidateId || undefined}
                   style={{ width: '100%' }}
@@ -938,7 +938,7 @@ export default function DataRequests() {
                   }}
                   options={aiCandidates.map((candidate, index) => ({
                     value: candidate.id,
-                    label: `${index + 1}. ${candidate.sheetName} à¹à¸–à¸§à¸«à¸±à¸§à¸•à¸²à¸£à¸²à¸‡ ${candidate.headerRowIndex + 1} Â· ${candidate.columnCount} à¸„à¸­à¸¥à¸±à¸¡à¸™à¹Œ Â· ${candidate.dataRowCount} à¹à¸–à¸§à¸•à¸±à¸§à¸­à¸¢à¹ˆà¸²à¸‡ Â· ${candidateConfidenceLabel(candidate)}`,
+                    label: `${index + 1}. ${candidate.sheetName} แถวหัวตาราง ${candidate.headerRowIndex + 1} · ${candidate.columnCount} คอลัมน์ · ${candidate.dataRowCount} แถวตัวอย่าง · ${candidateConfidenceLabel(candidate)}`,
                   }))}
                 />
                 <Table
@@ -958,32 +958,32 @@ export default function DataRequests() {
             <Alert
               type={aiSuggestionInfo.confidence >= 0.7 ? 'success' : 'warning'}
               showIcon
-              message={aiSuggestionInfo.confidence >= 0.7 ? 'à¸£à¸°à¸šà¸šà¸Šà¹ˆà¸§à¸¢à¸ˆà¸±à¸”à¸Šà¹ˆà¸­à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹à¸¥à¹‰à¸§' : 'à¸£à¸°à¸šà¸šà¸ˆà¸±à¸”à¸Šà¹ˆà¸­à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹€à¸šà¸·à¹‰à¸­à¸‡à¸•à¹‰à¸™à¹à¸¥à¹‰à¸§ à¸„à¸§à¸£à¸•à¸£à¸§à¸ˆà¹ƒà¸«à¹‰à¸¥à¸°à¹€à¸­à¸µà¸¢à¸”'}
-              description={aiSuggestionInfo.note || 'à¸•à¸£à¸§à¸ˆà¸Šà¸·à¹ˆà¸­à¸Šà¹ˆà¸­à¸‡ à¸Šà¸™à¸´à¸”à¸‚à¹‰à¸­à¸¡à¸¹à¸¥ à¹à¸¥à¸°à¸Šà¹ˆà¸­à¸‡à¸šà¸±à¸‡à¸„à¸±à¸šà¸à¹ˆà¸­à¸™à¸™à¸³à¹„à¸›à¹ƒà¸Šà¹‰'}
+              message={aiSuggestionInfo.confidence >= 0.7 ? 'ระบบช่วยจัดช่องข้อมูลแล้ว' : 'ระบบจัดช่องข้อมูลเบื้องต้นแล้ว ควรตรวจให้ละเอียด'}
+              description={aiSuggestionInfo.note || 'ตรวจชื่อช่อง ชนิดข้อมูล และช่องบังคับก่อนนำไปใช้'}
             />
           )}
 
           {!!aiSuggestedSchema.length && (
-            <Card size="small" title="à¸Šà¹ˆà¸­à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸—à¸µà¹ˆà¸£à¸°à¸šà¸šà¹à¸™à¸°à¸™à¸³">
+            <Card size="small" title="ช่องข้อมูลที่ระบบแนะนำ">
               <Space direction="vertical" style={{ width: '100%' }}>
                 {normalizeSchema(aiSuggestedSchema).map((field, index) => (
                   <div key={field.id} style={{ display: 'grid', gridTemplateColumns: '32px 1fr 140px 100px 1fr 1fr 42px', gap: 8, alignItems: 'center' }}>
                     <Text>{index + 1}</Text>
-                    <Input value={field.label} placeholder="à¸Šà¸·à¹ˆà¸­à¸„à¸³à¸–à¸²à¸¡" onChange={e => updateAiField(field.id, { label: e.target.value })} />
+                    <Input value={field.label} placeholder="ชื่อคำถาม" onChange={e => updateAiField(field.id, { label: e.target.value })} />
                     <Select value={field.type} options={FIELD_TYPES} onChange={value => updateAiField(field.id, { type: value })} />
                     <Space>
                       <Switch checked={field.required} onChange={checked => updateAiField(field.id, { required: checked })} />
-                      <Text>à¸šà¸±à¸‡à¸„à¸±à¸š</Text>
+                      <Text>บังคับ</Text>
                     </Space>
                     <Input
                       disabled={field.type !== 'select'}
                       value={field.options}
-                      placeholder="à¸•à¸±à¸§à¹€à¸¥à¸·à¸­à¸à¸„à¸±à¹ˆà¸™à¸”à¹‰à¸§à¸¢ comma"
+                      placeholder="ตัวเลือกคั่นด้วย comma"
                       onChange={e => updateAiField(field.id, { options: e.target.value })}
                     />
                     <Input
                       value={field.note}
-                      placeholder="à¸«à¸¡à¸²à¸¢à¹€à¸«à¸•à¸¸à¸ˆà¸²à¸à¸£à¸°à¸šà¸š"
+                      placeholder="หมายเหตุจากระบบ"
                       onChange={e => updateAiField(field.id, { note: e.target.value })}
                     />
                     <Button danger type="text" icon={<DeleteOutlined />} onClick={() => removeAiField(field.id)} />
@@ -996,12 +996,12 @@ export default function DataRequests() {
       </Modal>
 
       <Modal
-        title={activeRequest?.title || 'à¸à¸£à¸­à¸à¸‚à¹‰à¸­à¸¡à¸¹à¸¥'}
+        title={activeRequest?.title || 'กรอกข้อมูล'}
         open={fillOpen}
         onCancel={() => setFillOpen(false)}
         onOk={submitRows}
-        okText="à¸ªà¹ˆà¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥"
-        cancelText="à¸¢à¸à¹€à¸¥à¸´à¸"
+        okText="ส่งข้อมูล"
+        cancelText="ยกเลิก"
         width={1180}
         destroyOnClose
       >
@@ -1011,15 +1011,15 @@ export default function DataRequests() {
               value={selectedSubmitDistrict || undefined}
               onChange={setSelectedSubmitDistrict}
               style={{ width: 180 }}
-              placeholder="à¹€à¸¥à¸·à¸­à¸à¸­à¸³à¹€à¸ à¸­"
+              placeholder="เลือกอำเภอ"
               options={(requestAssignments[activeRequest?.id] || []).map(item => ({ label: item.district, value: item.district }))}
             />
           )}
           <Radio.Group value={entryMode} onChange={e => setEntryMode(e.target.value)} optionType="button" buttonStyle="solid">
-            <Radio.Button value="grid">à¸•à¸²à¸£à¸²à¸‡ CSV</Radio.Button>
-            <Radio.Button value="form">à¸Ÿà¸­à¸£à¹Œà¸¡à¸—à¸µà¸¥à¸°à¸£à¸²à¸¢à¸à¸²à¸£</Radio.Button>
+            <Radio.Button value="grid">ตาราง CSV</Radio.Button>
+            <Radio.Button value="form">ฟอร์มทีละรายการ</Radio.Button>
           </Radio.Group>
-          <Button icon={<DownloadOutlined />} onClick={() => downloadTemplate()}>à¸”à¸²à¸§à¸™à¹Œà¹‚à¸«à¸¥à¸” Template</Button>
+          <Button icon={<DownloadOutlined />} onClick={() => downloadTemplate()}>ดาวน์โหลด Template</Button>
           <label>
             <input
               type="file"
@@ -1031,10 +1031,10 @@ export default function DataRequests() {
                 e.target.value = '';
               }}
             />
-            <Button icon={<FileTextOutlined />}>à¸­à¸±à¸›à¹‚à¸«à¸¥à¸” CSV</Button>
+            <Button icon={<FileTextOutlined />}>อัปโหลด CSV</Button>
           </label>
         </Space>
-        <Alert type="info" showIcon style={{ marginBottom: 12 }} message="à¸„à¸±à¸”à¸¥à¸­à¸à¸ˆà¸²à¸ CSV/Google Sheets à¹à¸¥à¹‰à¸§à¸§à¸²à¸‡à¸¥à¸‡à¸Šà¹ˆà¸­à¸‡à¹à¸£à¸à¸‚à¸­à¸‡à¸•à¸²à¸£à¸²à¸‡à¹„à¸”à¹‰ à¸£à¸°à¸šà¸šà¸ˆà¸°à¹à¸•à¸à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸¥à¸‡à¹à¸–à¸§à¹à¸¥à¸°à¸„à¸­à¸¥à¸±à¸¡à¸™à¹Œà¹ƒà¸«à¹‰" />
+        <Alert type="info" showIcon style={{ marginBottom: 12 }} message="คัดลอกจาก CSV/Google Sheets แล้ววางลงช่องแรกของตารางได้ ระบบจะแตกข้อมูลลงแถวและคอลัมน์ให้" />
         {entryMode === 'form' ? (
           <Card size="small">
             <Space direction="vertical" style={{ width: '100%' }}>
@@ -1062,22 +1062,22 @@ export default function DataRequests() {
               scroll={{ x: 'max-content', y: 420 }}
             />
             <Space style={{ marginTop: 12 }}>
-              <Button icon={<PlusOutlined />} onClick={() => setGridRows(prev => [...prev, {}])}>à¹€à¸žà¸´à¹ˆà¸¡à¹à¸–à¸§</Button>
-              <Button danger disabled={gridRows.length <= 1} onClick={() => setGridRows(prev => prev.slice(0, -1))}>à¸¥à¸šà¹à¸–à¸§à¸ªà¸¸à¸”à¸—à¹‰à¸²à¸¢</Button>
+              <Button icon={<PlusOutlined />} onClick={() => setGridRows(prev => [...prev, {}])}>เพิ่มแถว</Button>
+              <Button danger disabled={gridRows.length <= 1} onClick={() => setGridRows(prev => prev.slice(0, -1))}>ลบแถวสุดท้าย</Button>
             </Space>
           </>
         )}
       </Modal>
 
       <Modal
-        title={`à¸œà¸¥à¸¥à¸±à¸žà¸˜à¹Œ: ${activeRequest?.title || ''}`}
+        title={`ผลลัพธ์: ${activeRequest?.title || ''}`}
         open={resultOpen}
         onCancel={() => setResultOpen(false)}
-        footer={<Button onClick={() => setResultOpen(false)}>à¸›à¸´à¸”</Button>}
+        footer={<Button onClick={() => setResultOpen(false)}>ปิด</Button>}
         width={1180}
       >
         <Space style={{ marginBottom: 12 }}>
-          <Tag color="blue">à¸ªà¹ˆà¸‡à¹à¸¥à¹‰à¸§ {resultRows.length} à¹à¸–à¸§</Tag>
+          <Tag color="blue">ส่งแล้ว {resultRows.length} แถว</Tag>
           {activeRequest && <Button icon={<DownloadOutlined />} onClick={() => exportResults(activeRequest)}>Export CSV</Button>}
         </Space>
         <Table
