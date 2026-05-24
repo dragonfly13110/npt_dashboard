@@ -20,7 +20,7 @@ import './SituationRoom.css';
 
 const { Paragraph, Text, Title } = Typography;
 const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
-const GEMINI_SITUATION_MODEL = 'gemini-3.5-flash';
+const GEMINI_SITUATION_MODELS = ['gemini-3.5-flash', 'gemini-3-flash-preview', 'gemini-2.5-flash'];
 
 const DISTRICT_CENTROIDS = [
     { name: 'เมืองนครปฐม', lat: 13.82, lon: 100.04 },
@@ -250,26 +250,58 @@ ${JSON.stringify(snapshot, null, 2)}
 4. ประโยคสรุปสำหรับรายงานผู้บริหาร 1 ย่อหน้า`;
 }
 
-async function callSituationAi(snapshot) {
+function buildGenerationConfig(model) {
+    const base = {
+        temperature: 0.35,
+        maxOutputTokens: 1100,
+    };
+
+    if (model.startsWith('gemini-2.5')) {
+        return {
+            ...base,
+            thinkingConfig: { thinkingBudget: 1024 },
+        };
+    }
+
+    return {
+        ...base,
+        thinkingConfig: { thinkingLevel: 'high' },
+    };
+}
+
+async function callGeminiSituationModel(model, snapshot) {
     const response = await fetch(AI_PROXY_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             provider: 'gemini',
             body: {
-                model: GEMINI_SITUATION_MODEL,
+                model,
                 contents: [{ role: 'user', parts: [{ text: buildPrompt(snapshot) }] }],
-                generationConfig: {
-                    temperature: 0.35,
-                    maxOutputTokens: 1100,
-                    thinkingConfig: { thinkingLevel: 'high' },
-                },
+                generationConfig: buildGenerationConfig(model),
             },
         }),
     });
-    if (!response.ok) throw new Error('AI briefing unavailable');
+    if (!response.ok) {
+        const body = await response.text().catch(() => '');
+        throw new Error(`AI briefing unavailable (${response.status}) ${body.slice(0, 180)}`);
+    }
     const payload = await response.json();
     return payload.candidates?.[0]?.content?.parts?.map(part => part.text || '').join('').trim() || '';
+}
+
+async function callSituationAi(snapshot) {
+    const failures = [];
+    for (const model of GEMINI_SITUATION_MODELS) {
+        try {
+            const text = await callGeminiSituationModel(model, snapshot);
+            if (text) return { text, model };
+            failures.push(`${model}: empty response`);
+        } catch (err) {
+            failures.push(`${model}: ${err.message}`);
+        }
+    }
+    throw new Error(failures.join(' | '));
 }
 
 export default function SituationRoom() {
@@ -329,11 +361,12 @@ export default function SituationRoom() {
         setAiError('');
         setReportReady(true);
         try {
-            const text = await callSituationAi(snapshot);
-            setAiBriefing(text);
-        } catch {
+            const { text, model } = await callSituationAi(snapshot);
+            setAiBriefing(`${text}\n\nใช้โมเดล: ${model}`);
+        } catch (err) {
             setAiBriefing('');
-            setAiError('ยังเรียก AI ไม่สำเร็จ ระบบแสดง action จากข้อมูลจริงให้ใช้เป็น fallback แล้ว');
+            console.warn('[SituationRoom] AI briefing failed:', err.message);
+            setAiError('ยังเรียก AI ไม่สำเร็จ ระบบแสดง action จากข้อมูลจริงให้ใช้เป็น fallback แล้ว กรุณาตรวจ GEMINI_API_KEY และสิทธิ์ใช้งานโมเดล Gemini 3/2.5 ใน Netlify');
         } finally {
             setAiLoading(false);
         }
@@ -498,7 +531,7 @@ export default function SituationRoom() {
                                 {!aiLoading && aiError && <Alert type="warning" showIcon message={aiError} />}
                                 {!aiLoading && aiBriefing && <div className="ai-briefing-text">{aiBriefing}</div>}
                                 {!aiLoading && !aiBriefing && !aiError && (
-                                    <Empty description="กดสร้างรายงานผู้บริหาร เพื่อให้ Gemini 3.5 Flash สรุป briefing จากข้อมูลหน้านี้" />
+                                    <Empty description="กดสร้างรายงานผู้บริหาร เพื่อให้ Gemini 3.5 Flash สรุป briefing จากข้อมูลหน้านี้ หากโมเดลยังไม่เปิด ระบบจะ fallback ไป Gemini 3 Flash Preview / 2.5 Flash" />
                                 )}
                             </Card>
                         </Col>

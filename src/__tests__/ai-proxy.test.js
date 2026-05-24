@@ -94,4 +94,27 @@ describe('ai-proxy', () => {
         expect(response.status).toBe(200);
         expect(fetch.mock.calls[0][0]).toContain('/gemini-3.5-flash:generateContent?');
     });
+
+    it('allows Gemini 3 Flash Preview thinking requests', async () => {
+        process.env.GEMINI_API_KEY = 'test-key';
+        fetch.mockResolvedValue(new Response(JSON.stringify({ ok: true }), {
+            status: 200,
+            headers: { 'content-type': 'application/json' },
+        }));
+
+        const response = await handler(request({
+            provider: 'gemini',
+            body: {
+                model: 'gemini-3-flash-preview',
+                contents: [{ role: 'user', parts: [{ text: 'สรุปสถานการณ์จังหวัด' }] }],
+                generationConfig: {
+                    maxOutputTokens: 900,
+                    thinkingConfig: { thinkingLevel: 'high' },
+                },
+            },
+        }));
+
+        expect(response.status).toBe(200);
+        expect(fetch.mock.calls[0][0]).toContain('/gemini-3-flash-preview:generateContent?');
+    });
 });

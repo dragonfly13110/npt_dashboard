@@ -6,7 +6,7 @@ const RATE_LIMIT_MAX_REQUESTS = 30;
 const PROVIDERS = {
     gemini: {
         envKey: 'GEMINI_API_KEY',
-        models: new Set(['gemini-3.5-flash', 'gemini-3.1-flash-lite-preview', 'gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-1.5-flash']),
+        models: new Set(['gemini-3.5-flash', 'gemini-3-flash-preview', 'gemini-3.1-flash-lite-preview', 'gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-1.5-flash']),
     },
     openrouter: {
         envKey: 'OPENROUTER_API_KEY',
