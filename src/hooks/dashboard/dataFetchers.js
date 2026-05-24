@@ -110,7 +110,7 @@ export async function fetchCommunityData(supabase) {
         { data: coconutData },
         { data: certData }
     ] = await Promise.all([
-        supabase.from('smart_farmers').select('district, full_name, main_product').order('id', { ascending: false }).limit(3),
+        supabase.from('smart_farmers').select('district, main_product').order('id', { ascending: false }).limit(3),
         supabase.from('community_enterprises').select('id, enterprise_type, enterprise_name, approval_date, district, subdistrict, village_no', { count: 'exact' }).order('id', { ascending: false }),
         supabase.from('agri_tourism').select('district, spot_name, spot_type').order('id', { ascending: false }).limit(3),
         supabase.from('large_plots').select('id, plot_name, commodity, district, subdistrict, member_count, area_rai, commodity_group, year'),

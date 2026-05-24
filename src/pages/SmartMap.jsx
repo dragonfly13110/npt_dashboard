@@ -313,7 +313,7 @@ export default function SmartMap() {
                 // Fetch Forecast Plots (all that have coord_x, coord_y)
                 const { data: forecastData } = await supabase
                     .from('forecast_plots')
-                    .select('id, owner_name, district, subdistrict, crop_type, planted_area_rai, crop_status, coord_x, coord_y');
+                    .select('id, district, subdistrict, crop_type, planted_area_rai, crop_status, coord_x, coord_y');
 
                 // Fetch Fire Hotspots (all that have coordinates)
                 const { data: hotspotData } = await supabase
@@ -356,7 +356,7 @@ export default function SmartMap() {
                     if (lat === 0 && lng === 0) return null;
                     return {
                         id: item.id,
-                        name: item.owner_name || 'ไม่ระบุเจ้าของ',
+                        name: item.crop_type ? `แปลงพยากรณ์ ${item.crop_type}` : 'แปลงพยากรณ์',
                         district: item.district,
                         subdistrict: item.subdistrict,
                         lat,

@@ -18,6 +18,7 @@ const TABLE_PRIVATE_COLUMNS = {
     coconut_aromatic_surveys: ['farmer_name', 'phone', 'address'],
     farmer_registry: ['contact_person', 'phone', 'address'],
     certifications: ['owner_name', 'phone', 'address'],
+    forecast_plots: ['owner_name', 'phone', 'address'],
     large_plots: ['contact_person', 'phone', 'address'],
     agri_tourism: ['contact_person', 'phone', 'address'],
     personnel: ['full_name', 'phone', 'email', 'address'],
