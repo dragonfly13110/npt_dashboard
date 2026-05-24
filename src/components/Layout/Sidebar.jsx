@@ -157,6 +157,8 @@ const adminOnlyItems = [
     },
 ];
 
+const PUBLIC_GUEST_GROUPS = ['admin'];
+
 function getFilteredMenuItems(role, department) {
     // Admin เห็นทุกเมนู
     if (role === 'admin') {
@@ -169,6 +171,7 @@ function getFilteredMenuItems(role, department) {
         if (role === 'guest' && ['/dashboard/chatbot', '/dashboard/data-requests'].includes(item.key)) return false;
         // เมนูเบื้องต้นที่ทุกคนเห็นเสมอ
         if (['/dashboard', '/dashboard/chatbot', '/dashboard/data-requests', '/dashboard/community/forum'].includes(item.key)) return true;
+        if (role === 'guest' && item.group) return PUBLIC_GUEST_GROUPS.includes(item.group);
         // กลุ่มงานของตัวเอง
         if (item.group && item.group === userGroup) return true;
         // ไม่มีกลุ่มงานก็เห็นทุกกลุ่ม (fallback)

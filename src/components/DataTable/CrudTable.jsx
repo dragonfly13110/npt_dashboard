@@ -260,7 +260,7 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
     const sortableColumns = visibleColumns.map(col => col.dataIndex ? { ...col, sorter: true } : col);
 
     // Action column — ซ่อนตาม role
-    const actionColumn = (userCanEdit || role === 'guest') ? {
+    const actionColumn = userCanEdit ? {
         title: 'จัดการ',
         key: 'actions',
         width: userCanDelete ? 100 : 70,
@@ -329,7 +329,7 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
                         <Button icon={<ReloadOutlined />} onClick={loadData} className="export-btn" />
                     </Tooltip>
                     {typeof extraActions === 'function' ? extraActions({ refetch: loadData }) : extraActions}
-                    {(userCanEdit || role === 'guest') && (
+                    {userCanEdit && (
                         <Button icon={<UploadOutlined />} onClick={() => {
                             if (!userCanEdit) {
                                 message.warning('คุณไม่มีสิทธิ์แก้ไข');

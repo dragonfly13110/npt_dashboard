@@ -89,6 +89,13 @@ function AdminRoute({ children }) {
   return children;
 }
 
+function PublicAdminReadRoute({ children }) {
+  const { role, loading } = useAuth();
+  if (loading) return <PageSkeleton />;
+  if (role === 'guest' || role === 'admin' || role === 'viewer' || role === 'editor') return children;
+  return <Navigate to="/dashboard" replace />;
+}
+
 function DataRequestRoute({ children }) {
   const { role, loading } = useAuth();
   if (loading) return <PageSkeleton />;
@@ -169,10 +176,10 @@ function AppRoutes() {
           <Route path="community/forum" element={<FarmerForum />} />
 
           {/* Admin */}
-          <Route path="admin/overview" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-          <Route path="admin/personnel" element={<AdminRoute><Personnel /></AdminRoute>} />
-          <Route path="admin/assets" element={<AdminRoute><Assets /></AdminRoute>} />
-          <Route path="admin/budgets" element={<AdminRoute><Budgets /></AdminRoute>} />
+          <Route path="admin/overview" element={<PublicAdminReadRoute><AdminDashboard /></PublicAdminReadRoute>} />
+          <Route path="admin/personnel" element={<PublicAdminReadRoute><Personnel /></PublicAdminReadRoute>} />
+          <Route path="admin/assets" element={<PublicAdminReadRoute><Assets /></PublicAdminReadRoute>} />
+          <Route path="admin/budgets" element={<PublicAdminReadRoute><Budgets /></PublicAdminReadRoute>} />
 
           {/* Admin-only: User Management & Audit Log */}
           <Route path="admin/users" element={<AdminRoute><UserManagement /></AdminRoute>} />
