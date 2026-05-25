@@ -35,11 +35,13 @@
 }
 
 .situation-main-grid {
-  align-items: stretch;
+  align-items: flex-start;
 }
 
-.situation-card {
-  height: 100%;
+.situation-main-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .province-snapshot {

@@ -253,20 +253,33 @@ ${JSON.stringify(snapshot, null, 2)}
 function buildGenerationConfig(model) {
     const base = {
         temperature: 0.35,
-        maxOutputTokens: 1100,
+        maxOutputTokens: 4096,
     };
 
     if (model.startsWith('gemini-2.5')) {
         return {
             ...base,
-            thinkingConfig: { thinkingBudget: 1024 },
+            thinkingConfig: { thinkingBudget: 256 },
         };
     }
 
     return {
         ...base,
-        thinkingConfig: { thinkingLevel: 'high' },
+        thinkingConfig: { thinkingLevel: 'low' },
     };
+}
+
+function extractGeminiText(payload) {
+    return payload.candidates?.[0]?.content?.parts
+        ?.map(part => part.text || '')
+        .join('')
+        .trim() || '';
+}
+
+function isCompleteBriefing(text) {
+    if (!text) return false;
+    const normalized = text.replace(/\s+/g, ' ').trim();
+    return normalized.length >= 180 && /\p{L}/u.test(normalized);
 }
 
 async function callGeminiSituationModel(model, snapshot) {
@@ -287,7 +300,12 @@ async function callGeminiSituationModel(model, snapshot) {
         throw new Error(`AI briefing unavailable (${response.status}) ${body.slice(0, 180)}`);
     }
     const payload = await response.json();
-    return payload.candidates?.[0]?.content?.parts?.map(part => part.text || '').join('').trim() || '';
+    const text = extractGeminiText(payload);
+    if (!isCompleteBriefing(text)) {
+        const finishReason = payload.candidates?.[0]?.finishReason || 'UNKNOWN';
+        throw new Error(`incomplete response (${finishReason}): ${text.slice(0, 80) || 'empty'}`);
+    }
+    return text;
 }
 
 async function callSituationAi(snapshot) {
@@ -405,7 +423,7 @@ export default function SituationRoom() {
                     </Row>
 
                     <Row gutter={[16, 16]} className="situation-main-grid">
-                        <Col xs={24} xl={15}>
+                        <Col xs={24} xl={15} className="situation-main-stack">
                             <Card title="สถานการณ์รวมจังหวัด" className="situation-card">
                                 <div className="province-snapshot">
                                     <div>
