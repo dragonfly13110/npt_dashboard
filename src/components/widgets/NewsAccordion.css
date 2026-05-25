@@ -1,0 +1,107 @@
+.news-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.news-accordion-item {
+    overflow: hidden;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 10px 28px -18px rgba(15, 23, 42, 0.24);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.news-accordion-item.is-open {
+    border-color: rgba(22, 163, 74, 0.16);
+    box-shadow: 0 16px 34px -22px rgba(15, 23, 42, 0.34);
+}
+
+.news-accordion-item--gov.is-open {
+    border-color: rgba(37, 99, 235, 0.18);
+}
+
+.news-accordion-trigger {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    border: 0;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    color: #0f172a;
+    cursor: pointer;
+    padding: 18px 22px;
+    text-align: left;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.news-accordion-trigger:hover {
+    background: #f8fafc;
+}
+
+.news-accordion-trigger:active {
+    transform: translateY(1px);
+}
+
+.news-accordion-trigger:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.24);
+    outline-offset: -3px;
+}
+
+.news-accordion-copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.news-accordion-title {
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+.news-accordion-description {
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.45;
+}
+
+.news-accordion-chevron {
+    flex: 0 0 auto;
+    color: #64748b;
+    font-size: 15px;
+}
+
+.news-accordion-panel {
+    padding: 0;
+    border-top: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.news-accordion-panel .agri-rss-widget {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.news-accordion-panel .agri-rss-widget:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+@media (max-width: 768px) {
+    .news-accordion-trigger {
+        padding: 16px 18px;
+    }
+
+    .news-accordion-title {
+        font-size: 16px;
+    }
+
+    .news-accordion-description {
+        font-size: 12px;
+    }
+}

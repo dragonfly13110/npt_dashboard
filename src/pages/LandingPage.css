@@ -3378,42 +3378,6 @@
     margin-top: 20px;
 }
 
-.landing-footer {
-    padding: 40px 0;
-    border-top: 1px solid #e2e8f0;
-}
-
-.landing-footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
-}
-
-.footer-info {
-    text-align: center;
-    opacity: 0.6;
-}
-
-.footer-address {
-    margin-top: 8px;
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-.footer-link {
-    color: inherit;
-}
-
-.footer-copyright {
-    margin-top: 12px;
-    font-size: 12px;
-}
-
-.footer-link-underline {
-    color: inherit;
-    text-decoration: underline;
-}
-
 .widget-skeleton {
     display: flex;
     align-items: center;

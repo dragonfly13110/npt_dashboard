@@ -44,17 +44,6 @@ const FEEDS = [
         placeholder: '⚙️',
     },
     {
-        key: 'agritec',
-        label: 'สถาบันเทคโนโลยีเกษตร',
-        icon: '🌾',
-        type: 'wp',
-        url: '/api/agritec/wp-json/wp/v2/posts?per_page=6&orderby=date&order=desc&_fields=id,date,title,excerpt,link,featured_media,_links,_embedded&_embed=wp:featuredmedia',
-        originalUrl: 'https://www.nstda.or.th/agritec/wp-json/wp/v2/posts?per_page=6&orderby=date&order=desc&_fields=id,date,title,excerpt,link,featured_media,_links,_embedded&_embed=wp:featuredmedia',
-        sourceShort: 'nstda.or.th/agritec',
-        sourceUrl: 'https://www.nstda.or.th/agritec/',
-        placeholder: '🌾',
-    },
-    {
         key: 'ictc',
         label: 'เทคโนโลยีเกษตรดิจิทัล',
         icon: '💻',

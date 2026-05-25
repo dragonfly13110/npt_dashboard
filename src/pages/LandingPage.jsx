@@ -12,10 +12,14 @@ import {
     EnvironmentOutlined,
     ExperimentOutlined,
     FacebookOutlined,
+    LinkOutlined,
     ReadOutlined,
     TeamOutlined,
     UserSwitchOutlined
 } from '@ant-design/icons';
+import AgencyLinksPanel from '../components/widgets/AgencyLinksPanel';
+import LandingFooter from '../components/widgets/LandingFooter';
+import NewsAccordion from '../components/widgets/NewsAccordion';
 import './LandingPage.css';
 import './SaastyTheme.css';
 
@@ -59,6 +63,7 @@ const quickNavItems = [
 const infoNavItems = [
     { key: 'audience', label: 'ระบบนี้ช่วยใคร', Icon: TeamOutlined },
     { key: 'contacts', label: 'ติดต่อสำนักงานเกษตรอำเภอ', Icon: FacebookOutlined },
+    { key: 'agencyLinks', label: 'ทางลัด', Icon: LinkOutlined },
 ];
 
 const externalSystemLinks = [
@@ -395,14 +400,35 @@ export default function LandingPage() {
                     </div>
                 </section>
 
-                {/* ===== AGRI GOV NEWS (ข่าวจากหน่วยงานภาครัฐ) ===== */}
+                {/* ===== AGRI NEWS ACCORDION ===== */}
                 <div id="agri-news" className="widget-section-container">
-                    <Suspense fallback={<WidgetSkeleton />}><AgriGovNewsWidget /></Suspense>
-                </div>
-
-                {/* ===== AGRI MEDIA NEWS (ข่าวเกษตรจากสื่อมวลชน) ===== */}
-                <div className="widget-section-container">
-                    <Suspense fallback={<WidgetSkeleton />}><AgriMediaNewsWidget /></Suspense>
+                    <NewsAccordion
+                        ariaLabel="ข่าวและประกาศด้านการเกษตร"
+                        sections={[
+                            {
+                                key: 'gov',
+                                title: 'ข่าวจากหน่วยงานภาครัฐ',
+                                description: 'กรมส่งเสริมการเกษตร • เกษตรจังหวัด • หน่วยงานวิชาการ',
+                                tone: 'gov',
+                                renderContent: () => (
+                                    <Suspense fallback={<WidgetSkeleton />}>
+                                        <AgriGovNewsWidget />
+                                    </Suspense>
+                                ),
+                            },
+                            {
+                                key: 'media',
+                                title: 'ข่าวเกษตรจากสื่อมวลชน',
+                                description: 'สำนักข่าวและสื่อเกษตรหลายแหล่ง',
+                                tone: 'media',
+                                renderContent: () => (
+                                    <Suspense fallback={<WidgetSkeleton />}>
+                                        <AgriMediaNewsWidget />
+                                    </Suspense>
+                                ),
+                            },
+                        ]}
+                    />
                 </div>
 
                 {/* ===== COMMUNITY FORUM CTA ===== */}
@@ -437,6 +463,17 @@ export default function LandingPage() {
                 </section>
 
             </main>
+
+            <Modal
+                title="ทางลัด"
+                open={activeInfoModal === 'agencyLinks'}
+                onCancel={() => setActiveInfoModal(null)}
+                footer={null}
+                width={1080}
+                className="landing-info-modal landing-agency-links-modal"
+            >
+                <AgencyLinksPanel />
+            </Modal>
 
             <Modal
                 title="ระบบนี้ช่วยใคร"
@@ -542,25 +579,7 @@ export default function LandingPage() {
             </Modal>
 
             {/* ===== FOOTER ===== */}
-            <footer className="landing-footer" role="contentinfo" itemScope itemType="https://schema.org/GovernmentOrganization">
-                <div className="landing-footer-content">
-                    <div className="footer-info">
-                        <strong itemProp="name">🌾 สำนักงานเกษตรจังหวัดนครปฐม</strong>
-                        <div itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
-                            <p className="footer-address">
-                                <span itemProp="streetAddress">131 ถนนทรงพล</span>{' '}
-                                <span itemProp="addressLocality">อำเภอเมือง</span>{' '}
-                                <span itemProp="addressRegion">จังหวัดนครปฐม</span>{' '}
-                                <span itemProp="postalCode">73000</span><br />
-                                โทร. <a href="tel:034253992" itemProp="telephone" className="footer-link">0 3425 3992</a> | E-mail: <a href="mailto:nakhonpathom@doae.go.th" itemProp="email" className="footer-link">nakhonpathom@doae.go.th</a>
-                            </p>
-                        </div>
-                        <p className="footer-copyright">
-                            © {new Date().getFullYear()} ระบบฐานข้อมูลกลางเพื่อการเกษตร | <a href="https://nakhonpathom.doae.go.th" target="_blank" rel="noopener noreferrer" className="footer-link footer-link-underline">nakhonpathom.doae.go.th</a>
-                        </p>
-                    </div>
-                </div>
-            </footer>
+            <LandingFooter onOpenPanel={setActiveInfoModal} />
             {/* ===== BACK TO TOP BUTTON ===== */}
             <FloatButton.BackTop icon={<ArrowUpOutlined />} tooltip="กลับขึ้นบนสุด" style={{ bottom: 40, right: 40, width: 50, height: 50 }} />
         </div>
