@@ -46,7 +46,7 @@ export function getPublicColumns(tableName, columns, role) {
 
 export function getPublicSelectColumns(tableName, columns, role, extraColumns = []) {
     if (role !== 'guest') return '*';
-    const baseColumns = ['id', 'created_at', 'updated_at', ...extraColumns];
+    const baseColumns = ['id', 'created_at', ...extraColumns];
     const publicColumns = getPublicColumns(tableName, columns, role)
         .map((column) => column.dataIndex)
         .filter(Boolean);

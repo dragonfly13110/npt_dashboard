@@ -1,9 +1,10 @@
-import { useMemo, useRef, useState } from 'react';
-import { Alert, Button, Card, Col, Empty, Progress, Row, Skeleton, Space, Statistic, Tag, Typography } from 'antd';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Alert, Button, Card, Col, Empty, Progress, Row, Skeleton, Space, Statistic, Tag, Typography, message } from 'antd';
 import {
     AlertOutlined,
     BarChartOutlined,
     CloudOutlined,
+    CopyOutlined,
     DollarOutlined,
     FilePdfOutlined,
     FireOutlined,
@@ -11,7 +12,7 @@ import {
     RobotOutlined,
     ThunderboltOutlined,
 } from '@ant-design/icons';
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip as ChartTooltip, XAxis, YAxis } from 'recharts';
+import { Bar, ComposedChart, Line, CartesianGrid, ResponsiveContainer, Tooltip as ChartTooltip, XAxis, YAxis, Legend } from 'recharts';
 import { useDashboardData } from '../hooks/useDashboardData';
 import { useApiCache } from '../hooks/useApiCache';
 import { supabase } from '../supabaseClient';
@@ -326,6 +327,33 @@ async function callSituationAi(snapshot) {
     throw new Error(failures.join(' | '));
 }
 
+function TypewriterText({ text }) {
+    const [displayedText, setDisplayedText] = useState('');
+
+    useEffect(() => {
+        if (!text) {
+            setDisplayedText('');
+            return;
+        }
+
+        let index = 0;
+        setDisplayedText('');
+        
+        const interval = setInterval(() => {
+            if (index < text.length) {
+                setDisplayedText((prev) => prev + text.slice(index, index + 4));
+                index += 4;
+            } else {
+                clearInterval(interval);
+            }
+        }, 15);
+
+        return () => clearInterval(interval);
+    }, [text]);
+
+    return <div className="ai-briefing-text">{displayedText}<span className="typewriter-cursor">|</span></div>;
+}
+
 export default function SituationRoom() {
     const reportRef = useRef(null);
     const { stats, loading: dashboardLoading, districtStats, lpStats, agriStats, instituteStats } = useDashboardData();
@@ -462,7 +490,26 @@ export default function SituationRoom() {
                                                 <span className="rank-number">{index + 1}</span>
                                                 <div className="rank-main">
                                                     <strong>{item.name}</strong>
-                                                    <Text type="secondary">พื้นที่เกษตร {money(item.area)} ไร่ · วิสาหกิจ {money(item.ce)} · แปลงใหญ่ {money(item.lp)}</Text>
+                                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                                                        <Text type="secondary" style={{ fontSize: 12 }}>พื้นที่เกษตร {money(item.area)} ไร่ · วิสาหกิจ {money(item.ce)} · แปลงใหญ่ {money(item.lp)}</Text>
+                                                        <div className="rank-indicators">
+                                                            {item.fire > 0 && (
+                                                                <span className="mini-indicator fire">
+                                                                    <FireOutlined /> จุดความร้อน {item.fire} จุด
+                                                                </span>
+                                                            )}
+                                                            {item.pestArea > 0 && (
+                                                                <span className="mini-indicator pest">
+                                                                    <AlertOutlined /> ศัตรูพืช {money(item.pestArea)} ไร่
+                                                                </span>
+                                                            )}
+                                                            {item.disasterArea > 0 && (
+                                                                <span className="mini-indicator disaster">
+                                                                    <ThunderboltOutlined /> ประสบภัย {money(item.disasterArea)} ไร่
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <Tag color={index === 0 ? 'red' : index < 3 ? 'orange' : 'blue'}>score {item.score}</Tag>
                                             </div>
@@ -508,15 +555,19 @@ export default function SituationRoom() {
                             </Card>
                         </Col>
                         <Col xs={24} lg={8}>
-                            <Card title="Weather / PM / Rain Risk" className="situation-card">
+                            <Card title="Weather / PM / Rain Overview" className="situation-card">
                                 <ResponsiveContainer width="100%" height={220}>
-                                    <BarChart data={weatherRisk.districts.slice(0, 7)}>
+                                    <ComposedChart data={weatherRisk.districts.slice(0, 7)}>
                                         <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                                        <XAxis dataKey="name" tick={{ fontSize: 11 }} interval={0} />
-                                        <YAxis tick={{ fontSize: 11 }} />
+                                        <XAxis dataKey="name" tick={{ fontSize: 10 }} interval={0} />
+                                        <YAxis yAxisId="left" tick={{ fontSize: 10 }} label={{ value: '% / µg/m³', angle: -90, position: 'insideLeft', style: { fontSize: 9, fill: '#64748b' } }} />
+                                        <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10 }} label={{ value: 'มม.', angle: 90, position: 'insideRight', style: { fontSize: 9, fill: '#64748b' } }} />
                                         <ChartTooltip />
-                                        <Bar dataKey="riskScore" fill="#0969da" radius={[6, 6, 0, 0]} name="risk score" />
-                                    </BarChart>
+                                        <Legend wrapperStyle={{ fontSize: 10, marginTop: 5 }} />
+                                        <Bar yAxisId="left" dataKey="rainProbability" fill="#38bdf8" radius={[4, 4, 0, 0]} name="โอกาสฝน (%)" />
+                                        <Bar yAxisId="left" dataKey="pm25" fill="#fb923c" radius={[4, 4, 0, 0]} name="ฝุ่น PM2.5 (µg)" />
+                                        <Line yAxisId="right" type="monotone" dataKey="rainTotal" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} name="ฝนรวม (มม.)" />
+                                    </ComposedChart>
                                 </ResponsiveContainer>
                             </Card>
                         </Col>
@@ -548,12 +599,34 @@ export default function SituationRoom() {
                             </Card>
                         </Col>
                         <Col xs={24} lg={12}>
-                            <Card title="AI Executive Briefing" className="situation-card ai-briefing-card">
+                            <Card 
+                                title={
+                                    <Space>
+                                        <RobotOutlined style={{ color: '#16a34a' }} />
+                                        <span>AI Executive Briefing</span>
+                                    </Space>
+                                }
+                                className="situation-card ai-briefing-card"
+                                extra={
+                                    aiBriefing && (
+                                        <Button 
+                                            size="small" 
+                                            icon={<CopyOutlined />} 
+                                            onClick={() => {
+                                                navigator.clipboard.writeText(aiBriefing.replace(/\n\nใช้โมเดล: .*/, ''));
+                                                message.success('คัดลอกรายงานสรุปไปยังคลิปบอร์ดแล้ว');
+                                            }}
+                                        >
+                                            คัดลอก
+                                        </Button>
+                                    )
+                                }
+                            >
                                 {aiLoading && <Skeleton active paragraph={{ rows: 5 }} />}
                                 {!aiLoading && aiError && <Alert type="warning" showIcon message={aiError} />}
-                                {!aiLoading && aiBriefing && <div className="ai-briefing-text">{aiBriefing}</div>}
+                                {!aiLoading && aiBriefing && <TypewriterText text={aiBriefing} />}
                                 {!aiLoading && !aiBriefing && !aiError && (
-                                    <Empty description="กดสร้างรายงานผู้บริหาร เพื่อให้ Gemini 3.5 Flash สรุป briefing จากข้อมูลหน้านี้ หากโมเดลยังไม่เปิด ระบบจะ fallback ไป Gemini 3 Flash Preview / 2.5 Flash" />
+                                    <Empty description="กดปุ่ม 'สร้างรายงานผู้บริหาร' เพื่อให้ Gemini สรุปวิเคราะห์ข้อมูลในหน้านี้ให้คุณโดยอัตโนมัติ" />
                                 )}
                             </Card>
                         </Col>

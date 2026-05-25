@@ -3,6 +3,7 @@ import { Form, Input, InputNumber, Select, DatePicker, Row, Col, Space, Button, 
 import { SyncOutlined } from '@ant-design/icons';
 import CrudTable from '../../components/DataTable/CrudTable';
 import { useAuth } from '../../contexts/AuthContext';
+import HotspotWidget from '../../components/widgets/HotspotWidget';
 
 const columns = [
     { title: 'วันที่พบ', dataIndex: 'acq_date', key: 'acq_date', width: 110, sorter: (a, b) => new Date(a.acq_date) - new Date(b.acq_date) },
@@ -116,24 +117,27 @@ export default function FireHotspots() {
     };
 
     return (
-        <CrudTable 
-            tableName="fire_hotspots" 
-            title="จุด Hotspot (GISTDA)" 
-            columns={columns} 
-            formFields={formFields} 
-            searchField="district" 
-            filterConfig={filterConfig} 
-            defaultSort={{ field: 'acq_date', order: 'descend' }}
-            extraActions={({ refetch }) => canEdit() && (
-                <Button
-                    icon={<SyncOutlined spin={syncing} />}
-                    loading={syncing}
-                    onClick={() => handleSyncHotspots(refetch)}
-                    className="export-btn"
-                >
-                    ดึงข้อมูล GISTDA
-                </Button>
-            )}
-        />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <HotspotWidget />
+            <CrudTable 
+                tableName="fire_hotspots" 
+                title="จุด Hotspot (GISTDA)" 
+                columns={columns} 
+                formFields={formFields} 
+                searchField="district" 
+                filterConfig={filterConfig} 
+                defaultSort={{ field: 'acq_date', order: 'descend' }}
+                extraActions={({ refetch }) => canEdit() && (
+                    <Button
+                        icon={<SyncOutlined spin={syncing} />}
+                        loading={syncing}
+                        onClick={() => handleSyncHotspots(refetch)}
+                        className="export-btn"
+                    >
+                        ดึงข้อมูล GISTDA
+                    </Button>
+                )}
+            />
+        </div>
     );
 }
