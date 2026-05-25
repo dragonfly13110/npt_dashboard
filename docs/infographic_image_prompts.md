@@ -4,7 +4,21 @@
 
 > แนะนำขนาดภาพ: แนวตั้ง 9:16 หรือ 1080 x 1920 px  
 > สไตล์รวมทั้งชุด: modern government tech infographic, smart agriculture, clean data dashboard, Thai provincial agriculture, professional presentation  
-> หมายเหตุ: เครื่องมือสร้างภาพมักทำตัวอักษรไทยเพี้ยน ถ้าต้องการความคมชัดระดับพรีเซนต์ ให้สร้างภาพแบบมีพื้นที่ว่างสำหรับหัวข้อ แล้วใส่ข้อความจริงใน PowerPoint / Canva ภายหลัง
+> หมายเหตุ: prompt ทุกภาพตั้งใจให้ AI ใส่ข้อความไทยลงในภาพโดยตรง ทั้งหัวข้อ คำอธิบาย bullet และ callout ไม่ต้องแยกไปวางข้อความทับใน PowerPoint / Canva อีก เว้นแต่ต้องการแก้คำภายหลัง
+
+## แนวทางใหม่สำหรับ Prompt แบบมีเนื้อหาไทยในภาพ
+
+ใช้คำสั่งนี้ร่วมกับทุกภาพ เพื่อบังคับให้ AI ใส่เนื้อหาเชิงอธิบายลงไปใน infographic:
+
+```text
+ออกแบบเป็น infographic ภาษาไทยจริง มีหัวข้อใหญ่ หัวข้อย่อย คำอธิบายสั้น และ bullet point ที่อ่านได้ชัดเจน จัดลำดับข้อมูลเป็นส่วน ๆ เหมือนโปสเตอร์นำเสนอราชการ ใช้ตัวอักษรไทยคมชัด ถูกต้อง ไม่มั่ว ไม่ตัดคำแปลก ๆ เนื้อหาในภาพต้องอธิบายระบบได้ ไม่ใช่มีแค่ภาพประกอบ เว้นระยะหายใจดี มี hierarchy ของข้อความชัดเจน
+```
+
+ข้อกำหนดตัวอักษร:
+
+```text
+ใช้ฟอนต์ไทยแนวทางการ อ่านง่าย ทันสมัย เช่น Noto Sans Thai, IBM Plex Sans Thai, Prompt หรือ Sarabun, หัวข้อหนา ตัวเนื้อหาขนาดอ่านได้บนจอพรีเซนต์, ห้ามใช้ตัวหนังสือจิ๋ว, ห้ามสร้างข้อความมั่ว, ถ้าพื้นที่ไม่พอให้ลดจำนวนคำแต่คงสาระสำคัญ
+```
 
 ## Global Style Prompt ใช้ร่วมกันทั้ง 5 ภาพ
 
@@ -17,7 +31,7 @@ vertical 9:16 infographic, modern Thai smart agriculture data platform, clean pr
 Negative prompt ใช้ร่วมกัน:
 
 ```text
-no messy layout, no random unreadable text, no distorted Thai letters, no fake official logos, no dark cyberpunk style, no excessive neon, no cartoon mascot, no overloaded charts, no tiny text, no low resolution, no stock photo collage, no exaggerated futuristic sci-fi, no inaccurate map of Thailand, no watermark
+no messy layout, no random unreadable text, no distorted Thai letters, no fake official logos, no dark cyberpunk style, no excessive neon, no cartoon mascot, no overloaded charts, no tiny text, no low resolution, no stock photo collage, no exaggerated futuristic sci-fi, no inaccurate map of Thailand, no watermark, no meaningless decorative text, no lorem ipsum
 ```
 
 ---
@@ -71,22 +85,13 @@ Make the central dashboard feel reliable, official, and practical for real gover
 Design details:
 Use modern clean vector infographic style, Thai smart agriculture theme, rice field and canal motifs, soft green and gold accents, white background, deep navy headings.
 Use clear section separation: Before, Data Integration, After.
-Keep text areas large and readable. Use minimal Thai labels only, or leave blank text bands for later editing.
+Include the Thai title, Thai subtitle, and Thai bullet points directly inside the infographic. Keep text areas large, readable, and well-spaced.
 
 Include visual keywords:
 Nakhon Pathom agriculture, provincial data center, dashboard, map, farmers, officers, database, AI assistant, public portal, internal dashboard, agriculture operations.
 
 Aspect ratio 9:16, high resolution, presentation-ready, clean executive infographic.
 ```
-
-### ข้อความแนะนำสำหรับวางทับในสไลด์
-
-- หัวข้อใหญ่: `ที่มาของระบบ`
-- ข้อความสั้น: `รวมข้อมูลเกษตรจังหวัดที่เคยกระจายอยู่หลายไฟล์ หลายกลุ่มงาน และหลายแหล่งข้อมูล ให้กลายเป็นศูนย์กลางเดียว`
-- จุดเน้น 3 ข้อ:
-  - `ลดเวลารวบรวมรายงาน`
-  - `ค้นหาข้อมูลข้ามหมวดได้เร็วขึ้น`
-  - `เห็นภาพรวมจังหวัดจาก Dashboard / Map / AI`
 
 ---
 
@@ -159,20 +164,9 @@ Visual style:
 Modern official tech architecture infographic, clean white canvas, emerald green and navy system blocks, gold highlights for agriculture data, subtle map contour background of Nakhon Pathom, thin arrows, database cylinder icon, cloud function icon, AI node icon, shield icon for access control, magnifying glass for search, map pin for GIS.
 
 Make it presentation-ready and understandable without reading code.
-Use minimal text; reserve empty title and caption areas for Thai overlay.
+Use meaningful Thai headings, Thai labels, and short Thai explanation blocks directly inside the infographic.
 No messy technical overload. Clear hierarchy. High resolution.
 ```
-
-### ข้อความแนะนำสำหรับวางทับในสไลด์
-
-- หัวข้อใหญ่: `ระบบที่ใช้และสถาปัตยกรรม`
-- ข้อความสั้น: `React + Vite เชื่อม Supabase เป็นฐานข้อมูลหลัก ใช้ Netlify Functions เป็นชั้น Proxy สำหรับ AI และข้อมูลภายนอก`
-- ชุดเทคโนโลยี:
-  - `Frontend: React, Vite, Ant Design, React Router`
-  - `Data: Supabase Auth / Database / RPC`
-  - `Visualization: Recharts, Leaflet, React-Leaflet`
-  - `AI: Gemini / OpenRouter / NVIDIA ผ่าน AI Proxy`
-  - `Deploy: Netlify`
 
 ---
 
@@ -239,18 +233,6 @@ Design:
 Professional government operations infographic, not marketing, not cartoonish. Icons should be clean and recognizable. Keep enough space for Thai headings. High-resolution vertical poster.
 ```
 
-### ข้อความแนะนำสำหรับวางทับในสไลด์
-
-- หัวข้อใหญ่: `ระบบงานที่รองรับ`
-- ข้อความสั้น: `แบ่งข้อมูลตามภารกิจจริงของสำนักงานเกษตรจังหวัด เพื่อให้ค้นหา จัดการ และสรุปผลได้เป็นระบบ`
-- โมดูลที่ควรใส่:
-  - `บริหารทั่วไป`
-  - `ยุทธศาสตร์ฯ`
-  - `ส่งเสริมการผลิต`
-  - `ส่งเสริมเกษตรกร`
-  - `อารักขาพืช`
-  - `คำขอข้อมูล / Community`
-
 ---
 
 ## ภาพที่ 4: ฟังก์ชันเด่นของระบบ
@@ -311,24 +293,10 @@ Visual language:
 Clean high-end UI infographic, official but modern, light background, green/gold/blue palette, consistent Ant Design-like interface, sharp dashboard components, thin connector lines, small icon badges, professional public-sector technology.
 
 Important:
-Do not create fake unreadable paragraphs. Use icon labels sparingly and leave clear blank caption areas for Thai overlay. Make dashboard UI believable and data-rich but not cluttered.
+Include Thai feature headings and short Thai explanations directly inside each callout. Make dashboard UI believable and data-rich but not cluttered.
 
 Aspect ratio 9:16, high resolution, presentation-ready.
 ```
-
-### ข้อความแนะนำสำหรับวางทับในสไลด์
-
-- หัวข้อใหญ่: `ฟังก์ชันเด่น`
-- ข้อความสั้น: `จากข้อมูลดิบ สู่ Dashboard, Map, Search และ AI ที่ช่วยให้เจ้าหน้าที่ใช้ข้อมูลได้เร็วขึ้น`
-- Feature list:
-  - `Dashboard รวมข้อมูล`
-  - `Smart Map / GIS`
-  - `Global Search`
-  - `AI Chatbot น้องข้าวหอม`
-  - `CRUD + CSV Import/Export`
-  - `Live Widgets`
-  - `Data Request Workflow`
-  - `Executive Situation Room`
 
 ---
 
@@ -390,26 +358,297 @@ Use Nakhon Pathom province map glowing softly at the bottom, with rice fields an
 Style:
 Professional, hopeful, official, clean government innovation infographic. Use light background, emerald green, rice gold, sky blue, deep navy, subtle warm sunlight. Human-centered but not cartoonish. Include realistic Thai agriculture context: rice fields, orchards, district map, officials, dashboard screens.
 
-Avoid fake statistics unless left as placeholders. Do not include exact percent numbers unless shown as blank editable KPI placeholders.
+Avoid fake statistics. Do not include exact percent numbers unless they are clearly presented as example KPI cards without claiming real measured results.
 Leave clean space for Thai title and impact bullets.
 
 Aspect ratio 9:16, high resolution, executive presentation quality.
 ```
 
-### ข้อความแนะนำสำหรับวางทับในสไลด์
-
-- หัวข้อใหญ่: `ประโยชน์ของระบบ`
-- ข้อความสั้น: `เปลี่ยนข้อมูลเกษตรจังหวัดให้เป็นเครื่องมือสนับสนุนการตัดสินใจ การบริการข้อมูล และการทำงานร่วมกัน`
-- Impact bullets:
-  - `ผู้บริหารเห็นภาพรวมเร็วขึ้น`
-  - `เจ้าหน้าที่ลดงานรวบรวมและค้นหาไฟล์`
-  - `ประชาชนเข้าถึงข้อมูลสาธารณะได้ง่าย`
-  - `ระบบรองรับข้อมูลจริงและต่อยอดได้`
-  - `ใช้เป็นต้นแบบศูนย์ข้อมูลเกษตรระดับจังหวัด`
-
 ---
 
 ## Prompt รวมสำหรับทำภาพทั้งชุดให้โทนเดียวกัน
+
+## Prompt เวอร์ชันมีข้อความไทยในภาพ
+
+ใช้ชุดนี้ถ้า AI ที่ใช้สร้างภาพรองรับภาษาไทยได้ดี และต้องการให้ภาพมีเนื้อหาอธิบายครบในตัว ไม่ใช่แค่ฉากหลังสำหรับวางข้อความ
+
+### ภาพที่ 1 แบบมีข้อความ: ที่มาที่ไปของระบบ
+
+```text
+สร้าง infographic แนวตั้ง 9:16 ภาษาไทย สำหรับพรีเซนต์โครงการ "NPT Smart Agri Dashboard" สไตล์สีน้ำผสมเวกเตอร์ สวยงาม เป็นทางการ ทันสมัย อ่านง่าย
+
+หัวข้อใหญ่ด้านบน:
+"ที่มาของระบบ"
+
+คำโปรยใต้หัวข้อ:
+"รวมข้อมูลเกษตรจังหวัดนครปฐมที่เคยกระจัดกระจาย ให้กลายเป็นศูนย์ข้อมูลกลางที่ค้นหา วิเคราะห์ และใช้ตัดสินใจได้จากที่เดียว"
+
+จัดภาพเป็น 3 ช่วงจากบนลงล่าง:
+
+ช่วงที่ 1: "ก่อนมีระบบ: ข้อมูลกระจัดกระจาย"
+ใส่ภาพไฟล์ Excel, Google Sheet, PDF, แฟ้มเอกสาร, ฐานข้อมูลแยกส่วน, เจ้าหน้าที่กำลังรวบรวมรายงาน
+ใส่ bullet อ่านชัด:
+- ข้อมูลอยู่หลายไฟล์ หลายกลุ่มงาน หลายแหล่ง
+- ค้นหาข้อมูลย้อนหลังได้ยาก
+- ต้องสรุปรายงานและทำกราฟซ้ำหลายรอบ
+- ข้อมูลเชิงพื้นที่ ตาราง และข่าวสารไม่อยู่ใน workflow เดียวกัน
+
+ช่วงที่ 2: "แนวคิดการพัฒนา"
+วาดเป็นท่อข้อมูลหรือ data funnel ไหลเข้าสู่ศูนย์กลาง
+ใส่คำสำคัญบนไอคอน:
+"รวบรวมข้อมูล" "จัดระเบียบ" "ตรวจสอบ" "เชื่อมโยงแผนที่" "กำหนดสิทธิ์" "เตรียมข้อมูลให้ AI"
+
+ช่วงที่ 3: "หลังมีระบบ: ศูนย์ข้อมูลเกษตรจังหวัด"
+วาด dashboard กลางชื่อ "NPT Smart Agri Dashboard" มีแผนที่นครปฐม KPI cards กราฟ ตาราง และ AI chat
+ใส่ bullet อ่านชัด:
+- ดู Dashboard ภาพรวมจังหวัด
+- ค้นหาข้ามหลายหมวดข้อมูล
+- วิเคราะห์ด้วยแผนที่และกราฟ
+- ใช้ AI ช่วยถามตอบและสรุปข้อมูล
+- แยก Public Portal และ Internal Dashboard ชัดเจน
+
+มุมล่างใส่กล่องสรุป:
+"เป้าหมาย: ลดงาน manual เพิ่มความเร็วในการใช้ข้อมูล และทำให้ข้อมูลเกษตรจังหวัดพร้อมใช้สำหรับผู้บริหาร เจ้าหน้าที่ และประชาชน"
+
+ดีไซน์:
+สีน้ำผสมเวกเตอร์, พื้นหลังขาวครีม, เขียวมรกต, ทองรวงข้าว, ฟ้าอ่อน, น้ำเงินเข้ม, มีลายทุ่งนา เส้นแผนที่ เส้นข้อมูลเชื่อมโยง, clean government infographic, ตัวอักษรไทยคมชัด อ่านง่าย, ไม่รก, ไม่ใช้โลโก้ราชการปลอม, ไม่มี watermark
+```
+
+### ภาพที่ 2 แบบมีข้อความ: ระบบและเทคโนโลยีที่ใช้
+
+```text
+สร้าง infographic แนวตั้ง 9:16 ภาษาไทย สไตล์สีน้ำผสมเวกเตอร์ อธิบายสถาปัตยกรรมระบบ "NPT Smart Agri Dashboard" ให้ผู้บริหารและคณะกรรมการเข้าใจง่าย
+
+หัวข้อใหญ่:
+"ระบบและเทคโนโลยีที่ใช้"
+
+คำโปรย:
+"เว็บแอปศูนย์ข้อมูลเกษตรจังหวัด พัฒนาแบบ Single Page Application เชื่อมฐานข้อมูลกลาง AI และข้อมูลภายนอกผ่าน Proxy ที่ควบคุมได้"
+
+จัดเป็นแผนภาพ layered architecture จากบนลงล่าง:
+
+ชั้นที่ 1: "ผู้ใช้งาน"
+ไอคอน 4 กลุ่ม พร้อม label:
+- ประชาชน / ผู้สนใจ
+- เจ้าหน้าที่
+- ผู้บริหาร
+- ผู้ดูแลระบบ
+
+ชั้นที่ 2: "Frontend Web Application"
+วาดหน้าจอเว็บ dashboard สวยงาม พร้อมข้อความ:
+- React + Vite
+- React Router
+- Ant Design
+- Dashboard / Map / Table / Search / Chatbot
+
+ชั้นที่ 3: "App Logic"
+วาดกล่องเชื่อมกัน:
+- AuthContext: role, department, guest mode
+- Protected Route / Admin Route
+- React Query Cache
+- Dashboard Aggregation Hooks
+- Data Privacy Layer
+
+ชั้นที่ 4: "Service Layer"
+กล่องบริการ:
+- Supabase Client
+- Global Search Service
+- Chatbot Data Service
+- AI Service
+- CSV Import / Export
+
+ชั้นที่ 5: "Backend & Integration"
+วาดเป็นฐานข้อมูลและ cloud functions:
+- Supabase Auth + Database + RPC
+- Netlify Functions / Proxy Gateway
+- AI Proxy: Gemini, OpenRouter, NVIDIA-compatible endpoint
+- External APIs: Open-Meteo, Meteostat, GISTDA VIIRS, MOC Prices, DOAE/RSS News, RID Reservoir, AQI
+
+ชั้นล่าง: "Deploy & Quality"
+ใส่ข้อความ:
+- Netlify Hosting
+- Vite Build → dist
+- SPA Redirect
+- Vitest / Playwright / ESLint
+
+ใส่กล่องสรุปด้านข้าง:
+"จุดเด่นเชิงเทคนิค"
+- แยก Public กับ Internal ชัดเจน
+- มี Role-based Access
+- ใช้ Cache ลดการเรียกข้อมูลซ้ำ
+- มี Proxy กลางสำหรับ AI และ API ภายนอก
+- พร้อมทดสอบและ Deploy แบบ Web Application จริง
+
+ดีไซน์:
+สีน้ำผสมเวกเตอร์, clean architecture diagram, เส้นเชื่อมบาง ๆ, database cylinder, cloud function icon, AI node, shield, magnifying glass, map pin, พื้นหลังมี contour map จังหวัดนครปฐมแบบจาง ๆ, ตัวอักษรไทยคมชัด อ่านง่าย, เป็นทางการและสวยงาม
+```
+
+### ภาพที่ 3 แบบมีข้อความ: โครงสร้างโมดูลตามกลุ่มงาน
+
+```text
+สร้าง infographic แนวตั้ง 9:16 ภาษาไทย สไตล์สีน้ำผสมเวกเตอร์ แสดงโครงสร้างโมดูลของ "NPT Smart Agri Dashboard" ตามภารกิจสำนักงานเกษตรจังหวัด
+
+หัวข้อใหญ่:
+"ระบบงานหลักที่รองรับภารกิจเกษตรจังหวัด"
+
+คำโปรย:
+"ออกแบบข้อมูลตามกลุ่มงานจริง เพื่อให้เจ้าหน้าที่แต่ละฝ่ายดูแลข้อมูลของตนเอง และผู้บริหารเห็นภาพรวมจากศูนย์กลางเดียว"
+
+วาง dashboard/data hub ตรงกลาง:
+"NPT Smart Agri Dashboard"
+ใส่ไอคอนกลาง: database, dashboard, map, chart, search, AI
+
+รอบ ๆ ศูนย์กลางให้มี 6 โมดูล พร้อมหัวข้อและรายการย่อย:
+
+1. "ฝ่ายบริหารทั่วไป"
+- บุคลากร
+- พัสดุ / ครุภัณฑ์
+- งบประมาณ
+- ผู้ใช้ระบบ
+- Audit Log
+
+2. "ยุทธศาสตร์และสารสนเทศ"
+- ทะเบียนเกษตรกร
+- GIS / พิกัดพื้นที่
+- พื้นที่การเกษตร
+- ศูนย์เรียนรู้
+- สภาพอากาศ / น้ำฝน
+- ภัยพิบัติ
+
+3. "ส่งเสริมการผลิต"
+- แปลงใหญ่
+- มาตรฐาน GAP
+- ผลผลิตพืช
+- แบบเก็บข้อมูลมะพร้าวน้ำหอม
+
+4. "ส่งเสริมและพัฒนาเกษตรกร"
+- วิสาหกิจชุมชน
+- Smart Farmer / YSF
+- กลุ่มส่งเสริมอาชีพ
+- กลุ่มแม่บ้านเกษตรกร
+- สถาบันเกษตรกร
+- ท่องเที่ยวเชิงเกษตร
+
+5. "อารักขาพืช"
+- แปลงพยากรณ์
+- ศูนย์จัดการศัตรูพืชชุมชน
+- ศูนย์จัดการดินปุ๋ยชุมชน
+- จุด Hotspot / PM2.5
+
+6. "คำขอข้อมูลและชุมชน"
+- Data Request
+- Assignment รายอำเภอ
+- CSV / Excel Import
+- Farmer Forum
+
+กล่องสรุปด้านล่าง:
+"ผลลัพธ์: ข้อมูลถูกแบ่งตามเจ้าของงาน แต่เชื่อมกลับสู่ Dashboard กลาง เพื่อวิเคราะห์ภาพรวมจังหวัดได้ทันที"
+
+ดีไซน์:
+radial module map หรือ grid 2 คอลัมน์, สีน้ำผสมเวกเตอร์, ใช้สีแยกกลุ่มงานแต่กลมกลืน, พื้นหลังทุ่งนาและแผนที่จังหวัดแบบจาง, เส้นข้อมูลเชื่อมทุกโมดูลเข้าสู่ศูนย์กลาง, ตัวอักษรไทยคมชัดและมี hierarchy ดี, ไม่รก
+```
+
+### ภาพที่ 4 แบบมีข้อความ: ฟังก์ชันเด่นของระบบ
+
+```text
+สร้าง infographic แนวตั้ง 9:16 ภาษาไทย สไตล์สีน้ำผสมเวกเตอร์ แสดงฟังก์ชันเด่นของ "NPT Smart Agri Dashboard" ให้ดูเหมือน product feature poster สำหรับพรีเซนต์
+
+หัวข้อใหญ่:
+"ฟังก์ชันเด่นของระบบ"
+
+คำโปรย:
+"เปลี่ยนข้อมูลดิบให้ใช้งานได้จริง ผ่าน Dashboard, แผนที่, การค้นหา, AI และระบบจัดการข้อมูล"
+
+ตรงกลางเป็น mockup หน้าจอ dashboard ขนาดใหญ่:
+มี sidebar, KPI cards, กราฟ, ตาราง, แผนที่นครปฐม, search bar, chat panel, widget สภาพอากาศ
+
+รอบหน้าจอให้มี callout 8 ฟังก์ชัน พร้อมคำอธิบายสั้น:
+
+1. "Dashboard รวมข้อมูล"
+"สรุปตัวเลขสำคัญ กราฟ และสถานะข้อมูลตามกลุ่มงาน"
+
+2. "Smart Map / GIS"
+"ดูข้อมูลรายอำเภอ พิกัดพื้นที่ แผนที่สี และชั้นข้อมูลเชิงพื้นที่"
+
+3. "Global Search"
+"ค้นหาคำเดียว เจอข้อมูลข้ามหลายตารางและหลายหมวดงาน"
+
+4. "AI Chatbot น้องข้าวหอม"
+"ถามข้อมูลด้วยภาษาธรรมชาติ ให้ AI ช่วยสรุป วิเคราะห์ และเสนอคำตอบจากบริบทฐานข้อมูล"
+
+5. "CRUD + Import / Export"
+"เพิ่ม แก้ไข ลบ ดูข้อมูล นำเข้า CSV/Excel และส่งออกข้อมูลเพื่อทำรายงาน"
+
+6. "Live Widgets"
+"เชื่อมข่าว อากาศ AQI ราคาเกษตร ราคาเชื้อเพลิง เขื่อน ความชื้นดิน และจุด Hotspot"
+
+7. "Data Request Workflow"
+"จังหวัดสร้างคำขอ อำเภอกรอกข้อมูล ระบบรวมผลกลับสู่ฐานข้อมูลกลาง"
+
+8. "Executive Situation Room"
+"มุมมองสำหรับผู้บริหาร รวม alert, risk ranking, งบประมาณ, คำขอค้าง และสรุปด้วย AI"
+
+กล่องสรุปด้านล่าง:
+"ระบบเดียว ครอบคลุมการดูข้อมูล วิเคราะห์ ค้นหา จัดการ และสื่อสารผล"
+
+ดีไซน์:
+premium watercolor + vector UI, หน้าจอ dashboard คม รายละเอียดพอดี ไม่แน่นเกิน, callout เส้นบาง, icon ชัด, ใช้สีเขียว ทอง ฟ้า น้ำเงิน, ตัวอักษรไทยอ่านง่ายมาก, ไม่ใช้ตัวหนังสือจิ๋ว, ไม่ใส่ข้อความมั่ว
+```
+
+### ภาพที่ 5 แบบมีข้อความ: ประโยชน์และผลลัพธ์ของงาน
+
+```text
+สร้าง infographic แนวตั้ง 9:16 ภาษาไทย สไตล์สีน้ำผสมเวกเตอร์ สรุปประโยชน์และผลลัพธ์ของ "NPT Smart Agri Dashboard" สำหรับปิดท้ายการพรีเซนต์
+
+หัวข้อใหญ่:
+"ประโยชน์ของระบบ"
+
+คำโปรย:
+"ศูนย์ข้อมูลเกษตรจังหวัดที่ช่วยให้ข้อมูลพร้อมใช้ ตัดสินใจเร็วขึ้น ทำงานร่วมกันง่ายขึ้น และต่อยอดเป็นต้นแบบได้"
+
+จัดภาพเป็น 3 กลุ่มผู้ได้รับประโยชน์:
+
+กลุ่มที่ 1: "ผู้บริหาร"
+ภาพผู้บริหารดู Situation Room บนจอใหญ่ มีแผนที่และ alert
+bullet:
+- เห็นภาพรวมจังหวัดได้เร็ว
+- ใช้ข้อมูลประกอบการตัดสินใจ
+- จัดลำดับพื้นที่และประเด็นเร่งด่วน
+- ติดตามงบประมาณ คำขอข้อมูล และความเสี่ยง
+
+กลุ่มที่ 2: "เจ้าหน้าที่"
+ภาพเจ้าหน้าที่ใช้ dashboard, table, search, AI
+bullet:
+- ลดเวลารวบรวมไฟล์และทำรายงานซ้ำ
+- ค้นหาข้อมูลข้ามหมวดได้ในที่เดียว
+- เพิ่ม / แก้ไข / นำเข้า / ส่งออกข้อมูลได้สะดวก
+- ให้ AI ช่วยสรุปคำตอบและเตรียมข้อมูลประกอบงาน
+
+กลุ่มที่ 3: "ประชาชนและภาคี"
+ภาพมือถือเปิด Public Portal พร้อมแผนที่ ข่าว อากาศ ราคาเกษตร
+bullet:
+- เข้าถึงข้อมูลสาธารณะได้ง่าย
+- เพิ่มความโปร่งใสของข้อมูลภาครัฐ
+- เห็นข่าวสาร สภาพอากาศ AQI และข้อมูลเกษตรที่เกี่ยวข้อง
+- สนับสนุนการมีส่วนร่วมของภาคีในพื้นที่
+
+ด้านล่างเป็นแถบ "ผลลัพธ์เชิงระบบ":
+ใส่ icon + short text:
+- ข้อมูลรวมศูนย์
+- ลดงาน Manual
+- ตัดสินใจจากข้อมูลจริง
+- เชื่อมแผนที่และพื้นที่
+- ใช้ AI ช่วยวิเคราะห์
+- พร้อมขยายผลสู่จังหวัดอื่น
+
+กล่องสรุปปิดท้าย:
+"NPT Smart Agri Dashboard ไม่ใช่แค่เว็บแสดงข้อมูล แต่เป็นโครงสร้างพื้นฐานด้านข้อมูลเกษตรระดับจังหวัด"
+
+ดีไซน์:
+อบอุ่น น่าเชื่อถือ เป็นทางการ สีน้ำผสมเวกเตอร์ มีทุ่งนา แผนที่นครปฐม เส้นข้อมูลเชื่อมจากอำเภอต่าง ๆ เข้าสู่ dashboard, แสงเช้าอ่อน ๆ, ตัวอักษรไทยสวย คม อ่านง่าย, composition โปร่ง ไม่รก, ไม่มีโลโก้ปลอม ไม่มี watermark
+```
+
+---
 
 ถ้าเครื่องมือรองรับการสร้างทีละหลายภาพ ให้ใช้คำสั่งรวมนี้เป็นแนวกำกับ:
 
@@ -424,7 +663,7 @@ Image 3: module map, central data hub surrounded by Admin, Strategy, Production,
 Image 4: key functions, dashboard, smart map/GIS, global search, AI chatbot, CRUD/import/export, live widgets, data request workflow, executive situation room.
 Image 5: benefits and impact, faster decisions, less manual work, transparent public data, officer productivity, scalable provincial model.
 
-Keep all images text-light and leave clean blank bands for Thai overlay text. Avoid fake official logos, avoid unreadable Thai letters, avoid clutter, avoid cartoon mascot, avoid random numbers. High resolution, presentation-ready.
+All images must include meaningful Thai titles, Thai subtitles, Thai bullet points, and Thai callout labels directly inside the infographic. Avoid fake official logos, avoid unreadable Thai letters, avoid clutter, avoid cartoon mascot, avoid random numbers. High resolution, presentation-ready.
 ```
 
 ## คำแนะนำการใช้งานจริง
@@ -438,10 +677,10 @@ Keep all images text-light and leave clean blank bands for Thai overlay text. Av
 2. ถ้าใช้ DALL-E / ChatGPT Image ให้ระบุเพิ่ม:
 
 ```text
-Create a clean infographic without small text. Leave editable blank areas for Thai headings and labels.
+Create a clean infographic with Thai headings, Thai labels, and Thai bullet points directly inside the image. Text must be readable and not tiny.
 ```
 
-3. ถ้าใช้ Canva / Firefly / Leonardo ให้ใช้ prompt หลัก แล้วนำข้อความจากหัวข้อ "ข้อความแนะนำสำหรับวางทับในสไลด์" ไปจัดวางเอง เพื่อให้ภาษาไทยคมและอ่านง่าย
+3. ถ้าใช้ Canva / Firefly / Leonardo ให้ใช้ prompt แบบมีข้อความไทยในภาพได้เลย แล้วค่อยแก้คำเฉพาะจุดภายหลังถ้าต้องการความเนี้ยบระดับงานส่งประกวด
 
 4. โทนภาพที่ควรคุม:
    - ภาพ 1: problem to solution
@@ -449,4 +688,3 @@ Create a clean infographic without small text. Leave editable blank areas for Th
    - ภาพ 3: modules
    - ภาพ 4: product features
    - ภาพ 5: impact and benefits
-
