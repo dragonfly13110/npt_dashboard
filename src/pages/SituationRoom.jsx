@@ -20,7 +20,7 @@ import './SituationRoom.css';
 
 const { Paragraph, Text, Title } = Typography;
 const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
-const GEMINI_SITUATION_MODELS = ['gemini-3.5-flash', 'gemini-3-flash-preview', 'gemini-2.5-flash'];
+const GEMINI_SITUATION_MODELS = ['gemini-3.5-flash', 'gemini-3-flash-preview', 'gemini-3.1-flash-lite', 'gemini-2.5-flash', 'gemini-1.5-flash'];
 
 const DISTRICT_CENTROIDS = [
     { name: 'เมืองนครปฐม', lat: 13.82, lon: 100.04 },
@@ -256,6 +256,10 @@ function buildGenerationConfig(model) {
         maxOutputTokens: 4096,
     };
 
+    if (model.includes('flash-lite') || model.startsWith('gemini-1.5')) {
+        return base;
+    }
+
     if (model.startsWith('gemini-2.5')) {
         return {
             ...base,
@@ -384,7 +388,7 @@ export default function SituationRoom() {
         } catch (err) {
             setAiBriefing('');
             console.warn('[SituationRoom] AI briefing failed:', err.message);
-            setAiError('ยังเรียก AI ไม่สำเร็จ ระบบแสดง action จากข้อมูลจริงให้ใช้เป็น fallback แล้ว กรุณาตรวจ GEMINI_API_KEY และสิทธิ์ใช้งานโมเดล Gemini 3/2.5 ใน Netlify');
+            setAiError('ยังเรียก AI ไม่สำเร็จ ระบบแสดง action จากข้อมูลจริงให้ใช้เป็น fallback แล้ว กรุณาตรวจ GEMINI_API_KEY, ALLOWED_ORIGINS และสิทธิ์ใช้งานโมเดล Gemini ใน Netlify');
         } finally {
             setAiLoading(false);
         }
