@@ -44,7 +44,7 @@ describe('ai-proxy', () => {
     });
 
     it('rejects configured providers when the server key is missing', async () => {
-        const response = await handler(request({ provider: 'gemini', body: { model: 'gemini-3.1-flash-lite-preview' } }));
+        const response = await handler(request({ provider: 'gemini', body: { model: 'gemini-3.1-flash-lite' } }));
         expect(response.status).toBe(500);
         expect(await response.json()).toEqual({ error: 'AI provider is not configured' });
     });
@@ -59,7 +59,7 @@ describe('ai-proxy', () => {
         const response = await handler(request({
             provider: 'gemini',
             body: {
-                model: 'gemini-3.1-flash-lite-preview',
+                model: 'gemini-3.1-flash-lite',
                 stream: false,
                 contents: [{ role: 'user', parts: [{ text: 'hello' }] }],
             },

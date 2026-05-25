@@ -6,7 +6,7 @@ const RATE_LIMIT_MAX_REQUESTS = 30;
 const PROVIDERS = {
     gemini: {
         envKey: 'GEMINI_API_KEY',
-        models: new Set(['gemini-3.5-flash', 'gemini-3-flash-preview', 'gemini-3.1-flash-lite-preview', 'gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-1.5-flash']),
+        models: new Set(['gemini-3.5-flash', 'gemini-3-flash-preview', 'gemini-3.1-flash-lite', 'gemini-3.1-flash-lite-preview', 'gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-1.5-flash']),
     },
     openrouter: {
         envKey: 'OPENROUTER_API_KEY',
@@ -110,7 +110,7 @@ function clampTokenLimits(body) {
 }
 
 async function callGemini(apiKey, body) {
-    const model = body.model || 'gemini-3.1-flash-lite-preview';
+    const model = body.model || 'gemini-3.1-flash-lite';
     const isStream = body.stream === true;
     const endpoint = isStream ? 'streamGenerateContent?alt=sse&' : 'generateContent?';
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:${endpoint}key=${apiKey}`;
@@ -162,7 +162,10 @@ export default async (req) => {
         const validation = validatePayload(JSON.parse(rawBody));
         if (validation.error) return jsonResponse(req, 400, { error: validation.error });
 
-        const apiKey = getEnv(validation.providerConfig.envKey);
+        let apiKey = getEnv(validation.providerConfig.envKey);
+        if (!apiKey && validation.provider === 'gemini') {
+            apiKey = getEnv('VITE_GEMINI_API_KEY');
+        }
         if (!apiKey) return jsonResponse(req, 500, { error: 'AI provider is not configured' });
 
         console.log('AI proxy request', {

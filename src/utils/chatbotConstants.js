@@ -36,7 +36,7 @@ export const AI_MODELS = {
 
 export const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
 export const GEMMA_MODEL = 'gemma-4-31b-it';
-export const GEMINI_MODEL = 'gemini-3.1-flash-lite-preview';
+export const GEMINI_MODEL = 'gemini-3.1-flash-lite';
 export const QWEN_MODEL = 'qwen/qwen3.5-397b-a17b';
 
 export const TABLE_CONFIG = {
