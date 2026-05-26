@@ -31,6 +31,39 @@ export const AI_MODELS = {
         icon: '🐉',
         badge: 'THINK',
         badgeColor: '#76b900',
+    },
+    deepseek: {
+        key: 'deepseek',
+        label: '🔵 DeepSeek v4',
+        shortLabel: 'DeepSeek',
+        description: 'DeepSeek v4 Flash (NVIDIA NIM)',
+        provider: 'NVIDIA',
+        color: '#0052cc',
+        icon: '🔵',
+        badge: 'THINK',
+        badgeColor: '#0052cc',
+    },
+    kimi: {
+        key: 'kimi',
+        label: '🌙 Kimi K2.6',
+        shortLabel: 'Kimi',
+        description: 'Moonshot Kimi K2.6 (NVIDIA NIM)',
+        provider: 'NVIDIA',
+        color: '#ff4d4f',
+        icon: '🌙',
+        badge: 'THINK',
+        badgeColor: '#ff4d4f',
+    },
+    minimax: {
+        key: 'minimax',
+        label: '🌀 MiniMax M2.7',
+        shortLabel: 'MiniMax',
+        description: 'MiniMax M2.7 (NVIDIA NIM)',
+        provider: 'NVIDIA',
+        color: '#3a8ee6',
+        icon: '🌀',
+        badge: 'NEW',
+        badgeColor: '#3a8ee6',
     }
 };
 
@@ -38,6 +71,9 @@ export const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
 export const GEMMA_MODEL = 'gemma-4-31b-it';
 export const GEMINI_MODEL = 'gemini-3.1-flash-lite';
 export const QWEN_MODEL = 'qwen/qwen3.5-397b-a17b';
+export const DEEPSEEK_MODEL = 'deepseek-ai/deepseek-v4-flash';
+export const KIMI_MODEL = 'moonshotai/kimi-k2.6';
+export const MINIMAX_MODEL = 'minimaxai/minimax-m2.7';
 
 export const TABLE_CONFIG = {
     agricultural_areas: { label: 'พื้นที่การเกษตร', icon: '🌾', group: 'ยุทธศาสตร์', descTh: 'ข้อมูลพื้นที่เกษตรรายอำเภอ (ข้าว, พืชไร่, ไม้ผล, ผัก, ไม้ดอก, สมุนไพร)' },
@@ -85,7 +121,7 @@ export const TABLE_SEARCH_COLS = {
     farmer_registry: ['main_crop'],
     gis_areas: ['area_name', 'area_type'],
     large_plots: ['plot_name', 'commodity', 'secondary_commodity', 'agency'],
-    certifications: ['farm_name', 'commodity', 'cert_type'],
+    certifications: ['farmer_name', 'crop_name', 'plot_code'],
     crop_production: ['crop_name'],
     coconut_aromatic_surveys: ['farmer_code', 'farmer_name', 'subdistrict', 'district', 'round_label'],
     community_enterprises: ['enterprise_name', 'enterprise_type'],
@@ -106,7 +142,7 @@ export const TABLE_SEARCH_COLS = {
 };
 
 export const DISTRICT_COLS = {
-    certifications: 'district',
+    certifications: 'plot_district',
     forecast_plots: 'district',
     coconut_aromatic_surveys: 'district',
     smart_farmer_sf: 'district',
@@ -121,7 +157,7 @@ export const NUMERIC_COLS = {
     agricultural_areas: ['total_area_rai', 'agri_crop_area_rai', 'farmer_households', 'rice_in_season_rai', 'rice_off_season_rai', 'field_crops_rai', 'horticulture_rai', 'fruit_trees_rai', 'vegetables_rai', 'flowers_rai', 'herbs_spices_rai'],
     farmer_registry: ['households_count', 'total_members'],
     large_plots: ['total_area_rai', 'member_count'],
-    certifications: ['certified_area_rai'],
+    certifications: ['area_rai'],
     crop_production: ['planted_area_rai', 'harvested_area_rai', 'yield_kg_per_rai', 'total_production_ton'],
     coconut_aromatic_surveys: ['planted_area_rai', 'production_cost_per_rai', 'cost_per_fruit', 'standard_fruit_per_rai', 'small_fruit_per_rai', 'total_fruit_per_rai', 'income_per_rai', 'total_income'],
     community_enterprises: ['member_count', 'capital_baht'],

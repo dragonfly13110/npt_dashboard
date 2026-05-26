@@ -141,15 +141,24 @@
 
 .bento-header {
     position: relative;
-    padding: 180px 24px 200px; /* Increased bottom padding to show more of the image */
+    padding: 90px 24px 80px; /* Shift content up and keep it tight */
     text-align: center;
     background: url('https://res.cloudinary.com/dzksawh1d/image/upload/v1778061075/69fb0ad33f4be910d2a02784_yvto8z.png') center bottom/cover no-repeat;
     overflow: hidden;
-    min-height: 700px;
+    min-height: 460px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.hero-actions {
+    margin-top: 180px; /* More space for the background pagoda */
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    animation: subtitleFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
 }
 
 /* ---- Animated gradient overlay ---- */
@@ -176,7 +185,7 @@
 }
 
 .bento-header:hover .bento-header-content {
-    transform: translateY(-6px);
+    transform: none;
 }
 
 .bento-badge {
@@ -258,15 +267,64 @@
     text-shadow: 0 1px 4px rgba(255, 255, 255, 0.9), 0 0 10px rgba(255, 255, 255, 1);
 }
 
+.bento-motto {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 14px auto 0;
+    padding: 8px 22px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow: 0 10px 25px -10px rgba(15, 23, 42, 0.08);
+    max-width: 96%;
+    color: #1e3a8a;
+    font-family: 'Kanit', 'Athiti', 'IBM Plex Sans Thai', -apple-system, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0.2px;
+    animation: subtitleFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+.bento-motto-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.bento-motto-text {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #16a34a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    font-weight: 600;
+}
+
 @keyframes subtitleFadeIn {
     0% { opacity: 0; transform: translateY(15px); }
     100% { opacity: 1; transform: translateY(0); }
 }
 
+@media (max-width: 1100px) {
+    .bento-motto {
+        font-size: 11.5px;
+        padding: 6px 18px;
+    }
+}
+
 @media (max-width: 768px) {
     .bento-header {
-        padding: 140px 20px 100px;
-        min-height: 400px;
+        padding: 60px 20px 50px;
+        min-height: 280px;
+    }
+    .hero-actions {
+        margin-top: 24px;
     }
     .bento-title {
         font-size: 36px;
@@ -278,6 +336,15 @@
     .bento-subtitle {
         font-size: 16px;
         padding: 0 12px;
+    }
+    .bento-motto {
+        border-radius: 18px;
+        padding: 10px 16px;
+        font-size: 12px;
+        margin-top: 18px;
+        display: flex;
+        white-space: normal;
+        max-width: 92%;
     }
 }
 
@@ -1866,7 +1933,7 @@
     grid-template-columns: 1fr 2fr;
     align-items: stretch;
     gap: 20px;
-    height: clamp(780px, calc(100vh + 40px), 860px);
+    height: clamp(620px, calc(100vh - 100px), 710px);
     position: relative;
     z-index: 10;
 }
@@ -1877,11 +1944,15 @@
         height: auto;
         margin-top: 10px;
     }
+    
+    .top-widgets-col {
+        grid-template-rows: auto auto;
+    }
 }
 
 .top-widgets-col {
     display: grid;
-    grid-template-rows: minmax(380px, 0.95fr) minmax(380px, 1.05fr);
+    grid-template-rows: minmax(286px, 1.15fr) minmax(240px, 0.85fr);
     gap: 20px;
     min-height: 0;
 }

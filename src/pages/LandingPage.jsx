@@ -240,22 +240,19 @@ export default function LandingPage() {
                 </div>
             </nav>
 
-            {/* ===== HEADER ===== */}
             <header className="bento-header" role="banner">
                 <div className="bento-header-bg"></div>
                 <div className="bento-header-content">
-                    <div className="bento-badge" role="img" aria-label="สำนักงานเกษตรจังหวัดนครปฐม">🏛️ สำนักงานเกษตรจังหวัดนครปฐม</div>
                     <h1 className="bento-title">
                         ศูนย์ข้อมูลการเกษตรอัจฉริยะ
                         <span className="bento-title-province">จังหวัดนครปฐม</span>
                     </h1>
                     <p className="bento-subtitle">
-                        รวบรวมและอัปเดตข้อมูลเกษตรกร พื้นที่เพาะปลูก วิสาหกิจชุมชน Smart Farmer แปลงใหญ่ สภาพอากาศ ราคาสินค้าเกษตร และสถานการณ์ภัยพิบัติในจังหวัดนครปฐม
-                        เพื่อสนับสนุนการบริหารจัดการที่แม่นยำและยกระดับการเกษตรอย่างยั่งยืน
+                        ฐานข้อมูลกลางและสถานการณ์การเกษตรจังหวัดนครปฐม เพื่อการบริหารจัดการที่แม่นยำและยั่งยืน
                     </p>
 
                     
-                    <div className="hero-actions" style={{ marginTop: '36px', display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                    <div className="hero-actions">
                         <a
                             href="https://nakhonpathom.doae.go.th/"
                             target="_blank"
@@ -288,6 +285,12 @@ export default function LandingPage() {
                         >
                             📊 ดูสรุปข้อมูลแบบ Interactive (ทดลองใช้)
                         </button>
+                    </div>
+
+                    <div className="bento-motto" aria-label="คำขวัญจังหวัดนครปฐม">
+                        <span className="bento-motto-text">
+                            "ส้มโอหวาน ข้าวสารขาว ลูกสาวงาม ข้าวหลามหวานมัน สนามจันทร์งามล้น พุทธมณฑลคู่ธานี พระปฐมเจดีย์เสียดฟ้า สวยงามตาแม่น้ำท่าจีน"
+                        </span>
                     </div>
                 </div>
             </header>

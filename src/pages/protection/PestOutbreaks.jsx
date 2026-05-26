@@ -197,7 +197,7 @@ export default function PestOutbreaks() {
                 marginBottom: 24
             }}>
                 {/* Header */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
                     <PieChartOutlined style={{ fontSize: 18, color: '#1a7f37' }} />
                     <span style={{ fontSize: 16, fontWeight: 700, color: '#1f2328' }}>สรุปข้อมูลการพยากรณ์</span>
                     <Tag color="green">
@@ -206,6 +206,9 @@ export default function PestOutbreaks() {
                             : `${mapData.length} แปลง`
                         }
                     </Tag>
+                    <span style={{ marginLeft: 'auto', fontSize: 12, color: '#656d76', background: '#f6f8fa', padding: '4px 10px', borderRadius: 20, border: '1px solid #e8ecf0', fontWeight: 500 }}>
+                        📅 ข้อมูล ณ วันที่ 25 พ.ค. 2569 (25/05/2026)
+                    </span>
                 </div>
 
                 {/* Unified Filters */}
@@ -331,7 +334,7 @@ export default function PestOutbreaks() {
             {/* ===== ตาราง ===== */}
             <CrudTable
                 tableName="forecast_plots"
-                title="ข้อมูลการพยากรณ์"
+                title="ข้อมูลการพยากรณ์ (ข้อมูล ณ วันที่ 25 พ.ค. 2569)"
                 columns={columns}
                 formFields={formFields}
                 searchFields={['owner_name', 'crop_type', 'variety', 'district', 'subdistrict']}
@@ -349,7 +352,7 @@ export default function PestOutbreaks() {
                 {/* Header */}
                 <div style={{
                     display: 'flex', alignItems: 'center', gap: 8,
-                    marginBottom: 12,
+                    marginBottom: 12, flexWrap: 'wrap'
                 }}>
                     <EnvironmentOutlined style={{ fontSize: 18, color: '#1a7f37' }} />
                     <span style={{ fontSize: 16, fontWeight: 700, color: '#1f2328' }}>
@@ -361,6 +364,9 @@ export default function PestOutbreaks() {
                             : `${mapData.length} แปลง`
                         }
                     </Tag>
+                    <span style={{ marginLeft: 'auto', fontSize: 12, color: '#656d76', background: '#f6f8fa', padding: '4px 10px', borderRadius: 20, border: '1px solid #e8ecf0', fontWeight: 500 }}>
+                        📅 ข้อมูล ณ วันที่ 25 พ.ค. 2569 (25/05/2026)
+                    </span>
                 </div>
 
                 {/* Map */}

@@ -6,15 +6,15 @@ const RATE_LIMIT_MAX_REQUESTS = 30;
 const PROVIDERS = {
     gemini: {
         envKey: 'GEMINI_API_KEY',
-        models: new Set(['gemini-3.5-flash', 'gemini-3-flash-preview', 'gemini-3.1-flash-lite', 'gemini-3.1-flash-lite-preview', 'gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-1.5-flash']),
+        models: new Set(['gemini-3.5-flash', 'gemini-3-flash-preview', 'gemini-3.1-flash-lite', 'gemini-3.1-flash-lite-preview', 'gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-1.5-flash', 'gemma-4-31b-it']),
     },
     openrouter: {
         envKey: 'OPENROUTER_API_KEY',
-        models: new Set(['google/gemma-3-27b-it', 'qwen/qwen3-32b', 'openai/gpt-4o-mini']),
+        models: new Set(['google/gemma-4-31b-it', 'qwen/qwen3.5-397b-a17b']),
     },
     nvidia: {
         envKey: 'NVIDIA_API_KEY',
-        models: new Set(['google/gemma-3-27b-it', 'meta/llama-3.1-8b-instruct']),
+        models: new Set(['qwen/qwen3.5-397b-a17b', 'deepseek-ai/deepseek-v4-flash', 'moonshotai/kimi-k2.6', 'minimaxai/minimax-m2.7']),
     },
 };
 
@@ -165,6 +165,12 @@ export default async (req) => {
         let apiKey = getEnv(validation.providerConfig.envKey);
         if (!apiKey && validation.provider === 'gemini') {
             apiKey = getEnv('VITE_GEMINI_API_KEY');
+        }
+        if (!apiKey && validation.provider === 'openrouter') {
+            apiKey = getEnv('VITE_OPENROUTER_API_KEY');
+        }
+        if (!apiKey && validation.provider === 'nvidia') {
+            apiKey = getEnv('VITE_NVIDIA_API_KEY');
         }
         if (!apiKey) return jsonResponse(req, 500, { error: 'AI provider is not configured' });
 

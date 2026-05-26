@@ -1,4 +1,4 @@
-import { AI_PROXY_URL, GEMMA_MODEL, GEMINI_MODEL, QWEN_MODEL } from '../utils/chatbotConstants';
+import { AI_PROXY_URL, GEMMA_MODEL, GEMINI_MODEL, QWEN_MODEL, DEEPSEEK_MODEL, KIMI_MODEL, MINIMAX_MODEL } from '../utils/chatbotConstants';
 
 /**
  * Handles requests for Google Gemini API (including Gemini 3.1 and Gemma 4)
@@ -183,22 +183,35 @@ async function callNvidiaAI(modelIdentifier, systemPrompt, messagesHistory, sett
                 apiMessages.push({ role: 'user', content: messagesHistory });
             }
 
-            const res = await fetch(AI_PROXY_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    provider: 'nvidia',
-                    body: {
-                        model: modelIdentifier,
-                        messages: apiMessages,
-                        max_tokens: 16384,
-                        temperature: settings?.deepThinking ? 0.7 : 0.6,
-                        top_p: 0.95,
-                        stream: true,
-                        chat_template_kwargs: { enable_thinking: !!settings?.deepThinking },
-                    }
-                })
-            });
+             // Dynamically set chat_template_kwargs according to model requirements
+             const chat_template_kwargs = {};
+             if (settings?.deepThinking) {
+                 if (modelIdentifier === 'deepseek-ai/deepseek-v4-flash') {
+                     chat_template_kwargs.thinking = true;
+                     chat_template_kwargs.reasoning_effort = "high";
+                 } else if (modelIdentifier === 'moonshotai/kimi-k2.6') {
+                     chat_template_kwargs.thinking = true;
+                 } else {
+                     chat_template_kwargs.enable_thinking = true;
+                 }
+             }
+
+             const res = await fetch(AI_PROXY_URL, {
+                 method: 'POST',
+                 headers: { 'Content-Type': 'application/json' },
+                 body: JSON.stringify({
+                     provider: 'nvidia',
+                     body: {
+                         model: modelIdentifier,
+                         messages: apiMessages,
+                         max_tokens: 16384,
+                         temperature: settings?.deepThinking ? 0.7 : 0.6,
+                         top_p: 0.95,
+                         stream: true,
+                         chat_template_kwargs,
+                     }
+                 })
+             });
 
             if (res.status === 429) {
                 const waitMs = (attempt + 1) * 2000;
@@ -290,6 +303,15 @@ export async function callAI(modelKey, systemPrompt, messagesHistory, settings, 
     }
     if (modelKey === 'qwen') {
         return callNvidiaAI(QWEN_MODEL, finalSystemPrompt, messagesHistory, settings);
+    }
+    if (modelKey === 'deepseek') {
+        return callNvidiaAI(DEEPSEEK_MODEL, finalSystemPrompt, messagesHistory, settings);
+    }
+    if (modelKey === 'kimi') {
+        return callNvidiaAI(KIMI_MODEL, finalSystemPrompt, messagesHistory, settings);
+    }
+    if (modelKey === 'minimax') {
+        return callNvidiaAI(MINIMAX_MODEL, finalSystemPrompt, messagesHistory, settings);
     }
     
     return callOpenRouterAI(modelKey, finalSystemPrompt, messagesHistory, settings);

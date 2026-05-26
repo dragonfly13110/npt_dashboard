@@ -119,7 +119,7 @@ export default function AirQualityWidget() {
     const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
     return (
-        <div className="widget-box aqi-widget slide-up-anim" style={{ animationDelay: '0.2s', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div className="widget-box aqi-widget slide-up-anim" style={{ animationDelay: '0.2s', display: 'flex', flexDirection: 'column', gap: '12px', padding: '18px 20px' }}>
             <div className="widget-header" style={{ marginBottom: 0, justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <div className="widget-icon" style={{ background: info.bg, color: info.color }}>{info.alert}</div>
@@ -132,7 +132,7 @@ export default function AirQualityWidget() {
                 </div>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <div style={{ position: 'relative', width: '90px', height: '90px', flexShrink: 0 }}>
                     <svg width="90" height="90" viewBox="0 0 90 90" style={{ transform: 'rotate(-90deg)' }}>
                         <circle cx="45" cy="45" r={circleRadius} fill="none" stroke="#f1f5f9" strokeWidth="12" />
@@ -149,7 +149,7 @@ export default function AirQualityWidget() {
                 <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                     <span style={{ fontSize: '18px', fontWeight: '800', color: info.color, marginBottom: '2px' }}>{info.level}</span>
                     <span style={{ fontSize: '12px', color: '#475569', lineHeight: '1.4' }}>{info.desc}</span>
-                    <div style={{ display: 'flex', gap: '12px', marginTop: '10px', padding: '6px 10px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #f1f5f9' }}>
+                    <div style={{ display: 'flex', gap: '10px', marginTop: '4px', padding: '6px 10px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #f1f5f9' }}>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                             <span style={{ fontSize: '10px', color: '#94a3b8', fontWeight: '800', textTransform: 'uppercase' }}>PM 10</span>
                             <span style={{ fontSize: '13px', fontWeight: '800', color: '#334155' }}>{Math.round(displayData.pm10)} <small style={{fontSize: '9px', fontWeight: 'normal'}}>µg/m³</small></span>
@@ -164,7 +164,7 @@ export default function AirQualityWidget() {
             </div>
 
             {displayData.forecast && displayData.forecast.length > 0 && (
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px', borderTop: '1px dashed #e2e8f0', paddingTop: '16px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2px', borderTop: '1px dashed #e2e8f0', paddingTop: '12px' }}>
                     <div style={{ fontSize: '11px', fontWeight: '700', color: '#94a3b8', display: 'flex', alignItems: 'center' }}>
                         ล่วงหน้า<br/>4 ชม.
                     </div>
@@ -179,7 +179,7 @@ export default function AirQualityWidget() {
             )}
 
             {displayData.pm25 > 35 && (
-                <div style={{ fontSize: '11px', background: '#fee2e2', color: '#b91c1c', padding: '8px 12px', borderRadius: '8px', fontWeight: '700', border: '1px dashed #fca5a5', marginTop: '4px' }}>
+                <div style={{ fontSize: '11px', background: '#fee2e2', color: '#b91c1c', padding: '8px 12px', borderRadius: '8px', fontWeight: '700', border: '1px dashed #fca5a5', marginTop: '2px' }}>
                     🚨 แจ้งเตือน: ควรงดการเผาเศษวัสดุทางการเกษตรอย่างเด็ดขาด
                 </div>
             )}
