@@ -240,6 +240,39 @@ export default function LandingPage() {
                 </div>
             </nav>
 
+            <div className="landing-floating-system-tabs" aria-label="System shortcuts">
+                {externalSystemLinks.map(({ href, title, subtitle, Icon, isInternal }) => (
+                    isInternal ? (
+                        <button
+                            key={href}
+                            className="landing-system-tab"
+                            onClick={() => navigate(href)}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <Icon aria-hidden="true" />
+                            <span>
+                                <strong>{title}</strong>
+                                <small>{subtitle}</small>
+                            </span>
+                        </button>
+                    ) : (
+                        <a
+                            key={href}
+                            href={href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="landing-system-tab"
+                        >
+                            <Icon aria-hidden="true" />
+                            <span>
+                                <strong>{title}</strong>
+                                <small>{subtitle}</small>
+                            </span>
+                        </a>
+                    )
+                ))}
+            </div>
+
             <header className="bento-header" role="banner">
                 <div className="bento-header-bg"></div>
                 <div className="bento-header-content">
