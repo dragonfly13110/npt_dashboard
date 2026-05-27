@@ -390,14 +390,20 @@
 
 /* --- LANDING ORIENTATION SECTIONS --- */
 .landing-quick-nav {
-    position: sticky;
-    top: 64px;
-    z-index: 40;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
     padding: 14px 24px;
     background: rgba(248, 250, 252, 0.86);
     border-bottom: 1px solid rgba(203, 213, 225, 0.64);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
+}
+
+.landing-quick-nav + #live-data {
+    padding-top: 70px;
 }
 
 .landing-quick-nav + #live-data .top-widgets-container {
@@ -699,8 +705,12 @@
 
 @media (max-width: 768px) {
     .landing-quick-nav {
-        top: 64px;
+        top: 0;
         padding: 10px 16px;
+    }
+
+    .landing-quick-nav + #live-data {
+        padding-top: 118px;
     }
 
     .landing-quick-nav-inner {
