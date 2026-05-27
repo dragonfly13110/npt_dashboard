@@ -38,4 +38,9 @@ jobs:
           sleep $DELAY
 
       - name: Run Scraper Script
+        env:
+          DOAE_USERNAME: ${{ secrets.DOAE_USERNAME }}
+          DOAE_PASSWORD: ${{ secrets.DOAE_PASSWORD }}
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
         run: node scripts/scrape_farmer_registry.js
