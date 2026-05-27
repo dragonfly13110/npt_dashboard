@@ -30,6 +30,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Random Delay (6:00 AM - 8:00 AM ICT)
+        if: github.event_name == 'schedule'
         shell: bash
         run: |
           # Generate a random sleep duration between 0 and 7200 seconds (2 hours)
