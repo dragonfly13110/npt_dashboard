@@ -80,7 +80,6 @@ export const TABLE_CONFIG = {
     learning_centers: { label: 'ศูนย์เรียนรู้ (ศพก.)', icon: '🏫', group: 'ยุทธศาสตร์', descTh: 'ศูนย์เรียนรู้การเพิ่มประสิทธิภาพการผลิตสินค้าเกษตร' },
     disasters: { label: 'ภัยพิบัติ', icon: '⛈️', group: 'พัฒนาเกษตรกร', descTh: 'ข้อมูลภัยพิบัติด้านการเกษตร' },
     farmer_registry: { label: 'ทะเบียนเกษตรกร', icon: '📋', group: 'ยุทธศาสตร์', descTh: 'ทะเบียนเกษตรกรรายอำเภอ' },
-    gis_areas: { label: 'พิกัด GIS', icon: '📍', group: 'ยุทธศาสตร์', descTh: 'ข้อมูลพิกัดภูมิศาสตร์พื้นที่เกษตร' },
     large_plots: { label: 'แปลงใหญ่', icon: '🌿', group: 'ส่งเสริมการผลิต', descTh: 'ข้อมูลแปลงใหญ่ (สินค้า, พื้นที่, สมาชิก)' },
     certifications: { label: 'มาตรฐาน GAP', icon: '✅', group: 'ส่งเสริมการผลิต', descTh: 'ใบรับรองมาตรฐาน GAP (ชื่อฟาร์ม, สินค้า, ประเภท)' },
     crop_production: { label: 'ผลผลิตพืช', icon: '🌽', group: 'ส่งเสริมการผลิต', descTh: 'ข้อมูลผลผลิตพืชรายอำเภอ' },
@@ -119,7 +118,6 @@ export const TABLE_SEARCH_COLS = {
     learning_centers: ['name', 'chairman_name', 'featured_product'],
     disasters: ['disaster_type', 'subdistrict'],
     farmer_registry: ['main_crop'],
-    gis_areas: ['area_name', 'area_type'],
     large_plots: ['plot_name', 'commodity', 'secondary_commodity', 'agency'],
     certifications: ['farmer_name', 'crop_name', 'plot_code'],
     crop_production: ['crop_name'],
@@ -186,7 +184,6 @@ export const CATEGORY_COLS = {
     coconut_aromatic_surveys: ['district', 'subdistrict', 'round_label'],
     agri_tourism: ['spot_type'],
     disasters: ['disaster_type'],
-    gis_areas: ['area_type'],
     fire_hotspots: ['land_use', 'confidence', 'satellite'],
     budgets: ['budget_source', 'status'],
 };

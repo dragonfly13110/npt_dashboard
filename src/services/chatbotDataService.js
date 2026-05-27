@@ -234,7 +234,6 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
             learning_centers: ['ศูนย์เรียนรู้', 'ศพก'],
             disasters: ['ภัย', 'น้ำท่วม', 'แล้ง', 'วาตภัย'],
             farmer_registry: ['ทะเบียน', 'เกษตรกร', 'ครัวเรือน'],
-            gis_areas: ['gis', 'พิกัด', 'แผนที่'],
             large_plots: ['แปลงใหญ่', 'สินค้า'],
             certifications: ['gap', 'มาตรฐาน', 'ใบรับรอง', 'อินทรีย์'],
             crop_production: ['ผลผลิต', 'เก็บเกี่ยว', 'ตัน'],

@@ -24,7 +24,6 @@ const TABLE_LABELS = {
     assets: 'พัสดุ/ครุภัณฑ์',
     budgets: 'งบประมาณ',
     farmer_registry: 'ทะเบียนเกษตรกร',
-    gis_areas: 'พิกัด GIS',
     disasters: 'ภัยพิบัติ',
     large_plots: 'แปลงใหญ่',
     learning_centers: 'ศพก.',

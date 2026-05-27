@@ -91,7 +91,6 @@ const allMenuItems = [
         children: [
             { key: '/dashboard/strategy/overview', icon: <PieChartOutlined />, label: 'Dashboard กลุ่ม' },
             { key: '/dashboard/strategy/farmer-registry', icon: <FileTextOutlined />, label: 'ทะเบียนเกษตรกร' },
-            { key: '/dashboard/strategy/gis', icon: <GlobalOutlined />, label: 'พิกัด GIS' },
             { key: '/dashboard/strategy/agricultural-areas', icon: <EnvironmentOutlined />, label: 'พื้นที่การเกษตร' },
             { key: '/dashboard/strategy/learning-centers', icon: <BankOutlined />, label: 'ศพก.' },
             { key: '/dashboard/strategy/daily-weather', icon: <CloudOutlined />, label: 'สภาพอากาศ/น้ำฝน' },

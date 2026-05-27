@@ -10,7 +10,6 @@ const TABLE_ROUTES = {
     learning_centers: '/dashboard/strategy/learning-centers',
     disasters: '/dashboard/development/disasters',
     farmer_registry: '/dashboard/strategy/farmer-registry',
-    gis_areas: '/dashboard/strategy/gis',
     large_plots: '/dashboard/production/large-plots',
     certifications: '/dashboard/production/certifications',
     crop_production: '/dashboard/production/crop-production',

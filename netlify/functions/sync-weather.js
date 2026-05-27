@@ -3,10 +3,9 @@ import { createClient } from '@supabase/supabase-js';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
-const meteostatKey = process.env.METEOSTAT_API_KEY;
 
-if (!SUPABASE_URL || !SUPABASE_KEY || !meteostatKey) {
-    throw new Error('Missing required env for sync-weather. Set VITE_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY or VITE_SUPABASE_ANON_KEY, and METEOSTAT_API_KEY.');
+if (!SUPABASE_URL || !SUPABASE_KEY) {
+    throw new Error('Missing required env for sync-weather. Set VITE_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY or VITE_SUPABASE_ANON_KEY.');
 }
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -18,55 +17,93 @@ const CORS_HEADERS = {
     'Content-Type': 'application/json',
 };
 
-function getISODateNdaysAgo(n) {
-    const d = new Date();
-    d.setDate(d.getDate() - n);
-    const offset = d.getTimezoneOffset() * 60000;
-    const localISOTime = (new Date(d - offset)).toISOString().slice(0, -1);
-    return localISOTime.split('T')[0];
-}
-
 const syncWeather = async () => {
-    console.log('Triggering Daily Weather Sync (Meteostat)...');
+    console.log('Triggering Daily Weather Sync (Robust Open-Meteo)...');
 
     try {
         const lat = 13.8196;
         const lon = 100.0602;
-        const start = getISODateNdaysAgo(3);
-        const end = getISODateNdaysAgo(0);
-        const url = `https://meteostat.p.rapidapi.com/point/daily?lat=${lat}&lon=${lon}&start=${start}&end=${end}`;
 
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'x-rapidapi-host': 'meteostat.p.rapidapi.com',
-                'x-rapidapi-key': meteostatKey,
-            },
+        const getISODateNdaysAgo = (n) => {
+            const d = new Date();
+            d.setDate(d.getDate() - n);
+            const offset = d.getTimezoneOffset() * 60000;
+            const localISOTime = (new Date(d - offset)).toISOString().slice(0, -1);
+            return localISOTime.split('T')[0];
+        };
+
+        const start_date = getISODateNdaysAgo(90);
+        const end_date = getISODateNdaysAgo(0);
+
+        // 1. Fetch from Archive API
+        const archiveUrl = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${start_date}&end_date=${end_date}&daily=temperature_2m_max,temperature_2m_min,temperature_2m_mean,rain_sum,wind_speed_10m_max&timezone=Asia%2FBangkok`;
+        const archiveRes = await fetch(archiveUrl);
+        if (!archiveRes.ok) throw new Error(`Archive API Error: ${archiveRes.status}`);
+        const archiveData = await archiveRes.json();
+
+        // 2. Fetch from Forecast API
+        const forecastUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,temperature_2m_mean,rain_sum,wind_speed_10m_max&timezone=Asia%2FBangkok&past_days=7&forecast_days=1`;
+        const forecastRes = await fetch(forecastUrl);
+        if (!forecastRes.ok) throw new Error(`Forecast API Error: ${forecastRes.status}`);
+        const forecastData = await forecastRes.json();
+
+        // 3. Merge data
+        const merged = {};
+
+        const archDaily = archiveData.daily || {};
+        const archTimes = archDaily.time || [];
+        archTimes.forEach((time, idx) => {
+            const tavg = archDaily.temperature_2m_mean[idx];
+            const tmin = archDaily.temperature_2m_min[idx];
+            const tmax = archDaily.temperature_2m_max[idx];
+            const prcp = archDaily.rain_sum[idx];
+            const wspd = archDaily.wind_speed_10m_max[idx];
+
+            if (tavg !== null && tavg !== undefined) {
+                merged[time] = {
+                    date: time,
+                    tavg,
+                    tmin,
+                    tmax,
+                    prcp: prcp ?? 0,
+                    wspd,
+                    pres: null
+                };
+            }
         });
 
-        if (!response.ok) throw new Error(`Meteostat API Error: ${response.status}`);
+        const foreDaily = forecastData.daily || {};
+        const foreTimes = foreDaily.time || [];
+        foreTimes.forEach((time, idx) => {
+            const tavg = foreDaily.temperature_2m_mean[idx];
+            const tmin = foreDaily.temperature_2m_min[idx];
+            const tmax = foreDaily.temperature_2m_max[idx];
+            const prcp = foreDaily.rain_sum[idx];
+            const wspd = foreDaily.wind_speed_10m_max[idx];
 
-        const json = await response.json();
-        const records = json.data || [];
+            if (tavg !== null && tavg !== undefined) {
+                merged[time] = {
+                    date: time,
+                    tavg,
+                    tmin,
+                    tmax,
+                    prcp: prcp ?? 0,
+                    wspd,
+                    pres: null
+                };
+            }
+        });
 
-        if (records.length === 0) {
+        const dbRecords = Object.values(merged);
+
+        if (dbRecords.length === 0) {
             return { statusCode: 200, headers: CORS_HEADERS, body: JSON.stringify({ message: 'No weather data found' }) };
         }
-
-        const dbRecords = records.map((r) => ({
-            date: r.date.split(' ')[0],
-            tavg: r.tavg,
-            tmin: r.tmin,
-            tmax: r.tmax,
-            prcp: r.prcp,
-            wspd: r.wspd,
-            pres: r.pres,
-        }));
 
         const { error } = await supabase.from('daily_weather').upsert(dbRecords, { onConflict: 'date' });
         if (error) throw error;
 
-        console.log(`Success: Sync'd ${dbRecords.length} weather records`);
+        console.log(`Success: Sync'd ${dbRecords.length} robust weather records`);
         return { statusCode: 200, headers: CORS_HEADERS, body: JSON.stringify({ message: `Synced ${dbRecords.length} records` }) };
     } catch (err) {
         console.error('Sync Error:', err.message);

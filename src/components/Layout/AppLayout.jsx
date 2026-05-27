@@ -32,7 +32,6 @@ const routeLabels = {
     overview: 'Dashboard กลุ่ม',
     strategy: 'ยุทธศาสตร์ฯ',
     'farmer-registry': 'ทะเบียนเกษตรกร',
-    gis: 'พิกัด GIS',
     disasters: 'ภัยพิบัติ',
     production: 'ส่งเสริมการผลิต',
     'large-plots': 'แปลงใหญ่',

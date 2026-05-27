@@ -5,7 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist', 'output', 'coverage', 'playwright-report', 'test-results']),
+  globalIgnores(['dist', 'output', 'coverage', 'playwright-report', 'test-results', 'tmp']),
   {
     linterOptions: {
       reportUnusedDisableDirectives: 'off',
