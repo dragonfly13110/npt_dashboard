@@ -1070,6 +1070,11 @@
     flex: 1;
 }
 
+.community-enterprise-card .ce-v2-body,
+.large-plots-card .ce-v2-body {
+    display: none;
+}
+
 .ce-panel {
     min-width: 0;
     display: flex;
