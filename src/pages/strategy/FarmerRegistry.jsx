@@ -203,7 +203,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 export default function FarmerRegistry() {
     const [chartData, setChartData] = useState([]);
-    const [stats, setStats] = useState({ target: 0, updated: 0, remaining: 0, percent: 0 });
+    const [stats, setStats] = useState({ target: null, updated: 0, remaining: null, percent: 0 });
     const [latestDates, setLatestDates] = useState({ cutoff: null, updated: null });
     const [refreshTrigger, setRefreshTrigger] = useState(0);
 
@@ -223,11 +223,16 @@ export default function FarmerRegistry() {
             .order('district');
 
         if (data) {
-            const provinceRow = data.find(d => d.district === 'จังหวัดนครปฐม' || d.district === 'นครปฐม') || { target: 0, total_updated_households: 0 };
+            const provinceRow = data.find(d => d.district === 'จังหวัดนครปฐม' || d.district === 'นครปฐม') || { target: null, total_updated_households: 0 };
+            const districtsData = data.filter(d => d.district !== 'จังหวัดนครปฐม' && d.district !== 'นครปฐม');
+            const districtTargets = districtsData
+                .map(d => d.target)
+                .filter(v => typeof v === 'number' && v > 0);
 
-            const target = provinceRow.target || 0;
+            const provinceTarget = typeof provinceRow.target === 'number' && provinceRow.target > 0 ? provinceRow.target : null;
+            const target = provinceTarget ?? (districtTargets.length ? districtTargets.reduce((sum, value) => sum + value, 0) : null);
             const updated = provinceRow.total_updated_households || 0;
-            const remaining = target - updated;
+            const remaining = target === null ? null : target - updated;
             const percent = target > 0 ? Math.round((updated / target) * 100) : 0;
 
             setStats({ target, updated, remaining, percent });
@@ -245,7 +250,6 @@ export default function FarmerRegistry() {
             });
             setLatestDates({ cutoff: latestCutoff, updated: latestUpdated });
 
-            const districtsData = data.filter(d => d.district !== 'จังหวัดนครปฐม' && d.district !== 'นครปฐม');
             setChartData(districtsData);
         }
     }, []);
@@ -336,7 +340,7 @@ export default function FarmerRegistry() {
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <div style={{ flex: 1 }}>
                                 <div style={{ color: '#64748b', fontSize: '11px', fontWeight: 600, letterSpacing: '0.5px' }}>เป้าหมายการปรับปรุง (ครัวเรือน)</div>
-                                <div style={{ fontSize: '28px', fontWeight: 700, color: '#4f46e5', margin: '4px 0' }}>{stats.target.toLocaleString()}</div>
+                                <div style={{ fontSize: '28px', fontWeight: 700, color: '#4f46e5', margin: '4px 0' }}>{stats.target === null ? '-' : stats.target.toLocaleString()}</div>
                                 <div style={{ color: '#94a3b8', fontSize: '11px' }}>จำนวนครัวเรือนเป้าหมายของจังหวัด</div>
                             </div>
                             <div style={{ width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#e0f2fe', borderRadius: '14px', border: '1px solid #bae6fd' }}>
@@ -389,13 +393,13 @@ export default function FarmerRegistry() {
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <div style={{ flex: 1 }}>
                                 <div style={{ color: '#64748b', fontSize: '11px', fontWeight: 600, letterSpacing: '0.5px' }}>คงเหลือครัวเรือนค้างปรับปรุง</div>
-                                <div style={{ fontSize: '28px', fontWeight: 700, color: stats.remaining < 0 ? '#ef4444' : '#475569', margin: '4px 0' }}>
-                                    {stats.remaining.toLocaleString()}
+                                <div style={{ fontSize: '28px', fontWeight: 700, color: stats.remaining !== null && stats.remaining < 0 ? '#ef4444' : '#475569', margin: '4px 0' }}>
+                                    {stats.remaining === null ? '-' : stats.remaining.toLocaleString()}
                                 </div>
-                                <div style={{ color: '#94a3b8', fontSize: '11px' }}>{stats.remaining < 0 ? 'ดำเนินการปรับปรุงได้เกินเป้าหมาย' : 'คงค้างที่ยังไม่ได้รับการปรับปรุงข้อมูล'}</div>
+                                <div style={{ color: '#94a3b8', fontSize: '11px' }}>{stats.remaining === null ? 'ยังไม่มีข้อมูลเป้าหมายจากต้นทาง' : stats.remaining < 0 ? 'ดำเนินการปรับปรุงได้เกินเป้าหมาย' : 'คงค้างที่ยังไม่ได้รับการปรับปรุงข้อมูล'}</div>
                             </div>
                             <div style={{ width: '110px', height: '55px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <Progress type="circle" percent={stats.percent} size={50} strokeColor={stats.remaining < 0 ? '#ef4444' : '#8b5cf6'} />
+                                <Progress type="circle" percent={stats.percent} size={50} strokeColor={stats.remaining !== null && stats.remaining < 0 ? '#ef4444' : '#8b5cf6'} />
                             </div>
                         </div>
                     </Card>
