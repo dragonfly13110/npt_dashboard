@@ -172,10 +172,12 @@ async function main() {
         console.log(`📊 Found ${tableData.length} data rows`);
 
         const records = [];
+        let provinceTarget = null;
         for (const cells of tableData) {
             const rawDistrict = cells[0].replace(/^\s+/, '').trim();
             if (rawDistrict === 'นครปฐม' || rawDistrict === 'จังหวัดนครปฐม') {
-                continue; // Skip province total row, let DB trigger calculate it!
+                provinceTarget = parseNumber(cells[2]);
+                continue; // Skip province total row, let DB trigger calculate totals.
             }
             records.push({
                 district: rawDistrict,
@@ -239,6 +241,23 @@ async function main() {
             console.log(`  ✅ Inserted ${records.length} records successfully!`);
         } else {
             console.error(`  ❌ Insert failed: ${insertResult.body}`);
+            process.exitCode = 1;
+            return;
+        }
+
+        if (provinceTarget !== null) {
+            const targetResult = await runSQL(`
+                UPDATE farmer_registry
+                SET target = ${provinceTarget}
+                WHERE data_year = ${dataYear}
+                  AND district = 'จังหวัดนครปฐม';
+            `);
+            console.log(`  🎯 Updated province target (${provinceTarget}): ${targetResult.ok ? 'OK' : 'Failed'}`);
+            if (!targetResult.ok) {
+                console.error(`  ❌ Target update failed: ${targetResult.body}`);
+                process.exitCode = 1;
+                return;
+            }
         }
 
         // === Step 8: Verify ===
