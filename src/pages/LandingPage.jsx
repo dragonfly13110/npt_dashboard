@@ -382,7 +382,7 @@ export default function LandingPage() {
 
                 {/* ===== BENTO GRID LATEST LISTS ===== */}
                 <div id="agri-overview" className="dept-stats-header">
-                    <h2>📊 ภาพรวมข้อมูลการเกษตรจังหวัด</h2>
+                    <h2>📊 ข้อมูลการเกษตรจังหวัดนครปฐม</h2>
                     <p>สถิติและข้อมูลสารสนเทศการเกษตรในพื้นที่</p>
                 </div>
                 <section className={`bento-container ${hasTourismData ? '' : 'bento-container-no-tourism'}`}>

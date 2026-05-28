@@ -164,8 +164,8 @@ export default function AirQualityWidget() {
             </div>
 
             {displayData.forecast && displayData.forecast.length > 0 && (
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2px', borderTop: '1px dashed #e2e8f0', paddingTop: '12px' }}>
-                    <div style={{ fontSize: '11px', fontWeight: '700', color: '#94a3b8', display: 'flex', alignItems: 'center' }}>
+                <div className="aqi-forecast-row" style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2px', borderTop: '1px dashed #e2e8f0', paddingTop: '12px' }}>
+                    <div className="aqi-forecast-label" style={{ fontSize: '11px', fontWeight: '700', color: '#94a3b8', display: 'flex', alignItems: 'center' }}>
                         ล่วงหน้า<br/>4 ชม.
                     </div>
                     {displayData.forecast.map((f, i) => (
