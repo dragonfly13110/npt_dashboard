@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { CarOutlined, LineChartOutlined, LinkOutlined } from '@ant-design/icons';
+import { CarOutlined, DownOutlined, LineChartOutlined, LinkOutlined, UpOutlined } from '@ant-design/icons';
 import { useApiCache } from '../../hooks/useApiCache';
 
 const SOURCE_URL = 'https://mex.moc.go.th/page/dit/checkprice/type/W/catid/4';
@@ -133,6 +133,7 @@ function PriceSkeleton() {
 
 export default function AgriPricesWidget() {
   const [selectedCategory, setSelectedCategory] = useState('4');
+  const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const { data, isLoading, error } = useApiCache(
     ['moc-agri-prices', selectedCategory],
     () => fetchAgriPrices(selectedCategory),
@@ -150,7 +151,7 @@ export default function AgriPricesWidget() {
   const selectedLabel = data?.category || CATEGORIES.find((item) => item.id === selectedCategory)?.label;
 
   return (
-    <section className="price-ios-card slide-up-anim" aria-label="ราคาผลผลิตทางการเกษตร">
+    <section className={`price-ios-card slide-up-anim ${isMobileExpanded ? 'is-mobile-expanded' : 'is-mobile-collapsed'}`} aria-label="ราคาผลผลิตทางการเกษตร">
       <div className="price-ios-glow" />
 
       <div className="price-ios-oil-panel" aria-label="ราคาน้ำมันบางจาก">
@@ -202,6 +203,14 @@ export default function AgriPricesWidget() {
         >
           <LinkOutlined />
         </a>
+        <button
+          className="price-ios-mobile-toggle"
+          type="button"
+          onClick={() => setIsMobileExpanded((value) => !value)}
+          aria-expanded={isMobileExpanded}
+        >
+          {isMobileExpanded ? <UpOutlined /> : <DownOutlined />}
+        </button>
       </div>
 
       <div className="price-ios-tabs" aria-label="เลือกหมวดราคา">

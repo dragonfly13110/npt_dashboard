@@ -182,7 +182,7 @@ export default function FarmerInstitutesV2Widget() {
     const statCards = useMemo(() => getStatCards(summary, activeType, isPersonTab), [activeType, isPersonTab, summary]);
 
     return (
-        <section className="inst-v2-widget bento-card" style={{ gridArea: 'fi2' }}>
+        <section className={`inst-v2-widget bento-card ${isExpanded ? 'is-expanded' : 'is-collapsed'}`} style={{ gridArea: 'fi2' }}>
             <div className="inst-v2-head" style={{ cursor: 'pointer', userSelect: 'none' }} onClick={() => setIsExpanded(!isExpanded)}>
                 <div>
                     <div className="inst-v2-eyebrow"><TeamOutlined /> ข้อมูลละเอียดรายคน/รายกลุ่ม</div>

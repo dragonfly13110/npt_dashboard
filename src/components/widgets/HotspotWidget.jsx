@@ -377,12 +377,12 @@ export default function HotspotWidget() {
     };
 
     return (
-        <div className="widget-box slide-up-anim" style={{ animationDelay: '0.25s', padding: 0, overflow: 'hidden' }}>
+        <div className="widget-box hotspot-widget-card slide-up-anim" style={{ animationDelay: '0.25s', padding: 0, overflow: 'hidden' }}>
 
             {/* ═══════ TOP SECTION — full width ═══════ */}
 
             {/* Header */}
-            <div style={{
+            <div className="hotspot-widget-head" style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8,
                 padding: '14px 18px', borderBottom: '1px solid #f1f5f9',
                 background: 'linear-gradient(135deg, #fef2f2 0%, #fff 100%)',
@@ -394,7 +394,7 @@ export default function HotspotWidget() {
                         <div style={{ fontSize: 10, color: '#94a3b8', fontWeight: 400 }}>VIIRS / GISTDA Satellite</div>
                     </div>
                 </div>
-                <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+                <div className="hotspot-widget-controls" style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
                     <select
                         value={selectedSatellite}
                         onChange={(e) => {
@@ -426,7 +426,7 @@ export default function HotspotWidget() {
                             }}
                         >{o.label}</button>
                     ))}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, position: 'relative' }}>
+                    <div className="hotspot-date-range" style={{ display: 'flex', alignItems: 'center', gap: 4, position: 'relative' }}>
                         <input
                             type="date"
                             value={customDateRange.start}
@@ -504,12 +504,12 @@ export default function HotspotWidget() {
                     )}
 
                     {/* Summary bar: count + amphoe + landuse */}
-                    <div style={{
+                    <div className="hotspot-summary-panel" style={{
                         padding: '12px 18px', borderBottom: '1px solid #f1f5f9',
                         background: hasHotspots ? 'linear-gradient(135deg,#fef2f2,#fff1f2)' : 'linear-gradient(135deg,#ecfdf5,#f0fdf4)',
                     }}>
                         {/* Row 1: Big number + amphoe cards */}
-                        <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start', marginBottom: landuseStats.length > 0 ? 10 : 0 }}>
+                        <div className="hotspot-summary-row" style={{ display: 'flex', gap: 16, alignItems: 'flex-start', marginBottom: landuseStats.length > 0 ? 10 : 0 }}>
                             {/* Count */}
                             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
                                 <span style={{ fontSize: 32 }}>{hasHotspots ? '🔥' : '🌲'}</span>
@@ -527,7 +527,7 @@ export default function HotspotWidget() {
                             {amphoeStats.length > 0 && (
                                 <div style={{ flex: 1, minWidth: 0 }}>
                                     <div style={{ fontSize: 10, fontWeight: 500, color: '#94a3b8', marginBottom: 4, letterSpacing: '0.3px' }}>กดที่อำเภอ เพื่อกลั่นกรองตำบล</div>
-                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: 3 }}>
+                                    <div className="hotspot-amphoe-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: 3 }}>
                                         {amphoeStats.map(([name, count]) => {
                                             const sel = selectedAmphoe === name;
                                             return (
@@ -553,7 +553,7 @@ export default function HotspotWidget() {
                                         })}
                                     </div>
                                     {selectedAmphoe && tambonStats.length > 0 && (
-                                        <div style={{ marginTop: 8, display: 'flex', flexWrap: 'wrap', gap: 5, alignItems: 'center' }}>
+                                        <div className="hotspot-tambon-row" style={{ marginTop: 8, display: 'flex', flexWrap: 'wrap', gap: 5, alignItems: 'center' }}>
                                             <span style={{ fontSize: 10, fontWeight: 500, color: '#94a3b8', marginRight: 2 }}>ตำบล:</span>
                                             <button
                                                 className="hotspot-hover-float"
@@ -595,7 +595,7 @@ export default function HotspotWidget() {
 
                         {/* Row 2: Landuse badges */}
                         {landuseStats.length > 0 && (
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, alignItems: 'center' }}>
+                            <div className="hotspot-landuse-row" style={{ display: 'flex', flexWrap: 'wrap', gap: 5, alignItems: 'center' }}>
                                 <span style={{ fontSize: 10, fontWeight: 500, color: '#94a3b8', marginRight: 4 }}>Landuse:</span>
                                 {landuseStats.map(([name, count]) => {
                                     const c = LANDUSE_COLORS[name] || '#64748b';
@@ -620,10 +620,10 @@ export default function HotspotWidget() {
 
 
                     {/* ═══════ BOTTOM SECTION — two columns ═══════ */}
-                    <div style={{ display: 'flex', minHeight: 450 }}>
+                    <div className="hotspot-mobile-layout" style={{ display: 'flex', minHeight: 450 }}>
 
                         {/* BOTTOM LEFT — Map */}
-                        <div style={{ flex: '1 1 55%', minWidth: 0, position: 'relative', borderRight: '1px solid #f1f5f9' }}>
+                        <div className="hotspot-map-panel" style={{ flex: '1 1 55%', minWidth: 0, position: 'relative', borderRight: '1px solid #f1f5f9' }}>
                             {MapComponents ? (
                                 <MapContainer center={[13.85, 100.04]} zoom={10} zoomSnap={0.25}
                                     style={{ height: '100%', width: '100%' }} scrollWheelZoom={true}>
@@ -685,10 +685,10 @@ export default function HotspotWidget() {
                         </div>
 
                         {/* BOTTOM RIGHT — Detail list */}
-                        <div style={{ flex: '1 1 45%', minWidth: 0, overflowY: 'auto', maxHeight: 450 }}>
+                        <div className="hotspot-detail-panel" style={{ flex: '1 1 45%', minWidth: 0, overflowY: 'auto', maxHeight: 450 }}>
                             {filteredHotspots.length > 0 ? (
                                 <div style={{ padding: '10px 14px' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                                    <div className="hotspot-detail-head" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                                         <div style={{ fontSize: 11, fontWeight: 700, color: '#dc2626', letterSpacing: '0.3px' }}>
                                             🔥 รายละเอียด {selectedAmphoe ? `อ.${selectedAmphoe}` : ''}{selectedTambon ? ` ต.${selectedTambon}` : ''} ({hotspotsForList.length} จุด)
                                         </div>

@@ -316,36 +316,37 @@ html {
         font-size: 11.5px;
         padding: 6px 18px;
     }
+
+    .landing-quick-nav {
+        display: none;
+    }
+
+    .bento-header {
+        margin-top: 0;
+    }
 }
 
 @media (max-width: 768px) {
     .bento-header {
-        padding: 40px 16px 32px;
-        min-height: auto;
-        margin-top: 56px;
+        min-height: 190px;
+        padding: 28px 16px 22px;
+        justify-content: flex-end;
+        background-position: center bottom;
     }
     .hero-actions {
-        margin-top: 20px;
-        gap: 10px;
-    }
-    .hero-actions > * {
-        width: 100%;
-        justify-content: center;
-        font-size: 14px !important;
-        padding: 12px 16px !important;
-        border-radius: 12px !important;
+        display: none;
     }
     .bento-title {
-        font-size: 28px;
-        margin-bottom: 10px;
+        font-size: 24px;
+        line-height: 1.22;
+        margin-bottom: 0;
+        padding-bottom: 0;
     }
     .bento-title-province {
         white-space: normal;
     }
     .bento-subtitle {
-        font-size: 14px;
-        padding: 0 8px;
-        line-height: 1.6;
+        display: none;
     }
     /* Hide motto on mobile — too long */
     .bento-motto {
@@ -720,14 +721,7 @@ html {
 
 @media (max-width: 768px) {
     .landing-quick-nav {
-        top: 0;
-        padding: 6px 12px;
-    }
-
-    .landing-quick-nav-inner {
-        flex-direction: row;
-        align-items: center;
-        gap: 0;
+        display: none;
     }
 
     /* Hide label on mobile for space */
@@ -1830,7 +1824,126 @@ html {
     }
 
     .inst-v2-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .inst-v2-widget {
+        border-radius: 18px;
+    }
+
+    .inst-v2-head {
+        gap: 10px;
+        padding: 14px 16px 12px;
+    }
+
+    .inst-v2-eyebrow {
+        font-size: 10px;
+    }
+
+    .inst-v2-head h3 {
+        margin: 2px 0 0;
+        font-size: 20px;
+    }
+
+    .inst-v2-head p {
+        display: none;
+    }
+
+    .inst-v2-refresh {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 34px;
+        height: 34px;
+    }
+
+    .inst-v2-widget.is-collapsed .inst-v2-type-tabs,
+    .inst-v2-widget.is-collapsed .inst-v2-active-title,
+    .inst-v2-widget.is-collapsed .inst-v2-toolbar {
+        display: none;
+    }
+
+    .inst-v2-widget.is-collapsed .inst-v2-stats {
+        padding: 10px 14px 14px;
+        gap: 8px;
+    }
+
+    .inst-v2-widget.is-collapsed .inst-v2-stat {
+        padding: 8px 10px;
+        border-radius: 10px;
+    }
+
+    .inst-v2-widget.is-collapsed .inst-v2-stat span {
+        font-size: 10px;
+        line-height: 1.2;
+    }
+
+    .inst-v2-widget.is-collapsed .inst-v2-stat strong {
+        font-size: 17px;
+    }
+
+    .inst-v2-widget.is-collapsed .inst-v2-stat:nth-child(n + 3) {
+        display: none;
+    }
+
+    .inst-v2-type-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 12px 14px 8px;
+        scrollbar-width: none;
+    }
+
+    .inst-v2-type-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .inst-v2-type-tabs button {
+        flex: 0 0 auto;
+        padding: 7px 10px;
+        font-size: 11px;
+    }
+
+    .inst-v2-active-title {
+        margin: 6px 14px 0;
+    }
+
+    .inst-v2-toolbar {
+        padding: 12px 14px;
+        gap: 8px;
+    }
+
+    .inst-v2-stats {
+        padding: 12px 14px 4px;
+        gap: 8px;
+    }
+
+    .inst-v2-stat {
+        padding: 9px 10px;
+    }
+
+    .inst-v2-stat strong {
+        font-size: 18px;
+    }
+
+    .inst-v2-chart,
+    .inst-v2-list {
+        padding: 14px;
+    }
+
+    .inst-v2-list {
+        display: none;
+    }
+
+    .inst-v2-item {
         grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .inst-v2-item-side {
+        text-align: left;
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
     }
 }
 
@@ -2468,6 +2581,10 @@ html {
     transform: scale(0.98);
 }
 
+.price-ios-mobile-toggle {
+    display: none;
+}
+
 .price-ios-eyebrow {
     display: inline-flex;
     align-items: center;
@@ -2787,6 +2904,56 @@ html {
     .price-ios-list {
         height: 360px;
         flex: 0 0 auto;
+    }
+
+    .price-ios-mobile-toggle {
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 auto;
+        border: 1px solid rgba(22, 163, 74, 0.18);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.78);
+        color: #047857;
+        cursor: pointer;
+        font-family: inherit;
+        box-shadow: 0 12px 24px -20px rgba(15, 23, 42, 0.38);
+    }
+
+    .price-ios-source {
+        display: none;
+    }
+
+    .price-ios-card.is-mobile-collapsed {
+        padding: 16px;
+    }
+
+    .price-ios-card.is-mobile-collapsed .price-ios-oil-panel,
+    .price-ios-card.is-mobile-collapsed .price-ios-tabs,
+    .price-ios-card.is-mobile-collapsed .price-ios-meta,
+    .price-ios-card.is-mobile-collapsed .price-ios-list {
+        display: none;
+    }
+
+    .price-ios-card.is-mobile-collapsed .price-ios-header {
+        margin-top: 0;
+        align-items: center;
+    }
+
+    .price-ios-card.is-mobile-collapsed .price-ios-header h3 {
+        font-size: 18px;
+    }
+
+    .price-ios-card.is-mobile-collapsed .price-ios-header p {
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+    }
+
+    .price-ios-card.is-mobile-expanded .price-ios-header {
+        align-items: flex-start;
     }
 }
 
@@ -3123,6 +3290,76 @@ html {
 
     .weather-ios-metrics {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .weather-ios-card {
+        min-height: auto;
+        padding: 16px;
+        border-radius: 22px;
+    }
+
+    .weather-ios-head {
+        align-items: center;
+        gap: 12px;
+    }
+
+    .weather-ios-eyebrow {
+        min-height: 22px;
+        padding: 2px 9px;
+        font-size: 11px;
+    }
+
+    .weather-ios-head h3 {
+        margin: 8px 0 2px;
+        font-size: 18px;
+    }
+
+    .weather-ios-head p {
+        font-size: 12px;
+        line-height: 1.35;
+    }
+
+    .weather-ios-icon {
+        width: 54px;
+        height: 54px;
+        border-radius: 18px;
+        font-size: 29px;
+    }
+
+    .weather-ios-temp-row {
+        align-items: center;
+        margin-top: 12px;
+    }
+
+    .weather-ios-temp {
+        font-size: 46px;
+    }
+
+    .weather-ios-note {
+        min-width: 92px;
+        padding: 8px 10px;
+        border-radius: 14px;
+    }
+
+    .weather-ios-metrics {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 7px;
+        margin-top: 12px;
+    }
+
+    .weather-ios-metrics > div {
+        padding: 8px 9px;
+        border-radius: 14px;
+    }
+
+    .weather-ios-metrics strong {
+        font-size: 14px;
+    }
+
+    .weather-ios-forecast {
+        display: none;
     }
 }
 
