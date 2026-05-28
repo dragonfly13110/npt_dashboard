@@ -82,8 +82,8 @@ export default function Login() {
                         <div className="login-icon-wrap">
                             <span className="login-icon">🌾</span>
                         </div>
-                        <Title level={2} style={{ color: '#e6edf3', margin: 0 }}>ระบบฐานข้อมูลกลาง</Title>
-                        <Text style={{ color: '#8b949e' }}>สำนักงานเกษตรจังหวัดนครปฐม</Text>
+                        <Title level={2} style={{ color: '#166534', margin: 0, fontWeight: 800 }}>ระบบฐานข้อมูลกลาง</Title>
+                        <Text style={{ color: '#475569', fontWeight: 500 }}>สำนักงานเกษตรจังหวัดนครปฐม</Text>
                     </div>
 
                     <Space direction="vertical" size={14} style={{ width: '100%' }}>

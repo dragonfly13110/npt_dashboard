@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useApiCache } from '../../hooks/useApiCache';
+import { UpOutlined, DownOutlined } from '@ant-design/icons';
 import {
     aggregateDistrictData,
     aggregateZoneData,
@@ -294,7 +295,8 @@ function renderLine(history, key, color, spacing) {
     );
 }
 
-export default function SoilMoistureWidget() {
+export default function SoilMoistureWidget({ defaultExpanded = false }) {
+    const [isExpanded, setIsExpanded] = useState(defaultExpanded);
     const [districtIdx, setDistrictIdx] = useState(0);
     const [showHistory, setShowHistory] = useState(false);
     const district = DISTRICTS[districtIdx];
@@ -368,7 +370,6 @@ export default function SoilMoistureWidget() {
     const { current, trend, history } = districtAverage;
     const surfaceValue = current.soil_moisture_0_to_1cm ?? 0;
     const surfaceInfo = getMoistureInfo(surfaceValue);
-    const maxTrendValue = Math.max(...trend.map(item => item.value ?? 0), 0.01);
 
     return (
         <div className="widget-box slide-up-anim" style={{
@@ -381,30 +382,40 @@ export default function SoilMoistureWidget() {
             borderRadius: 16,
             border: '1px solid #dcfce7',
         }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, paddingBottom: 10, borderBottom: '1px dashed #e2e8f0' }}>
-                <div style={{ fontSize: 36, lineHeight: 1, filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.1))' }}>🌱</div>
-                <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, flexWrap: 'wrap' }}>
-                        <span style={{ fontSize: 15, fontWeight: 800, color: '#0f172a' }}>ความชื้นดินเฉลี่ยทั้งอำเภอ</span>
-                        <span style={{ fontSize: 16, fontWeight: 900, color: surfaceInfo.color }}>{surfaceInfo.emoji} {surfaceInfo.level}</span>
+            <div 
+                onClick={() => setIsExpanded(!isExpanded)}
+                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none', paddingBottom: isExpanded ? 10 : 0, borderBottom: isExpanded ? '1px dashed #e2e8f0' : 'none' }}
+            >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1 }}>
+                    <div style={{ fontSize: 36, lineHeight: 1, filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.1))' }}>🌱</div>
+                    <div style={{ flex: 1 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', paddingRight: 8 }}>
+                            <span style={{ fontSize: 15, fontWeight: 800, color: '#0f172a' }}>ความชื้นดินเฉลี่ยทั้งอำเภอ</span>
+                            <span style={{ fontSize: 16, fontWeight: 900, color: surfaceInfo.color }}>{surfaceInfo.emoji} {surfaceInfo.level}</span>
+                        </div>
+                        <span style={{ fontSize: 11, color: '#64748b', fontWeight: 600 }}>
+                            📍 อ.{district.name} • {new Date(current.time).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })} น. • {districtAverage.pointCount} จุดตัวแทน • {districtAverage.zoneCount} โซนเกษตร
+                        </span>
                     </div>
-                    <span style={{ fontSize: 11, color: '#64748b', fontWeight: 600 }}>
-                        📍 อ.{district.name} • {new Date(current.time).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })} น. • {districtAverage.pointCount} จุดตัวแทน • {districtAverage.zoneCount} โซนเกษตร
-                    </span>
                 </div>
+                <span style={{ fontSize: '14px', color: '#64748b', display: 'flex', alignItems: 'center', paddingRight: '4px' }}>
+                    {isExpanded ? <UpOutlined /> : <DownOutlined />}
+                </span>
             </div>
 
-            <div style={{
-                fontSize: 11,
-                background: '#ecfdf5',
-                color: '#166534',
-                padding: '8px 10px',
-                borderRadius: 10,
-                border: '1px solid #bbf7d0',
-                lineHeight: 1.5,
-            }}>
-                ค่าใน widget นี้มาจากการเฉลี่ยหลายพิกัดตัวแทน แยกตามโซนเกษตร เช่น นา สวน และพื้นที่ลุ่ม เพื่อให้ใกล้เคียงสภาพจริงมากกว่าการใช้จุดเดียวต่ออำเภอ
-            </div>
+            {isExpanded && (
+                <div style={{
+                    fontSize: 11,
+                    background: '#ecfdf5',
+                    color: '#166534',
+                    padding: '8px 10px',
+                    borderRadius: 10,
+                    border: '1px solid #bbf7d0',
+                    lineHeight: 1.5,
+                }}>
+                    ค่าใน widget นี้มาจากการเฉลี่ยหลายพิกัดตัวแทน แยกตามโซนเกษตร เช่น นา สวน และพื้นที่ลุ่ม เพื่อให้ใกล้เคียงสภาพจริงมากกว่าการใช้จุดเดียวต่ออำเภอ
+                </div>
+            )}
 
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                 {DISTRICTS.map((item, index) => (
@@ -467,7 +478,9 @@ export default function SoilMoistureWidget() {
                 })}
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {isExpanded && (
+                <>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {DEPTH_LABELS.map(depth => {
                     const value = current[depth.key] ?? 0;
                     const percentage = Math.min((value / 0.5) * 100, 100);
@@ -563,39 +576,11 @@ export default function SoilMoistureWidget() {
                 </div>
             )}
 
-            {!showHistory && (
-                <div>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', marginBottom: 6 }}>แนวโน้มความชื้นผิวดินเฉลี่ย 12 ชม.</div>
-                    <div style={{ display: 'flex', alignItems: 'flex-end', gap: 2, height: 32 }}>
-                        {trend.map((item, index) => {
-                            const height = Math.max(((item.value ?? 0) / maxTrendValue) * 30, 3);
-                            const info = getMoistureInfo(item.value ?? 0);
-                            return (
-                                <div
-                                    key={index}
-                                    title={`${item.time}: ${formatPercent(item.value ?? 0)}`}
-                                    style={{
-                                        flex: 1,
-                                        height,
-                                        borderRadius: '3px 3px 0 0',
-                                        background: info.color,
-                                        opacity: 0.7,
-                                        transition: 'height 0.5s ease',
-                                    }}
-                                />
-                            );
-                        })}
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 9, color: '#94a3b8', marginTop: 2 }}>
-                        <span>{trend[0]?.time}</span>
-                        <span>{trend[trend.length - 1]?.time}</span>
-                    </div>
-                </div>
-            )}
-
             <div style={{ fontSize: 11, background: `${surfaceInfo.color}15`, color: surfaceInfo.color, padding: '8px 12px', borderRadius: 8, fontWeight: 700, border: `1px dashed ${surfaceInfo.color}40` }}>
                 💡 {surfaceInfo.tip}
             </div>
+                </>
+            )}
         </div>
     );
 }

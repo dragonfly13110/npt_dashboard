@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { useApiCache } from '../../hooks/useApiCache';
+import { UpOutlined, DownOutlined } from '@ant-design/icons';
 
 // เขื่อนที่ส่งน้ำให้นครปฐมโดยตรง (ลุ่มน้ำแม่กลอง → ท่าจีน)
 const NPT_DAMS = [
@@ -44,7 +46,8 @@ async function fetchDamData() {
     };
 }
 
-export default function DamReservoirWidget() {
+export default function DamReservoirWidget({ defaultExpanded = false }) {
+    const [isExpanded, setIsExpanded] = useState(defaultExpanded);
     const { data, isLoading } = useApiCache('dam-reservoir-npt', fetchDamData, { staleMinutes: 60, cacheMinutes: 360 });
 
     if (isLoading) return <div className="widget-box skeleton-pulse"><div className="w-loader">กำลังโหลดข้อมูลเขื่อน...</div></div>;
@@ -58,7 +61,10 @@ export default function DamReservoirWidget() {
             background: 'linear-gradient(180deg, #eff6ff 0%, #ffffff 100%)', borderRadius: 16, border: '1px solid #dbeafe'
         }}>
             {/* Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <div 
+                onClick={() => setIsExpanded(!isExpanded)}
+                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none', paddingBottom: isExpanded ? 10 : 0, borderBottom: isExpanded ? '1px dashed #e2e8f0' : 'none' }}
+            >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <div style={{ fontSize: 36, lineHeight: 1, filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.1))' }}>💧</div>
                     <div>
@@ -68,6 +74,9 @@ export default function DamReservoirWidget() {
                         </span>
                     </div>
                 </div>
+                <span style={{ fontSize: '14px', color: '#64748b', display: 'flex', alignItems: 'center', paddingRight: '4px' }}>
+                    {isExpanded ? <UpOutlined /> : <DownOutlined />}
+                </span>
             </div>
 
             {/* ข้อมูลรวม 2 เขื่อนหลัก */}
@@ -86,52 +95,56 @@ export default function DamReservoirWidget() {
                 <GaugeCircle percent={data.combinedPercent} color={overallInfo.color} />
             </div>
 
-            {/* Dam List */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {data.dams.map(dam => {
-                    const info = getStorageInfo(dam.percent_storage);
-                    return (
-                        <div key={dam.id} style={{
-                            background: '#fff', borderRadius: 12, padding: '10px 14px',
-                            border: '1px solid #f1f5f9'
-                        }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-                                <span style={{ fontSize: 13, fontWeight: 700, color: '#1e293b' }}>{dam.name}</span>
-                                <span style={{
-                                    fontSize: 12, fontWeight: 900, color: info.color,
-                                    background: info.bg, padding: '2px 8px', borderRadius: 6
+            {isExpanded && (
+                <>
+                    {/* Dam List */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                        {data.dams.map(dam => {
+                            const info = getStorageInfo(dam.percent_storage);
+                            return (
+                                <div key={dam.id} style={{
+                                    background: '#fff', borderRadius: 12, padding: '10px 14px',
+                                    border: '1px solid #f1f5f9'
                                 }}>
-                                    {dam.percent_storage?.toFixed(1)}%
-                                </span>
-                            </div>
-                            {/* Progress bar */}
-                            <div style={{ height: 6, background: '#f1f5f9', borderRadius: 99, overflow: 'hidden', marginBottom: 5 }}>
-                                <div style={{
-                                    height: '100%', width: `${Math.min(dam.percent_storage, 100)}%`, borderRadius: 99,
-                                    background: `linear-gradient(90deg, ${info.color}99, ${info.color})`,
-                                    transition: 'width 1.5s ease-in-out'
-                                }} />
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#64748b', fontWeight: 600 }}>
-                                <span style={{ color: '#94a3b8', fontStyle: 'italic' }}>🔗 {dam.reason}</span>
-                                <div style={{ display: 'flex', gap: 8 }}>
-                                    {dam.inflow != null && <span style={{ color: '#10b981' }}>↓{dam.inflow}</span>}
-                                    {dam.outflow != null && <span style={{ color: '#f59e0b' }}>↑{dam.outflow}</span>}
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                                        <span style={{ fontSize: 13, fontWeight: 700, color: '#1e293b' }}>{dam.name}</span>
+                                        <span style={{
+                                            fontSize: 12, fontWeight: 900, color: info.color,
+                                            background: info.bg, padding: '2px 8px', borderRadius: 6
+                                        }}>
+                                            {dam.percent_storage?.toFixed(1)}%
+                                        </span>
+                                    </div>
+                                    {/* Progress bar */}
+                                    <div style={{ height: 6, background: '#f1f5f9', borderRadius: 99, overflow: 'hidden', marginBottom: 5 }}>
+                                        <div style={{
+                                            height: '100%', width: `${Math.min(dam.percent_storage, 100)}%`, borderRadius: 99,
+                                            background: `linear-gradient(90deg, ${info.color}99, ${info.color})`,
+                                            transition: 'width 1.5s ease-in-out'
+                                        }} />
+                                    </div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#64748b', fontWeight: 600 }}>
+                                        <span style={{ color: '#94a3b8', fontStyle: 'italic' }}>🔗 {dam.reason}</span>
+                                        <div style={{ display: 'flex', gap: 8 }}>
+                                            {dam.inflow != null && <span style={{ color: '#10b981' }}>↓{dam.inflow}</span>}
+                                            {dam.outflow != null && <span style={{ color: '#f59e0b' }}>↑{dam.outflow}</span>}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    );
-                })}
-            </div>
+                            );
+                        })}
+                    </div>
 
-            {/* Agricultural Advice */}
-            <div style={{ fontSize: 11, background: overallInfo.bg, color: overallInfo.color, padding: '8px 12px', borderRadius: 8, fontWeight: 700, border: `1px dashed ${overallInfo.color}40` }}>
-                🌾 {overallInfo.tip}
-            </div>
+                    {/* Agricultural Advice */}
+                    <div style={{ fontSize: 11, background: overallInfo.bg, color: overallInfo.color, padding: '8px 12px', borderRadius: 8, fontWeight: 700, border: `1px dashed ${overallInfo.color}40` }}>
+                        🌾 {overallInfo.tip}
+                    </div>
 
-            <div style={{ fontSize: 10, color: '#94a3b8', textAlign: 'center', fontWeight: 500 }}>
-                น้ำจากเขื่อนศรีนครินทร์ + วชิราลงกรณ → เขื่อนแม่กลอง → คลองชลประทาน → จ.นครปฐม
-            </div>
+                    <div style={{ fontSize: 10, color: '#94a3b8', textAlign: 'center', fontWeight: 500 }}>
+                        น้ำจากเขื่อนศรีนครินทร์ + วชิราลงกรณ → เขื่อนแม่กลอง → คลองชลประทาน → จ.นครปฐม
+                    </div>
+                </>
+            )}
         </div>
     );
 }

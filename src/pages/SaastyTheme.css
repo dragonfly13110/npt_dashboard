@@ -9,7 +9,7 @@
     background-image: 
         radial-gradient(circle at 15% 10%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
         radial-gradient(circle at 85% 20%, rgba(13, 148, 136, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 50% 80%, rgba(99, 102, 241, 0.05) 0%, transparent 50%);
+        radial-gradient(circle at 50% 80%, rgba(52, 211, 153, 0.04) 0%, transparent 50%);
     background-color: #f8fafc;
 }
 
@@ -85,9 +85,9 @@
 .landing-page .widget-box,
 .landing-page .soil-water-grid > div {
     background:
-        linear-gradient(155deg, rgba(255, 255, 255, 0.7) 0%, rgba(244, 247, 255, 0.8) 48%, rgba(255, 255, 255, 0.75) 100%),
-        radial-gradient(circle at 90% 0%, rgba(99, 102, 241, 0.35), transparent 50%),
-        radial-gradient(circle at 10% 100%, rgba(14, 165, 233, 0.3), transparent 50%) !important;
+        linear-gradient(155deg, rgba(255, 255, 255, 0.75) 0%, rgba(245, 253, 250, 0.85) 48%, rgba(255, 255, 255, 0.78) 100%),
+        radial-gradient(circle at 90% 0%, rgba(16, 185, 129, 0.18), transparent 50%),
+        radial-gradient(circle at 10% 100%, rgba(20, 184, 166, 0.15), transparent 50%) !important;
     backdrop-filter: blur(30px) !important;
     -webkit-backdrop-filter: blur(30px) !important;
     border-radius: 28px !important;
@@ -141,7 +141,7 @@
 .landing-page .bento-card-header h3,
 .landing-page .dept-card h3,
 .landing-page .widget-box h4 {
-    background: linear-gradient(135deg, #1e3a8a 0%, #6366f1 100%) !important;
+    background: linear-gradient(135deg, #064e3b 0%, #10b981 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;

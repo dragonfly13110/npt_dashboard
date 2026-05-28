@@ -4,6 +4,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&display=swap');
 
+html {
+    scroll-behavior: smooth;
+}
+
 .bento-theme {
     background: #f8fafc;
     color: #1e293b;
@@ -141,22 +145,15 @@
         padding: 0 14px;
     }
 
+    /* Hide floating sidebar on mobile — replaced by bottom nav bar */
     .landing-floating-system-tabs {
-        left: 10px;
-        top: auto;
-        bottom: 18px;
-        transform: none;
-    }
-
-    .landing-system-tab {
-        min-height: 44px;
-        border-radius: 999px;
-        padding: 8px;
+        display: none;
     }
 }
 
 .bento-header {
     position: relative;
+    margin-top: 68px;
     padding: 90px 24px 80px; /* Shift content up and keep it tight */
     text-align: center;
     background: url('https://res.cloudinary.com/dzksawh1d/image/upload/v1778061075/69fb0ad33f4be910d2a02784_yvto8z.png') center bottom/cover no-repeat;
@@ -336,31 +333,36 @@
 
 @media (max-width: 768px) {
     .bento-header {
-        padding: 60px 20px 50px;
-        min-height: 280px;
+        padding: 40px 16px 32px;
+        min-height: auto;
+        margin-top: 56px;
     }
     .hero-actions {
-        margin-top: 24px;
+        margin-top: 20px;
+        gap: 10px;
+    }
+    .hero-actions > * {
+        width: 100%;
+        justify-content: center;
+        font-size: 14px !important;
+        padding: 12px 16px !important;
+        border-radius: 12px !important;
     }
     .bento-title {
-        font-size: 36px;
-        margin-bottom: 16px;
+        font-size: 28px;
+        margin-bottom: 10px;
     }
     .bento-title-province {
         white-space: normal;
     }
     .bento-subtitle {
-        font-size: 16px;
-        padding: 0 12px;
+        font-size: 14px;
+        padding: 0 8px;
+        line-height: 1.6;
     }
+    /* Hide motto on mobile — too long */
     .bento-motto {
-        border-radius: 18px;
-        padding: 10px 16px;
-        font-size: 12px;
-        margin-top: 18px;
-        display: flex;
-        white-space: normal;
-        max-width: 92%;
+        display: none;
     }
 }
 
@@ -416,10 +418,6 @@
     border-bottom: 1px solid rgba(203, 213, 225, 0.64);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-}
-
-.landing-quick-nav + #live-data {
-    padding-top: 70px;
 }
 
 .landing-quick-nav + #live-data .top-widgets-container {
@@ -489,6 +487,20 @@
     transform: translateY(1px);
 }
 
+.quick-nav-link.login-btn-quick {
+    background: rgba(22, 163, 74, 0.08);
+    color: #166534;
+    border-color: rgba(22, 163, 74, 0.25);
+    margin-left: 6px;
+}
+
+.quick-nav-link.login-btn-quick:hover {
+    background: #166534;
+    color: #ffffff;
+    border-color: #166534;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.15);
+}
+
 .landing-data-status,
 .landing-audience-section {
     max-width: 1200px;
@@ -500,7 +512,7 @@
 #agri-overview,
 #soil-water,
 #agri-news {
-    scroll-margin-top: 132px;
+    scroll-margin-top: 80px;
 }
 
 .landing-info-modal .ant-modal-content {
@@ -722,41 +734,51 @@
 @media (max-width: 768px) {
     .landing-quick-nav {
         top: 0;
-        padding: 10px 16px;
-    }
-
-    .landing-quick-nav + #live-data {
-        padding-top: 118px;
+        padding: 6px 12px;
     }
 
     .landing-quick-nav-inner {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 8px;
+        flex-direction: row;
+        align-items: center;
+        gap: 0;
+    }
+
+    /* Hide label on mobile for space */
+    .quick-nav-label {
+        display: none;
     }
 
     .quick-nav-links {
         width: 100%;
+        gap: 6px;
+        -webkit-mask-image: linear-gradient(to right, #000 90%, transparent 100%);
+        mask-image: linear-gradient(to right, #000 90%, transparent 100%);
+    }
+
+    .quick-nav-link {
+        padding: 7px 10px;
+        font-size: 12px;
+        min-height: 36px;
     }
 
     .landing-data-status,
     .landing-audience-section {
-        margin: 30px auto;
-        padding: 0 20px;
+        margin: 20px auto;
+        padding: 0 12px;
     }
 
     .landing-section-heading-row {
         align-items: flex-start;
         flex-direction: column;
-        gap: 14px;
+        gap: 10px;
     }
 
     .landing-section-heading-row h2 {
-        font-size: 24px;
+        font-size: 22px;
     }
 
     .landing-section-heading-row p {
-        font-size: 15px;
+        font-size: 14px;
     }
 
     .data-status-grid,
@@ -766,11 +788,11 @@
 
     .data-status-card,
     .audience-card {
-        border-radius: 18px;
+        border-radius: 16px;
     }
 
     .landing-info-modal .ant-modal-content {
-        padding: 20px;
+        padding: 16px;
     }
 
     .modal-section-heading {
@@ -779,7 +801,12 @@
     }
 
     .modal-section-heading h2 {
-        font-size: 22px;
+        font-size: 20px;
+    }
+
+    /* Add bottom padding for mobile bottom nav bar */
+    .landing-page {
+        padding-bottom: 72px;
     }
 }
 
@@ -952,6 +979,9 @@
             "at"
             "fi2";
         margin-top: 0;
+        padding: 0 12px;
+        gap: 16px;
+        margin-bottom: 32px;
     }
 
     .bento-container-no-tourism {
@@ -961,6 +991,10 @@
             "ce"
             "lp"
             "fi2";
+    }
+
+    .bento-card {
+        border-radius: 16px;
     }
 }
 
@@ -1070,8 +1104,8 @@
     flex: 1;
 }
 
-.community-enterprise-card .ce-v2-body,
-.large-plots-card .ce-v2-body {
+.community-enterprise-card.is-collapsed .ce-v2-body,
+.large-plots-card.is-collapsed .ce-v2-body {
     display: none;
 }
 
@@ -1329,49 +1363,104 @@
     font-weight: 800;
 }
 
-/* --- Large Plots Color Theme Overrides (Yellow/Gold) --- */
+/* --- Bento Header Title Overrides (Dark neutral slate to match สถาบันเกษตรกร) --- */
+.landing-page .bento-card.community-enterprise-card .bento-card-header h3,
+.landing-page .bento-card.large-plots-card .bento-card-header h3 {
+    background: none !important;
+    -webkit-text-fill-color: #0f172a !important;
+    background-clip: border-box !important;
+    color: #0f172a !important;
+}
+
+/* --- Community Enterprises Color Theme Overrides (Soft Green) --- */
+.community-enterprise-card .ce-filter-row button {
+    border-color: #bbf7d0;
+    color: #15803d;
+    background: #ecfdf5;
+}
+
+.community-enterprise-card .ce-filter-row button:hover {
+    background: #dcfce7;
+}
+
+.community-enterprise-card .ce-bars button {
+    border-color: #bbf7d0;
+    background: #f0fdf4;
+    color: #166534;
+}
+
+.community-enterprise-card .ce-bars button.is-active {
+    background: #dcfce7;
+    border-color: #4ade80;
+    color: #14532d;
+}
+
+.community-enterprise-card .ce-bars button > div {
+    background: #dcfce7;
+}
+
+.community-enterprise-card .ce-bars button i {
+    background: #22c55e;
+}
+
+.community-enterprise-card .ce-result-item {
+    border-color: #dcfce7;
+    border-left: 4px solid #22c55e;
+    background: #ffffff;
+}
+
+.community-enterprise-card .ce-result-item span {
+    color: #166534;
+}
+
+/* --- Large Plots Color Theme Overrides (Teal Green) --- */
 .large-plots-card .ce-filter-row button {
-    border-color: #fde68a;
-    color: #854d0e;
-    background: #fef9c3;
+    border-color: #99f6e4;
+    color: #0f766e;
+    background: #f0fdfa;
 }
 
 .large-plots-card .ce-filter-row button:hover {
-    background: #fef08a;
+    background: #ccfbf1;
 }
 
 .large-plots-card .ce-bars button {
-    border-color: #fde68a;
-    background: #fefdf0;
-    color: #854d0e;
+    border-color: #99f6e4;
+    background: #f0fdfa;
+    color: #0f766e;
 }
 
 .large-plots-card .ce-bars button.is-active {
-    background: #fef9c3;
-    border-color: #eab308;
-    color: #713f12;
+    background: #ccfbf1;
+    border-color: #2dd4bf;
+    color: #115e59;
 }
 
 .large-plots-card .ce-bars button > div {
-    background: #fef9c3;
+    background: #ccfbf1;
 }
 
 .large-plots-card .ce-bars button i {
-    background: #eab308;
+    background: #14b8a6;
 }
 
 .large-plots-card .ce-result-item {
-    border-color: #fef9c3;
-    border-left: 4px solid #eab308;
+    border-color: #ccfbf1;
+    border-left: 4px solid #14b8a6;
     background: #ffffff;
 }
 
 .large-plots-card .ce-result-item span {
-    color: #854d0e;
+    color: #0f766e;
+}
+
+/* --- Farmer Institutes V2 Collapse --- */
+.inst-v2-body.is-collapsed {
+    display: none;
 }
 
 @media (max-width: 768px) {
-    .ce-kpi-grid,
+    /* --- Expanded state: stack filters & details vertically --- */
     .ce-v2-body,
     .ce-two-col,
     .ce-filter-row,
@@ -1381,6 +1470,56 @@
 
     .ce-type-select-card div {
         text-align: left;
+    }
+
+    /* --- Collapsed state on mobile: ultra-compact --- */
+    /* Hide filters when collapsed */
+    .community-enterprise-card.is-collapsed .ce-filter-row,
+    .large-plots-card.is-collapsed .ce-filter-row {
+        display: none;
+    }
+
+    /* KPI grid: compact 2×2 */
+    .community-enterprise-card.is-collapsed .ce-kpi-grid,
+    .large-plots-card.is-collapsed .ce-kpi-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+
+    .community-enterprise-card.is-collapsed .ce-kpi,
+    .large-plots-card.is-collapsed .ce-kpi {
+        padding: 8px 10px;
+        border-radius: 8px;
+    }
+
+    .community-enterprise-card.is-collapsed .ce-kpi strong,
+    .large-plots-card.is-collapsed .ce-kpi strong {
+        font-size: 18px;
+    }
+
+    .community-enterprise-card.is-collapsed .ce-kpi span,
+    .large-plots-card.is-collapsed .ce-kpi span,
+    .community-enterprise-card.is-collapsed .ce-kpi small,
+    .large-plots-card.is-collapsed .ce-kpi small {
+        font-size: 10px;
+    }
+
+    /* Less body padding in collapsed */
+    .community-enterprise-card.is-collapsed .ce-detail-body,
+    .large-plots-card.is-collapsed .ce-detail-body {
+        padding: 10px;
+        gap: 8px;
+    }
+
+    /* Hide bottom detail link when collapsed */
+    .community-enterprise-card.is-collapsed > a:last-child,
+    .large-plots-card.is-collapsed > a:last-child {
+        display: none;
+    }
+
+    /* Expanded KPI grid: 2 columns instead of 1 */
+    .ce-kpi-grid {
+        grid-template-columns: 1fr 1fr;
     }
 }
 
@@ -1974,10 +2113,26 @@
         grid-template-columns: 1fr;
         height: auto;
         margin-top: 10px;
+        padding: 0 12px;
+        gap: 14px;
     }
     
     .top-widgets-col {
         grid-template-rows: auto auto;
+        gap: 14px;
+    }
+
+    .widget-section-container {
+        padding: 0 12px;
+        margin-bottom: 24px;
+    }
+
+    .dept-stats-header h2 {
+        font-size: 18px;
+    }
+
+    .dept-stats-header p {
+        font-size: 13px;
     }
 }
 
@@ -1996,9 +2151,9 @@
     position: relative;
     isolation: isolate;
     background:
-        linear-gradient(155deg, rgba(255, 255, 255, 0.85) 0%, rgba(244, 247, 255, 0.9) 48%, rgba(255, 255, 255, 0.95) 100%),
-        radial-gradient(circle at 85% 0%, rgba(129, 140, 248, 0.35), transparent 40%),
-        radial-gradient(circle at 10% 100%, rgba(56, 189, 248, 0.25), transparent 45%);
+        linear-gradient(155deg, rgba(255, 255, 255, 0.85) 0%, rgba(245, 253, 250, 0.9) 48%, rgba(255, 255, 255, 0.95) 100%),
+        radial-gradient(circle at 85% 0%, rgba(16, 185, 129, 0.18), transparent 40%),
+        radial-gradient(circle at 10% 100%, rgba(20, 184, 166, 0.15), transparent 45%);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.68);
@@ -2729,8 +2884,8 @@
     border-radius: 28px;
     border: 1px solid rgba(255, 255, 255, 0.68);
     background:
-        linear-gradient(160deg, rgba(255, 255, 255, 0.94) 0%, rgba(238, 248, 255, 0.92) 48%, rgba(255, 255, 255, 0.98) 100%),
-        radial-gradient(circle at 12% 0%, rgba(96, 165, 250, 0.2), transparent 34%);
+        linear-gradient(160deg, rgba(255, 255, 255, 0.94) 0%, rgba(245, 253, 250, 0.92) 48%, rgba(255, 255, 255, 0.98) 100%),
+        radial-gradient(circle at 12% 0%, rgba(16, 185, 129, 0.15), transparent 34%);
     box-shadow:
         0 24px 48px -28px rgba(15, 23, 42, 0.28),
         inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -2753,7 +2908,7 @@
     width: 190px;
     height: 190px;
     border-radius: 999px;
-    background: radial-gradient(circle, rgba(56, 189, 248, 0.28) 0%, rgba(56, 189, 248, 0) 70%);
+    background: radial-gradient(circle, rgba(20, 184, 166, 0.2) 0%, rgba(20, 184, 166, 0) 70%);
     pointer-events: none;
 }
 
@@ -3505,6 +3660,9 @@
 @media (max-width: 768px) {
     .soil-water-grid {
         grid-template-columns: 1fr;
+        padding: 0 12px;
+        gap: 14px;
+        margin-bottom: 24px;
     }
 }
 
@@ -4040,6 +4198,202 @@
     
     .contacts-districts-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* ========================================================= */
+/* ============== MOBILE BOTTOM NAV BAR ==================== */
+/* ========================================================= */
+
+.mobile-bottom-nav {
+    display: none;
+}
+
+@media (max-width: 760px) {
+    .mobile-bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1200;
+        display: flex;
+        align-items: stretch;
+        justify-content: space-around;
+        height: 64px;
+        padding: 0 4px;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        background: rgba(255, 255, 255, 0.88);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(203, 213, 225, 0.5);
+        box-shadow: 0 -8px 32px -12px rgba(15, 23, 42, 0.12);
+    }
+
+    .mobile-bottom-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        flex: 1;
+        min-width: 0;
+        padding: 6px 2px;
+        border: none;
+        background: transparent;
+        color: #64748b;
+        cursor: pointer;
+        font-family: inherit;
+        transition: color 0.2s;
+        text-decoration: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .mobile-bottom-nav-item:active {
+        color: #166534;
+    }
+
+    .mobile-bottom-nav-item .anticon {
+        font-size: 22px;
+        line-height: 1;
+    }
+
+    .mobile-bottom-nav-item span:last-child {
+        font-size: 10px;
+        font-weight: 700;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 64px;
+    }
+
+    .mobile-bottom-nav-item.is-active {
+        color: #166534;
+    }
+
+    /* Back-to-top above bottom nav */
+    .ant-float-btn {
+        bottom: 80px !important;
+        right: 16px !important;
+        width: 44px !important;
+        height: 44px !important;
+    }
+}
+
+/* ========== More Drawer (Slide-up Panel) ========== */
+.mobile-more-overlay {
+    display: none;
+}
+
+@media (max-width: 760px) {
+    .mobile-more-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1300;
+        display: flex;
+        align-items: flex-end;
+        background: rgba(15, 23, 42, 0.36);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        animation: moreOverlayIn 0.22s ease-out;
+    }
+
+    .mobile-more-overlay[data-closing="true"] {
+        animation: moreOverlayOut 0.18s ease-in forwards;
+    }
+
+    @keyframes moreOverlayIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+
+    @keyframes moreOverlayOut {
+        from { opacity: 1; }
+        to   { opacity: 0; }
+    }
+
+    .mobile-more-drawer {
+        width: 100%;
+        max-height: 60vh;
+        padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+        border-radius: 20px 20px 0 0;
+        background: #ffffff;
+        box-shadow: 0 -16px 48px -12px rgba(15, 23, 42, 0.24);
+        animation: drawerSlideUp 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+        overflow-y: auto;
+    }
+
+    .mobile-more-overlay[data-closing="true"] .mobile-more-drawer {
+        animation: drawerSlideDown 0.18s ease-in forwards;
+    }
+
+    @keyframes drawerSlideUp {
+        from { transform: translateY(100%); }
+        to   { transform: translateY(0); }
+    }
+
+    @keyframes drawerSlideDown {
+        from { transform: translateY(0); }
+        to   { transform: translateY(100%); }
+    }
+
+    .mobile-more-drawer-handle {
+        display: block;
+        width: 36px;
+        height: 4px;
+        margin: 0 auto 14px;
+        border-radius: 999px;
+        background: #cbd5e1;
+    }
+
+    .mobile-more-drawer-title {
+        text-align: center;
+        font-size: 14px;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 14px;
+    }
+
+    .mobile-more-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .mobile-more-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 14px 8px;
+        border-radius: 14px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        color: #0f172a;
+        text-decoration: none;
+        cursor: pointer;
+        font-family: inherit;
+        transition: background 0.15s, transform 0.15s;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .mobile-more-item:active {
+        background: #ecfdf5;
+        transform: scale(0.97);
+    }
+
+    .mobile-more-item .anticon {
+        font-size: 24px;
+        color: #166534;
+    }
+
+    .mobile-more-item span:last-child {
+        font-size: 11px;
+        font-weight: 700;
+        color: #334155;
+        text-align: center;
+        line-height: 1.3;
     }
 }
 

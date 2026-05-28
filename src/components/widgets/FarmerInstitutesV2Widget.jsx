@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { BarChartOutlined, ReloadOutlined, SearchOutlined, TeamOutlined } from '@ant-design/icons';
+import { BarChartOutlined, ReloadOutlined, SearchOutlined, TeamOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { supabase } from '../../supabaseClient';
 import { useApiCache } from '../../hooks/useApiCache';
@@ -133,6 +133,7 @@ export default function FarmerInstitutesV2Widget() {
     const [selectedType, setSelectedType] = useState(DEFAULT_TYPE);
     const [search, setSearch] = useState('');
     const [displayLimit, setDisplayLimit] = useState(12);
+    const [isExpanded, setIsExpanded] = useState(false);
 
     useEffect(() => {
         setDisplayLimit(12);
@@ -182,13 +183,18 @@ export default function FarmerInstitutesV2Widget() {
 
     return (
         <section className="inst-v2-widget bento-card" style={{ gridArea: 'fi2' }}>
-            <div className="inst-v2-head">
+            <div className="inst-v2-head" style={{ cursor: 'pointer', userSelect: 'none' }} onClick={() => setIsExpanded(!isExpanded)}>
                 <div>
                     <div className="inst-v2-eyebrow"><TeamOutlined /> ข้อมูลละเอียดรายคน/รายกลุ่ม</div>
-                    <h3>สถาบันเกษตรกร</h3>
+                    <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        สถาบันเกษตรกร
+                        <span style={{ fontSize: '16px', color: '#64748b', display: 'flex', alignItems: 'center' }}>
+                            {isExpanded ? <UpOutlined /> : <DownOutlined />}
+                        </span>
+                    </h3>
                     <p>รวม SF, YSF, แม่บ้านเกษตรกร, ยุวเกษตรกร และกลุ่มส่งเสริมอาชีพ</p>
                 </div>
-                <button type="button" className="inst-v2-refresh" onClick={refetch} aria-label="โหลดข้อมูลใหม่">
+                <button type="button" className="inst-v2-refresh" onClick={(e) => { e.stopPropagation(); refetch(); }} aria-label="โหลดข้อมูลใหม่">
                     <ReloadOutlined spin={isLoading} />
                 </button>
             </div>
@@ -269,7 +275,7 @@ export default function FarmerInstitutesV2Widget() {
                         ))}
                     </div>
 
-                    <div className="inst-v2-body">
+                    <div className={`inst-v2-body ${!isExpanded ? 'is-collapsed' : ''}`}>
                         <div className="inst-v2-chart">
                             <div className="inst-v2-section-title"><BarChartOutlined /> สรุปตามอำเภอ</div>
                             {summary.byDistrict.length ? (

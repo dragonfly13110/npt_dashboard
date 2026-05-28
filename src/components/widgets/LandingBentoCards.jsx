@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { TeamOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { TeamOutlined, EnvironmentOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
 
 // =======================
 // SKELETON COMPONENTS
@@ -90,6 +90,7 @@ export const CommunityEnterprisesCard = ({ count, districtStats, details = {}, l
     const [selectedType, setSelectedType] = useState('all');
     const [selectedDistrict, setSelectedDistrict] = useState('all');
     const [search, setSearch] = useState('');
+    const [isExpanded, setIsExpanded] = useState(false);
 
     const typeOptions = useMemo(() => Object.entries(typeCounts).sort((a, b) => b[1] - a[1]), [typeCounts]);
     const districtOptions = useMemo(() => Object.entries(districtStats || {}).sort((a, b) => b[1] - a[1]), [districtStats]);
@@ -122,10 +123,15 @@ export const CommunityEnterprisesCard = ({ count, districtStats, details = {}, l
     const hasFilter = selectedType !== 'all' || selectedDistrict !== 'all' || search.trim();
 
     return (
-        <div className="bento-card community-enterprise-card" style={{ gridArea: 'ce' }}>
-            <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div><h3>🤝 วิสาหกิจชุมชน</h3></div>
-                <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
+        <div className={`bento-card community-enterprise-card ${!isExpanded ? 'is-collapsed' : ''}`} style={{ gridArea: 'ce' }}>
+            <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none' }} onClick={() => setIsExpanded(!isExpanded)}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <h3>🤝 วิสาหกิจชุมชน</h3>
+                    <span style={{ fontSize: '14px', color: '#15803d', display: 'flex', alignItems: 'center' }}>
+                        {isExpanded ? <UpOutlined /> : <DownOutlined />}
+                    </span>
+                </div>
+                <div style={{ background: '#ecfdf5', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#15803d' }}>
                     ทั้งหมด {count} แห่ง
                 </div>
             </div>
@@ -233,7 +239,7 @@ export const CommunityEnterprisesCard = ({ count, districtStats, details = {}, l
                     </>
                 )}
             </div>
-            <a href="/public/community-enterprises" style={{ display: 'block', textAlign: 'center', padding: '10px 16px', background: '#e0f2fe', color: '#0369a1', fontSize: 13, fontWeight: 600, textDecoration: 'none', borderTop: '1px solid #bae6fd', borderRadius: '0 0 14px 14px' }}>📊 ดูรายละเอียดทั้งหมด →</a>
+            <a href="/public/community-enterprises" style={{ display: 'block', textAlign: 'center', padding: '10px 16px', background: '#ecfdf5', color: '#15803d', fontSize: 13, fontWeight: 600, textDecoration: 'none', borderTop: '1px solid #bbf7d0', borderRadius: '0 0 14px 14px' }}>📊 ดูรายละเอียดทั้งหมด →</a>
         </div>
     );
 };
@@ -242,6 +248,7 @@ export const LargePlotsCard = ({ largePlotsList = [], loading }) => {
     const [selectedGroup, setSelectedGroup] = useState('all');
     const [selectedDistrict, setSelectedDistrict] = useState('all');
     const [search, setSearch] = useState('');
+    const [isExpanded, setIsExpanded] = useState(false);
 
     const groupOptions = useMemo(() => {
         const counts = {};
@@ -300,10 +307,15 @@ export const LargePlotsCard = ({ largePlotsList = [], loading }) => {
     const hasFilter = selectedGroup !== 'all' || selectedDistrict !== 'all' || search.trim();
 
     return (
-        <div className="bento-card large-plots-card" style={{ gridArea: 'lp' }}>
-            <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div><h3>🌾 แปลงใหญ่</h3></div>
-                <div className="lp-total-badge" style={{ background: '#fef9c3', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#854d0e' }}>
+        <div className={`bento-card large-plots-card ${!isExpanded ? 'is-collapsed' : ''}`} style={{ gridArea: 'lp' }}>
+            <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none' }} onClick={() => setIsExpanded(!isExpanded)}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <h3>🌾 แปลงใหญ่</h3>
+                    <span style={{ fontSize: '14px', color: '#0d9488', display: 'flex', alignItems: 'center' }}>
+                        {isExpanded ? <UpOutlined /> : <DownOutlined />}
+                    </span>
+                </div>
+                <div className="lp-total-badge" style={{ background: '#f0fdfa', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#0d9488' }}>
                     ทั้งหมด {largePlotsList.length.toLocaleString()} แปลง
                 </div>
             </div>
@@ -417,37 +429,47 @@ export const LargePlotsCard = ({ largePlotsList = [], loading }) => {
                     </>
                 )}
             </div>
-            <a href="/public/large-plots" style={{ display: 'block', textAlign: 'center', padding: '10px 16px', background: '#fef9c3', color: '#854d0e', fontSize: 13, fontWeight: 600, textDecoration: 'none', borderTop: '1px solid #fde68a', borderRadius: '0 0 14px 14px' }}>📊 ดูรายละเอียดทั้งหมด →</a>
+            <a href="/public/large-plots" style={{ display: 'block', textAlign: 'center', padding: '10px 16px', background: '#f0fdfa', color: '#0d9488', fontSize: 13, fontWeight: 600, textDecoration: 'none', borderTop: '1px solid #99f6e4', borderRadius: '0 0 14px 14px' }}>📊 ดูรายละเอียดทั้งหมด →</a>
         </div>
     );
 };
 
 export const AgriTourismCard = ({ data, loading }) => {
+    const [isExpanded, setIsExpanded] = useState(false);
     return (
-        <div className="bento-card" style={{ gridArea: 'at' }}>
-            <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div><h3>🌿 แหล่งท่องเที่ยว</h3></div>
-                <div style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#475569' }}>
+        <div className={`bento-card agri-tourism-card ${!isExpanded ? 'is-collapsed' : ''}`} style={{ gridArea: 'at' }}>
+            <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none' }} onClick={() => setIsExpanded(!isExpanded)}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <h3>🌿 แหล่งท่องเที่ยว</h3>
+                    <span style={{ fontSize: '14px', color: '#7e22ce', display: 'flex', alignItems: 'center' }}>
+                        {isExpanded ? <UpOutlined /> : <DownOutlined />}
+                    </span>
+                </div>
+                <div style={{ background: '#f3e8ff', padding: '4px 8px', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#7e22ce' }}>
                     ทั้งหมด {data.count} แห่ง
                 </div>
             </div>
-            <div className="bento-card-body">
-                {loading ? <BentoListSkeleton /> : (
-                    data.list.length === 0 ? <div className="bento-empty">รอเพิ่มข้อมูล...</div> :
-                        <div className="bento-list">
-                            {data.list.map(item => (
-                                <div key={item.id} className="bento-list-item">
-                                    <div className="bento-item-icon bg-purple-100 text-purple-600"><EnvironmentOutlined /></div>
-                                    <div className="bento-item-content">
-                                        <h4>{item.spot_name}</h4>
-                                        <p>อ.{item.district || '-'} &bull; {item.spot_type || 'ไม่ระบุ'}</p>
-                                    </div>
+            {isExpanded && (
+                <>
+                    <div className="bento-card-body">
+                        {loading ? <BentoListSkeleton /> : (
+                            data.list.length === 0 ? <div className="bento-empty">รอเพิ่มข้อมูล...</div> :
+                                <div className="bento-list">
+                                    {data.list.map(item => (
+                                        <div key={item.id} className="bento-list-item">
+                                            <div className="bento-item-icon bg-purple-100 text-purple-600"><EnvironmentOutlined /></div>
+                                            <div className="bento-item-content">
+                                                <h4>{item.spot_name}</h4>
+                                                <p>อ.{item.district || '-'} &bull; {item.spot_type || 'ไม่ระบุ'}</p>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                )}
-            </div>
-            <a href="/public/agri-tourism" style={{ display: 'block', textAlign: 'center', padding: '10px 16px', background: '#f3e8ff', color: '#7e22ce', fontSize: 13, fontWeight: 600, textDecoration: 'none', borderTop: '1px solid #e9d5ff', borderRadius: '0 0 14px 14px' }}>📊 ดูรายละเอียดทั้งหมด →</a>
+                        )}
+                    </div>
+                    <a href="/public/agri-tourism" style={{ display: 'block', textAlign: 'center', padding: '10px 16px', background: '#f3e8ff', color: '#7e22ce', fontSize: 13, fontWeight: 600, textDecoration: 'none', borderTop: '1px solid #e9d5ff', borderRadius: '0 0 14px 14px' }}>📊 ดูรายละเอียดทั้งหมด →</a>
+                </>
+            )}
         </div>
     );
 };

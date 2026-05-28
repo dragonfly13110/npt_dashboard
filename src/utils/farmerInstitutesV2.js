@@ -1,9 +1,9 @@
 export const INSTITUTE_V2_TYPES = [
-  { key: 'smart_farmer_sf', label: 'Smart Farmer (SF)', unit: 'ราย', color: '#f97316' },
-  { key: 'young_smart_farmer_ysf', label: 'Young Smart Farmer (YSF)', unit: 'ราย', color: '#22c55e' },
-  { key: 'housewife_farmer_groups', label: 'กลุ่มแม่บ้านเกษตรกร', unit: 'กลุ่ม', color: '#ec4899' },
-  { key: 'young_farmer_groups_detailed', label: 'กลุ่มยุวเกษตรกร', unit: 'กลุ่ม', color: '#3b82f6' },
-  { key: 'agricultural_career_groups', label: 'กลุ่มส่งเสริมอาชีพ', unit: 'กลุ่ม', color: '#8b5cf6' },
+  { key: 'smart_farmer_sf', label: 'Smart Farmer (SF)', unit: 'ราย', color: '#65a30d' },
+  { key: 'young_smart_farmer_ysf', label: 'Young Smart Farmer (YSF)', unit: 'ราย', color: '#16a34a' },
+  { key: 'housewife_farmer_groups', label: 'กลุ่มแม่บ้านเกษตรกร', unit: 'กลุ่ม', color: '#059669' },
+  { key: 'young_farmer_groups_detailed', label: 'กลุ่มยุวเกษตรกร', unit: 'กลุ่ม', color: '#0d9488' },
+  { key: 'agricultural_career_groups', label: 'กลุ่มส่งเสริมอาชีพ', unit: 'กลุ่ม', color: '#10b981' },
 ];
 
 const TYPE_BY_KEY = Object.fromEntries(INSTITUTE_V2_TYPES.map((type) => [type.key, type]));

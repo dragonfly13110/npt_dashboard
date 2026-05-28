@@ -1,20 +1,25 @@
-import { useEffect, lazy, Suspense, useState } from 'react';
+import { useEffect, lazy, Suspense, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDashboardData } from '../hooks/useDashboardData';
 import { FloatButton, Modal } from 'antd';
 import {
+    AppstoreOutlined,
     ArrowUpOutlined,
     AuditOutlined,
     BankOutlined,
     BookOutlined,
     CalculatorOutlined,
     CloudOutlined,
+    CommentOutlined,
+    DownOutlined,
     EnvironmentOutlined,
     ExperimentOutlined,
     FacebookOutlined,
     LinkOutlined,
+    LoginOutlined,
     ReadOutlined,
     TeamOutlined,
+    UpOutlined,
     UserSwitchOutlined
 } from '@ant-design/icons';
 import AgencyLinksPanel from '../components/widgets/AgencyLinksPanel';
@@ -183,7 +188,17 @@ export default function LandingPage() {
 
     const navigate = useNavigate();
     const [activeInfoModal, setActiveInfoModal] = useState(null);
+    const [moreDrawerOpen, setMoreDrawerOpen] = useState(false);
+    const [moreDrawerClosing, setMoreDrawerClosing] = useState(false);
     const hasTourismData = loading || (tourism.count > 0 || tourism.list.length > 0);
+
+    const closeMoreDrawer = useCallback(() => {
+        setMoreDrawerClosing(true);
+        setTimeout(() => {
+            setMoreDrawerOpen(false);
+            setMoreDrawerClosing(false);
+        }, 180);
+    }, []);
 
     // SEO: Set dynamic page title & meta description
     useEffect(() => {
@@ -194,51 +209,6 @@ export default function LandingPage() {
 
     return (
         <div className="landing-page bento-theme">
-            {/* ===== NAVBAR ===== */}
-            <nav className="landing-nav" aria-label="เมนูหลัก">
-                <div className="landing-nav-inner padding-x">
-                    <a href="/" className="landing-nav-brand" aria-label="หน้าหลัก สำนักงานเกษตรจังหวัดนครปฐม">
-                        <span className="brand-emoji" role="img" aria-label="รวงข้าว">🌾</span>
-                        <span>สำนักงานเกษตรจังหวัดนครปฐม</span>
-                    </a>
-                    <div className="landing-system-tabs" aria-label="ทางลัดไปยังระบบอื่น">
-                        {externalSystemLinks.map(({ href, title, subtitle, Icon, isInternal }) => (
-                            isInternal ? (
-                                <button
-                                    key={href}
-                                    className="landing-system-tab"
-                                    onClick={() => navigate(href)}
-                                    style={{ cursor: 'pointer' }}
-                                >
-                                    <Icon aria-hidden="true" />
-                                    <span>
-                                        <strong>{title}</strong>
-                                        <small>{subtitle}</small>
-                                    </span>
-                                </button>
-                            ) : (
-                                <a
-                                    key={href}
-                                    href={href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="landing-system-tab"
-                                >
-                                    <Icon aria-hidden="true" />
-                                    <span>
-                                        <strong>{title}</strong>
-                                        <small>{subtitle}</small>
-                                    </span>
-                                </a>
-                            )
-                        ))}
-                    </div>
-                    <button className="landing-login-btn" onClick={() => navigate('/login')} aria-label="เข้าสู่ระบบสำหรับเจ้าหน้าที่และบุคคลทั่วไป" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: '1.4' }}>
-                        <span>เข้าสู่ระบบ</span>
-                        <span style={{ fontSize: '11px', opacity: 0.9, fontWeight: '500' }}>สำหรับบุคคลทั่วไปและเจ้าหน้าที่</span>
-                    </button>
-                </div>
-            </nav>
 
             <div className="landing-floating-system-tabs" aria-label="System shortcuts">
                 {externalSystemLinks.map(({ href, title, subtitle, Icon, isInternal }) => (
@@ -271,7 +241,73 @@ export default function LandingPage() {
                         </a>
                     )
                 ))}
+                <button
+                    className="landing-system-tab"
+                    onClick={() => setActiveInfoModal('soilMoistureDetail')}
+                    style={{ cursor: 'pointer' }}
+                >
+                    <ExperimentOutlined aria-hidden="true" />
+                    <span>
+                        <strong>ความชื้นดิน</strong>
+                        <small>ข้อมูลเซ็นเซอร์ดิน</small>
+                    </span>
+                </button>
+                <button
+                    className="landing-system-tab"
+                    onClick={() => setActiveInfoModal('waterDetail')}
+                    style={{ cursor: 'pointer' }}
+                >
+                    <CloudOutlined aria-hidden="true" />
+                    <span>
+                        <strong>สถานการณ์น้ำ</strong>
+                        <small>ข้อมูลอ่างเก็บน้ำ</small>
+                    </span>
+                </button>
+                <button
+                    className="landing-system-tab"
+                    onClick={() => setActiveInfoModal('forumCta')}
+                    style={{ cursor: 'pointer' }}
+                >
+                    <CommentOutlined aria-hidden="true" />
+                    <span>
+                        <strong>ชุมชนเกษตรกร</strong>
+                        <small>Farmer Forum</small>
+                    </span>
+                </button>
             </div>
+
+            <nav className="landing-quick-nav" aria-label="เมนูลัดข้อมูล">
+                <div className="landing-quick-nav-inner">
+                    <span className="quick-nav-label">ไปยังข้อมูลสำคัญ</span>
+                    <div className="quick-nav-links">
+                        {quickNavItems.map(({ href, label, Icon }) => (
+                            <a key={href} href={href} className="quick-nav-link">
+                                <Icon aria-hidden="true" />
+                                <span>{label}</span>
+                            </a>
+                        ))}
+                        {infoNavItems.map(({ key, label, Icon }) => (
+                            <button
+                                key={key}
+                                type="button"
+                                className="quick-nav-link quick-nav-button"
+                                onClick={() => setActiveInfoModal(key)}
+                            >
+                                <Icon aria-hidden="true" />
+                                <span>{label}</span>
+                            </button>
+                        ))}
+                        <button
+                            type="button"
+                            className="quick-nav-link quick-nav-button login-btn-quick"
+                            onClick={() => navigate('/login')}
+                        >
+                            <LoginOutlined aria-hidden="true" />
+                            <span>เข้าสู่ระบบ</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
 
             <header className="bento-header" role="banner">
                 <div className="bento-header-bg"></div>
@@ -329,31 +365,6 @@ export default function LandingPage() {
             </header>
 
             <main>
-                <nav className="landing-quick-nav" aria-label="เมนูลัดข้อมูล">
-                    <div className="landing-quick-nav-inner">
-                        <span className="quick-nav-label">ไปยังข้อมูลสำคัญ</span>
-                        <div className="quick-nav-links">
-                            {quickNavItems.map(({ href, label, Icon }) => (
-                                <a key={href} href={href} className="quick-nav-link">
-                                    <Icon aria-hidden="true" />
-                                    <span>{label}</span>
-                                </a>
-                            ))}
-                            {infoNavItems.map(({ key, label, Icon }) => (
-                                <button
-                                    key={key}
-                                    type="button"
-                                    className="quick-nav-link quick-nav-button"
-                                    onClick={() => setActiveInfoModal(key)}
-                                >
-                                    <Icon aria-hidden="true" />
-                                    <span>{label}</span>
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </nav>
-
                 {/* ===== LIVE WIDGETS ===== */}
                 <section id="live-data" aria-label="ข้อมูลสภาพอากาศและราคาสินค้าเกษตร">
                     <div className="top-widgets-container">
@@ -426,13 +437,14 @@ export default function LandingPage() {
 
                 {/* ===== SOIL & WATER WIDGETS ===== */}
                 <section id="soil-water" aria-label="ข้อมูลดินและสถานการณ์น้ำ">
-                    <div className="dept-stats-header">
-                        <h2>🌍 สถานการณ์ดินและน้ำ</h2>
-                        <p>ข้อมูลสดจากเซ็นเซอร์ดินและกรมชลประทาน เพื่อการเกษตรที่แม่นยำ</p>
+                    <div className="dept-stats-header" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <h2 style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', margin: 0 }}>
+                            🌍 สถานการณ์ดินและน้ำ
+                        </h2>
                     </div>
                     <div className="soil-water-grid">
-                        <Suspense fallback={<WidgetSkeleton />}><SoilMoistureWidget /></Suspense>
-                        <Suspense fallback={<WidgetSkeleton />}><DamReservoirWidget /></Suspense>
+                        <Suspense fallback={<WidgetSkeleton />}><SoilMoistureWidget defaultExpanded={false} /></Suspense>
+                        <Suspense fallback={<WidgetSkeleton />}><DamReservoirWidget defaultExpanded={false} /></Suspense>
                     </div>
                 </section>
 
@@ -446,6 +458,7 @@ export default function LandingPage() {
                                 title: 'ข่าวจากหน่วยงานภาครัฐ',
                                 description: 'กรมส่งเสริมการเกษตร • เกษตรจังหวัด • หน่วยงานวิชาการ',
                                 tone: 'gov',
+                                defaultOpen: true,
                                 renderContent: () => (
                                     <Suspense fallback={<WidgetSkeleton />}>
                                         <AgriGovNewsWidget />
@@ -467,36 +480,7 @@ export default function LandingPage() {
                     />
                 </div>
 
-                {/* ===== COMMUNITY FORUM CTA ===== */}
-                <section aria-label="ชุมชนเกษตรกรและกระดานข่าว" style={{ padding: '50px 20px', maxWidth: '1200px', margin: '60px auto 20px', textAlign: 'center', background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)', border: '1px solid #bbf7d0', borderRadius: '24px', color: '#0f172a', boxShadow: '0 10px 30px -5px rgba(22, 163, 74, 0.1)' }}>
-                    <div style={{ fontSize: '48px', marginBottom: '16px' }}>💬</div>
-                    <h2 style={{ color: '#166534', fontSize: '28px', marginBottom: '12px', fontWeight: '800' }}>มีข้อสงสัยเรื่องการเกษตร? สอบถามชุมชนของเรา!</h2>
-                    <p style={{ color: '#14532d', fontSize: '18px', maxWidth: '700px', margin: '0 auto 30px', opacity: 0.9, lineHeight: 1.6 }}>
-                        เข้าร่วม <b>"กระดานข่าวอัจฉริยะ (Farmer Forum)"</b> พื้นที่แลกเปลี่ยนเรียนรู้ ถามตอบปัญหา แจ้งพิกัดโรคพืช และอัปเดตราคาตลาด สำหรับเกษตรกรนครปฐม
-                    </p>
-                    <button
-                        onClick={() => navigate('/dashboard/community/forum')}
-                        style={{
-                            background: '#16a34a',
-                            color: 'white',
-                            border: 'none',
-                            padding: '16px 36px',
-                            borderRadius: '30px',
-                            fontSize: '18px',
-                            fontWeight: 'bold',
-                            cursor: 'pointer',
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            transition: 'transform 0.2s, box-shadow 0.2s',
-                            boxShadow: '0 4px 15px rgba(22,163,74,0.3)'
-                        }}
-                        onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(22,163,74,0.4)'; }}
-                        onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 15px rgba(22,163,74,0.3)'; }}
-                    >
-                        เข้าสู่กระดานข่าว / ตั้งกระทู้ถาม
-                    </button>
-                </section>
+
 
             </main>
 
@@ -614,10 +598,185 @@ export default function LandingPage() {
                 </div>
             </Modal>
 
+            <Modal
+                title="📈 สถานการณ์ความชื้นดินเฉลี่ยทั้งอำเภอ (แบบละเอียด)"
+                open={activeInfoModal === 'soilMoistureDetail'}
+                onCancel={() => setActiveInfoModal(null)}
+                footer={null}
+                width={1120}
+                className="landing-info-modal landing-soil-moisture-modal"
+                destroyOnClose
+            >
+                <div style={{ marginTop: 16 }}>
+                    <Suspense fallback={<WidgetSkeleton />}><SoilMoistureWidget defaultExpanded={true} /></Suspense>
+                </div>
+            </Modal>
+
+            <Modal
+                title="💧 สถานการณ์น้ำและผลกระทบต่อ จ.นครปฐม (แบบละเอียด)"
+                open={activeInfoModal === 'waterDetail'}
+                onCancel={() => setActiveInfoModal(null)}
+                footer={null}
+                width={1120}
+                className="landing-info-modal landing-water-modal"
+                destroyOnClose
+            >
+                <div style={{ marginTop: 16 }}>
+                    <Suspense fallback={<WidgetSkeleton />}><DamReservoirWidget defaultExpanded={true} /></Suspense>
+                </div>
+            </Modal>
+
+            <Modal
+                title="💬 กระดานข่าวอัจฉริยะ (Farmer Forum)"
+                open={activeInfoModal === 'forumCta'}
+                onCancel={() => setActiveInfoModal(null)}
+                footer={null}
+                width={720}
+                className="landing-info-modal landing-forum-modal"
+                destroyOnClose
+            >
+                <div style={{ textAlign: 'center', padding: '30px 10px', color: '#0f172a' }}>
+                    <div style={{ fontSize: '64px', marginBottom: '20px' }}>💬</div>
+                    <h2 style={{ color: '#166534', fontSize: '24px', marginBottom: '14px', fontWeight: '800' }}>มีข้อสงสัยเรื่องการเกษตร? สอบถามชุมชนของเรา!</h2>
+                    <p style={{ color: '#475569', fontSize: '15px', maxWidth: '600px', margin: '0 auto 28px', lineHeight: 1.6, fontWeight: 500 }}>
+                        เข้าร่วม <b>"กระดานข่าวอัจฉริยะ (Farmer Forum)"</b> พื้นที่แลกเปลี่ยนเรียนรู้ ถามตอบปัญหา แจ้งพิกัดโรคพืช และอัปเดตราคาตลาด สำหรับเกษตรกรนครปฐม
+                    </p>
+                    <button
+                        onClick={() => {
+                            setActiveInfoModal(null);
+                            navigate('/dashboard/community/forum');
+                        }}
+                        style={{
+                            background: '#16a34a',
+                            color: 'white',
+                            border: 'none',
+                            padding: '14px 32px',
+                            borderRadius: '30px',
+                            fontSize: '16px',
+                            fontWeight: 'bold',
+                            cursor: 'pointer',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            transition: 'transform 0.2s, box-shadow 0.2s',
+                            boxShadow: '0 4px 15px rgba(22,163,74,0.3)',
+                            fontFamily: 'inherit'
+                        }}
+                        onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(22,163,74,0.4)'; }}
+                        onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 15px rgba(22,163,74,0.3)'; }}
+                    >
+                        เข้าสู่กระดานข่าว / ตั้งกระทู้ถาม
+                    </button>
+                </div>
+            </Modal>
+
             {/* ===== FOOTER ===== */}
             <LandingFooter onOpenPanel={setActiveInfoModal} />
             {/* ===== BACK TO TOP BUTTON ===== */}
             <FloatButton.BackTop icon={<ArrowUpOutlined />} tooltip="กลับขึ้นบนสุด" style={{ bottom: 40, right: 40, width: 50, height: 50 }} />
+
+            {/* ===== MOBILE BOTTOM NAV BAR ===== */}
+            <nav className="mobile-bottom-nav" aria-label="เมนูลัดมือถือ">
+                <button
+                    className="mobile-bottom-nav-item"
+                    onClick={() => navigate('/smart-map')}
+                >
+                    <EnvironmentOutlined />
+                    <span>แผนที่</span>
+                </button>
+                <button
+                    className="mobile-bottom-nav-item"
+                    onClick={() => setActiveInfoModal('soilMoistureDetail')}
+                >
+                    <ExperimentOutlined />
+                    <span>ความชื้นดิน</span>
+                </button>
+                <button
+                    className="mobile-bottom-nav-item"
+                    onClick={() => setActiveInfoModal('waterDetail')}
+                >
+                    <CloudOutlined />
+                    <span>สถานการณ์น้ำ</span>
+                </button>
+                <button
+                    className="mobile-bottom-nav-item"
+                    onClick={() => setActiveInfoModal('forumCta')}
+                >
+                    <CommentOutlined />
+                    <span>ชุมชน</span>
+                </button>
+                <button
+                    className="mobile-bottom-nav-item"
+                    onClick={() => setMoreDrawerOpen(true)}
+                >
+                    <AppstoreOutlined />
+                    <span>เพิ่มเติม</span>
+                </button>
+            </nav>
+
+            {/* ===== MOBILE MORE DRAWER ===== */}
+            {moreDrawerOpen && (
+                <div
+                    className="mobile-more-overlay"
+                    data-closing={moreDrawerClosing || undefined}
+                    onClick={(e) => { if (e.target === e.currentTarget) closeMoreDrawer(); }}
+                >
+                    <div className="mobile-more-drawer">
+                        <div className="mobile-more-drawer-handle" />
+                        <div className="mobile-more-drawer-title">ทางลัดเพิ่มเติม</div>
+                        <div className="mobile-more-grid">
+                            <a
+                                href="https://kasetinfo.netlify.app/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="mobile-more-item"
+                                onClick={closeMoreDrawer}
+                            >
+                                <BookOutlined />
+                                <span>คลังความรู้เกษตร</span>
+                            </a>
+                            <a
+                                href="https://agrilabcost-ai.vercel.app/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="mobile-more-item"
+                                onClick={closeMoreDrawer}
+                            >
+                                <CalculatorOutlined />
+                                <span>Crop Cost Lab</span>
+                            </a>
+                            <button
+                                className="mobile-more-item"
+                                onClick={() => { closeMoreDrawer(); setActiveInfoModal('agencyLinks'); }}
+                            >
+                                <LinkOutlined />
+                                <span>ทางลัดหน่วยงาน</span>
+                            </button>
+                            <button
+                                className="mobile-more-item"
+                                onClick={() => { closeMoreDrawer(); setActiveInfoModal('audience'); }}
+                            >
+                                <TeamOutlined />
+                                <span>ระบบช่วยใคร</span>
+                            </button>
+                            <button
+                                className="mobile-more-item"
+                                onClick={() => { closeMoreDrawer(); setActiveInfoModal('contacts'); }}
+                            >
+                                <FacebookOutlined />
+                                <span>ติดต่อเกษตร</span>
+                            </button>
+                            <button
+                                className="mobile-more-item"
+                                onClick={() => { closeMoreDrawer(); navigate('/login'); }}
+                            >
+                                <LoginOutlined />
+                                <span>เข้าสู่ระบบ</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
