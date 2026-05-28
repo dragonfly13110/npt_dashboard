@@ -13,7 +13,6 @@ const TABLE_ROUTES = {
     large_plots: '/dashboard/production/large-plots',
     certifications: '/dashboard/production/certifications',
     crop_production: '/dashboard/production/crop-production',
-    coconut_aromatic_surveys: '/dashboard/production/coconut-aromatic-survey',
     community_enterprises: '/dashboard/development/community-enterprises',
     smart_farmers: '/dashboard/development/smart-farmers',
     smart_farmer_sf: '/dashboard/development/smart-farmer-sf',

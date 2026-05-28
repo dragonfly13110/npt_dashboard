@@ -17,7 +17,6 @@ import HotspotWidget from '../components/widgets/HotspotWidget';
 
 import LandingMap from '../components/widgets/LandingMap';
 import {
-    CommunityEnterprisesCard, LargePlotsCard,
     AgriTourismCard, AgriAreasCard
 } from '../components/widgets/LandingBentoCards';
 import FarmerInstitutesV2Widget from '../components/widgets/FarmerInstitutesV2Widget';
@@ -199,16 +198,10 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                <CommunityEnterprisesCard
-                    count={enterprises.count}
-                    districtStats={ceDistrictStats}
-                    details={enterprises}
-                    loading={loading}
-                />
-                <LargePlotsCard largePlotsList={largePlotsList} loading={loading} />
+
                 {hasTourismData && <AgriTourismCard data={tourism} loading={loading} />}
                 <FarmerInstitutesV2Widget />
-                <AgriAreasCard stats={agriStats} loading={loading} />
+                <AgriAreasCard stats={agriStats} districtStats={districtStats} loading={loading} />
             </section>
 
             {/* ═══════════════════════════════════════════════════════ */}

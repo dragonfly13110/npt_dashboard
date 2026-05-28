@@ -124,7 +124,8 @@ export function useDashboardData() {
             instituteStats,
             lpStats,
             largePlotsList: rawLpData || [],
-            agriStats
+            agriStats,
+            coconutList: coconutData || []
         };
     };
 
@@ -144,7 +145,8 @@ export function useDashboardData() {
         instituteStats = {},
         lpStats = {},
         largePlotsList = [],
-        agriStats = {}
+        agriStats = {},
+        coconutList = []
     } = dashData || {};
 
     const agriPie = useMemo(() => createAgriPieData(agriData), [agriData]);
@@ -154,6 +156,6 @@ export function useDashboardData() {
         stats, loading, error, refetch, agriData, largePlots, fiData,
         mapData, districtStats, smartFarmers, enterprises,
         ceDistrictStats, tourism, instituteStats, lpStats, agriStats,
-        agriPie, lpPie, largePlotsList
+        agriPie, lpPie, largePlotsList, coconutList
     };
 }

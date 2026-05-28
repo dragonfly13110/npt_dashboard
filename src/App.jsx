@@ -54,7 +54,6 @@ const LargePlots = lazy(() => import('./pages/production/LargePlots'));
 const Certifications = lazy(() => import('./pages/production/Certifications'));
 const CropProduction = lazy(() => import('./pages/production/CropProduction'));
 const ProductionDashboard = lazy(() => import('./pages/production/ProductionDashboard'));
-const CoconutAromaticSurvey = lazy(() => import('./pages/production/CoconutAromaticSurvey'));
 
 // Development
 const CommunityEnterprises = lazy(() => import('./pages/development/CommunityEnterprises'));
@@ -200,7 +199,6 @@ function AppRoutes() {
           <Route path="production/large-plots" element={<LargePlots />} />
           <Route path="production/certifications" element={<Certifications />} />
           <Route path="production/crop-production" element={<CropProduction />} />
-          <Route path="production/coconut-aromatic-survey" element={<CoconutAromaticSurvey />} />
 
           {/* Development */}
           <Route path="development/overview" element={<DevelopmentDashboard />} />

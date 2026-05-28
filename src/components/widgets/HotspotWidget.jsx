@@ -221,7 +221,6 @@ export default function HotspotWidget() {
     const [displayLimit, setDisplayLimit] = useState(20);
     const [MapComponents, setMapComponents] = useState(null);
     const [geoJSONData, setGeoJSONData] = useState(null);
-
     useEffect(() => {
         setDisplayLimit(20);
         setSelectedDateFilter(null);
@@ -377,7 +376,7 @@ export default function HotspotWidget() {
     };
 
     return (
-        <div className="widget-box hotspot-widget-card slide-up-anim" style={{ animationDelay: '0.25s', padding: 0, overflow: 'hidden' }}>
+        <div className="widget-box hotspot-widget-card slide-up-anim is-compact-layout" style={{ animationDelay: '0.25s', padding: 0, overflow: 'hidden' }}>
 
             {/* ═══════ TOP SECTION — full width ═══════ */}
 
@@ -394,7 +393,8 @@ export default function HotspotWidget() {
                         <div style={{ fontSize: 10, color: '#94a3b8', fontWeight: 400 }}>VIIRS / GISTDA Satellite</div>
                     </div>
                 </div>
-                <div className="hotspot-widget-controls" style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+                <div className="hotspot-head-actions" style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+                    <div className="hotspot-widget-controls" style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
                     <select
                         value={selectedSatellite}
                         onChange={(e) => {
@@ -489,6 +489,7 @@ export default function HotspotWidget() {
                         📥 Excel
                     </button>
                 </div>
+                </div>
             </div>
 
             {isLoading ? (
@@ -503,6 +504,7 @@ export default function HotspotWidget() {
                         </div>
                     )}
 
+                    <div className="hotspot-content-shell">
                     {/* Summary bar: count + amphoe + landuse */}
                     <div className="hotspot-summary-panel" style={{
                         padding: '12px 18px', borderBottom: '1px solid #f1f5f9',
@@ -620,7 +622,7 @@ export default function HotspotWidget() {
 
 
                     {/* ═══════ BOTTOM SECTION — two columns ═══════ */}
-                    <div className="hotspot-mobile-layout" style={{ display: 'flex', minHeight: 450 }}>
+                    <div id="hotspot-detail-content" className="hotspot-mobile-layout" style={{ display: 'flex', minHeight: 450 }}>
 
                         {/* BOTTOM LEFT — Map */}
                         <div className="hotspot-map-panel" style={{ flex: '1 1 55%', minWidth: 0, position: 'relative', borderRight: '1px solid #f1f5f9' }}>
@@ -775,6 +777,7 @@ export default function HotspotWidget() {
                                 ℹ️ VIIRS (GISTDA) • {selectedSatellite === 'all' ? 'ทุกดาวเทียม' : selectedSatellite} • {activePeriodLabel} • <code style={{ background: '#e2e8f0', padding: '1px 3px', borderRadius: 3, fontSize: 9 }}>/{ENDPOINT_MAP[fetchDayRange]}</code>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </>
             )}

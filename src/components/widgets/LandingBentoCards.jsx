@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { Tooltip } from 'antd';
 import { TeamOutlined, EnvironmentOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
 
 // =======================
@@ -532,9 +533,40 @@ export const FarmerInstitutesCard = ({ stats, loading }) => {
     );
 };
 
-export const AgriAreasCard = ({ stats, loading }) => {
+export const AgriAreasCard = ({ stats, districtStats, loading }) => {
+    const renderTooltip = (fieldKey, label, unit = 'ไร่') => {
+        if (!districtStats) return <div style={{ fontSize: 12 }}>ไม่มีข้อมูลรายอำเภอ</div>;
+        
+        const sorted = Object.entries(districtStats)
+            .map(([name, data]) => ({
+                name,
+                value: data[fieldKey] || 0
+            }))
+            .sort((a, b) => b.value - a.value);
+
+        return (
+            <div style={{ padding: '4px' }}>
+                <strong style={{ display: 'block', marginBottom: '6px', borderBottom: '1px solid rgba(255,255,255,0.2)', paddingBottom: '4px', fontSize: '13px' }}>
+                    📍 {label} (รายอำเภอ)
+                </strong>
+                <table style={{ borderCollapse: 'collapse', width: '100%', minWidth: '180px' }}>
+                    <tbody>
+                        {sorted.map(({ name, value }) => (
+                            <tr key={name} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                                <td style={{ padding: '3px 8px 3px 0', fontSize: '12px', color: '#e2e8f0' }}>{name}</td>
+                                <td style={{ padding: '3px 0', fontSize: '12px', fontWeight: 'bold', textAlign: 'right', color: '#ffffff' }}>
+                                    {value.toLocaleString()} <span style={{ fontSize: '10px', fontWeight: 'normal', color: '#cbd5e1' }}>{unit}</span>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        );
+    };
+
     return (
-        <div className="bento-card" style={{ gridArea: 'ag' }}>
+        <div className="bento-card agri-areas-card" style={{ gridArea: 'ag' }}>
             <div className="bento-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #f8fafc', background: 'linear-gradient(to right, #f0fdf4, #ffffff)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <div style={{ width: 40, height: 40, background: '#dcfce3', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🪴</div>
@@ -555,54 +587,71 @@ export const AgriAreasCard = ({ stats, loading }) => {
                 ) : (
                     <>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '14px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#f8fafc', borderLeft: '4px solid #3b82f6', borderRadius: '8px' }}>
-                                <span style={{ fontSize: 13, color: '#475569', fontWeight: 600 }}>พื้นที่ทั้งหมด</span>
-                                <span style={{ fontSize: 17, fontWeight: 800, color: '#1e3a8a' }}>{stats.total_area.toLocaleString()} <span style={{ fontSize: 11, fontWeight: 600 }}>ไร่</span></span>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#f8fafc', borderLeft: '4px solid #10b981', borderRadius: '8px' }}>
-                                <span style={{ fontSize: 13, color: '#475569', fontWeight: 600 }}>พื้นที่ด้านพืชรวม</span>
-                                <span style={{ fontSize: 17, fontWeight: 800, color: '#064e3b' }}>{stats.crop_area.toLocaleString()} <span style={{ fontSize: 11, fontWeight: 600 }}>ไร่</span></span>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#f8fafc', borderLeft: '4px solid #f59e0b', borderRadius: '8px' }}>
-                                <span style={{ fontSize: 13, color: '#475569', fontWeight: 600 }}>ครัวเรือนเกษตรกร</span>
-                                <span style={{ fontSize: 17, fontWeight: 800, color: '#78350f' }}>{stats.households.toLocaleString()} <span style={{ fontSize: 11, fontWeight: 600 }}>ครัว.</span></span>
-                            </div>
+
+                            <Tooltip trigger="click" title={renderTooltip('area', 'พื้นที่ด้านพืชรวม', 'ไร่')} color="rgba(15, 23, 42, 0.95)">
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#f8fafc', borderLeft: '4px solid #16a34a', borderRadius: '8px', borderTop: '1px solid #e2e8f0', borderRight: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', cursor: 'pointer', transition: 'all 0.2s' }}>
+                                    <span style={{ fontSize: 13, color: '#475569', fontWeight: 600 }}>พื้นที่ด้านพืชรวม</span>
+                                    <span style={{ fontSize: 17, fontWeight: 800, color: '#0f172a' }}>{stats.crop_area.toLocaleString()} <span style={{ fontSize: 11, fontWeight: 600 }}>ไร่</span></span>
+                                </div>
+                            </Tooltip>
+                            <Tooltip trigger="click" title={renderTooltip('house', 'ครัวเรือนเกษตรกร', 'ครัวเรือน')} color="rgba(15, 23, 42, 0.95)">
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#f8fafc', borderLeft: '4px solid #84cc16', borderRadius: '8px', borderTop: '1px solid #e2e8f0', borderRight: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', cursor: 'pointer', transition: 'all 0.2s' }}>
+                                    <span style={{ fontSize: 13, color: '#475569', fontWeight: 600 }}>ครัวเรือนเกษตรกร</span>
+                                    <span style={{ fontSize: 17, fontWeight: 800, color: '#0f172a' }}>{stats.households.toLocaleString()} <span style={{ fontSize: 11, fontWeight: 600 }}>ครัว.</span></span>
+                                </div>
+                            </Tooltip>
                         </div>
 
                         <div style={{ fontSize: 13, fontWeight: 700, color: '#16a34a', borderBottom: '2px solid #dcfce3', paddingBottom: 5, marginBottom: 10 }}>พื้นที่เพาะปลูกพืชหลัก (ไร่)</div>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', flex: 1 }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#fef9c3', borderRadius: '8px', border: '1px solid #fde047' }}>
-                                <span style={{ fontSize: 12, color: '#854d0e', fontWeight: 600 }}>ข้าวนาปี</span>
-                                <span style={{ fontSize: 14, fontWeight: 800, color: '#ca8a04' }}>{stats.rice_pi.toLocaleString()}</span>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#fef3c7', borderRadius: '8px', border: '1px solid #fcd34d' }}>
-                                <span style={{ fontSize: 12, color: '#92400e', fontWeight: 600 }}>ข้าวนาปรัง</span>
-                                <span style={{ fontSize: 14, fontWeight: 800, color: '#d97706' }}>{stats.rice_prung.toLocaleString()}</span>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#f5f5f4', borderRadius: '8px', border: '1px solid #e7e5e4' }}>
-                                <span style={{ fontSize: 12, color: '#57534e', fontWeight: 600 }}>พืชไร่</span>
-                                <span style={{ fontSize: 14, fontWeight: 800, color: '#44403c' }}>{stats.field_crops.toLocaleString()}</span>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#dcfce3', borderRadius: '8px', border: '1px solid #bbf7d0' }}>
-                                <span style={{ fontSize: 12, color: '#166534', fontWeight: 600 }}>พืชสวน</span>
-                                <span style={{ fontSize: 14, fontWeight: 800, color: '#15803d' }}>{stats.hort.toLocaleString()}</span>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#ecfdf5', borderRadius: '8px', border: '1px solid #a7f3d0' }}>
-                                <span style={{ fontSize: 12, color: '#065f46', fontWeight: 600 }}>พืชผัก</span>
-                                <span style={{ fontSize: 14, fontWeight: 800, color: '#047857' }}>{stats.veg.toLocaleString()}</span>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#f0fdfa', borderRadius: '8px', border: '1px solid #99f6e4' }}>
-                                <span style={{ fontSize: 12, color: '#115e59', fontWeight: 600 }}>ไม้ผล/ยืนต้น</span>
-                                <span style={{ fontSize: 14, fontWeight: 800, color: '#0f766e' }}>{stats.fruit.toLocaleString()}</span>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#fce7f3', borderRadius: '8px', border: '1px solid #fbcfe8' }}>
-                                <span style={{ fontSize: 12, color: '#9d174d', fontWeight: 600 }}>ไม้ดอกฯ</span>
-                                <span style={{ fontSize: 14, fontWeight: 800, color: '#be185d' }}>{stats.flow.toLocaleString()}</span>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#f3f4f6', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
-                                <span style={{ fontSize: 12, color: '#374151', fontWeight: 600 }}>สมุนไพร</span>
-                                <span style={{ fontSize: 14, fontWeight: 800, color: '#4b5563' }}>{stats.herb.toLocaleString()}</span>
-                            </div>
+                            <Tooltip trigger="click" title={renderTooltip('ricePi', 'ข้าวนาปี', 'ไร่')} color="rgba(15, 23, 42, 0.95)">
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0', cursor: 'pointer', transition: 'all 0.2s' }}>
+                                    <span style={{ fontSize: 12, color: '#475569', fontWeight: 600 }}>ข้าวนาปี</span>
+                                    <span style={{ fontSize: 14, fontWeight: 800, color: '#16a34a' }}>{stats.rice_pi.toLocaleString()}</span>
+                                </div>
+                            </Tooltip>
+                            <Tooltip trigger="click" title={renderTooltip('ricePrung', 'ข้าวนาปรัง', 'ไร่')} color="rgba(15, 23, 42, 0.95)">
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0', cursor: 'pointer', transition: 'all 0.2s' }}>
+                                    <span style={{ fontSize: 12, color: '#475569', fontWeight: 600 }}>ข้าวนาปรัง</span>
+                                    <span style={{ fontSize: 14, fontWeight: 800, color: '#16a34a' }}>{stats.rice_prung.toLocaleString()}</span>
+                                </div>
+                            </Tooltip>
+                            <Tooltip trigger="click" title={renderTooltip('field', 'พืชไร่', 'ไร่')} color="rgba(15, 23, 42, 0.95)">
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0', cursor: 'pointer', transition: 'all 0.2s' }}>
+                                    <span style={{ fontSize: 12, color: '#475569', fontWeight: 600 }}>พืชไร่</span>
+                                    <span style={{ fontSize: 14, fontWeight: 800, color: '#16a34a' }}>{stats.field_crops.toLocaleString()}</span>
+                                </div>
+                            </Tooltip>
+                            <Tooltip trigger="click" title={renderTooltip('hort', 'พืชสวน', 'ไร่')} color="rgba(15, 23, 42, 0.95)">
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0', cursor: 'pointer', transition: 'all 0.2s' }}>
+                                    <span style={{ fontSize: 12, color: '#475569', fontWeight: 600 }}>พืชสวน</span>
+                                    <span style={{ fontSize: 14, fontWeight: 800, color: '#16a34a' }}>{stats.hort.toLocaleString()}</span>
+                                </div>
+                            </Tooltip>
+                            <Tooltip trigger="click" title={renderTooltip('veg', 'พืชผัก', 'ไร่')} color="rgba(15, 23, 42, 0.95)">
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0', cursor: 'pointer', transition: 'all 0.2s' }}>
+                                    <span style={{ fontSize: 12, color: '#475569', fontWeight: 600 }}>พืชผัก</span>
+                                    <span style={{ fontSize: 14, fontWeight: 800, color: '#16a34a' }}>{stats.veg.toLocaleString()}</span>
+                                </div>
+                            </Tooltip>
+                            <Tooltip trigger="click" title={renderTooltip('fruit', 'ไม้ผล/ยืนต้น', 'ไร่')} color="rgba(15, 23, 42, 0.95)">
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0', cursor: 'pointer', transition: 'all 0.2s' }}>
+                                    <span style={{ fontSize: 12, color: '#475569', fontWeight: 600 }}>ไม้ผล/ยืนต้น</span>
+                                    <span style={{ fontSize: 14, fontWeight: 800, color: '#16a34a' }}>{stats.fruit.toLocaleString()}</span>
+                                </div>
+                            </Tooltip>
+                            <Tooltip trigger="click" title={renderTooltip('flow', 'ไม้ดอกฯ', 'ไร่')} color="rgba(15, 23, 42, 0.95)">
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0', cursor: 'pointer', transition: 'all 0.2s' }}>
+                                    <span style={{ fontSize: 12, color: '#475569', fontWeight: 600 }}>ไม้ดอกฯ</span>
+                                    <span style={{ fontSize: 14, fontWeight: 800, color: '#16a34a' }}>{stats.flow.toLocaleString()}</span>
+                                </div>
+                            </Tooltip>
+                            <Tooltip trigger="click" title={renderTooltip('herb', 'สมุนไพร', 'ไร่')} color="rgba(15, 23, 42, 0.95)">
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0', cursor: 'pointer', transition: 'all 0.2s' }}>
+                                    <span style={{ fontSize: 12, color: '#475569', fontWeight: 600 }}>สมุนไพร</span>
+                                    <span style={{ fontSize: 14, fontWeight: 800, color: '#16a34a' }}>{stats.herb.toLocaleString()}</span>
+                                </div>
+                            </Tooltip>
                         </div>
                     </>
                 )}

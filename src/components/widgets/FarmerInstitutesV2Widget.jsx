@@ -5,15 +5,14 @@ import { supabase } from '../../supabaseClient';
 import { useApiCache } from '../../hooks/useApiCache';
 import {
     INSTITUTE_V2_TYPES,
-    createInstituteV2Rows,
+    createFarmerGroupsRows,
     filterInstituteV2Rows,
     getInstituteV2Options,
     summarizeInstituteV2Rows,
 } from '../../utils/farmerInstitutesV2';
 
 const number = new Intl.NumberFormat('th-TH');
-const DEFAULT_TYPE = 'smart_farmer_sf';
-const PERSON_TYPE_KEYS = new Set(['smart_farmer_sf', 'young_smart_farmer_ysf']);
+const DEFAULT_TYPE = 'large_plots';
 const NPT_DISTRICTS = [
     'เมืองนครปฐม',
     'กำแพงแสน',
@@ -25,42 +24,37 @@ const NPT_DISTRICTS = [
 ];
 
 async function fetchInstituteV2Data() {
-    try {
-        const response = await fetch('/api/public-farmer-institutes-v2');
-        const contentType = response.headers.get('content-type') || '';
-        if (response.ok && contentType.includes('application/json')) {
-            const payload = await response.json();
-            return createInstituteV2Rows(payload);
-        }
-    } catch {
-        // Fall through to direct public Supabase reads when the server endpoint is not available.
-    }
-
     const [
-        smartFarmers,
-        youngSmartFarmers,
+        largePlots,
+        communityEnterprises,
         housewifeGroups,
         youngFarmerGroups,
         careerGroups,
+        smartFarmers,
+        youngSmartFarmers,
     ] = await Promise.all([
-        supabase.from('smart_farmer_sf').select('id,data_year,record_code,sequence_no,district,agricultural_activity,production_standard,farmer_status,annual_agri_income,production_area').order('data_year', { ascending: false }),
-        supabase.from('young_smart_farmer_ysf').select('id,data_year,record_code,sequence_no,district,subdistrict,agricultural_activity,production_standard,farmer_status,farm_area_rai,annual_agri_income,main_activity_type').order('data_year', { ascending: false }),
+        supabase.from('large_plots').select('id, plot_name, commodity, district, subdistrict, member_count, area_rai, commodity_group, year, code, agency').order('year', { ascending: false }),
+        supabase.from('community_enterprises').select('id, enterprise_type, enterprise_name, approval_date, district, subdistrict, village_no, member_count, level').order('id', { ascending: false }),
         supabase.from('housewife_farmer_groups').select('id,year,group_name,district,subdistrict,member_count,income,fund_management,activity,production_standard,potential_level,model_group,community_enterprise_registration').order('year', { ascending: false }),
         supabase.from('young_farmer_groups_detailed').select('id,data_year,group_name,district,subdistrict,member_count,income,fund_management,activity,potential_level,model_group').order('data_year', { ascending: false }),
         supabase.from('agricultural_career_groups').select('id,data_year,group_name,district,subdistrict,member_count,income,fund_management,activity,main_activity,production_standard,potential_level,community_enterprise_registration').order('data_year', { ascending: false }),
+        supabase.from('smart_farmer_sf').select('id,data_year,record_code,sequence_no,district,agricultural_activity,production_standard,farmer_status,annual_agri_income,production_area').order('data_year', { ascending: false }),
+        supabase.from('young_smart_farmer_ysf').select('id,data_year,record_code,sequence_no,district,subdistrict,agricultural_activity,production_standard,farmer_status,farm_area_rai,annual_agri_income,main_activity_type').order('data_year', { ascending: false }),
     ]);
 
-    const failures = [smartFarmers, youngSmartFarmers, housewifeGroups, youngFarmerGroups, careerGroups]
+    const failures = [largePlots, communityEnterprises, housewifeGroups, youngFarmerGroups, careerGroups, smartFarmers, youngSmartFarmers]
         .filter((result) => result.error)
         .map((result) => result.error.message);
     if (failures.length) throw new Error(failures.join(', '));
 
-    return createInstituteV2Rows({
-        smartFarmers: smartFarmers.data || [],
-        youngSmartFarmers: youngSmartFarmers.data || [],
+    return createFarmerGroupsRows({
+        largePlots: largePlots.data || [],
+        communityEnterprises: communityEnterprises.data || [],
         housewifeGroups: housewifeGroups.data || [],
         youngFarmerGroups: youngFarmerGroups.data || [],
         careerGroups: careerGroups.data || [],
+        smartFarmers: smartFarmers.data || [],
+        youngSmartFarmers: youngSmartFarmers.data || [],
     });
 }
 
@@ -73,11 +67,12 @@ function StatPill({ label, value, tone = '#16a34a' }) {
     );
 }
 
-function getStatCards(summary, activeType, isPersonTab) {
-    if (isPersonTab) {
+function getStatCards(summary, activeType) {
+    const isIndividual = activeType.key === 'smart_farmer_sf' || activeType.key === 'young_smart_farmer_ysf';
+    if (isIndividual) {
         return [
             {
-                label: 'จำนวนคน',
+                label: 'จำนวนเกษตรกร',
                 value: `${number.format(summary.totalRows)} คน`,
                 tone: '#2563eb',
             },
@@ -92,17 +87,16 @@ function getStatCards(summary, activeType, isPersonTab) {
                 tone: activeType.color,
             },
             {
-                label: 'มาตรฐาน/สถานะ',
-                value: `${number.format(Math.max(summary.standardCount, summary.statusCount))} ประเภท`,
+                label: 'มาตรฐานเกษตร',
+                value: `${number.format(summary.standardCount)} ประเภท`,
                 tone: '#0f766e',
             },
         ];
     }
-
     return [
         {
-            label: 'จำนวนกลุ่ม',
-            value: `${number.format(summary.totalRows)} กลุ่ม`,
+            label: `จำนวน${activeType.unit}`,
+            value: `${number.format(summary.totalRows)} ${activeType.unit}`,
             tone: '#2563eb',
         },
         {
@@ -112,7 +106,7 @@ function getStatCards(summary, activeType, isPersonTab) {
         },
         {
             label: 'สมาชิกเฉลี่ย',
-            value: `${number.format(Math.round(summary.averageMembers))} คน/กลุ่ม`,
+            value: `${number.format(Math.round(summary.averageMembers))} คน/${activeType.unit}`,
             tone: activeType.color,
         },
         {
@@ -124,7 +118,7 @@ function getStatCards(summary, activeType, isPersonTab) {
 }
 
 export default function FarmerInstitutesV2Widget() {
-    const { data: rows = [], isLoading, error, refetch } = useApiCache('farmer-institutes-v2-widget', fetchInstituteV2Data, {
+    const { data: rows = [], isLoading, error, refetch } = useApiCache('farmer-groups-institutes-widget', fetchInstituteV2Data, {
         staleMinutes: 10,
         cacheMinutes: 60,
     });
@@ -140,7 +134,7 @@ export default function FarmerInstitutesV2Widget() {
     }, [selectedYear, selectedDistrict, selectedType, search]);
 
     const activeTypeRows = useMemo(() => rows.filter((row) => row.typeKey === selectedType), [rows, selectedType]);
-    const activeOptions = useMemo(() => getInstituteV2Options(activeTypeRows), [activeTypeRows]);
+    const activeOptions = useMemo(() => getInstituteV2Options(activeTypeRows, INSTITUTE_V2_TYPES), [activeTypeRows]);
     const latestYear = activeOptions.years[0] || 'all';
     const effectiveYear = selectedYear === 'latest' ? latestYear : selectedYear;
     const activeYearRows = useMemo(() => (
@@ -178,21 +172,20 @@ export default function FarmerInstitutesV2Widget() {
     const totalSummary = useMemo(() => summarizeInstituteV2Rows(rows), [rows]);
     const activeType = INSTITUTE_V2_TYPES.find((type) => type.key === selectedType) || INSTITUTE_V2_TYPES[0];
     const hasActiveFilter = selectedYear !== 'latest' || selectedDistrict !== 'all' || search.trim();
-    const isPersonTab = PERSON_TYPE_KEYS.has(selectedType);
-    const statCards = useMemo(() => getStatCards(summary, activeType, isPersonTab), [activeType, isPersonTab, summary]);
+    const statCards = useMemo(() => getStatCards(summary, activeType), [activeType, summary]);
 
     return (
         <section className={`inst-v2-widget bento-card ${isExpanded ? 'is-expanded' : 'is-collapsed'}`} style={{ gridArea: 'fi2' }}>
             <div className="inst-v2-head" style={{ cursor: 'pointer', userSelect: 'none' }} onClick={() => setIsExpanded(!isExpanded)}>
                 <div>
-                    <div className="inst-v2-eyebrow"><TeamOutlined /> ข้อมูลละเอียดรายคน/รายกลุ่ม</div>
+                    <div className="inst-v2-eyebrow"><TeamOutlined /> ข้อมูลเกษตรกรและสถาบันเกษตรกร</div>
                     <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        สถาบันเกษตรกร
+                        การพัฒนาเกษตรกรและกลุ่ม/สถาบันเกษตรกร
                         <span style={{ fontSize: '16px', color: '#64748b', display: 'flex', alignItems: 'center' }}>
                             {isExpanded ? <UpOutlined /> : <DownOutlined />}
                         </span>
                     </h3>
-                    <p>รวม SF, YSF, แม่บ้านเกษตรกร, ยุวเกษตรกร และกลุ่มส่งเสริมอาชีพ</p>
+                    <p>รวม แปลงใหญ่, วิสาหกิจชุมชน, กลุ่มแม่บ้าน, ยุวเกษตรกร, กลุ่มส่งเสริมอาชีพ, Smart Farmer และ YSF</p>
                 </div>
                 <button type="button" className="inst-v2-refresh" onClick={(e) => { e.stopPropagation(); refetch(); }} aria-label="โหลดข้อมูลใหม่">
                     <ReloadOutlined spin={isLoading} />
@@ -203,7 +196,7 @@ export default function FarmerInstitutesV2Widget() {
                 <div className="inst-v2-empty">โหลดข้อมูลไม่ได้: {error.message}</div>
             ) : (
                 <>
-                    <div className="inst-v2-type-tabs" role="tablist" aria-label="ประเภทข้อมูลสถาบันเกษตรกร">
+                    <div className="inst-v2-type-tabs" role="tablist" aria-label="ประเภทข้อมูลกลุ่มและสถาบันเกษตรกร">
                         {INSTITUTE_V2_TYPES.map((type) => {
                             const typeRows = rows.filter((row) => row.typeKey === type.key);
                             const typeTotal = totalSummary.byType.find((item) => item.name === type.label)?.count || typeRows.length;
@@ -250,7 +243,7 @@ export default function FarmerInstitutesV2Widget() {
                             <span>ค้นหา</span>
                             <div>
                                 <SearchOutlined />
-                                <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="ชื่อ / กิจกรรม / มาตรฐาน" />
+                                <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="ชื่อกลุ่ม / กิจกรรม / มาตรฐาน / รหัส" />
                             </div>
                         </label>
                         {hasActiveFilter && (
@@ -285,7 +278,7 @@ export default function FarmerInstitutesV2Widget() {
                                         <XAxis type="number" hide />
                                         <YAxis type="category" dataKey="name" width={118} tick={{ fontSize: 12, fill: '#475569' }} />
                                         <Tooltip formatter={(value, name) => [number.format(value), name === 'count' ? 'รายการ' : name]} />
-                                        <Bar dataKey="count" fill="#16a34a" radius={[0, 8, 8, 0]} />
+                                        <Bar dataKey="count" fill={activeType.color} radius={[0, 8, 8, 0]} />
                                     </BarChart>
                                 </ResponsiveContainer>
                             ) : (
@@ -309,9 +302,9 @@ export default function FarmerInstitutesV2Widget() {
                             <div className="inst-v2-section-title">
                                 รายละเอียด ({number.format(filteredRows.length)} รายการ)
                             </div>
-                            {isPersonTab && (
-                                <div className="inst-v2-privacy-note">
-                                    ซ่อนชื่อ-นามสกุลในหน้า public เพื่อคุ้มครองข้อมูลส่วนบุคคล
+                            {(selectedType === 'smart_farmer_sf' || selectedType === 'young_smart_farmer_ysf') && (
+                                <div className="inst-v2-privacy-note" style={{ fontSize: '12px', color: '#64748b', background: '#f8fafc', padding: '6px 12px', borderRadius: '6px', marginBottom: '10px' }}>
+                                    🔒 ซ่อนชื่อ-นามสกุลในหน้า public เพื่อคุ้มครองข้อมูลส่วนบุคคล (PDPA)
                                 </div>
                             )}
                             {isLoading ? (

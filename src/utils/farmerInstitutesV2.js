@@ -1,12 +1,16 @@
 export const INSTITUTE_V2_TYPES = [
+  { key: 'large_plots', label: 'แปลงใหญ่', unit: 'แปลง', color: '#0d9488' },
+  { key: 'community_enterprises', label: 'วิสาหกิจชุมชน', unit: 'แห่ง', color: '#0f766e' },
+  { key: 'housewife_farmer_groups', label: 'กลุ่มแม่บ้านเกษตรกร', unit: 'กลุ่ม', color: '#059669' },
+  { key: 'young_farmer_groups_detailed', label: 'กลุ่มยุวเกษตรกร', unit: 'กลุ่ม', color: '#0891b2' },
+  { key: 'agricultural_career_groups', label: 'กลุ่มส่งเสริมอาชีพ', unit: 'กลุ่ม', color: '#10b981' },
   { key: 'smart_farmer_sf', label: 'Smart Farmer (SF)', unit: 'ราย', color: '#65a30d' },
   { key: 'young_smart_farmer_ysf', label: 'Young Smart Farmer (YSF)', unit: 'ราย', color: '#16a34a' },
-  { key: 'housewife_farmer_groups', label: 'กลุ่มแม่บ้านเกษตรกร', unit: 'กลุ่ม', color: '#059669' },
-  { key: 'young_farmer_groups_detailed', label: 'กลุ่มยุวเกษตรกร', unit: 'กลุ่ม', color: '#0d9488' },
-  { key: 'agricultural_career_groups', label: 'กลุ่มส่งเสริมอาชีพ', unit: 'กลุ่ม', color: '#10b981' },
 ];
 
-const TYPE_BY_KEY = Object.fromEntries(INSTITUTE_V2_TYPES.map((type) => [type.key, type]));
+const TYPE_BY_KEY = Object.fromEntries(
+  INSTITUTE_V2_TYPES.map((type) => [type.key, type])
+);
 
 function toNumber(value) {
   const number = Number(value);
@@ -18,7 +22,7 @@ function cleanText(value, fallback = '-') {
   return text || fallback;
 }
 
-function createPersonRow(row, typeKey) {
+export function createPersonRow(row, typeKey) {
   const type = TYPE_BY_KEY[typeKey];
   const sequence = row.sequence_no || row.record_code || row.id || '';
   const safeName = sequence ? `${type.label} #${sequence}` : `${type.label} (ไม่แสดงชื่อ)`;
@@ -46,7 +50,7 @@ function createPersonRow(row, typeKey) {
   };
 }
 
-function createGroupRow(row, typeKey) {
+export function createGroupRow(row, typeKey) {
   const type = TYPE_BY_KEY[typeKey];
   const members = toNumber(row.member_count);
   return {
@@ -72,19 +76,82 @@ function createGroupRow(row, typeKey) {
   };
 }
 
-export function createInstituteV2Rows({
-  smartFarmers = [],
-  youngSmartFarmers = [],
+export function createLargePlotRow(row, typeKey) {
+  const type = TYPE_BY_KEY[typeKey];
+  const members = toNumber(row.member_count);
+  return {
+    id: `${typeKey}:${row.id || row.code || row.plot_name}`,
+    sourceId: row.id,
+    typeKey,
+    typeLabel: type.label,
+    typeColor: type.color,
+    unit: type.unit,
+    year: row.year || null,
+    name: cleanText(row.plot_name),
+    district: cleanText(row.district, 'ไม่ระบุ'),
+    subdistrict: cleanText(row.subdistrict, ''),
+    activity: cleanText(row.commodity, ''),
+    standard: cleanText(row.commodity_group, ''),
+    status: cleanText(row.agency, ''),
+    metricValue: members,
+    metricLabel: 'สมาชิก',
+    members,
+    income: 0,
+    productionArea: toNumber(row.area_rai),
+    fund: 0,
+  };
+}
+
+export function createCommunityEnterpriseRow(row, typeKey) {
+  const type = TYPE_BY_KEY[typeKey];
+  const members = toNumber(row.member_count || 0);
+  let year = null;
+  if (row.approval_date) {
+    const match = String(row.approval_date).match(/^(\d{4})/);
+    if (match) {
+      year = Number(match[1]) + 543;
+    }
+  }
+  return {
+    id: `${typeKey}:${row.id || row.enterprise_name}`,
+    sourceId: row.id,
+    typeKey,
+    typeLabel: type.label,
+    typeColor: type.color,
+    unit: type.unit,
+    year,
+    name: cleanText(row.enterprise_name),
+    district: cleanText(row.district, 'ไม่ระบุ'),
+    subdistrict: cleanText(row.subdistrict, ''),
+    activity: cleanText(row.enterprise_type || row.product_type, ''),
+    standard: cleanText(row.level, ''),
+    status: '',
+    metricValue: members || 1,
+    metricLabel: members ? 'สมาชิก' : 'แห่ง',
+    members,
+    income: 0,
+    productionArea: 0,
+    fund: 0,
+  };
+}
+
+export function createFarmerGroupsRows({
+  largePlots = [],
+  communityEnterprises = [],
   housewifeGroups = [],
   youngFarmerGroups = [],
   careerGroups = [],
+  smartFarmers = [],
+  youngSmartFarmers = [],
 } = {}) {
   return [
-    ...smartFarmers.map((row) => createPersonRow(row, 'smart_farmer_sf')),
-    ...youngSmartFarmers.map((row) => createPersonRow(row, 'young_smart_farmer_ysf')),
+    ...largePlots.map((row) => createLargePlotRow(row, 'large_plots')),
+    ...communityEnterprises.map((row) => createCommunityEnterpriseRow(row, 'community_enterprises')),
     ...housewifeGroups.map((row) => createGroupRow(row, 'housewife_farmer_groups')),
     ...youngFarmerGroups.map((row) => createGroupRow(row, 'young_farmer_groups_detailed')),
     ...careerGroups.map((row) => createGroupRow(row, 'agricultural_career_groups')),
+    ...smartFarmers.map((row) => createPersonRow(row, 'smart_farmer_sf')),
+    ...youngSmartFarmers.map((row) => createPersonRow(row, 'young_smart_farmer_ysf')),
   ];
 }
 
@@ -136,8 +203,8 @@ export function summarizeInstituteV2Rows(rows) {
   };
 }
 
-export function getInstituteV2Options(rows) {
+export function getInstituteV2Options(rows, typeOptions = INSTITUTE_V2_TYPES) {
   const years = [...new Set(rows.map((row) => row.year).filter(Boolean))].sort((a, b) => b - a);
   const districts = [...new Set(rows.map((row) => row.district).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'th'));
-  return { years, districts, types: INSTITUTE_V2_TYPES };
+  return { years, districts, types: typeOptions };
 }

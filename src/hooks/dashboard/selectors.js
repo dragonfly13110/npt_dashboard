@@ -109,6 +109,8 @@ export function selectAgriStats({ agriAreaData, dStats }) {
             dStats[d].veg += Number(row.vegetables_rai) || 0;
             dStats[d].flow += Number(row.flowers_rai) || 0;
             dStats[d].herb += Number(row.herbs_spices_rai) || 0;
+            dStats[d].totalArea = (dStats[d].totalArea || 0) + (Number(row.total_area_rai) || 0);
+            dStats[d].hort = (dStats[d].hort || 0) + (Number(row.horticulture_rai) || 0);
         }
     });
 

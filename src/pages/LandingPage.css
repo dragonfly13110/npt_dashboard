@@ -117,9 +117,103 @@ html {
     white-space: nowrap;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1440px) {
     .landing-floating-system-tabs {
+        left: 12px;
+        width: 54px;
+        padding: 8px;
+        gap: 8px;
+        border-radius: 18px;
+        overflow: hidden;
+        transition: width 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .landing-system-tab {
+        justify-content: center;
+        min-height: 42px;
+        padding: 8px;
+        border-radius: 14px;
+    }
+
+    .landing-system-tab > span:not(.anticon) {
         display: none;
+    }
+
+    .landing-floating-system-tabs:hover,
+    .landing-floating-system-tabs:focus-within {
+        width: 206px;
+        box-shadow: 0 24px 52px -28px rgba(15, 23, 42, 0.58);
+        background: rgba(248, 250, 252, 0.94);
+    }
+
+    .landing-floating-system-tabs:hover .landing-system-tab,
+    .landing-floating-system-tabs:focus-within .landing-system-tab {
+        justify-content: flex-start;
+        padding: 8px 14px;
+    }
+
+    .landing-floating-system-tabs:hover .landing-system-tab > span:not(.anticon),
+    .landing-floating-system-tabs:focus-within .landing-system-tab > span:not(.anticon) {
+        display: grid;
+    }
+}
+
+.landing-page .agri-areas-card {
+    --agri-green-800: #065f46;
+    --agri-green-700: #047857;
+    --agri-lime-800: #3f6212;
+    --agri-lime-700: #4d7c0f;
+}
+
+.landing-page .agri-areas-card [style*="#1e3a8a"],
+.landing-page .agri-areas-card [style*="#78350f"],
+.landing-page .agri-areas-card [style*="#44403c"],
+.landing-page .agri-areas-card [style*="#4b5563"] {
+    color: var(--agri-green-800) !important;
+}
+
+.landing-page .agri-areas-card [style*="#854d0e"],
+.landing-page .agri-areas-card [style*="#92400e"],
+.landing-page .agri-areas-card [style*="#57534e"],
+.landing-page .agri-areas-card [style*="#374151"] {
+    color: var(--agri-lime-800) !important;
+}
+
+.landing-page .agri-areas-card [style*="#ca8a04"],
+.landing-page .agri-areas-card [style*="#d97706"] {
+    color: var(--agri-lime-700) !important;
+}
+
+.landing-page .agri-areas-card [style*="#15803d"],
+.landing-page .agri-areas-card [style*="#0f766e"],
+.landing-page .agri-areas-card [style*="#115e59"] {
+    color: var(--agri-green-700) !important;
+}
+
+.landing-page .agri-areas-card [style*="#9d174d"],
+.landing-page .agri-areas-card [style*="#be185d"] {
+    color: #9a3412 !important;
+}
+
+@media (min-width: 1101px) and (max-width: 1440px) {
+    .top-widgets-container,
+    .bento-container,
+    .dept-stats-container,
+    .widget-section-container,
+    .soil-water-grid,
+    .rainfall-strip-container,
+    .landing-data-status,
+    .landing-audience-section {
+        width: calc(100% - 116px) !important;
+        max-width: none !important;
+        margin-left: 100px !important;
+        margin-right: 16px !important;
+    }
+
+    .landing-quick-nav-inner {
+        max-width: none !important;
+        margin-left: 52px !important;
+        margin-right: 0 !important;
     }
 }
 
@@ -312,6 +406,10 @@ html {
 }
 
 @media (max-width: 1100px) {
+    .landing-floating-system-tabs {
+        display: none;
+    }
+
     .bento-motto {
         font-size: 11.5px;
         padding: 6px 18px;
@@ -432,6 +530,7 @@ html {
     align-items: center;
     gap: 8px;
     overflow-x: auto;
+    padding: 4px 2px;
     scrollbar-width: none;
 }
 
@@ -497,6 +596,7 @@ html {
 }
 
 #live-data,
+#hotspot-widget,
 #agri-overview,
 #soil-water,
 #agri-news {
@@ -915,7 +1015,6 @@ html {
     grid-template-columns: repeat(10, 1fr);
     grid-template-areas:
         "ag ag ag ag map map map map map map"
-        "ce ce ce ce ce lp lp lp lp lp"
         "at at at at at at at at at at"
         "fi2 fi2 fi2 fi2 fi2 fi2 fi2 fi2 fi2 fi2";
     position: relative;
@@ -925,7 +1024,6 @@ html {
 .bento-container-no-tourism {
     grid-template-areas:
         "ag ag ag ag map map map map map map"
-        "ce ce ce ce ce lp lp lp lp lp"
         "fi2 fi2 fi2 fi2 fi2 fi2 fi2 fi2 fi2 fi2";
 }
 
@@ -935,8 +1033,6 @@ html {
         grid-template-areas:
             "ag ag"
             "map map"
-            "ce ce"
-            "lp lp"
             "at at"
             "fi2 fi2";
     }
@@ -945,8 +1041,6 @@ html {
         grid-template-areas:
             "ag ag"
             "map map"
-            "ce ce"
-            "lp lp"
             "fi2 fi2";
     }
 }
@@ -957,8 +1051,6 @@ html {
         grid-template-areas:
             "ag"
             "map"
-            "ce"
-            "lp"
             "at"
             "fi2";
         margin-top: 0;
@@ -971,8 +1063,6 @@ html {
         grid-template-areas:
             "ag"
             "map"
-            "ce"
-            "lp"
             "fi2";
     }
 
@@ -2191,10 +2281,11 @@ html {
 .dist-grid-item span {
     color: #475569;
 }
-
 .dist-grid-item strong {
     color: #0f172a;
 }
+
+
 
 /* --- WIDGETS SECTION (WEATHER & PRICES) --- */
 .top-widgets-container {
@@ -2208,6 +2299,17 @@ html {
     height: auto;
     position: relative;
     z-index: 10;
+}
+
+.top-widgets-col {
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 20px;
+    min-height: 0;
+}
+
+.top-widgets-col > * {
+    min-height: 0;
 }
 
 @media (max-width: 768px) {
@@ -2244,17 +2346,6 @@ html {
     .aqi-forecast-label {
         display: none !important;
     }
-}
-
-.top-widgets-col {
-    display: grid;
-    grid-template-rows: auto auto;
-    gap: 20px;
-    min-height: 0;
-}
-
-.top-widgets-col > * {
-    min-height: 0;
 }
 
 .widget-box {
@@ -2514,6 +2605,12 @@ html {
     color: #102033;
     font-family: 'Kanit', 'Athiti', 'IBM Plex Sans Thai', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 769px) {
+    .top-widgets-container > .price-ios-card {
+        height: 721px;
+    }
 }
 
 .price-ios-card:hover {
@@ -4631,5 +4728,6 @@ html {
         line-height: 1.3;
     }
 }
+
 
 

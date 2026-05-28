@@ -106,7 +106,6 @@ const allMenuItems = [
             { key: '/dashboard/production/large-plots', icon: <BankOutlined />, label: 'แปลงใหญ่' },
             { key: '/dashboard/production/certifications', icon: <SafetyCertificateOutlined />, label: 'มาตรฐาน GAP' },
             { key: '/dashboard/production/crop-production', icon: <BarChartOutlined />, label: 'ผลผลิตพืช' },
-            { key: '/dashboard/production/coconut-aromatic-survey', icon: <FileExcelOutlined />, label: 'แบบเก็บมะพร้าวน้ำหอม' },
         ],
     },
     {

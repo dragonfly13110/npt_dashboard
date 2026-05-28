@@ -54,8 +54,6 @@ const DamReservoirWidget = lazy(() => import('../components/widgets/DamReservoir
 const FarmerInstitutesV2Widget = lazy(() => import('../components/widgets/FarmerInstitutesV2Widget'));
 
 // Bento Cards specific lazy imports
-const CommunityEnterprisesCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.CommunityEnterprisesCard })));
-const LargePlotsCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.LargePlotsCard })));
 const AgriTourismCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.AgriTourismCard })));
 const AgriAreasCard = lazy(() => import('../components/widgets/LandingBentoCards').then(module => ({ default: module.AgriAreasCard })));
 
@@ -400,20 +398,9 @@ export default function LandingPage() {
                         </div>
                     </div>
 
-                    {/* 2. Community Enterprises */}
-                    <Suspense fallback={<WidgetSkeleton />}>
-                        <CommunityEnterprisesCard
-                            count={enterprises.count}
-                            districtStats={ceDistrictStats}
-                            details={enterprises}
-                            loading={loading}
-                        />
-                    </Suspense>
 
-                    {/* 3. Large Plots */}
-                    <Suspense fallback={<WidgetSkeleton />}>
-                        <LargePlotsCard largePlotsList={largePlotsList} loading={loading} />
-                    </Suspense>
+
+
 
                     {/* 4. Agri Tourism */}
                     {hasTourismData && (
@@ -422,14 +409,14 @@ export default function LandingPage() {
                         </Suspense>
                     )}
 
-                    {/* 5. Farmer Institutes v2 */}
+                    {/* 5. Farmer Groups & Institutes */}
                     <Suspense fallback={<WidgetSkeleton />}>
                         <FarmerInstitutesV2Widget />
                     </Suspense>
 
                     {/* 6. Agri Areas */}
                     <Suspense fallback={<WidgetSkeleton />}>
-                        <AgriAreasCard stats={agriStats} loading={loading} />
+                        <AgriAreasCard stats={agriStats} districtStats={districtStats} loading={loading} />
                     </Suspense>
 
                 </section>
