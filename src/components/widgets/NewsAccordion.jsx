@@ -43,7 +43,12 @@ export default function NewsAccordion({ sections, className = '', ariaLabel = 'N
                                     <span className="news-accordion-description">{section.description}</span>
                                 )}
                             </span>
-                            <Icon className="news-accordion-chevron" aria-hidden="true" />
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#94a3b8' }}>
+                                <small style={{ fontSize: '11px', fontWeight: 'normal' }}>
+                                    ({isOpen ? 'คลิกเพื่อซ่อน' : 'คลิกเพื่ออ่านเพิ่มเติม'})
+                                </small>
+                                <Icon className="news-accordion-chevron" aria-hidden="true" />
+                            </span>
                         </button>
 
                         {isOpen && (

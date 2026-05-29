@@ -398,7 +398,10 @@ export default function SoilMoistureWidget({ defaultExpanded = false }) {
                         </span>
                     </div>
                 </div>
-                <span style={{ fontSize: '14px', color: '#64748b', display: 'flex', alignItems: 'center', paddingRight: '4px' }}>
+                <span style={{ fontSize: '12px', color: '#64748b', display: 'inline-flex', alignItems: 'center', gap: '4px', paddingRight: '4px' }}>
+                    <small style={{ fontSize: '10px', fontWeight: 'normal', color: '#94a3b8' }}>
+                        ({isExpanded ? 'คลิกเพื่อซ่อน' : 'คลิกเพื่อขยาย'})
+                    </small>
                     {isExpanded ? <UpOutlined /> : <DownOutlined />}
                 </span>
             </div>

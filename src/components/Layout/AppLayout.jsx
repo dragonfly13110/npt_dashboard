@@ -47,6 +47,7 @@ const routeLabels = {
     'agri-tourism': 'ท่องเที่ยวเกษตร',
     protection: 'อารักขาพืช',
     'pest-outbreaks': 'แปลงพยากรณ์',
+    'disease-forecast': 'พยากรณ์โรค & แมลง',
     'pest-centers': 'ศจช.',
     biocontrol: 'ชีวภัณฑ์',
     'fire-hotspots': 'จุดเฝ้าระวัง PM2.5',

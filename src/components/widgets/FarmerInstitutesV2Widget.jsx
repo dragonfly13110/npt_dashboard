@@ -181,8 +181,11 @@ export default function FarmerInstitutesV2Widget() {
                     <div className="inst-v2-eyebrow"><TeamOutlined /> ข้อมูลเกษตรกรและสถาบันเกษตรกร</div>
                     <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                         การพัฒนาเกษตรกรและกลุ่ม/สถาบันเกษตรกร
-                        <span style={{ fontSize: '16px', color: '#64748b', display: 'flex', alignItems: 'center' }}>
+                        <span style={{ fontSize: '16px', color: '#64748b', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                             {isExpanded ? <UpOutlined /> : <DownOutlined />}
+                            <small style={{ fontSize: '11px', fontWeight: 'normal', color: '#94a3b8' }}>
+                                ({isExpanded ? 'คลิกเพื่อย่อกลับ' : 'คลิกเพื่อขยายรายละเอียด'})
+                            </small>
                         </span>
                     </h3>
                     <p>รวม แปลงใหญ่, วิสาหกิจชุมชน, กลุ่มแม่บ้าน, ยุวเกษตรกร, กลุ่มส่งเสริมอาชีพ, Smart Farmer และ YSF</p>

@@ -25,6 +25,7 @@ const TABLE_ROUTES = {
     farmer_institutes: '/dashboard/development/farmer-institutes',
     agri_tourism: '/dashboard/development/agri-tourism',
     forecast_plots: '/dashboard/protection/pest-outbreaks',
+    ai_disease_forecasts: '/dashboard/protection/disease-forecast',
     pest_centers: '/dashboard/protection/pest-centers',
     soil_fertilizer_centers: '/dashboard/protection/soil-fertilizer',
     fire_hotspots: '/dashboard/protection/fire-hotspots',

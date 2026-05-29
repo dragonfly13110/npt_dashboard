@@ -69,6 +69,7 @@ const DevelopmentDashboard = lazy(() => import('./pages/development/DevelopmentD
 
 // Protection
 const PestOutbreaks = lazy(() => import('./pages/protection/PestOutbreaks'));
+const AiDiseaseForecast = lazy(() => import('./pages/protection/AiDiseaseForecast'));
 const PestCenters = lazy(() => import('./pages/protection/PestCenters'));
 const SoilFertilizerCenters = lazy(() => import('./pages/protection/SoilFertilizerCenters'));
 const FireHotspots = lazy(() => import('./pages/protection/FireHotspots'));
@@ -217,6 +218,7 @@ function AppRoutes() {
           {/* Protection */}
           <Route path="protection/overview" element={<ProtectionDashboard />} />
           <Route path="protection/pest-outbreaks" element={<PestOutbreaks />} />
+          <Route path="protection/disease-forecast" element={<AiDiseaseForecast />} />
           <Route path="protection/pest-centers" element={<PestCenters />} />
           <Route path="protection/soil-fertilizer" element={<SoilFertilizerCenters />} />
           <Route path="protection/fire-hotspots" element={<FireHotspots />} />

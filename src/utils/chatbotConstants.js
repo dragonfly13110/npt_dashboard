@@ -12,7 +12,7 @@ export const AI_MODELS = {
     },
     gemini: {
         key: 'gemini',
-        label: '✨ Gemini Flash',
+        label: '✨ Gemini 3.1 Flash-Lite',
         shortLabel: 'Gemini',
         description: 'Gemini 3.1 Flash-Lite',
         provider: 'Google',
@@ -94,6 +94,7 @@ export const TABLE_CONFIG = {
     farmer_institutes: { label: 'สถาบันเกษตรกร', icon: '🤝', group: 'พัฒนาเกษตรกร', descTh: 'ข้อมูลสถาบันเกษตรกรรายอำเภอ (จำนวนกลุ่ม, อสม., SF, YSF)' },
     agri_tourism: { label: 'ท่องเที่ยวเกษตร', icon: '🏕️', group: 'พัฒนาเกษตรกร', descTh: 'แหล่งท่องเที่ยวเชิงเกษตร' },
     forecast_plots: { label: 'แปลงพยากรณ์', icon: '🔬', group: 'อารักขาพืช', descTh: 'แปลงพยากรณ์และเตือนการระบาดศัตรูพืช' },
+    ai_disease_forecasts: { label: 'พยากรณ์โรค & แมลง', icon: '🤖', group: 'อารักขาพืช', descTh: 'พยากรณ์และเตือนภัยระบาดโรคพืช/แมลงศัตรูพืชรายวันล่วงหน้า 7 วันด้วย AI' },
     pest_centers: { label: 'ศจช.', icon: '🏥', group: 'อารักขาพืช', descTh: 'ศูนย์จัดการศัตรูพืชชุมชน' },
     soil_fertilizer_centers: { label: 'ศดปช.', icon: '🧪', group: 'อารักขาพืช', descTh: 'ศูนย์จัดการดินปุ๋ยชุมชน' },
     fire_hotspots: { label: 'จุดเฝ้าระวัง PM2.5', icon: '🔥', group: 'อารักขาพืช', descTh: 'จุดเฝ้าระวังการเผาและ PM2.5' },

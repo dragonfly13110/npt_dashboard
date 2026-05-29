@@ -1,0 +1,492 @@
+/* ==================== AI DISEASE FORECAST DASHBOARD STYLE ==================== */
+
+.forecast-history-container {
+    padding: 24px;
+    background: #f8fafc;
+    min-height: calc(100vh - 64px);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.forecast-page-header {
+    margin-bottom: 24px;
+}
+
+.forecast-page-header h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.forecast-page-header p {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0;
+}
+
+.forecast-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+@media (max-width: 992px) {
+    .forecast-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Sidebar History Panel */
+.history-sidebar-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 800px;
+}
+
+.sidebar-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.history-list {
+    overflow-y: auto;
+    max-height: 600px;
+    padding-right: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Custom Scrollbar for list */
+.history-list::-webkit-scrollbar {
+    width: 6px;
+}
+.history-list::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 8px;
+}
+.history-list::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 8px;
+}
+.history-list::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+.history-item {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.history-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: transparent;
+    transition: background 0.2s;
+}
+
+.history-item:hover {
+    background: #f1f5f9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.history-item.active {
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08);
+}
+
+.history-item.active::before {
+    background: #10b981;
+}
+
+.history-item-date {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.history-item-snippet {
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0;
+}
+
+.history-item.active .history-item-snippet {
+    color: #047857;
+}
+
+/* Right Main Content */
+.forecast-main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.active-forecast-header {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 20px 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.active-date-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+}
+
+.generation-badge {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-weight: 600;
+}
+
+.overall-summary-card {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border: 1px solid #bfdbfe;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.05);
+}
+
+.overall-summary-card h4 {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1e3a8a;
+    margin: 0 0 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.overall-summary-card p {
+    font-size: 14px;
+    color: #1e40af;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Statistics Row */
+.forecast-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+@media (max-width: 768px) {
+    .forecast-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.forecast-stat-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: transform 0.2s;
+}
+
+.forecast-stat-card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-card-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.stat-card-value {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+/* Stat color themes */
+.stat-total { border-left: 4px solid #3b82f6; }
+.stat-high { border-left: 4px solid #ef4444; }
+.stat-medium { border-left: 4px solid #f59e0b; }
+.stat-low { border-left: 4px solid #10b981; }
+
+.stat-high .stat-card-value { color: #ef4444; }
+.stat-medium .stat-card-value { color: #d97706; }
+.stat-low .stat-card-value { color: #059669; }
+
+/* Filter Section */
+.detail-filter-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 16px 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.detail-filter-flex {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+}
+
+/* Outbreak Cards Grid */
+.detail-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 1200px) {
+    .detail-cards-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.detail-forecast-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    overflow: hidden;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-forecast-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Border code by risk */
+.detail-forecast-card.risk-high {
+    border-top: 5px solid #ef4444;
+}
+
+.detail-forecast-card.risk-medium {
+    border-top: 5px solid #f59e0b;
+}
+
+.detail-forecast-card.risk-low {
+    border-top: 5px solid #10b981;
+}
+
+.card-header-area {
+    padding: 18px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.card-title-block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.card-title-block h3 {
+    font-size: 16px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+}
+
+.badge-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.tag-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+}
+
+.tag-disease {
+    background: #fdf2f8;
+    color: #db2777;
+    border: 1px solid #fbcfe8;
+}
+
+.tag-pest {
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.risk-pill {
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 9999px;
+}
+
+.risk-pill.risk-high {
+    background: #fef2f2;
+    color: #ef4444;
+    border: 1px solid #fecaca;
+    animation: risk-pulse 2s infinite;
+}
+
+.risk-pill.risk-medium {
+    background: #fffbeb;
+    color: #d97706;
+    border: 1px solid #fde68a;
+}
+
+.risk-pill.risk-low {
+    background: #f0fdf4;
+    color: #059669;
+    border: 1px solid #a7f3d0;
+}
+
+.card-body-area {
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex-grow: 1;
+}
+
+.crop-target-info {
+    font-size: 13px;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.crop-target-info strong {
+    color: #0f172a;
+    background: #f1f5f9;
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+.card-description {
+    font-size: 13.5px;
+    color: #334155;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.card-prevention-block {
+    background: #faf5ff;
+    border: 1px solid #f3e8ff;
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.detail-forecast-card.risk-high .card-prevention-block {
+    background: #fff5f5;
+    border-color: #fee2e2;
+}
+
+.card-prevention-block h6 {
+    font-size: 13px;
+    font-weight: 800;
+    color: #6b21a8;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.detail-forecast-card.risk-high .card-prevention-block h6 {
+    color: #991b1b;
+}
+
+.card-prevention-block p {
+    font-size: 12.5px;
+    color: #581c87;
+    line-height: 1.5;
+    margin: 0;
+    white-space: pre-line;
+}
+
+.detail-forecast-card.risk-high .card-prevention-block p {
+    color: #7f1d1d;
+}
+
+/* Animations */
+@keyframes risk-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+    }
+}

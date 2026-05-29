@@ -134,6 +134,7 @@ const allMenuItems = [
         children: [
             { key: '/dashboard/protection/overview', icon: <PieChartOutlined />, label: 'Dashboard กลุ่ม' },
             { key: '/dashboard/protection/pest-outbreaks', icon: <BugOutlined />, label: 'แปลงพยากรณ์' },
+            { key: '/dashboard/protection/disease-forecast', icon: <AlertOutlined />, label: 'พยากรณ์โรค & แมลง' },
             { key: '/dashboard/protection/pest-centers', icon: <MedicineBoxOutlined />, label: 'ศจช.' },
             { key: '/dashboard/protection/soil-fertilizer', icon: <ExperimentOutlined />, label: 'ศดปช.' },
             { key: '/dashboard/protection/fire-hotspots', icon: <FireOutlined />, label: 'จุด Hotspot (GISTDA)' },

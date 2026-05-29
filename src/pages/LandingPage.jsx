@@ -1,13 +1,14 @@
 import { useEffect, lazy, Suspense, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDashboardData } from '../hooks/useDashboardData';
-import { FloatButton, Modal } from 'antd';
+import { FloatButton, Modal, Spin, Button } from 'antd';
 import {
     AppstoreOutlined,
     ArrowUpOutlined,
     AuditOutlined,
     BankOutlined,
     BookOutlined,
+    BugOutlined,
     CalculatorOutlined,
     CloudOutlined,
     CommentOutlined,
@@ -22,6 +23,7 @@ import {
     UpOutlined,
     UserSwitchOutlined
 } from '@ant-design/icons';
+import { supabase } from '../supabaseClient';
 import AgencyLinksPanel from '../components/widgets/AgencyLinksPanel';
 import LandingFooter from '../components/widgets/LandingFooter';
 import NewsAccordion from '../components/widgets/NewsAccordion';
@@ -188,7 +190,33 @@ export default function LandingPage() {
     const [activeInfoModal, setActiveInfoModal] = useState(null);
     const [moreDrawerOpen, setMoreDrawerOpen] = useState(false);
     const [moreDrawerClosing, setMoreDrawerClosing] = useState(false);
+    const [forecastData, setForecastData] = useState(null);
+    const [forecastLoading, setForecastLoading] = useState(false);
     const hasTourismData = loading || (tourism.count > 0 || tourism.list.length > 0);
+
+    useEffect(() => {
+        const fetchForecast = async () => {
+            setForecastLoading(true);
+            try {
+                const { data, error } = await supabase
+                    .from('ai_disease_forecasts')
+                    .select('*')
+                    .order('forecast_date', { ascending: false })
+                    .limit(1);
+                
+                if (error) throw error;
+                if (data && data.length > 0) {
+                    setForecastData(data[0]);
+                }
+            } catch (err) {
+                console.error('Error fetching AI forecast:', err.message);
+            } finally {
+                setForecastLoading(false);
+            }
+        };
+
+        fetchForecast();
+    }, []);
 
     const closeMoreDrawer = useCallback(() => {
         setMoreDrawerClosing(true);
@@ -270,6 +298,17 @@ export default function LandingPage() {
                     <span>
                         <strong>ชุมชนเกษตรกร</strong>
                         <small>Farmer Forum</small>
+                    </span>
+                </button>
+                <button
+                    className="landing-system-tab forecast-warning-tab"
+                    onClick={() => setActiveInfoModal('aiForecast')}
+                    style={{ cursor: 'pointer' }}
+                >
+                    <BugOutlined className="forecast-pulse-icon" aria-hidden="true" />
+                    <span>
+                        <strong>เตือนภัยโรคและแมลง</strong>
+                        <small>พยากรณ์ล่วงหน้า 7 วัน</small>
                     </span>
                 </button>
             </div>
@@ -657,6 +696,99 @@ export default function LandingPage() {
                 </div>
             </Modal>
 
+            <Modal
+                title={
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: '36px', flexWrap: 'wrap', gap: '12px' }}>
+                        <span style={{ fontSize: '18px', fontWeight: 800, color: '#1e293b' }}>🤖 พยากรณ์เตือนภัยโรคและแมลงศัตรูพืชอัจฉริยะ (ล่วงหน้า 7 วัน)</span>
+                        <Button 
+                            type="primary" 
+                            icon={<BugOutlined />}
+                            size="middle"
+                            onClick={() => {
+                                setActiveInfoModal(null);
+                                navigate('/dashboard/protection/disease-forecast');
+                            }}
+                            style={{ 
+                                background: '#166534', 
+                                borderColor: '#166534',
+                                borderRadius: '8px',
+                                fontWeight: 'bold',
+                                fontSize: '13px',
+                                boxShadow: '0 2px 8px rgba(22,101,52,0.15)'
+                            }}
+                        >
+                            ดูรายละเอียดและพยากรณ์ย้อนหลัง
+                        </Button>
+                    </div>
+                }
+                open={activeInfoModal === 'aiForecast'}
+                onCancel={() => setActiveInfoModal(null)}
+                footer={null}
+                width={920}
+                className="landing-info-modal landing-forecast-modal"
+                destroyOnClose
+            >
+                {forecastLoading ? (
+                    <div style={{ padding: '40px 0', textAlign: 'center' }}>
+                        <Spin size="large" tip="กำลังโหลดคำทำนายจากฐานข้อมูล..." />
+                    </div>
+                ) : forecastData ? (
+                    <div className="forecast-modal-content">
+                        <div className="forecast-meta-info">
+                            <span className="forecast-date-badge">
+                                📅 คาดการณ์ล่วงหน้า 7 วัน ตั้งแต่วันที่: {new Date(forecastData.forecast_date).toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' })}
+                            </span>
+                            <span className="forecast-source-badge">
+                                ⚡ วิเคราะห์ด้วย AI + Google Grounding + สภาพอากาศนครปฐม
+                            </span>
+                        </div>
+                        
+                        <div className="forecast-summary-card">
+                            <h4>📋 สรุปภาพรวมความเสี่ยงล่วงหน้า 7 วัน</h4>
+                            <p>{forecastData.summary}</p>
+                        </div>
+                        
+                        <h4 className="forecast-grid-title">🚨 รายการโรคและแมลงศัตรูพืชที่มีความเสี่ยง</h4>
+                        <div className="forecast-cards-grid">
+                            {forecastData.details && forecastData.details.map((item, idx) => {
+                                const isHigh = item.risk_level === 'สูง';
+                                const isMedium = item.risk_level === 'ปานกลาง';
+                                const riskClass = isHigh ? 'risk-high' : isMedium ? 'risk-medium' : 'risk-low';
+                                const typeClass = item.type === 'โรคพืช' ? 'type-disease' : 'type-pest';
+                                
+                                return (
+                                    <div className={`forecast-card ${riskClass}`} key={idx}>
+                                        <div className="forecast-card-header">
+                                            <div className="forecast-card-title-area">
+                                                <h5>{item.name}</h5>
+                                                <span className={`forecast-badge type-badge ${typeClass}`}>{item.type}</span>
+                                            </div>
+                                            <span className={`forecast-badge risk-badge ${riskClass}`}>
+                                                ความเสี่ยง: {item.risk_level}
+                                            </span>
+                                        </div>
+                                        <div className="forecast-card-body">
+                                            <div className="forecast-crop-info">
+                                                <span>🌱 พืชที่กระทบ:</span> <strong>{item.target_crop}</strong>
+                                            </div>
+                                            <p className="forecast-desc">{item.description}</p>
+                                            <div className="forecast-prevention">
+                                                <h6>🛡️ คำแนะนำในการป้องกันเฝ้าระวัง:</h6>
+                                                <p>{item.prevention}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                ) : (
+                    <div style={{ padding: '30px 10px', textAlign: 'center', color: '#64748b' }}>
+                        <p>ไม่พบข้อมูลการพยากรณ์สำหรับวันนี้ กรุณาลองใหม่อีกครั้งในภายหลัง</p>
+                    </div>
+                )}
+            </Modal>
+
             {/* ===== FOOTER ===== */}
             <LandingFooter onOpenPanel={setActiveInfoModal} />
             {/* ===== BACK TO TOP BUTTON ===== */}
@@ -752,6 +884,13 @@ export default function LandingPage() {
                             >
                                 <FacebookOutlined />
                                 <span>ติดต่อเกษตร</span>
+                            </button>
+                            <button
+                                className="mobile-more-item"
+                                onClick={() => { closeMoreDrawer(); setActiveInfoModal('aiForecast'); }}
+                            >
+                                <BugOutlined style={{ color: '#ef4444' }} />
+                                <span>เตือนภัยโรค & แมลง</span>
                             </button>
                             <button
                                 className="mobile-more-item"
