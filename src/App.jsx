@@ -44,6 +44,7 @@ const RecentActivities = lazy(() => import('./pages/admin/RecentActivities'));
 // Strategy
 const Disasters = lazy(() => import('./pages/strategy/Disasters'));
 const AgriculturalAreas = lazy(() => import('./pages/strategy/AgriculturalAreas'));
+const AgriculturalPrices = lazy(() => import('./pages/strategy/AgriculturalPrices'));
 const LearningCenters = lazy(() => import('./pages/strategy/LearningCenters'));
 const FarmerRegistry = lazy(() => import('./pages/strategy/FarmerRegistry'));
 const StrategyDashboard = lazy(() => import('./pages/strategy/StrategyDashboard'));
@@ -145,6 +146,9 @@ function AppRoutes() {
           { path: '/public/agri-tourism', Component: AgriTourism },
           { path: '/public/farmer-institutes', Component: FarmerInstitutes },
           { path: '/public/agricultural-areas', Component: AgriculturalAreas },
+          { path: '/public/agricultural-prices', Component: AgriculturalPrices },
+          { path: '/public/disease-forecast', Component: AiDiseaseForecast },
+          { path: '/public/fire-hotspots', Component: FireHotspots },
         // eslint-disable-next-line no-unused-vars
         ].map(({ path, Component }) => (
           <Route key={path} path={path} element={
@@ -191,6 +195,7 @@ function AppRoutes() {
           <Route path="strategy/overview" element={<StrategyDashboard />} />
           <Route path="strategy/farmer-registry" element={<FarmerRegistry />} />
           <Route path="strategy/agricultural-areas" element={<AgriculturalAreas />} />
+          <Route path="strategy/agricultural-prices" element={<AgriculturalPrices />} />
           <Route path="strategy/learning-centers" element={<LearningCenters />} />
           <Route path="strategy/disasters" element={<Navigate to="/dashboard/development/disasters" replace />} />
           <Route path="strategy/daily-weather" element={<DailyWeather />} />

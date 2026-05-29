@@ -11,7 +11,7 @@ import {
     DashboardOutlined,
     ArrowLeftOutlined
 } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+
 import { supabase } from '../../supabaseClient';
 import './AiDiseaseForecast.css';
 
@@ -33,7 +33,7 @@ const parseThaiFullDateStr = (dateStr) => {
 };
 
 export default function AiDiseaseForecast() {
-    const navigate = useNavigate();
+
     const [forecastList, setForecastList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedForecast, setSelectedForecast] = useState(null);

@@ -118,7 +118,7 @@ export default function FireHotspots() {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            <HotspotWidget />
+            <HotspotWidget showDetailsButton={false} />
             <CrudTable 
                 tableName="fire_hotspots" 
                 title="จุด Hotspot (GISTDA)" 

@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { CarOutlined, DownOutlined, LineChartOutlined, LinkOutlined, UpOutlined } from '@ant-design/icons';
 import { useApiCache } from '../../hooks/useApiCache';
 
@@ -150,6 +151,10 @@ export default function AgriPricesWidget() {
   const dataDateText = formatThaiDate(data?.dataDate);
   const selectedLabel = data?.category || CATEGORIES.find((item) => item.id === selectedCategory)?.label;
 
+  const targetPath = window.location.pathname.startsWith('/dashboard')
+    ? '/dashboard/strategy/agricultural-prices'
+    : '/public/agricultural-prices';
+
   return (
     <section className={`price-ios-card slide-up-anim ${isMobileExpanded ? 'is-mobile-expanded' : 'is-mobile-collapsed'}`} aria-label="ราคาผลผลิตทางการเกษตร">
       <div className="price-ios-glow" />
@@ -193,16 +198,14 @@ export default function AgriPricesWidget() {
             <p>{selectedLabel} · {dataDateText ? `ข้อมูล ณ ${dataDateText}` : 'ข้อมูลล่าสุด'}</p>
           </div>
         </div>
-        <a
+        <Link
           className="price-ios-source"
-          href={data?.sourceUrl || SOURCE_URL}
-          target="_blank"
-          rel="noreferrer"
-          title="เปิดแหล่งข้อมูล"
-          aria-label="เปิดแหล่งข้อมูลราคา"
+          to={targetPath}
+          title="ดูรายละเอียดราคาทั้งหมดแบบละเอียด"
+          aria-label="ดูรายละเอียดราคาทั้งหมดแบบละเอียด"
         >
           <LinkOutlined />
-        </a>
+        </Link>
         <button
           className="price-ios-mobile-toggle"
           type="button"
@@ -259,6 +262,25 @@ export default function AgriPricesWidget() {
           </div>
         )}
       </div>
+      <Link
+        to={targetPath}
+        style={{
+          display: 'block',
+          textAlign: 'center',
+          padding: '10px 16px',
+          background: '#dcfce7',
+          color: '#15803d',
+          fontSize: 13,
+          fontWeight: 600,
+          textDecoration: 'none',
+          border: '1px solid #bbf7d0',
+          borderRadius: '12px',
+          marginTop: '12px',
+          transition: 'all 0.2s',
+        }}
+      >
+        📊 ดูรายละเอียดราคาและราคาน้ำมันทั้งหมด →
+      </Link>
     </section>
   );
 }

@@ -254,7 +254,7 @@ export default function InteractiveDashboard() {
             unit: 'ชนิด',
             color: warningCount > 0 ? '#ef4444' : '#ea580c',
             icon: '🐛',
-            link: '/dashboard/protection/disease-forecast',
+            link: '/public/disease-forecast',
             isWarning: warningCount > 0
         };
 

@@ -1,0 +1,382 @@
+/* ==================== AGRICULTURAL AREAS STYLING ==================== */
+
+.agri-areas-page-header {
+    margin-bottom: 24px;
+}
+
+.agri-areas-page-header h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.agri-areas-page-header p {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0;
+}
+
+/* KPI Cards Layout */
+.agri-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+/* Compact variant — used inside the right scroll panel */
+.agri-kpi-grid--compact {
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.agri-kpi-grid--compact .agri-kpi-card {
+    padding: 12px 14px;
+    border-radius: 12px;
+    gap: 10px;
+}
+
+.agri-kpi-grid--compact .kpi-icon-wrapper {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    font-size: 18px;
+}
+
+.agri-kpi-grid--compact .kpi-value {
+    font-size: 18px !important;
+}
+
+.agri-kpi-grid--compact .kpi-label {
+    font-size: 11px !important;
+}
+
+@media (max-width: 992px) {
+    .agri-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+@media (max-width: 576px) {
+    .agri-kpi-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.agri-kpi-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.agri-kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+.agri-kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+}
+
+.agri-kpi-card.green-theme::before { background: #16a34a; }
+.agri-kpi-card.lime-theme::before { background: #84cc16; }
+.agri-kpi-card.blue-theme::before { background: #0ea5e9; }
+.agri-kpi-card.purple-theme::before { background: #8b5cf6; }
+
+.kpi-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.green-theme .kpi-icon-wrapper { background: #f0fdf4; color: #16a34a; }
+.lime-theme .kpi-icon-wrapper { background: #f7fee7; color: #84cc16; }
+.blue-theme .kpi-icon-wrapper { background: #f0f9ff; color: #0ea5e9; }
+.purple-theme .kpi-icon-wrapper { background: #faf5ff; color: #8b5cf6; }
+
+.kpi-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.kpi-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.kpi-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.2;
+}
+
+.kpi-value small {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    margin-left: 4px;
+}
+
+/* Charts and filters container */
+.agri-charts-wrapper {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+    margin-bottom: 24px;
+}
+
+.agri-charts-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 12px 16px;
+    background: #f8fafc;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 24px;
+}
+
+.chart-card-premium {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02) !important;
+    overflow: hidden;
+}
+
+.chart-card-premium .ant-card-head {
+    border-bottom: 1px solid #e2e8f0 !important;
+    background: #ffffff !important;
+    padding: 0 16px !important;
+}
+
+.chart-card-premium .ant-card-head-title {
+    font-weight: 800 !important;
+    color: #1e293b !important;
+    font-size: 14px !important;
+}
+
+.chart-card-premium .ant-card-body {
+    padding: 16px !important;
+}
+
+/* Dynamic Map inside AgriculturalAreas */
+.agri-map-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02) !important;
+    overflow: hidden;
+}
+
+.agri-map-card .ant-card-head {
+    border-bottom: 1px solid #e2e8f0 !important;
+    background: #ffffff !important;
+    padding: 0 16px !important;
+}
+
+.agri-map-card .ant-card-head-title {
+    font-weight: 800 !important;
+    color: #1e293b !important;
+    font-size: 14px !important;
+}
+
+.agri-map-card .ant-card-body {
+    padding: 16px !important;
+}
+
+.agri-leaflet-map-wrapper {
+    height: 320px;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #e2e8f0;
+}
+
+/* Variant B: GIS Split Layout Specifics */
+.gis-split-row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.gis-left-panel {
+    flex: 0 0 50%;
+    max-width: 50%;
+    position: sticky;
+    top: 24px;
+    height: calc(100vh - 270px);
+}
+
+.gis-right-scroll-panel {
+    flex: 0 0 50%;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    height: calc(100vh - 270px);
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.gis-right-scroll-panel > * {
+    flex-shrink: 0;
+}
+
+.gis-right-scroll-panel::-webkit-scrollbar {
+    width: 6px;
+}
+.gis-right-scroll-panel::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.gis-right-scroll-panel .agri-kpi-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+@media (max-width: 992px) {
+    .gis-split-row {
+        flex-direction: column;
+    }
+    .gis-left-panel,
+    .gis-right-scroll-panel {
+        flex: 0 0 100%;
+        max-width: 100%;
+        height: auto;
+        position: static;
+    }
+}
+
+/* --- DIST MAP TOOLTIP (Copied from LandingPage.css for consistent design) --- */
+.leaflet-tooltip.dist-tooltip-container {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.leaflet-tooltip.dist-tooltip-container::before,
+.leaflet-tooltip.dist-tooltip-container::after {
+    display: none !important; /* hide default tooltip arrow */
+}
+
+.dist-tooltip {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 14px 18px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0,0,0,0.06);
+    font-family: 'Inter', 'IBM Plex Sans Thai', sans-serif;
+    color: #0f172a;
+    min-width: 240px;
+}
+
+.dist-tooltip-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #1e293b;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 6px;
+}
+
+.dist-tooltip-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 12px;
+}
+
+.dist-tooltip-row:last-child {
+    margin-bottom: 0;
+}
+
+.dist-label {
+    color: #475569;
+    font-weight: 500;
+}
+
+.dist-val {
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.dist-val.highlight {
+    color: #16a34a;
+}
+
+.dist-val small {
+    font-size: 10px;
+    color: #64748b;
+    font-weight: 500;
+    margin-left: 2px;
+}
+
+.dist-tooltip-divider {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    margin: 10px 0 6px;
+    padding-top: 8px;
+    border-top: 1px dashed #cbd5e1;
+    text-align: center;
+}
+
+.dist-tooltip-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 8px;
+}
+
+.dist-grid-item {
+    font-size: 10.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8fafc;
+    padding: 3px 5px;
+    border-radius: 5px;
+}
+
+.dist-grid-item span {
+    color: #475569;
+}
+.dist-grid-item strong {
+    color: #0f172a;
+}
+

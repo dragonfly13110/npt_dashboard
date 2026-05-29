@@ -31,9 +31,8 @@ import { supabase } from '../supabaseClient';
 
 export default function Dashboard() {
     const {
-        stats, loading, mapData, districtStats, smartFarmers, enterprises,
-        ceDistrictStats, tourism, instituteStats, lpStats, agriStats,
-        agriPie, lpPie, largePlotsList
+        stats, loading, mapData, districtStats, tourism,
+        instituteStats, lpStats, agriStats, agriPie, lpPie
     } = useDashboardData();
 
     const [pdfExporting, setPdfExporting] = useState(false);
@@ -135,7 +134,7 @@ export default function Dashboard() {
                 <span>สถานการณ์ไฟ / จุดความร้อน</span>
             </div>
             <div style={{ marginBottom: 28 }}>
-                <HotspotWidget />
+                <HotspotWidget detailsUrl="/dashboard/protection/fire-hotspots" />
             </div>
 
             {/* ═══════════════════════════════════════════════════════ */}

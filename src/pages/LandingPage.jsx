@@ -182,8 +182,8 @@ const contactItems = [
 
 export default function LandingPage() {
     const {
-        loading, mapData, districtStats, smartFarmers, enterprises,
-        ceDistrictStats, tourism, instituteStats, lpStats, agriStats, largePlotsList
+        loading, mapData, districtStats, smartFarmers,
+        tourism, instituteStats, lpStats, agriStats
     } = useDashboardData();
 
     const navigate = useNavigate();
@@ -706,7 +706,7 @@ export default function LandingPage() {
                             size="middle"
                             onClick={() => {
                                 setActiveInfoModal(null);
-                                navigate('/dashboard/protection/disease-forecast');
+                                navigate('/public/disease-forecast');
                             }}
                             style={{ 
                                 background: '#166534', 

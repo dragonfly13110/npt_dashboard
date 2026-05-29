@@ -1,14 +1,12 @@
 import { useEffect, useState, useMemo } from 'react';
 import { Form, Input, InputNumber, Select, Tag, Row, Col, Card, Spin } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
-import {
-    PieChart, Pie, Cell,
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend,
-    ResponsiveContainer
-} from 'recharts';
+import EChart from '../../components/widgets/EChart';
 import CrudTable from '../../components/DataTable/CrudTable';
 import { supabase } from '../../supabaseClient';
 import { useApiCache } from '../../hooks/useApiCache';
+import { useDashboardData } from '../../hooks/useDashboardData';
+import './AgriculturalAreas.css';
 
 const columns = [
     { title: 'อำเภอ', dataIndex: 'district', key: 'district', width: 90, fixed: 'left', importHeader: 'อำเภอ' },
@@ -57,30 +55,6 @@ const CROP_TYPES = [
     { key: 'herbs_spices_rai', label: 'สมุนไพรเครื่องเทศ', color: '#a1887f' }
 ];
 
-const CustomBarTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-        let total = 0;
-        payload.forEach(entry => { total += (entry.value || 0); });
-        
-        return (
-            <div style={{ backgroundColor: '#fff', padding: '10px 14px', border: '1px solid #e8ecf0', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-                <div style={{ margin: '0 0 8px 0', fontWeight: 600, color: '#1f2328' }}>อำเภอ{label}</div>
-                {payload.map((entry, index) => (
-                    entry.value > 0 && (
-                        <div key={`item-${index}`} style={{ margin: '4px 0', color: entry.color, fontSize: 13 }}>
-                            {entry.name} : {Number(entry.value).toLocaleString()} ไร่
-                        </div>
-                    )
-                ))}
-                <div style={{ margin: '8px 0 0 0', fontWeight: 600, color: '#1f2328', borderTop: '1px solid #e8ecf0', paddingTop: '8px', fontSize: 13 }}>
-                    รวมพื้นที่เพาะปลูก : {total.toLocaleString()} ไร่
-                </div>
-            </div>
-        );
-    }
-    return null;
-};
-
 export default function AgriculturalAreas() {
     useEffect(() => {
         document.title = 'พื้นที่การเกษตรนครปฐม | ศูนย์ข้อมูลการเกษตรนครปฐม';
@@ -89,6 +63,34 @@ export default function AgriculturalAreas() {
     }, []);
 
     const [filterDistrict, setFilterDistrict] = useState(null);
+    const [MapComponents, setMapComponents] = useState(null);
+    const [geoJSONData, setGeoJSONData] = useState(null);
+
+    const { districtStats = {} } = useDashboardData();
+
+    useEffect(() => {
+        // Load GeoJSON data directly
+        import('../../data/nakhon_pathom_districts.json').then(module => {
+            setGeoJSONData(module.default);
+        });
+
+        // Dynamic import to avoid SSR issues
+        Promise.all([
+            import('leaflet'),
+            import('react-leaflet'),
+            import('leaflet/dist/leaflet.css')
+        ]).then(([L, RL]) => {
+            // Fix default icon issue
+            delete L.default.Icon.Default.prototype._getIconUrl;
+            L.default.Icon.Default.mergeOptions({
+                iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+                iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+            });
+
+            setMapComponents({ L: L.default, ...RL });
+        });
+    }, []);
 
     const fetchAgriAreas = async () => {
         const { data, error } = await supabase
@@ -117,6 +119,22 @@ export default function AgriculturalAreas() {
         });
     }, [chartData, filterDistrict]);
 
+    const totals = useMemo(() => {
+        let cropArea = 0;
+        let households = 0;
+        let villages = 0;
+        let subdistricts = 0;
+
+        filteredData.forEach(item => {
+            cropArea += Number(item.agri_crop_area_rai) || 0;
+            households += Number(item.farmer_households) || 0;
+            villages += Number(item.villages_count) || 0;
+            subdistricts += Number(item.subdistricts_count) || 0;
+        });
+
+        return { cropArea, households, villages, subdistricts };
+    }, [filteredData]);
+
     const pieData = useMemo(() => {
         let sums = {};
         CROP_TYPES.forEach(t => sums[t.key] = 0);
@@ -134,26 +152,6 @@ export default function AgriculturalAreas() {
         })).filter(d => d.value > 0).sort((a, b) => b.value - a.value);
     }, [filteredData]);
 
-    const barData = useMemo(() => {
-        const districtMap = {};
-
-        filteredData.forEach(item => {
-            const dist = item.district || 'ไม่ระบุ';
-            if (!districtMap[dist]) {
-                districtMap[dist] = { name: dist };
-                CROP_TYPES.forEach(t => districtMap[dist][t.key] = 0);
-            }
-            CROP_TYPES.forEach(t => {
-                districtMap[dist][t.key] += Number(item[t.key]) || 0;
-            });
-        });
-
-        return Object.values(districtMap).sort((a, b) => {
-            let totalA = 0, totalB = 0;
-            CROP_TYPES.forEach(t => { totalA += a[t.key]; totalB += b[t.key]; });
-            return totalB - totalA;
-        });
-    }, [filteredData]);
 
     const hasActiveFilter = !!filterDistrict;
 
@@ -161,111 +159,355 @@ export default function AgriculturalAreas() {
         { key: 'district', label: 'อำเภอ', options: districtOptions }
     ];
 
+    const FitDistrictBounds = () => {
+        const { useMap } = MapComponents;
+        const map = useMap();
+
+        useEffect(() => {
+            if (!geoJSONData || !MapComponents?.L) return;
+            const bounds = MapComponents.L.geoJSON(geoJSONData).getBounds();
+            if (!bounds.isValid()) return;
+
+            map.invalidateSize();
+            map.fitBounds(bounds, {
+                paddingTopLeft: [8, 8],
+                paddingBottomRight: [8, 8],
+                maxZoom: 10,
+                animate: false,
+            });
+        }, [geoJSONData, map]);
+
+        return null;
+    };
+
+    // ECharts configuration options
+    const pieOption = useMemo(() => {
+        const data = pieData.map(item => ({
+            value: item.value,
+            name: item.name,
+            itemStyle: { color: item.color }
+        }));
+
+
+        return {
+            tooltip: {
+                trigger: 'item',
+                confine: true,
+                backgroundColor: '#ffffff',
+                borderWidth: 1,
+                borderColor: '#e2e8f0',
+                borderRadius: 8,
+                padding: [12, 16],
+                extraCssText: 'box-shadow: 0 4px 20px rgba(0,0,0,0.12); border-radius: 10px; min-width: 220px; max-height: 320px; overflow-y: auto;',
+                textStyle: { color: '#0f172a', fontSize: 12, fontFamily: 'system-ui, sans-serif' },
+                formatter: (params) => {
+                    const cropType = CROP_TYPES.find(t => t.label === params.name);
+                    const cropColor = pieData.find(d => d.name === params.name)?.color || '#16a34a';
+
+                    const districtRows = filteredData
+                        .map(d => ({
+                            name: d.district || 'ไม่ระบุ',
+                            val: Number(cropType ? d[cropType.key] : 0) || 0
+                        }))
+                        .filter(d => d.val > 0)
+                        .sort((a, b) => b.val - a.val);
+
+                    const distHtml = districtRows.map((d, i) =>
+                        '<div style="display:flex; justify-content:space-between; align-items:center; gap:12px; padding:2px 0;">' +
+                        '<span style="color:' + (i === 0 ? '#14532d' : '#475569') + '; font-weight:' + (i === 0 ? '700' : '400') + '; font-size:12px;">' +
+                        (i === 0 ? '🥇 ' : '· ') + 'อ.' + d.name +
+                        '</span>' +
+                        '<strong style="color:' + (i === 0 ? '#15803d' : '#0f172a') + '; font-size:12px;">' +
+                        d.val.toLocaleString() + ' <span style="color:#94a3b8; font-weight:400; font-size:10px;">ไร่</span>' +
+                        '</strong></div>'
+                    ).join('');
+
+                    const noData = districtRows.length === 0
+                        ? '<div style="color:#94a3b8; font-size:12px; padding:4px 0;">ไม่พบข้อมูลอำเภอ</div>'
+                        : '';
+
+                    return '<div style="font-weight:700; font-size:13px; margin-bottom:8px; padding-bottom:6px; border-bottom:2px solid ' + cropColor + '40; color:#1e293b; display:flex; align-items:center; gap:6px;">' +
+                        '<span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:' + cropColor + ';"></span>' +
+                        params.name + '</div>' +
+                        '<div style="font-size:11px; color:#94a3b8; margin-bottom:6px;">พื้นที่เพาะปลูกแยกตามอำเภอ</div>' +
+                        distHtml + noData +
+                        '<div style="margin-top:8px; padding-top:6px; border-top:1px solid #f1f5f9; display:flex; justify-content:space-between; font-weight:700; font-size:12px;">' +
+                        '<span style="color:#475569;">รวมทั้งจังหวัด</span>' +
+                        '<strong style="color:' + cropColor + ';">' + Number(params.value).toLocaleString() + ' ไร่ <span style="color:#94a3b8; font-weight:400;">(' + params.percent + '%)</span></strong>' +
+                        '</div>';
+                }
+
+            },
+            legend: {
+                orient: 'horizontal',
+                bottom: '0%',
+                left: 'center',
+                type: 'scroll',
+                textStyle: { color: '#64748b', fontSize: 11 }
+            },
+            series: [
+                {
+                    name: 'สัดส่วนพื้นที่',
+                    type: 'pie',
+                    radius: ['40%', '58%'],
+                    center: ['50%', '40%'],
+                    avoidLabelOverlap: true,
+                    itemStyle: {
+                        borderRadius: 6,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    },
+                    label: {
+                        show: true,
+                        position: 'outside',
+                        formatter: '{b} ({d}%)',
+                        fontSize: 11,
+                        color: '#64748b'
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: 12,
+                            fontWeight: 'bold'
+                        }
+                    },
+                    data: data
+                }
+            ]
+        };
+    }, [pieData, filteredData]);
+
+
+    const renderMap = (height = '100%') => {
+        if (!MapComponents || !geoJSONData) {
+            return (
+                <div style={{ display: 'grid', placeItems: 'center', height: height, background: '#f8fafc', color: '#64748b' }}>
+                    กำลังโหลดแผนที่ขอบเขต...
+                </div>
+            );
+        }
+
+        return (
+            <div className="agri-leaflet-map-wrapper" style={{ height: height }}>
+                <MapComponents.MapContainer
+                    center={[13.82, 100.05]}
+                    zoom={10}
+                    zoomSnap={0.25}
+                    zoomDelta={0.5}
+                    style={{ height: '100%', width: '100%' }}
+                    scrollWheelZoom={false}
+                >
+                    <FitDistrictBounds />
+                    <MapComponents.TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <MapComponents.GeoJSON
+                        key={`${chartData.length}-${Object.keys(districtStats || {}).length}-${filterDistrict || 'all'}`}
+                        data={geoJSONData}
+                        style={(feature) => {
+                            const distName = feature.properties?.amp_th;
+                            const isSelected = distName === filterDistrict;
+                            return {
+                                color: isSelected ? '#ef4444' : '#3b82f6',
+                                weight: isSelected ? 3 : 1.5,
+                                opacity: isSelected ? 0.95 : 0.6,
+                                fillColor: isSelected ? '#fca5a5' : '#93c5fd',
+                                fillOpacity: isSelected ? 0.4 : 0.1,
+                                dashArray: isSelected ? '' : '5, 5'
+                            };
+                        }}
+                        onEachFeature={(feature, layer) => {
+                            const distName = feature.properties?.amp_th;
+                            const chartStats = chartData.find(d => d.district === distName);
+                            const stats = districtStats?.[distName];
+                            
+                            if (distName) {
+                                let tooltipHtml = '';
+                                if (chartStats) {
+                                    // Always build crop rows from chartStats (direct Supabase data — guaranteed accurate)
+                                    const cropRows = [
+                                        { icon: '🌾', label: 'ข้าวนาปี', val: chartStats.rice_in_season_rai },
+                                        { icon: '🌾', label: 'ข้าวนาปรัง', val: chartStats.rice_off_season_rai },
+                                        { icon: '🌽', label: 'พืชไร่', val: chartStats.field_crops_rai },
+                                        { icon: '🌿', label: 'พืชสวน', val: chartStats.horticulture_rai },
+                                        { icon: '🍎', label: 'ไม้ผล/ยืนต้น', val: chartStats.fruit_trees_rai },
+                                        { icon: '🥬', label: 'พืชผัก', val: chartStats.vegetables_rai },
+                                        { icon: '🌸', label: 'ไม้ดอก/ประดับ', val: chartStats.flowers_rai },
+                                        { icon: '🌿', label: 'สมุนไพร', val: chartStats.herbs_spices_rai },
+                                    ].filter(r => Number(r.val) > 0);
+
+                                    const cropGridHtml = cropRows.map(r =>
+                                        `<div class="dist-grid-item"><span>${r.icon} ${r.label}:</span> <strong>${Number(r.val).toLocaleString()}</strong></div>`
+                                    ).join('');
+
+                                    tooltipHtml = `
+                                        <div class="dist-tooltip">
+                                            <div class="dist-tooltip-title">🎯 อำเภอ${distName}</div>
+                                            <div class="dist-tooltip-row">
+                                                <span class="dist-label">🌱 พื้นที่เพาะปลูกพืช</span>
+                                                <span class="dist-val highlight">${Number(chartStats.agri_crop_area_rai || 0).toLocaleString()} <small>ไร่</small></span>
+                                            </div>
+                                            <div class="dist-tooltip-row">
+                                                <span class="dist-label">👨‍🌾 ครัวเรือนเกษตรกร</span>
+                                                <span class="dist-val">${Number(chartStats.farmer_households || 0).toLocaleString()} <small>ราย</small></span>
+                                            </div>
+                                            ${stats ? `
+                                            <div class="dist-tooltip-row">
+                                                <span class="dist-label">🤝 วิสาหกิจชุมชน</span>
+                                                <span class="dist-val">${(stats.ce || 0).toLocaleString()} <small>แห่ง</small></span>
+                                            </div>
+                                            <div class="dist-tooltip-row">
+                                                <span class="dist-label">🌾 แปลงใหญ่</span>
+                                                <span class="dist-val">${(stats.lp || 0).toLocaleString()} <small>แปลง</small></span>
+                                            </div>
+                                            ` : ''}
+                                            <div class="dist-tooltip-divider">แยกตามชนิดพืช (ไร่)</div>
+                                            <div class="dist-tooltip-grid">
+                                                ${cropGridHtml}
+                                            </div>
+                                        </div>
+                                    `;
+                                }
+
+                                if (tooltipHtml) {
+                                    layer.bindTooltip(tooltipHtml, {
+                                        sticky: true,
+                                        direction: 'auto',
+                                        className: 'dist-tooltip-container'
+                                    });
+                                }
+                                
+                                layer.on({
+                                    mouseover: (e) => {
+                                        const l = e.target;
+                                        l.setStyle({ fillOpacity: 0.35, color: '#dc2626', weight: 3, dashArray: '' });
+                                    },
+                                    mouseout: (e) => {
+                                        const l = e.target;
+                                        const isSelected = distName === filterDistrict;
+                                        l.setStyle({
+                                            fillOpacity: isSelected ? 0.4 : 0.1,
+                                            color: isSelected ? '#ef4444' : '#3b82f6',
+                                            weight: isSelected ? 3 : 1.5,
+                                            dashArray: isSelected ? '' : '5, 5'
+                                        });
+                                    },
+                                    click: () => {
+                                        setFilterDistrict(prev => prev === distName ? null : distName);
+                                    }
+                                });
+                            }
+                        }}
+                    />
+                </MapComponents.MapContainer>
+            </div>
+        );
+    };
+
     return (
         <div>
-            <div style={{ padding: 20, background: '#fff', borderRadius: 12, border: '1px solid #e8ecf0', marginBottom: 24 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-                    <PieChartOutlined style={{ fontSize: 18, color: '#1a7f37' }} />
-                    <span style={{ fontSize: 16, fontWeight: 700, color: '#1f2328' }}>สรุปพื้นที่การเกษตร แยกตามชนิดพืช</span>
-                    <Tag color="green">
-                        {hasActiveFilter
-                            ? `แสดงผล ${filteredData.length} จาก ${chartData.length} อำเภอ`
-                            : `รวมข้อมูลทั้งหมด`}
-                    </Tag>
-                </div>
-
-                <div style={{
-                    display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 20,
-                    padding: '12px 16px', background: '#f6f8fa', borderRadius: 8, border: '1px solid #e8ecf0'
-                }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <span style={{ fontSize: 13, color: '#656d76', fontWeight: 500 }}>อำเภอ:</span>
-                        <Select
-                            value={filterDistrict}
-                            onChange={setFilterDistrict}
-                            options={districtOptions}
-                            placeholder="ทั้งหมด"
-                            allowClear
-                            style={{ minWidth: 150 }}
-                            size="small"
-                        />
-                    </div>
-                    {hasActiveFilter && (
-                        <a
-                            onClick={() => setFilterDistrict(null)}
-                            style={{ fontSize: 13, cursor: 'pointer', alignSelf: 'center', color: '#cf222e' }}
-                        >
-                            ล้างตัวกรองกราฟ
-                        </a>
-                    )}
-                </div>
-
-                {chartLoading ? (
-                    <div style={{ height: 300, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <Spin tip="กำลังโหลดข้อมูลกราฟ..." />
-                    </div>
-                ) : (
-                    <Row gutter={[24, 24]}>
-                        <Col xs={24} lg={12}>
-                            <Card title="สรุปสัดส่วนพื้นที่เพาะปลูกพืช" size="small" bordered={false} style={{ background: '#fafbfc' }}>
-                                <div style={{ height: 300 }}>
-                                    {pieData.length > 0 ? (
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <PieChart>
-                                                <Pie
-                                                    data={pieData}
-                                                    cx="50%"
-                                                    cy="50%"
-                                                    innerRadius={60}
-                                                    outerRadius={100}
-                                                    paddingAngle={3}
-                                                    dataKey="value"
-                                                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                                                >
-                                                    {pieData.map((entry, index) => (
-                                                        <Cell key={`cell-${index}`} fill={entry.color} />
-                                                    ))}
-                                                </Pie>
-                                                <RechartsTooltip formatter={(value) => [Number(value).toLocaleString() + ' ไร่', 'พื้นที่']} />
-                                            </PieChart>
-                                        </ResponsiveContainer>
-                                    ) : (
-                                        <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#656d76' }}>ไม่พบข้อมูล</div>
-                                    )}
-                                </div>
-                            </Card>
-                        </Col>
-                        <Col xs={24} lg={12}>
-                            <Card title="พื้นที่เพาะปลูกพืชแยกตามอำเภอ (แยกชนิดพืช)" size="small" bordered={false} style={{ background: '#fafbfc' }}>
-                                <div style={{ height: 350 }}>
-                                    {barData.length > 0 ? (
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <BarChart data={barData} margin={{ top: 20, right: 30, left: 0, bottom: 40 }}>
-                                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
-                                                <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#656d76' }} axisLine={{ stroke: '#e8ecf0' }} tickLine={false} />
-                                                <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} tickFormatter={(val) => (val/1000).toFixed(0) + 'k'} axisLine={false} tickLine={false} />
-                                                <RechartsTooltip cursor={{ fill: '#f6f8fa' }} content={<CustomBarTooltip />} />
-                                                <Legend wrapperStyle={{ fontSize: 12, paddingTop: 20 }} verticalAlign="bottom" height={40} />
-                                                {CROP_TYPES.map((type) => (
-                                                    <Bar 
-                                                        key={type.key} 
-                                                        dataKey={type.key} 
-                                                        name={type.label}
-                                                        stackId="a" 
-                                                        fill={type.color} 
-                                                    />
-                                                ))}
-                                            </BarChart>
-                                        </ResponsiveContainer>
-                                    ) : (
-                                        <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#656d76' }}>ไม่พบข้อมูล</div>
-                                    )}
-                                </div>
-                            </Card>
-                        </Col>
-                    </Row>
-                )}
+            {/* Page Header */}
+            <div className="agri-areas-page-header">
+                <h2>
+                    <PieChartOutlined style={{ color: '#16a34a' }} />
+                    รายงานพื้นที่การเกษตรแยกตามชนิดพืชจังหวัดนครปฐม
+                </h2>
+                <p>
+                    วิเคราะห์ข้อมูลพื้นที่เพาะปลูกพืชเศรษฐกิจแยกรายอำเภอและชนิดพืช (เช่น ข้าวนาปี, ข้าวนาปรัง, พืชสวน, ผัก, ไม้ดอกไม้ประดับ) พร้อมตารางสถิติและสัดส่วนพื้นที่
+                </p>
             </div>
+
+
+            {!chartLoading ? (
+                <div className="gis-split-row">
+                    {/* Left sticky map panel */}
+                    <div className="gis-left-panel">
+                        <Card
+                            title="🗺️ ระบบภูมิสารสนเทศ (GIS) แหล่งพื้นที่เพาะปลูกนครปฐม"
+                            size="small"
+                            bordered={false}
+                            className="agri-map-card"
+                            style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+                            bodyStyle={{ flex: 1, padding: 12 }}
+                        >
+                            {renderMap('100%')}
+                        </Card>
+                    </div>
+
+                    {/* Right scrollable data panel */}
+                    <div className="gis-right-scroll-panel">
+                        {/* KPI Cards — now lives above chart panel */}
+                        {!chartLoading && (
+                            <div className="agri-kpi-grid agri-kpi-grid--compact">
+                                <div className="agri-kpi-card green-theme">
+                                    <div className="kpi-icon-wrapper">🌱</div>
+                                    <div className="kpi-content">
+                                        <span className="kpi-label">พื้นที่เพาะปลูกพืช{hasActiveFilter ? ` (อ.${filterDistrict})` : 'รวม'}</span>
+                                        <span className="kpi-value">{totals.cropArea.toLocaleString()}<small>ไร่</small></span>
+                                    </div>
+                                </div>
+                                <div className="agri-kpi-card lime-theme">
+                                    <div className="kpi-icon-wrapper">👨‍🌾</div>
+                                    <div className="kpi-content">
+                                        <span className="kpi-label">ครัวเรือนเกษตรกร</span>
+                                        <span className="kpi-value">{totals.households.toLocaleString()}<small>ครัวเรือน</small></span>
+                                    </div>
+                                </div>
+                                <div className="agri-kpi-card blue-theme">
+                                    <div className="kpi-icon-wrapper">🏡</div>
+                                    <div className="kpi-content">
+                                        <span className="kpi-label">จำนวนหมู่บ้าน</span>
+                                        <span className="kpi-value">{totals.villages.toLocaleString()}<small>หมู่บ้าน</small></span>
+                                    </div>
+                                </div>
+                                <div className="agri-kpi-card purple-theme">
+                                    <div className="kpi-icon-wrapper">🗺️</div>
+                                    <div className="kpi-content">
+                                        <span className="kpi-label">จำนวนตำบล</span>
+                                        <span className="kpi-value">{totals.subdistricts.toLocaleString()}<small>ตำบล</small></span>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        <div style={{ background: '#fff', padding: '16px 20px', borderRadius: 12, border: '1px solid #e2e8f0' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                    <span style={{ fontSize: 13, color: '#656d76', fontWeight: 500 }}>เลือกอำเภอ:</span>
+                                    <Select
+                                        value={filterDistrict}
+                                        onChange={setFilterDistrict}
+                                        options={districtOptions}
+                                        placeholder="ทั้งหมด"
+                                        allowClear
+                                        style={{ minWidth: 150 }}
+                                        size="small"
+                                    />
+                                </div>
+                                <Tag color="green" style={{ margin: 0 }}>
+                                    {hasActiveFilter ? `อ.${filterDistrict}` : 'รวมจังหวัด'}
+                                </Tag>
+                            </div>
+                        </div>
+
+                        {/* Charts */}
+                        <Card title={`📊 สัดส่วนพื้นที่เพาะปลูกพืช (อ.${filterDistrict || 'รวมทั้งหมด'})`} size="small" bordered={false} className="chart-card-premium">
+                            <div style={{ height: 320 }}>
+                                {pieData.length > 0 ? (
+                                    <EChart option={pieOption} style={{ height: 320 }} />
+                                ) : (
+                                    <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#656d76' }}>ไม่พบข้อมูล</div>
+                                )}
+                            </div>
+                        </Card>
+                    </div>
+                </div>
+            ) : (
+                <div style={{ height: 300, display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#fff', borderRadius: 16, border: '1px solid #e2e8f0', padding: 24, marginBottom: 24 }}>
+                    <Spin tip="กำลังโหลดข้อมูลแดชบอร์ด..." />
+                </div>
+            )}
 
             <CrudTable 
                 tableName="agricultural_areas" 

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 export default function LandingMap({ mapData, districtStats }) {
     const [MapComponents, setMapComponents] = useState(null);
     const [geoJSONData, setGeoJSONData] = useState(null);
+    const [selectedDistrict, setSelectedDistrict] = useState(null);
 
     useEffect(() => {
         // Load GeoJSON data directly
@@ -75,15 +76,19 @@ export default function LandingMap({ mapData, districtStats }) {
                     <LayersControl.Overlay checked name="🗺️ ขอบเขตอำเภอและข้อมูลเชิงลึก">
                         {geoJSONData && Object.keys(districtStats).length > 0 && (
                             <GeoJSON
-                                key={Object.keys(districtStats).length}
+                                key={`${Object.keys(districtStats).length}-${selectedDistrict || 'none'}`}
                                 data={geoJSONData}
-                                style={{
-                                    color: '#3b82f6', // blue-500
-                                    weight: 2,
-                                    opacity: 0.7,
-                                    fillColor: '#93c5fd', // blue-300
-                                    fillOpacity: 0.15,
-                                    dashArray: '5, 5'
+                                style={(feature) => {
+                                    const distName = feature.properties?.amp_th;
+                                    const isSelected = distName === selectedDistrict;
+                                    return {
+                                        color: isSelected ? '#ef4444' : '#3b82f6', // red-500 vs blue-500
+                                        weight: isSelected ? 3 : 2,
+                                        opacity: isSelected ? 0.95 : 0.7,
+                                        fillColor: isSelected ? '#fca5a5' : '#93c5fd', // red-300 vs blue-300
+                                        fillOpacity: isSelected ? 0.35 : 0.15,
+                                        dashArray: isSelected ? '' : '5, 5'
+                                    };
                                 }}
                                 onEachFeature={(feature, layer) => {
                                     const distName = feature.properties?.amp_th;
@@ -135,11 +140,20 @@ export default function LandingMap({ mapData, districtStats }) {
                                         layer.on({
                                             mouseover: (e) => {
                                                 const l = e.target;
-                                                l.setStyle({ fillOpacity: 0.35, color: '#1d4ed8', weight: 3 });
+                                                l.setStyle({ fillOpacity: 0.35, color: '#dc2626', weight: 3, dashArray: '' });
                                             },
                                             mouseout: (e) => {
                                                 const l = e.target;
-                                                l.setStyle({ fillOpacity: 0.15, color: '#3b82f6', weight: 2 });
+                                                const isSelected = distName === selectedDistrict;
+                                                l.setStyle({
+                                                    fillOpacity: isSelected ? 0.35 : 0.15,
+                                                    color: isSelected ? '#ef4444' : '#3b82f6',
+                                                    weight: isSelected ? 3 : 2,
+                                                    dashArray: isSelected ? '' : '5, 5'
+                                                });
+                                            },
+                                            click: () => {
+                                                setSelectedDistrict(prev => prev === distName ? null : distName);
                                             }
                                         });
                                     }

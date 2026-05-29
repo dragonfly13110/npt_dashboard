@@ -367,7 +367,7 @@ export default function SoilMoistureWidget({ defaultExpanded = false }) {
 
     const districtAverage = data.district;
     const zones = data.zones || [];
-    const { current, trend, history } = districtAverage;
+    const { current, history } = districtAverage;
     const surfaceValue = current.soil_moisture_0_to_1cm ?? 0;
     const surfaceInfo = getMoistureInfo(surfaceValue);
 

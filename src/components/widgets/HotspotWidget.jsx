@@ -3,6 +3,7 @@ import { FireOutlined } from '@ant-design/icons';
 import { useApiCache } from '../../hooks/useApiCache';
 import { supabase } from '../../supabaseClient';
 import { downloadCsv, objectsToCsv, rowsToCsv } from '../../utils/csv';
+import { useNavigate } from 'react-router-dom';
 import './HotspotWidget.css';
 
 const ENDPOINT_MAP = { 1: '1day', 3: '3days', 7: '7days', 30: '30days' };
@@ -210,7 +211,8 @@ function applySheetLayout(sheet, widths) {
     }
 }
 
-export default function HotspotWidget() {
+export default function HotspotWidget({ showDetailsButton = true, detailsUrl = '/public/fire-hotspots' }) {
+    const navigate = useNavigate();
     const [dayRange, setDayRange] = useState(7);
     const [selectedSatellite, setSelectedSatellite] = useState('Suomi NPP');
     const [selectedAmphoe, setSelectedAmphoe] = useState(null);
@@ -488,6 +490,24 @@ export default function HotspotWidget() {
                     >
                         📥 Excel
                     </button>
+                    {showDetailsButton && (
+                        <button
+                            type="button"
+                            className="hotspot-hover-float"
+                            onClick={() => navigate(detailsUrl)}
+                            style={{
+                                padding: '4px 10px', borderRadius: 8, cursor: 'pointer',
+                                fontFamily: 'inherit', border: '1px solid #fecaca',
+                                background: '#fef2f2',
+                                color: '#b91c1c',
+                                fontWeight: 600, fontSize: 11, transition: 'all 0.2s',
+                                marginLeft: 4,
+                            }}
+                            title="ดูตารางประวัติจุดความร้อนแบบละเอียด"
+                        >
+                            📊 ดูตารางประวัติละเอียด →
+                        </button>
+                    )}
                 </div>
                 </div>
             </div>

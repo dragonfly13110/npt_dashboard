@@ -1,0 +1,261 @@
+/* ==================== AGRICULTURAL PRICES & FUEL STYLING ==================== */
+
+.agri-prices-container {
+    padding: 24px;
+    background: #f8fafc;
+    min-height: calc(100vh - 64px);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.prices-page-header {
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.prices-page-header h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.prices-page-header p {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0;
+    max-width: 800px;
+}
+
+/* Fuel section card */
+.oil-prices-card {
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.oil-prices-card .ant-card-head {
+    border-bottom: 1px solid #f1f5f9 !important;
+    padding: 0 20px !important;
+}
+
+.oil-prices-card .ant-card-body {
+    padding: 20px !important;
+}
+
+.oil-cards-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.oil-price-item-card {
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 4px 10px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.oil-price-item-card:hover {
+    transform: translateY(-2px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.oil-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.oil-brand-name {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.oil-tag {
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.oil-card-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.oil-main-price {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.oil-main-price span {
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.oil-main-price small {
+    font-size: 11px;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+.oil-diff-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    font-size: 11px;
+}
+
+.oil-diff-info span {
+    font-weight: 600;
+}
+
+.oil-diff-info .diff-pill {
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    display: inline-block;
+}
+
+/* Crop section main card */
+.agri-prices-main-card {
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.agri-prices-main-card .ant-card-head {
+    border-bottom: 1px solid #f1f5f9 !important;
+    padding: 0 24px !important;
+}
+
+.agri-prices-main-card .ant-card-body {
+    padding: 24px !important;
+}
+
+/* Pricing categories tabs */
+.price-categories-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding: 6px;
+    background: #f1f5f9;
+    border-radius: 12px;
+    overflow-x: auto;
+}
+
+.price-categories-tabs::-webkit-scrollbar {
+    height: 4px;
+}
+
+.price-categories-tabs::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.tab-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #475569;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+}
+
+.tab-btn:hover {
+    color: #0f172a;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.tab-btn.active {
+    color: #166534;
+    background: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+/* Search bar */
+.search-export-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.export-csv-btn {
+    background: #166534 !important;
+    border-color: #166534 !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 6px rgba(22, 101, 52, 0.1) !important;
+    height: 38px !important;
+}
+
+.export-csv-btn:hover {
+    background: #15803d !important;
+    box-shadow: 0 4px 12px rgba(22, 101, 52, 0.2) !important;
+}
+
+/* Custom table tweaks */
+.price-table-wrapper {
+    background: #ffffff;
+}
+
+.custom-price-table .ant-table-thead > tr > th {
+    background: #f8fafc !important;
+    color: #475569 !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.custom-price-table .ant-table-tbody > tr > td {
+    border-bottom: 1px solid #f1f5f9 !important;
+    padding: 14px 16px !important;
+}
+
+.custom-price-table .ant-table-tbody > tr:hover > td {
+    background: #f8fafc !important;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .prices-page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .search-export-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .search-export-bar .ant-input-wrapper,
+    .search-export-bar .ant-input {
+        max-width: 100% !important;
+    }
+}
