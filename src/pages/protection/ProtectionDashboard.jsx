@@ -1,10 +1,7 @@
 import { Row, Col, Spin } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
-import {
-    PieChart, Pie, Cell,
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend,
-    ResponsiveContainer
-} from 'recharts';
+import EChart from '../../components/widgets/EChart';
+import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { useProtectionData } from '../../hooks/useProtectionData';
 import { PageHeader, CategoryBentoCard, CategoryChartCard } from '../../components/widgets/SharedDashboardUI';
 
@@ -36,26 +33,6 @@ const SF_GRADE_COLORS = {
     'B': '#0969da',
     'C': '#bf8700',
     'ไม่ระบุ': '#656d76',
-};
-
-const CustomTooltip = ({ active, payload, label, unit }) => {
-    if (active && payload && payload.length) {
-        const total = payload[0].payload.total || 0;
-        return (
-            <div style={{ backgroundColor: '#fff', padding: '10px 14px', border: '1px solid #e8ecf0', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-                <div style={{ margin: '0 0 8px 0', fontWeight: 600, color: '#1f2328' }}>อำเภอ{label}</div>
-                {payload.map((entry, index) => (
-                    <div key={`item-${index}`} style={{ margin: '4px 0', color: entry.color, fontSize: 13 }}>
-                        {entry.name} : {entry.value} {unit}
-                    </div>
-                ))}
-                <div style={{ margin: '8px 0 0 0', fontWeight: 600, color: '#1f2328', borderTop: '1px solid #e8ecf0', paddingTop: '8px', fontSize: 13 }}>
-                    รวมทั้งหมด : {total} {unit}
-                </div>
-            </div>
-        );
-    }
-    return null;
 };
 
 function EmptyChart({ label }) {
@@ -144,15 +121,7 @@ export default function ProtectionDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🌿 แปลงพยากรณ์ตามชนิดพืช">
                                 {poPie.length > 0 ? (
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <PieChart>
-                                            <Pie data={poPie} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={3} dataKey="value"
-                                                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
-                                                {poPie.map((_, i) => <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />)}
-                                            </Pie>
-                                            <RechartsTooltip formatter={(val) => [val + ' แปลง', 'จำนวน']} />
-                                        </PieChart>
-                                    </ResponsiveContainer>
+                                    <EChart option={pieOption(poPie, { colors: CHART_COLORS, unit: 'แปลง' })} />
                                 ) : <EmptyChart label="แปลงพยากรณ์" />}
                             </CategoryChartCard>
                         </Col>
@@ -160,18 +129,7 @@ export default function ProtectionDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🌿 แปลงพยากรณ์รวมแยกอำเภอ (แยกประเภทแปลง)">
                                 {poBar.length > 0 ? (
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <BarChart data={poBar} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
-                                            <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#656d76' }} axisLine={{ stroke: '#e8ecf0' }} tickLine={false} />
-                                            <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
-                                            <RechartsTooltip cursor={{ fill: '#f6f8fa' }} content={<CustomTooltip unit="แปลง" />} />
-                                            <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
-                                            {poTypes.map((type) => (
-                                                <Bar key={type} dataKey={type} name={type} stackId="a" fill={PLOT_TYPE_COLORS[type] || '#8250df'} maxBarSize={50} />
-                                            ))}
-                                        </BarChart>
-                                    </ResponsiveContainer>
+                                    <EChart option={barOption(poBar, poTypes.map((type) => ({ key: type, name: type, color: PLOT_TYPE_COLORS[type] || '#8250df' })), { stacked: true, unit: 'แปลง', totalKey: 'total' })} />
                                 ) : <EmptyChart label="แปลงพยากรณ์" />}
                             </CategoryChartCard>
                         </Col>
@@ -180,15 +138,7 @@ export default function ProtectionDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🏥 ศจช. ตามชนิดพืชหลัก">
                                 {pcPie.length > 0 ? (
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <PieChart>
-                                            <Pie data={pcPie} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={3} dataKey="value"
-                                                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
-                                                {pcPie.map((_, i) => <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />)}
-                                            </Pie>
-                                            <RechartsTooltip formatter={(val) => [val + ' ศูนย์', 'จำนวน']} />
-                                        </PieChart>
-                                    </ResponsiveContainer>
+                                    <EChart option={pieOption(pcPie, { colors: CHART_COLORS, unit: 'ศูนย์' })} />
                                 ) : <EmptyChart label="ศจช." />}
                             </CategoryChartCard>
                         </Col>
@@ -196,18 +146,7 @@ export default function ProtectionDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🏥 ศจช. แยกอำเภอ (ระดับชั้น)">
                                 {pcBar.length > 0 ? (
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <BarChart data={pcBar} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
-                                            <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#656d76' }} axisLine={{ stroke: '#e8ecf0' }} tickLine={false} />
-                                            <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
-                                            <RechartsTooltip cursor={{ fill: '#f6f8fa' }} content={<CustomTooltip unit="ศูนย์" />} />
-                                            <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
-                                            {pcTypes.map((type) => (
-                                                <Bar key={type} dataKey={type} name={`ระดับ ${type}`} stackId="a" fill={PC_GRADE_COLORS[type] || '#8250df'} maxBarSize={50} />
-                                            ))}
-                                        </BarChart>
-                                    </ResponsiveContainer>
+                                    <EChart option={barOption(pcBar, pcTypes.map((type) => ({ key: type, name: `ระดับ ${type}`, color: PC_GRADE_COLORS[type] || '#8250df' })), { stacked: true, unit: 'ศูนย์', totalKey: 'total' })} />
                                 ) : <EmptyChart label="ศจช." />}
                             </CategoryChartCard>
                         </Col>
@@ -216,15 +155,7 @@ export default function ProtectionDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🧪 ศดปช. ตามชนิดพืชหลัก">
                                 {sfPie.length > 0 ? (
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <PieChart>
-                                            <Pie data={sfPie} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={3} dataKey="value"
-                                                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
-                                                {sfPie.map((_, i) => <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />)}
-                                            </Pie>
-                                            <RechartsTooltip formatter={(val) => [val + ' ศูนย์', 'จำนวน']} />
-                                        </PieChart>
-                                    </ResponsiveContainer>
+                                    <EChart option={pieOption(sfPie, { colors: CHART_COLORS, unit: 'ศูนย์' })} />
                                 ) : <EmptyChart label="ศดปช." />}
                             </CategoryChartCard>
                         </Col>
@@ -232,18 +163,7 @@ export default function ProtectionDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🧪 ศดปช. แยกอำเภอ (ระดับชั้น)">
                                 {sfBar.length > 0 ? (
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <BarChart data={sfBar} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
-                                            <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#656d76' }} axisLine={{ stroke: '#e8ecf0' }} tickLine={false} />
-                                            <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
-                                            <RechartsTooltip cursor={{ fill: '#f6f8fa' }} content={<CustomTooltip unit="ศูนย์" />} />
-                                            <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
-                                            {sfTypes.map((type) => (
-                                                <Bar key={type} dataKey={type} name={`ระดับ ${type}`} stackId="a" fill={SF_GRADE_COLORS[type] || '#8250df'} maxBarSize={50} />
-                                            ))}
-                                        </BarChart>
-                                    </ResponsiveContainer>
+                                    <EChart option={barOption(sfBar, sfTypes.map((type) => ({ key: type, name: `ระดับ ${type}`, color: SF_GRADE_COLORS[type] || '#8250df' })), { stacked: true, unit: 'ศูนย์', totalKey: 'total' })} />
                                 ) : <EmptyChart label="ศดปช." />}
                             </CategoryChartCard>
                         </Col>
@@ -252,15 +172,7 @@ export default function ProtectionDashboard() {
                         {firePie.length > 0 && (
                             <Col xs={24} lg={12}>
                                 <CategoryChartCard title="🔥 จุดเฝ้าระวัง PM2.5 แยกตามพื้นที่">
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <PieChart>
-                                            <Pie data={firePie} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={2} dataKey="value"
-                                                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
-                                                {firePie.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
-                                            </Pie>
-                                            <RechartsTooltip formatter={(val) => [val + ' จุด', 'จำนวน']} />
-                                        </PieChart>
-                                    </ResponsiveContainer>
+                                    <EChart option={pieOption(firePie, { colors: PIE_COLORS, unit: 'จุด' })} />
                                 </CategoryChartCard>
                             </Col>
                         )}

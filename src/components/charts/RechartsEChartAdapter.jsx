@@ -31,12 +31,12 @@ const axisTextStyle = (tick = {}) => ({
 });
 
 const baseTooltip = {
-    backgroundColor: '#fff',
-    borderColor: '#e2e8f0',
+    backgroundColor: 'rgba(255,255,255,0.96)',
+    borderColor: 'rgba(226,232,240,0.92)',
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 12,
     padding: [10, 14],
-    extraCssText: 'box-shadow: 0 4px 12px rgba(15,23,42,0.12);',
+    extraCssText: 'box-shadow: 0 14px 34px rgba(15,23,42,0.14);backdrop-filter: blur(14px);-webkit-backdrop-filter: blur(14px);',
     confine: true,
 };
 
@@ -53,7 +53,7 @@ function makeAxisTooltip(tooltipProps = {}) {
     return {
         ...baseTooltip,
         trigger: 'axis',
-        axisPointer: { type: 'shadow' },
+        axisPointer: { type: 'shadow', shadowStyle: { color: 'rgba(15,23,42,0.045)', borderRadius: 8 } },
         formatter(params) {
             const rows = Array.isArray(params) ? params : [params];
             const title = rows[0]?.axisValueLabel || rows[0]?.name || '';
@@ -110,7 +110,7 @@ function makeCartesianOption({ data = [], children, layout = 'horizontal', margi
             }),
             itemStyle: {
                 color: props.fill || props.stroke || BASE_COLORS[index % BASE_COLORS.length],
-                borderRadius: role === 'Bar' ? (props.radius || [4, 4, 0, 0]) : 0,
+                borderRadius: role === 'Bar' ? (props.radius || [6, 6, 0, 0]) : 0,
             },
             yAxisIndex: props.yAxisId && yAxes.length > 1 ? Math.max(0, yAxes.findIndex((axis) => axis.yAxisId === props.yAxisId || axis.id === props.yAxisId)) : 0,
         };
@@ -145,6 +145,7 @@ function makeCartesianOption({ data = [], children, layout = 'horizontal', margi
             type: 'bar',
             stack: props.stackId,
             barMaxWidth: props.maxBarSize || 48,
+            emphasis: { focus: 'series' },
         };
     });
 
@@ -218,6 +219,11 @@ function makePieOption({ children }) {
                 fontSize: 12,
             },
             labelLine: { smooth: true, length: 10, length2: 8 },
+            itemStyle: {
+                borderRadius: 6,
+                borderColor: '#fff',
+                borderWidth: 2,
+            },
             emphasis: { scale: true, scaleSize: 4 },
         }],
     };
@@ -281,6 +287,7 @@ function makeTreemapOption({ data = [], dataKey = 'value', nameKey = 'name', chi
                 borderColor: '#fff',
                 borderWidth: 2,
                 gapWidth: 2,
+                borderRadius: 6,
             },
             levels: [
                 {
@@ -288,6 +295,7 @@ function makeTreemapOption({ data = [], dataKey = 'value', nameKey = 'name', chi
                         borderColor: '#fff',
                         borderWidth: 2,
                         gapWidth: 2,
+                        borderRadius: 6,
                     },
                 },
             ],

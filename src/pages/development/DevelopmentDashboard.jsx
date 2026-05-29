@@ -1,10 +1,7 @@
 import { Row, Col, Spin } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
-import {
-    PieChart, Pie, Cell,
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend,
-    ResponsiveContainer
-} from 'recharts';
+import EChart from '../../components/widgets/EChart';
+import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { useDevelopmentData } from '../../hooks/useDevelopmentData';
 import { PageHeader, CategoryBentoCard, CategoryChartCard } from '../../components/widgets/SharedDashboardUI';
 
@@ -21,47 +18,6 @@ const FI_GROUP_TYPES = [
     { key: 'young_farmer_groups', label: 'กลุ่มยุวเกษตรกร', color: '#bf8700' },
     { key: 'career_promotion_groups', label: 'กลุ่มส่งเสริมอาชีพ', color: '#8250df' }
 ];
-
-const CustomBarTooltipCE = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-        const total = payload.reduce((sum, entry) => sum + (entry.value || 0), 0);
-        return (
-            <div style={{ backgroundColor: '#fff', padding: '10px 14px', border: '1px solid #e8ecf0', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-                <div style={{ margin: '0 0 8px 0', fontWeight: 600, color: '#1f2328' }}>อำเภอ{label}</div>
-                {payload.map((entry, index) => (
-                    <div key={`item-${index}`} style={{ margin: '4px 0', color: entry.color, fontSize: 13 }}>
-                        {entry.name} : {entry.value || 0} แห่ง
-                    </div>
-                ))}
-                <div style={{ margin: '8px 0 0 0', fontWeight: 600, color: '#1f2328', borderTop: '1px solid #e8ecf0', paddingTop: '8px', fontSize: 13 }}>
-                    รวมทั้งหมด : {total} แห่ง
-                </div>
-            </div>
-        );
-    }
-    return null;
-};
-
-const CustomBarTooltipFI = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-        let total = 0;
-        payload.forEach(entry => { total += (entry.value || 0); });
-        return (
-            <div style={{ backgroundColor: '#fff', padding: '10px 14px', border: '1px solid #e8ecf0', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-                <div style={{ margin: '0 0 8px 0', fontWeight: 600, color: '#1f2328' }}>อำเภอ{label}</div>
-                {payload.map((entry, index) => (
-                    <div key={`item-${index}`} style={{ margin: '4px 0', color: entry.color, fontSize: 13 }}>
-                        {entry.name} : {entry.value || 0} กลุ่ม
-                    </div>
-                ))}
-                <div style={{ margin: '8px 0 0 0', fontWeight: 600, color: '#1f2328', borderTop: '1px solid #e8ecf0', paddingTop: '8px', fontSize: 13 }}>
-                    รวมทั้งหมด : {total} กลุ่ม
-                </div>
-            </div>
-        );
-    }
-    return null;
-};
 
 function EmptyChart({ label }) {
     return (
@@ -146,17 +102,7 @@ export default function DevelopmentDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🏛️ สรุปสัดส่วนประเภทกลุ่มสถาบันเกษตรกร">
                                 {fiPie.length > 0 ? (
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <PieChart>
-                                            <Pie
-                                                data={fiPie} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={3} dataKey="value"
-                                                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                                            >
-                                                {fiPie.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} />)}
-                                            </Pie>
-                                            <RechartsTooltip formatter={(value) => [value + ' กลุ่ม', 'จำนวน']} />
-                                        </PieChart>
-                                    </ResponsiveContainer>
+                                    <EChart option={pieOption(fiPie, { colors: FI_GROUP_TYPES.map((type) => type.color), unit: 'กลุ่ม' })} />
                                 ) : <EmptyChart label="สถาบันเกษตรกร" />}
                             </CategoryChartCard>
                         </Col>
@@ -164,25 +110,7 @@ export default function DevelopmentDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🏛️ จำนวนกลุ่มแยกตามอำเภอ (แยกประเภทกลุ่ม)">
                                 {fiBar.length > 0 ? (
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <BarChart data={fiBar} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
-                                            <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#656d76' }} axisLine={{ stroke: '#e8ecf0' }} tickLine={false} />
-                                            <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
-                                            <RechartsTooltip cursor={{ fill: '#f6f8fa' }} content={<CustomBarTooltipFI />} />
-                                            <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
-                                            {FI_GROUP_TYPES.map((type) => (
-                                                <Bar 
-                                                    key={type.key} 
-                                                    dataKey={type.key} 
-                                                    name={type.label}
-                                                    stackId="a" 
-                                                    fill={type.color} 
-                                                    maxBarSize={50} 
-                                                />
-                                            ))}
-                                        </BarChart>
-                                    </ResponsiveContainer>
+                                    <EChart option={barOption(fiBar, FI_GROUP_TYPES.map((type) => ({ key: type.key, name: type.label, color: type.color })), { stacked: true, unit: 'กลุ่ม' })} />
                                 ) : <EmptyChart label="สถาบันเกษตรกร" />}
                             </CategoryChartCard>
                         </Col>
@@ -191,17 +119,7 @@ export default function DevelopmentDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🤝 สัดส่วนวิสาหกิจชุมชนแยกตามอำเภอ">
                                 {cePie.length > 0 ? (
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <PieChart>
-                                            <Pie
-                                                data={cePie} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={3} dataKey="value"
-                                                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                                            >
-                                                {cePie.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color || CHART_COLORS[index % CHART_COLORS.length]} />)}
-                                            </Pie>
-                                            <RechartsTooltip formatter={(value) => [value + ' แห่ง', 'จำนวน']} />
-                                        </PieChart>
-                                    </ResponsiveContainer>
+                                    <EChart option={pieOption(cePie, { colors: CHART_COLORS, unit: 'แห่ง' })} />
                                 ) : <EmptyChart label="วิสาหกิจชุมชน" />}
                             </CategoryChartCard>
                         </Col>
@@ -209,18 +127,7 @@ export default function DevelopmentDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🤝 จำนวนวิสาหกิจชุมชนแยกตามอำเภอ (ตามประเภท)">
                                 {ceBar.length > 0 ? (
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <BarChart data={ceBar} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
-                                            <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#656d76' }} axisLine={{ stroke: '#e8ecf0' }} tickLine={false} />
-                                            <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
-                                            <RechartsTooltip cursor={{ fill: '#f6f8fa' }} content={<CustomBarTooltipCE />} />
-                                            <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
-                                            {ceGroups.map((type) => (
-                                                <Bar key={type} dataKey={type} name={type} stackId="a" fill={CE_TYPE_COLORS[type] || '#8250df'} maxBarSize={50} />
-                                            ))}
-                                        </BarChart>
-                                    </ResponsiveContainer>
+                                    <EChart option={barOption(ceBar, ceGroups.map((type) => ({ key: type, name: type, color: CE_TYPE_COLORS[type] || '#8250df' })), { stacked: true, unit: 'แห่ง' })} />
                                 ) : <EmptyChart label="วิสาหกิจชุมชน" />}
                             </CategoryChartCard>
                         </Col>
@@ -229,15 +136,7 @@ export default function DevelopmentDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🧑‍🌾 เกษตรกรรุ่นใหม่แยกตามอำเภอ">
                                 {sfBar.length > 0 ? (
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <BarChart data={sfBar} margin={{ top: 20, right: 20, left: -10, bottom: 5 }}>
-                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
-                                            <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
-                                            <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
-                                            <RechartsTooltip />
-                                            <Bar dataKey="value" name="จำนวน" fill="#ff7043" radius={[4, 4, 0, 0]} />
-                                        </BarChart>
-                                    </ResponsiveContainer>
+                                    <EChart option={barOption(sfBar, [{ key: 'value', name: 'จำนวน', color: '#ff7043' }], { colors: ['#ff7043'] })} />
                                 ) : <EmptyChart label="เกษตรกรรุ่นใหม่" />}
                             </CategoryChartCard>
                         </Col>

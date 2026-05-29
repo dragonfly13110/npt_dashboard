@@ -1,13 +1,10 @@
 import { useMemo } from 'react';
 import { Row, Col, Card, Spin, Tag } from 'antd';
 import { PieChartOutlined, EnvironmentOutlined, BankOutlined, ThunderboltOutlined } from '@ant-design/icons';
-import {
-    PieChart, Pie, Cell,
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend,
-    ResponsiveContainer
-} from 'recharts';
 import { supabase } from '../../supabaseClient';
 import { PageHeader, CategoryBentoCard, CategoryChartCard } from '../../components/widgets/SharedDashboardUI';
+import EChart from '../../components/widgets/EChart';
+import { barOption, pieOption } from '../../components/charts/echartOptions';
 
 const PIE_COLORS = [
     '#66bb6a', '#42a5f5', '#ffca28', '#ef5350', '#ab47bc',
@@ -17,46 +14,6 @@ const PIE_COLORS = [
 
 const AGRI_COLORS = ['#ffb300', '#f57c00', '#7cb342', '#43a047', '#00897b', '#039be5', '#3949ab', '#8e24aa'];
 const LEARN_COLORS = ['#0288d1', '#0097a7', '#388e3c', '#afb42b', '#fbc02d', '#f57c00', '#e64a19', '#d32f2f'];
-
-const CustomAgriBarTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-        const total = payload[0].payload.totalArea || 0;
-        return (
-            <div style={{ backgroundColor: '#fff', padding: '10px 14px', border: '1px solid #e8ecf0', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-                <div style={{ margin: '0 0 8px 0', fontWeight: 600, color: '#1f2328' }}>อำเภอ{label}</div>
-                {payload.map((entry, index) => (
-                    <div key={`item-${index}`} style={{ margin: '4px 0', color: entry.color, fontSize: 13 }}>
-                        {entry.name} : {entry.value?.toLocaleString(undefined, { maximumFractionDigits: 2 })} ไร่
-                    </div>
-                ))}
-                <div style={{ margin: '8px 0 0 0', fontWeight: 600, color: '#1f2328', borderTop: '1px solid #e8ecf0', paddingTop: '8px', fontSize: 13 }}>
-                    รวมทั้งหมด : {total.toLocaleString(undefined, { maximumFractionDigits: 2 })} ไร่
-                </div>
-            </div>
-        );
-    }
-    return null;
-};
-
-const CustomLearnBarTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-        const total = payload[0].payload.total || 0;
-        return (
-            <div style={{ backgroundColor: '#fff', padding: '10px 14px', border: '1px solid #e8ecf0', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-                <div style={{ margin: '0 0 8px 0', fontWeight: 600, color: '#1f2328' }}>อำเภอ{label}</div>
-                {payload.map((entry, index) => (
-                    <div key={`item-${index}`} style={{ margin: '4px 0', color: entry.color, fontSize: 13 }}>
-                        {entry.name} : {entry.value?.toLocaleString()} ศูนย์
-                    </div>
-                ))}
-                <div style={{ margin: '8px 0 0 0', fontWeight: 600, color: '#1f2328', borderTop: '1px solid #e8ecf0', paddingTop: '8px', fontSize: 13 }}>
-                    รวมทั้งหมด : {total.toLocaleString()} ศูนย์
-                </div>
-            </div>
-        );
-    }
-    return null;
-};
 
 function EmptyChart({ label }) {
     return (
@@ -283,15 +240,7 @@ export default function StrategyDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🌾 สัดส่วนพื้นที่การเกษตรตามชนิดพืช">
                                 {agriPie.length > 0 ? (
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <PieChart>
-                                            <Pie data={agriPie} cx="40%" cy="50%" innerRadius={70} outerRadius={110} paddingAngle={2} dataKey="value">
-                                                {agriPie.map((entry, i) => <Cell key={i} fill={entry.color} />)}
-                                            </Pie>
-                                            <RechartsTooltip formatter={(val, name) => [val.toLocaleString(undefined, { maximumFractionDigits: 2 }) + ' ไร่', name]} />
-                                            <Legend layout="vertical" align="right" verticalAlign="middle" iconType="circle" wrapperStyle={{ fontSize: 13, paddingLeft: 10 }} />
-                                        </PieChart>
-                                    </ResponsiveContainer>
+                                    <EChart option={pieOption(agriPie, { colors: AGRI_COLORS, unit: 'ไร่', digits: 2, center: ['42%', '50%'], legend: 'right' })} />
                                 ) : <EmptyChart label="พื้นที่การเกษตร" />}
                             </CategoryChartCard>
                         </Col>
@@ -299,18 +248,7 @@ export default function StrategyDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🌾 พื้นที่การเกษตรรายอำเภอ (แยกชนิดพืช)">
                                 {agriBar.length > 0 ? (
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <BarChart data={agriBar} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
-                                            <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#656d76' }} axisLine={{ stroke: '#e8ecf0' }} tickLine={false} />
-                                            <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
-                                            <RechartsTooltip cursor={{ fill: '#f6f8fa' }} content={<CustomAgriBarTooltip />} />
-                                            <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
-                                            {agriCrops.map((crop, index) => (
-                                                <Bar key={crop} dataKey={crop} stackId="a" fill={AGRI_COLORS[index % AGRI_COLORS.length]} maxBarSize={50} />
-                                            ))}
-                                        </BarChart>
-                                    </ResponsiveContainer>
+                                    <EChart option={barOption(agriBar, agriCrops.map((crop, index) => ({ key: crop, color: AGRI_COLORS[index % AGRI_COLORS.length] })), { stacked: true, colors: AGRI_COLORS, unit: 'ไร่', digits: 2, totalKey: 'totalArea' })} />
                                 ) : <EmptyChart label="พื้นที่การเกษตร" />}
                             </CategoryChartCard>
                         </Col>
@@ -318,15 +256,7 @@ export default function StrategyDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🏫 สัดส่วน ศพก. แบ่งตามพืชหลัก">
                                 {learnPie.length > 0 ? (
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <PieChart>
-                                            <Pie data={learnPie} cx="40%" cy="50%" innerRadius={70} outerRadius={110} paddingAngle={2} dataKey="value">
-                                                {learnPie.map((_, i) => <Cell key={i} fill={LEARN_COLORS[i % LEARN_COLORS.length]} />)}
-                                            </Pie>
-                                            <RechartsTooltip formatter={(val, name) => [val.toLocaleString() + ' ศูนย์', name]} />
-                                            <Legend layout="vertical" align="right" verticalAlign="middle" iconType="circle" wrapperStyle={{ fontSize: 13, paddingLeft: 10 }} />
-                                        </PieChart>
-                                    </ResponsiveContainer>
+                                    <EChart option={pieOption(learnPie, { colors: LEARN_COLORS, unit: 'ศูนย์', center: ['42%', '50%'], legend: 'right' })} />
                                 ) : <EmptyChart label="ศพก." />}
                             </CategoryChartCard>
                         </Col>
@@ -334,18 +264,7 @@ export default function StrategyDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🏫 จำนวนที่ตั้ง ศพก. แยกตามอำเภอ (แบ่งตามพืชหลัก)">
                                 {learnBar.length > 0 ? (
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <BarChart data={learnBar} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
-                                            <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#656d76' }} axisLine={{ stroke: '#e8ecf0' }} tickLine={false} />
-                                            <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
-                                            <RechartsTooltip cursor={{ fill: '#f6f8fa' }} content={<CustomLearnBarTooltip />} />
-                                            <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
-                                            {learnTypes.map((type, index) => (
-                                                <Bar key={type} dataKey={type} stackId="a" fill={LEARN_COLORS[index % LEARN_COLORS.length]} maxBarSize={50} />
-                                            ))}
-                                        </BarChart>
-                                    </ResponsiveContainer>
+                                    <EChart option={barOption(learnBar, learnTypes.map((type, index) => ({ key: type, color: LEARN_COLORS[index % LEARN_COLORS.length] })), { stacked: true, colors: LEARN_COLORS, unit: 'ศูนย์', totalKey: 'total' })} />
                                 ) : <EmptyChart label="ศพก." />}
                             </CategoryChartCard>
                         </Col>
@@ -353,15 +272,7 @@ export default function StrategyDashboard() {
                         {disasterPie.length > 0 && (
                             <Col xs={24} lg={12}>
                                 <CategoryChartCard title="⚡ สัดส่วนภัยพิบัติตามประเภท">
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <PieChart>
-                                            <Pie data={disasterPie} cx="40%" cy="50%" innerRadius={70} outerRadius={110} paddingAngle={2} dataKey="value">
-                                                {disasterPie.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
-                                            </Pie>
-                                            <RechartsTooltip formatter={(val, name) => [val + ' รายการ', name]} />
-                                            <Legend layout="vertical" align="right" verticalAlign="middle" iconType="circle" wrapperStyle={{ fontSize: 13, paddingLeft: 10 }} />
-                                        </PieChart>
-                                    </ResponsiveContainer>
+                                    <EChart option={pieOption(disasterPie, { colors: PIE_COLORS, unit: 'รายการ', center: ['42%', '50%'], legend: 'right' })} />
                                 </CategoryChartCard>
                             </Col>
                         )}
