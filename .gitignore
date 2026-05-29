@@ -42,3 +42,4 @@ test-results/
 # Temporary/Debug files
 /tmp/
 /check_*.js
+/scratch/
