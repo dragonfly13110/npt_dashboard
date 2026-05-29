@@ -6,8 +6,12 @@ import {
     AreaChart, Area, Treemap
 } from 'recharts';
 import { useDashboardData, PIE_COLORS, groupConfig, DISTRICT_LIST } from '../hooks/useDashboardData';
-import { ArrowLeftOutlined, FilterOutlined, DashboardOutlined, PrinterOutlined, ReloadOutlined } from '@ant-design/icons';
+import { 
+    ArrowLeftOutlined, FilterOutlined, DashboardOutlined, PrinterOutlined, ReloadOutlined,
+    BugOutlined, AlertOutlined 
+} from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 import './InteractiveDashboard.css';
 
 // ── Shared Chart Constants ─────────────────────────────────────
@@ -51,10 +55,106 @@ const RadarTooltip = ({ active, payload }) => {
     return null;
 };
 
+const getUnit = (name) => {
+    if (!name) return '';
+    if (name.includes('ข้าว') || name.includes('พืช') || name.includes('ไม้') || name.includes('สมุนไพร') || name.includes('พื้นที่') || name.includes('แปลงใหญ่สมาชิก') || name.includes('พื้นที่เพาะปลูก')) return ' ไร่';
+    if (name.includes('วิสาหกิจ') || name.includes('ศพก') || name.includes('ศจช') || name.includes('ศดปช') || name.includes('แห่ง') || name.includes('ศูนย์') || name.includes('จุด')) return ' แห่ง';
+    if (name.includes('แปลง')) return ' แปลง';
+    if (name.includes('ครัวเรือน')) return ' ครัวเรือน';
+    if (name.includes('กลุ่ม') || name.includes('สมาชิก')) return ' กลุ่ม';
+    if (name === 'จำนวน') return ' แห่ง';
+    return '';
+};
+
+const formatLabel = (lbl) => {
+    if (!lbl) return '';
+    if (typeof lbl === 'string') {
+        if (lbl.startsWith('นฐ.')) return `อ.${lbl.replace('นฐ.', '')}`;
+        if (!lbl.startsWith('อ.')) return lbl;
+    }
+    return lbl;
+};
+
+const BarTooltip = ({ active, payload, label, unit }) => {
+    if (active && payload && payload.length) {
+        return (
+            <div style={{ background: '#fff', padding: '12px', ...TIP }}>
+                <p style={{ margin: '0 0 6px 0', fontWeight: 'bold', color: '#1e293b' }}>{formatLabel(label)}</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    {payload.map((item, idx) => {
+                        const finalUnit = unit || getUnit(item.name || item.dataKey);
+                        return (
+                            <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', gap: '20px', fontSize: '12px' }}>
+                                <span style={{ color: '#64748b' }}>
+                                    <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: item.color, marginRight: '6px' }} />
+                                    {item.name}:
+                                </span>
+                                <strong style={{ color: '#0f172a' }}>{Number(item.value).toLocaleString()}{finalUnit}</strong>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    }
+    return null;
+};
+
+const AreaTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+        return (
+            <div style={{ background: '#fff', padding: '12px', ...TIP }}>
+                <p style={{ margin: '0 0 6px 0', fontWeight: 'bold', color: '#1e293b' }}>{formatLabel(label)}</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    {payload.map((item, idx) => {
+                        const unit = item.name === 'ครัวเรือน' ? 'ครัวเรือน' : 'ไร่';
+                        return (
+                            <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', gap: '20px', fontSize: '12px' }}>
+                                <span style={{ color: '#64748b' }}>
+                                    <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: item.color, marginRight: '6px' }} />
+                                    {item.name}:
+                                </span>
+                                <strong style={{ color: '#0f172a' }}>{Number(item.value).toLocaleString()} {unit}</strong>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    }
+    return null;
+};
+
+const PieTooltip = ({ active, payload, unit }) => {
+    if (active && payload && payload.length) {
+        const item = payload[0];
+        return (
+            <div style={{ background: '#fff', padding: '10px 12px', ...TIP }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px' }}>
+                    <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: item.payload.fill || item.color, marginRight: '6px' }} />
+                    <span style={{ color: '#64748b', fontWeight: 500 }}>{item.name}:</span>
+                    <strong style={{ color: '#0f172a' }}>
+                        {Number(item.value).toLocaleString()} {unit || ''}
+                    </strong>
+                </div>
+            </div>
+        );
+    }
+    return null;
+};
+
 // ── Sub-Components (Memoized) ──────────────────────────────────────────
-const MetricCard = React.memo(function MetricCard({ title, value, unit, color, icon }) {
+const MetricCard = React.memo(function MetricCard({ title, value, unit, color, icon, link, isWarning }) {
+    const navigate = useNavigate();
+    const handleClick = () => {
+        if (link) navigate(link);
+    };
     return (
-        <div className="metric-card" style={{ borderTop: `3px solid ${color}` }}>
+        <div 
+            className={`metric-card ${link ? 'clickable-metric-card' : ''} ${isWarning ? 'warning-metric-card' : ''}`} 
+            style={{ borderTop: `3px solid ${color}`, cursor: link ? 'pointer' : 'default' }}
+            onClick={handleClick}
+        >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
                     <div className="metric-title">{title}</div>
@@ -115,8 +215,29 @@ export default function InteractiveDashboard() {
         ceDistrictStats, agriPie, lpPie
     } = useDashboardData();
     const [selectedDistrict, setSelectedDistrict] = useState('ทั้งหมด');
+    const [latestForecast, setLatestForecast] = useState(null);
 
-    useEffect(() => { document.title = 'Interactive Dashboard | ศูนย์ข้อมูลการเกษตรนครปฐม'; }, []);
+    useEffect(() => {
+        document.title = 'Interactive Dashboard | ศูนย์ข้อมูลการเกษตรนครปฐม';
+        
+        const fetchLatestForecast = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('ai_disease_forecasts')
+                    .select('*')
+                    .order('forecast_date', { ascending: false })
+                    .limit(1);
+                if (error) throw error;
+                if (data && data.length > 0) {
+                    setLatestForecast(data[0]);
+                }
+            } catch (err) {
+                console.error('Error fetching latest forecast for dashboard:', err.message);
+            }
+        };
+
+        fetchLatestForecast();
+    }, []);
 
     const districts = ['ทั้งหมด', ...DISTRICT_LIST];
 
@@ -124,6 +245,19 @@ export default function InteractiveDashboard() {
 
     // ── Metric cards data ──────────────────────────────────
     const metrics = useMemo(() => {
+        const warningCount = latestForecast?.details?.filter(d => d.risk_level === 'สูง').length || 0;
+        const totalDiseases = latestForecast?.details?.length || 0;
+
+        const aiWarningCard = {
+            title: 'เฝ้าระวังโรค/แมลง (AI)',
+            value: totalDiseases,
+            unit: 'ชนิด',
+            color: warningCount > 0 ? '#ef4444' : '#ea580c',
+            icon: '🐛',
+            link: '/dashboard/protection/disease-forecast',
+            isWarning: warningCount > 0
+        };
+
         if (selectedDistrict === 'ทั้งหมด') {
             return [
                 { title: 'ครัวเรือนเกษตรกร', value: agriStats.households || 0, unit: 'ครัวเรือน', color: '#1a7f37', icon: '👨‍🌾' },
@@ -132,6 +266,7 @@ export default function InteractiveDashboard() {
                 { title: 'แปลงใหญ่', value: lpStats.total || 0, unit: 'แปลง', color: '#ea580c', icon: '🌾' },
                 { title: 'ศูนย์เรียนรู้ (ศพก.)', value: getGlobalStat('learning_centers'), unit: 'แห่ง', color: '#0891b2', icon: '📚' },
                 { title: 'จุดเฝ้าระวัง', value: getGlobalStat('soil_fertilizer_centers'), unit: 'แห่ง', color: '#d946ef', icon: '🛡️' },
+                aiWarningCard
             ];
         }
         const s = districtStats[selectedDistrict] || {};
@@ -142,8 +277,9 @@ export default function InteractiveDashboard() {
             { title: 'แปลงใหญ่', value: s.lp || 0, unit: 'แปลง', color: '#ea580c', icon: '🌾' },
             { title: 'ศูนย์เรียนรู้ (ศพก.)', value: s.lc || 0, unit: 'แห่ง', color: '#0891b2', icon: '📚' },
             { title: 'จุดเฝ้าระวัง', value: s.sfc || 0, unit: 'แห่ง', color: '#d946ef', icon: '🛡️' },
+            aiWarningCard
         ];
-    }, [selectedDistrict, districtStats, agriStats, enterprises, lpStats, stats]);
+    }, [selectedDistrict, districtStats, agriStats, enterprises, lpStats, stats, latestForecast]);
 
     // ── Update Agri Pie to respect filters ────────────────
     const displayAgriPie = useMemo(() => {
@@ -318,13 +454,13 @@ export default function InteractiveDashboard() {
 
             <div className="dashboard-content">
                 {/* ═══ Row 1: Metric Cards ═══ */}
-                <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
+                <div className="metrics-row" style={{ marginBottom: 24 }}>
                     {metrics.map(m => (
-                        <Col xs={12} sm={8} lg={4} key={`${m.title}-${animationKey}`}>
+                        <div className="metric-col" key={`${m.title}-${animationKey}`}>
                             <MetricCard {...m} />
-                        </Col>
+                        </div>
                     ))}
-                </Row>
+                </div>
 
                 {/* ═══ Row 2: District Groups + Crop Pie ═══ */}
                 <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
@@ -333,9 +469,9 @@ export default function InteractiveDashboard() {
                             <ResponsiveContainer width="100%" height={300} key={animationKey}>
                                 <BarChart data={districtGroupBar} margin={{ top: 10, right: 10, left: -10, bottom: 0 }} isAnimationActive>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                                    <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 12 }} axisLine={false} tickLine={false} />
+                                    <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 11 }} angle={-25} textAnchor="end" height={50} axisLine={false} tickLine={false} />
                                     <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={false} tickLine={false} />
-                                    <Tooltip contentStyle={TIP} />
+                                    <Tooltip content={<BarTooltip />} />
                                     <Legend iconType="circle" wrapperStyle={{ fontSize: 12, paddingTop: 8 }} />
                                     <Bar dataKey="วิสาหกิจ" radius={BAR_RADIUS} maxBarSize={28}>
                                         {districtGroupBar.map((entry, index) => <Cell key={`cell-${index}`} fill={isTargetDistrict(entry.name) ? '#8b5cf6' : '#e2e8f0'} />)}
@@ -363,7 +499,7 @@ export default function InteractiveDashboard() {
                                     <Pie data={displayAgriPie} cx="50%" cy="50%" innerRadius={55} outerRadius={100} paddingAngle={2} dataKey="value" role="img" aria-label="สัดส่วนพื้นที่เพาะปลูก" isAnimationActive>
                                         {displayAgriPie.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} stroke="#fff" strokeWidth={2} />)}
                                     </Pie>
-                                    <Tooltip formatter={v => `${Number(v).toLocaleString()} ไร่`} contentStyle={TIP} />
+                                    <Tooltip content={<PieTooltip unit="ไร่" />} />
                                 </PieChart>
                             </ResponsiveContainer>
                             <PieLegend data={displayAgriPie} colors={PIE_COLORS} />
@@ -378,9 +514,9 @@ export default function InteractiveDashboard() {
                             <ResponsiveContainer width="100%" height={280} key={animationKey}>
                                 <BarChart data={riceBar} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                                    <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 12 }} axisLine={false} tickLine={false} />
+                                    <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 11 }} angle={-25} textAnchor="end" height={50} axisLine={false} tickLine={false} />
                                     <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={formatK} />
-                                    <Tooltip contentStyle={TIP} formatter={v => `${Number(v).toLocaleString()} ไร่`} />
+                                    <Tooltip content={<BarTooltip />} />
                                     <Legend iconType="circle" wrapperStyle={{ fontSize: 12, paddingTop: 8 }} />
                                     <Bar dataKey="ข้าวนาปี" stackId="rice" radius={[0, 0, 0, 0]} maxBarSize={40}>
                                         {riceBar.map((entry, index) => <Cell key={`cell-${index}`} fill={isTargetDistrict(entry.name) ? '#16a34a' : '#e2e8f0'} />)}
@@ -397,9 +533,9 @@ export default function InteractiveDashboard() {
                             <ResponsiveContainer width="100%" height={280} key={animationKey}>
                                 <BarChart data={cropDistrictBar} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                                    <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 12 }} axisLine={false} tickLine={false} />
+                                    <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 11 }} angle={-25} textAnchor="end" height={50} axisLine={false} tickLine={false} />
                                     <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={formatK} />
-                                    <Tooltip contentStyle={TIP} formatter={v => `${Number(v).toLocaleString()} ไร่`} />
+                                    <Tooltip content={<BarTooltip />} />
                                     <Legend iconType="circle" wrapperStyle={{ fontSize: 12, paddingTop: 8 }} />
                                     <Bar dataKey="พืชไร่" stackId="crop" maxBarSize={40}>
                                         {cropDistrictBar.map((entry, index) => <Cell key={`cell-${index}`} fill={isTargetDistrict(entry.name) ? '#f59e0b' : '#e2e8f0'} />)}
@@ -431,7 +567,7 @@ export default function InteractiveDashboard() {
                                     <Pie data={lpPie} cx="50%" cy="50%" innerRadius={45} outerRadius={85} paddingAngle={3} dataKey="value" role="img" aria-label="แปลงใหญ่" isAnimationActive>
                                         {lpPie.map((_, i) => <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} stroke="#fff" strokeWidth={2} />)}
                                     </Pie>
-                                    <Tooltip contentStyle={TIP} formatter={v => `${v} แปลง`} />
+                                    <Tooltip content={<PieTooltip unit="แปลง" />} />
                                 </PieChart>
                             </ResponsiveContainer>
                             <PieLegend data={lpPie} colors={CHART_COLORS} />
@@ -447,7 +583,7 @@ export default function InteractiveDashboard() {
                                     <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e2e8f0" />
                                     <XAxis type="number" tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={false} tickLine={false} />
                                     <YAxis dataKey="name" type="category" tick={{ fill: '#475569', fontSize: 12 }} axisLine={false} tickLine={false} width={90} />
-                                    <Tooltip contentStyle={TIP} formatter={v => `${v} กลุ่ม`} />
+                                    <Tooltip content={<BarTooltip unit=" กลุ่ม" />} />
                                     <Bar dataKey="value" fill="#6366f1" radius={[0, 6, 6, 0]} maxBarSize={24} name="จำนวน">
                                         {instituteBar.map((_, i) => <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />)}
                                     </Bar>
@@ -465,7 +601,7 @@ export default function InteractiveDashboard() {
                                     <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e2e8f0" />
                                     <XAxis type="number" tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={false} tickLine={false} />
                                     <YAxis dataKey="name" type="category" tick={{ fill: '#475569', fontSize: 12 }} axisLine={false} tickLine={false} width={80} />
-                                    <Tooltip contentStyle={TIP} formatter={v => `${v} แห่ง`} />
+                                    <Tooltip content={<BarTooltip unit=" แห่ง" />} />
                                     <Bar dataKey="จำนวน" fill="#a855f7" radius={[0, 6, 6, 0]} maxBarSize={20}>
                                         {ceDistBar.map((entry, index) => <Cell key={`cell-${index}`} fill={isTargetDistrict(entry.name) ? PIE_COLORS[index % PIE_COLORS.length] : '#e2e8f0'} />)}
                                     </Bar>
@@ -492,9 +628,9 @@ export default function InteractiveDashboard() {
                                         </linearGradient>
                                     </defs>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                                    <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 12 }} axisLine={false} tickLine={false} />
+                                    <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 11 }} angle={-25} textAnchor="end" height={50} axisLine={false} tickLine={false} />
                                     <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={formatK} />
-                                    <Tooltip contentStyle={TIP} formatter={v => Number(v).toLocaleString()} />
+                                    <Tooltip content={<AreaTooltip />} />
                                     <Legend iconType="circle" wrapperStyle={{ fontSize: 12, paddingTop: 8 }} />
                                     <Area type="monotone" dataKey="ครัวเรือน" stroke="#10b981" fill="url(#gradHouse)" strokeWidth={2.5} dot={{ r: 4, fill: '#10b981' }} />
                                     <Area type="monotone" dataKey="พื้นที่" stroke="#3b82f6" fill="url(#gradArea)" strokeWidth={2.5} dot={{ r: 4, fill: '#3b82f6' }} />

@@ -237,6 +237,17 @@ export default function LandingPage() {
         <div className="landing-page bento-theme">
 
             <div className="landing-floating-system-tabs" aria-label="System shortcuts">
+                <button
+                    className="landing-system-tab forecast-warning-tab"
+                    onClick={() => setActiveInfoModal('aiForecast')}
+                    style={{ cursor: 'pointer' }}
+                >
+                    <BugOutlined className="forecast-pulse-icon" aria-hidden="true" />
+                    <span>
+                        <strong>เตือนภัยโรคและแมลง</strong>
+                        <small>พยากรณ์ล่วงหน้า 7 วัน</small>
+                    </span>
+                </button>
                 {externalSystemLinks.map(({ href, title, subtitle, Icon, isInternal }) => (
                     isInternal ? (
                         <button
@@ -298,17 +309,6 @@ export default function LandingPage() {
                     <span>
                         <strong>ชุมชนเกษตรกร</strong>
                         <small>Farmer Forum</small>
-                    </span>
-                </button>
-                <button
-                    className="landing-system-tab forecast-warning-tab"
-                    onClick={() => setActiveInfoModal('aiForecast')}
-                    style={{ cursor: 'pointer' }}
-                >
-                    <BugOutlined className="forecast-pulse-icon" aria-hidden="true" />
-                    <span>
-                        <strong>เตือนภัยโรคและแมลง</strong>
-                        <small>พยากรณ์ล่วงหน้า 7 วัน</small>
                     </span>
                 </button>
             </div>

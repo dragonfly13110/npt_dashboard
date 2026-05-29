@@ -51,6 +51,7 @@ export const groupConfig = [
         color: '#e65100',
         tables: [
             { table: 'forecast_plots', label: 'แปลงพยากรณ์' },
+            { table: 'ai_disease_forecasts', label: 'พยากรณ์โรค & แมลง (AI)' },
             { table: 'pest_centers', label: 'ศจช.' },
             { table: 'soil_fertilizer_centers', label: 'ศดปช.' },
             { table: 'fire_hotspots', label: 'จุดเฝ้าระวัง PM2.5' },

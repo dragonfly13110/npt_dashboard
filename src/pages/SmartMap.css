@@ -1011,11 +1011,11 @@
 }
 
 .district-map-label.selected {
-    background: rgba(16, 185, 129, 0.95);
-    border-color: rgba(16, 185, 129, 0.2);
+    background: rgba(239, 68, 68, 0.95);
+    border-color: rgba(239, 68, 68, 0.2);
     color: #ffffff;
     font-weight: 700;
-    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
 }
 
 /* ---------- PULSING LIVE MARKERS ---------- */

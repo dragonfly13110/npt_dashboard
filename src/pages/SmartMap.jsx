@@ -1500,8 +1500,8 @@ ${cropsStr}
                                 return {
                                     fillColor,
                                     fillOpacity: isSelected ? 0.7 : 0.5,
-                                    color: isSelected ? '#10b981' : 'rgba(15, 23, 42, 0.15)',
-                                    weight: isSelected ? 3.5 : 2,
+                                    color: isSelected ? '#ef4444' : 'rgba(15, 23, 42, 0.15)',
+                                    weight: isSelected ? 5 : 2,
                                 };
                             }}
                             onEachFeature={(feature, layer) => {
@@ -1560,16 +1560,16 @@ ${cropsStr}
                                         const isSelected = selectedDistrict && selectedDistrict.name === distName;
                                         e.target.setStyle({
                                             fillOpacity: 0.7,
-                                            weight: isSelected ? 3.5 : 3,
-                                            color: isSelected ? '#10b981' : 'rgba(15, 23, 42, 0.3)'
+                                            weight: isSelected ? 5 : 3,
+                                            color: isSelected ? '#ef4444' : 'rgba(15, 23, 42, 0.3)'
                                         });
                                     },
                                     mouseout: (e) => {
                                         const isSelected = selectedDistrict && selectedDistrict.name === distName;
                                         e.target.setStyle({
                                             fillOpacity: isSelected ? 0.7 : 0.5,
-                                            weight: isSelected ? 3.5 : 2,
-                                            color: isSelected ? '#10b981' : 'rgba(15, 23, 42, 0.15)'
+                                            weight: isSelected ? 5 : 2,
+                                            color: isSelected ? '#ef4444' : 'rgba(15, 23, 42, 0.15)'
                                         });
                                     },
                                     click: () => {
@@ -1595,10 +1595,10 @@ ${cropsStr}
                                 <Polyline
                                     positions={[coords, labelPos]}
                                     pathOptions={{
-                                        color: isSelected ? '#10b981' : '#64748b',
-                                        weight: isSelected ? 2 : 1.2,
+                                        color: isSelected ? '#ef4444' : '#64748b',
+                                        weight: isSelected ? 2.5 : 1.2,
                                         dashArray: '5, 5',
-                                        opacity: isSelected ? 0.8 : 0.4,
+                                        opacity: isSelected ? 0.9 : 0.4,
                                     }}
                                     interactive={false}
                                 />
