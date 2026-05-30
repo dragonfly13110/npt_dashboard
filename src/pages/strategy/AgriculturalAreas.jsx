@@ -288,7 +288,7 @@ export default function AgriculturalAreas() {
         }
 
         return (
-            <div className="agri-leaflet-map-wrapper" style={{ height: height }}>
+            <div className="agri-leaflet-map-wrapper">
                 <MapComponents.MapContainer
                     center={[13.82, 100.05]}
                     zoom={10}

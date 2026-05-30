@@ -214,10 +214,15 @@
 
 .agri-map-card .ant-card-body {
     padding: 16px !important;
+    display: flex;
+    flex-direction: column;
 }
 
 .agri-leaflet-map-wrapper {
-    height: 320px;
+    /* flex: 1 + height: 0 = stretch เต็ม card body บน desktop */
+    flex: 1;
+    height: 0;
+    min-height: 0;
     width: 100%;
     border-radius: 8px;
     overflow: hidden;
@@ -272,12 +277,26 @@
     .gis-split-row {
         flex-direction: column;
     }
-    .gis-left-panel,
+    .gis-left-panel {
+        flex: 0 0 100%;
+        max-width: 100%;
+        height: auto;
+        position: static;
+    }
     .gis-right-scroll-panel {
         flex: 0 0 100%;
         max-width: 100%;
         height: auto;
         position: static;
+    }
+    /* mobile: ยกเลิก flex stretch แล้วใช้ px ตรงๆ แทน */
+    .agri-map-card .ant-card-body {
+        display: block !important;
+    }
+    .agri-leaflet-map-wrapper {
+        flex: none !important;
+        height: 320px !important;
+        min-height: 320px !important;
     }
 }
 
