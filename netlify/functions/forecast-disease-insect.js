@@ -77,7 +77,7 @@ const generateForecast = async () => {
             ? outbreakData.map(o => `Crop: ${o.affected_crop}, Pest/Disease: ${o.pest_name}, District: ${o.district}, Severity: ${o.severity}, Date: ${o.report_date}`).join('\n')
             : 'No recent pest outbreaks reported.';;
 
-        // 4. Set up Gemini API request with search grounding
+        // 4. Set up Gemini API request
         if (!GEMINI_API_KEY) {
             throw new Error('GEMINI_API_KEY is not configured in env variables.');
         }
@@ -85,7 +85,7 @@ const generateForecast = async () => {
         const model = 'gemini-3.5-flash';
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
 
-        const prompt = `คุณคือผู้เชี่ยวชาญด้านโรคพืชและแมลงศัตรูพืชในเขตจังหวัดนครปฐม ประเทศไทย (พืชหลัก: ข้าว, อ้อย, มันสำปะหลัง, กล้วยไม้, มะพร้าวน้ำหอม, พืชผัก)
+        const basePrompt = `คุณคือผู้เชี่ยวชาญด้านโรคพืชและแมลงศัตรูพืชในเขตจังหวัดนครปฐม ประเทศไทย (พืชหลัก: ข้าว, อ้อย, มันสำปะหลัง, กล้วยไม้, มะพร้าวน้ำหอม, พืชผัก)
 วิเคราะห์สถานการณ์และพยากรณ์ความเสี่ยงโรคพืชและแมลงศัตรูพืชที่มีโอกาสระบาด "ล่วงหน้า 7 วัน" ในจังหวัดนครปฐม นับตั้งแต่วันที่ ${bangkokDateStr} เป็นต้นไป
 
 โดยใช้ข้อมูลสนับสนุนด้านล่างนี้:
@@ -96,9 +96,13 @@ ${weatherSummary}
 ${weatherForecastSummary}
 
 3. ข้อมูลรายงานการระบาดของโรค/แมลง ล่าสุดในพื้นที่:
-${outbreakSummary}
+${outbreakSummary}`;
 
-4. ทำการค้นหาข้อมูลทางอินเทอร์เน็ตเพิ่มเติม (Google Search Grounding) เกี่ยวกับ "คำเตือนระบาดโรคพืชและแมลงศัตรูพืช กรมส่งเสริมการเกษตร หรือ กรมวิชาการเกษตร ช่วงเดือน/ปีนี้ ในภาคกลางและจังหวัดนครปฐม"
+        const groundingInstruction = `
+
+4. ทำการค้นหาข้อมูลทางอินเทอร์เน็ตเพิ่มเติม (Google Search Grounding) เกี่ยวกับ "คำเตือนระบาดโรคพืชและแมลงศัตรูพืช กรมส่งเสริมการเกษตร หรือ กรมวิชาการเกษตร ช่วงเดือน/ปีนี้ ในภาคกลางและจังหวัดนครปฐม"`;
+
+        const responseFormatInstruction = `
 
 วิเคราะห์และตอบกลับในรูปแบบ JSON วัตถุที่มีโครงสร้างต่อไปนี้อย่างเคร่งครัด (ตอบเป็นภาษาไทยทั้งหมด):
 {
@@ -115,38 +119,84 @@ ${outbreakSummary}
   ]
 }`;
 
-        const requestBody = {
-            contents: [
-                {
-                    parts: [
-                        { text: prompt }
-                    ]
+        let generatedText = '';
+        let isGroundingSuccess = false;
+
+        // Try generating with search grounding first
+        try {
+            console.log('Attempting forecast generation with Google Search Grounding...');
+            const prompt = `${basePrompt}${groundingInstruction}${responseFormatInstruction}`;
+            const requestBody = {
+                contents: [
+                    {
+                        parts: [
+                            { text: prompt }
+                        ]
+                    }
+                ],
+                tools: [
+                    {
+                        google_search: {}
+                    }
+                ],
+                generationConfig: {
+                    temperature: 0.2
                 }
-            ],
-            tools: [
-                {
-                    google_search: {}
-                }
-            ],
-            generationConfig: {
-                temperature: 0.2
+            };
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestBody),
+            });
+
+            if (!response.ok) {
+                const errText = await response.text();
+                throw new Error(`Gemini API Error (status ${response.status}): ${errText}`);
             }
-        };
 
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(requestBody),
-        });
-
-        if (!response.ok) {
-            const errText = await response.text();
-            throw new Error(`Gemini API Error (status ${response.status}): ${errText}`);
+            const data = await response.json();
+            generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (generatedText) {
+                isGroundingSuccess = true;
+                console.log('Successfully generated forecast using Google Search Grounding.');
+            }
+        } catch (groundingErr) {
+            console.warn('Forecast generation with Google Search Grounding failed:', groundingErr.message);
+            console.log('Falling back to standard forecast generation without Search Grounding...');
         }
 
-        const data = await response.json();
-        const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        
+        // If search grounding failed or returned empty, call standard model
+        if (!isGroundingSuccess) {
+            const prompt = `${basePrompt}${responseFormatInstruction}`;
+            const requestBody = {
+                contents: [
+                    {
+                        parts: [
+                            { text: prompt }
+                        ]
+                    }
+                ],
+                generationConfig: {
+                    temperature: 0.2
+                }
+            };
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestBody),
+            });
+
+            if (!response.ok) {
+                const errText = await response.text();
+                throw new Error(`Gemini API Fallback Error (status ${response.status}): ${errText}`);
+            }
+
+            const data = await response.json();
+            generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        }
+
         if (!generatedText) {
             throw new Error('Gemini API returned empty response parts');
         }
