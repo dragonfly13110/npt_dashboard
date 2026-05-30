@@ -1,16 +1,10 @@
 import { useMemo } from 'react';
 import { Row, Col, Card, Spin, Tag } from 'antd';
-import { PieChartOutlined, EnvironmentOutlined, BankOutlined, ThunderboltOutlined } from '@ant-design/icons';
+import { PieChartOutlined } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
 import { PageHeader, CategoryBentoCard, CategoryChartCard } from '../../components/widgets/SharedDashboardUI';
 import EChart from '../../components/widgets/EChart';
 import { barOption, pieOption } from '../../components/charts/echartOptions';
-
-const PIE_COLORS = [
-    '#66bb6a', '#42a5f5', '#ffca28', '#ef5350', '#ab47bc',
-    '#26a69a', '#ff7043', '#8d6e63', '#78909c', '#5c6bc0',
-    '#ec407a', '#29b6f6', '#9ccc65', '#ffa726', '#7e57c2'
-];
 
 const AGRI_COLORS = ['#ffb300', '#f57c00', '#7cb342', '#43a047', '#00897b', '#039be5', '#3949ab', '#8e24aa'];
 const LEARN_COLORS = ['#0288d1', '#0097a7', '#388e3c', '#afb42b', '#fbc02d', '#f57c00', '#e64a19', '#d32f2f'];
@@ -28,16 +22,14 @@ import { useApiCache } from '../../hooks/useApiCache';
 
 export default function StrategyDashboard() {
     const fetchStrategyData = async () => {
-        const [agri, learn, disaster] = await Promise.all([
+        const [agri, learn] = await Promise.all([
             // In a larger app, you might want to specify exactly what columns to load to reduce payload
             supabase.from('agricultural_areas').select('*'),
             supabase.from('learning_centers').select('*'),
-            supabase.from('disasters').select('*'),
         ]);
         return {
             agriData: agri.data || [],
             learningData: learn.data || [],
-            disasterData: disaster.data || []
         };
     };
 
@@ -45,7 +37,6 @@ export default function StrategyDashboard() {
 
     const agriData = useMemo(() => data?.agriData || [], [data?.agriData]);
     const learningData = useMemo(() => data?.learningData || [], [data?.learningData]);
-    const disasterData = useMemo(() => data?.disasterData || [], [data?.disasterData]);
 
     // ============================================
     // Agricultural Areas Charts
@@ -123,18 +114,6 @@ export default function StrategyDashboard() {
     }, [learningData]);
 
     // ============================================
-    // Disasters Charts
-    // ============================================
-    const disasterPie = useMemo(() => {
-        const typeMap = {};
-        disasterData.forEach(item => {
-            const t = item.disaster_type || item.type || 'ไม่ระบุ';
-            typeMap[t] = (typeMap[t] || 0) + 1;
-        });
-        return Object.entries(typeMap).map(([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value);
-    }, [disasterData]);
-
-    // ============================================
     // Summary Stats for Bento Cards
     // ============================================
     const agriStats = useMemo(() => {
@@ -172,21 +151,11 @@ export default function StrategyDashboard() {
         return { total: learningData.length, topTypes };
     }, [learningData]);
 
-    const disasterStats = useMemo(() => {
-        const typeMap = {};
-        disasterData.forEach(item => {
-            const t = item.disaster_type || item.type || 'ไม่ระบุ';
-            typeMap[t] = (typeMap[t] || 0) + 1;
-        });
-        const prods = Object.entries(typeMap).sort((a,b) => b[1] - a[1]).slice(0, 4);
-        return { total: disasterData.length, topTypes: prods };
-    }, [disasterData]);
-
     return (
         <div>
             <PageHeader 
                 title="ยุทธศาสตร์และสารสนเทศ" 
-                subtitle="ภาพรวมข้อมูลพื้นที่การเกษตร, ศพก. และภัยพิบัติ"
+                subtitle="ภาพรวมข้อมูลพื้นที่การเกษตร และ ศพก."
                 icon={PieChartOutlined}
             />
 
@@ -222,15 +191,6 @@ export default function StrategyDashboard() {
                             totalCount={`${learnStats.total} ศูนย์`}
                             mainStatsTitle="เป้าหมาย/สินค้าหลัก (แห่ง)"
                             mainStats={learnStats.topTypes.map(([label, value]) => ({ label, value, colorType: 'blue' }))}
-                        />
-
-                        <CategoryBentoCard
-                            title="ภัยพิบัติ"
-                            icon="⚡"
-                            totalLabel="ทั้งหมด"
-                            totalCount={`${disasterStats.total} รายการ`}
-                            mainStatsTitle="ประเภทภัยพิบัติ (ครั้ง)"
-                            mainStats={disasterStats.topTypes.map(([label, value]) => ({ label, value, colorType: 'red' }))}
                         />
 
                     </section>
@@ -269,13 +229,6 @@ export default function StrategyDashboard() {
                             </CategoryChartCard>
                         </Col>
 
-                        {disasterPie.length > 0 && (
-                            <Col xs={24} lg={12}>
-                                <CategoryChartCard title="⚡ สัดส่วนภัยพิบัติตามประเภท">
-                                    <EChart option={pieOption(disasterPie, { colors: PIE_COLORS, unit: 'รายการ', center: ['42%', '50%'], legend: 'right' })} />
-                                </CategoryChartCard>
-                            </Col>
-                        )}
                     </Row>
                 </>
             )}
