@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Form, InputNumber, DatePicker, Row, Col, Card, Button, message } from 'antd';
 import { SyncOutlined } from '@ant-design/icons';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import CrudTable from '../../components/DataTable/CrudTable';
+import { areaOption, barOption } from '../../components/charts/echartOptions';
 import { supabase } from '../../supabaseClient';
 import RainfallSummaryWidget from '../../components/widgets/RainfallSummaryWidget';
+import EChart from '../../components/widgets/EChart';
 
 const columns = [
     { title: 'วันที่', dataIndex: 'date', key: 'date', width: 120, sorter: (a, b) => new Date(a.date) - new Date(b.date), defaultSortOrder: 'descend' },
@@ -119,36 +120,22 @@ export default function DailyWeather() {
                 <Col xs={24} lg={12}>
                     <Card title="อุณหภูมิเฉลี่ยย้อนหลัง (90 วัน)" bordered={false} style={{ borderRadius: 12, boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
                         <div style={{ width: '100%', height: 280 }}>
-                            <ResponsiveContainer>
-                                <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                                    <defs>
-                                        <linearGradient id="colorTemp" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#cf222e" stopOpacity={0.3}/>
-                                            <stop offset="95%" stopColor="#cf222e" stopOpacity={0}/>
-                                        </linearGradient>
-                                    </defs>
-                                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                                    <XAxis dataKey="date" tick={{fontSize: 10}} tickFormatter={(v) => v.split('-').slice(1).join('/')} />
-                                    <YAxis tick={{fontSize: 10}} domain={['dataMin - 2', 'dataMax + 2']} />
-                                    <Tooltip contentStyle={{ borderRadius: 8, border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
-                                    <Area type="monotone" dataKey="tavg" name="อุณหภูมิ (°C)" stroke="#cf222e" strokeWidth={3} fillOpacity={1} fill="url(#colorTemp)" />
-                                </AreaChart>
-                            </ResponsiveContainer>
+                            <EChart option={areaOption(
+                                chartData,
+                                [{ key: 'tavg', name: 'อุณหภูมิ (°C)', color: '#cf222e', opacity: 0.22 }],
+                                { categoryKey: 'date', unit: '°C', grid: { left: 40 } }
+                            )} />
                         </div>
                     </Card>
                 </Col>
                 <Col xs={24} lg={12}>
                     <Card title="ปริมาณน้ำฝนย้อนหลัง (90 วัน)" bordered={false} style={{ borderRadius: 12, boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
                         <div style={{ width: '100%', height: 280 }}>
-                            <ResponsiveContainer>
-                                <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                                    <XAxis dataKey="date" tick={{fontSize: 10}} tickFormatter={(v) => v.split('-').slice(1).join('/')} />
-                                    <YAxis tick={{fontSize: 10}} />
-                                    <Tooltip contentStyle={{ borderRadius: 8, border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} cursor={{fill: '#f0f0f0'}} />
-                                    <Bar dataKey="prcp" name="น้ำฝน (mm)" fill="#1890ff" radius={[4, 4, 0, 0]} />
-                                </BarChart>
-                            </ResponsiveContainer>
+                            <EChart option={barOption(
+                                chartData,
+                                [{ key: 'prcp', name: 'น้ำฝน (mm)', color: '#1890ff' }],
+                                { categoryKey: 'date', unit: 'mm', grid: { left: 40 } }
+                            )} />
                         </div>
                     </Card>
                 </Col>

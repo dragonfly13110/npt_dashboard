@@ -12,10 +12,10 @@ import {
     RobotOutlined,
     ThunderboltOutlined,
 } from '@ant-design/icons';
-import { Bar, ComposedChart, Line, CartesianGrid, ResponsiveContainer, Tooltip as ChartTooltip, XAxis, YAxis, Legend } from 'recharts';
 import { useDashboardData } from '../hooks/useDashboardData';
 import { useApiCache } from '../hooks/useApiCache';
 import { supabase } from '../supabaseClient';
+import EChart from '../components/widgets/EChart';
 import budgetSeed from '../data/budgetRound2_2569.json';
 import './SituationRoom.css';
 
@@ -279,6 +279,43 @@ function extractGeminiText(payload) {
         ?.map(part => part.text || '')
         .join('')
         .trim() || '';
+}
+
+function weatherRiskOption(data) {
+    return {
+        color: ['#38bdf8', '#fb923c', '#10b981'],
+        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+        legend: { type: 'scroll', bottom: 0, textStyle: { color: '#475569', fontSize: 10 } },
+        grid: { top: 20, right: 42, bottom: 50, left: 36, containLabel: true },
+        xAxis: {
+            type: 'category',
+            data: data.map((item) => item.name),
+            axisLabel: { color: '#64748b', fontSize: 10, interval: 0 },
+            axisLine: { lineStyle: { color: '#e2e8f0' } },
+            axisTick: { show: false },
+        },
+        yAxis: [
+            {
+                type: 'value',
+                name: '% / µg',
+                nameTextStyle: { color: '#64748b', fontSize: 10 },
+                axisLabel: { color: '#64748b', fontSize: 10 },
+                splitLine: { lineStyle: { color: '#eef2f7', type: 'dashed' } },
+            },
+            {
+                type: 'value',
+                name: 'มม.',
+                nameTextStyle: { color: '#64748b', fontSize: 10 },
+                axisLabel: { color: '#64748b', fontSize: 10 },
+                splitLine: { show: false },
+            },
+        ],
+        series: [
+            { type: 'bar', name: 'โอกาสฝน (%)', data: data.map((item) => item.rainProbability || 0), itemStyle: { color: '#38bdf8', borderRadius: [4, 4, 0, 0] } },
+            { type: 'bar', name: 'ฝุ่น PM2.5 (µg)', data: data.map((item) => item.pm25 || 0), itemStyle: { color: '#fb923c', borderRadius: [4, 4, 0, 0] } },
+            { type: 'line', yAxisIndex: 1, name: 'ฝนรวม (มม.)', data: data.map((item) => item.rainTotal || 0), smooth: true, symbol: 'circle', symbolSize: 7, lineStyle: { color: '#10b981', width: 2.5 }, itemStyle: { color: '#10b981' } },
+        ],
+    };
 }
 
 function isCompleteBriefing(text) {
@@ -556,19 +593,7 @@ export default function SituationRoom() {
                         </Col>
                         <Col xs={24} lg={8}>
                             <Card title="Weather / PM / Rain Overview" className="situation-card">
-                                <ResponsiveContainer width="100%" height={220}>
-                                    <ComposedChart data={weatherRisk.districts.slice(0, 7)}>
-                                        <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                                        <XAxis dataKey="name" tick={{ fontSize: 10 }} interval={0} />
-                                        <YAxis yAxisId="left" tick={{ fontSize: 10 }} label={{ value: '% / µg/m³', angle: -90, position: 'insideLeft', style: { fontSize: 9, fill: '#64748b' } }} />
-                                        <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10 }} label={{ value: 'มม.', angle: 90, position: 'insideRight', style: { fontSize: 9, fill: '#64748b' } }} />
-                                        <ChartTooltip />
-                                        <Legend wrapperStyle={{ fontSize: 10, marginTop: 5 }} />
-                                        <Bar yAxisId="left" dataKey="rainProbability" fill="#38bdf8" radius={[4, 4, 0, 0]} name="โอกาสฝน (%)" />
-                                        <Bar yAxisId="left" dataKey="pm25" fill="#fb923c" radius={[4, 4, 0, 0]} name="ฝุ่น PM2.5 (µg)" />
-                                        <Line yAxisId="right" type="monotone" dataKey="rainTotal" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} name="ฝนรวม (มม.)" />
-                                    </ComposedChart>
-                                </ResponsiveContainer>
+                                <EChart option={weatherRiskOption(weatherRisk.districts.slice(0, 7))} style={{ height: 220 }} />
                             </Card>
                         </Col>
                         <Col xs={24} lg={8}>

@@ -1,13 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { Skeleton, Button, Row, Col, Card } from 'antd';
 import {
-    PieChart, Pie, Cell, Tooltip as RTooltip, ResponsiveContainer
-} from 'recharts';
-import {
     FilePdfOutlined,
     AimOutlined, BankOutlined, TeamOutlined, AlertOutlined,
     ScheduleOutlined
 } from '@ant-design/icons';
+import { pieOption } from '../components/charts/echartOptions';
 
 // ===== LANDING PAGE WIDGETS =====
 import WeatherWidget from '../components/widgets/WeatherWidget';
@@ -20,6 +18,7 @@ import {
     AgriTourismCard, AgriAreasCard
 } from '../components/widgets/LandingBentoCards';
 import FarmerInstitutesV2Widget from '../components/widgets/FarmerInstitutesV2Widget';
+import EChart from '../components/widgets/EChart';
 
 import '../pages/LandingPage.css';
 
@@ -215,15 +214,7 @@ export default function Dashboard() {
                     <Card title="🌾 สัดส่วนพื้นที่เกษตรตามชนิดพืช" size="small" variant="outlined" style={{ borderRadius: 16 }}>
                         <div style={{ height: 300 }}>
                             {agriPie.length > 0 ? (
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <PieChart>
-                                        <Pie data={agriPie} cx="50%" cy="50%" innerRadius={50} outerRadius={90} paddingAngle={2} dataKey="value"
-                                            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
-                                            {agriPie.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
-                                        </Pie>
-                                        <RTooltip formatter={(val) => [val.toLocaleString() + ' ไร่', 'พื้นที่']} />
-                                    </PieChart>
-                                </ResponsiveContainer>
+                                <EChart option={pieOption(agriPie, { colors: PIE_COLORS, unit: 'ไร่' })} />
                             ) : <EmptyChart label="พื้นที่การเกษตร" />}
                         </div>
                     </Card>
@@ -232,15 +223,7 @@ export default function Dashboard() {
                     <Card title="🌿 แปลงใหญ่ตามกลุ่มสินค้า" size="small" variant="outlined" style={{ borderRadius: 16 }}>
                         <div style={{ height: 300 }}>
                             {lpPie.length > 0 ? (
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <PieChart>
-                                        <Pie data={lpPie} cx="50%" cy="50%" innerRadius={50} outerRadius={90} paddingAngle={2} dataKey="value"
-                                            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
-                                            {lpPie.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
-                                        </Pie>
-                                        <RTooltip formatter={(val) => [val + ' แปลง', 'จำนวน']} />
-                                    </PieChart>
-                                </ResponsiveContainer>
+                                <EChart option={pieOption(lpPie, { colors: PIE_COLORS, unit: 'แปลง' })} />
                             ) : <EmptyChart label="แปลงใหญ่" />}
                         </div>
                     </Card>

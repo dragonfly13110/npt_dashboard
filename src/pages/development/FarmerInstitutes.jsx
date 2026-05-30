@@ -1,13 +1,10 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Form, Input, InputNumber, Select, Tag, Row, Col, Card, Spin } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
-import {
-    PieChart, Pie, Cell,
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend,
-    ResponsiveContainer
-} from 'recharts';
 import CrudTable from '../../components/DataTable/CrudTable';
+import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { supabase } from '../../supabaseClient';
+import EChart from '../../components/widgets/EChart';
 
 // Columns exactly matching the user's Excel import format
 const columns = [
@@ -42,28 +39,6 @@ const GROUP_TYPES = [
     { key: 'young_farmer_groups', label: 'กลุ่มยุวเกษตรกร', color: '#bf8700' },
     { key: 'career_promotion_groups', label: 'กลุ่มส่งเสริมอาชีพ', color: '#8250df' }
 ];
-
-const CustomBarTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-        let total = 0;
-        payload.forEach(entry => { total += (entry.value || 0); });
-        
-        return (
-            <div style={{ backgroundColor: '#fff', padding: '10px 14px', border: '1px solid #e8ecf0', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-                <div style={{ margin: '0 0 8px 0', fontWeight: 600, color: '#1f2328' }}>อำเภอ{label}</div>
-                {payload.map((entry, index) => (
-                    <div key={`item-${index}`} style={{ margin: '4px 0', color: entry.color, fontSize: 13 }}>
-                        {entry.name} : {entry.value || 0} กลุ่ม
-                    </div>
-                ))}
-                <div style={{ margin: '8px 0 0 0', fontWeight: 600, color: '#1f2328', borderTop: '1px solid #e8ecf0', paddingTop: '8px', fontSize: 13 }}>
-                    รวมทั้งหมด : {total} กลุ่ม
-                </div>
-            </div>
-        );
-    }
-    return null;
-};
 
 export default function FarmerInstitutes() {
     useEffect(() => {
@@ -148,13 +123,15 @@ export default function FarmerInstitutes() {
                     community_enterprise_groups: 0,
                     housewives_groups: 0,
                     young_farmer_groups: 0,
-                    career_promotion_groups: 0
+                    career_promotion_groups: 0,
+                    total: 0
                 };
             }
             districtMap[dist].community_enterprise_groups += Number(item.community_enterprise_groups) || 0;
             districtMap[dist].housewives_groups += Number(item.housewives_groups) || 0;
             districtMap[dist].young_farmer_groups += Number(item.young_farmer_groups) || 0;
             districtMap[dist].career_promotion_groups += Number(item.career_promotion_groups) || 0;
+            districtMap[dist].total += GROUP_TYPES.reduce((sum, type) => sum + (Number(item[type.key]) || 0), 0);
         });
 
         // Sort by total groups descending
@@ -231,25 +208,7 @@ export default function FarmerInstitutes() {
                             <Card title="สรุปสัดส่วนประเภทกลุ่ม" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                                 <div style={{ height: 300 }}>
                                     {pieData.length > 0 ? (
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <PieChart>
-                                                <Pie
-                                                    data={pieData}
-                                                    cx="50%"
-                                                    cy="50%"
-                                                    innerRadius={60}
-                                                    outerRadius={100}
-                                                    paddingAngle={3}
-                                                    dataKey="value"
-                                                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                                                >
-                                                    {pieData.map((entry, index) => (
-                                                        <Cell key={`cell-${index}`} fill={entry.color} />
-                                                    ))}
-                                                </Pie>
-                                                <RechartsTooltip formatter={(value) => [value + ' กลุ่ม', 'จำนวน']} />
-                                            </PieChart>
-                                        </ResponsiveContainer>
+                                        <EChart option={pieOption(pieData, { colors: GROUP_TYPES.map((type) => type.color), unit: 'กลุ่ม' })} />
                                     ) : (
                                         <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#656d76' }}>ไม่พบข้อมูล</div>
                                     )}
@@ -260,25 +219,16 @@ export default function FarmerInstitutes() {
                             <Card title="จำนวนกลุ่มแยกตามอำเภอ (แยกประเภทกลุ่ม)" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                                 <div style={{ height: 300 }}>
                                     {barData.length > 0 ? (
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <BarChart data={barData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
-                                                <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#656d76' }} axisLine={{ stroke: '#e8ecf0' }} tickLine={false} />
-                                                <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
-                                                <RechartsTooltip cursor={{ fill: '#f6f8fa' }} content={<CustomBarTooltip />} />
-                                                <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
-                                                {GROUP_TYPES.map((type) => (
-                                                    <Bar 
-                                                        key={type.key} 
-                                                        dataKey={type.key} 
-                                                        name={type.label}
-                                                        stackId="a" 
-                                                        fill={type.color} 
-                                                        maxBarSize={50} 
-                                                    />
-                                                ))}
-                                            </BarChart>
-                                        </ResponsiveContainer>
+                                        <EChart option={barOption(
+                                            barData,
+                                            GROUP_TYPES.map((type) => ({
+                                                key: type.key,
+                                                name: type.label,
+                                                color: type.color,
+                                                maxBarSize: 50,
+                                            })),
+                                            { colors: GROUP_TYPES.map((type) => type.color), unit: 'กลุ่ม', stacked: true, totalKey: 'total' }
+                                        )} />
                                     ) : (
                                         <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#656d76' }}>ไม่พบข้อมูล</div>
                                     )}

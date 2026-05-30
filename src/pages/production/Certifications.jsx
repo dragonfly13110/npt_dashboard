@@ -1,15 +1,12 @@
 import { useEffect, useState, useMemo } from 'react';
 import { Form, Input, InputNumber, Select, Spin, Row, Col, Card } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
-import {
-    PieChart, Pie, Cell,
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend,
-    ResponsiveContainer, ComposedChart, Line
-} from 'recharts';
 import { supabase } from '../../supabaseClient';
 import CrudTable from '../../components/DataTable/CrudTable';
+import { barOption, comboOption, pieOption } from '../../components/charts/echartOptions';
 import { useApiCache } from '../../hooks/useApiCache';
 import { useAuth } from '../../contexts/AuthContext';
+import EChart from '../../components/widgets/EChart';
 
 const guestHiddenColumns = new Set(['farmer_name', 'plot_code']);
 
@@ -54,27 +51,6 @@ const formFields = (
 const districts = ['เมืองนครปฐม', 'นครชัยศรี', 'สามพราน', 'ดอนตูม', 'บางเลน', 'กำแพงแสน', 'พุทธมณฑล'];
 
 const COLORS = ['#1a7f37', '#0969da', '#bf8700', '#cf222e', '#8250df', '#0550ae', '#bc8c00', '#2da44e'];
-
-const CustomBarTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-        let total = 0;
-        payload.forEach(entry => { total += (entry.value || 0); });
-        return (
-            <div style={{ backgroundColor: '#fff', padding: '10px 14px', border: '1px solid #e8ecf0', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-                <div style={{ margin: '0 0 8px 0', fontWeight: 600, color: '#1f2328' }}>อำเภอ{label}</div>
-                {payload.map((entry, index) => (
-                    <div key={`item-${index}`} style={{ margin: '4px 0', color: entry.color, fontSize: 13 }}>
-                        {entry.name} : {entry.value?.toLocaleString()} ราย
-                    </div>
-                ))}
-                <div style={{ margin: '8px 0 0 0', fontWeight: 600, color: '#1f2328', borderTop: '1px solid #e8ecf0', paddingTop: '8px', fontSize: 13 }}>
-                    รวมทั้งหมด : {total.toLocaleString()} ราย
-                </div>
-            </div>
-        );
-    }
-    return null;
-};
 
 export default function Certifications() {
     const { role } = useAuth();
@@ -360,25 +336,7 @@ export default function Certifications() {
                             <Card title="จำนวนเกษตรกร (ราย) แยกตามชนิดพืช (Top 10)" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                                 <div style={{ height: 300 }}>
                                     {pieData.length > 0 ? (
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <PieChart>
-                                                <Pie
-                                                    data={pieData}
-                                                    cx="50%"
-                                                    cy="50%"
-                                                    innerRadius={60}
-                                                    outerRadius={100}
-                                                    paddingAngle={3}
-                                                    dataKey="value"
-                                                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                                                >
-                                                    {pieData.map((entry, index) => (
-                                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                                    ))}
-                                                </Pie>
-                                                <RechartsTooltip formatter={(value) => [value.toLocaleString() + ' ราย', 'เกษตรกร']} />
-                                            </PieChart>
-                                        </ResponsiveContainer>
+                                        <EChart option={pieOption(pieData, { colors: COLORS, unit: 'ราย' })} />
                                     ) : (
                                         <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#656d76' }}>ไม่พบข้อมูล (รอการเพิ่มไฟล์ฐานข้อมูล)</div>
                                     )}
@@ -389,18 +347,16 @@ export default function Certifications() {
                             <Card title="ภาพรวมจำนวนเกษตรกร (ราย) แยกตามอำเภอ (เฉพาะพืชที่มีพื้นที่ปลูก 10 อันดับแรก)" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                                 <div style={{ height: 300 }}>
                                     {barData.length > 0 ? (
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <BarChart data={barData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
-                                                <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#656d76' }} axisLine={{ stroke: '#e8ecf0' }} tickLine={false} />
-                                                <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
-                                                <RechartsTooltip cursor={{ fill: '#f6f8fa' }} content={<CustomBarTooltip />} />
-                                                <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
-                                                {barGroups.slice(0, 10).map((group, index) => (
-                                                    <Bar key={group} dataKey={group} stackId="a" fill={COLORS[index % COLORS.length]} maxBarSize={50} />
-                                                ))}
-                                            </BarChart>
-                                        </ResponsiveContainer>
+                                        <EChart option={barOption(
+                                            barData,
+                                            barGroups.slice(0, 10).map((group, index) => ({
+                                                key: group,
+                                                name: group,
+                                                color: COLORS[index % COLORS.length],
+                                                maxBarSize: 50,
+                                            })),
+                                            { colors: COLORS, unit: 'ราย', stacked: true, totalKey: 'total' }
+                                        )} />
                                     ) : (
                                         <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#656d76' }}>ไม่พบข้อมูล (รอการเพิ่มไฟล์ฐานข้อมูล)</div>
                                     )}
@@ -416,19 +372,16 @@ export default function Certifications() {
                             <Card title="ปริมาณผลผลิตรวม (กิโลกรัม) - 10 อันดับแรก" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                                 <div style={{ height: 300 }}>
                                     {volumeData.length > 0 ? (
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <BarChart data={volumeData} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
-                                                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e8ecf0" />
-                                                <XAxis type="number" tick={{ fontSize: 12, fill: '#656d76' }} tickFormatter={(val) => val.toLocaleString()} />
-                                                <YAxis dataKey="name" type="category" tick={{ fontSize: 12, fill: '#656d76' }} width={80} interval={0} />
-                                                <RechartsTooltip formatter={(value) => [value.toLocaleString() + ' กก.', 'ผลผลิต']} cursor={{fill: '#f6f8fa'}} />
-                                                <Bar dataKey="value" fill="#d46b08" radius={[0, 4, 4, 0]} maxBarSize={30}>
-                                                    {volumeData.map((entry, index) => (
-                                                        <Cell key={`cell-${index}`} fill={COLORS[(index + 4) % COLORS.length]} />
-                                                    ))}
-                                                </Bar>
-                                            </BarChart>
-                                        </ResponsiveContainer>
+                                        <EChart option={barOption(
+                                            volumeData,
+                                            [{
+                                                key: 'value',
+                                                name: 'ผลผลิต',
+                                                color: (_item, index) => COLORS[(index + 4) % COLORS.length],
+                                                maxBarSize: 30,
+                                            }],
+                                            { layout: 'vertical', unit: 'กก.', grid: { left: 88 } }
+                                        )} />
                                     ) : (
                                         <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#656d76' }}>ไม่พบข้อมูล</div>
                                     )}
@@ -439,16 +392,14 @@ export default function Certifications() {
                             <Card title="แนวโน้มใบรับรอง GAP หมดอายุ (แบ่งตามปี)" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                                 <div style={{ height: 300 }}>
                                     {expireData.length > 0 ? (
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <ComposedChart data={expireData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
-                                                <XAxis dataKey="year" tick={{ fontSize: 12, fill: '#656d76' }} />
-                                                <YAxis tick={{ fontSize: 12, fill: '#656d76' }} allowDecimals={false} />
-                                                <RechartsTooltip formatter={(value) => [value.toLocaleString() + ' แปลง', 'ใบรับรองจะหมดอายุ']} />
-                                                <Bar dataKey="count" fill="#3b82f6" radius={[4, 4, 0, 0]} maxBarSize={50} />
-                                                <Line type="monotone" dataKey="count" stroke="#f59e0b" strokeWidth={3} dot={{ r: 5, fill: '#f59e0b' }} activeDot={{ r: 8 }} />
-                                            </ComposedChart>
-                                        </ResponsiveContainer>
+                                        <EChart option={comboOption(
+                                            expireData,
+                                            [
+                                                { key: 'count', name: 'ใบรับรองจะหมดอายุ', color: '#3b82f6', maxBarSize: 50 },
+                                                { key: 'count', name: 'แนวโน้ม', color: '#f59e0b', type: 'line' },
+                                            ],
+                                            { categoryKey: 'year', unit: 'แปลง', colors: ['#3b82f6', '#f59e0b'] }
+                                        )} />
                                     ) : (
                                         <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#656d76' }}>ไม่พบข้อมูล</div>
                                     )}

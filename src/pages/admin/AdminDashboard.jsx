@@ -1,18 +1,21 @@
 // import { useEffect, useState, useCallback } from 'react';
 import { Skeleton } from 'antd';
 import {
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip, ResponsiveContainer,
-    PieChart, Pie, Cell, LineChart, Line
-} from 'recharts';
-import {
     ClockCircleOutlined, TeamOutlined, CarOutlined, DollarOutlined,
     CheckCircleOutlined, ScheduleOutlined, RiseOutlined
 } from '@ant-design/icons';
+import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { supabase } from '../../supabaseClient';
 import { useApiCache } from '../../hooks/useApiCache';
 import { useAuth } from '../../contexts/AuthContext';
+import EChart from '../../components/widgets/EChart';
 
 const COLORS = ['#43a047', '#1565c0', '#e65100', '#6a1b9a', '#c62828', '#00695c'];
+const whiteAxis = {
+    axisLabel: { color: 'rgba(255,255,255,0.72)', fontSize: 11 },
+    axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } },
+    axisTick: { show: false },
+};
 
 const tables = [
     { table: 'personnel', label: 'บุคลากร', icon: '👥', color: 'green', iconComponent: TeamOutlined },
@@ -93,6 +96,51 @@ async function fetchRecentActivity(tableCfg, role) {
     }
     activities.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     return activities.slice(0, 8);
+}
+
+function miniBarOption(data) {
+    const option = barOption(data, [{ key: 'value', name: 'จำนวน', color: 'rgba(255,255,255,0.85)' }], {
+        grid: { top: 14, right: 10, bottom: 24, left: 28 },
+    });
+    return {
+        ...option,
+        tooltip: { ...option.tooltip, backgroundColor: 'rgba(15,23,42,0.86)' },
+        xAxis: { ...option.xAxis, ...whiteAxis },
+        yAxis: { ...option.yAxis, ...whiteAxis, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.15)', type: 'dashed' } } },
+    };
+}
+
+function miniPieOption(data) {
+    const option = pieOption(data, {
+        colors: ['rgba(255,255,255,0.9)', 'rgba(255,255,255,0.6)', 'rgba(255,255,255,0.35)'],
+        radius: ['0%', '70%'],
+    });
+    return {
+        ...option,
+        tooltip: { ...option.tooltip, backgroundColor: 'rgba(15,23,42,0.86)' },
+        series: option.series.map((series) => ({
+            ...series,
+            label: { ...series.label, color: 'rgba(255,255,255,0.9)' },
+        })),
+    };
+}
+
+function miniLineOption(data) {
+    return {
+        tooltip: { trigger: 'axis', backgroundColor: 'rgba(15,23,42,0.86)' },
+        grid: { top: 14, right: 10, bottom: 24, left: 28, containLabel: true },
+        xAxis: { type: 'category', data: data.map((item) => item.name), ...whiteAxis },
+        yAxis: { type: 'value', ...whiteAxis, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.12)', type: 'dashed' } } },
+        series: [{
+            type: 'line',
+            data: data.map((item) => item.รายการ ?? item['รายการ'] ?? 0),
+            smooth: true,
+            symbol: 'circle',
+            symbolSize: 8,
+            lineStyle: { color: '#fff', width: 2.5 },
+            itemStyle: { color: '#fff' },
+        }],
+    };
 }
 
 export default function AdminDashboard() {
@@ -181,15 +229,7 @@ export default function AdminDashboard() {
                 <div className="md-chart-card">
                     <div className="md-chart-header green">
                         {barData.length > 0 && (
-                            <ResponsiveContainer width="100%" height={180}>
-                                <BarChart data={barData} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.15)" />
-                                    <XAxis dataKey="name" tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.7)' }} />
-                                    <YAxis tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.7)' }} />
-                                    <RTooltip />
-                                    <Bar dataKey="value" fill="rgba(255,255,255,0.85)" radius={[4, 4, 0, 0]} />
-                                </BarChart>
-                            </ResponsiveContainer>
+                            <EChart option={miniBarOption(barData)} style={{ height: 180 }} />
                         )}
                     </div>
                     <div className="md-chart-body">
@@ -205,25 +245,7 @@ export default function AdminDashboard() {
                 <div className="md-chart-card">
                     <div className="md-chart-header purple">
                         {pieData.length > 0 && (
-                            <ResponsiveContainer width="100%" height={180}>
-                                <PieChart>
-                                    <Pie
-                                        data={pieData}
-                                        cx="50%"
-                                        cy="50%"
-                                        outerRadius={70}
-                                        fill="#8884d8"
-                                        dataKey="value"
-                                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                                        labelLine={false}
-                                    >
-                                        {pieData.map((_, i) => (
-                                            <Cell key={i} fill={i === 0 ? 'rgba(255,255,255,0.9)' : i === 1 ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.35)'} />
-                                        ))}
-                                    </Pie>
-                                    <RTooltip />
-                                </PieChart>
-                            </ResponsiveContainer>
+                            <EChart option={miniPieOption(pieData)} style={{ height: 180 }} />
                         )}
                     </div>
                     <div className="md-chart-body">
@@ -246,15 +268,7 @@ export default function AdminDashboard() {
                                 <Skeleton active paragraph={{ rows: 3 }} style={{ width: '100%' }} />
                             </div>
                         ) : (
-                            <ResponsiveContainer width="100%" height={180}>
-                                <LineChart data={trendData} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                                    <XAxis dataKey="name" tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.7)' }} />
-                                    <YAxis tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.7)' }} />
-                                    <RTooltip />
-                                    <Line type="monotone" dataKey="รายการ" stroke="#fff" strokeWidth={2} dot={{ r: 4, fill: '#fff' }} activeDot={{ r: 6 }} />
-                                </LineChart>
-                            </ResponsiveContainer>
+                            <EChart option={miniLineOption(trendData)} style={{ height: 180 }} />
                         )}
                     </div>
                     <div className="md-chart-body">

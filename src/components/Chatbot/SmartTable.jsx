@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Table, Segmented } from 'antd';
 import { TableOutlined, BarChartOutlined, PieChartOutlined } from '@ant-design/icons';
-import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
+import { barOption, pieOption } from '../charts/echartOptions';
+import EChart from '../widgets/EChart';
 
 const COLORS = ['#1890ff', '#52c41a', '#faad14', '#f5222d', '#722ed1', '#eb2f96', '#13c2c2'];
 
@@ -82,25 +83,22 @@ export default function SmartTable({ rawLines }) {
                     bordered
                 />
             ) : viewMode === 'pie' ? (
-                 <ResponsiveContainer width="100%" height={250}>
-                    <PieChart>
-                      <Pie data={chartData} dataKey="col_1" nameKey="name" cx="50%" cy="50%" outerRadius={80} label>
-                         {chartData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                         ))}
-                      </Pie>
-                      <RechartsTooltip />
-                    </PieChart>
-                 </ResponsiveContainer>
+                <EChart
+                    option={pieOption(chartData.map((item) => ({ name: item.name, value: item.col_1 })), {
+                        colors: COLORS,
+                        radius: ['0%', '68%'],
+                    })}
+                    style={{ height: 250 }}
+                />
             ) : (
-                <ResponsiveContainer width="100%" height={250}>
-                    <BarChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 40 }}>
-                      <XAxis dataKey="name" angle={-45} textAnchor="end" height={60} interval={0} tick={{fontSize: 11}} />
-                      <YAxis />
-                      <RechartsTooltip />
-                      <Bar dataKey="col_1" fill="#1a7f37" radius={[4,4,0,0]} />
-                    </BarChart>
-                </ResponsiveContainer>
+                <EChart
+                    option={barOption(
+                        chartData,
+                        [{ key: 'col_1', name: columns[1]?.title || 'Value', color: '#1a7f37' }],
+                        { rotate: -45, grid: { bottom: 72 } }
+                    )}
+                    style={{ height: 250 }}
+                />
             )}
         </div>
     );

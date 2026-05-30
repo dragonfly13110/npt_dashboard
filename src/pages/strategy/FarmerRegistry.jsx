@@ -1,12 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Form, Input, Select, InputNumber, Row, Col, Divider, Card, Statistic, Progress, Button, Tag } from 'antd';
 import { SyncOutlined, ArrowUpOutlined, AimOutlined } from '@ant-design/icons';
-import {
-    ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
-    Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, AreaChart, Area, BarChart
-} from 'recharts';
 import CrudTable from '../../components/DataTable/CrudTable';
 import { supabase } from '../../supabaseClient';
+import EChart from '../../components/widgets/EChart';
 
 const columns = [
     { title: 'อำเภอ', dataIndex: 'district', key: 'district', width: 110, fixed: 'left' },
@@ -171,35 +168,51 @@ const filterConfig = [
     { key: 'district', label: 'อำเภอ', options: districts },
 ];
 
-const CustomTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-        const data = payload[0].payload;
-        if (!data) return null;
-        const target = data.target || 0;
-        const updated = data.total_updated_households || 0;
-        const tbk = data.update_tbk_households || 0;
-        const farmbook = data.update_farmbook_households || 0;
-        const eform = data.update_eform_households || 0;
+function registrySparkOption(data) {
+    return {
+        grid: { top: 4, right: 2, bottom: 0, left: 2 },
+        xAxis: { type: 'category', data: data.map((item) => item.district), show: false },
+        yAxis: { type: 'value', show: false },
+        tooltip: { trigger: 'axis' },
+        series: [{
+            type: 'bar',
+            data: data.map((item) => item.total_updated_households || 0),
+            barWidth: 8,
+            itemStyle: { color: '#10b981', borderRadius: [2, 2, 0, 0] },
+        }],
+    };
+}
 
-        return (
-            <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(8px)', padding: '12px', border: '1px solid #e2e8f0', borderRadius: '16px', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)' }}>
-                <p style={{ margin: '0 0 8px 0', fontWeight: 700, color: '#0f172a', fontSize: '14px' }}>อ.{data.district || label}</p>
-                <p style={{ margin: '0 0 4px 0', fontSize: '12px', color: '#475569' }}>
-                    เป้าหมาย: <strong style={{ color: '#4f46e5' }}>{target ? target.toLocaleString() : '-'}</strong> ครัวเรือน
-                </p>
-                <p style={{ margin: '0 0 8px 0', fontSize: '12px', color: '#475569' }}>
-                    ปรับปรุงสะสม: <strong style={{ color: '#10b981' }}>{updated.toLocaleString()}</strong> ครัวเรือน
-                </p>
-                <div style={{ paddingLeft: '8px', borderLeft: '2px solid #cbd5e1', display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                    <span style={{ fontSize: '11px', color: '#64748b' }}>• ระบบ TBK: <strong style={{ color: '#0ea5e9' }}>{tbk.toLocaleString()}</strong> ครัวเรือน</span>
-                    <span style={{ fontSize: '11px', color: '#64748b' }}>• App Farmbook: <strong style={{ color: '#10b981' }}>{farmbook.toLocaleString()}</strong> ครัวเรือน</span>
-                    <span style={{ fontSize: '11px', color: '#64748b' }}>• e-Form: <strong style={{ color: '#f59e0b' }}>{eform.toLocaleString()}</strong> ครัวเรือน</span>
-                </div>
-            </div>
-        );
-    }
-    return null;
-};
+function registryOverviewOption(data) {
+    return {
+        color: ['#4f46e5', '#0ea5e9', '#10b981', '#f59e0b', '#64748b'],
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: { type: 'shadow' },
+        },
+        legend: { type: 'scroll', bottom: 0, textStyle: { color: '#475569', fontSize: 12 } },
+        grid: { top: 18, right: 18, bottom: 48, left: 48, containLabel: true },
+        xAxis: {
+            type: 'category',
+            data: data.map((item) => item.district),
+            axisLabel: { color: '#64748b', fontSize: 11 },
+            axisLine: { lineStyle: { color: '#e2e8f0' } },
+            axisTick: { show: false },
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: { color: '#64748b', fontSize: 11 },
+            splitLine: { lineStyle: { color: '#f1f5f9', type: 'dashed' } },
+        },
+        series: [
+            { type: 'bar', name: 'เป้าหมาย (ครัวเรือน)', data: data.map((item) => item.target || 0), itemStyle: { color: '#4f46e5', borderRadius: [4, 4, 0, 0] }, barMaxWidth: 18 },
+            { type: 'bar', name: 'ระบบ TBK', stack: 'actual', data: data.map((item) => item.update_tbk_households || 0), itemStyle: { color: '#0ea5e9' }, barMaxWidth: 18 },
+            { type: 'bar', name: 'App Farmbook', stack: 'actual', data: data.map((item) => item.update_farmbook_households || 0), itemStyle: { color: '#10b981' }, barMaxWidth: 18 },
+            { type: 'bar', name: 'e-Form', stack: 'actual', data: data.map((item) => item.update_eform_households || 0), itemStyle: { color: '#f59e0b', borderRadius: [4, 4, 0, 0] }, barMaxWidth: 18 },
+            { type: 'line', name: 'แนวโน้มปริมาณปรับปรุง', data: data.map((item) => item.total_updated_households || 0), smooth: true, symbol: 'none', lineStyle: { color: '#64748b', width: 2, type: 'dashed' } },
+        ],
+    };
+}
 
 export default function FarmerRegistry() {
     const [chartData, setChartData] = useState([]);
@@ -367,16 +380,7 @@ export default function FarmerRegistry() {
                                 <div style={{ color: '#94a3b8', fontSize: '11px' }}>ปรับปรุงสะสมผ่าน 3 ช่องทางหลัก</div>
                             </div>
                             <div style={{ width: '110px', height: '55px' }}>
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={chartData}>
-                                        <Tooltip
-                                            contentStyle={{ borderRadius: 8, border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', fontSize: '11px', padding: '4px 8px' }}
-                                            formatter={(value, name, props) => [value?.toLocaleString() + ' ครัวเรือน', 'อ.' + props.payload?.district]}
-                                            labelFormatter={() => ''}
-                                        />
-                                        <Bar dataKey="total_updated_households" fill="#10b981" radius={[2, 2, 0, 0]} barSize={8} />
-                                    </BarChart>
-                                </ResponsiveContainer>
+                                <EChart option={registrySparkOption(chartData)} />
                             </div>
                         </div>
                     </Card>
@@ -436,26 +440,7 @@ export default function FarmerRegistry() {
                             bodyStyle={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
                         >
                             <div style={{ width: '100%', height: '280px' }}>
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 5 }}>
-                                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                                        <XAxis dataKey="district" tick={{ fontSize: 11, fill: '#64748b' }} />
-                                        <YAxis tick={{ fontSize: 11, fill: '#64748b' }} />
-                                        <Tooltip content={<CustomTooltip />} />
-                                        <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
-
-                                        {/* Target Bars (Indigo) - Rounded and Thin */}
-                                        <Bar dataKey="target" name="เป้าหมาย (ครัวเรือน)" fill="#4f46e5" barSize={12} radius={[4, 4, 0, 0]} />
-
-                                        {/* Stacked Actual Progress Bars (TBK + Farmbook + e-Form) matching Landing Page widget themes */}
-                                        <Bar dataKey="update_tbk_households" name="ระบบ TBK" stackId="actual" fill="#0ea5e9" barSize={12} />
-                                        <Bar dataKey="update_farmbook_households" name="App Farmbook" stackId="actual" fill="#10b981" barSize={12} />
-                                        <Bar dataKey="update_eform_households" name="e-Form" stackId="actual" fill="#f59e0b" barSize={12} radius={[4, 4, 0, 0]} />
-
-                                        {/* Dotted Trend Line */}
-                                        <Line type="monotone" dataKey="total_updated_households" name="แนวโน้มปริมาณปรับปรุง" stroke="#64748b" strokeWidth={1.5} strokeDasharray="4 4" dot={false} />
-                                    </ComposedChart>
-                                </ResponsiveContainer>
+                                <EChart option={registryOverviewOption(chartData)} />
                             </div>
                         </Card>
                     ) : (

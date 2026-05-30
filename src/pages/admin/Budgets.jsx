@@ -4,10 +4,11 @@ import {
     DatePicker, Progress, Row, Select, Space, Statistic, Table, Tag, Tooltip, Typography, message,
 } from 'antd';
 import { DeleteOutlined, EditOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
-import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip as ChartTooltip, XAxis, YAxis } from 'recharts';
 import { supabase } from '../../supabaseClient';
+import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { useAuth } from '../../contexts/AuthContext';
 import { useSupabaseCrud } from '../../hooks/useSupabase';
+import EChart from '../../components/widgets/EChart';
 import budgetSeed from '../../data/budgetRound2_2569.json';
 import '../../styles/budgets.css';
 
@@ -533,29 +534,21 @@ export default function Budgets() {
                     <Col xs={24} xl={15}>
                         <Card title="กราฟงบประมาณสูงสุดตามโครงการ">
                             <div style={{ width: '100%', height: 360 }}>
-                                <ResponsiveContainer>
-                                    <BarChart data={topProjects} layout="vertical" margin={{ top: 8, right: 24, left: 18, bottom: 8 }}>
-                                        <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-                                        <XAxis type="number" tickFormatter={value => `${Math.round(value / 1000)}k`} />
-                                        <YAxis type="category" dataKey="project" width={210} tick={{ fontSize: 11 }} tickFormatter={value => String(value).replace(/^\d+\s*/, '').slice(0, 28)} />
-                                        <ChartTooltip formatter={value => [`${money(value)} บาท`, 'งบประมาณ']} />
-                                        <Bar dataKey="budget" fill="#1a7f37" radius={[0, 6, 6, 0]} />
-                                    </BarChart>
-                                </ResponsiveContainer>
+                                <EChart option={barOption(
+                                    topProjects,
+                                    [{ key: 'budget', name: 'งบประมาณ', color: '#1a7f37' }],
+                                    { categoryKey: 'project', layout: 'vertical', unit: 'บาท', grid: { left: 220 } }
+                                )} />
                             </div>
                         </Card>
                     </Col>
                     <Col xs={24} xl={9}>
                         <Card title="สถานะความคืบหน้าโครงการ">
                             <div style={{ width: '100%', height: 360 }}>
-                                <ResponsiveContainer>
-                                    <PieChart>
-                                        <Pie data={statusSummary} dataKey="activities" nameKey="name" innerRadius={72} outerRadius={118} paddingAngle={2} label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
-                                            {statusSummary.map((entry, index) => <Cell key={entry.name} fill={chartColors[index % chartColors.length]} />)}
-                                        </Pie>
-                                        <ChartTooltip formatter={value => [`${money(value)} รายการ`, 'จำนวน']} />
-                                    </PieChart>
-                                </ResponsiveContainer>
+                                <EChart option={pieOption(
+                                    statusSummary.map((item) => ({ name: item.name, value: item.activities })),
+                                    { colors: chartColors, unit: 'รายการ' }
+                                )} />
                             </div>
                         </Card>
                     </Col>

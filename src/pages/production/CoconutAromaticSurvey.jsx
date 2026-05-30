@@ -2,12 +2,11 @@ import { useMemo, useState } from 'react';
 import { Alert, Button, Card, Col, DatePicker, Form, Input, InputNumber, Modal, Row, Select, Space, Spin, Table, Tag, Upload, message } from 'antd';
 import { BarChartOutlined, PlusOutlined, ReloadOutlined, UploadOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
-import {
-  Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip as RechartsTooltip, XAxis, YAxis,
-} from 'recharts';
 import { supabase } from '../../supabaseClient';
+import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { useApiCache } from '../../hooks/useApiCache';
 import { useAuth } from '../../contexts/AuthContext';
+import EChart from '../../components/widgets/EChart';
 import {
   COCONUT_ROUND_START,
   DISTRICT_SUBDISTRICTS,
@@ -208,29 +207,18 @@ export default function CoconutAromaticSurvey() {
         <Col xs={24} lg={14}>
           <Card title="รายได้รวมแยกตามอำเภอ">
             <div style={{ height: 280 }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={districtChart}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="name" />
-                  <YAxis tickFormatter={formatShort} />
-                  <RechartsTooltip formatter={value => formatMoney(value)} />
-                  <Bar dataKey="value" fill="#1a7f37" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
+              <EChart option={barOption(
+                districtChart,
+                [{ key: 'value', name: 'รายได้รวม', color: '#1a7f37' }],
+                { unit: 'บาท' }
+              )} />
             </div>
           </Card>
         </Col>
         <Col xs={24} lg={10}>
           <Card title="จำนวนรายการแยกตามรอบ">
             <div style={{ height: 280 }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie data={roundChart} dataKey="value" nameKey="name" outerRadius={95} label>
-                    {roundChart.map((entry, index) => <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />)}
-                  </Pie>
-                  <RechartsTooltip />
-                </PieChart>
-              </ResponsiveContainer>
+              <EChart option={pieOption(roundChart, { colors: COLORS, unit: 'รายการ', radius: ['0%', '68%'] })} />
             </div>
           </Card>
         </Col>
@@ -324,12 +312,6 @@ function formatNumber(value) {
 
 function formatMoney(value) {
   return toNumber(value).toLocaleString('th-TH', { maximumFractionDigits: 2 });
-}
-
-function formatShort(value) {
-  if (value >= 1000000) return `${Math.round(value / 1000000)}ล.`;
-  if (value >= 1000) return `${Math.round(value / 1000)}พ.`;
-  return value;
 }
 
 function toThaiDate(value) {

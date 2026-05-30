@@ -1,14 +1,11 @@
 import { useState, useMemo } from 'react';
 import { Form, Input, InputNumber, Select, Tag, Row, Col, Card, Spin } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
-import {
-    PieChart, Pie, Cell,
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend,
-    ResponsiveContainer
-} from 'recharts';
 import CrudTable from '../../components/DataTable/CrudTable';
+import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { supabase } from '../../supabaseClient';
 import { useApiCache } from '../../hooks/useApiCache';
+import EChart from '../../components/widgets/EChart';
 
 const columns = [
     { title: 'ชื่อ ศพก.', dataIndex: 'name', key: 'name', width: 280, importHeader: 'ชื่อ_ศพก' },
@@ -43,20 +40,6 @@ const PIE_COLORS = [
 ];
 
 const BAR_COLOR = '#42a5f5';
-
-const CustomBarTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-        return (
-            <div style={{ backgroundColor: '#fff', padding: '10px 14px', border: '1px solid #e8ecf0', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-                <div style={{ margin: '0 0 6px 0', fontWeight: 600, color: '#1f2328' }}>อ.{label}</div>
-                <div style={{ color: BAR_COLOR, fontSize: 13 }}>
-                    ศูนย์เครือข่าย : {Number(payload[0].value).toLocaleString()} ศูนย์
-                </div>
-            </div>
-        );
-    }
-    return null;
-};
 
 export default function LearningCenters() {
     const [filterDistrict, setFilterDistrict] = useState(null);
@@ -163,25 +146,7 @@ export default function LearningCenters() {
                             <Card title="สัดส่วน ศพก. แยกตามสินค้าเด่น" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                                 <div style={{ height: 300 }}>
                                     {pieData.length > 0 ? (
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <PieChart>
-                                                <Pie
-                                                    data={pieData}
-                                                    cx="50%"
-                                                    cy="50%"
-                                                    innerRadius={60}
-                                                    outerRadius={100}
-                                                    paddingAngle={3}
-                                                    dataKey="value"
-                                                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                                                >
-                                                    {pieData.map((entry, index) => (
-                                                        <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
-                                                    ))}
-                                                </Pie>
-                                                <RechartsTooltip formatter={(value) => [value + ' ศูนย์', 'จำนวน']} />
-                                            </PieChart>
-                                        </ResponsiveContainer>
+                                        <EChart option={pieOption(pieData, { colors: PIE_COLORS, unit: 'ศูนย์' })} />
                                     ) : (
                                         <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#656d76' }}>ไม่พบข้อมูล</div>
                                     )}
@@ -192,15 +157,11 @@ export default function LearningCenters() {
                             <Card title="จำนวนศูนย์เครือข่ายแยกตามอำเภอ" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                                 <div style={{ height: 300 }}>
                                     {barData.length > 0 ? (
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <BarChart data={barData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
-                                                <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#656d76' }} axisLine={{ stroke: '#e8ecf0' }} tickLine={false} />
-                                                <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
-                                                <RechartsTooltip cursor={{ fill: '#f6f8fa' }} content={<CustomBarTooltip />} />
-                                                <Bar dataKey="network_centers" name="ศูนย์เครือข่าย" fill={BAR_COLOR} radius={[4, 4, 0, 0]} />
-                                            </BarChart>
-                                        </ResponsiveContainer>
+                                        <EChart option={barOption(
+                                            barData,
+                                            [{ key: 'network_centers', name: 'ศูนย์เครือข่าย', color: BAR_COLOR }],
+                                            { unit: 'ศูนย์' }
+                                        )} />
                                     ) : (
                                         <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#656d76' }}>ไม่พบข้อมูล</div>
                                     )}

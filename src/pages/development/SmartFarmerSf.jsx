@@ -1,12 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Card, Checkbox, Col, Form, Input, InputNumber, Modal, Popconfirm, Popover, Row, Select, Space, Spin, Statistic, Table, Tag, Tooltip, message } from 'antd';
 import { BarChartOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, FilterOutlined, PlusOutlined, ReloadOutlined, SettingOutlined, TeamOutlined, UploadOutlined } from '@ant-design/icons';
-import {
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip,
-    ResponsiveContainer
-} from 'recharts';
 import { supabase } from '../../supabaseClient';
+import { barOption } from '../../components/charts/echartOptions';
 import { useApiCache } from '../../hooks/useApiCache';
+import EChart from '../../components/widgets/EChart';
 import CsvImportModal from '../../components/DataTable/CsvImportModal';
 import { useAuth } from '../../contexts/AuthContext';
 import { useSupabaseCrud } from '../../hooks/useSupabase';
@@ -325,30 +323,22 @@ export default function SmartFarmerSf() {
                     <Col xs={24} lg={12}>
                         <Card title="จำนวน SF แยกตามอำเภอ" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                             <div style={{ height: 300 }}>
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={districtData} margin={{ top: 20, right: 20, left: 0, bottom: 40 }}>
-                                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
-                                        <XAxis dataKey="name" tick={{ fontSize: 11 }} angle={-20} textAnchor="end" height={60} />
-                                        <YAxis allowDecimals={false} />
-                                        <RechartsTooltip />
-                                        <Bar dataKey="value" name="จำนวน" fill="#1a7f37" maxBarSize={42} />
-                                    </BarChart>
-                                </ResponsiveContainer>
+                                <EChart option={barOption(
+                                    districtData,
+                                    [{ key: 'value', name: 'จำนวน', color: '#1a7f37', maxBarSize: 42 }],
+                                    { unit: 'ราย', rotate: -20, grid: { bottom: 54 } }
+                                )} />
                             </div>
                         </Card>
                     </Col>
                     <Col xs={24} lg={12}>
                         <Card title="กิจกรรมทางการเกษตรยอดนิยม" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                             <div style={{ height: 320 }}>
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={activityData} layout="vertical" margin={{ top: 10, right: 30, left: 80, bottom: 10 }}>
-                                        <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e8ecf0" />
-                                        <XAxis type="number" allowDecimals={false} />
-                                        <YAxis type="category" dataKey="name" tick={{ fontSize: 12 }} width={110} />
-                                        <RechartsTooltip />
-                                        <Bar dataKey="value" name="จำนวน" fill="#0969da" maxBarSize={28} />
-                                    </BarChart>
-                                </ResponsiveContainer>
+                                <EChart option={barOption(
+                                    activityData,
+                                    [{ key: 'value', name: 'จำนวน', color: '#0969da', maxBarSize: 28 }],
+                                    { layout: 'vertical', unit: 'ราย', grid: { left: 118 } }
+                                )} />
                             </div>
                         </Card>
                     </Col>

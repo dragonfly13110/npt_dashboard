@@ -1,16 +1,11 @@
 import { useState, useMemo } from 'react';
 import { Form, Input, InputNumber, Select, Tag, Row, Col, Card, Spin } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
-import {
-    PieChart, Pie, Cell,
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend,
-    ResponsiveContainer
-} from 'recharts';
 import CrudTable from '../../components/DataTable/CrudTable';
+import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { supabase } from '../../supabaseClient';
 import { useApiCache } from '../../hooks/useApiCache';
-
-const GRADE_LEVELS = ['A', 'B', 'C', 'ไม่ระบุ'];
+import EChart from '../../components/widgets/EChart';
 
 const GRADE_COLORS = {
     'A': '#1a7f37', // Green
@@ -52,26 +47,6 @@ const formFields = (
         <Form.Item name="contact_phone" label="เบอร์ติดต่อ"><Input /></Form.Item>
     </>
 );
-
-const CustomBarTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-        const total = payload[0].payload.total || 0;
-        return (
-            <div style={{ backgroundColor: '#fff', padding: '10px 14px', border: '1px solid #e8ecf0', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-                <div style={{ margin: '0 0 8px 0', fontWeight: 600, color: '#1f2328' }}>อำเภอ{label}</div>
-                {payload.map((entry, index) => (
-                    <div key={`item-${index}`} style={{ margin: '4px 0', color: entry.color, fontSize: 13 }}>
-                        {entry.name} : {entry.value} ศูนย์
-                    </div>
-                ))}
-                <div style={{ margin: '8px 0 0 0', fontWeight: 600, color: '#1f2328', borderTop: '1px solid #e8ecf0', paddingTop: '8px', fontSize: 13 }}>
-                    รวมทั้งหมด : {total} ศูนย์
-                </div>
-            </div>
-        );
-    }
-    return null;
-};
 
 export default function PestCenters() {
     // Dashboard filters
@@ -249,25 +224,7 @@ export default function PestCenters() {
                             <Card title="สรุปตามชนิดพืชหลัก" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                                 <div style={{ height: 300 }}>
                                     {pieData.length > 0 ? (
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <PieChart>
-                                                <Pie
-                                                    data={pieData}
-                                                    cx="50%"
-                                                    cy="50%"
-                                                    innerRadius={60}
-                                                    outerRadius={100}
-                                                    paddingAngle={3}
-                                                    dataKey="value"
-                                                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                                                >
-                                                    {pieData.map((entry, index) => (
-                                                        <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
-                                                    ))}
-                                                </Pie>
-                                                <RechartsTooltip formatter={(value) => [value + ' ศูนย์', 'จำนวน']} />
-                                            </PieChart>
-                                        </ResponsiveContainer>
+                                        <EChart option={pieOption(pieData, { colors: CHART_COLORS, unit: 'ศูนย์' })} />
                                     ) : (
                                         <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#656d76' }}>ไม่พบข้อมูล</div>
                                     )}
@@ -278,25 +235,16 @@ export default function PestCenters() {
                             <Card title="สรุปตามอำเภอ (แยกตามระดับชั้น)" size="small" bordered={false} style={{ background: '#fafbfc' }}>
                                 <div style={{ height: 300 }}>
                                     {barData.length > 0 ? (
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <BarChart data={barData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8ecf0" />
-                                                <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#656d76' }} axisLine={{ stroke: '#e8ecf0' }} tickLine={false} />
-                                                <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#656d76' }} axisLine={false} tickLine={false} />
-                                                <RechartsTooltip cursor={{ fill: '#f6f8fa' }} content={<CustomBarTooltip />} />
-                                                <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
-                                                {barGroups.map((type) => (
-                                                    <Bar 
-                                                        key={type} 
-                                                        dataKey={type} 
-                                                        name={`ระดับ ${type}`}
-                                                        stackId="a" 
-                                                        fill={GRADE_COLORS[type] || '#8250df'} 
-                                                        maxBarSize={50} 
-                                                    />
-                                                ))}
-                                            </BarChart>
-                                        </ResponsiveContainer>
+                                        <EChart option={barOption(
+                                            barData,
+                                            barGroups.map((type) => ({
+                                                key: type,
+                                                name: `ระดับ ${type}`,
+                                                color: GRADE_COLORS[type] || '#8250df',
+                                                maxBarSize: 50,
+                                            })),
+                                            { colors: CHART_COLORS, unit: 'ศูนย์', stacked: true, totalKey: 'total' }
+                                        )} />
                                     ) : (
                                         <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#656d76' }}>ไม่พบข้อมูล</div>
                                     )}

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Form, Input, Select, DatePicker, Row, Col, Card, Statistic } from 'antd';
 import { TeamOutlined, BankOutlined, EnvironmentOutlined } from '@ant-design/icons';
-import { PieChart, Pie, BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell, Tooltip as RechartsTooltip, ResponsiveContainer, Legend } from 'recharts';
 import CrudTable from '../../components/DataTable/CrudTable';
+import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { supabase } from '../../supabaseClient';
+import EChart from '../../components/widgets/EChart';
 
 const columns = [
     { title: 'ชื่อ-นามสกุล', dataIndex: 'full_name', key: 'full_name', width: 220 },
@@ -184,28 +185,13 @@ export default function Personnel() {
                 <Col xs={24} md={12}>
                     <Card title="สัดส่วนบุคลากรแยกตามตำแหน่ง" bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.05)', height: '100%' }}>
                         <div style={{ height: 350 }}>
-                            <ResponsiveContainer width="100%" height="100%">
-                                <PieChart>
-                                    <Pie 
-                                        data={positionData} 
-                                        cx="50%" 
-                                        cy="45%" 
-                                        labelLine={true} 
-                                        label 
-                                        outerRadius={100} 
-                                        fill="#8884d8" 
-                                        dataKey="value"
-                                        nameKey="name"
-                                        isAnimationActive={false}
-                                    >
-                                        {positionData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                        ))}
-                                    </Pie>
-                                    <RechartsTooltip formatter={(value) => [`${value} คน`, 'จำนวน']} />
-                                    <Legend layout="horizontal" verticalAlign="bottom" align="center" wrapperStyle={{ fontSize: '12px' }} />
-                                </PieChart>
-                            </ResponsiveContainer>
+                            <EChart option={pieOption(positionData, {
+                                colors: COLORS,
+                                unit: 'คน',
+                                center: ['50%', '45%'],
+                                radius: ['0%', '66%'],
+                                legend: true,
+                            })} />
                         </div>
                     </Card>
                 </Col>
@@ -229,19 +215,15 @@ export default function Personnel() {
                         }
                     >
                         <div style={{ height: 350 }}>
-                            <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={locationData} layout="vertical" margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>
-                                    <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-                                    <XAxis type="number" allowDecimals={false} />
-                                    <YAxis dataKey="name" type="category" width={100} fontSize={12} tick={{ fill: '#555' }} />
-                                    <RechartsTooltip cursor={{ fill: 'transparent' }} formatter={(value) => [`${value} คน`, 'จำนวน']} />
-                                    <Bar dataKey="value" fill="#82ca9d" radius={[0, 4, 4, 0]} isAnimationActive={false}>
-                                        {locationData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS[(index + 4) % COLORS.length]} />
-                                        ))}
-                                    </Bar>
-                                </BarChart>
-                            </ResponsiveContainer>
+                            <EChart option={barOption(
+                                locationData,
+                                [{
+                                    key: 'value',
+                                    name: 'จำนวน',
+                                    color: (_item, index) => COLORS[(index + 4) % COLORS.length],
+                                }],
+                                { layout: 'vertical', unit: 'คน', grid: { left: 112 } }
+                            )} />
                         </div>
                     </Card>
                 </Col>

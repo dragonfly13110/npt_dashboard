@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { BarChartOutlined, ReloadOutlined, SearchOutlined, TeamOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { barOption } from '../charts/echartOptions';
 import { supabase } from '../../supabaseClient';
 import { useApiCache } from '../../hooks/useApiCache';
+import EChart from './EChart';
 import {
     INSTITUTE_V2_TYPES,
     createFarmerGroupsRows,
@@ -275,15 +276,14 @@ export default function FarmerInstitutesV2Widget() {
                         <div className="inst-v2-chart">
                             <div className="inst-v2-section-title"><BarChartOutlined /> สรุปตามอำเภอ</div>
                             {summary.byDistrict.length ? (
-                                <ResponsiveContainer width="100%" height={260}>
-                                    <BarChart data={summary.byDistrict.slice(0, 8)} layout="vertical" margin={{ top: 8, right: 18, bottom: 8, left: 4 }}>
-                                        <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e2e8f0" />
-                                        <XAxis type="number" hide />
-                                        <YAxis type="category" dataKey="name" width={118} tick={{ fontSize: 12, fill: '#475569' }} />
-                                        <Tooltip formatter={(value, name) => [number.format(value), name === 'count' ? 'รายการ' : name]} />
-                                        <Bar dataKey="count" fill={activeType.color} radius={[0, 8, 8, 0]} />
-                                    </BarChart>
-                                </ResponsiveContainer>
+                                <EChart
+                                    option={barOption(
+                                        summary.byDistrict.slice(0, 8),
+                                        [{ key: 'count', name: 'รายการ', color: activeType.color }],
+                                        { layout: 'vertical', unit: 'รายการ', grid: { top: 8, right: 18, bottom: 8, left: 126 } }
+                                    )}
+                                    style={{ height: 260 }}
+                                />
                             ) : (
                                 <div className="inst-v2-empty">ไม่พบข้อมูลตามตัวกรอง</div>
                             )}
