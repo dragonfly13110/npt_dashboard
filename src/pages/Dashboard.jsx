@@ -5,7 +5,7 @@ import {
     AimOutlined, BankOutlined, TeamOutlined, AlertOutlined,
     ScheduleOutlined
 } from '@ant-design/icons';
-import { pieOption } from '../components/charts/echartOptions';
+import { pieOption, getCropColor } from '../components/charts/echartOptions';
 
 // ===== LANDING PAGE WIDGETS =====
 import WeatherWidget from '../components/widgets/WeatherWidget';
@@ -214,7 +214,7 @@ export default function Dashboard() {
                     <Card title="🌾 สัดส่วนพื้นที่เกษตรตามชนิดพืช" size="small" variant="outlined" style={{ borderRadius: 16 }}>
                         <div style={{ height: 300 }}>
                             {agriPie.length > 0 ? (
-                                <EChart option={pieOption(agriPie, { colors: PIE_COLORS, unit: 'ไร่' })} />
+                                <EChart option={pieOption(agriPie.map(item => ({ ...item, color: getCropColor(item.name) })), { colors: PIE_COLORS, unit: 'ไร่' })} />
                             ) : <EmptyChart label="พื้นที่การเกษตร" />}
                         </div>
                     </Card>
@@ -223,7 +223,7 @@ export default function Dashboard() {
                     <Card title="🌿 แปลงใหญ่ตามกลุ่มสินค้า" size="small" variant="outlined" style={{ borderRadius: 16 }}>
                         <div style={{ height: 300 }}>
                             {lpPie.length > 0 ? (
-                                <EChart option={pieOption(lpPie, { colors: PIE_COLORS, unit: 'แปลง' })} />
+                                <EChart option={pieOption(lpPie.map(item => ({ ...item, color: getCropColor(item.name) })), { colors: PIE_COLORS, unit: 'แปลง' })} />
                             ) : <EmptyChart label="แปลงใหญ่" />}
                         </div>
                     </Card>

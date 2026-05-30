@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Card, Spin, DatePicker, Input, Select, Row, Col, Empty, Badge, Button } from 'antd';
+import { Card, Spin, DatePicker, Input, Select, Row, Col, Empty, Badge, Button, message } from 'antd';
 import { 
     BugOutlined, 
     CalendarOutlined, 
@@ -9,10 +9,12 @@ import {
     CheckCircleOutlined,
     WarningOutlined,
     DashboardOutlined,
-    ArrowLeftOutlined
+    ArrowLeftOutlined,
+    SyncOutlined
 } from '@ant-design/icons';
 
 import { supabase } from '../../supabaseClient';
+import { useAuth } from '../../contexts/AuthContext';
 import './AiDiseaseForecast.css';
 
 const { RangePicker } = DatePicker;
@@ -33,9 +35,10 @@ const parseThaiFullDateStr = (dateStr) => {
 };
 
 export default function AiDiseaseForecast() {
-
+    const { canEdit } = useAuth();
     const [forecastList, setForecastList] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [analyzing, setAnalyzing] = useState(false);
     const [selectedForecast, setSelectedForecast] = useState(null);
     const [dateRange, setDateRange] = useState(null);
 
@@ -44,30 +47,66 @@ export default function AiDiseaseForecast() {
     const [selectedCrop, setSelectedCrop] = useState('ALL');
     const [selectedRisk, setSelectedRisk] = useState('ALL');
 
+    // Fetch all forecasts function
+    const fetchForecasts = async (shouldSelectLatest = false) => {
+        setLoading(true);
+        try {
+            const { data, error } = await supabase
+                .from('ai_disease_forecasts')
+                .select('*')
+                .order('forecast_date', { ascending: false });
+
+            if (error) throw error;
+            setForecastList(data || []);
+            
+            if (data && data.length > 0) {
+                if (shouldSelectLatest || !selectedForecast) {
+                    setSelectedForecast(data[0]);
+                } else {
+                    // Sync the active selected forecast with latest data if it still exists
+                    const updatedSelected = data.find(item => item.id === selectedForecast.id);
+                    if (updatedSelected) {
+                        setSelectedForecast(updatedSelected);
+                    } else {
+                        setSelectedForecast(data[0]);
+                    }
+                }
+            }
+        } catch (err) {
+            console.error('Error fetching forecasts:', err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // Fetch all forecasts on mount
     useEffect(() => {
-        const fetchForecasts = async () => {
-            setLoading(true);
-            try {
-                const { data, error } = await supabase
-                    .from('ai_disease_forecasts')
-                    .select('*')
-                    .order('forecast_date', { ascending: false });
-
-                if (error) throw error;
-                setForecastList(data || []);
-                if (data && data.length > 0) {
-                    setSelectedForecast(data[0]);
-                }
-            } catch (err) {
-                console.error('Error fetching forecasts:', err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchForecasts();
     }, []);
+
+    // Handle manual analysis request
+    const handleRunForecast = async () => {
+        setAnalyzing(true);
+        message.loading({ content: 'กำลังเริ่มกระบวนการวิเคราะห์พยากรณ์ด้วย AI...', key: 'ai-forecast-run' });
+        try {
+            const res = await fetch('/.netlify/functions/forecast-disease-insect', {
+                method: 'POST'
+            });
+            const payload = await res.json().catch(() => ({}));
+            
+            if (!res.ok) {
+                throw new Error(payload.error || payload.message || `HTTP ${res.status}`);
+            }
+
+            message.success({ content: payload.message || 'วิเคราะห์และบันทึกข้อมูลพยากรณ์สำเร็จ', key: 'ai-forecast-run', duration: 4 });
+            // Reload the history list and automatically select the newly generated forecast
+            await fetchForecasts(true);
+        } catch (err) {
+            message.error({ content: `การวิเคราะห์พยากรณ์ล้มเหลว: ${err.message}`, key: 'ai-forecast-run', duration: 5 });
+        } finally {
+            setAnalyzing(false);
+        }
+    };
 
     // Filter historical date list on the left side based on DateRange
     const filteredHistoryList = useMemo(() => {
@@ -137,14 +176,37 @@ export default function AiDiseaseForecast() {
     return (
         <div className="forecast-history-container">
             {/* Page Header */}
-            <div className="forecast-page-header">
-                <h2>
-                    <BugOutlined style={{ color: '#166534' }} />
-                    พยากรณ์และเตือนภัยโรค-แมลงศัตรูพืชอัจฉริยะ (ล่วงหน้า 7 วัน)
-                </h2>
-                <p>
-                    ระบบวิเคราะห์ประเมินความเสี่ยงล่วงหน้าของศัตรูพืชและโรคระบาดในพื้นที่จังหวัดนครปฐม โดยเชื่อมโยงฐานข้อมูลสภาพอากาศย้อนหลัง คาดการณ์สภาพอากาศล่วงหน้า และประวัติโรคระบาดด้วย AI
-                </p>
+            <div className="forecast-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
+                <div style={{ flex: '1 1 500px' }}>
+                    <h2>
+                        <BugOutlined style={{ color: '#166534' }} />
+                        พยากรณ์และเตือนภัยโรค-แมลงศัตรูพืชอัจฉริยะ (ล่วงหน้า 7 วัน)
+                    </h2>
+                    <p>
+                        ระบบวิเคราะห์ประเมินความเสี่ยงล่วงหน้าของศัตรูพืชและโรคระบาดในพื้นที่จังหวัดนครปฐม โดยเชื่อมโยงฐานข้อมูลสภาพอากาศย้อนหลัง คาดการณ์สภาพอากาศล่วงหน้า และประวัติโรคระบาดด้วย AI
+                    </p>
+                </div>
+                {canEdit() && (
+                    <Button
+                        type="primary"
+                        icon={<SyncOutlined spin={analyzing} />}
+                        loading={analyzing}
+                        onClick={handleRunForecast}
+                        style={{
+                            background: '#166534',
+                            borderColor: '#166534',
+                            borderRadius: '8px',
+                            height: '40px',
+                            fontWeight: 'bold',
+                            boxShadow: '0 4px 10px rgba(22, 101, 52, 0.15)',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '6px'
+                        }}
+                    >
+                        วิเคราะห์พยากรณ์ด้วย AI ตอนนี้
+                    </Button>
+                )}
             </div>
 
             {loading && forecastList.length === 0 ? (

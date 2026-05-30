@@ -5,10 +5,8 @@ import { ArrowRightOutlined, PieChartOutlined } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
 import { PageHeader, CategoryBentoCard, CategoryChartCard } from '../../components/widgets/SharedDashboardUI';
 import EChart from '../../components/widgets/EChart';
-import { areaOption, barOption, pieOption } from '../../components/charts/echartOptions';
+import { areaOption, barOption, pieOption, dualAxisOption, CROP_COLORS } from '../../components/charts/echartOptions';
 import { useApiCache } from '../../hooks/useApiCache';
-
-const AGRI_COLORS = ['#ffb300', '#f57c00', '#7cb342', '#43a047', '#00897b', '#039be5', '#3949ab', '#8e24aa'];
 const LEARN_COLORS = ['#0288d1', '#0097a7', '#388e3c', '#afb42b', '#fbc02d', '#f57c00', '#e64a19', '#d32f2f'];
 const REGISTRY_COLORS = ['#4f46e5', '#0ea5e9', '#10b981', '#f59e0b'];
 const WEATHER_COLORS = ['#1890ff', '#cf222e'];
@@ -113,10 +111,10 @@ export default function StrategyDashboard() {
     const weatherData = useMemo(() => [...(data?.weatherData || [])].reverse(), [data?.weatherData]);
 
     const agriPie = useMemo(() => {
-        return CROP_FIELDS.map((field, index) => ({
+        return CROP_FIELDS.map((field) => ({
             name: field.label,
             value: agriData.reduce((sum, row) => sum + (Number(row[field.key]) || 0), 0),
-            color: AGRI_COLORS[index % AGRI_COLORS.length],
+            color: CROP_COLORS[field.label] || '#cbd5e1',
         })).filter((item) => item.value > 0).sort((a, b) => b.value - a.value);
     }, [agriData]);
 
@@ -356,11 +354,11 @@ export default function StrategyDashboard() {
                                         option={barOption(
                                             registryBarData,
                                             [
-                                                { key: 'target', name: 'เป้าหมาย', color: REGISTRY_COLORS[0] },
-                                                { key: 'updated', name: 'ปรับปรุงแล้ว', color: REGISTRY_COLORS[2] },
-                                                { key: 'remaining', name: 'คงเหลือ', color: REGISTRY_COLORS[3] },
+                                                { key: 'target', name: 'เป้าหมาย' },
+                                                { key: 'updated', name: 'ปรับปรุงแล้ว' },
+                                                { key: 'remaining', name: 'คงเหลือ' },
                                             ],
-                                            { colors: REGISTRY_COLORS, unit: 'ครัวเรือน', legend: true }
+                                            { unit: 'ครัวเรือน', compact: true }
                                         )}
                                     />
                                 ) : <EmptyChart label="ทะเบียนเกษตรกร" />}
@@ -371,13 +369,13 @@ export default function StrategyDashboard() {
                             <CategoryChartCard title="🌧️ น้ำฝนและอุณหภูมิย้อนหลัง 90 วัน">
                                 {weatherData.length > 0 ? (
                                     <EChart
-                                        option={areaOption(
+                                        option={dualAxisOption(
                                             weatherData,
                                             [
-                                                { key: 'prcp', name: 'น้ำฝน (mm)', color: WEATHER_COLORS[0], opacity: 0.18 },
-                                                { key: 'tavg', name: 'อุณหภูมิเฉลี่ย (°C)', color: WEATHER_COLORS[1], opacity: 0.08 },
+                                                { key: 'prcp', name: 'น้ำฝน', color: WEATHER_COLORS[0] },
+                                                { key: 'tavg', name: 'อุณหภูมิเฉลี่ย', color: WEATHER_COLORS[1] },
                                             ],
-                                            { categoryKey: 'date', colors: WEATHER_COLORS, digits: 1 }
+                                            { categoryKey: 'date' }
                                         )}
                                     />
                                 ) : <EmptyChart label="สภาพอากาศ/น้ำฝน" />}
@@ -387,7 +385,7 @@ export default function StrategyDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🌾 สัดส่วนพื้นที่การเกษตรตามชนิดพืช">
                                 {agriPie.length > 0 ? (
-                                    <EChart option={pieOption(agriPie, { colors: AGRI_COLORS, unit: 'ไร่', digits: 2, center: ['42%', '50%'], legend: 'right' })} />
+                                    <EChart option={pieOption(agriPie, { unit: 'ไร่', digits: 2, center: ['42%', '50%'], legend: 'right' })} />
                                 ) : <EmptyChart label="พื้นที่การเกษตร" />}
                             </CategoryChartCard>
                         </Col>
@@ -395,7 +393,7 @@ export default function StrategyDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🌾 พื้นที่การเกษตรรายอำเภอ (แยกชนิดพืช)">
                                 {agriBar.length > 0 ? (
-                                    <EChart option={barOption(agriBar, agriCrops.map((crop, index) => ({ key: crop, color: AGRI_COLORS[index % AGRI_COLORS.length] })), { stacked: true, colors: AGRI_COLORS, unit: 'ไร่', digits: 2, totalKey: 'totalArea' })} />
+                                    <EChart option={barOption(agriBar, agriCrops.map((crop) => ({ key: crop, color: CROP_COLORS[crop] || '#cbd5e1' })), { stacked: true, unit: 'ไร่', digits: 2, totalKey: 'totalArea', compact: true })} />
                                 ) : <EmptyChart label="พื้นที่การเกษตร" />}
                             </CategoryChartCard>
                         </Col>

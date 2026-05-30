@@ -1,7 +1,7 @@
 import { Row, Col, Spin } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
 import EChart from '../../components/widgets/EChart';
-import { barOption, pieOption } from '../../components/charts/echartOptions';
+import { barOption, pieOption, getCropColor } from '../../components/charts/echartOptions';
 import { useProtectionData } from '../../hooks/useProtectionData';
 import { PageHeader, CategoryBentoCard, CategoryChartCard } from '../../components/widgets/SharedDashboardUI';
 
@@ -121,7 +121,7 @@ export default function ProtectionDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🌿 แปลงพยากรณ์ตามชนิดพืช">
                                 {poPie.length > 0 ? (
-                                    <EChart option={pieOption(poPie, { colors: CHART_COLORS, unit: 'แปลง' })} />
+                                    <EChart option={pieOption(poPie.map(item => ({ ...item, color: getCropColor(item.name) })), { unit: 'แปลง' })} />
                                 ) : <EmptyChart label="แปลงพยากรณ์" />}
                             </CategoryChartCard>
                         </Col>
@@ -138,7 +138,7 @@ export default function ProtectionDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🏥 ศจช. ตามชนิดพืชหลัก">
                                 {pcPie.length > 0 ? (
-                                    <EChart option={pieOption(pcPie, { colors: CHART_COLORS, unit: 'ศูนย์' })} />
+                                    <EChart option={pieOption(pcPie.map(item => ({ ...item, color: getCropColor(item.name) })), { unit: 'ศูนย์' })} />
                                 ) : <EmptyChart label="ศจช." />}
                             </CategoryChartCard>
                         </Col>
@@ -155,7 +155,7 @@ export default function ProtectionDashboard() {
                         <Col xs={24} lg={12}>
                             <CategoryChartCard title="🧪 ศดปช. ตามชนิดพืชหลัก">
                                 {sfPie.length > 0 ? (
-                                    <EChart option={pieOption(sfPie, { colors: CHART_COLORS, unit: 'ศูนย์' })} />
+                                    <EChart option={pieOption(sfPie.map(item => ({ ...item, color: getCropColor(item.name) })), { unit: 'ศูนย์' })} />
                                 ) : <EmptyChart label="ศดปช." />}
                             </CategoryChartCard>
                         </Col>

@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { Form, Input, InputNumber, Select, Tag, Row, Col, Card, Spin } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
 import CrudTable from '../../components/DataTable/CrudTable';
-import { barOption, pieOption } from '../../components/charts/echartOptions';
+import { barOption, pieOption, getCropColor } from '../../components/charts/echartOptions';
 import { supabase } from '../../supabaseClient';
 import { useApiCache } from '../../hooks/useApiCache';
 import EChart from '../../components/widgets/EChart';
@@ -107,7 +107,7 @@ export default function SoilFertilizerCenters() {
             counts[crop] = (counts[crop] || 0) + 1;
         });
         return Object.entries(counts)
-            .map(([name, value]) => ({ name, value }))
+            .map(([name, value]) => ({ name, value, color: getCropColor(name) }))
             .sort((a, b) => b.value - a.value);
     }, [filteredData]);
 

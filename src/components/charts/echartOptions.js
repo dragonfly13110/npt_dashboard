@@ -1,5 +1,56 @@
 const FALLBACK_COLORS = ['#1677ff', '#52c41a', '#faad14', '#ff7875', '#9254de', '#13c2c2', '#fa8c16', '#8c8c8c'];
 
+export const CROP_COLORS = {
+    'ข้าวนาปี': '#eab308',
+    'ข้าวนาปรัง': '#f59e0b',
+    'พืชไร่': '#b45309',
+    'พืชสวน': '#10b981',
+    'ไม้ผลไม้ยืนต้น': '#047857',
+    'ไม้ผล/ไม้ยืนต้น': '#047857',
+    'พืชผัก': '#34d399',
+    'ไม้ดอกไม้ประดับ': '#ec4899',
+    'ไม้ดอก/ไม้ประดับ': '#ec4899',
+    'สมุนไพรเครื่องเทศ': '#8b5cf6',
+    'สมุนไพร/เครื่องเทศ': '#8b5cf6'
+};
+
+export function getCropColor(cropName) {
+    if (!cropName) return '#656d76';
+    const name = cropName.trim();
+    
+    // Direct matches
+    if (CROP_COLORS[name]) return CROP_COLORS[name];
+    if (CROP_COLORS[name.replace('/', '')]) return CROP_COLORS[name.replace('/', '')];
+
+    // Smart substring matching
+    if (name.includes('ข้าวเจ้า') || name === 'ข้าว') {
+        return CROP_COLORS['ข้าวนาปี']; // #eab308
+    }
+    if (name.includes('ข้าว') && name.includes('ผัก')) {
+        return '#0ea5e9'; // Special cyan/blue for mixed crop
+    }
+    if (name.includes('อ้อย') || name.includes('ข้าวโพด') || name.includes('มันสำปะหลัง') || name.includes('พืชไร่')) {
+        return CROP_COLORS['พืชไร่']; // #b45309
+    }
+    if (name.includes('ผัก') || name.includes('คะน้า') || name.includes('กุยช่าย') || name.includes('ถั่วฝักยาว') || name.includes('บัวบก') || name.includes('มะเขือ') || name.includes('หน่อไม้ฝรั่ง')) {
+        return CROP_COLORS['พืชผัก']; // #34d399
+    }
+    if (name.includes('กระชาย') || name.includes('พืชสวน')) {
+        return CROP_COLORS['พืชสวน']; // #10b981
+    }
+    if (name.includes('ฝรั่ง') || name.includes('มะม่วง') || name.includes('ส้มโอ') || name.includes('กล้วย') || name.includes('มะพร้าว') || name.includes('อินทผาลัม') || name.includes('ชมพู่') || name.includes('ลำไย') || name.includes('ไม้ผล') || name.includes('ไม้ยืนต้น')) {
+        return CROP_COLORS['ไม้ผลไม้ยืนต้น']; // #047857
+    }
+    if (name.includes('ดอก') || name.includes('ประดับ') || name.includes('กล้วยไม้') || name.includes('ไทร')) {
+        return CROP_COLORS['ไม้ดอกไม้ประดับ']; // #ec4899
+    }
+    if (name.includes('สมุนไพร') || name.includes('เครื่องเทศ') || name.includes('ขิง') || name.includes('ข่า')) {
+        return CROP_COLORS['สมุนไพรเครื่องเทศ']; // #8b5cf6
+    }
+    
+    return '#656d76';
+}
+
 export const compactGrid = {
     top: 18,
     right: 18,
@@ -11,6 +62,19 @@ export const compactGrid = {
 export function formatValue(value, digits = 0) {
     const number = Number(value);
     if (!Number.isFinite(number)) return value ?? '-';
+    return number.toLocaleString(undefined, { maximumFractionDigits: digits });
+}
+
+export function formatCompactValue(value, digits = 1) {
+    const number = Number(value);
+    if (!Number.isFinite(number)) return value ?? '-';
+    const absVal = Math.abs(number);
+    if (absVal >= 1e6) {
+        return `${(number / 1e6).toLocaleString(undefined, { maximumFractionDigits: digits })} ล้าน`;
+    }
+    if (absVal >= 1e3) {
+        return `${(number / 1e3).toLocaleString(undefined, { maximumFractionDigits: digits })} พัน`;
+    }
     return number.toLocaleString(undefined, { maximumFractionDigits: digits });
 }
 
@@ -76,6 +140,7 @@ export function barOption(data, series, {
     totalKey,
     grid = {},
     rotate = 0,
+    compact = false,
 } = {}) {
     const categoryData = data.map((item) => item[categoryKey] ?? item.name ?? '');
     const normalizedSeries = series.map((entry, index) => {
@@ -98,7 +163,7 @@ export function barOption(data, series, {
 
     const valueAxis = {
         type: 'value',
-        axisLabel: { formatter: (value) => formatValue(value, digits), color: '#667085', fontSize: 12 },
+        axisLabel: { formatter: (value) => compact ? formatCompactValue(value, digits) : formatValue(value, digits), color: '#667085', fontSize: 12 },
         splitLine: { lineStyle: { color: '#eef2f7', type: 'dashed' } },
         axisLine: { show: false },
         axisTick: { show: false },
@@ -150,6 +215,7 @@ export function areaOption(data, series, {
     unit = '',
     digits = 0,
     rotate = 0,
+    compact = false,
 } = {}) {
     return {
         color: colors,
@@ -165,7 +231,7 @@ export function areaOption(data, series, {
         },
         yAxis: {
             type: 'value',
-            axisLabel: { formatter: (value) => formatValue(value, digits), color: '#667085', fontSize: 12 },
+            axisLabel: { formatter: (value) => compact ? formatCompactValue(value, digits) : formatValue(value, digits), color: '#667085', fontSize: 12 },
             splitLine: { lineStyle: { color: '#eef2f7', type: 'dashed' } },
             axisLine: { show: false },
             axisTick: { show: false },
@@ -267,5 +333,81 @@ function axisTooltip({ unit = '', digits = 0, totalKey } = {}) {
                 : '';
             return `${htmlTooltipTitle(rows[0]?.axisValueLabel || rows[0]?.name)}${lines}${totalLine}`;
         },
+    };
+}
+
+export function dualAxisOption(data, series, {
+    categoryKey = 'name',
+    rotate = 0,
+    grid = {},
+    legend = true,
+} = {}) {
+    if (series.length < 2) return areaOption(data, series, { categoryKey });
+    
+    const leftSeries = series[0];
+    const rightSeries = series[1];
+    
+    return {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: { type: 'shadow', shadowStyle: { color: 'rgba(15,23,42,0.045)' } },
+            formatter: (params) => {
+                const rows = Array.isArray(params) ? params : [params];
+                const lines = rows
+                    .map((item) => `${dot(item.color)}${item.seriesName}: <b>${formatValue(item.value, 1)} ${item.seriesIndex === 0 ? 'mm' : '°C'}</b>`)
+                    .map((line) => `<div style="margin-top:4px;color:#334155">${line}</div>`)
+                    .join('');
+                return `${htmlTooltipTitle(rows[0]?.axisValueLabel || rows[0]?.name)}${lines}`;
+            }
+        },
+        legend: legend ? { type: 'scroll', bottom: 0, textStyle: { color: '#475569', fontSize: 12 } } : undefined,
+        grid: { ...compactGrid, bottom: legend ? 48 : compactGrid.bottom, right: 48, ...grid },
+        xAxis: {
+            type: 'category',
+            data: data.map((item) => item[categoryKey] ?? item.name ?? ''),
+            axisLabel: { color: '#667085', fontSize: 12, rotate },
+            axisLine: { lineStyle: { color: '#e2e8f0' } },
+            axisTick: { show: false },
+        },
+        yAxis: [
+            {
+                type: 'value',
+                name: leftSeries.name,
+                nameTextStyle: { color: '#667085', fontSize: 11 },
+                axisLabel: { formatter: (value) => `${formatValue(value, 0)} mm`, color: '#667085', fontSize: 11 },
+                splitLine: { lineStyle: { color: '#eef2f7', type: 'dashed' } },
+                axisLine: { show: false },
+                axisTick: { show: false },
+            },
+            {
+                type: 'value',
+                name: rightSeries.name,
+                nameTextStyle: { color: '#667085', fontSize: 11 },
+                axisLabel: { formatter: (value) => `${formatValue(value, 0)} °C`, color: '#667085', fontSize: 11 },
+                splitLine: { show: false },
+                axisLine: { show: false },
+                axisTick: { show: false },
+            }
+        ],
+        series: [
+            {
+                type: leftSeries.type || 'bar',
+                name: leftSeries.name || leftSeries.key,
+                yAxisIndex: 0,
+                data: data.map((item) => item[leftSeries.key] ?? 0),
+                itemStyle: { color: leftSeries.color, borderRadius: [4, 4, 0, 0] },
+            },
+            {
+                type: 'line',
+                name: rightSeries.name || rightSeries.key,
+                yAxisIndex: 1,
+                data: data.map((item) => item[rightSeries.key] ?? 0),
+                smooth: true,
+                symbol: 'circle',
+                symbolSize: 6,
+                lineStyle: { color: rightSeries.color, width: 2.5 },
+                itemStyle: { color: rightSeries.color },
+            }
+        ]
     };
 }

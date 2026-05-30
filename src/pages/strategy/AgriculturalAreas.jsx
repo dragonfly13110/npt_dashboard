@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { Form, Input, InputNumber, Select, Tag, Row, Col, Card, Spin } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
 import EChart from '../../components/widgets/EChart';
+import { CROP_COLORS } from '../../components/charts/echartOptions';
 import CrudTable from '../../components/DataTable/CrudTable';
 import { supabase } from '../../supabaseClient';
 import { useApiCache } from '../../hooks/useApiCache';
@@ -45,14 +46,14 @@ const formFields = (
 );
 
 const CROP_TYPES = [
-    { key: 'rice_in_season_rai', label: 'ข้าวนาปี', color: '#ffd54f' },
-    { key: 'rice_off_season_rai', label: 'ข้าวนาปรัง', color: '#ffca28' },
-    { key: 'field_crops_rai', label: 'พืชไร่', color: '#8d6e63' },
-    { key: 'horticulture_rai', label: 'พืชสวน', color: '#66bb6a' },
-    { key: 'fruit_trees_rai', label: 'ไม้ผลไม้ยืนต้น', color: '#388e3c' },
-    { key: 'vegetables_rai', label: 'พืชผัก', color: '#81c784' },
-    { key: 'flowers_rai', label: 'ไม้ดอกไม้ประดับ', color: '#f06292' },
-    { key: 'herbs_spices_rai', label: 'สมุนไพรเครื่องเทศ', color: '#a1887f' }
+    { key: 'rice_in_season_rai', label: 'ข้าวนาปี', color: CROP_COLORS['ข้าวนาปี'] },
+    { key: 'rice_off_season_rai', label: 'ข้าวนาปรัง', color: CROP_COLORS['ข้าวนาปรัง'] },
+    { key: 'field_crops_rai', label: 'พืชไร่', color: CROP_COLORS['พืชไร่'] },
+    { key: 'horticulture_rai', label: 'พืชสวน', color: CROP_COLORS['พืชสวน'] },
+    { key: 'fruit_trees_rai', label: 'ไม้ผลไม้ยืนต้น', color: CROP_COLORS['ไม้ผลไม้ยืนต้น'] },
+    { key: 'vegetables_rai', label: 'พืชผัก', color: CROP_COLORS['พืชผัก'] },
+    { key: 'flowers_rai', label: 'ไม้ดอกไม้ประดับ', color: CROP_COLORS['ไม้ดอกไม้ประดับ'] },
+    { key: 'herbs_spices_rai', label: 'สมุนไพรเครื่องเทศ', color: CROP_COLORS['สมุนไพรเครื่องเทศ'] }
 ];
 
 export default function AgriculturalAreas() {
