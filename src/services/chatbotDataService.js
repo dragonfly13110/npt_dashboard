@@ -1,6 +1,14 @@
 import { supabase } from '../supabaseClient';
 import { callAI } from './aiService';
-import { TABLE_CONFIG, TABLE_SEARCH_COLS, DISTRICT_COLS, NUMERIC_COLS, CATEGORY_COLS } from '../utils/chatbotConstants';
+import {
+    TABLE_CONFIG,
+    getCategoryColumns,
+    getDatasetSelectColumns,
+    getDistrictColumn,
+    getNumericColumns,
+    getSearchColumns,
+    listDatasetKeys,
+} from '../domain/datasetCatalog';
 
 function parseBudgetNotes(notes) {
     if (!notes || typeof notes !== 'string') return {};
@@ -106,7 +114,7 @@ ${recentHistory || 'ไม่มีบริบทก่อนหน้า'}
  * This prevents sending thousands of raw rows and lets AI use pre-computed numbers
  */
 async function computeAggregation(table, distCol, matchedDistrict, searchKeyword) {
-    const numCols = NUMERIC_COLS[table];
+    const numCols = getNumericColumns(table);
     if (!numCols || numCols.length === 0) return null;
 
     try {
@@ -119,8 +127,9 @@ async function computeAggregation(table, distCol, matchedDistrict, searchKeyword
             query = query.ilike(distCol, `%${matchedDistrict}%`);
         }
 
-        if (searchKeyword && TABLE_SEARCH_COLS[table]?.length > 0) {
-            const cols = TABLE_SEARCH_COLS[table];
+        const searchCols = getSearchColumns(table);
+        if (searchKeyword && searchCols.length > 0) {
+            const cols = searchCols;
             const orString = cols.map(c => `${c}.ilike.%${searchKeyword}%`).join(',');
             query = query.or(orString);
         }
@@ -219,7 +228,7 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
 
     if (intent?.tables?.length > 0) {
         if (intent.tables.includes('all')) {
-            matchedTables = Object.keys(TABLE_CONFIG);
+            matchedTables = listDatasetKeys();
             isOverview = true;
         } else {
             matchedTables = intent.tables.filter(t => TABLE_CONFIG[t]);
@@ -261,7 +270,7 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
         }
 
         if (matchedTables.length === 0) {
-            matchedTables = Object.keys(TABLE_CONFIG);
+            matchedTables = listDatasetKeys();
             isOverview = true;
         }
     }
@@ -299,19 +308,22 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
     // Process tables in parallel for speed
     const tablePromises = matchedTables.map(async (table) => {
         try {
-            const distCol = DISTRICT_COLS[table] || 'district';
+            const distCol = getDistrictColumn(table);
+            const searchCols = getSearchColumns(table, 'guest');
+            const categoryCols = getCategoryColumns(table);
+            const aiSelectColumns = getDatasetSelectColumns(table, { purpose: 'ai' });
             let usedKeyword = false;
 
             let countQuery = supabase.from(table).select('*', { count: 'exact', head: true });
-            let dataQuery = supabase.from(table).select('*').order('created_at', { ascending: false }).limit(sampleLimit);
+            let dataQuery = supabase.from(table).select(aiSelectColumns).order('created_at', { ascending: false }).limit(sampleLimit);
 
             if (matchedDistrict) {
                 countQuery = countQuery.ilike(distCol, `%${matchedDistrict}%`);
                 dataQuery = dataQuery.ilike(distCol, `%${matchedDistrict}%`);
             }
 
-            if (searchKeyword && TABLE_SEARCH_COLS[table]?.length > 0) {
-                const cols = TABLE_SEARCH_COLS[table];
+            if (searchKeyword && searchCols.length > 0) {
+                const cols = searchCols;
                 const orString = cols.map(c => `${c}.ilike.%${searchKeyword}%`).join(',');
                 try {
                     countQuery = countQuery.or(orString);
@@ -326,7 +338,7 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
             if (!countError && count === 0 && usedKeyword) {
                 if(window?.console) console.log(`[Chatbot] Keyword "${searchKeyword}" returned 0 for ${table}, retrying without keyword...`);
                 let fbCountQuery = supabase.from(table).select('*', { count: 'exact', head: true });
-                let fbDataQuery = supabase.from(table).select('*').order('created_at', { ascending: false }).limit(sampleLimit);
+                let fbDataQuery = supabase.from(table).select(aiSelectColumns).order('created_at', { ascending: false }).limit(sampleLimit);
                 if (matchedDistrict) {
                     fbCountQuery = fbCountQuery.ilike(distCol, `%${matchedDistrict}%`);
                     fbDataQuery = fbDataQuery.ilike(distCol, `%${matchedDistrict}%`);
@@ -345,7 +357,7 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
                 const fb = await supabase.from(table).select('*', { count: 'exact', head: true });
                 count = fb.count || 0;
                 if (count > 0) {
-                    const fbData = await supabase.from(table).select('*').order('created_at', { ascending: false }).limit(sampleLimit);
+                    const fbData = await supabase.from(table).select(aiSelectColumns).order('created_at', { ascending: false }).limit(sampleLimit);
                     sampleData = fbData.data || [];
                 }
             } else if (sampleData.length === 0) {
@@ -363,16 +375,16 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
             let categorySummary = null;
             try {
                 let colsToSelect = [distCol];
-                if (CATEGORY_COLS[table]) {
-                    colsToSelect = [...colsToSelect, ...CATEGORY_COLS[table]];
+                if (categoryCols.length > 0) {
+                    colsToSelect = [...colsToSelect, ...categoryCols];
                 }
                 let summaryQuery = supabase.from(table).select(colsToSelect.join(','));
                 
                 if (matchedDistrict) {
                     summaryQuery = summaryQuery.ilike(distCol, `%${matchedDistrict}%`);
                 }
-                if (usedKeyword && searchKeyword && TABLE_SEARCH_COLS[table]?.length > 0) {
-                    const cols = TABLE_SEARCH_COLS[table];
+                if (usedKeyword && searchKeyword && searchCols.length > 0) {
+                    const cols = searchCols;
                     const orString = cols.map(c => `${c}.ilike.%${searchKeyword}%`).join(',');
                     summaryQuery = summaryQuery.or(orString);
                 }
@@ -381,8 +393,8 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
                 if (summaryData && summaryData.length > 0) {
                     const distCounts = {};
                     const catCounts = {};
-                    if (CATEGORY_COLS[table]) {
-                        CATEGORY_COLS[table].forEach(c => catCounts[c] = {});
+                    if (categoryCols.length > 0) {
+                        categoryCols.forEach(c => catCounts[c] = {});
                     }
 
                     summaryData.forEach(row => {
@@ -392,15 +404,15 @@ export async function fetchDatabaseContext(query, modelKey, chatHistory = []) {
                         distCounts[d] = (distCounts[d] || 0) + 1;
                         
                         // Category count
-                        if (CATEGORY_COLS[table]) {
-                            CATEGORY_COLS[table].forEach(c => {
+                        if (categoryCols.length > 0) {
+                            categoryCols.forEach(c => {
                                 const val = row[c] || 'ไม่ระบุ';
                                 catCounts[c][val] = (catCounts[c][val] || 0) + 1;
                             });
                         }
                     });
                     districtSummary = distCounts;
-                    if (CATEGORY_COLS[table]) {
+                    if (categoryCols.length > 0) {
                         categorySummary = catCounts;
                     }
                 }

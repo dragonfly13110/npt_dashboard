@@ -155,6 +155,22 @@ export function createFarmerGroupsRows({
   ];
 }
 
+export function createInstituteV2Rows({
+  smartFarmers = [],
+  youngSmartFarmers = [],
+  housewifeGroups = [],
+  youngFarmerGroups = [],
+  careerGroups = [],
+} = {}) {
+  return [
+    ...smartFarmers.map((row) => createPersonRow(row, 'smart_farmer_sf')),
+    ...youngSmartFarmers.map((row) => createPersonRow(row, 'young_smart_farmer_ysf')),
+    ...housewifeGroups.map((row) => createGroupRow(row, 'housewife_farmer_groups')),
+    ...youngFarmerGroups.map((row) => createGroupRow(row, 'young_farmer_groups_detailed')),
+    ...careerGroups.map((row) => createGroupRow(row, 'agricultural_career_groups')),
+  ];
+}
+
 export function filterInstituteV2Rows(rows, { year = 'all', district = 'all', typeKey = 'all', search = '' } = {}) {
   const query = String(search || '').trim().toLowerCase();
   return rows.filter((row) => {

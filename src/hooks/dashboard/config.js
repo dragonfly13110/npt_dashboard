@@ -1,5 +1,9 @@
+import { getDashboardGroups, getDashboardTables } from '../../domain/datasetCatalog';
+
 /**
- * Dashboard configuration, constants, and helpers
+ * Dashboard configuration, constants, and helpers.
+ * Dataset/table grouping now comes from the shared catalog so dashboard,
+ * search, and chatbot do not drift as tables are added.
  */
 
 export const DISTRICT_LIST = [
@@ -12,52 +16,7 @@ export const DISTRICT_LIST = [
     'พุทธมณฑล'
 ];
 
-export const groupConfig = [
-    {
-        group: 'ยุทธศาสตร์ฯ',
-        icon: '',
-        color: '#1565c0',
-        tables: [
-            { table: 'agricultural_areas', label: 'พื้นที่การเกษตร' },
-            { table: 'learning_centers', label: 'ศพก.' },
-            { table: 'disasters', label: 'ภัยพิบัติ' },
-        ]
-    },
-    {
-        group: 'ส่งเสริมการผลิต',
-        icon: '',
-        color: '#43a047',
-        tables: [
-            { table: 'large_plots', label: 'แปลงใหญ่' },
-            { table: 'certifications', label: 'มาตรฐาน GAP' },
-            { table: 'crop_production', label: 'ผลผลิตพืช' },
-        ]
-    },
-    {
-        group: 'พัฒนาเกษตรกร',
-        icon: '',
-        color: '#6a1b9a',
-        tables: [
-            { table: 'community_enterprises', label: 'วิสาหกิจ' },
-            { table: 'smart_farmers', label: 'เกษตรกรรุ่นใหม่' },
-            { table: 'farmer_groups', label: 'กลุ่มแม่บ้าน' },
-            { table: 'farmer_institutes', label: 'สถาบันเกษตรกร' },
-            { table: 'agri_tourism', label: 'ท่องเที่ยวเกษตร' },
-        ]
-    },
-    {
-        group: 'อารักขาพืช',
-        icon: '',
-        color: '#e65100',
-        tables: [
-            { table: 'forecast_plots', label: 'แปลงพยากรณ์' },
-            { table: 'ai_disease_forecasts', label: 'พยากรณ์โรค & แมลง (AI)' },
-            { table: 'pest_centers', label: 'ศจช.' },
-            { table: 'soil_fertilizer_centers', label: 'ศดปช.' },
-            { table: 'fire_hotspots', label: 'จุดเฝ้าระวัง PM2.5' },
-        ]
-    },
-];
+export const groupConfig = getDashboardGroups();
 
 export const PIE_COLORS = [
     '#66bb6a', '#42a5f5', '#ffca28', '#ef5350', '#ab47bc',
@@ -65,18 +24,8 @@ export const PIE_COLORS = [
     '#ec407a', '#29b6f6', '#9ccc65', '#ffa726', '#7e57c2'
 ];
 
-export const allTables = groupConfig.flatMap(g =>
-    g.tables.map(t => ({
-        ...t,
-        group: g.group,
-        groupIcon: g.icon,
-        groupColor: g.color
-    }))
-);
+export const allTables = getDashboardTables();
 
-/**
- * Create an empty district stats object
- */
 export function createEmptyDistrictStats() {
     return DISTRICT_LIST.reduce((acc, d) => {
         acc[d] = {
@@ -94,11 +43,7 @@ export function createEmptyDistrictStats() {
     }, {});
 }
 
-/**
- * Normalize district name (handle 'เมือง' -> 'เมืองนครปฐม')
- */
 export function normalizeDistrict(district) {
     if (!district) return district;
     return district === 'เมือง' ? 'เมืองนครปฐม' : String(district);
 }
-

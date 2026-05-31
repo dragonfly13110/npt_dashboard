@@ -19,34 +19,8 @@ import {
     selectEnrichedStats
 } from './dashboard/selectors';
 
-export { DISTRICT_LIST, allTables } from './dashboard/config';
+export { DISTRICT_LIST, allTables, groupConfig } from './dashboard/config';
 export { createAgriPieData, createLpPieData } from './dashboard/selectors';
-
-export const groupConfig = [
-    { group: 'ยุทธศาสตร์ฯ', icon: '', color: '#1565c0', tables: [
-        { table: 'agricultural_areas', label: 'พื้นที่การเกษตร' },
-        { table: 'learning_centers', label: 'ศพก.' },
-        { table: 'disasters', label: 'ภัยพิบัติ' },
-    ]},
-    { group: 'ส่งเสริมการผลิต', icon: '', color: '#43a047', tables: [
-        { table: 'large_plots', label: 'แปลงใหญ่' },
-        { table: 'certifications', label: 'มาตรฐาน GAP' },
-        { table: 'crop_production', label: 'ผลผลิตพืช' },
-    ]},
-    { group: 'พัฒนาเกษตรกร', icon: '', color: '#6a1b9a', tables: [
-        { table: 'community_enterprises', label: 'วิสาหกิจ' },
-        { table: 'smart_farmers', label: 'เกษตรกรรุ่นใหม่' },
-        { table: 'farmer_groups', label: 'กลุ่มแม่บ้าน' },
-        { table: 'farmer_institutes', label: 'สถาบันเกษตรกร' },
-        { table: 'agri_tourism', label: 'ท่องเที่ยวเกษตร' },
-    ]},
-    { group: 'อารักขาพืช', icon: '', color: '#e65100', tables: [
-        { table: 'forecast_plots', label: 'แปลงพยากรณ์' },
-        { table: 'pest_centers', label: 'ศจช.' },
-        { table: 'soil_fertilizer_centers', label: 'ศดปช.' },
-        { table: 'fire_hotspots', label: 'จุดเฝ้าระวัง PM2.5' },
-    ]},
-];
 
 export const PIE_COLORS = [
     '#66bb6a', '#42a5f5', '#ffca28', '#ef5350', '#ab47bc',
@@ -91,23 +65,13 @@ export function useDashboardData() {
 
         // 5. Compute Stats
         const dStats = createEmptyDistrictStats();
-        
-        // Enterprise stats
-        const { ceCount, distCounts, typeCounts, subdistrictCounts, ceList } = selectEnterpriseStats({ ceData, dStats });
-        
-        // Institute stats
-        const { instituteStats } = selectInstituteStats({ instData: instData || [], dStats });
-        
-        // Large plot stats
-        const { lpStats } = selectLargePlotStats({ lpData: rawLpData || [], dStats });
-        
-        // Agri stats
-        const { agriStats } = selectAgriStats({ agriAreaData: agriAreaData || [], dStats });
-        
-        // Center counts
-        selectCenterCounts({ lcData: lcData || [], pcData: pcData || [], sfcData: sfcData || [], dStats });
 
-        // Enriched stats
+        const { ceCount, distCounts, typeCounts, subdistrictCounts, ceList } = selectEnterpriseStats({ ceData, dStats });
+        const { instituteStats } = selectInstituteStats({ instData: instData || [], dStats });
+        const { lpStats } = selectLargePlotStats({ lpData: rawLpData || [], dStats });
+        const { agriStats } = selectAgriStats({ agriAreaData: agriAreaData || [], dStats });
+
+        selectCenterCounts({ lcData: lcData || [], pcData: pcData || [], sfcData: sfcData || [], dStats });
         selectEnrichedStats({ sfSfData, ysfData, disasterData, pestData, fireData, coconutData, certData, dStats });
 
         return {

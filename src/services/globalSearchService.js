@@ -1,37 +1,17 @@
 import { supabase } from '../supabaseClient';
-import { TABLE_CONFIG, TABLE_SEARCH_COLS, DISTRICT_COLS } from '../utils/chatbotConstants';
-import { getPublicColumns, getPublicSelectColumns, isPrivateColumn } from '../utils/dataPrivacy';
+import {
+    TABLE_CONFIG,
+    getDatasetRoute,
+    getDatasetSelectColumns,
+    getDistrictColumn,
+    getSearchColumns,
+    listDatasetKeys,
+} from '../domain/datasetCatalog';
+import { getPublicColumns } from '../utils/dataPrivacy';
 
 /**
  * Mapping: table name → dashboard route path
  */
-const TABLE_ROUTES = {
-    agricultural_areas: '/dashboard/strategy/agricultural-areas',
-    learning_centers: '/dashboard/strategy/learning-centers',
-    disasters: '/dashboard/development/disasters',
-    farmer_registry: '/dashboard/strategy/farmer-registry',
-    large_plots: '/dashboard/production/large-plots',
-    certifications: '/dashboard/production/certifications',
-    crop_production: '/dashboard/production/crop-production',
-    community_enterprises: '/dashboard/development/community-enterprises',
-    smart_farmers: '/dashboard/development/smart-farmers',
-    smart_farmer_sf: '/dashboard/development/smart-farmer-sf',
-    young_smart_farmer_ysf: '/dashboard/development/young-smart-farmer-ysf',
-    agricultural_career_groups: '/dashboard/development/agricultural-career-groups',
-    farmer_groups: '/dashboard/development/farmer-groups',
-    housewife_farmer_groups: '/dashboard/development/housewife-farmer-groups',
-    young_farmer_groups: '/dashboard/development/young-farmer-groups',
-    young_farmer_groups_detailed: '/dashboard/development/young-farmer-groups',
-    farmer_institutes: '/dashboard/development/farmer-institutes',
-    agri_tourism: '/dashboard/development/agri-tourism',
-    forecast_plots: '/dashboard/protection/pest-outbreaks',
-    ai_disease_forecasts: '/dashboard/protection/disease-forecast',
-    pest_centers: '/dashboard/protection/pest-centers',
-    soil_fertilizer_centers: '/dashboard/protection/soil-fertilizer',
-    fire_hotspots: '/dashboard/protection/fire-hotspots',
-    budgets: '/dashboard/admin/budgets',
-};
-
 // ========== Cache System ==========
 const cache = new Map();
 const CACHE_TTL = 60 * 1000; // 60 seconds
@@ -81,8 +61,8 @@ export function clearRecentSearches() {
 
 // ========== Label Helpers ==========
 function getResultLabel(row, table) {
-    const searchCols = TABLE_SEARCH_COLS[table] || [];
-    const distCol = DISTRICT_COLS[table] || 'district';
+    const searchCols = getSearchColumns(table);
+    const distCol = getDistrictColumn(table);
 
     for (const col of searchCols) {
         if (row[col] && typeof row[col] === 'string' && row[col].trim()) {
@@ -115,8 +95,8 @@ function getResultSubtitle(row, table) {
             .join(' • ') || null;
     }
 
-    const distCol = DISTRICT_COLS[table] || 'district';
-    const searchCols = TABLE_SEARCH_COLS[table] || [];
+    const distCol = getDistrictColumn(table);
+    const searchCols = getSearchColumns(table);
     const parts = [];
 
     if (row[distCol]) parts.push(`อ.${row[distCol]}`);
@@ -146,7 +126,7 @@ function enrichResults(rawResults, role = 'viewer') {
                 label: config.label,
                 icon: config.icon,
                 group: config.group,
-                route: TABLE_ROUTES[entry.table] || '/dashboard',
+                route: getDatasetRoute(entry.table),
                 totalCount: entry.totalCount || entry.results?.length || 0,
                 results: safeRows.map(row => ({
                     id: row.id,
@@ -173,22 +153,22 @@ async function searchViaRPC(searchTerm, limitPerTable) {
 
 // ========== Fallback: parallel search (18 requests) ==========
 async function searchViaParallel(searchTerm, limitPerTable, role = 'viewer') {
-    const tables = Object.keys(TABLE_CONFIG);
+    const tables = listDatasetKeys();
 
     const searchPromises = tables.map(async (table) => {
-            const searchCols = role === 'guest'
-                ? TABLE_SEARCH_COLS[table]?.filter((col) => !isPrivateColumn(table, { dataIndex: col }))
-                : TABLE_SEARCH_COLS[table];
+        const searchCols = getSearchColumns(table, role);
         if (!searchCols || searchCols.length === 0) return null;
 
         try {
-            const distCol = DISTRICT_COLS[table] || 'district';
+            const distCol = getDistrictColumn(table);
             const allCols = [...new Set([...searchCols, distCol])];
             const orString = allCols.map(c => `${c}.ilike.%${searchTerm}%`).join(',');
 
-            const selectColumns = role === 'guest'
-                ? getPublicSelectColumns(table, allCols.map((dataIndex) => ({ dataIndex })), role)
-                : '*';
+            const selectColumns = getDatasetSelectColumns(table, {
+                role,
+                purpose: 'search',
+                columns: allCols,
+            });
             const { data, count, error } = await supabase
                 .from(table)
                 .select(selectColumns, { count: 'exact' })
