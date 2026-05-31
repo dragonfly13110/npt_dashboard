@@ -1,15 +1,8 @@
-import { schedule } from '@netlify/functions';
 import { createClient } from '@supabase/supabase-js';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
-
-if (!SUPABASE_URL || !SUPABASE_KEY) {
-    throw new Error('Missing Supabase configuration.');
-}
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const CORS_HEADERS = {
     'Access-Control-Allow-Origin': '*',
@@ -18,11 +11,52 @@ const CORS_HEADERS = {
     'Content-Type': 'application/json',
 };
 
+const fetchWithTimeout = async (url, options = {}, timeoutMs = 12000) => {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+        return await fetch(url, { ...options, signal: controller.signal });
+    } finally {
+        clearTimeout(timeout);
+    }
+};
+
+const createFallbackForecast = (bangkokDateStr, weatherForecastSummary, weatherSummary, outbreakSummary, reason) => ({
+    summary: `ระบบ AI ภายนอกยังไม่ตอบสนองตามเวลาที่กำหนด จึงสร้างคำเตือนเบื้องต้นจากข้อมูลอากาศและประวัติการระบาดที่มีในระบบ ณ วันที่ ${bangkokDateStr} แนะนำให้เฝ้าระวังโรคพืชที่สัมพันธ์กับความชื้น ฝน และอุณหภูมิในช่วง 7 วันข้างหน้า พร้อมตรวจแปลงจริงก่อนตัดสินใจใช้มาตรการควบคุม รายการนี้เป็น fallback อัตโนมัติเนื่องจาก: ${reason}`,
+    details: [
+        {
+            name: 'โรคพืชที่สัมพันธ์กับฝนและความชื้น',
+            type: 'โรคพืช',
+            target_crop: 'ข้าว, กล้วยไม้, ไม้ผล, พืชผัก',
+            risk_level: 'ปานกลาง',
+            description: `ประเมินจากข้อมูลอากาศย้อนหลังและพยากรณ์ล่วงหน้าในระบบ หากมีฝนต่อเนื่อง ความชื้นสูง หรืออุณหภูมิเหมาะสม ให้เพิ่มความถี่การสำรวจแปลง\n\nข้อมูลย้อนหลัง:\n${weatherSummary}\n\nพยากรณ์ล่วงหน้า:\n${weatherForecastSummary}`,
+            prevention: 'สำรวจแปลงช่วงเช้าและเย็น ลดความชื้นสะสมในทรงพุ่ม/แปลงปลูก กำจัดส่วนพืชเป็นโรค และใช้สารหรือชีวภัณฑ์ตามคำแนะนำทางวิชาการเมื่อพบอาการเริ่มต้น'
+        },
+        {
+            name: 'แมลงศัตรูพืชที่เพิ่มจำนวนหลังฝน',
+            type: 'แมลงศัตรูพืช',
+            target_crop: 'ข้าว, อ้อย, มันสำปะหลัง, พืชผัก',
+            risk_level: 'ปานกลาง',
+            description: `หลังฝนหรืออากาศแปรปรวน แมลงบางชนิดอาจเพิ่มจำนวนเร็ว ควรตรวจจุดเสี่ยงและแปลงที่เคยมีประวัติระบาด\n\nประวัติระบาดล่าสุด:\n${outbreakSummary}`,
+            prevention: 'ติดตามกับดักและสำรวจใบ/ยอด/โคนต้นอย่างสม่ำเสมอ ใช้วิธีเขตกรรม ชีววิธี และสารป้องกันกำจัดตามระดับความเสียหายทางเศรษฐกิจ'
+        }
+    ]
+});
+
 // Main forecast logic
 const generateForecast = async () => {
     console.log('Starting Daily Crop Disease & Pest Risk AI Forecast...');
 
     try {
+        if (!SUPABASE_URL || !SUPABASE_KEY) {
+            return {
+                statusCode: 500,
+                headers: CORS_HEADERS,
+                body: JSON.stringify({ error: 'Missing Supabase configuration. Set VITE_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.' })
+            };
+        }
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
         const now = new Date();
         const bangkokDateStr = now.toLocaleDateString('en-CA', { timeZone: 'Asia/Bangkok' });
 
@@ -41,7 +75,7 @@ const generateForecast = async () => {
         let weatherForecastSummary = '';
         try {
             const forecastUrl = 'https://api.open-meteo.com/v1/forecast?latitude=13.8196&longitude=100.0602&daily=temperature_2m_max,temperature_2m_min,temperature_2m_mean,rain_sum,wind_speed_10m_max&timezone=Asia%2FBangkok&forecast_days=7';
-            const forecastRes = await fetch(forecastUrl);
+            const forecastRes = await fetchWithTimeout(forecastUrl, {}, 8000);
             if (forecastRes.ok) {
                 const forecastData = await forecastRes.json();
                 const daily = forecastData.daily || {};
@@ -78,9 +112,7 @@ const generateForecast = async () => {
             : 'No recent pest outbreaks reported.';;
 
         // 4. Set up Gemini API request
-        if (!GEMINI_API_KEY) {
-            throw new Error('GEMINI_API_KEY is not configured in env variables.');
-        }
+        let aiFailureReason = '';
 
         const model = 'gemini-3.5-flash';
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
@@ -123,51 +155,56 @@ ${outbreakSummary}`;
         let isGroundingSuccess = false;
 
         // Try generating with search grounding first
-        try {
-            console.log('Attempting forecast generation with Google Search Grounding...');
-            const prompt = `${basePrompt}${groundingInstruction}${responseFormatInstruction}`;
-            const requestBody = {
-                contents: [
-                    {
-                        parts: [
-                            { text: prompt }
-                        ]
+        if (GEMINI_API_KEY) {
+            try {
+                console.log('Attempting forecast generation with Google Search Grounding...');
+                const prompt = `${basePrompt}${groundingInstruction}${responseFormatInstruction}`;
+                const requestBody = {
+                    contents: [
+                        {
+                            parts: [
+                                { text: prompt }
+                            ]
+                        }
+                    ],
+                    tools: [
+                        {
+                            google_search: {}
+                        }
+                    ],
+                    generationConfig: {
+                        temperature: 0.2
                     }
-                ],
-                tools: [
-                    {
-                        google_search: {}
-                    }
-                ],
-                generationConfig: {
-                    temperature: 0.2
+                };
+
+                const response = await fetchWithTimeout(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestBody),
+                }, 12000);
+
+                if (!response.ok) {
+                    const errText = await response.text();
+                    throw new Error(`Gemini API Error (status ${response.status}): ${errText}`);
                 }
-            };
 
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(requestBody),
-            });
-
-            if (!response.ok) {
-                const errText = await response.text();
-                throw new Error(`Gemini API Error (status ${response.status}): ${errText}`);
+                const data = await response.json();
+                generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (generatedText) {
+                    isGroundingSuccess = true;
+                    console.log('Successfully generated forecast using Google Search Grounding.');
+                }
+            } catch (groundingErr) {
+                console.warn('Forecast generation with Google Search Grounding failed:', groundingErr.message);
+                aiFailureReason = groundingErr.message;
+                console.log('Falling back to standard forecast generation without Search Grounding...');
             }
-
-            const data = await response.json();
-            generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-            if (generatedText) {
-                isGroundingSuccess = true;
-                console.log('Successfully generated forecast using Google Search Grounding.');
-            }
-        } catch (groundingErr) {
-            console.warn('Forecast generation with Google Search Grounding failed:', groundingErr.message);
-            console.log('Falling back to standard forecast generation without Search Grounding...');
+        } else {
+            aiFailureReason = 'GEMINI_API_KEY is not configured in env variables.';
         }
 
         // If search grounding failed or returned empty, call standard model
-        if (!isGroundingSuccess) {
+        if (!isGroundingSuccess && GEMINI_API_KEY) {
             const prompt = `${basePrompt}${responseFormatInstruction}`;
             const requestBody = {
                 contents: [
@@ -182,43 +219,52 @@ ${outbreakSummary}`;
                 }
             };
 
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(requestBody),
-            });
+            try {
+                const response = await fetchWithTimeout(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestBody),
+                }, 12000);
 
-            if (!response.ok) {
-                const errText = await response.text();
-                throw new Error(`Gemini API Fallback Error (status ${response.status}): ${errText}`);
+                if (!response.ok) {
+                    const errText = await response.text();
+                    throw new Error(`Gemini API Fallback Error (status ${response.status}): ${errText}`);
+                }
+
+                const data = await response.json();
+                generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            } catch (fallbackErr) {
+                console.warn('Standard forecast generation failed:', fallbackErr.message);
+                aiFailureReason = fallbackErr.message;
             }
-
-            const data = await response.json();
-            generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        }
-
-        if (!generatedText) {
-            throw new Error('Gemini API returned empty response parts');
         }
 
         // Parse and validate the response JSON
         let resultJson;
-        try {
-            let jsonText = generatedText.trim();
-            // Match ```json ... ``` or ``` ... ```
-            const jsonRegex = /```(?:json)?\s*([\s\S]*?)\s*```/;
-            const match = jsonText.match(jsonRegex);
-            if (match) {
-                jsonText = match[1];
+        if (generatedText) {
+            try {
+                let jsonText = generatedText.trim();
+                // Match ```json ... ``` or ``` ... ```
+                const jsonRegex = /```(?:json)?\s*([\s\S]*?)\s*```/;
+                const match = jsonText.match(jsonRegex);
+                if (match) {
+                    jsonText = match[1];
+                }
+                resultJson = JSON.parse(jsonText.trim());
+            } catch (parseErr) {
+                console.error('Failed to parse JSON from model:', generatedText);
+                aiFailureReason = `Invalid JSON format from AI: ${parseErr.message}`;
             }
-            resultJson = JSON.parse(jsonText.trim());
-        } catch (parseErr) {
-            console.error('Failed to parse JSON from model:', generatedText);
-            throw new Error(`Invalid JSON format from AI: ${parseErr.message}`);
         }
 
-        if (!resultJson.summary || !Array.isArray(resultJson.details)) {
-            throw new Error('Invalid schema structure in AI JSON response');
+        if (!resultJson?.summary || !Array.isArray(resultJson.details)) {
+            resultJson = createFallbackForecast(
+                bangkokDateStr,
+                weatherForecastSummary,
+                weatherSummary,
+                outbreakSummary,
+                aiFailureReason || 'GEMINI_API_KEY is not configured or Gemini returned empty response'
+            );
         }
 
         // 5. Store/Upsert in Supabase
@@ -263,5 +309,4 @@ const forecastHandler = async (event = {}) => {
     return generateForecast();
 };
 
-// Schedule it to run daily at 06:00 AM Bangkok Time (23:00 UTC)
-export const handler = schedule('0 23 * * *', forecastHandler);
+export const handler = forecastHandler;
