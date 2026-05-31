@@ -3,6 +3,8 @@ import { createClient } from '@supabase/supabase-js';
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
+const WEATHER_TIMEOUT_MS = 8000;
+const GEMINI_TIMEOUT_MS = 30000;
 
 const CORS_HEADERS = {
     'Access-Control-Allow-Origin': '*',
@@ -75,7 +77,7 @@ const generateForecast = async () => {
         let weatherForecastSummary = '';
         try {
             const forecastUrl = 'https://api.open-meteo.com/v1/forecast?latitude=13.8196&longitude=100.0602&daily=temperature_2m_max,temperature_2m_min,temperature_2m_mean,rain_sum,wind_speed_10m_max&timezone=Asia%2FBangkok&forecast_days=7';
-            const forecastRes = await fetchWithTimeout(forecastUrl, {}, 8000);
+            const forecastRes = await fetchWithTimeout(forecastUrl, {}, WEATHER_TIMEOUT_MS);
             if (forecastRes.ok) {
                 const forecastData = await forecastRes.json();
                 const daily = forecastData.daily || {};
@@ -181,7 +183,7 @@ ${outbreakSummary}`;
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(requestBody),
-                }, 12000);
+                }, GEMINI_TIMEOUT_MS);
 
                 if (!response.ok) {
                     const errText = await response.text();
@@ -224,7 +226,7 @@ ${outbreakSummary}`;
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(requestBody),
-                }, 12000);
+                }, GEMINI_TIMEOUT_MS);
 
                 if (!response.ok) {
                     const errText = await response.text();
