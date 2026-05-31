@@ -173,7 +173,12 @@ function registrySparkOption(data) {
         grid: { top: 4, right: 2, bottom: 0, left: 2 },
         xAxis: { type: 'category', data: data.map((item) => item.district), show: false },
         yAxis: { type: 'value', show: false },
-        tooltip: { trigger: 'axis' },
+        tooltip: {
+            show: true,
+            trigger: 'axis',
+            confine: false,
+            position: 'top'
+        },
         series: [{
             type: 'bar',
             data: data.map((item) => item.total_updated_households || 0),
@@ -380,7 +385,7 @@ export default function FarmerRegistry() {
                                 <div style={{ color: '#94a3b8', fontSize: '11px' }}>ปรับปรุงสะสมผ่าน 3 ช่องทางหลัก</div>
                             </div>
                             <div style={{ width: '110px', height: '55px' }}>
-                                <EChart option={registrySparkOption(chartData)} />
+                                <EChart option={registrySparkOption(chartData)} style={{ minHeight: 0, overflow: 'visible' }} />
                             </div>
                         </div>
                     </Card>

@@ -207,21 +207,21 @@ html {
 }
 
 @media (min-width: 1101px) and (max-width: 1440px) {
-    .top-widgets-container,
-    .bento-container,
-    .dept-stats-container,
-    .widget-section-container,
-    .soil-water-grid,
-    .rainfall-strip-container,
-    .landing-data-status,
-    .landing-audience-section {
+    .landing-page .top-widgets-container,
+    .landing-page .bento-container,
+    .landing-page .dept-stats-container,
+    .landing-page .widget-section-container,
+    .landing-page .soil-water-grid,
+    .landing-page .rainfall-strip-container,
+    .landing-page .landing-data-status,
+    .landing-page .landing-audience-section {
         width: calc(100% - 116px) !important;
         max-width: none !important;
         margin-left: 100px !important;
         margin-right: 16px !important;
     }
 
-    .landing-quick-nav-inner {
+    .landing-page .landing-quick-nav-inner {
         max-width: none !important;
         margin-left: 52px !important;
         margin-right: 0 !important;

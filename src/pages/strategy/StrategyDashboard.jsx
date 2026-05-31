@@ -5,7 +5,7 @@ import { ArrowRightOutlined, PieChartOutlined } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
 import { PageHeader, CategoryBentoCard, CategoryChartCard } from '../../components/widgets/SharedDashboardUI';
 import EChart from '../../components/widgets/EChart';
-import { areaOption, barOption, pieOption, dualAxisOption, CROP_COLORS } from '../../components/charts/echartOptions';
+import { barOption, pieOption, dualAxisOption, CROP_COLORS } from '../../components/charts/echartOptions';
 import { useApiCache } from '../../hooks/useApiCache';
 const LEARN_COLORS = ['#0288d1', '#0097a7', '#388e3c', '#afb42b', '#fbc02d', '#f57c00', '#e64a19', '#d32f2f'];
 const REGISTRY_COLORS = ['#4f46e5', '#0ea5e9', '#10b981', '#f59e0b'];
@@ -275,7 +275,7 @@ export default function StrategyDashboard() {
                         ))}
                     </section>
 
-                    <section className="bento-container" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', display: 'grid', gap: 20, marginBottom: 24 }}>
+                    <section className="bento-container" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', display: 'grid', gap: 20, marginBottom: 24, gridTemplateAreas: 'none' }}>
                         <CategoryBentoCard
                             title="ทะเบียนเกษตรกร"
                             icon="📋"

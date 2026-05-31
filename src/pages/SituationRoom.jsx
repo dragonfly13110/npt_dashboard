@@ -403,6 +403,7 @@ export default function SituationRoom() {
 
     const budget = useMemo(() => buildBudgetSummary(signals.budgets || []), [signals.budgets]);
     const ranking = useMemo(() => buildDistrictRanking(districtStats, signals.hotspots || []), [districtStats, signals.hotspots]);
+    const maxScore = useMemo(() => Math.max(...ranking.map(item => item.score), 1), [ranking]);
     const pendingRequests = useMemo(() => (signals.requests || []).filter(item => item.status === 'published' || item.status === 'draft').length, [signals.requests]);
     const pendingAssignments = useMemo(() => (signals.assignments || []).filter(item => item.status !== 'submitted').length, [signals.assignments]);
     const totalRecords = useMemo(() => (stats || []).reduce((sum, item) => sum + Number(item.count || 0), 0), [stats]);
@@ -485,10 +486,62 @@ export default function SituationRoom() {
             ) : (
                 <>
                     <Row gutter={[14, 14]} className="situation-kpis">
-                        <Col xs={24} sm={12} xl={6}><Card><Statistic title="ข้อมูลรวมในระบบ" value={totalRecords} suffix="รายการ" prefix={<BarChartOutlined />} /></Card></Col>
-                        <Col xs={24} sm={12} xl={6}><Card><Statistic title="พื้นที่เกษตร" value={agriStats.crop_area || 0} suffix="ไร่" prefix={<CloudOutlined />} /></Card></Col>
-                        <Col xs={24} sm={12} xl={6}><Card><Statistic title="งบประมาณรวม" value={budget.totalBudget} formatter={value => `${money(value)} บาท`} prefix={<DollarOutlined />} /></Card></Col>
-                        <Col xs={24} sm={12} xl={6}><Card><Statistic title="คำขอข้อมูลค้างติดตาม" value={pendingRequests + pendingAssignments} suffix="รายการ" prefix={<AlertOutlined />} /></Card></Col>
+                        <Col xs={24} sm={12} xl={6}>
+                            <Card className="kpi-card kpi-records" bordered={false}>
+                                <div className="kpi-content">
+                                    <div className="kpi-info">
+                                        <span className="kpi-title">ข้อมูลรวมในระบบ</span>
+                                        <span className="kpi-value">{money(totalRecords)}</span>
+                                        <span className="kpi-suffix">รายการ</span>
+                                    </div>
+                                    <div className="kpi-icon-glow">
+                                        <BarChartOutlined />
+                                    </div>
+                                </div>
+                            </Card>
+                        </Col>
+                        <Col xs={24} sm={12} xl={6}>
+                            <Card className="kpi-card kpi-area" bordered={false}>
+                                <div className="kpi-content">
+                                    <div className="kpi-info">
+                                        <span className="kpi-title">พื้นที่เกษตร</span>
+                                        <span className="kpi-value">{money(agriStats.crop_area)}</span>
+                                        <span className="kpi-suffix">ไร่</span>
+                                    </div>
+                                    <div className="kpi-icon-glow">
+                                        <CloudOutlined />
+                                    </div>
+                                </div>
+                            </Card>
+                        </Col>
+                        <Col xs={24} sm={12} xl={6}>
+                            <Card className="kpi-card kpi-budget" bordered={false}>
+                                <div className="kpi-content">
+                                    <div className="kpi-info">
+                                        <span className="kpi-title">งบประมาณรวม</span>
+                                        <span className="kpi-value">{money(budget.totalBudget)}</span>
+                                        <span className="kpi-suffix">บาท</span>
+                                    </div>
+                                    <div className="kpi-icon-glow">
+                                        <DollarOutlined />
+                                    </div>
+                                </div>
+                            </Card>
+                        </Col>
+                        <Col xs={24} sm={12} xl={6}>
+                            <Card className="kpi-card kpi-alerts" bordered={false}>
+                                <div className="kpi-content">
+                                    <div className="kpi-info">
+                                        <span className="kpi-title">คำขอข้อมูลค้างติดตาม</span>
+                                        <span className="kpi-value">{pendingRequests + pendingAssignments}</span>
+                                        <span className="kpi-suffix">รายการ</span>
+                                    </div>
+                                    <div className="kpi-icon-glow">
+                                        <AlertOutlined />
+                                    </div>
+                                </div>
+                            </Card>
+                        </Col>
                     </Row>
 
                     <Row gutter={[16, 16]} className="situation-main-grid">
@@ -522,35 +575,46 @@ export default function SituationRoom() {
                             <Card title="District Ranking: พื้นที่ต้องติดตามวันนี้" className="situation-card">
                                 {ranking.length ? (
                                     <div className="ranking-list">
-                                        {ranking.map((item, index) => (
-                                            <div className="ranking-row" key={item.name}>
-                                                <span className="rank-number">{index + 1}</span>
-                                                <div className="rank-main">
-                                                    <strong>{item.name}</strong>
-                                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                                                        <Text type="secondary" style={{ fontSize: 12 }}>พื้นที่เกษตร {money(item.area)} ไร่ · วิสาหกิจ {money(item.ce)} · แปลงใหญ่ {money(item.lp)}</Text>
-                                                        <div className="rank-indicators">
-                                                            {item.fire > 0 && (
-                                                                <span className="mini-indicator fire">
-                                                                    <FireOutlined /> จุดความร้อน {item.fire} จุด
-                                                                </span>
-                                                            )}
-                                                            {item.pestArea > 0 && (
-                                                                <span className="mini-indicator pest">
-                                                                    <AlertOutlined /> ศัตรูพืช {money(item.pestArea)} ไร่
-                                                                </span>
-                                                            )}
-                                                            {item.disasterArea > 0 && (
-                                                                <span className="mini-indicator disaster">
-                                                                    <ThunderboltOutlined /> ประสบภัย {money(item.disasterArea)} ไร่
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <Tag color={index === 0 ? 'red' : index < 3 ? 'orange' : 'blue'}>score {item.score}</Tag>
-                                            </div>
-                                        ))}
+                                        {ranking.map((item, index) => {
+                                             const scorePercent = Math.round((item.score / maxScore) * 100);
+                                             const rankClass = index === 0 ? 'rank-top-1' : index === 1 ? 'rank-top-2' : index === 2 ? 'rank-top-3' : '';
+                                             return (
+                                                 <div className={`ranking-row ${rankClass}`} key={item.name}>
+                                                     <span className="rank-number">{index + 1}</span>
+                                                     <div className="rank-main">
+                                                         <strong>{item.name}</strong>
+                                                         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                                                             <Text type="secondary" style={{ fontSize: 12 }}>พื้นที่เกษตร {money(item.area)} ไร่ · วิสาหกิจ {money(item.ce)} · แปลงใหญ่ {money(item.lp)}</Text>
+                                                             <div className="rank-indicators">
+                                                                 {item.fire > 0 && (
+                                                                     <span className="mini-indicator fire">
+                                                                         <FireOutlined /> จุดความร้อน {item.fire} จุด
+                                                                     </span>
+                                                                 )}
+                                                                 {item.pestArea > 0 && (
+                                                                     <span className="mini-indicator pest">
+                                                                         <AlertOutlined /> ศัตรูพืช {money(item.pestArea)} ไร่
+                                                                     </span>
+                                                                 )}
+                                                                 {item.disasterArea > 0 && (
+                                                                     <span className="mini-indicator disaster">
+                                                                         <ThunderboltOutlined /> ประสบภัย {money(item.disasterArea)} ไร่
+                                                                     </span>
+                                                                 )}
+                                                             </div>
+                                                             <Progress 
+                                                                 percent={scorePercent} 
+                                                                 showInfo={false} 
+                                                                 size="small" 
+                                                                 strokeColor={index === 0 ? '#ef4444' : index === 1 ? '#f59e0b' : index === 2 ? '#3b82f6' : '#10b981'} 
+                                                                 style={{ marginTop: 6, marginBottom: 2 }}
+                                                             />
+                                                         </div>
+                                                     </div>
+                                                     <Tag color={index === 0 ? 'red' : index < 3 ? 'orange' : 'blue'}>score {item.score}</Tag>
+                                                 </div>
+                                             );
+                                         })}
                                     </div>
                                 ) : <Empty description="ยังไม่มีข้อมูลจัดอันดับ" />}
                             </Card>
@@ -576,7 +640,16 @@ export default function SituationRoom() {
                     <Row gutter={[16, 16]}>
                         <Col xs={24} lg={8}>
                             <Card title="Progress งบประมาณ" className="situation-card">
-                                <Progress type="dashboard" percent={budget.progress} strokeColor="#1a7f37" />
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '8px 0' }}>
+                                    <Progress 
+                                        type="dashboard" 
+                                        percent={budget.progress} 
+                                        strokeColor={{
+                                            '0%': '#10b981',
+                                            '100%': '#3b82f6',
+                                        }} 
+                                    />
+                                </div>
                                 <div className="budget-mini">
                                     <span>เบิกจ่ายแล้ว <strong>{money(budget.totalSpent)}</strong> บาท</span>
                                     <span>งบรวม <strong>{money(budget.totalBudget)}</strong> บาท</span>
@@ -627,6 +700,7 @@ export default function SituationRoom() {
                             <Card 
                                 title={
                                     <Space>
+                                        <div className="ai-pulse-dot" />
                                         <RobotOutlined style={{ color: '#16a34a' }} />
                                         <span>AI Executive Briefing</span>
                                     </Space>
