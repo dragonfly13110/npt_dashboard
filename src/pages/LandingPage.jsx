@@ -27,6 +27,7 @@ import { supabase } from '../supabaseClient';
 import AgencyLinksPanel from '../components/widgets/AgencyLinksPanel';
 import LandingFooter from '../components/widgets/LandingFooter';
 import NewsAccordion from '../components/widgets/NewsAccordion';
+import LandingChatbot from '../components/LandingChatbot/LandingChatbot';
 import './LandingPage.css';
 import './SaastyTheme.css';
 
@@ -791,6 +792,10 @@ export default function LandingPage() {
 
             {/* ===== FOOTER ===== */}
             <LandingFooter onOpenPanel={setActiveInfoModal} />
+
+            {/* ===== CHATBOT FOR DESKTOP ===== */}
+            <LandingChatbot />
+
             {/* ===== BACK TO TOP BUTTON ===== */}
             <FloatButton.BackTop icon={<ArrowUpOutlined />} tooltip="กลับขึ้นบนสุด" style={{ bottom: 40, right: 40, width: 50, height: 50 }} />
 
