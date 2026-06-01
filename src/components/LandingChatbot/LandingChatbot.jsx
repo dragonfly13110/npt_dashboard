@@ -12,7 +12,7 @@ import {
 } from '@ant-design/icons';
 import './LandingChatbot.css';
 
-const API_URL = (import.meta.env.VITE_LANDING_CHATBOT_API_URL || 'https://gen.ai.kku.ac.th/okmd/api/v1') + '/chat/completions';
+const API_URL = (import.meta.env.VITE_LANDING_CHATBOT_API_URL || '/api/kku/okmd/api/v1') + '/chat/completions';
 const API_KEY = import.meta.env.VITE_LANDING_CHATBOT_API_KEY || 'sk_dl0cb9rVTEYh960G4Ovy7xOYMagsl5cmWquk0aqjyLCTXYPqR9PVBvvzI6DNZAso';
 const MODEL_NAME = import.meta.env.VITE_LANDING_CHATBOT_MODEL || 'deepseek-v4-flash';
 const DAILY_LIMIT = 10;

@@ -67,6 +67,11 @@ export default defineConfig(({ mode }) => {
           target: 'https://npt-dashboard.netlify.app',
           changeOrigin: true,
         },
+        '/api/kku': {
+          target: 'https://gen.ai.kku.ac.th',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api\/kku/, '')
+        },
         '/api/nabc': {
           target: 'https://agriapi.nabc.go.th',
           changeOrigin: true,
