@@ -14,6 +14,7 @@ import {
 
 const number = new Intl.NumberFormat('th-TH');
 const DEFAULT_TYPE = 'large_plots';
+const getDefaultYearFilter = (typeKey) => (typeKey === 'large_plots' ? 'all' : 'latest');
 const NPT_DISTRICTS = [
     'เมืองนครปฐม',
     'กำแพงแสน',
@@ -176,7 +177,7 @@ export default function FarmerInstitutesV2Widget() {
         staleMinutes: 10,
         cacheMinutes: 60,
     });
-    const [selectedYear, setSelectedYear] = useState('latest');
+    const [selectedYear, setSelectedYear] = useState(getDefaultYearFilter(DEFAULT_TYPE));
     const [selectedDistrict, setSelectedDistrict] = useState('all');
     const [selectedType, setSelectedType] = useState(DEFAULT_TYPE);
     const [search, setSearch] = useState('');
@@ -204,7 +205,7 @@ export default function FarmerInstitutesV2Widget() {
     }, [activeYearRows]);
 
     useEffect(() => {
-        setSelectedYear('latest');
+        setSelectedYear(getDefaultYearFilter(selectedType));
         setSelectedDistrict('all');
         setSearch('');
     }, [selectedType]);
