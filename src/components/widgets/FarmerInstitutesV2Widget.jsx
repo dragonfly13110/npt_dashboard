@@ -69,6 +69,8 @@ function StatPill({ label, value, tone = '#16a34a' }) {
 }
 
 function getStatCards(summary, activeType) {
+    const memberValue = summary.memberKnownCount ? `${number.format(summary.totalMembers)} คน` : 'ยังไม่มีข้อมูล';
+
     const isIndividual = activeType.key === 'smart_farmer_sf' || activeType.key === 'young_smart_farmer_ysf';
     if (isIndividual) {
         return [
@@ -94,6 +96,57 @@ function getStatCards(summary, activeType) {
             },
         ];
     }
+
+    if (activeType.key === 'large_plots') {
+        return [
+            {
+                label: 'จำนวนแปลง',
+                value: `${number.format(summary.totalRows)} แปลง`,
+                tone: '#2563eb',
+            },
+            {
+                label: 'สมาชิกรวม',
+                value: memberValue,
+                tone: '#16a34a',
+            },
+            {
+                label: 'พื้นที่รวม',
+                value: `${number.format(summary.totalProductionArea)} ไร่`,
+                tone: activeType.color,
+            },
+            {
+                label: 'กลุ่มสินค้า',
+                value: `${number.format(summary.standardCount)} ประเภท`,
+                tone: '#9333ea',
+            },
+        ];
+    }
+
+    if (activeType.key === 'community_enterprises') {
+        return [
+            {
+                label: 'จำนวนแห่ง',
+                value: `${number.format(summary.totalRows)} แห่ง`,
+                tone: '#2563eb',
+            },
+            {
+                label: 'ประเภทกิจการ',
+                value: `${number.format(summary.activityCount)} ประเภท`,
+                tone: activeType.color,
+            },
+            {
+                label: 'อำเภอที่มีข้อมูล',
+                value: `${number.format(summary.districtCount)} อำเภอ`,
+                tone: '#9333ea',
+            },
+            {
+                label: 'ข้อมูลสมาชิก',
+                value: memberValue,
+                tone: '#16a34a',
+            },
+        ];
+    }
+
     return [
         {
             label: `จำนวน${activeType.unit}`,
@@ -102,17 +155,17 @@ function getStatCards(summary, activeType) {
         },
         {
             label: 'สมาชิกรวม',
-            value: `${number.format(summary.totalMembers)} คน`,
+            value: memberValue,
             tone: '#16a34a',
         },
         {
-            label: 'สมาชิกเฉลี่ย',
-            value: `${number.format(Math.round(summary.averageMembers))} คน/${activeType.unit}`,
+            label: 'ทุนรวม',
+            value: summary.totalFund > 0 ? `${number.format(summary.totalFund)} บาท` : '-',
             tone: activeType.color,
         },
         {
-            label: 'อำเภอที่มีข้อมูล',
-            value: `${number.format(summary.districtCount)} อำเภอ`,
+            label: summary.totalIncome > 0 ? 'รายได้รวม' : 'กิจกรรม',
+            value: summary.totalIncome > 0 ? `${number.format(summary.totalIncome)} บาท` : `${number.format(summary.activityCount)} ประเภท`,
             tone: '#9333ea',
         },
     ];

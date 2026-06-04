@@ -104,7 +104,8 @@ export function createLargePlotRow(row, typeKey) {
 
 export function createCommunityEnterpriseRow(row, typeKey) {
   const type = TYPE_BY_KEY[typeKey];
-  const members = toNumber(row.member_count || 0);
+  const hasMemberCount = row.member_count !== null && row.member_count !== undefined && row.member_count !== '';
+  const members = hasMemberCount ? toNumber(row.member_count) : null;
   let year = null;
   if (row.approval_date) {
     const match = String(row.approval_date).match(/^(\d{4})/);
@@ -203,10 +204,12 @@ function countUnique(rows, key) {
 
 export function summarizeInstituteV2Rows(rows) {
   const totalMembers = rows.reduce((sum, row) => sum + (row.members || 0), 0);
+  const memberKnownCount = rows.filter((row) => row.members !== null && row.members !== undefined).length;
   return {
     totalRows: rows.length,
     totalMembers,
-    averageMembers: rows.length ? totalMembers / rows.length : 0,
+    memberKnownCount,
+    averageMembers: memberKnownCount ? totalMembers / memberKnownCount : 0,
     totalIncome: rows.reduce((sum, row) => sum + (row.income || 0), 0),
     totalFund: rows.reduce((sum, row) => sum + (row.fund || 0), 0),
     totalProductionArea: rows.reduce((sum, row) => sum + (row.productionArea || 0), 0),
