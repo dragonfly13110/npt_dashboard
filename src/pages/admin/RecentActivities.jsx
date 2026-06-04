@@ -28,6 +28,7 @@ const groupConfig = [
     { group: 'อารักขาพืช', icon: '🛡️', color: '#e65100', tables: [
         { table: 'forecast_plots', label: 'แปลงพยากรณ์' },
         { table: 'pest_centers', label: 'ศจช.' },
+        { table: 'plant_doctors', label: 'หมอพืช' },
         { table: 'soil_fertilizer_centers', label: 'ศดปช.' },
         { table: 'fire_hotspots', label: 'จุดเฝ้าระวัง PM2.5' },
     ]},

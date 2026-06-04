@@ -50,7 +50,7 @@ BEGIN
     'farmer_registry','gis_areas','disasters',
     'large_plots','learning_centers','certifications','crop_production',
     'community_enterprises','smart_farmers','farmer_groups','young_farmer_groups','agri_tourism',
-    'pest_outbreaks','pest_centers','biocontrol_stock','fire_hotspots',
+    'pest_outbreaks','pest_centers','plant_doctors','biocontrol_stock','fire_hotspots',
     'forecast_plots','coconut_aromatic_surveys',
     'data_requests','data_request_assignments','data_request_responses'
   ] LOOP
@@ -82,7 +82,7 @@ BEGIN
     'farmer_registry','gis_areas','disasters',
     'large_plots','learning_centers','certifications','crop_production',
     'community_enterprises','smart_farmers','farmer_groups','young_farmer_groups','agri_tourism',
-    'pest_outbreaks','pest_centers','biocontrol_stock','fire_hotspots',
+    'pest_outbreaks','pest_centers','plant_doctors','biocontrol_stock','fire_hotspots',
     'forecast_plots','coconut_aromatic_surveys'
   ] LOOP
     EXECUTE format('DROP POLICY IF EXISTS "Role read %1$I" ON %1$I', tbl);

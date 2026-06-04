@@ -49,6 +49,7 @@ export default function ProtectionDashboard() {
         loading,
         poPie, poBar, poTypes, poStats,
         pcPie, pcBar, pcTypes, pcStats,
+        plantDoctorDistrictBar, plantDoctorStats,
         sfPie, sfBar, sfTypes, sfStats,
         firePie
     } = useProtectionData();
@@ -57,7 +58,7 @@ export default function ProtectionDashboard() {
         <div>
             <PageHeader 
                 title="🛡️ อารักขาพืช" 
-                subtitle="ภาพรวมข้อมูลแปลงพยากรณ์, ศจช., ศดปช. และจุดเฝ้าระวัง PM2.5" 
+                subtitle="ภาพรวมข้อมูลแปลงพยากรณ์, ศจช., หมอพืช, ศดปช. และจุดเฝ้าระวัง PM2.5" 
                 icon={PieChartOutlined} 
             />
 
@@ -95,6 +96,19 @@ export default function ProtectionDashboard() {
                                 { label: 'ระดับ A', value: pcStats.a, colorType: 'green' },
                                 { label: 'ระดับ B', value: pcStats.b, colorType: 'blue' },
                                 { label: 'ระดับ C', value: pcStats.c, colorType: 'red' }
+                            ]}
+                        />
+
+                        {/* 3. Plant Doctors */}
+                        <CategoryBentoCard
+                            title="หมอพืชชุมชน"
+                            icon="🩺"
+                            totalLabel="ทั้งหมด"
+                            totalCount={`${plantDoctorStats.total} ราย`}
+                            mainStatsTitle="ข้อมูลติดต่อและพื้นที่ครอบคลุม"
+                            mainStats={[
+                                { label: 'มีเบอร์โทร', value: plantDoctorStats.phoneCount, colorType: 'green' },
+                                { label: 'ครอบคลุมอำเภอ', value: plantDoctorStats.districts, colorType: 'blue' },
                             ]}
                         />
 
@@ -148,6 +162,19 @@ export default function ProtectionDashboard() {
                                 {pcBar.length > 0 ? (
                                     <EChart option={barOption(pcBar, pcTypes.map((type) => ({ key: type, name: `ระดับ ${type}`, color: PC_GRADE_COLORS[type] || '#8250df' })), { stacked: true, unit: 'ศูนย์', totalKey: 'total' })} />
                                 ) : <EmptyChart label="ศจช." />}
+                            </CategoryChartCard>
+                        </Col>
+
+                        {/* --- Plant Doctors --- */}
+                        <Col xs={24} lg={12}>
+                            <CategoryChartCard title="🩺 หมอพืชชุมชนแยกตามอำเภอ">
+                                {plantDoctorDistrictBar.length > 0 ? (
+                                    <EChart option={barOption(
+                                        plantDoctorDistrictBar,
+                                        [{ key: 'total', name: 'หมอพืช', color: '#1a7f37', maxBarSize: 48 }],
+                                        { unit: 'ราย', totalKey: 'total', categoryKey: 'name', layout: 'vertical', grid: { left: 120 } }
+                                    )} />
+                                ) : <EmptyChart label="หมอพืช" />}
                             </CategoryChartCard>
                         </Col>
 

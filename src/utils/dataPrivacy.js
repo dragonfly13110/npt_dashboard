@@ -19,6 +19,7 @@ const TABLE_PRIVATE_COLUMNS = {
     farmer_registry: ['contact_person', 'phone', 'address'],
     certifications: ['owner_name', 'phone', 'address'],
     forecast_plots: ['owner_name', 'phone', 'address'],
+    plant_doctors: ['full_name', 'address_no', 'village_no', 'contact_phone'],
     large_plots: ['contact_person', 'phone', 'address'],
     agri_tourism: ['contact_person', 'phone', 'address'],
     personnel: ['full_name', 'phone', 'email', 'address'],

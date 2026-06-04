@@ -27,7 +27,7 @@ const columns = [
     { title: 'เลขที่', dataIndex: 'address_no', key: 'address_no', width: 80 },
     { title: 'หมู่', dataIndex: 'village_no', key: 'village_no', width: 80 },
     { title: 'ตำบล', dataIndex: 'subdistrict', key: 'subdistrict', width: 130 },
-    { title: 'ชื่อ_สกุล_ประธาน', dataIndex: 'chairman', key: 'chairman', width: 150 },
+    { title: 'ประธาน/ผู้แทน', dataIndex: 'chairman', key: 'chairman', width: 190 },
     { title: 'เบอร์โทรศัพท์', dataIndex: 'contact_phone', key: 'contact_phone', width: 120 },
     { title: 'จำนวนสมาชิก_ราย', dataIndex: 'member_count', key: 'member_count', width: 130, align: 'right' },
     { title: 'พืชหลัก', dataIndex: 'main_crop_type', key: 'main_crop_type', width: 150 },
@@ -45,7 +45,7 @@ const formFields = (
         <Form.Item name="address_no" label="เลขที่"><Input /></Form.Item>
         <Form.Item name="village_no" label="หมู่"><Input /></Form.Item>
         <Form.Item name="subdistrict" label="ตำบล"><Input /></Form.Item>
-        <Form.Item name="chairman" label="ชื่อ_สกุล_ประธาน"><Input /></Form.Item>
+        <Form.Item name="chairman" label="ประธาน/ผู้แทน"><Input placeholder="เช่น นาย... หรือ รองประธาน รักษาการแทนประธาน" /></Form.Item>
         <Form.Item name="contact_phone" label="เบอร์โทรศัพท์"><Input /></Form.Item>
         <Form.Item name="member_count" label="จำนวนสมาชิก_ราย"><InputNumber style={{ width: '100%' }} /></Form.Item>
         <Form.Item name="main_crop_type" label="พืชหลัก"><Input /></Form.Item>

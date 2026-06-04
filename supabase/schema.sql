@@ -419,6 +419,21 @@ CREATE TABLE IF NOT EXISTS pest_centers (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS plant_doctors (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  row_number INTEGER,
+  full_name TEXT NOT NULL,
+  address_no TEXT,
+  village_no TEXT,
+  subdistrict TEXT,
+  district TEXT,
+  province TEXT DEFAULT 'นครปฐม',
+  contact_phone TEXT,
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 CREATE TABLE IF NOT EXISTS biocontrol_stock (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   product_name TEXT NOT NULL,

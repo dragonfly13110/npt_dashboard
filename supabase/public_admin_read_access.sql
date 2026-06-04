@@ -32,6 +32,7 @@ BEGIN
     'forecast_plots',
     'pest_outbreaks',
     'pest_centers',
+    'plant_doctors',
     'soil_fertilizer_centers',
     'biocontrol_stock',
     'fire_hotspots',

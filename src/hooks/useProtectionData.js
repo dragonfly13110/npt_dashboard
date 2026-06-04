@@ -26,9 +26,10 @@ const SF_GRADE_COLORS = {
 
 export function useProtectionData() {
     const fetchProtectionData = async () => {
-        const [po, pc, sf, fh] = await Promise.all([
+        const [po, pc, pd, sf, fh] = await Promise.all([
             supabase.from('forecast_plots').select('crop_type, district, plot_type'),
             supabase.from('pest_centers').select('main_crop_type, district, grade_level'),
+            supabase.from('plant_doctors').select('district, subdistrict, contact_phone'),
             supabase.from('soil_fertilizer_centers').select('main_crop_type, district, grade_level'),
             supabase.from('fire_hotspots').select('district, subdistrict'),
         ]);
@@ -36,13 +37,14 @@ export function useProtectionData() {
         return {
             pestOutbreaks: po.data || [],
             pestCenters: pc.data || [],
+            plantDoctors: pd.data || [],
             soilFertilizer: sf.data || [],
             fireHotspots: fh.data || []
         };
     };
 
     const { data, isLoading: loading } = useApiCache('protection-dashboard-data', fetchProtectionData);
-    const { pestOutbreaks, pestCenters, soilFertilizer, fireHotspots } = data || { pestOutbreaks: [], pestCenters: [], soilFertilizer: [], fireHotspots: [] };
+    const { pestOutbreaks, pestCenters, plantDoctors, soilFertilizer, fireHotspots } = data || { pestOutbreaks: [], pestCenters: [], plantDoctors: [], soilFertilizer: [], fireHotspots: [] };
 
     // ============================================
     // Pest Outbreaks Charts (Forecast Plots)
@@ -144,6 +146,19 @@ export function useProtectionData() {
     }, [soilFertilizer]);
 
     // ============================================
+    // Plant Doctors Charts
+    // ============================================
+    const plantDoctorDistrictBar = useMemo(() => {
+        const counts = {};
+        plantDoctors.forEach((item) => {
+            const dist = item.district || 'ไม่ระบุ';
+            if (!counts[dist]) counts[dist] = { name: dist, total: 0 };
+            counts[dist].total += 1;
+        });
+        return Object.values(counts).sort((a, b) => b.total - a.total);
+    }, [plantDoctors]);
+
+    // ============================================
     // Fire Hotspots Charts
     // ============================================
     const firePie = useMemo(() => {
@@ -204,10 +219,25 @@ export function useProtectionData() {
         };
     }, [soilFertilizer]);
 
+    const plantDoctorStats = useMemo(() => {
+        const districtSet = new Set();
+        let phoneCount = 0;
+        plantDoctors.forEach((item) => {
+            if (item.district) districtSet.add(item.district);
+            if (String(item.contact_phone || '').trim()) phoneCount += 1;
+        });
+        return {
+            total: plantDoctors.length,
+            districts: districtSet.size,
+            phoneCount,
+        };
+    }, [plantDoctors]);
+
     return {
         loading,
         poPie, poBar, poTypes, poStats,
         pcPie, pcBar, pcTypes, pcStats,
+        plantDoctorDistrictBar, plantDoctorStats,
         sfPie, sfBar, sfTypes, sfStats,
         firePie
     };
