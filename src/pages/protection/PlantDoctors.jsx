@@ -1,6 +1,13 @@
 import { useMemo, useState } from 'react';
-import { Card, Col, Form, Input, InputNumber, Row, Select, Spin, Statistic, Tag } from 'antd';
-import { MedicineBoxOutlined, PhoneOutlined, TeamOutlined } from '@ant-design/icons';
+import { Button, Card, Col, Form, Input, InputNumber, Row, Select, Spin, Tag } from 'antd';
+import {
+    ApartmentOutlined,
+    BarChartOutlined,
+    EnvironmentOutlined,
+    MedicineBoxOutlined,
+    ReloadOutlined,
+    TeamOutlined,
+} from '@ant-design/icons';
 import CrudTable from '../../components/DataTable/CrudTable';
 import { barOption } from '../../components/charts/echartOptions';
 import { useAuth } from '../../contexts/AuthContext';
@@ -46,6 +53,35 @@ function countBy(rows, getter) {
         .sort((a, b) => b.total - a.total);
 }
 
+function formatNumber(value, digits = 0) {
+    return Number(value || 0).toLocaleString('th-TH', { maximumFractionDigits: digits });
+}
+
+function SummaryTile({ icon, label, value, suffix, accent = '#0f766e', tone = '#ecfdf5' }) {
+    return (
+        <div style={{
+            minHeight: 102,
+            padding: '16px 18px',
+            background: `linear-gradient(135deg, ${tone} 0%, #ffffff 100%)`,
+            border: `1px solid color-mix(in srgb, ${accent} 22%, #e2e8f0)`,
+            borderRadius: 12,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            boxShadow: '0 12px 28px -24px rgba(15, 23, 42, 0.45)',
+        }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+                <span style={{ color: '#64748b', fontSize: 13, fontWeight: 700 }}>{label}</span>
+                <span style={{ color: accent, fontSize: 18 }}>{icon}</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, color: '#0f172a' }}>
+                <strong style={{ fontSize: 28, lineHeight: 1, color: accent }}>{value}</strong>
+                <span style={{ fontSize: 14, fontWeight: 700, color: '#475569' }}>{suffix}</span>
+            </div>
+        </div>
+    );
+}
+
 export default function PlantDoctors() {
     const { role } = useAuth();
     const [filterDistrict, setFilterDistrict] = useState(null);
@@ -76,8 +112,11 @@ export default function PlantDoctors() {
     ), [doctors, filterDistrict]);
 
     const districtSummary = useMemo(() => countBy(filteredDoctors, row => row.district), [filteredDoctors]);
-    const phoneCount = useMemo(() => doctors.filter(row => String(row.contact_phone || '').trim()).length, [doctors]);
-    const subdistrictCount = useMemo(() => new Set(doctors.map(row => row.subdistrict).filter(Boolean)).size, [doctors]);
+    const subdistrictSummary = useMemo(() => countBy(filteredDoctors, row => row.subdistrict).slice(0, 8), [filteredDoctors]);
+    const subdistrictCount = useMemo(() => new Set(filteredDoctors.map(row => row.subdistrict).filter(Boolean)).size, [filteredDoctors]);
+    const districtCount = districtSummary.filter(row => row.name !== 'ไม่ระบุ').length;
+    const averagePerDistrict = districtCount > 0 ? filteredDoctors.length / districtCount : 0;
+    const hasActiveFilter = Boolean(filterDistrict);
     const tableFilterConfig = useMemo(() => [
         { key: 'district', label: 'อำเภอ', options: districtOptions },
     ], [districtOptions]);
@@ -85,40 +124,76 @@ export default function PlantDoctors() {
     return (
         <div>
             <div style={{
-                padding: 20,
-                background: '#fff',
+                padding: 22,
+                background: 'linear-gradient(135deg, #f8fffb 0%, #ffffff 58%, #f8fbff 100%)',
                 borderRadius: 12,
-                border: '1px solid #e8ecf0',
-                marginBottom: 24
+                border: '1px solid #dbe7df',
+                marginBottom: 24,
+                boxShadow: '0 18px 50px -34px rgba(15, 23, 42, 0.45)',
             }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-                    <MedicineBoxOutlined style={{ fontSize: 18, color: '#1a7f37' }} />
-                    <span style={{ fontSize: 16, fontWeight: 700, color: '#1f2328' }}>สรุปข้อมูลหมอพืชชุมชนจังหวัดนครปฐม</span>
-                    <Tag color="green">
-                        {filterDistrict ? `${filteredDoctors.length} / ${doctors.length} ราย` : `${doctors.length} ราย`}
-                    </Tag>
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 18, flexWrap: 'wrap' }}>
+                    <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                            <MedicineBoxOutlined style={{ fontSize: 19, color: '#0f766e' }} />
+                            <span style={{ fontSize: 17, fontWeight: 800, color: '#0f172a' }}>สรุปหมอพืชชุมชนจังหวัดนครปฐม</span>
+                            <Tag color="green">
+                                {hasActiveFilter ? `${filteredDoctors.length} / ${doctors.length} ราย` : `${doctors.length} ราย`}
+                            </Tag>
+                        </div>
+                        <div style={{ color: '#64748b', fontSize: 13 }}>
+                            สรุปจากข้อมูลพื้นที่ที่เปิดเผยได้: อำเภอ ตำบล และจำนวนรายชื่อในระบบ
+                        </div>
+                    </div>
+                    {hasActiveFilter && (
+                        <Button
+                            icon={<ReloadOutlined />}
+                            onClick={() => setFilterDistrict(null)}
+                        >
+                            ล้างตัวกรอง
+                        </Button>
+                    )}
                 </div>
 
                 <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
-                    <Col xs={24} md={8}>
-                        <Card size="small">
-                            <Statistic title="หมอพืชทั้งหมด" value={doctors.length} suffix="ราย" prefix={<TeamOutlined />} />
-                        </Card>
+                    <Col xs={24} sm={12} xl={6}>
+                        <SummaryTile
+                            icon={<TeamOutlined />}
+                            label={hasActiveFilter ? 'หมอพืชในอำเภอที่เลือก' : 'หมอพืชทั้งหมด'}
+                            value={formatNumber(filteredDoctors.length)}
+                            suffix="ราย"
+                            accent="#0f766e"
+                            tone="#ecfdf5"
+                        />
                     </Col>
-                    <Col xs={24} md={8}>
-                        <Card size="small">
-                            <Statistic
-                                title={role === 'guest' ? 'ตำบลที่ครอบคลุม' : 'มีเบอร์โทร'}
-                                value={role === 'guest' ? subdistrictCount : phoneCount}
-                                suffix={role === 'guest' ? 'ตำบล' : 'ราย'}
-                                prefix={<PhoneOutlined />}
-                            />
-                        </Card>
+                    <Col xs={24} sm={12} xl={6}>
+                        <SummaryTile
+                            icon={<EnvironmentOutlined />}
+                            label="อำเภอที่ครอบคลุม"
+                            value={formatNumber(districtCount)}
+                            suffix="อำเภอ"
+                            accent="#2563eb"
+                            tone="#eff6ff"
+                        />
                     </Col>
-                    <Col xs={24} md={8}>
-                        <Card size="small">
-                            <Statistic title="อำเภอที่ครอบคลุม" value={districtOptions.length} suffix="อำเภอ" />
-                        </Card>
+                    <Col xs={24} sm={12} xl={6}>
+                        <SummaryTile
+                            icon={<ApartmentOutlined />}
+                            label="ตำบลที่มีข้อมูล"
+                            value={formatNumber(subdistrictCount)}
+                            suffix="ตำบล"
+                            accent="#7c3aed"
+                            tone="#f5f3ff"
+                        />
+                    </Col>
+                    <Col xs={24} sm={12} xl={6}>
+                        <SummaryTile
+                            icon={<BarChartOutlined />}
+                            label="เฉลี่ยต่ออำเภอ"
+                            value={formatNumber(averagePerDistrict, 1)}
+                            suffix="ราย"
+                            accent="#b45309"
+                            tone="#fff7ed"
+                        />
                     </Col>
                 </Row>
 
@@ -128,9 +203,9 @@ export default function PlantDoctors() {
                     flexWrap: 'wrap',
                     marginBottom: 20,
                     padding: '12px 16px',
-                    background: '#f6f8fa',
+                    background: 'rgba(255,255,255,0.78)',
                     borderRadius: 8,
-                    border: '1px solid #e8ecf0'
+                    border: '1px solid #dbe7df'
                 }}>
                     <span style={{ fontSize: 13, color: '#656d76', fontWeight: 500, alignSelf: 'center' }}>อำเภอ:</span>
                     <Select
@@ -149,15 +224,30 @@ export default function PlantDoctors() {
                         <Spin tip="กำลังโหลดข้อมูล..." />
                     </div>
                 ) : (
-                    <Card title="หมอพืชแยกตามอำเภอ" size="small" bordered={false} style={{ background: '#fafbfc' }}>
-                        <div style={{ height: 320 }}>
-                            <EChart option={barOption(
-                                districtSummary,
-                                [{ key: 'total', name: 'หมอพืช', color: '#1a7f37', maxBarSize: 48 }],
-                                { categoryKey: 'name', unit: 'ราย', layout: 'vertical', grid: { left: 120 } }
-                            )} />
-                        </div>
-                    </Card>
+                    <Row gutter={[18, 18]}>
+                        <Col xs={24} lg={14}>
+                            <Card title="จำนวนหมอพืชชุมชนรายอำเภอ" size="small" bordered={false} style={{ background: 'rgba(255,255,255,0.86)', borderRadius: 10 }}>
+                                <div style={{ height: 300 }}>
+                                    <EChart option={barOption(
+                                        districtSummary,
+                                        [{ key: 'total', name: 'หมอพืช', color: '#0f766e', maxBarSize: 34 }],
+                                        { categoryKey: 'name', unit: 'ราย', totalKey: 'total', grid: { left: 36, right: 18, bottom: 34 } }
+                                    )} />
+                                </div>
+                            </Card>
+                        </Col>
+                        <Col xs={24} lg={10}>
+                            <Card title="ตำบลที่มีรายชื่อมากสุด" size="small" bordered={false} style={{ background: 'rgba(255,255,255,0.86)', borderRadius: 10 }}>
+                                <div style={{ height: 300 }}>
+                                    <EChart option={barOption(
+                                        subdistrictSummary,
+                                        [{ key: 'total', name: 'หมอพืช', color: '#2563eb', maxBarSize: 24 }],
+                                        { categoryKey: 'name', unit: 'ราย', layout: 'vertical', grid: { left: 104, right: 18, bottom: 28 } }
+                                    )} />
+                                </div>
+                            </Card>
+                        </Col>
+                    </Row>
                 )}
             </div>
 
