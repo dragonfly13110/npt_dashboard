@@ -201,7 +201,7 @@ export function selectEnrichedStats({ sfSfData, ysfData, disasterData, pestData,
 
     // 7. Certifications
     (certData || []).forEach(row => {
-        let d = normalizeDistrict(row.district);
+        let d = normalizeDistrict(row.plot_district || row.district);
         if (dStats[d]) {
             dStats[d].certGap += 1;
         }

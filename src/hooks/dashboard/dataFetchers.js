@@ -33,7 +33,7 @@ export async function fetchAllCounts(supabase) {
 
             const { count, error } = await supabase
                 .from(tbl.table)
-                .select('*', { count: 'exact', head: true });
+                .select('id', { count: 'exact', head: true });
             results.push({ ...tbl, count: error ? 0 : (count ?? 0) });
         } catch {
             results.push({ ...tbl, count: 0 });
@@ -125,7 +125,7 @@ export async function fetchCommunityData(supabase) {
         supabase.from('pest_outbreaks').select('district, outbreak_area'),
         supabase.from('fire_hotspots').select('district'),
         supabase.from('coconut_aromatic_surveys').select('district, planted_area_rai, total_income'),
-        supabase.from('certifications').select('district')
+        supabase.from('certifications').select('plot_district')
     ]);
 
     return {

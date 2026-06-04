@@ -8,7 +8,7 @@ import EChart from '../../components/widgets/EChart';
 import CsvImportModal from '../../components/DataTable/CsvImportModal';
 import { useAuth } from '../../contexts/AuthContext';
 import { useSupabaseCrud } from '../../hooks/useSupabase';
-import { getPublicColumns } from '../../utils/dataPrivacy';
+import { getPublicColumns, getPublicSelectColumns } from '../../utils/dataPrivacy';
 import districtGeoJSON from '../../data/nakhon_pathom_districts.json';
 
 const number = new Intl.NumberFormat('th-TH');
@@ -236,7 +236,7 @@ export default function YoungFarmerGroupsDashboard() {
     const fetchRows = async () => {
         const { data, error } = await supabase
             .from('young_farmer_groups_detailed')
-            .select('*')
+            .select(getPublicSelectColumns('young_farmer_groups_detailed', columns, role))
             .order('data_year', { ascending: false })
             .order('district', { ascending: true })
             .order('group_name', { ascending: true });
@@ -244,7 +244,7 @@ export default function YoungFarmerGroupsDashboard() {
         return data || [];
     };
 
-    const { data: rows = [], isLoading, refetch } = useApiCache('young_farmer_groups_detailed_all', fetchRows);
+    const { data: rows = [], isLoading, refetch } = useApiCache(['young_farmer_groups_detailed_all', role], fetchRows);
     const years = useMemo(() => [...new Set(rows.map((row) => row.data_year).filter(Boolean))].sort((a, b) => b - a), [rows]);
     const [selectedYear, setSelectedYear] = useState(null);
     const [filters, setFilters] = useState({});

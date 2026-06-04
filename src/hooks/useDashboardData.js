@@ -44,7 +44,7 @@ export function useDashboardData() {
 
                 const { count, error } = await supabase
                     .from(tbl.table)
-                    .select('*', { count: 'exact', head: true });
+                    .select('id', { count: 'exact', head: true });
                 statsResults.push({ ...tbl, count: error ? 0 : (count ?? 0) });
             } catch {
                 statsResults.push({ ...tbl, count: 0 });

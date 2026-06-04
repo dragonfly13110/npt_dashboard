@@ -8,7 +8,7 @@ import EChart from '../../components/widgets/EChart';
 import CsvImportModal from '../../components/DataTable/CsvImportModal';
 import { useAuth } from '../../contexts/AuthContext';
 import { useSupabaseCrud } from '../../hooks/useSupabase';
-import { getPublicColumns } from '../../utils/dataPrivacy';
+import { getPublicColumns, getPublicSelectColumns } from '../../utils/dataPrivacy';
 
 const number = new Intl.NumberFormat('th-TH');
 
@@ -108,7 +108,7 @@ export default function AgriculturalCareerGroups() {
     const fetchRows = async () => {
         const { data, error } = await supabase
             .from('agricultural_career_groups')
-            .select('*')
+            .select(getPublicSelectColumns('agricultural_career_groups', columns, role))
             .order('data_year', { ascending: false })
             .order('district', { ascending: true })
             .order('group_name', { ascending: true });
@@ -116,7 +116,7 @@ export default function AgriculturalCareerGroups() {
         return data || [];
     };
 
-    const { data: rows = [], isLoading, refetch } = useApiCache('agricultural_career_groups_all', fetchRows);
+    const { data: rows = [], isLoading, refetch } = useApiCache(['agricultural_career_groups_all', role], fetchRows);
     const years = useMemo(() => [...new Set(rows.map((row) => row.data_year).filter(Boolean))].sort((a, b) => b - a), [rows]);
     const [selectedYear, setSelectedYear] = useState(null);
     const [filters, setFilters] = useState({});

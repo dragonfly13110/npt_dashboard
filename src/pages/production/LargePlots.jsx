@@ -6,6 +6,8 @@ import CrudTable from '../../components/DataTable/CrudTable';
 import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { useApiCache } from '../../hooks/useApiCache';
 import EChart from '../../components/widgets/EChart';
+import { useAuth } from '../../contexts/AuthContext';
+import { getPublicSelectColumns } from '../../utils/dataPrivacy';
 
 const columns = [
     { title: 'รหัส', dataIndex: 'code', key: 'code', width: 80, sorter: (a, b) => (Number(a.code) || 0) - (Number(b.code) || 0) },
@@ -61,6 +63,8 @@ const filterConfig = [
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658', '#4caf50', '#e91e63'];
 
 export default function LargePlots() {
+    const { role } = useAuth();
+
     useEffect(() => {
         document.title = 'แปลงใหญ่จังหวัดนครปฐม | ศูนย์ข้อมูลการเกษตรนครปฐม';
         const meta = document.querySelector('meta[name="description"]');
@@ -72,12 +76,14 @@ export default function LargePlots() {
     const [filterDistrict, setFilterDistrict] = useState(null);
 
     const fetchLargePlots = async () => {
-        const { data, error } = await supabase.from('large_plots').select('*');
+        const { data, error } = await supabase
+            .from('large_plots')
+            .select(getPublicSelectColumns('large_plots', columns, role));
         if (error) throw error;
         return data || [];
     };
 
-    const { data: dashboardData = [], isLoading: loading } = useApiCache('large_plots_page', fetchLargePlots);
+    const { data: dashboardData = [], isLoading: loading } = useApiCache(['large_plots_page', role], fetchLargePlots);
 
     // Derived Filter Options
     const yearOptions = useMemo(() => {

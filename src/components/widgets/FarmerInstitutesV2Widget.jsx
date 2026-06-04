@@ -39,8 +39,8 @@ async function fetchInstituteV2Data() {
         supabase.from('housewife_farmer_groups').select('id,year,group_name,district,subdistrict,member_count,income,fund_management,activity,production_standard,potential_level,model_group,community_enterprise_registration').order('year', { ascending: false }),
         supabase.from('young_farmer_groups_detailed').select('id,data_year,group_name,district,subdistrict,member_count,income,fund_management,activity,potential_level,model_group').order('data_year', { ascending: false }),
         supabase.from('agricultural_career_groups').select('id,data_year,group_name,district,subdistrict,member_count,income,fund_management,activity,main_activity,production_standard,potential_level,community_enterprise_registration').order('data_year', { ascending: false }),
-        supabase.from('smart_farmer_sf').select('id,data_year,record_code,sequence_no,district,agricultural_activity,production_standard,farmer_status,annual_agri_income,production_area').order('data_year', { ascending: false }),
-        supabase.from('young_smart_farmer_ysf').select('id,data_year,record_code,sequence_no,district,subdistrict,agricultural_activity,production_standard,farmer_status,farm_area_rai,annual_agri_income,main_activity_type').order('data_year', { ascending: false }),
+        supabase.from('smart_farmer_sf').select('id,data_year,record_code,sequence_no,district,agricultural_activity,production_standard,farmer_status,production_area').order('data_year', { ascending: false }),
+        supabase.from('young_smart_farmer_ysf').select('id,data_year,record_code,sequence_no,district,agricultural_activity,production_standard,farmer_status,farm_area_rai,main_activity_type').order('data_year', { ascending: false }),
     ]);
 
     const failures = [largePlots, communityEnterprises, housewifeGroups, youngFarmerGroups, careerGroups, smartFarmers, youngSmartFarmers]
