@@ -1,15 +1,17 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import * as XLSX from 'xlsx';
 import {
     Button, Card, Col, Empty, Form, Input, InputNumber, Modal, Popconfirm,
     DatePicker, Progress, Row, Select, Space, Statistic, Table, Tag, Tooltip, Typography, message,
 } from 'antd';
-import { DeleteOutlined, EditOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
+import { DeleteOutlined, DownloadOutlined, EditOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
 import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { useAuth } from '../../contexts/AuthContext';
 import { useSupabaseCrud } from '../../hooks/useSupabase';
 import EChart from '../../components/widgets/EChart';
 import budgetSeed from '../../data/budgetRound2_2569.json';
+import { downloadCsv, rowsToCsv } from '../../utils/csv';
 import '../../styles/budgets.css';
 
 const { Text, Title } = Typography;
@@ -24,6 +26,30 @@ const budgetStatusOptions = [
 ];
 const defaultBudgetStatus = 'กำลังดำเนินการ';
 const budgetTableScrollX = 1414;
+const exportHeaders = [
+    'ลำดับ',
+    'แผนงาน',
+    'โครงการ',
+    'กิจกรรม',
+    'กิจกรรมย่อย',
+    'รายละเอียด',
+    'อำเภอ',
+    'ตำบล',
+    'หมู่',
+    'เป้าหมาย',
+    'หน่วยนับ',
+    'งบประมาณ',
+    'เบิกจ่ายแล้ว',
+    'คงเหลือ',
+    'สถานะ',
+    'แผนดำเนินงาน',
+    'แผนใช้จ่ายเงิน',
+    'ผู้รับผิดชอบ',
+    'รายละเอียดการใช้จ่าย',
+    'วันที่ส่งเบิก',
+    'ปีงบประมาณ',
+    'รอบ',
+];
 
 function compactText(value, fallback = '-') {
     const text = String(value || '').trim();
@@ -368,6 +394,51 @@ export default function Budgets() {
         }
     };
 
+    const buildExportRows = useCallback(() => [
+        exportHeaders,
+        ...filteredRows.map((row, index) => [
+            index + 1,
+            row.plan,
+            row.project,
+            row.activity,
+            row.subActivity,
+            row.detail,
+            row.district,
+            row.subdistrict,
+            row.village,
+            row.target,
+            row.unit,
+            Number(row.budget || 0),
+            Number(row.spentAmount || 0),
+            Math.max(0, Number(row.budget || 0) - Number(row.spentAmount || 0)),
+            getBudgetStatusMeta(row.status).label,
+            row.operationPlan,
+            row.paymentPlan,
+            row.owner,
+            row.expenseDetail,
+            row.reimbursementDate,
+            row.fiscalYear,
+            row.round,
+        ]),
+    ], [filteredRows]);
+
+    const exportFileBaseName = useCallback((extension) => {
+        const dateStamp = new Date().toISOString().slice(0, 10);
+        return `budget_round2_2569_${filteredRows.length}_rows_${dateStamp}.${extension}`;
+    }, [filteredRows.length]);
+
+    const handleExportCsv = useCallback(() => {
+        downloadCsv(exportFileBaseName('csv'), rowsToCsv(buildExportRows()));
+    }, [buildExportRows, exportFileBaseName]);
+
+    const handleExportExcel = useCallback(() => {
+        const workbook = XLSX.utils.book_new();
+        const worksheet = XLSX.utils.aoa_to_sheet(buildExportRows());
+        worksheet['!cols'] = exportHeaders.map((header) => ({ wch: Math.max(12, Math.min(42, header.length + 8)) }));
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Budgets');
+        XLSX.writeFile(workbook, exportFileBaseName('xlsx'), { compression: true });
+    }, [buildExportRows, exportFileBaseName]);
+
     const handleTopScroll = (event) => {
         const body = tableWrapRef.current?.querySelector('.ant-table-body, .ant-table-content');
         if (body) body.scrollLeft = event.currentTarget.scrollLeft;
@@ -572,6 +643,8 @@ export default function Budgets() {
                                 <Tag color="blue">งบ {money(filteredBudget)} บาท</Tag>
                                 <Tag color="cyan">เบิกแล้ว {money(filteredSpent)} บาท</Tag>
                                 <Button icon={<ReloadOutlined />} onClick={loadData} loading={loading}>รีเฟรช</Button>
+                                <Button icon={<DownloadOutlined />} onClick={handleExportCsv} disabled={!filteredRows.length}>CSV</Button>
+                                <Button icon={<DownloadOutlined />} onClick={handleExportExcel} disabled={!filteredRows.length}>Excel</Button>
                                 <Button type="primary" icon={<PlusOutlined />} onClick={openAdd} disabled={!userCanEdit}>เพิ่มรายการ</Button>
                             </Space>
                         </Col>
