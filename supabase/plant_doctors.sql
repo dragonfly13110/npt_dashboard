@@ -49,3 +49,15 @@ CREATE POLICY "Admins can manage plant doctors" ON public.plant_doctors
 
 CREATE INDEX IF NOT EXISTS idx_plant_doctors_district ON public.plant_doctors(district);
 CREATE INDEX IF NOT EXISTS idx_plant_doctors_full_name ON public.plant_doctors(full_name);
+
+REVOKE SELECT ON TABLE public.plant_doctors FROM anon;
+GRANT SELECT (
+  id,
+  row_number,
+  subdistrict,
+  district,
+  province,
+  created_at,
+  updated_at
+) ON TABLE public.plant_doctors TO anon;
+GRANT SELECT ON TABLE public.plant_doctors TO authenticated;

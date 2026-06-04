@@ -3,8 +3,10 @@ import { Card, Col, Form, Input, InputNumber, Row, Select, Spin, Statistic, Tag 
 import { MedicineBoxOutlined, PhoneOutlined, TeamOutlined } from '@ant-design/icons';
 import CrudTable from '../../components/DataTable/CrudTable';
 import { barOption } from '../../components/charts/echartOptions';
+import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../supabaseClient';
 import { useApiCache } from '../../hooks/useApiCache';
+import { getPublicSelectColumns } from '../../utils/dataPrivacy';
 import EChart from '../../components/widgets/EChart';
 
 const columns = [
@@ -45,19 +47,21 @@ function countBy(rows, getter) {
 }
 
 export default function PlantDoctors() {
+    const { role } = useAuth();
     const [filterDistrict, setFilterDistrict] = useState(null);
 
     const fetchPlantDoctors = async () => {
+        const selectColumns = getPublicSelectColumns('plant_doctors', columns, role);
         const { data, error } = await supabase
             .from('plant_doctors')
-            .select('*')
+            .select(selectColumns)
             .order('row_number', { ascending: true });
         if (error) throw error;
         return data || [];
     };
 
     const { data: doctors = [], isLoading } = useApiCache(
-        ['all-plant-doctors'],
+        ['all-plant-doctors', role],
         fetchPlantDoctors,
         { staleMinutes: 10 }
     );
@@ -73,6 +77,7 @@ export default function PlantDoctors() {
 
     const districtSummary = useMemo(() => countBy(filteredDoctors, row => row.district), [filteredDoctors]);
     const phoneCount = useMemo(() => doctors.filter(row => String(row.contact_phone || '').trim()).length, [doctors]);
+    const subdistrictCount = useMemo(() => new Set(doctors.map(row => row.subdistrict).filter(Boolean)).size, [doctors]);
     const tableFilterConfig = useMemo(() => [
         { key: 'district', label: 'อำเภอ', options: districtOptions },
     ], [districtOptions]);
@@ -102,7 +107,12 @@ export default function PlantDoctors() {
                     </Col>
                     <Col xs={24} md={8}>
                         <Card size="small">
-                            <Statistic title="มีเบอร์โทร" value={phoneCount} suffix="ราย" prefix={<PhoneOutlined />} />
+                            <Statistic
+                                title={role === 'guest' ? 'ตำบลที่ครอบคลุม' : 'มีเบอร์โทร'}
+                                value={role === 'guest' ? subdistrictCount : phoneCount}
+                                suffix={role === 'guest' ? 'ตำบล' : 'ราย'}
+                                prefix={<PhoneOutlined />}
+                            />
                         </Card>
                     </Col>
                     <Col xs={24} md={8}>

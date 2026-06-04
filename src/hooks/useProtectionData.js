@@ -29,7 +29,7 @@ export function useProtectionData() {
         const [po, pc, pd, sf, fh] = await Promise.all([
             supabase.from('forecast_plots').select('crop_type, district, plot_type'),
             supabase.from('pest_centers').select('main_crop_type, district, grade_level'),
-            supabase.from('plant_doctors').select('district, subdistrict, contact_phone'),
+            supabase.from('plant_doctors').select('district, subdistrict'),
             supabase.from('soil_fertilizer_centers').select('main_crop_type, district, grade_level'),
             supabase.from('fire_hotspots').select('district, subdistrict'),
         ]);
@@ -221,15 +221,15 @@ export function useProtectionData() {
 
     const plantDoctorStats = useMemo(() => {
         const districtSet = new Set();
-        let phoneCount = 0;
+        const subdistrictSet = new Set();
         plantDoctors.forEach((item) => {
             if (item.district) districtSet.add(item.district);
-            if (String(item.contact_phone || '').trim()) phoneCount += 1;
+            if (item.subdistrict) subdistrictSet.add(item.subdistrict);
         });
         return {
             total: plantDoctors.length,
             districts: districtSet.size,
-            phoneCount,
+            subdistricts: subdistrictSet.size,
         };
     }, [plantDoctors]);
 

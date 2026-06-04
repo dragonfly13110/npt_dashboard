@@ -485,6 +485,7 @@ ALTER TABLE young_farmer_groups_detailed ENABLE ROW LEVEL SECURITY;
 ALTER TABLE agri_tourism ENABLE ROW LEVEL SECURITY;
 ALTER TABLE pest_outbreaks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE pest_centers ENABLE ROW LEVEL SECURITY;
+ALTER TABLE plant_doctors ENABLE ROW LEVEL SECURITY;
 ALTER TABLE biocontrol_stock ENABLE ROW LEVEL SECURITY;
 ALTER TABLE fire_hotspots ENABLE ROW LEVEL SECURITY;
 
@@ -543,3 +544,24 @@ DROP POLICY IF EXISTS "Allow editor update housewife farmer groups" ON housewife
 CREATE POLICY "Allow editor update housewife farmer groups" ON housewife_farmer_groups FOR UPDATE TO authenticated USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor'))) WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
 DROP POLICY IF EXISTS "Allow admin delete housewife farmer groups" ON housewife_farmer_groups;
 CREATE POLICY "Allow admin delete housewife farmer groups" ON housewife_farmer_groups FOR DELETE TO authenticated USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role = 'admin'));
+
+DROP POLICY IF EXISTS "Public read plant_doctors" ON plant_doctors;
+CREATE POLICY "Public read plant_doctors" ON plant_doctors FOR SELECT TO anon, authenticated USING (true);
+DROP POLICY IF EXISTS "Role insert plant_doctors" ON plant_doctors;
+CREATE POLICY "Role insert plant_doctors" ON plant_doctors FOR INSERT TO authenticated WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
+DROP POLICY IF EXISTS "Role update plant_doctors" ON plant_doctors;
+CREATE POLICY "Role update plant_doctors" ON plant_doctors FOR UPDATE TO authenticated USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor'))) WITH CHECK (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin', 'editor')));
+DROP POLICY IF EXISTS "Role delete plant_doctors" ON plant_doctors;
+CREATE POLICY "Role delete plant_doctors" ON plant_doctors FOR DELETE TO authenticated USING (EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role = 'admin'));
+
+REVOKE SELECT ON TABLE plant_doctors FROM anon;
+GRANT SELECT (
+  id,
+  row_number,
+  subdistrict,
+  district,
+  province,
+  created_at,
+  updated_at
+) ON TABLE plant_doctors TO anon;
+GRANT SELECT ON TABLE plant_doctors TO authenticated;

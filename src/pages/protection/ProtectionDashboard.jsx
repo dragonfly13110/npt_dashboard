@@ -105,9 +105,9 @@ export default function ProtectionDashboard() {
                             icon="🩺"
                             totalLabel="ทั้งหมด"
                             totalCount={`${plantDoctorStats.total} ราย`}
-                            mainStatsTitle="ข้อมูลติดต่อและพื้นที่ครอบคลุม"
+                            mainStatsTitle="พื้นที่ครอบคลุม"
                             mainStats={[
-                                { label: 'มีเบอร์โทร', value: plantDoctorStats.phoneCount, colorType: 'green' },
+                                { label: 'ครอบคลุมตำบล', value: plantDoctorStats.subdistricts, colorType: 'green' },
                                 { label: 'ครอบคลุมอำเภอ', value: plantDoctorStats.districts, colorType: 'blue' },
                             ]}
                         />

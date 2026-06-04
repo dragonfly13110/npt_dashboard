@@ -45,6 +45,19 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
     }, [defaultColumns, requiredColumnKeys, selectableColumnKeys]);
     const [visibleOptionalColumns, setVisibleOptionalColumns] = useState(() => defaultOptionalColumnKeys);
 
+    const publicSearchFields = useMemo(() => {
+        const fields = searchFields?.length ? searchFields : (searchField ? [searchField] : []);
+        return getPublicColumns(
+            tableName,
+            fields.map((field) => ({ dataIndex: field })),
+            role
+        ).map((column) => column.dataIndex);
+    }, [role, searchField, searchFields, tableName]);
+
+    const publicSearchField = useMemo(() => (
+        searchField && publicSearchFields.includes(searchField) ? searchField : publicSearchFields[0]
+    ), [publicSearchFields, searchField]);
+
     const fetchTableData = async () => {
         if (fetchDataOverride) {
             return fetchDataOverride({ pagination, search, searchField, searchFields, filters, filterConfig, sorter, defaultSort });
@@ -69,10 +82,10 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
         let query = supabase.from(tableName).select(selectColumns, { count: 'exact' });
 
         if (search) {
-            if (searchField) {
-                query = query.ilike(searchField, `%${search}%`);
-            } else if (searchFields && searchFields.length > 0) {
-                const orString = searchFields.map(field => `${field}.ilike.%${search}%`).join(',');
+            if (publicSearchField) {
+                query = query.ilike(publicSearchField, `%${search}%`);
+            } else if (publicSearchFields.length > 0) {
+                const orString = publicSearchFields.map(field => `${field}.ilike.%${search}%`).join(',');
                 query = query.or(orString);
             }
         }
@@ -107,8 +120,8 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
     };
 
     const queryKey = useMemo(() => [
-        'crud', tableName, pagination.current, pagination.pageSize, search, searchField, searchFields, filters, sorter, defaultSort, JSON.stringify(filterConfig)
-    ], [tableName, pagination, search, searchField, searchFields, filters, sorter, defaultSort, filterConfig]);
+        'crud', tableName, pagination.current, pagination.pageSize, search, publicSearchField, publicSearchFields, filters, sorter, defaultSort, JSON.stringify(filterConfig)
+    ], [tableName, pagination, search, publicSearchField, publicSearchFields, filters, sorter, defaultSort, filterConfig]);
     
     const { data: result = { data: [], total: 0 }, isLoading: loading, refetch: loadData } = useApiCache(queryKey, fetchTableData);
     
@@ -310,7 +323,7 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
                     <Tag className="crud-count">{total} รายการ</Tag>
                 </div>
                 <div className="crud-header-right">
-                    {(searchField || (searchFields && searchFields.length > 0)) && (
+                    {publicSearchFields.length > 0 && (
                         <Input.Search
                             placeholder="ค้นหา..."
                             allowClear
