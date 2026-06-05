@@ -32,17 +32,6 @@ export const AI_MODELS = {
         badge: 'THINK',
         badgeColor: '#76b900',
     },
-    deepseek: {
-        key: 'deepseek',
-        label: '🔵 DeepSeek v4',
-        shortLabel: 'DeepSeek',
-        description: 'DeepSeek v4 Flash (NVIDIA NIM)',
-        provider: 'NVIDIA',
-        color: '#0052cc',
-        icon: '🔵',
-        badge: 'THINK',
-        badgeColor: '#0052cc',
-    },
     kimi: {
         key: 'kimi',
         label: '🌙 Kimi K2.6',
@@ -54,16 +43,93 @@ export const AI_MODELS = {
         badge: 'THINK',
         badgeColor: '#ff4d4f',
     },
-    minimax: {
-        key: 'minimax',
-        label: '🌀 MiniMax M2.7',
-        shortLabel: 'MiniMax',
-        description: 'MiniMax M2.7 (NVIDIA NIM)',
-        provider: 'NVIDIA',
-        color: '#3a8ee6',
-        icon: '🌀',
-        badge: 'NEW',
-        badgeColor: '#3a8ee6',
+    kkuDeepseek: {
+        key: 'kkuDeepseek',
+        label: '🧩 KKU DeepSeek v4 Flash',
+        shortLabel: 'KKU DeepSeek',
+        description: 'DeepSeek v4 Flash (KKU AI)',
+        provider: 'KKU',
+        color: '#0f766e',
+        icon: '🧩',
+        badge: 'EXT',
+        badgeColor: '#0f766e',
+    },
+    kkuClaudeSonnet: {
+        key: 'kkuClaudeSonnet',
+        label: '🟧 Claude Sonnet 4.6',
+        shortLabel: 'Claude Sonnet',
+        description: 'Claude Sonnet 4.6 (KKU AI)',
+        provider: 'KKU',
+        color: '#c2410c',
+        icon: '🟧',
+        badge: 'KKU',
+        badgeColor: '#c2410c',
+    },
+    kkuGptMini: {
+        key: 'kkuGptMini',
+        label: '⚫ GPT-5.4 Mini',
+        shortLabel: 'GPT Mini',
+        description: 'GPT-5.4 Mini (KKU AI)',
+        provider: 'KKU',
+        color: '#111827',
+        icon: '⚫',
+        badge: 'KKU',
+        badgeColor: '#111827',
+    },
+    kkuGeminiFlash: {
+        key: 'kkuGeminiFlash',
+        label: '✨ Gemini 3.5 Flash',
+        shortLabel: 'Gemini Flash',
+        description: 'Gemini 3.5 Flash (KKU AI)',
+        provider: 'KKU',
+        color: '#2563eb',
+        icon: '✨',
+        badge: 'KKU',
+        badgeColor: '#2563eb',
+    },
+    kkuQwenMax: {
+        key: 'kkuQwenMax',
+        label: '🐉 Qwen 3.7 Max',
+        shortLabel: 'Qwen Max',
+        description: 'Qwen 3.7 Max (KKU AI)',
+        provider: 'KKU',
+        color: '#16a34a',
+        icon: '🐉',
+        badge: 'KKU',
+        badgeColor: '#16a34a',
+    },
+    kkuSonarPro: {
+        key: 'kkuSonarPro',
+        label: '🔎 Sonar Pro',
+        shortLabel: 'Sonar Pro',
+        description: 'Perplexity Sonar Pro (KKU AI)',
+        provider: 'KKU',
+        color: '#0891b2',
+        icon: '🔎',
+        badge: 'KKU',
+        badgeColor: '#0891b2',
+    },
+    kkuLlamaMaverick: {
+        key: 'kkuLlamaMaverick',
+        label: '🦙 Llama 4 Maverick',
+        shortLabel: 'Llama Maverick',
+        description: 'Llama 4 Maverick (KKU AI)',
+        provider: 'KKU',
+        color: '#7c3aed',
+        icon: '🦙',
+        badge: 'KKU',
+        badgeColor: '#7c3aed',
+    },
+    kkuDeepseekPro: {
+        key: 'kkuDeepseekPro',
+        label: '🧩 DeepSeek v4 Pro',
+        shortLabel: 'DeepSeek Pro',
+        description: 'DeepSeek v4 Pro (KKU AI)',
+        provider: 'KKU',
+        color: '#0f766e',
+        icon: '🧩',
+        badge: 'KKU',
+        badgeColor: '#0f766e',
     }
 };
 
@@ -71,9 +137,18 @@ export const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
 export const GEMMA_MODEL = 'gemma-4-31b-it';
 export const GEMINI_MODEL = 'gemini-3.1-flash-lite';
 export const QWEN_MODEL = 'qwen/qwen3.5-397b-a17b';
-export const DEEPSEEK_MODEL = 'deepseek-ai/deepseek-v4-flash';
 export const KIMI_MODEL = 'moonshotai/kimi-k2.6';
-export const MINIMAX_MODEL = 'minimaxai/minimax-m2.7';
+export const KKU_DEEPSEEK_MODEL = 'deepseek-v4-flash';
+export const KKU_MODEL_IDS = {
+    kkuDeepseek: 'deepseek-v4-flash',
+    kkuClaudeSonnet: 'claude-sonnet-4.6',
+    kkuGptMini: 'gpt-5.4-mini',
+    kkuGeminiFlash: 'gemini-3.5-flash',
+    kkuQwenMax: 'qwen3.7-max',
+    kkuSonarPro: 'sonar-pro',
+    kkuLlamaMaverick: 'llama-4-maverick',
+    kkuDeepseekPro: 'deepseek-v4-pro',
+};
 
 export const TABLE_CONFIG = {
     agricultural_areas: { label: 'พื้นที่การเกษตร', icon: '🌾', group: 'ยุทธศาสตร์', descTh: 'ข้อมูลพื้นที่เกษตรรายอำเภอ (ข้าว, พืชไร่, ไม้ผล, ผัก, ไม้ดอก, สมุนไพร)' },

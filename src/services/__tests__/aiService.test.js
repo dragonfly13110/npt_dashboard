@@ -89,36 +89,6 @@ describe('aiService', () => {
         expect(result).toBeDefined();
     });
 
-    it('calls DeepSeek v4 NIM model with correct thinking config', async () => {
-        fetch.mockResolvedValue({
-            ok: true,
-            status: 200,
-            body: {
-                getReader: () => {
-                    let done = false;
-                    return {
-                        read: () => {
-                            if (done) return Promise.resolve({ done: true });
-                            done = true;
-                            return Promise.resolve({
-                                done: false,
-                                value: new TextEncoder().encode('data: {"choices":[{"delta":{"content":"DeepSeek response"}}]}\n')
-                            });
-                        }
-                    };
-                }
-            }
-        });
-
-        const result = await callAI('deepseek', 'test prompt', [], { deepThinking: true });
-        expect(result).toBe('DeepSeek response');
-        expect(fetch).toHaveBeenCalledWith(
-            expect.any(String),
-            expect.objectContaining({
-                body: expect.stringContaining('"chat_template_kwargs":{"thinking":true,"reasoning_effort":"high"}')
-            })
-        );
-    });
 
     it('calls Kimi K2.6 NIM model with correct thinking config', async () => {
         fetch.mockResolvedValue({
@@ -151,36 +121,6 @@ describe('aiService', () => {
         );
     });
 
-    it('calls MiniMax M2.7 NIM model with correct config', async () => {
-        fetch.mockResolvedValue({
-            ok: true,
-            status: 200,
-            body: {
-                getReader: () => {
-                    let done = false;
-                    return {
-                        read: () => {
-                            if (done) return Promise.resolve({ done: true });
-                            done = true;
-                            return Promise.resolve({
-                                done: false,
-                                value: new TextEncoder().encode('data: {"choices":[{"delta":{"content":"MiniMax response"}}]}\n')
-                            });
-                        }
-                    };
-                }
-            }
-        });
-
-        const result = await callAI('minimax', 'test prompt', [], {});
-        expect(result).toBe('MiniMax response');
-        expect(fetch).toHaveBeenCalledWith(
-            expect.any(String),
-            expect.objectContaining({
-                body: expect.stringContaining('"model":"minimaxai/minimax-m2.7"')
-            })
-        );
-    });
 
     it('throws on permanent failure', async () => {
         fetch.mockRejectedValue(new Error('Network error'));

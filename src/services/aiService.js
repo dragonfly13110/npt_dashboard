@@ -1,4 +1,4 @@
-import { AI_PROXY_URL, GEMMA_MODEL, GEMINI_MODEL, QWEN_MODEL, DEEPSEEK_MODEL, KIMI_MODEL, MINIMAX_MODEL } from '../utils/chatbotConstants';
+import { AI_PROXY_URL, GEMMA_MODEL, GEMINI_MODEL, QWEN_MODEL, KIMI_MODEL, KKU_MODEL_IDS } from '../utils/chatbotConstants';
 
 /**
  * Handles requests for Google Gemini API (including Gemini 3.1 and Gemma 4)
@@ -186,10 +186,7 @@ async function callNvidiaAI(modelIdentifier, systemPrompt, messagesHistory, sett
              // Dynamically set chat_template_kwargs according to model requirements
              const chat_template_kwargs = {};
              if (settings?.deepThinking) {
-                 if (modelIdentifier === 'deepseek-ai/deepseek-v4-flash') {
-                     chat_template_kwargs.thinking = true;
-                     chat_template_kwargs.reasoning_effort = "high";
-                 } else if (modelIdentifier === 'moonshotai/kimi-k2.6') {
+                 if (modelIdentifier === 'moonshotai/kimi-k2.6') {
                      chat_template_kwargs.thinking = true;
                  } else {
                      chat_template_kwargs.enable_thinking = true;
@@ -282,6 +279,48 @@ async function callNvidiaAI(modelIdentifier, systemPrompt, messagesHistory, sett
     return null;
 }
 
+async function callKkuAI(modelIdentifier, systemPrompt, messagesHistory, settings, retries = 2) {
+    for (let attempt = 0; attempt <= retries; attempt++) {
+        try {
+            const apiMessages = [{ role: 'system', content: systemPrompt }];
+            if (Array.isArray(messagesHistory)) {
+                apiMessages.push(...messagesHistory.map(m => ({
+                    role: m.role === 'bot' ? 'assistant' : 'user',
+                    content: m.text
+                })));
+            } else {
+                apiMessages.push({ role: 'user', content: messagesHistory });
+            }
+
+            const res = await fetch(AI_PROXY_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    provider: 'kku',
+                    body: {
+                        model: modelIdentifier,
+                        messages: apiMessages,
+                        temperature: settings?.deepThinking ? 0.7 : 0.5,
+                        max_tokens: 4096
+                    }
+                })
+            });
+
+            if (!res.ok) {
+                const errText = await res.text().catch(() => '');
+                throw new Error(errText || `HTTP ${res.status}`);
+            }
+
+            const data = await res.json();
+            return data.choices?.[0]?.message?.content || null;
+        } catch (err) {
+            if (attempt === retries) throw err;
+            await new Promise(r => setTimeout(r, 1500));
+        }
+    }
+    return null;
+}
+
 /**
  * Main AI Call Entry Point
  */
@@ -304,15 +343,11 @@ export async function callAI(modelKey, systemPrompt, messagesHistory, settings, 
     if (modelKey === 'qwen') {
         return callNvidiaAI(QWEN_MODEL, finalSystemPrompt, messagesHistory, settings);
     }
-    if (modelKey === 'deepseek') {
-        return callNvidiaAI(DEEPSEEK_MODEL, finalSystemPrompt, messagesHistory, settings);
-    }
     if (modelKey === 'kimi') {
         return callNvidiaAI(KIMI_MODEL, finalSystemPrompt, messagesHistory, settings);
     }
-    if (modelKey === 'minimax') {
-        return callNvidiaAI(MINIMAX_MODEL, finalSystemPrompt, messagesHistory, settings);
+    if (KKU_MODEL_IDS[modelKey]) {
+        return callKkuAI(KKU_MODEL_IDS[modelKey], finalSystemPrompt, messagesHistory, settings);
     }
-    
     return callOpenRouterAI(modelKey, finalSystemPrompt, messagesHistory, settings);
 }

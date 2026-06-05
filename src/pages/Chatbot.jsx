@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Input, Button, Avatar, Spin, Card, Typography, Tooltip, Upload, message as antMessage } from 'antd';
+import { Input, Button, Avatar, Spin, Card, Typography, Tooltip, Upload, Select, message as antMessage } from 'antd';
 import {
     SendOutlined,
     RobotOutlined,
@@ -60,32 +60,21 @@ const styles = {
         fontSize: 12,
         fontWeight: 500,
     },
-    /* Model pill buttons */
-    modelBtn: (isActive, color) => ({
+    modelSelector: {
         display: 'flex',
         alignItems: 'center',
-        gap: 6,
-        padding: '6px 16px',
-        borderRadius: 24,
-        border: isActive ? `2px solid ${color}` : '2px solid #e2e8f0',
-        background: isActive ? `${color}10` : '#f8fafc',
-        color: isActive ? color : '#64748b',
-        cursor: 'pointer',
-        fontSize: 13,
-        fontWeight: 600,
-        transition: 'all 0.2s ease',
-        whiteSpace: 'nowrap',
-        userSelect: 'none',
-    }),
-    modelBadge: (bgColor) => ({
-        fontSize: 9,
-        padding: '2px 6px',
-        borderRadius: 6,
+        gap: 8,
+        padding: '4px 10px',
+        borderRadius: 12,
+        border: '1px solid #e2e8f0',
+        background: '#f8fafc',
+    },
+    modelSelectorLabel: {
+        color: '#64748b',
+        fontSize: 12,
         fontWeight: 700,
-        background: bgColor,
-        color: '#fff',
-        lineHeight: '14px',
-    }),
+        whiteSpace: 'nowrap',
+    },
     /* Toggle pill */
     togglePill: (isActive, activeColor) => ({
         display: 'flex',
@@ -242,6 +231,7 @@ export default function Chatbot() {
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
     const [selectedModel, setSelectedModel] = useState('gemini');
+    const [selectedProvider, setSelectedProvider] = useState('Google');
     const [aiSettings, setAiSettings] = useState({
         deepThinking: false,
         webSearch: false
@@ -261,10 +251,17 @@ export default function Chatbot() {
     // Auto-turn off webSearch when switching to unsupported model
     const handleModelChange = (key) => {
         setSelectedModel(key);
+        setSelectedProvider(AI_MODELS[key]?.provider || selectedProvider);
         // If switching to a model that doesn't support webSearch, turn it off
         if (key !== 'gemini' && key !== 'gemma') {
             setAiSettings(prev => ({ ...prev, webSearch: false }));
         }
+    };
+
+    const handleProviderChange = (provider) => {
+        const firstModel = Object.values(AI_MODELS).find(model => model.provider === provider);
+        setSelectedProvider(provider);
+        if (firstModel) handleModelChange(firstModel.key);
     };
 
     const handleSend = async (text) => {
@@ -416,6 +413,32 @@ ${dbContext}
     const currentModelConfig = AI_MODELS[selectedModel];
     // NVIDIA Qwen doesn't support Google Search grounding
     const canUseWebSearch = selectedModel === 'gemini' || selectedModel === 'gemma';
+    const providerOptions = ['Google', 'NVIDIA', 'KKU']
+        .filter(provider => Object.values(AI_MODELS).some(model => model.provider === provider))
+        .map(provider => ({ value: provider, label: provider }));
+    const modelOptions = Object.values(AI_MODELS)
+        .filter(model => model.provider === selectedProvider)
+        .map(model => ({
+            value: model.key,
+            label: (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span>{model.icon}</span>
+                    <span style={{ fontWeight: 700 }}>{model.shortLabel}</span>
+                    <span style={{ color: '#64748b', fontSize: 12 }}>{model.description}</span>
+                    <span style={{
+                        marginLeft: 'auto',
+                        background: model.badgeColor,
+                        color: '#fff',
+                        fontSize: 10,
+                        padding: '1px 6px',
+                        borderRadius: 6,
+                        fontWeight: 800,
+                    }}>
+                        {model.badge}
+                    </span>
+                </div>
+            ),
+        }));
 
     return (
         <div style={styles.page}>
@@ -436,21 +459,27 @@ ${dbContext}
                         <div style={styles.toolbarSubtext}><DatabaseOutlined style={{ marginRight: 4 }} />AI ผู้ช่วยข้อมูลเกษตร</div>
                     </div>
                 </div>
-
-                {/* Model Selector — Pill buttons */}
-                {Object.values(AI_MODELS).map(m => (
-                    <div
-                        key={m.key}
-                        style={styles.modelBtn(selectedModel === m.key, m.color)}
-                        onClick={() => !loading && handleModelChange(m.key)}
-                        onMouseEnter={e => { if (selectedModel !== m.key) e.currentTarget.style.background = '#e2e8f0'; }}
-                        onMouseLeave={e => { if (selectedModel !== m.key) e.currentTarget.style.background = '#f8fafc'; }}
-                    >
-                        <span>{m.icon}</span>
-                        <span>{m.shortLabel}</span>
-                        <span style={styles.modelBadge(m.badgeColor)}>{m.badge}</span>
-                    </div>
-                ))}
+                {/* Model Selector */}
+                <div style={styles.modelSelector}>
+                    <span style={styles.modelSelectorLabel}>ผู้ให้บริการ</span>
+                    <Select
+                        value={selectedProvider}
+                        onChange={handleProviderChange}
+                        disabled={loading}
+                        options={providerOptions}
+                        style={{ width: 140 }}
+                        size="middle"
+                    />
+                    <Select
+                        value={selectedModel}
+                        onChange={handleModelChange}
+                        disabled={loading}
+                        options={modelOptions}
+                        style={{ width: 300 }}
+                        popupMatchSelectWidth={360}
+                        size="middle"
+                    />
+                </div>
 
                 {/* Divider */}
                 <div style={{ width: 1, height: 24, background: '#e2e8f0', margin: '0 4px' }} />

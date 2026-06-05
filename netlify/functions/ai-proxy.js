@@ -14,7 +14,11 @@ const PROVIDERS = {
     },
     nvidia: {
         envKey: 'NVIDIA_API_KEY',
-        models: new Set(['qwen/qwen3.5-397b-a17b', 'deepseek-ai/deepseek-v4-flash', 'moonshotai/kimi-k2.6', 'minimaxai/minimax-m2.7']),
+        models: new Set(['qwen/qwen3.5-397b-a17b', 'moonshotai/kimi-k2.6']),
+    },
+    kku: {
+        envKey: 'VITE_LANDING_CHATBOT_API_KEY',
+        models: new Set(['deepseek-v4-flash', 'claude-sonnet-4.6', 'gpt-5.4-mini', 'gemini-3.5-flash', 'qwen3.7-max', 'sonar-pro', 'llama-4-maverick', 'deepseek-v4-pro']),
     },
 };
 
@@ -143,6 +147,22 @@ async function callNvidia(apiKey, body) {
     });
 }
 
+async function callKku(apiKey, body) {
+    const baseUrl = getEnv('VITE_LANDING_CHATBOT_API_URL') || '/api/kku/okmd/api/v1';
+    const upstreamBaseUrl = baseUrl.startsWith('/api/kku/')
+        ? `https://gen.ai.kku.ac.th/${baseUrl.replace(/^\/api\/kku\//, '')}`
+        : baseUrl;
+
+    return fetch(`${upstreamBaseUrl.replace(/\/$/, '')}/chat/completions`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(clampTokenLimits(body)),
+    });
+}
+
 export default async (req) => {
     if (req.method === 'OPTIONS') {
         return new Response(null, { status: 204, headers: getCorsHeaders(req) });
@@ -172,6 +192,9 @@ export default async (req) => {
         if (!apiKey && validation.provider === 'nvidia') {
             apiKey = getEnv('VITE_NVIDIA_API_KEY');
         }
+        if (!apiKey && validation.provider === 'kku') {
+            apiKey = getEnv('LANDING_CHATBOT_API_KEY');
+        }
         if (!apiKey) return jsonResponse(req, 500, { error: 'AI provider is not configured' });
 
         console.log('AI proxy request', {
@@ -184,7 +207,9 @@ export default async (req) => {
             ? await callGemini(apiKey, validation.body)
             : validation.provider === 'openrouter'
                 ? await callOpenRouter(apiKey, validation.body)
-                : await callNvidia(apiKey, validation.body);
+                : validation.provider === 'nvidia'
+                    ? await callNvidia(apiKey, validation.body)
+                    : await callKku(apiKey, validation.body);
 
         return new Response(upstream.body, {
             status: upstream.status,
