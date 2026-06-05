@@ -1,5 +1,5 @@
 // netlify/functions/ai-proxy.js
-const MAX_BODY_BYTES = 256 * 1024;
+const MAX_BODY_BYTES = 4 * 1024 * 1024; // 4MB to support larger dashboard contexts
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 30;
 
