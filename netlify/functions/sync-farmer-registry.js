@@ -34,14 +34,14 @@ async function shouldRun() {
     const latestSnapshot = rows?.[0]?.latest_snapshot ? new Date(rows[0].latest_snapshot) : null;
     if (!latestSnapshot) return true;
 
-    const threeDaysMs = 3 * 24 * 60 * 60 * 1000;
-    return Date.now() - latestSnapshot.getTime() >= threeDaysMs;
+    const safetyThresholdMs = 2.5 * 24 * 60 * 60 * 1000; // 2.5 days to allow 3-day cron to pass safely
+    return Date.now() - latestSnapshot.getTime() >= safetyThresholdMs;
 }
 
 async function syncHandler() {
     const due = await shouldRun();
     if (!due) {
-        return new Response(JSON.stringify({ ok: true, skipped: true, reason: 'Latest snapshot is newer than 3 days' }), {
+        return new Response(JSON.stringify({ ok: true, skipped: true, reason: 'Latest snapshot is newer than 2.5 days' }), {
             status: 200,
             headers: { 'Content-Type': 'application/json' },
         });
@@ -54,4 +54,5 @@ async function syncHandler() {
     });
 }
 
-export const handler = schedule('0 23 * * *', syncHandler);
+// Runs every 3 days at 00:00 UTC (07:00 AM Thailand time)
+export const handler = schedule('0 0 */3 * *', syncHandler);
