@@ -7,7 +7,7 @@ import { chromium } from 'playwright';
 
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -73,7 +73,7 @@ async function runSQL(sql) {
     return { ok: response.ok, status: response.status, body: text };
 }
 
-async function main() {
+export async function scrapeFarmerRegistry() {
     const browser = await chromium.launch({ headless: true });
     const context = await browser.newContext({ viewport: { width: 1366, height: 900 } });
     const page = await context.newPage();
@@ -207,15 +207,9 @@ async function main() {
         records.forEach(r => {
             console.log(`  ${r.district}: ครัวเรือน=${r.household_count}, ปรับปรุงรวม=${r.total_updated_households}, เนื้อที่=${r.total_updated_area_rai} ไร่`);
         });
+        // === Step 7: Store progress snapshot and update latest state ===
+        console.log('\n?? Saving Supabase snapshot and latest state via Management API...');
 
-        // === Step 7: Upsert via Management API SQL ===
-        console.log('\n💾 Inserting into Supabase via Management API...');
-
-        // First delete existing data for this year
-        const deleteResult = await runSQL(`DELETE FROM farmer_registry WHERE data_year = ${dataYear};`);
-        console.log(`  🗑️  Deleted existing data for year ${dataYear}: ${deleteResult.ok ? 'OK' : 'Failed'}`);
-
-        // Build INSERT SQL
         const columns = [
             'district', 'household_count', 'target',
             'update_tbk_households', 'update_tbk_plots', 'update_tbk_area_rai',
@@ -231,35 +225,91 @@ async function main() {
             return `(${vals.join(', ')})`;
         });
 
-        const insertSQL = `
-            INSERT INTO farmer_registry (${columns.join(', ')})
-            VALUES ${values.join(',\n                   ')};
+        if (values.length === 0) {
+            throw new Error('No district records were scraped; skip database update.');
+        }
+
+        const snapshotSQL = `
+            INSERT INTO farmer_registry_snapshots (${columns.join(', ')})
+            VALUES ${values.join(',\n                   ')}
+            ON CONFLICT (snapshot_date, district, data_year) DO UPDATE SET
+                household_count = EXCLUDED.household_count,
+                target = EXCLUDED.target,
+                update_tbk_households = EXCLUDED.update_tbk_households,
+                update_tbk_plots = EXCLUDED.update_tbk_plots,
+                update_tbk_area_rai = EXCLUDED.update_tbk_area_rai,
+                update_farmbook_households = EXCLUDED.update_farmbook_households,
+                update_farmbook_plots = EXCLUDED.update_farmbook_plots,
+                update_farmbook_area_rai = EXCLUDED.update_farmbook_area_rai,
+                update_eform_households = EXCLUDED.update_eform_households,
+                update_eform_plots = EXCLUDED.update_eform_plots,
+                update_eform_area_rai = EXCLUDED.update_eform_area_rai,
+                total_updated_households = EXCLUDED.total_updated_households,
+                total_updated_plots = EXCLUDED.total_updated_plots,
+                total_updated_area_rai = EXCLUDED.total_updated_area_rai,
+                cancelled_households = EXCLUDED.cancelled_households,
+                net_total_households = EXCLUDED.net_total_households,
+                farm_area_rai = EXCLUDED.farm_area_rai,
+                cutoff_date = EXCLUDED.cutoff_date,
+                scraped_at = NOW(),
+                updated_at = NOW();
         `;
 
-        const insertResult = await runSQL(insertSQL);
-        if (insertResult.ok) {
-            console.log(`  ✅ Inserted ${records.length} records successfully!`);
+        const snapshotResult = await runSQL(snapshotSQL);
+        if (snapshotResult.ok) {
+            console.log(`  ? Saved ${records.length} district snapshot records successfully!`);
         } else {
-            console.error(`  ❌ Insert failed: ${insertResult.body}`);
+            console.error(`  ? Snapshot insert failed: ${snapshotResult.body}`);
             process.exitCode = 1;
             return;
         }
 
-        if (provinceTarget !== null) {
-            const targetResult = await runSQL(`
-                UPDATE farmer_registry
-                SET target = ${provinceTarget}
-                WHERE data_year = ${dataYear}
-                  AND district = 'จังหวัดนครปฐม';
-            `);
-            console.log(`  🎯 Updated province target (${provinceTarget}): ${targetResult.ok ? 'OK' : 'Failed'}`);
-            if (!targetResult.ok) {
-                console.error(`  ❌ Target update failed: ${targetResult.body}`);
-                process.exitCode = 1;
-                return;
-            }
+        const latestStateSQL = `
+            INSERT INTO farmer_registry (${columns.join(', ')})
+            VALUES ${values.join(',\n                   ')}
+            ON CONFLICT (district, data_year) DO UPDATE SET
+                household_count = EXCLUDED.household_count,
+                target = EXCLUDED.target,
+                update_tbk_households = EXCLUDED.update_tbk_households,
+                update_tbk_plots = EXCLUDED.update_tbk_plots,
+                update_tbk_area_rai = EXCLUDED.update_tbk_area_rai,
+                update_farmbook_households = EXCLUDED.update_farmbook_households,
+                update_farmbook_plots = EXCLUDED.update_farmbook_plots,
+                update_farmbook_area_rai = EXCLUDED.update_farmbook_area_rai,
+                update_eform_households = EXCLUDED.update_eform_households,
+                update_eform_plots = EXCLUDED.update_eform_plots,
+                update_eform_area_rai = EXCLUDED.update_eform_area_rai,
+                total_updated_households = EXCLUDED.total_updated_households,
+                total_updated_plots = EXCLUDED.total_updated_plots,
+                total_updated_area_rai = EXCLUDED.total_updated_area_rai,
+                cancelled_households = EXCLUDED.cancelled_households,
+                net_total_households = EXCLUDED.net_total_households,
+                farm_area_rai = EXCLUDED.farm_area_rai,
+                cutoff_date = EXCLUDED.cutoff_date,
+                updated_at = NOW();
+        `;
+
+        const latestStateResult = await runSQL(latestStateSQL);
+        if (latestStateResult.ok) {
+            console.log(`  ? Updated latest farmer_registry state for ${records.length} districts successfully!`);
+        } else {
+            console.error(`  ? Latest state update failed: ${latestStateResult.body}`);
+            process.exitCode = 1;
+            return;
         }
 
+        if (provinceTarget !== null && dataYear) {
+            const provinceTargetSQL = `
+                UPDATE farmer_registry
+                SET target = ${sqlVal(provinceTarget)}, updated_at = NOW()
+                WHERE district IN ('นครปฐม', 'จังหวัดนครปฐม')
+                  AND data_year = ${sqlVal(dataYear)};
+            `;
+            const provinceTargetResult = await runSQL(provinceTargetSQL);
+            if (!provinceTargetResult.ok) {
+                console.error(`  ? Province target update failed: ${provinceTargetResult.body}`);
+            }
+        }
         // === Step 8: Verify ===
         console.log('\n🔍 Verifying data...');
         const verifyResult = await runSQL(`SELECT district, household_count, total_updated_households, total_updated_area_rai, data_year FROM farmer_registry WHERE data_year = ${dataYear} ORDER BY district;`);
@@ -283,4 +333,6 @@ async function main() {
     }
 }
 
-main();
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+    scrapeFarmerRegistry();
+}
