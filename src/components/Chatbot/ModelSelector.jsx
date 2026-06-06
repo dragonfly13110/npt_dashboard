@@ -32,17 +32,19 @@ export default function ModelSelector({ selectedModel, onChange, disabled }) {
                         }}>
                             <span>{m.icon}</span>
                             <span style={{ fontWeight: 600, fontSize: 12 }}>{m.shortLabel}</span>
-                            <span style={{
-                                background: m.badgeColor,
-                                color: '#fff',
-                                fontSize: 9,
-                                padding: '0 5px',
-                                borderRadius: 6,
-                                fontWeight: 700,
-                                lineHeight: '16px',
-                            }}>
-                                {m.badge}
-                            </span>
+                            {m.badge && (
+                                <span style={{
+                                    background: m.badgeColor,
+                                    color: '#fff',
+                                    fontSize: 9,
+                                    padding: '0 5px',
+                                    borderRadius: 6,
+                                    fontWeight: 700,
+                                    lineHeight: '16px',
+                                }}>
+                                    {m.badge}
+                                </span>
+                            )}
                         </div>
                     ),
                     value: m.key,

@@ -425,17 +425,19 @@ ${dbContext}
                     <span>{model.icon}</span>
                     <span style={{ fontWeight: 700 }}>{model.shortLabel}</span>
                     <span style={{ color: '#64748b', fontSize: 12 }}>{model.description}</span>
-                    <span style={{
-                        marginLeft: 'auto',
-                        background: model.badgeColor,
-                        color: '#fff',
-                        fontSize: 10,
-                        padding: '1px 6px',
-                        borderRadius: 6,
-                        fontWeight: 800,
-                    }}>
-                        {model.badge}
-                    </span>
+                    {model.badge && (
+                        <span style={{
+                            marginLeft: 'auto',
+                            background: model.badgeColor,
+                            color: '#fff',
+                            fontSize: 10,
+                            padding: '1px 6px',
+                            borderRadius: 6,
+                            fontWeight: 800,
+                        }}>
+                            {model.badge}
+                        </span>
+                    )}
                 </div>
             ),
         }));

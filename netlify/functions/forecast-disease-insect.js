@@ -46,7 +46,7 @@ const createFallbackForecast = (bangkokDateStr, weatherForecastSummary, weatherS
 });
 
 // Main forecast logic
-const generateForecast = async () => {
+const generateForecast = async (event = {}) => {
     console.log('Starting Daily Crop Disease & Pest Risk AI Forecast...');
 
     try {
@@ -60,7 +60,42 @@ const generateForecast = async () => {
 
         const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
         const now = new Date();
-        const bangkokDateStr = now.toLocaleDateString('en-CA', { timeZone: 'Asia/Bangkok' });
+        let bangkokDateStr = now.toLocaleDateString('en-CA', { timeZone: 'Asia/Bangkok' });
+
+        // Support manual date override for backfilling/testing (e.g. ?date=2026-06-05 or {"date": "2026-06-05"})
+        if (event && event.queryStringParameters && event.queryStringParameters.date) {
+            bangkokDateStr = event.queryStringParameters.date;
+        } else if (event && event.body) {
+            try {
+                const body = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
+                if (body && body.date) {
+                    bangkokDateStr = body.date;
+                }
+            } catch (e) {
+                // Ignore parse error
+            }
+        }
+
+        // 0. Check if forecast for this date already exists (to prevent redundant API calls during cron retries)
+        const isManualTrigger = (event && event.httpMethod === 'POST') || 
+                                (event && event.queryStringParameters && event.queryStringParameters.force === 'true');
+        
+        if (!isManualTrigger) {
+            const { data: existing, error: checkError } = await supabase
+                .from('ai_disease_forecasts')
+                .select('forecast_date')
+                .eq('forecast_date', bangkokDateStr)
+                .maybeSingle();
+
+            if (!checkError && existing) {
+                console.log(`Forecast for ${bangkokDateStr} already exists. Skipping generation.`);
+                return {
+                    statusCode: 200,
+                    headers: CORS_HEADERS,
+                    body: JSON.stringify({ message: `Forecast for ${bangkokDateStr} already exists. Skipped.` })
+                };
+            }
+        }
 
         // 1. Fetch recent weather (14 days)
         const { data: weatherData, error: weatherErr } = await supabase
@@ -308,7 +343,7 @@ const forecastHandler = async (event = {}) => {
     if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers: CORS_HEADERS, body: '' };
     
     // Support scheduled trigger or direct endpoint request
-    return generateForecast();
+    return generateForecast(event);
 };
 
 export const handler = forecastHandler;

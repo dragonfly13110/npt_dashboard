@@ -46,9 +46,10 @@ export default function AiDiseaseForecast() {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCrop, setSelectedCrop] = useState('ALL');
     const [selectedRisk, setSelectedRisk] = useState('ALL');
+    const [targetRunDate, setTargetRunDate] = useState(null);
 
     // Fetch all forecasts function
-    const fetchForecasts = async (shouldSelectLatest = false) => {
+    const fetchForecasts = async (selectDate = null) => {
         setLoading(true);
         try {
             const { data, error } = await supabase
@@ -60,7 +61,12 @@ export default function AiDiseaseForecast() {
             setForecastList(data || []);
             
             if (data && data.length > 0) {
-                if (shouldSelectLatest || !selectedForecast) {
+                if (selectDate === true) {
+                    setSelectedForecast(data[0]);
+                } else if (typeof selectDate === 'string') {
+                    const matched = data.find(item => item.forecast_date === selectDate);
+                    setSelectedForecast(matched || data[0]);
+                } else if (!selectedForecast) {
                     setSelectedForecast(data[0]);
                 } else {
                     // Sync the active selected forecast with latest data if it still exists
@@ -85,12 +91,18 @@ export default function AiDiseaseForecast() {
     }, []);
 
     // Handle manual analysis request
-    const handleRunForecast = async () => {
+    const handleRunForecast = async (customDateStr) => {
         setAnalyzing(true);
-        message.loading({ content: 'กำลังเริ่มกระบวนการวิเคราะห์พยากรณ์ด้วย AI...', key: 'ai-forecast-run' });
+        const msgKey = 'ai-forecast-run';
+        message.loading({ content: 'กำลังเริ่มกระบวนการวิเคราะห์พยากรณ์ด้วย AI...', key: msgKey });
         try {
+            const bodyPayload = customDateStr ? { date: customDateStr } : {};
             const res = await fetch('/.netlify/functions/forecast-disease-insect', {
-                method: 'POST'
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyPayload)
             });
             const payload = await res.json().catch(() => ({}));
             
@@ -98,11 +110,11 @@ export default function AiDiseaseForecast() {
                 throw new Error(payload.error || payload.message || `HTTP ${res.status}`);
             }
 
-            message.success({ content: payload.message || 'วิเคราะห์และบันทึกข้อมูลพยากรณ์สำเร็จ', key: 'ai-forecast-run', duration: 4 });
+            message.success({ content: payload.message || 'วิเคราะห์และบันทึกข้อมูลพยากรณ์สำเร็จ', key: msgKey, duration: 4 });
             // Reload the history list and automatically select the newly generated forecast
-            await fetchForecasts(true);
+            await fetchForecasts(customDateStr || true);
         } catch (err) {
-            message.error({ content: `การวิเคราะห์พยากรณ์ล้มเหลว: ${err.message}`, key: 'ai-forecast-run', duration: 5 });
+            message.error({ content: `การวิเคราะห์พยากรณ์ล้มเหลว: ${err.message}`, key: msgKey, duration: 5 });
         } finally {
             setAnalyzing(false);
         }
@@ -187,25 +199,33 @@ export default function AiDiseaseForecast() {
                     </p>
                 </div>
                 {canEdit() && (
-                    <Button
-                        type="primary"
-                        icon={<SyncOutlined spin={analyzing} />}
-                        loading={analyzing}
-                        onClick={handleRunForecast}
-                        style={{
-                            background: '#166534',
-                            borderColor: '#166534',
-                            borderRadius: '8px',
-                            height: '40px',
-                            fontWeight: 'bold',
-                            boxShadow: '0 4px 10px rgba(22, 101, 52, 0.15)',
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '6px'
-                        }}
-                    >
-                        วิเคราะห์พยากรณ์ด้วย AI ตอนนี้
-                    </Button>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                        <DatePicker
+                            placeholder="เลือกวันที่ย้อนหลัง"
+                            onChange={(date, dateString) => setTargetRunDate(dateString || null)}
+                            style={{ width: '160px', borderRadius: '8px', height: '40px' }}
+                            disabled={analyzing}
+                        />
+                        <Button
+                            type="primary"
+                            icon={<SyncOutlined spin={analyzing} />}
+                            loading={analyzing}
+                            onClick={() => handleRunForecast(targetRunDate)}
+                            style={{
+                                background: '#166534',
+                                borderColor: '#166534',
+                                borderRadius: '8px',
+                                height: '40px',
+                                fontWeight: 'bold',
+                                boxShadow: '0 4px 10px rgba(22, 101, 52, 0.15)',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '6px'
+                            }}
+                        >
+                            {targetRunDate ? `วิเคราะห์พยากรณ์วันที่ ${targetRunDate}` : 'วิเคราะห์พยากรณ์ด้วย AI ตอนนี้'}
+                        </Button>
+                    </div>
                 )}
             </div>
 
