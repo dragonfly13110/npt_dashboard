@@ -43,3 +43,4 @@ test-results/
 /tmp/
 /check_*.js
 /scratch/
+/supabase/.temp/
