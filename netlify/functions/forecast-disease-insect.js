@@ -23,27 +23,8 @@ const fetchWithTimeout = async (url, options = {}, timeoutMs = 12000) => {
     }
 };
 
-const createFallbackForecast = (bangkokDateStr, weatherForecastSummary, weatherSummary, outbreakSummary, reason) => ({
-    summary: `ระบบ AI ภายนอกยังไม่ตอบสนองตามเวลาที่กำหนด จึงสร้างคำเตือนเบื้องต้นจากข้อมูลอากาศและประวัติการระบาดที่มีในระบบ ณ วันที่ ${bangkokDateStr} แนะนำให้เฝ้าระวังโรคพืชที่สัมพันธ์กับความชื้น ฝน และอุณหภูมิในช่วง 7 วันข้างหน้า พร้อมตรวจแปลงจริงก่อนตัดสินใจใช้มาตรการควบคุม รายการนี้เป็น fallback อัตโนมัติเนื่องจาก: ${reason}`,
-    details: [
-        {
-            name: 'โรคพืชที่สัมพันธ์กับฝนและความชื้น',
-            type: 'โรคพืช',
-            target_crop: 'ข้าว, กล้วยไม้, ไม้ผล, พืชผัก',
-            risk_level: 'ปานกลาง',
-            description: `ประเมินจากข้อมูลอากาศย้อนหลังและพยากรณ์ล่วงหน้าในระบบ หากมีฝนต่อเนื่อง ความชื้นสูง หรืออุณหภูมิเหมาะสม ให้เพิ่มความถี่การสำรวจแปลง\n\nข้อมูลย้อนหลัง:\n${weatherSummary}\n\nพยากรณ์ล่วงหน้า:\n${weatherForecastSummary}`,
-            prevention: 'สำรวจแปลงช่วงเช้าและเย็น ลดความชื้นสะสมในทรงพุ่ม/แปลงปลูก กำจัดส่วนพืชเป็นโรค และใช้สารหรือชีวภัณฑ์ตามคำแนะนำทางวิชาการเมื่อพบอาการเริ่มต้น'
-        },
-        {
-            name: 'แมลงศัตรูพืชที่เพิ่มจำนวนหลังฝน',
-            type: 'แมลงศัตรูพืช',
-            target_crop: 'ข้าว, อ้อย, มันสำปะหลัง, พืชผัก',
-            risk_level: 'ปานกลาง',
-            description: `หลังฝนหรืออากาศแปรปรวน แมลงบางชนิดอาจเพิ่มจำนวนเร็ว ควรตรวจจุดเสี่ยงและแปลงที่เคยมีประวัติระบาด\n\nประวัติระบาดล่าสุด:\n${outbreakSummary}`,
-            prevention: 'ติดตามกับดักและสำรวจใบ/ยอด/โคนต้นอย่างสม่ำเสมอ ใช้วิธีเขตกรรม ชีววิธี และสารป้องกันกำจัดตามระดับความเสียหายทางเศรษฐกิจ'
-        }
-    ]
-});
+// Fallback removed - we now retry and fail cleanly
+
 
 // Main forecast logic
 const generateForecast = async (event = {}) => {
@@ -148,8 +129,10 @@ const generateForecast = async (event = {}) => {
             ? outbreakData.map(o => `Crop: ${o.affected_crop}, Pest/Disease: ${o.pest_name}, District: ${o.district}, Severity: ${o.severity}, Date: ${o.report_date}`).join('\n')
             : 'No recent pest outbreaks reported.';;
 
-        // 4. Set up Gemini API request
-        let aiFailureReason = '';
+        // 4. Set up Gemini API request and retry loop
+        if (!GEMINI_API_KEY) {
+            throw new Error('GEMINI_API_KEY is not configured in env variables.');
+        }
 
         const model = 'gemini-3.5-flash';
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
@@ -188,120 +171,106 @@ ${outbreakSummary}`;
   ]
 }`;
 
-        let generatedText = '';
-        let isGroundingSuccess = false;
+        const maxRetries = 3;
+        let resultJson = null;
+        let aiFailureReason = '';
 
-        // Try generating with search grounding first
-        if (GEMINI_API_KEY) {
+        for (let attempt = 1; attempt <= maxRetries; attempt++) {
+            console.log(`Forecast generation attempt ${attempt} of ${maxRetries}...`);
             try {
-                console.log('Attempting forecast generation with Google Search Grounding...');
-                const prompt = `${basePrompt}${groundingInstruction}${responseFormatInstruction}`;
-                const requestBody = {
-                    contents: [
-                        {
-                            parts: [
-                                { text: prompt }
-                            ]
-                        }
-                    ],
-                    tools: [
-                        {
-                            google_search: {}
-                        }
-                    ],
-                    generationConfig: {
-                        temperature: 0.2
+                let generatedText = '';
+                let isGroundingSuccess = false;
+
+                // 1. Try with Google Search Grounding
+                try {
+                    console.log(`[Attempt ${attempt}] Attempting forecast generation with Google Search Grounding...`);
+                    const prompt = `${basePrompt}${groundingInstruction}${responseFormatInstruction}`;
+                    const requestBody = {
+                        contents: [{ parts: [{ text: prompt }] }],
+                        tools: [{ google_search: {} }],
+                        generationConfig: { temperature: 0.2 }
+                    };
+
+                    const response = await fetchWithTimeout(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(requestBody),
+                    }, GEMINI_TIMEOUT_MS);
+
+                    if (!response.ok) {
+                        const errText = await response.text();
+                        throw new Error(`Gemini API Error (status ${response.status}): ${errText}`);
                     }
-                };
 
-                const response = await fetchWithTimeout(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(requestBody),
-                }, GEMINI_TIMEOUT_MS);
-
-                if (!response.ok) {
-                    const errText = await response.text();
-                    throw new Error(`Gemini API Error (status ${response.status}): ${errText}`);
-                }
-
-                const data = await response.json();
-                generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (generatedText) {
-                    isGroundingSuccess = true;
-                    console.log('Successfully generated forecast using Google Search Grounding.');
-                }
-            } catch (groundingErr) {
-                console.warn('Forecast generation with Google Search Grounding failed:', groundingErr.message);
-                aiFailureReason = groundingErr.message;
-                console.log('Falling back to standard forecast generation without Search Grounding...');
-            }
-        } else {
-            aiFailureReason = 'GEMINI_API_KEY is not configured in env variables.';
-        }
-
-        // If search grounding failed or returned empty, call standard model
-        if (!isGroundingSuccess && GEMINI_API_KEY) {
-            const prompt = `${basePrompt}${responseFormatInstruction}`;
-            const requestBody = {
-                contents: [
-                    {
-                        parts: [
-                            { text: prompt }
-                        ]
+                    const data = await response.json();
+                    generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (generatedText) {
+                        isGroundingSuccess = true;
+                        console.log(`[Attempt ${attempt}] Successfully generated forecast using Google Search Grounding.`);
                     }
-                ],
-                generationConfig: {
-                    temperature: 0.2
-                }
-            };
-
-            try {
-                const response = await fetchWithTimeout(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(requestBody),
-                }, GEMINI_TIMEOUT_MS);
-
-                if (!response.ok) {
-                    const errText = await response.text();
-                    throw new Error(`Gemini API Fallback Error (status ${response.status}): ${errText}`);
+                } catch (groundingErr) {
+                    console.warn(`[Attempt ${attempt}] Google Search Grounding failed:`, groundingErr.message);
+                    aiFailureReason = groundingErr.message;
                 }
 
-                const data = await response.json();
-                generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-            } catch (fallbackErr) {
-                console.warn('Standard forecast generation failed:', fallbackErr.message);
-                aiFailureReason = fallbackErr.message;
-            }
-        }
+                // 2. Fallback to standard model without Search Grounding
+                if (!isGroundingSuccess) {
+                    console.log(`[Attempt ${attempt}] Falling back to standard model without Search Grounding...`);
+                    const prompt = `${basePrompt}${responseFormatInstruction}`;
+                    const requestBody = {
+                        contents: [{ parts: [{ text: prompt }] }],
+                        generationConfig: { temperature: 0.2 }
+                    };
 
-        // Parse and validate the response JSON
-        let resultJson;
-        if (generatedText) {
-            try {
+                    const response = await fetchWithTimeout(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(requestBody),
+                    }, GEMINI_TIMEOUT_MS);
+
+                    if (!response.ok) {
+                        const errText = await response.text();
+                        throw new Error(`Gemini API Fallback Error (status ${response.status}): ${errText}`);
+                    }
+
+                    const data = await response.json();
+                    generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                }
+
+                if (!generatedText) {
+                    throw new Error('AI returned empty response.');
+                }
+
+                // 3. Parse and validate JSON
                 let jsonText = generatedText.trim();
-                // Match ```json ... ``` or ``` ... ```
                 const jsonRegex = /```(?:json)?\s*([\s\S]*?)\s*```/;
                 const match = jsonText.match(jsonRegex);
                 if (match) {
                     jsonText = match[1];
                 }
-                resultJson = JSON.parse(jsonText.trim());
-            } catch (parseErr) {
-                console.error('Failed to parse JSON from model:', generatedText);
-                aiFailureReason = `Invalid JSON format from AI: ${parseErr.message}`;
+                
+                const parsed = JSON.parse(jsonText.trim());
+                if (!parsed?.summary || !Array.isArray(parsed.details)) {
+                    throw new Error('Parsed JSON is missing summary or details array.');
+                }
+
+                resultJson = parsed;
+                console.log(`[Attempt ${attempt}] Successfully generated and parsed forecast.`);
+                break; // Break the retry loop on success
+            } catch (err) {
+                console.error(`[Attempt ${attempt}] Failed:`, err.message);
+                aiFailureReason = err.message;
+
+                if (attempt < maxRetries) {
+                    const delayMs = 2000 * attempt; // 2s, 4s delay
+                    console.log(`Waiting ${delayMs}ms before next attempt...`);
+                    await new Promise(resolve => setTimeout(resolve, delayMs));
+                }
             }
         }
 
-        if (!resultJson?.summary || !Array.isArray(resultJson.details)) {
-            resultJson = createFallbackForecast(
-                bangkokDateStr,
-                weatherForecastSummary,
-                weatherSummary,
-                outbreakSummary,
-                aiFailureReason || 'GEMINI_API_KEY is not configured or Gemini returned empty response'
-            );
+        if (!resultJson) {
+            throw new Error(`Failed to generate forecast after ${maxRetries} attempts. Last error: ${aiFailureReason}`);
         }
 
         // 5. Store/Upsert in Supabase

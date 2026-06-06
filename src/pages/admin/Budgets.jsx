@@ -641,8 +641,6 @@ export default function Budgets() {
         <div className="budget-apple-page">
             <Space className="budget-apple-stack" direction="vertical" size={20}>
                 <div className="budget-apple-hero">
-                    <div className="budget-apple-orb budget-apple-orb-a" />
-                    <div className="budget-apple-orb budget-apple-orb-b" />
                     <div className="budget-apple-tags">
                         <Tag color="green">{roundFilter === 'all' ? 'ทุกรอบ' : `รอบ ${roundFilter}`}</Tag>
                         <Tag color="blue">{fiscalYearFilter === 'all' ? 'ทุกปีงบประมาณ' : `ปีงบประมาณ ${fiscalYearFilter}`}</Tag>
