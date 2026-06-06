@@ -1,8 +1,12 @@
-// import { useEffect, useState, useCallback } from 'react';
 import { Skeleton } from 'antd';
 import {
-    ClockCircleOutlined, TeamOutlined, CarOutlined, DollarOutlined,
-    CheckCircleOutlined, ScheduleOutlined, RiseOutlined
+    CarOutlined,
+    ClockCircleOutlined,
+    DatabaseOutlined,
+    DollarOutlined,
+    RiseOutlined,
+    SafetyCertificateOutlined,
+    TeamOutlined,
 } from '@ant-design/icons';
 import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { supabase } from '../../supabaseClient';
@@ -10,17 +14,17 @@ import { useApiCache } from '../../hooks/useApiCache';
 import { useAuth } from '../../contexts/AuthContext';
 import EChart from '../../components/widgets/EChart';
 
-const COLORS = ['#43a047', '#1565c0', '#e65100', '#6a1b9a', '#c62828', '#00695c'];
-const whiteAxis = {
-    axisLabel: { color: 'rgba(255,255,255,0.72)', fontSize: 11 },
-    axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } },
+const chartPalette = ['#1a7f37', '#0969da', '#bf8700', '#8250df', '#cf222e', '#0a7ea4'];
+const axisBase = {
+    axisLabel: { color: '#656d76', fontSize: 11 },
+    axisLine: { lineStyle: { color: '#d0d7de' } },
     axisTick: { show: false },
 };
 
 const tables = [
-    { table: 'personnel', label: 'บุคลากร', icon: '👥', color: 'green', iconComponent: TeamOutlined },
-    { table: 'assets', label: 'พัสดุ/ครุภัณฑ์', icon: '💻', color: 'blue', iconComponent: CarOutlined },
-    { table: 'budgets', label: 'งบประมาณ', icon: '💰', color: 'orange', iconComponent: DollarOutlined },
+    { table: 'personnel', label: 'บุคลากร', shortLabel: 'คน', color: 'green', iconComponent: TeamOutlined },
+    { table: 'assets', label: 'พัสดุ/ครุภัณฑ์', shortLabel: 'รายการ', color: 'blue', iconComponent: CarOutlined },
+    { table: 'budgets', label: 'งบประมาณ', shortLabel: 'รายการ', color: 'orange', iconComponent: DollarOutlined },
 ];
 
 function formatTimeAgo(dateStr) {
@@ -53,6 +57,7 @@ async function fetchTrend(tableCfg) {
             count: 0,
         });
     }
+
     for (const cfg of tableCfg) {
         for (const m of months) {
             try {
@@ -63,7 +68,7 @@ async function fetchTrend(tableCfg) {
                     .lte('created_at', m.end);
                 if (!error) m.count += (count ?? 0);
             } catch {
-                // skip
+                // Skip unavailable data sources so the overview still renders.
             }
         }
     }
@@ -83,7 +88,6 @@ async function fetchRecentActivity(tableCfg, role) {
                 data.forEach(row => {
                     activities.push({
                         table: cfg.label,
-                        icon: cfg.icon,
                         color: cfg.color,
                         name: role === 'guest' ? cfg.label : (row.full_name || row.name || row.project_name || row.title || cfg.label),
                         created_at: row.created_at,
@@ -91,7 +95,7 @@ async function fetchRecentActivity(tableCfg, role) {
                 });
             }
         } catch {
-            // skip
+            // Skip unavailable data sources so the overview still renders.
         }
     }
     activities.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
@@ -99,48 +103,56 @@ async function fetchRecentActivity(tableCfg, role) {
 }
 
 function miniBarOption(data) {
-    const option = barOption(data, [{ key: 'value', name: 'จำนวน', color: 'rgba(255,255,255,0.85)' }], {
-        grid: { top: 14, right: 10, bottom: 24, left: 28 },
+    const option = barOption(data, [{ key: 'value', name: 'จำนวน', color: '#1a7f37' }], {
+        grid: { top: 20, right: 18, bottom: 32, left: 40 },
     });
     return {
         ...option,
-        tooltip: { ...option.tooltip, backgroundColor: 'rgba(15,23,42,0.86)' },
-        xAxis: { ...option.xAxis, ...whiteAxis },
-        yAxis: { ...option.yAxis, ...whiteAxis, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.15)', type: 'dashed' } } },
+        color: chartPalette,
+        tooltip: { ...option.tooltip, backgroundColor: '#0f172a' },
+        xAxis: { ...option.xAxis, ...axisBase },
+        yAxis: { ...option.yAxis, ...axisBase, splitLine: { lineStyle: { color: '#eef1f4', type: 'dashed' } } },
     };
 }
 
 function miniPieOption(data) {
     const option = pieOption(data, {
-        colors: ['rgba(255,255,255,0.9)', 'rgba(255,255,255,0.6)', 'rgba(255,255,255,0.35)'],
-        radius: ['0%', '70%'],
+        colors: chartPalette,
+        radius: ['48%', '72%'],
     });
     return {
         ...option,
-        tooltip: { ...option.tooltip, backgroundColor: 'rgba(15,23,42,0.86)' },
+        tooltip: { ...option.tooltip, backgroundColor: '#0f172a' },
         series: option.series.map((series) => ({
             ...series,
-            label: { ...series.label, color: 'rgba(255,255,255,0.9)' },
+            label: { ...series.label, color: '#1f2328', fontSize: 12 },
+            labelLine: { ...series.labelLine, lineStyle: { color: '#d0d7de' } },
         })),
     };
 }
 
 function miniLineOption(data) {
     return {
-        tooltip: { trigger: 'axis', backgroundColor: 'rgba(15,23,42,0.86)' },
-        grid: { top: 14, right: 10, bottom: 24, left: 28, containLabel: true },
-        xAxis: { type: 'category', data: data.map((item) => item.name), ...whiteAxis },
-        yAxis: { type: 'value', ...whiteAxis, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.12)', type: 'dashed' } } },
+        tooltip: { trigger: 'axis', backgroundColor: '#0f172a' },
+        grid: { top: 20, right: 18, bottom: 28, left: 34, containLabel: true },
+        xAxis: { type: 'category', data: data.map((item) => item.name), ...axisBase },
+        yAxis: { type: 'value', ...axisBase, splitLine: { lineStyle: { color: '#eef1f4', type: 'dashed' } } },
         series: [{
             type: 'line',
             data: data.map((item) => item.รายการ ?? item['รายการ'] ?? 0),
             smooth: true,
             symbol: 'circle',
-            symbolSize: 8,
-            lineStyle: { color: '#fff', width: 2.5 },
-            itemStyle: { color: '#fff' },
+            symbolSize: 7,
+            areaStyle: { color: 'rgba(26, 127, 55, 0.08)' },
+            lineStyle: { color: '#1a7f37', width: 2.5 },
+            itemStyle: { color: '#1a7f37' },
         }],
     };
+}
+
+function getShare(count, total) {
+    if (!total) return 0;
+    return Math.round((count / total) * 100);
 }
 
 export default function AdminDashboard() {
@@ -160,7 +172,7 @@ export default function AdminDashboard() {
 
         const [trendData, actData] = await Promise.all([
             fetchTrend(tables),
-            fetchRecentActivity(tables, role)
+            fetchRecentActivity(tables, role),
         ]);
 
         return { stats: statsResults, trendData, activities: actData };
@@ -171,8 +183,6 @@ export default function AdminDashboard() {
     const stats = data?.stats || [];
     const trendData = data?.trendData || [];
     const activities = data?.activities || [];
-    
-    // We can use the same loading variable for styling since they fetch together
     const loading = isLoading;
     const trendLoading = isLoading;
     const activityLoading = isLoading;
@@ -180,131 +190,141 @@ export default function AdminDashboard() {
     const totalRecords = stats.reduce((sum, s) => sum + s.count, 0);
     const barData = stats.filter(s => s.count > 0).map(s => ({ name: s.label, value: s.count }));
     const pieData = stats.filter(s => s.count > 0).map(s => ({ name: s.label, value: s.count }));
+    const topCategory = stats.reduce((best, item) => (item.count > (best?.count ?? -1) ? item : best), null);
+    const latestActivity = activities[0]?.created_at ? formatTimeAgo(activities[0].created_at) : 'ยังไม่มีกิจกรรม';
 
     return (
-        <div>
-            {/* Page Header */}
-            <div className="md-page-header">
-                <h2>🏢 ฝ่ายบริหารทั่วไป</h2>
-                <p>ภาพรวมข้อมูลบุคลากร พัสดุ/ครุภัณฑ์ และงบประมาณ</p>
-            </div>
+        <div className="admin-overview-page">
+            <section className="admin-overview-hero">
+                <div>
+                    <div className="admin-overview-eyebrow">ฝ่ายบริหารทั่วไป</div>
+                    <h1>ภาพรวมงานบริหารจังหวัด</h1>
+                    <p>ติดตามข้อมูลบุคลากร พัสดุ/ครุภัณฑ์ งบประมาณ และความเคลื่อนไหวล่าสุดจากฐานข้อมูลกลาง</p>
+                </div>
+                <div className="admin-overview-hero-metrics" aria-label="สรุปภาพรวมฝ่ายบริหาร">
+                    <div>
+                        <span>ข้อมูลทั้งหมด</span>
+                        <strong>{loading ? '-' : totalRecords.toLocaleString()}</strong>
+                    </div>
+                    <div>
+                        <span>หมวดที่มากสุด</span>
+                        <strong>{loading ? '-' : topCategory?.label || '-'}</strong>
+                    </div>
+                    <div>
+                        <span>อัปเดตล่าสุด</span>
+                        <strong>{activityLoading ? '-' : latestActivity}</strong>
+                    </div>
+                </div>
+            </section>
 
-            {/* ===== Stat Cards ===== */}
-            <div className="md-stat-row" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+            <section className="admin-overview-stat-grid" aria-label="ตัวชี้วัดหลัก">
                 {loading ? (
                     [1, 2, 3].map(i => (
-                        <div key={i} className="md-stat-card">
-                            <Skeleton active paragraph={{ rows: 1 }} />
+                        <div key={i} className="admin-overview-card admin-overview-stat-card">
+                            <Skeleton active paragraph={{ rows: 2 }} />
                         </div>
                     ))
                 ) : (
                     stats.map((s) => {
                         const IconComp = s.iconComponent;
                         return (
-                            <div key={s.table} className="md-stat-card">
-                                <div className="md-stat-card-inner">
-                                    <div className="md-stat-card-top">
-                                        <div className={`md-stat-icon ${s.color}`}>
-                                            <IconComp style={{ fontSize: 24 }} />
-                                        </div>
-                                        <div className="md-stat-info">
-                                            <div className="md-stat-label">{s.label}</div>
-                                            <div className="md-stat-value">{s.count.toLocaleString()}</div>
-                                        </div>
+                            <article key={s.table} className={`admin-overview-card admin-overview-stat-card is-${s.color}`}>
+                                <div className="admin-overview-stat-top">
+                                    <div className="admin-overview-stat-icon">
+                                        <IconComp />
                                     </div>
-                                    <div className="md-stat-footer">
-                                        <ScheduleOutlined />
-                                        <span>จำนวน{s.label}ทั้งหมด</span>
-                                    </div>
+                                    <div className="admin-overview-share">{getShare(s.count, totalRecords)}%</div>
                                 </div>
-                            </div>
+                                <div className="admin-overview-stat-label">{s.label}</div>
+                                <div className="admin-overview-stat-value">{s.count.toLocaleString()}</div>
+                                <div className="admin-overview-stat-note">รวม{s.shortLabel}ในระบบบริหาร</div>
+                            </article>
                         );
                     })
                 )}
-            </div>
+            </section>
 
-            {/* ===== Chart Cards Row ===== */}
-            <div className="md-chart-row" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
-                {/* Bar Chart */}
-                <div className="md-chart-card">
-                    <div className="md-chart-header green">
-                        {barData.length > 0 && (
-                            <EChart option={miniBarOption(barData)} style={{ height: 180 }} />
-                        )}
-                    </div>
-                    <div className="md-chart-body">
-                        <div className="md-chart-title">📊 สรุปจำนวนข้อมูล</div>
-                        <div className="md-chart-subtitle">เปรียบเทียบจำนวนข้อมูลในแต่ละหมวดของฝ่ายบริหาร</div>
-                        <div className="md-chart-footer">
-                            <ClockCircleOutlined /> อัปเดตตามข้อมูลจริง
+            <section className="admin-overview-chart-grid">
+                <article className="admin-overview-card admin-overview-chart-card">
+                    <div className="admin-overview-card-header">
+                        <div>
+                            <h2>จำนวนข้อมูลตามหมวด</h2>
+                            <p>เปรียบเทียบขนาดฐานข้อมูลของงานบริหารแต่ละประเภท</p>
                         </div>
+                        <DatabaseOutlined />
                     </div>
-                </div>
-
-                {/* Pie Chart */}
-                <div className="md-chart-card">
-                    <div className="md-chart-header purple">
-                        {pieData.length > 0 && (
-                            <EChart option={miniPieOption(pieData)} style={{ height: 180 }} />
-                        )}
-                    </div>
-                    <div className="md-chart-body">
-                        <div className="md-chart-title">🥧 สัดส่วนข้อมูล</div>
-                        <div className="md-chart-subtitle">สัดส่วนข้อมูลแต่ละหมวดเทียบกับทั้งหมด ({totalRecords.toLocaleString()} รายการ)</div>
-                        <div className="md-chart-footer">
-                            <RiseOutlined /> ดูสัดส่วน
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* ===== Trend + Activity ===== */}
-            <div className="md-bottom-row">
-                {/* Trend Chart */}
-                <div className="md-chart-card">
-                    <div className="md-chart-header dark">
-                        {trendLoading ? (
-                            <div style={{ width: '100%', padding: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <Skeleton active paragraph={{ rows: 3 }} style={{ width: '100%' }} />
-                            </div>
+                    <div className="admin-overview-chart">
+                        {barData.length > 0 ? (
+                            <EChart option={miniBarOption(barData)} style={{ height: 280 }} />
                         ) : (
-                            <EChart option={miniLineOption(trendData)} style={{ height: 180 }} />
+                            <div className="admin-overview-empty-inline">ยังไม่มีข้อมูลสำหรับแสดงกราฟ</div>
                         )}
                     </div>
-                    <div className="md-chart-body">
-                        <div className="md-chart-title">📈 แนวโน้มรายเดือน</div>
-                        <div className="md-chart-subtitle">ข้อมูลฝ่ายบริหารที่เพิ่มขึ้นในแต่ละเดือน (6 เดือนย้อนหลัง)</div>
-                        <div className="md-chart-footer">
-                            <ScheduleOutlined /> อัปเดตอัตโนมัติ
-                        </div>
-                    </div>
-                </div>
+                </article>
 
-                {/* Activity Timeline */}
-                <div className="md-activity-card">
-                    <div className="md-activity-header">
-                        <h3>🕐 กิจกรรมล่าสุด</h3>
-                        <p>อัปเดตข้อมูลฝ่ายบริหารล่าสุด</p>
+                <article className="admin-overview-card admin-overview-chart-card">
+                    <div className="admin-overview-card-header">
+                        <div>
+                            <h2>สัดส่วนข้อมูล</h2>
+                            <p>เห็นน้ำหนักของแต่ละหมวดเมื่อเทียบกับข้อมูลทั้งหมด {totalRecords.toLocaleString()} รายการ</p>
+                        </div>
+                        <RiseOutlined />
+                    </div>
+                    <div className="admin-overview-chart">
+                        {pieData.length > 0 ? (
+                            <EChart option={miniPieOption(pieData)} style={{ height: 280 }} />
+                        ) : (
+                            <div className="admin-overview-empty-inline">ยังไม่มีข้อมูลสำหรับแสดงกราฟ</div>
+                        )}
+                    </div>
+                </article>
+            </section>
+
+            <section className="admin-overview-bottom-grid">
+                <article className="admin-overview-card admin-overview-chart-card">
+                    <div className="admin-overview-card-header">
+                        <div>
+                            <h2>แนวโน้มรายเดือน</h2>
+                            <p>จำนวนข้อมูลที่เพิ่มขึ้นในช่วง 6 เดือนย้อนหลัง</p>
+                        </div>
+                        <SafetyCertificateOutlined />
+                    </div>
+                    <div className="admin-overview-chart">
+                        {trendLoading ? (
+                            <Skeleton active paragraph={{ rows: 5 }} />
+                        ) : (
+                            <EChart option={miniLineOption(trendData)} style={{ height: 280 }} />
+                        )}
+                    </div>
+                </article>
+
+                <aside className="admin-overview-card admin-overview-activity-card">
+                    <div className="admin-overview-card-header">
+                        <div>
+                            <h2>กิจกรรมล่าสุด</h2>
+                            <p>รายการข้อมูลที่มีการเพิ่มล่าสุดในฝ่ายบริหาร</p>
+                        </div>
+                        <ClockCircleOutlined />
                     </div>
                     {activityLoading ? (
-                        <div style={{ padding: '0 24px 20px' }}>
-                            <Skeleton active paragraph={{ rows: 6 }} />
-                        </div>
+                        <Skeleton active paragraph={{ rows: 7 }} />
                     ) : activities.length > 0 ? (
-                        <ul className="md-timeline">
+                        <ul className="admin-overview-activity-list">
                             {activities.map((act, i) => {
-                                const dotColors = ['green', 'blue', 'orange', 'red', 'purple', 'pink'];
+                                const matchedTable = tables.find(table => table.label === act.table);
+                                const IconComp = matchedTable?.iconComponent || DatabaseOutlined;
                                 return (
-                                    <li key={i} className="md-timeline-item">
-                                        <div className={`md-timeline-dot ${dotColors[i % dotColors.length]}`}>
-                                            {act.icon}
+                                    <li key={i} className="admin-overview-activity-item">
+                                        <div className={`admin-overview-activity-icon is-${matchedTable?.color || 'green'}`}>
+                                            <IconComp />
                                         </div>
-                                        <div className="md-timeline-content">
-                                            <div className="md-timeline-title">
-                                                <strong>{act.table}</strong> — {act.name}
+                                        <div className="admin-overview-activity-content">
+                                            <div className="admin-overview-activity-title">
+                                                <strong>{act.table}</strong>
+                                                <span>{act.name}</span>
                                             </div>
-                                            <div className="md-timeline-time">
-                                                <ClockCircleOutlined /> {formatDate(act.created_at)} · {formatTimeAgo(act.created_at)}
+                                            <div className="admin-overview-activity-time">
+                                                {formatDate(act.created_at)} · {formatTimeAgo(act.created_at)}
                                             </div>
                                         </div>
                                     </li>
@@ -312,18 +332,15 @@ export default function AdminDashboard() {
                             })}
                         </ul>
                     ) : (
-                        <div style={{ padding: '20px 24px', textAlign: 'center', color: '#8b949e' }}>
-                            ยังไม่มีกิจกรรมในฝ่ายบริหาร
-                        </div>
+                        <div className="admin-overview-empty-inline">ยังไม่มีกิจกรรมในฝ่ายบริหาร</div>
                     )}
-                </div>
-            </div>
+                </aside>
+            </section>
 
-            {/* Empty state */}
             {barData.length === 0 && !loading && (
-                <div className="md-empty-state">
-                    <div className="md-empty-icon">📭</div>
-                    <h3>ยังไม่มีข้อมูลในกลุ่มนี้</h3>
+                <div className="admin-overview-empty-state">
+                    <DatabaseOutlined />
+                    <h2>ยังไม่มีข้อมูลในกลุ่มนี้</h2>
                     <p>เริ่มเพิ่มข้อมูลผ่านเมนูด้านซ้ายได้เลยครับ</p>
                 </div>
             )}
