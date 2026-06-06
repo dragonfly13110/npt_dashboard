@@ -1,7 +1,16 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
-import XLSX from 'xlsx';
+
+async function loadXlsx() {
+  try {
+    return (await import('xlsx')).default;
+  } catch {
+    throw new Error('This legacy Excel import script requires a local xlsx parser. The app dependency was removed because npm audit reports unresolved xlsx vulnerabilities. Convert the workbook to CSV or install a reviewed parser outside the production dependency tree before running this script.');
+  }
+}
+
+const XLSX = await loadXlsx();
 
 const defaultInput = 'C:/Users/drago/OneDrive/เดสก์ท็อป/boot/ข้อมูลใหม่ๆ/budget_2568_round1_import_ready.xlsx';
 

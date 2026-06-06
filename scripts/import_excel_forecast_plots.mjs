@@ -1,8 +1,17 @@
 import fs from 'node:fs';
 import process from 'node:process';
 import path from 'node:path';
-import XLSX from 'xlsx';
 import utm from 'utm';
+
+async function loadXlsx() {
+  try {
+    return (await import('xlsx')).default;
+  } catch {
+    throw new Error('This legacy Excel import script requires a local xlsx parser. The app dependency was removed because npm audit reports unresolved xlsx vulnerabilities. Convert the workbook to CSV or install a reviewed parser outside the production dependency tree before running this script.');
+  }
+}
+
+const XLSX = await loadXlsx();
 
 // Helper to read .env file
 function readEnv(filePath = '.env') {

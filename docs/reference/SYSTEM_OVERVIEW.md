@@ -391,7 +391,7 @@ public/
 
 ### File / Report Utilities
 
-- `xlsx`
+- CSV utilities
 - `jspdf`
 - `html2canvas`
 
@@ -399,7 +399,7 @@ public/
 
 - import/export spreadsheet
 - เตรียม export เอกสาร/ภาพ/รายงาน
-- ใช้กับ flow ที่เกี่ยวกับ Excel หรือรายงาน
+- ใช้กับ flow ที่เกี่ยวกับ CSV หรือรายงาน
 
 ### Serverless / Proxy
 

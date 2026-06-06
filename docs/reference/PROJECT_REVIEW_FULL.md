@@ -430,7 +430,7 @@
 | **Maps** | Leaflet + React-Leaflet | 1.9.4 / 5.0.0 |
 | **Charts** | ECharts | 6.1.0 |
 | **PDF Export** | jsPDF + html2canvas | 4.2.0 / 1.4.1 |
-| **Excel/CSV** | xlsx | 0.18.5 |
+| **CSV** | Native CSV utilities | Internal |
 | **Date Utility** | dayjs | 1.11.19 |
 | **Geo Utility** | utm | 1.1.1 |
 | **Serverless** | Netlify Functions | 5.2.0 |

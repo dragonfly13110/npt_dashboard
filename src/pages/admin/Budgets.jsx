@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import * as XLSX from 'xlsx';
 import {
     Button, Card, Col, Empty, Form, Input, InputNumber, Modal, Popconfirm,
     DatePicker, Progress, Row, Select, Space, Statistic, Table, Tag, Tooltip, Typography, message,
@@ -484,14 +483,6 @@ export default function Budgets() {
         downloadCsv(exportFileBaseName('csv'), rowsToCsv(buildExportRows()));
     }, [buildExportRows, exportFileBaseName]);
 
-    const handleExportExcel = useCallback(() => {
-        const workbook = XLSX.utils.book_new();
-        const worksheet = XLSX.utils.aoa_to_sheet(buildExportRows());
-        worksheet['!cols'] = exportHeaders.map((header) => ({ wch: Math.max(12, Math.min(42, header.length + 8)) }));
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Budgets');
-        XLSX.writeFile(workbook, exportFileBaseName('xlsx'), { compression: true });
-    }, [buildExportRows, exportFileBaseName]);
-
     const handleTopScroll = (event) => {
         const body = tableWrapRef.current?.querySelector('.ant-table-body, .ant-table-content');
         if (body) body.scrollLeft = event.currentTarget.scrollLeft;
@@ -709,7 +700,6 @@ export default function Budgets() {
                                 <Tag color="cyan">เบิกแล้ว {money(filteredSpent)} บาท</Tag>
                                 <Button icon={<ReloadOutlined />} onClick={loadData} loading={loading}>รีเฟรช</Button>
                                 <Button icon={<DownloadOutlined />} onClick={handleExportCsv} disabled={!filteredRows.length}>CSV</Button>
-                                <Button icon={<DownloadOutlined />} onClick={handleExportExcel} disabled={!filteredRows.length}>Excel</Button>
                                 <Button type="primary" icon={<PlusOutlined />} onClick={openAdd} disabled={!userCanEdit}>เพิ่มรายการ</Button>
                             </Space>
                         </Col>
