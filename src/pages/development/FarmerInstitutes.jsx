@@ -197,6 +197,44 @@ export default function FarmerInstitutes() {
                     )}
                 </div>
 
+                {/* Header */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+                    <PieChartOutlined style={{ fontSize: 18, color: '#1a7f37' }} />
+                    <span style={{ fontSize: 16, fontWeight: 700, color: '#1f2328' }}>สรุปข้อมูลสถาบันเกษตรกร (รวม)</span>
+                    <Tag color="green">
+                        {hasActiveFilter
+                            ? `แสดงผล ${filteredData.length} จาก ${chartData.length} อำเภอ`
+                            : `รวมข้อมูลทั้งหมด`}
+                    </Tag>
+                </div>
+
+                {/* Unified Filters for Charts */}
+                <div style={{
+                    display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 20,
+                    padding: '12px 16px', background: '#f6f8fa', borderRadius: 8, border: '1px solid #e8ecf0'
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <span style={{ fontSize: 13, color: '#656d76', fontWeight: 500 }}>อำเภอ:</span>
+                        <Select
+                            value={filterDistrict}
+                            onChange={setFilterDistrict}
+                            options={districtOptions}
+                            placeholder="ทั้งหมด"
+                            allowClear
+                            style={{ minWidth: 150 }}
+                            size="small"
+                        />
+                    </div>
+                    {hasActiveFilter && (
+                        <a
+                            onClick={() => setFilterDistrict(null)}
+                            style={{ fontSize: 13, cursor: 'pointer', alignSelf: 'center', color: '#cf222e' }}
+                        >
+                            ล้างตัวกรองกราฟ
+                        </a>
+                    )}
+                </div>
+
                 {/* Charts */}
                 {chartLoading ? (
                     <div style={{ height: 300, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -248,6 +286,7 @@ export default function FarmerInstitutes() {
                 searchField="district" 
                 searchFields={['district']} 
                 filterConfig={tableFilterConfig}
+                readOnly={true}
             />
         </div>
     );

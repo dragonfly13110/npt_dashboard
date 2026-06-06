@@ -15,7 +15,7 @@ import { supabase } from '../../supabaseClient';
 import { getPublicColumns, getPublicSelectColumns } from '../../utils/dataPrivacy';
 import { downloadCsv, objectsToCsv } from '../../utils/csv';
 
-export default function CrudTable({ tableName, title, columns, formFields, searchField, searchFields, filterConfig = [], scrollX = 1000, defaultSort = null, extraActions = null, fetchDataOverride = null, fetchAllOverride = null, requiredColumns = null, defaultColumns = null }) {
+export default function CrudTable({ tableName, title, columns, formFields, searchField, searchFields, filterConfig = [], scrollX = 1000, defaultSort = null, extraActions = null, fetchDataOverride = null, fetchAllOverride = null, requiredColumns = null, defaultColumns = null, readOnly = false }) {
     const { createRecord, updateRecord, deleteRecord, fetchAll } = useSupabaseCrud(tableName);
     const { canEdit, canDelete, role } = useAuth();
     const [modalOpen, setModalOpen] = useState(false);
@@ -28,8 +28,8 @@ export default function CrudTable({ tableName, title, columns, formFields, searc
     const [sorter, setSorter] = useState(defaultSort || { field: null, order: null });
     const [form] = Form.useForm();
 
-    const userCanEdit = canEdit();
-    const userCanDelete = canDelete();
+    const userCanEdit = readOnly ? false : canEdit();
+    const userCanDelete = readOnly ? false : canDelete();
 
     // Column picker: derive selectable, required, default, and optional column keys
     const selectableColumnKeys = useMemo(() => columns.filter(c => c.dataIndex).map(c => c.dataIndex), [columns]);
