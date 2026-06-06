@@ -62,11 +62,15 @@ CREATE TABLE IF NOT EXISTS budgets (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   project_name TEXT NOT NULL,
   fiscal_year INTEGER,
+  budget_round INTEGER,
   budget_source TEXT,
   budget_amount NUMERIC,
   spent_amount NUMERIC DEFAULT 0,
   status TEXT DEFAULT 'ดำเนินการ',
   notes TEXT,
+  source_file TEXT,
+  source_row_id INTEGER,
+  imported_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );

@@ -25,7 +25,9 @@ const budgetStatusOptions = [
     { label: 'เบิกจ่ายเสร็จสิ้น', value: 'เบิกจ่ายเสร็จสิ้น', color: 'success', progress: 100 },
 ];
 const defaultBudgetStatus = 'กำลังดำเนินการ';
-const budgetTableScrollX = 1414;
+const defaultFiscalYear = Number(budgetSeed.meta.fiscalYear || 2569);
+const defaultBudgetRound = Number(budgetSeed.meta.round || 2);
+const budgetTableScrollX = 1534;
 const exportHeaders = [
     'ลำดับ',
     'แผนงาน',
@@ -106,7 +108,9 @@ function parseBudgetRow(row) {
         expenseDetail: notes.expenseDetail || '',
         reimbursementDate: notes.reimbursementDate || '',
         fiscalYear: row.fiscal_year || notes.fiscalYear || 2569,
-        round: notes.round || 2,
+        round: row.budget_round || notes.round || 2,
+        sourceFile: row.source_file || notes.sourceFile || '',
+        sourceRowId: row.source_row_id || notes.sourceId,
         status: normalizeBudgetStatus(row.status || notes.status || defaultBudgetStatus),
         created_at: row.created_at,
         updated_at: row.updated_at,
@@ -116,22 +120,30 @@ function parseBudgetRow(row) {
 function serializeBudget(values) {
     const budget = Number(values.budget || 0);
     const spentAmount = Math.min(Number(values.spentAmount || 0), budget || Number(values.spentAmount || 0));
+    const fiscalYear = Number(values.fiscalYear || defaultFiscalYear);
+    const round = Number(values.round || defaultBudgetRound);
+    const sourceFile = values.sourceFile || budgetSeed.meta.sourceFile;
+    const sourceRowId = values.sourceRowId || values.sourceId || null;
     const detail = {
         ...values,
         budget,
         spentAmount,
-        fiscalYear: 2569,
-        round: 2,
-        sourceFile: budgetSeed.meta.sourceFile,
+        fiscalYear,
+        round,
+        sourceFile,
+        sourceId: sourceRowId,
     };
 
     return {
         project_name: [values.project, values.activity].filter(Boolean).join(' / ') || 'รายการงบประมาณ',
-        fiscal_year: 2569,
-        budget_source: values.plan || 'งบรอบ 2 ปี 2569',
+        fiscal_year: fiscalYear,
+        budget_round: round,
+        budget_source: values.plan || `งบรอบ ${round} ปี ${fiscalYear}`,
         budget_amount: budget,
         spent_amount: spentAmount,
         status: normalizeBudgetStatus(values.status || defaultBudgetStatus),
+        source_file: sourceFile,
+        source_row_id: sourceRowId,
         notes: JSON.stringify(detail),
     };
 }
@@ -192,6 +204,8 @@ export default function Budgets() {
     const [reimbursementOpen, setReimbursementOpen] = useState(false);
     const [reimbursementRecord, setReimbursementRecord] = useState(null);
     const [editingRecord, setEditingRecord] = useState(null);
+    const [fiscalYearFilter, setFiscalYearFilter] = useState(defaultFiscalYear);
+    const [roundFilter, setRoundFilter] = useState(defaultBudgetRound);
     const [planFilter, setPlanFilter] = useState('all');
     const [districtFilter, setDistrictFilter] = useState('all');
     const [projectFilter, setProjectFilter] = useState('all');
@@ -212,16 +226,25 @@ export default function Budgets() {
         const { data, error } = await supabase
             .from('budgets')
             .select('*')
-            .eq('fiscal_year', 2569)
             .order('created_at', { ascending: false })
             .limit(10000);
 
         if (error) {
             message.error(`โหลดงบจาก Supabase ไม่สำเร็จ: ${error.message}`);
-            setRows(budgetSeed.rows);
+            setRows(budgetSeed.rows.map(row => ({
+                ...row,
+                fiscalYear: row.fiscalYear || defaultFiscalYear,
+                round: row.round || defaultBudgetRound,
+                sourceFile: budgetSeed.meta.sourceFile,
+                sourceRowId: row.sourceId || row.id,
+            })));
             setUsingFallback(true);
         } else {
-            setRows((data || []).map(parseBudgetRow).sort((a, b) => (a.sourceId || 9999) - (b.sourceId || 9999)));
+            setRows((data || []).map(parseBudgetRow).sort((a, b) => (
+                Number(b.fiscalYear || 0) - Number(a.fiscalYear || 0)
+                || Number(b.round || 0) - Number(a.round || 0)
+                || (a.sourceId || a.sourceRowId || 9999) - (b.sourceId || b.sourceRowId || 9999)
+            )));
             setUsingFallback(false);
         }
         setLoading(false);
@@ -231,10 +254,32 @@ export default function Budgets() {
         Promise.resolve().then(loadData);
     }, [loadData]);
 
-    const optionsFromRows = useCallback((label, getter) => {
-        const values = Array.from(new Set(rows.map(getter).filter(Boolean))).sort((a, b) => String(a).localeCompare(String(b), 'th'));
-        return [{ label, value: 'all' }, ...values.map(value => ({ label: value, value }))];
+    const periodRows = useMemo(() => rows.filter(row => {
+        if (fiscalYearFilter !== 'all' && Number(row.fiscalYear) !== Number(fiscalYearFilter)) return false;
+        if (roundFilter !== 'all' && Number(row.round) !== Number(roundFilter)) return false;
+        return true;
+    }), [fiscalYearFilter, roundFilter, rows]);
+
+    const fiscalYearOptions = useMemo(() => {
+        const values = Array.from(new Set(rows.map(row => row.fiscalYear).filter(Boolean))).sort((a, b) => Number(b) - Number(a));
+        return [{ label: 'ทุกปีงบประมาณ', value: 'all' }, ...values.map(value => ({ label: `ปีงบประมาณ ${value}`, value }))];
     }, [rows]);
+
+    const roundOptions = useMemo(() => {
+        const values = Array.from(new Set(rows.map(row => row.round).filter(Boolean))).sort((a, b) => Number(a) - Number(b));
+        return [{ label: 'ทุกรอบ', value: 'all' }, ...values.map(value => ({ label: `รอบ ${value}`, value }))];
+    }, [rows]);
+
+    const periodLabel = useMemo(() => {
+        const yearText = fiscalYearFilter === 'all' ? 'ทุกปีงบประมาณ' : `ปีงบประมาณ ${fiscalYearFilter}`;
+        const roundText = roundFilter === 'all' ? 'ทุกรอบ' : `รอบ ${roundFilter}`;
+        return `${yearText} ${roundText}`;
+    }, [fiscalYearFilter, roundFilter]);
+
+    const optionsFromRows = useCallback((label, getter) => {
+        const values = Array.from(new Set(periodRows.map(getter).filter(Boolean))).sort((a, b) => String(a).localeCompare(String(b), 'th'));
+        return [{ label, value: 'all' }, ...values.map(value => ({ label: value, value }))];
+    }, [periodRows]);
 
     const planOptions = useMemo(() => optionsFromRows('ทุกแผนงาน', row => row.plan), [optionsFromRows]);
     const districtOptions = useMemo(() => optionsFromRows('ทุกพื้นที่', row => row.district), [optionsFromRows]);
@@ -255,7 +300,7 @@ export default function Budgets() {
 
     const filteredRows = useMemo(() => {
         const needle = keyword.trim().toLowerCase();
-        return rows.filter(row => {
+        return periodRows.filter(row => {
             if (planFilter !== 'all' && row.plan !== planFilter) return false;
             if (districtFilter !== 'all' && row.district !== districtFilter) return false;
             if (projectFilter !== 'all' && row.project !== projectFilter) return false;
@@ -271,19 +316,19 @@ export default function Budgets() {
                 row.district, row.subdistrict, row.owner, row.expenseDetail,
             ].some(value => String(value || '').toLowerCase().includes(needle));
         });
-    }, [budgetRangeFilter, districtFilter, keyword, operationPlanFilter, ownerFilter, planFilter, projectFilter, rows, statusFilter]);
+    }, [budgetRangeFilter, districtFilter, keyword, operationPlanFilter, ownerFilter, periodRows, planFilter, projectFilter, statusFilter]);
 
     const filteredBudget = useMemo(() => filteredRows.reduce((sum, row) => sum + Number(row.budget || 0), 0), [filteredRows]);
-    const totalBudget = useMemo(() => rows.reduce((sum, row) => sum + Number(row.budget || 0), 0), [rows]);
-    const totalSpent = useMemo(() => rows.reduce((sum, row) => sum + Number(row.spentAmount || 0), 0), [rows]);
+    const totalBudget = useMemo(() => periodRows.reduce((sum, row) => sum + Number(row.budget || 0), 0), [periodRows]);
+    const totalSpent = useMemo(() => periodRows.reduce((sum, row) => sum + Number(row.spentAmount || 0), 0), [periodRows]);
     const filteredSpent = useMemo(() => filteredRows.reduce((sum, row) => sum + Number(row.spentAmount || 0), 0), [filteredRows]);
     const spendingPercent = useMemo(() => clampPercent(totalBudget ? (totalSpent / totalBudget) * 100 : 0), [totalBudget, totalSpent]);
     const filteredSpendingPercent = useMemo(() => clampPercent(filteredBudget ? (filteredSpent / filteredBudget) * 100 : 0), [filteredBudget, filteredSpent]);
-    const completedRows = useMemo(() => rows.filter(row => row.status === 'เบิกจ่ายเสร็จสิ้น').length, [rows]);
-    const reimbursementRows = useMemo(() => rows.filter(row => ['ส่งเบิกแล้ว', 'เบิกจ่ายเสร็จสิ้น'].includes(row.status)).length, [rows]);
-    const projectSummary = useMemo(() => sumBy(rows, row => row.project, row => ({ project: row.project, plan: row.plan })), [rows]);
-    const districtSummary = useMemo(() => sumBy(rows, row => row.district), [rows]);
-    const ownerSummary = useMemo(() => sumBy(rows, row => ownerKey(row.owner)), [rows]);
+    const completedRows = useMemo(() => periodRows.filter(row => row.status === 'เบิกจ่ายเสร็จสิ้น').length, [periodRows]);
+    const reimbursementRows = useMemo(() => periodRows.filter(row => ['ส่งเบิกแล้ว', 'เบิกจ่ายเสร็จสิ้น'].includes(row.status)).length, [periodRows]);
+    const projectSummary = useMemo(() => sumBy(periodRows, row => row.project, row => ({ project: row.project, plan: row.plan })), [periodRows]);
+    const districtSummary = useMemo(() => sumBy(periodRows, row => row.district), [periodRows]);
+    const ownerSummary = useMemo(() => sumBy(periodRows, row => ownerKey(row.owner)), [periodRows]);
     const statusSummary = useMemo(() => {
         const map = new Map(budgetStatusOptions.map(option => [option.value, {
             name: option.label,
@@ -292,7 +337,7 @@ export default function Budgets() {
             spent: 0,
             activities: 0,
         }]));
-        rows.forEach((row) => {
+        periodRows.forEach((row) => {
             const meta = getBudgetStatusMeta(row.status);
             const current = map.get(meta.value);
             current.budget += Number(row.budget || 0);
@@ -300,7 +345,7 @@ export default function Budgets() {
             current.activities += 1;
         });
         return Array.from(map.values()).filter(item => item.activities > 0);
-    }, [rows]);
+    }, [periodRows]);
     const topProjects = useMemo(() => projectSummary.slice(0, 8), [projectSummary]);
 
     const openAdd = () => {
@@ -310,7 +355,13 @@ export default function Budgets() {
         }
         setEditingRecord(null);
         form.resetFields();
-        form.setFieldsValue({ status: defaultBudgetStatus, spentAmount: 0 });
+        form.setFieldsValue({
+            status: defaultBudgetStatus,
+            spentAmount: 0,
+            fiscalYear: fiscalYearFilter === 'all' ? defaultFiscalYear : fiscalYearFilter,
+            round: roundFilter === 'all' ? defaultBudgetRound : roundFilter,
+            sourceFile: budgetSeed.meta.sourceFile,
+        });
         setModalOpen(true);
     };
 
@@ -424,8 +475,10 @@ export default function Budgets() {
 
     const exportFileBaseName = useCallback((extension) => {
         const dateStamp = new Date().toISOString().slice(0, 10);
-        return `budget_round2_2569_${filteredRows.length}_rows_${dateStamp}.${extension}`;
-    }, [filteredRows.length]);
+        const yearPart = fiscalYearFilter === 'all' ? 'all_years' : `fy${fiscalYearFilter}`;
+        const roundPart = roundFilter === 'all' ? 'all_rounds' : `round${roundFilter}`;
+        return `budget_${yearPart}_${roundPart}_${filteredRows.length}_rows_${dateStamp}.${extension}`;
+    }, [filteredRows.length, fiscalYearFilter, roundFilter]);
 
     const handleExportCsv = useCallback(() => {
         downloadCsv(exportFileBaseName('csv'), rowsToCsv(buildExportRows()));
@@ -475,6 +528,17 @@ export default function Budgets() {
     ];
 
     const detailColumns = [
+        {
+            title: 'ปี/รอบ',
+            key: 'period',
+            width: 118,
+            render: (_, record) => (
+                <div className="budget-stack">
+                    <Tag color="blue">{record.fiscalYear}</Tag>
+                    <Tag color="green">รอบ {record.round}</Tag>
+                </div>
+            ),
+        },
         {
             title: 'โครงการ / กิจกรรม',
             dataIndex: 'project',
@@ -580,13 +644,13 @@ export default function Budgets() {
                     <div className="budget-apple-orb budget-apple-orb-a" />
                     <div className="budget-apple-orb budget-apple-orb-b" />
                     <div className="budget-apple-tags">
-                        <Tag color="green">รอบ 2</Tag>
-                        <Tag color="blue">ปีงบประมาณ 2569</Tag>
+                        <Tag color="green">{roundFilter === 'all' ? 'ทุกรอบ' : `รอบ ${roundFilter}`}</Tag>
+                        <Tag color="blue">{fiscalYearFilter === 'all' ? 'ทุกปีงบประมาณ' : `ปีงบประมาณ ${fiscalYearFilter}`}</Tag>
                         <Tag color={usingFallback ? 'orange' : 'cyan'}>{usingFallback ? 'ข้อมูลสำรองในไฟล์' : 'ข้อมูลจาก Supabase'}</Tag>
                     </div>
                     <Title className="budget-apple-title" level={2}>ข้อมูลงบประมาณส่งเสริมการเกษตร</Title>
                     <Text className="budget-apple-subtitle">
-                        งบรอบ 2 ปี 2569 แสดงหัวตารางจำเป็น: แผนงาน โครงการ กิจกรรม พื้นที่ เป้าหมาย งบประมาณ แผนดำเนินงาน แผนใช้จ่ายเงิน และผู้รับผิดชอบ
+                        {periodLabel} แสดงหัวตารางจำเป็น: แผนงาน โครงการ กิจกรรม พื้นที่ เป้าหมาย งบประมาณ แผนดำเนินงาน แผนใช้จ่ายเงิน และผู้รับผิดชอบ
                     </Text>
                 </div>
 
@@ -627,6 +691,8 @@ export default function Budgets() {
 
                 <Card title="ตัวกรองข้อมูล">
                     <Row gutter={[12, 12]}>
+                        <Col xs={24} md={12} xl={4}><Select value={fiscalYearFilter} options={fiscalYearOptions} style={{ width: '100%' }} onChange={setFiscalYearFilter} /></Col>
+                        <Col xs={24} md={12} xl={3}><Select value={roundFilter} options={roundOptions} style={{ width: '100%' }} onChange={setRoundFilter} /></Col>
                         <Col xs={24} md={12} xl={6}><Select value={planFilter} options={planOptions} style={{ width: '100%' }} onChange={setPlanFilter} /></Col>
                         <Col xs={24} md={12} xl={6}><Select value={projectFilter} options={projectOptions} style={{ width: '100%' }} onChange={setProjectFilter} showSearch optionFilterProp="label" /></Col>
                         <Col xs={24} md={12} xl={4}><Select value={districtFilter} options={districtOptions} style={{ width: '100%' }} onChange={setDistrictFilter} /></Col>
@@ -640,6 +706,7 @@ export default function Budgets() {
                         <Col xs={24} md={12} xl={10}>
                             <Space wrap>
                                 <Tag color="green">พบ {filteredRows.length} รายการ</Tag>
+                                <Tag color="purple">ชุดนี้ {periodRows.length} รายการ</Tag>
                                 <Tag color="blue">งบ {money(filteredBudget)} บาท</Tag>
                                 <Tag color="cyan">เบิกแล้ว {money(filteredSpent)} บาท</Tag>
                                 <Button icon={<ReloadOutlined />} onClick={loadData} loading={loading}>รีเฟรช</Button>
@@ -710,6 +777,9 @@ export default function Budgets() {
             >
                 <Form form={form} layout="vertical" style={{ marginTop: 16 }}>
                     <Row gutter={12}>
+                        <Col span={8}><Form.Item name="fiscalYear" label="ปีงบประมาณ" rules={[{ required: true }]}><InputNumber min={2500} max={2700} style={{ width: '100%' }} /></Form.Item></Col>
+                        <Col span={8}><Form.Item name="round" label="รอบ" rules={[{ required: true }]}><InputNumber min={1} max={12} style={{ width: '100%' }} /></Form.Item></Col>
+                        <Col span={8}><Form.Item name="sourceFile" label="ไฟล์ต้นทาง"><Input /></Form.Item></Col>
                         <Col span={12}><Form.Item name="plan" label="แผนงาน" rules={[{ required: true }]}><Input /></Form.Item></Col>
                         <Col span={12}><Form.Item name="project" label="โครงการ" rules={[{ required: true }]}><Input /></Form.Item></Col>
                         <Col span={12}><Form.Item name="activity" label="กิจกรรม"><Input /></Form.Item></Col>
