@@ -6,13 +6,20 @@ import { fileURLToPath, URL } from 'node:url'
 function publicFarmerInstitutesV2Plugin(env) {
   const supabaseUrl = env.VITE_SUPABASE_URL || 'https://cjjirwqoovypymndhvwt.supabase.co'
   const supabaseKey = env.SUPABASE_SERVICE_ROLE_KEY || env.VITE_SUPABASE_ANON_KEY
-  const supabase = createClient(supabaseUrl, supabaseKey)
+  let supabase = null
 
   return {
     name: 'local-public-farmer-institutes-v2',
     configureServer(server) {
       server.middlewares.use('/api/public-farmer-institutes-v2', async (req, res) => {
         try {
+          if (!supabaseKey) {
+            res.statusCode = 503
+            res.setHeader('Content-Type', 'application/json')
+            res.end(JSON.stringify({ error: 'Supabase key is not configured for this local API route.' }))
+            return
+          }
+          supabase ||= createClient(supabaseUrl, supabaseKey)
           const [
             smartFarmers,
             youngSmartFarmers,
