@@ -157,7 +157,7 @@
 ### 6. ทบทวน Supabase RLS ทั้งระบบ
 
 > [!NOTE]
-> **สถานะการดำเนินการ:** ได้ดำเนินการ RLS Role Hardening เรียบร้อยแล้ว ผ่านสคริปต์ [rls_role_hardening.sql](file:///e:/coding/npt_dashboard/supabase/rls_role_hardening.sql) เพื่อบังคับใช้นโยบายความปลอดภัยแยกสิทธิ์ `admin`, `editor`, `viewer` และ `guest` ในระดับฐานข้อมูลโดยตรง โดยตารางสำคัญเช่น `profiles`, `budgets`, `personnel` และตารางลงทะเบียนเกษตรกรจะไม่อนุญาตให้แก้ไขหากไม่มีสิทธิ์ของ `editor` หรือ `admin`
+> **สถานะการดำเนินการ:** ได้ดำเนินการ RLS Role Hardening เรียบร้อยแล้ว ผ่านสคริปต์ [rls_role_hardening.sql](../../supabase/rls_role_hardening.sql) เพื่อบังคับใช้นโยบายความปลอดภัยแยกสิทธิ์ `admin`, `editor`, `viewer` และ `guest` ในระดับฐานข้อมูลโดยตรง โดยตารางสำคัญเช่น `profiles`, `budgets`, `personnel` และตารางลงทะเบียนเกษตรกรจะไม่อนุญาตให้แก้ไขหากไม่มีสิทธิ์ของ `editor` หรือ `admin`
 
 พบว่าเดิม `supabase/schema.sql` มีหลายตารางที่เปิด policy แบบ authenticated full access:
 
@@ -264,7 +264,7 @@ flow แนะนำ:
 ### 1. Executive Situation Room
 
 > [!NOTE]
-> **สถานะการดำเนินการ:** ได้พัฒนาและเปิดใช้งานหน้า Executive Situation Room เรียบร้อยแล้วที่เส้นทาง `/dashboard/situation-room` (โค้ด: [SituationRoom.jsx](file:///e:/coding/npt_dashboard/src/pages/SituationRoom.jsx) และสไตล์: [SituationRoom.css](file:///e:/coding/npt_dashboard/src/pages/SituationRoom.css)) โดยแสดงข้อมูลความมั่นคงด้านน้ำ ความมั่นคงด้านการเกษตร สรุปภัยพิบัติ จุดความร้อน และระดับความสำคัญเร่งด่วนรายอำเภออย่างครบถ้วน
+> **สถานะการดำเนินการ:** ได้พัฒนาและเปิดใช้งานหน้า Executive Situation Room เรียบร้อยแล้วที่เส้นทาง `/dashboard/situation-room` (โค้ด: [SituationRoom.jsx](../../src/pages/SituationRoom.jsx) และสไตล์: [SituationRoom.css](../../src/pages/SituationRoom.css)) โดยแสดงข้อมูลความมั่นคงด้านน้ำ ความมั่นคงด้านการเกษตร สรุปภัยพิบัติ จุดความร้อน และระดับความสำคัญเร่งด่วนรายอำเภออย่างครบถ้วน
 
 เป้าหมาย:
 
