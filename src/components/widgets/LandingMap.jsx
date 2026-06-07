@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import 'leaflet/dist/leaflet.css';
 
 function FitDistrictBounds({ geoJSONData, L, useMap }) {
   const map = useMap();
