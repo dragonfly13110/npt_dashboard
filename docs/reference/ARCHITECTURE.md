@@ -16,7 +16,7 @@
 - Frontend: `React 19`, `Vite`, `React Router`, `Ant Design`
 - Data fetching/cache: `TanStack React Query`
 - Database/Auth: `Supabase`
-- Visualization: `Recharts`, `Leaflet`, `React-Leaflet`
+- Visualization: `ECharts`, `Leaflet`, `React-Leaflet`
 - AI integration: custom proxy + `Gemini` / `OpenRouter`
 - Testing: `Vitest`, `Playwright`
 - Deployment target: `Netlify`
@@ -66,6 +66,7 @@ flowchart TD
     LAYOUT --> DASH["Dashboard pages"]
     LAYOUT --> SEARCH["Global Search"]
     LAYOUT --> CHAT["AI Chatbot"]
+    LAYOUT --> SITUATION["Situation Room"]
     LAYOUT --> CRUD["CRUD data pages"]
 
     DASH --> STRATEGY["Strategy modules"]
@@ -90,13 +91,14 @@ flowchart TD
 
 - จัดการ route
 - แสดง layout, sidebar, breadcrumb
-- render dashboard, widgets, map, charts, search, chatbot
+- render dashboard, widgets, map, charts, search, chatbot, situation room
 - แสดง public pages และ protected pages
 
 องค์ประกอบสำคัญ:
 
 - `LandingPage.jsx` เป็น public portal หน้าแรก
 - `Dashboard.jsx` เป็น dashboard รวมในระบบ
+- `SituationRoom.jsx` เป็น Executive Situation Room สำหรับผู้บริหาร
 - `InteractiveDashboard.jsx` เป็น public analytic dashboard แบบ interactive
 - `AppLayout.jsx` เป็น shell ของส่วน authenticated
 - `Sidebar.jsx` เป็น navigation หลักตามสิทธิ์ผู้ใช้
@@ -145,11 +147,11 @@ flowchart TD
 ตัวอย่างตารางหลัก:
 
 - `profiles`
-- `personnel`, `assets`, `budgets`
-- `farmer_registry`, `gis_areas`, `disasters`, `kpi_plans`, `agricultural_areas`
-- `large_plots`, `learning_centers`, `certifications`, `crop_production`
-- `community_enterprises`, `smart_farmers`, `farmer_groups`, `farmer_institutes`, `agri_tourism`
-- `forecast_plots`, `pest_centers`, `soil_fertilizer_centers`, `fire_hotspots`
+- `personnel`, `assets`, `budgets`, `audit_logs`
+- `farmer_registry`, `gis_areas`, `disasters`, `agricultural_areas`, `daily_weather`
+- `large_plots`, `learning_centers`, `certifications`, `crop_production`, `coconut_aromatic_surveys`
+- `community_enterprises`, `smart_farmer_sf`, `young_smart_farmer_ysf`, `agricultural_career_groups`, `housewife_farmer_groups`, `young_farmer_groups_detailed`, `farmer_institutes`, `agri_tourism`
+- `forecast_plots`, `pest_centers`, `soil_fertilizer_centers`, `fire_hotspots`, `ai_disease_forecasts`, `plant_doctors`
 
 ## 5. Routing Architecture
 
@@ -165,6 +167,7 @@ flowchart TD
     PROTECTED --> LAYOUT["AppLayout"]
 
     LAYOUT --> OVERVIEW["/dashboard"]
+    LAYOUT --> SITUATION["/dashboard/situation-room"]
     LAYOUT --> CHAT["/dashboard/chatbot"]
     LAYOUT --> SEARCH["/dashboard/search"]
     LAYOUT --> COMMUNITY["/dashboard/community/forum"]
@@ -183,6 +186,7 @@ flowchart TD
 - หน้า `/dashboard/*` ใช้ `ProtectedRoute`
 - บางหน้าใน admin ใช้ `AdminRoute` ซ้อนเพิ่ม
 - เมนู sidebar ถูกกรองตาม `role` และ `department`
+- เส้นทาง `/dashboard/strategy/disasters` จะทำการ Redirect ไปยังกลุ่มพัฒนาเกษตรกรที่ `/dashboard/development/disasters` เพื่อแสดงหน้า `Disasters.jsx`
 
 ## 6. Functional Modules
 
@@ -193,7 +197,8 @@ flowchart TD
 - `LandingPage`
 - public views เช่น `/public/large-plots`
 - `InteractiveDashboard`
-- public widgets เช่น weather, AQI, prices, news, hotspots, map
+- public widgets เช่น weather, AQI, prices, news, hotspots, map, KKU chatbot
+- `SmartMap` สำหรับสืบค้นและแสดงพิกัดแผนที่
 
 บทบาท:
 
@@ -208,28 +213,31 @@ flowchart TD
   - บุคลากร
   - ทรัพย์สิน
   - งบประมาณ
-  - ผู้ใช้ / audit / recent activities
+  - ผู้ใช้ / audit log / recent activities
 - Strategy
   - ทะเบียนเกษตรกร
   - GIS
   - พื้นที่เกษตร
   - ศูนย์เรียนรู้
-  - KPI / แผน
-  - ภัยพิบัติ
+  - สภาพอากาศและน้ำฝนรายวัน
 - Production
   - แปลงใหญ่
   - GAP / certifications
   - ผลผลิตพืช
+  - สำรวจมะพร้าวน้ำหอม
 - Development
   - วิสาหกิจชุมชน
-  - Smart Farmer
-  - กลุ่มเกษตรกร
+  - Smart Farmer (SF) / Young Smart Farmer (YSF)
+  - กลุ่มแม่บ้านเกษตรกร / กลุ่มยุวเกษตรกร / กลุ่มส่งเสริมอาชีพ
   - สถาบันเกษตรกร
   - ท่องเที่ยวเกษตร
+  - ภัยพิบัติ
 - Protection
   - แปลงพยากรณ์
+  - พยากรณ์โรคและแมลงด้วย AI
   - ศจช.
   - ศดปช.
+  - แพทย์พืช (ทำเนียบหมอพืช)
   - จุดเฝ้าระวัง / fire hotspots
 
 ### 6.3 Search Module
@@ -478,4 +486,3 @@ flowchart TD
     SERVICES --> AI["AI Proxy"]
     SERVICES --> EXT["External APIs / Feeds"]
 ```
-

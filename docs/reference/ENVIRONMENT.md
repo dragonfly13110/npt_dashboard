@@ -6,6 +6,9 @@ This project must not rely on hardcoded service keys. Configure these values in 
 
 - `VITE_SUPABASE_URL`: Supabase project URL.
 - `VITE_SUPABASE_ANON_KEY`: Supabase anon key for browser access.
+- `VITE_LANDING_CHATBOT_API_URL`: Endpoint path/URL for the KKU Landing Chatbot API (defaults to `/api/kku/okmd/api/v1`).
+- `VITE_LANDING_CHATBOT_API_KEY`: API Key for the KKU Landing Chatbot service.
+- `VITE_LANDING_CHATBOT_MODEL`: The AI model to use for the landing chatbot (e.g., `deepseek-v4-flash`).
 
 ## Netlify Function Variables
 

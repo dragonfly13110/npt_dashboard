@@ -24,25 +24,25 @@
 
 ระบบ `npt_dashboard` มีทั้งข้อมูลสาธารณะ ข้อมูลภายใน ข้อมูลผู้ใช้ และการเรียก AI/API ภายนอก จึงต้องระวังหลายจุดพร้อมกัน
 
-| จุดเสี่ยง | ตัวอย่าง | วิธีควบคุม |
-|---|---|---|
-| ข้อมูลส่วนบุคคล | ชื่อเกษตรกร เบอร์โทร ที่อยู่ละเอียด เลขบัตรประชาชน | แยก field, จำกัดสิทธิ์, ไม่แสดง public |
-| สิทธิ์ฐานข้อมูลกว้างเกิน | authenticated ทุกคนอ่าน/เขียนได้ทุกตาราง | ปรับ RLS ตาม role/department |
-| API key หลุด | service role key, AI API key, GISTDA key | เก็บใน env, ไม่ commit, ใช้ serverless proxy |
-| หน้า public แสดงข้อมูลเกินจำเป็น | รายชื่อบุคคลหรือข้อมูลติดต่อ | ทำ public view หรือเลือกเฉพาะ field ที่เผยแพร่ได้ |
-| AI ได้ข้อมูลมากเกิน | ส่งข้อมูลส่วนบุคคลเข้า AI | สรุป/aggregate ก่อนส่ง, ตัด field sensitive |
-| deploy แล้ว refresh 404 | React Router เป็น SPA | ตั้ง redirect `/* -> /index.html` |
-| CORS เปิดกว้าง | Netlify Function อนุญาตทุก origin | จำกัด origin ใน production ถ้าต้องการเข้มงวด |
-| build ผ่านแต่ระบบใช้ไม่ได้ | env บน Netlify ไม่ครบ | ตรวจ environment variables ก่อน deploy |
+| จุดเสี่ยง                        | ตัวอย่าง                                           | วิธีควบคุม                                        |
+| -------------------------------- | -------------------------------------------------- | ------------------------------------------------- |
+| ข้อมูลส่วนบุคคล                  | ชื่อเกษตรกร เบอร์โทร ที่อยู่ละเอียด เลขบัตรประชาชน | แยก field, จำกัดสิทธิ์, ไม่แสดง public            |
+| สิทธิ์ฐานข้อมูลกว้างเกิน         | authenticated ทุกคนอ่าน/เขียนได้ทุกตาราง           | ปรับ RLS ตาม role/department                      |
+| API key หลุด                     | service role key, AI API key, GISTDA key           | เก็บใน env, ไม่ commit, ใช้ serverless proxy      |
+| หน้า public แสดงข้อมูลเกินจำเป็น | รายชื่อบุคคลหรือข้อมูลติดต่อ                       | ทำ public view หรือเลือกเฉพาะ field ที่เผยแพร่ได้ |
+| AI ได้ข้อมูลมากเกิน              | ส่งข้อมูลส่วนบุคคลเข้า AI                          | สรุป/aggregate ก่อนส่ง, ตัด field sensitive       |
+| deploy แล้ว refresh 404          | React Router เป็น SPA                              | ตั้ง redirect `/* -> /index.html`                 |
+| CORS เปิดกว้าง                   | Netlify Function อนุญาตทุก origin                  | จำกัด origin ใน production ถ้าต้องการเข้มงวด      |
+| build ผ่านแต่ระบบใช้ไม่ได้       | env บน Netlify ไม่ครบ                              | ตรวจ environment variables ก่อน deploy            |
 
 ## 3. หลักการแบ่งระดับข้อมูลก่อนเปิดระบบ
 
 ก่อน deploy ต้องแยกข้อมูลอย่างน้อย 3 ระดับ
 
-| ระดับ | ความหมาย | ตัวอย่าง | แนวทางแสดงผล |
-|---|---|---|---|
-| `public` | เปิดเผยต่อประชาชนได้ | จำนวนแปลงใหญ่ รายชื่อแหล่งท่องเที่ยวเกษตร ข้อมูลสรุปรายอำเภอ | แสดงในหน้า public ได้ |
-| `internal` | ใช้เฉพาะเจ้าหน้าที่ | รายงานภายใน รายละเอียดการติดตามงาน ข้อมูลงบประมาณระดับปฏิบัติ | ต้อง login |
+| ระดับ        | ความหมาย                | ตัวอย่าง                                                         | แนวทางแสดงผล                    |
+| ------------ | ----------------------- | ---------------------------------------------------------------- | ------------------------------- |
+| `public`     | เปิดเผยต่อประชาชนได้    | จำนวนแปลงใหญ่ รายชื่อแหล่งท่องเที่ยวเกษตร ข้อมูลสรุปรายอำเภอ     | แสดงในหน้า public ได้           |
+| `internal`   | ใช้เฉพาะเจ้าหน้าที่     | รายงานภายใน รายละเอียดการติดตามงาน ข้อมูลงบประมาณระดับปฏิบัติ    | ต้อง login                      |
 | `restricted` | จำกัดเฉพาะผู้เกี่ยวข้อง | ข้อมูลส่วนบุคคล เบอร์โทร ที่อยู่ละเอียด รายชื่อพร้อมข้อมูลติดต่อ | เฉพาะ role/department ที่จำเป็น |
 
 แนวคิดสำคัญ
@@ -57,18 +57,18 @@
 
 ตรวจทุกตารางที่มีข้อมูลจริง โดยเฉพาะตารางเหล่านี้
 
-| ตาราง | ข้อมูลที่ต้องระวัง |
-|---|---|
-| `personnel` | เบอร์โทร อีเมล ตำแหน่ง ข้อมูลบุคลากร |
-| `smart_farmers` | ชื่อเกษตรกร เบอร์โทร สินค้า ที่อยู่หรือข้อมูลติดต่อ |
-| `community_enterprises` | ชื่อประธาน เบอร์โทร สมาชิก กลุ่ม |
-| `farmer_groups` | ชื่อประธาน รายชื่อสมาชิก ข้อมูลกลุ่ม |
-| `large_plots` | เบอร์โทร ประธาน/ผู้ประสานงาน ถ้ามี |
-| `agri_tourism` | ผู้ประสานงาน เบอร์โทร รายละเอียดสถานที่ |
-| `pest_centers` | ชื่อประธาน เบอร์ติดต่อ |
-| `soil_fertilizer_centers` | ชื่อประธาน เบอร์ติดต่อ |
-| `budgets` | ผู้รับผิดชอบ งบประมาณ รายละเอียดภายใน |
-| `data_request_responses` | คำตอบจากอำเภอที่อาจมีข้อมูลแนบหรือ JSON ภายใน |
+| ตาราง                     | ข้อมูลที่ต้องระวัง                                  |
+| ------------------------- | --------------------------------------------------- |
+| `personnel`               | เบอร์โทร อีเมล ตำแหน่ง ข้อมูลบุคลากร                |
+| `smart_farmers`           | ชื่อเกษตรกร เบอร์โทร สินค้า ที่อยู่หรือข้อมูลติดต่อ |
+| `community_enterprises`   | ชื่อประธาน เบอร์โทร สมาชิก กลุ่ม                    |
+| `farmer_groups`           | ชื่อประธาน รายชื่อสมาชิก ข้อมูลกลุ่ม                |
+| `large_plots`             | เบอร์โทร ประธาน/ผู้ประสานงาน ถ้ามี                  |
+| `agri_tourism`            | ผู้ประสานงาน เบอร์โทร รายละเอียดสถานที่             |
+| `pest_centers`            | ชื่อประธาน เบอร์ติดต่อ                              |
+| `soil_fertilizer_centers` | ชื่อประธาน เบอร์ติดต่อ                              |
+| `budgets`                 | ผู้รับผิดชอบ งบประมาณ รายละเอียดภายใน               |
+| `data_request_responses`  | คำตอบจากอำเภอที่อาจมีข้อมูลแนบหรือ JSON ภายใน       |
 
 Checklist
 
@@ -130,15 +130,15 @@ git status
 
 ## 6. ประเภท key ที่ต้องระวัง
 
-| Key | ใช้ที่ไหน | ใส่ frontend ได้ไหม | หมายเหตุ |
-|---|---|---:|---|
-| `VITE_SUPABASE_URL` | frontend | ได้ | เป็น URL ของ Supabase project |
-| `VITE_SUPABASE_ANON_KEY` | frontend | ได้ | ใช้คู่กับ RLS ต้องตั้ง policy ให้ดี |
-| `SUPABASE_SERVICE_ROLE_KEY` | server เท่านั้น | ไม่ได้ | ห้ามใส่ใน frontend เด็ดขาด |
-| `GEMINI_API_KEY` | Netlify Function | ไม่ควร | เก็บใน Netlify env |
-| `OPENROUTER_API_KEY` | Netlify Function | ไม่ควร | เก็บใน Netlify env |
-| `NVIDIA_API_KEY` | Netlify Function | ไม่ควร | เก็บใน Netlify env |
-| `VITE_GISTDA_API_KEY` | frontend/proxy | ต้องประเมิน | ถ้าเป็น key จำกัดสิทธิ์ ควรหลีกเลี่ยงการใส่ frontend |
+| Key                         | ใช้ที่ไหน        | ใส่ frontend ได้ไหม | หมายเหตุ                                             |
+| --------------------------- | ---------------- | ------------------: | ---------------------------------------------------- |
+| `VITE_SUPABASE_URL`         | frontend         |                 ได้ | เป็น URL ของ Supabase project                        |
+| `VITE_SUPABASE_ANON_KEY`    | frontend         |                 ได้ | ใช้คู่กับ RLS ต้องตั้ง policy ให้ดี                  |
+| `SUPABASE_SERVICE_ROLE_KEY` | server เท่านั้น  |              ไม่ได้ | ห้ามใส่ใน frontend เด็ดขาด                           |
+| `GEMINI_API_KEY`            | Netlify Function |              ไม่ควร | เก็บใน Netlify env                                   |
+| `OPENROUTER_API_KEY`        | Netlify Function |              ไม่ควร | เก็บใน Netlify env                                   |
+| `NVIDIA_API_KEY`            | Netlify Function |              ไม่ควร | เก็บใน Netlify env                                   |
+| `VITE_GISTDA_API_KEY`       | frontend/proxy   |         ต้องประเมิน | ถ้าเป็น key จำกัดสิทธิ์ ควรหลีกเลี่ยงการใส่ frontend |
 
 หลักจำง่าย
 
@@ -191,11 +191,11 @@ ORDER BY created_at DESC;
 
 ค่าที่ควรใช้
 
-| role | ความหมาย |
-|---|---|
-| `viewer` | ดูข้อมูลได้ตามสิทธิ์ |
+| role     | ความหมาย                                 |
+| -------- | ---------------------------------------- |
+| `viewer` | ดูข้อมูลได้ตามสิทธิ์                     |
 | `editor` | เพิ่ม/แก้ไขข้อมูลได้ตามกลุ่มงานหรืออำเภอ |
-| `admin` | จัดการระบบ ผู้ใช้ และข้อมูลทุกส่วน |
+| `admin`  | จัดการระบบ ผู้ใช้ และข้อมูลทุกส่วน       |
 
 ข้อควรระวัง
 
@@ -218,13 +218,38 @@ FOR ALL TO authenticated USING (true) WITH CHECK (true)
 
 ก่อนเปิดใช้งานจริง ควรตัดสินใจว่าแต่ละตารางใช้ policy แบบใด
 
-| รูปแบบ policy | เหมาะกับ | ตัวอย่าง |
-|---|---|---|
-| authenticated read only | ผู้ใช้ภายในดูได้ทุกคน แต่แก้ไม่ได้ | dashboard summary |
-| editor by department | editor แก้ได้เฉพาะกลุ่มงานตัวเอง | ตารางกลุ่มงาน |
-| district-based | อำเภอแก้ได้เฉพาะข้อมูลอำเภอตัวเอง | Data Request |
-| admin only | เฉพาะ admin | user management, audit log |
-| public read | เปิดให้ anonymous อ่านบาง field | หน้า public |
+| รูปแบบ policy           | เหมาะกับ                           | ตัวอย่าง                   |
+| ----------------------- | ---------------------------------- | -------------------------- |
+| authenticated read only | ผู้ใช้ภายในดูได้ทุกคน แต่แก้ไม่ได้ | dashboard summary          |
+| editor by department    | editor แก้ได้เฉพาะกลุ่มงานตัวเอง   | ตารางกลุ่มงาน              |
+| district-based          | อำเภอแก้ได้เฉพาะข้อมูลอำเภอตัวเอง  | Data Request               |
+| admin only              | เฉพาะ admin                        | user management, audit log |
+| public read             | เปิดให้ anonymous อ่านบาง field    | หน้า public                |
+
+### 7.4 การบังคับใช้นโยบายความปลอดภัยระดับบทบาท (RLS Role Hardening)
+
+ระบบได้มีการทำ hardening สำหรับ RLS ผ่านไฟล์ `supabase/rls_role_hardening.sql` เพื่อจำกัดสิทธิ์ผู้ใช้ให้ปลอดภัยยิ่งขึ้น แทนที่จะอนุญาตให้ผู้ใช้ที่ล็อกอินทั้งหมดแก้ไขข้อมูลได้เหมือนนโยบายเริ่มต้น:
+
+1. **ฟังก์ชันตรวจสอบสิทธิ์หลักในฐานข้อมูล:**
+   - `public.current_profile_role()`: คืนค่าบทบาทของผู้ใช้ปัจจุบัน (`guest`, `viewer`, `editor`, `admin`)
+   - `public.is_admin()`: ตรวจสอบว่าเป็นผู้ใช้ระดับ `admin`
+   - `public.is_editor()`: ตรวจสอบว่าเป็นผู้ใช้ระดับ `editor` หรือ `admin`
+   - `public.is_viewer()`: ตรวจสอบว่าเป็นผู้ใช้ระดับ `viewer`, `editor` หรือ `admin`
+
+2. **การลบนโยบายแบบเปิดกว้าง (Broad Policies):**
+   - มีการยกเลิกนโยบายจำพวก "Allow authenticated full access" หรือ "Allow authenticated all" บนทุกตารางของระบบ
+
+3. **นโยบายสิทธิ์ตามตาราง:**
+   - **ตารางข้อมูลทั่วไปภายในระบบ** (เช่น `personnel`, `budgets`, `assets`, `farmer_registry`, `large_plots`, `agri_tourism`):
+     - `SELECT`: อนุญาตเฉพาะผู้ใช้ระดับ `viewer` ขึ้นไป (`public.is_viewer()`)
+     - `INSERT / UPDATE`: อนุญาตเฉพาะผู้ใช้ระดับ `editor` ขึ้นไป (`public.is_editor`)
+     - `DELETE`: อนุญาตเฉพาะผู้ใช้ระดับ `admin` เท่านั้น (`public.is_admin()`)
+   - **ตารางที่เปิดบริการสาธารณะแบบไม่ต้องลงชื่อเข้าใช้** (เช่น `smart_farmer_sf`, `young_smart_farmer_ysf`, `agricultural_career_groups`, `housewife_farmer_groups`, `forecast_plots`):
+     - `SELECT`: อนุญาตให้ทั้ง `anon` (ผู้ใช้ทั่วไป) และ `authenticated` เข้าถึงได้โดยตรง
+     - `INSERT / UPDATE`: จำกัดเฉพาะ `editor` ขึ้นไป
+     - `DELETE`: จำกัดเฉพาะ `admin` เท่านั้น
+   - **ตารางข้อมูล Profiles ของผู้ใช้:**
+     - `SELECT / UPDATE`: อนุญาตเฉพาะตนเองเจ้าของแถวข้อมูล หรือผู้ใช้ระดับ `admin` เท่านั้น
 
 ## 8. ตัวอย่าง RLS ที่ควรใช้เป็นแนวทาง
 
@@ -448,7 +473,7 @@ Gemini / OpenRouter / NVIDIA
 ```js
 const allowedOrigins = [
   'https://npt-dashboard.netlify.app',
-  'https://your-custom-domain.go.th'
+  'https://your-custom-domain.go.th',
 ];
 ```
 
@@ -464,6 +489,33 @@ const allowedOrigins = [
 - log เฉพาะ metadata ไม่ log prompt เต็มถ้ามีข้อมูล sensitive
 - แยก key ตาม environment เช่น staging/production
 
+### 12.3 รายชื่อ Netlify Functions ทั้งหมดในระบบ (19 ฟังก์ชัน)
+
+ระบบปัจจุบันมีการใช้งาน Netlify Serverless Functions ทั้งหมด 19 ฟังก์ชัน เพื่อทำหน้าที่เป็น Proxy หลบเลี่ยง CORS และเรียกใช้งาน API ภายนอกหรือเก็บความลับข้อมูล รวมถึงรันระบบจัดการข้อมูลต่าง ๆ โดยมีรายชื่อดังนี้:
+
+1. **ฟังก์ชันเกี่ยวกับ AI และข้อมูลเกษตร:**
+   - `ai-proxy.js`: จุดเชื่อมต่อหลักสำหรับ AI Chatbot (Gemini, NVIDIA, OpenRouter)
+   - `kku-proxy.js`: จุดเชื่อมต่อ API แชทบอทน้องข้าวหอม ร่วมกับ มหาวิทยาลัยขอนแก่น
+   - `forecast-disease-insect.js`: ประมวลผลและแสดงผลทำนายการระบาดของโรคและแมลงศัตรูพืช
+   - `forecast-disease-insect-daily.js`: รันทำนายสภาพอากาศและโรคแมลงประจำวัน
+2. **ฟังก์ชัน Proxy ดึงข้อมูลภายนอก (External Data Proxies):**
+   - `agritec-proxy.js`: เชื่อมต่อดึงข้อมูลเทคโนโลยีการเกษตร
+   - `doae-npt-proxy.js`: เชื่อมต่อเว็บเกษตรจังหวัดนครปฐม
+   - `doae-esc-proxy.js`: ดึงข้อมูลจากศูนย์ส่งเสริมเทคโนโลยีการเกษตร DOAE ESC
+   - `doae-hq-proxy.js`: ดึงข่าวสารและสถิติจาก DOAE ส่วนกลาง
+   - `ictc-proxy.js`: ดึงข้อมูลไอทีศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร
+   - `gistda-proxy.js`: ดึงข้อมูลแผนที่และภาพถ่ายดาวเทียมจาก GISTDA (ใช้ API key ในเครื่องฝั่ง backend)
+   - `moc-price-proxy.js`: ดึงราคาสินค้าเกษตรรายวันจากกระทรวงพาณิชย์
+   - `bangchak-oil-price-proxy.js`: ดึงราคาน้ำมันขายปลีกรายวันจากบางจาก
+   - `rss-proxy.js`: ดึงฟีดข่าวสารเกษตรจากแหล่งภายนอกในรูปแบบ RSS
+   - `wp-proxy.js`: เชื่อมต่อดึงบทความหรือเนื้อหาจากระบบ WordPress
+3. **ฟังก์ชันสาธารณะและประสานงาน (Public APIs & Synchronization Tasks):**
+   - `public-certifications.js`: ดึงข้อมูลใบรับรองมาตรฐานเกษตรสาธารณะ
+   - `public-farmer-institutes-v2.js`: ดึงข้อมูลสถาบันเกษตรกรสาธารณะ
+   - `sync-farmer-registry.js`: ซิงค์ข้อมูลทะเบียนเกษตรกรกับหน่วยงานส่วนกลาง
+   - `sync-hotspots.js`: ซิงค์พิกัดจุดความร้อนรายวัน (Hotspots) เพื่อแจ้งเตือนการเผาป่าและพื้นที่เกษตร
+   - `sync-weather.js`: ซิงค์ข้อมูลสภาพอากาศประจำวัน
+
 ## 13. ตรวจ `netlify.toml`
 
 ไฟล์ deploy หลักคือ
@@ -477,15 +529,15 @@ netlify.toml
 ```toml
 [build]
   publish = "dist"
-  command = "npm run build:netlify"
+  command = "pnpm run build:netlify"
 ```
 
 ความหมาย
 
-| ค่า | ความหมาย |
-|---|---|
-| `publish = "dist"` | โฟลเดอร์ที่ Netlify เอาไปเผยแพร่หลัง build |
-| `command = "npm run build:netlify"` | คำสั่ง build ที่ Netlify ใช้ |
+| ค่า                                 | ความหมาย                                   |
+| ----------------------------------- | ------------------------------------------ |
+| `publish = "dist"`                  | โฟลเดอร์ที่ Netlify เอาไปเผยแพร่หลัง build |
+| `command = "npm run build:netlify"` | คำสั่ง build ที่ Netlify ใช้               |
 
 ใน `package.json` มี script
 
@@ -511,12 +563,12 @@ netlify.toml
 
 ความหมาย
 
-| Header | หน้าที่ |
-|---|---|
-| `X-Frame-Options: DENY` | ป้องกันเว็บถูกฝังใน iframe เพื่อลด clickjacking |
-| `X-XSS-Protection` | header เก่าสำหรับ browser บางตัว |
-| `X-Content-Type-Options: nosniff` | กัน browser เดา content type ผิด |
-| `Referrer-Policy` | จำกัดข้อมูล referrer ที่ส่งออกไปยังเว็บอื่น |
+| Header                            | หน้าที่                                         |
+| --------------------------------- | ----------------------------------------------- |
+| `X-Frame-Options: DENY`           | ป้องกันเว็บถูกฝังใน iframe เพื่อลด clickjacking |
+| `X-XSS-Protection`                | header เก่าสำหรับ browser บางตัว                |
+| `X-Content-Type-Options: nosniff` | กัน browser เดา content type ผิด                |
+| `Referrer-Policy`                 | จำกัดข้อมูล referrer ที่ส่งออกไปยังเว็บอื่น     |
 
 ข้อเสนอเพิ่มเติมสำหรับ production
 
@@ -616,7 +668,7 @@ VITE_GISTDA_API_KEY
 ถ้า Netlify อ่าน `netlify.toml` ได้ถูกต้อง จะใช้ค่า
 
 ```text
-Build command: npm run build:netlify
+Build command: pnpm run build:netlify
 Publish directory: dist
 ```
 
@@ -632,11 +684,11 @@ Publish directory: dist
 ก่อน push หรือ deploy ควรรันในเครื่อง
 
 ```bash
-npm install
-npm run lint
-npm run test
-npm run build
-npm run preview
+pnpm install
+pnpm lint
+pnpm test
+pnpm build
+pnpm preview
 ```
 
 ถ้าไม่มี test หรือ test ยังไม่ครบ อย่างน้อยควรรัน
@@ -810,11 +862,11 @@ http://localhost:5174
 
 แนวทางแนะนำ
 
-| Branch | ใช้ทำอะไร |
-|---|---|
-| `main` | production deploy |
-| feature branch | preview deploy หรือ pull request preview |
-| docs branch | แก้เอกสาร ไม่กระทบ production ถ้าไม่ได้ merge |
+| Branch         | ใช้ทำอะไร                                     |
+| -------------- | --------------------------------------------- |
+| `main`         | production deploy                             |
+| feature branch | preview deploy หรือ pull request preview      |
+| docs branch    | แก้เอกสาร ไม่กระทบ production ถ้าไม่ได้ merge |
 
 ก่อน merge เข้า `main` ควรตรวจ
 
@@ -881,11 +933,11 @@ data_request_responses
 
 ถ้าระบบเริ่มมีผู้ใช้จริง ควรแยก environment
 
-| Environment | ใช้ทำอะไร | ข้อมูล |
-|---|---|---|
-| Local | พัฒนาบนเครื่อง | ข้อมูลทดสอบ |
-| Staging | ทดสอบก่อนเผยแพร่ | ข้อมูลจำลองหรือข้อมูลจริงบางส่วนที่ mask แล้ว |
-| Production | ใช้งานจริง | ข้อมูลจริง |
+| Environment | ใช้ทำอะไร        | ข้อมูล                                        |
+| ----------- | ---------------- | --------------------------------------------- |
+| Local       | พัฒนาบนเครื่อง   | ข้อมูลทดสอบ                                   |
+| Staging     | ทดสอบก่อนเผยแพร่ | ข้อมูลจำลองหรือข้อมูลจริงบางส่วนที่ mask แล้ว |
+| Production  | ใช้งานจริง       | ข้อมูลจริง                                    |
 
 สิ่งที่ควรแยก
 
@@ -902,8 +954,8 @@ data_request_responses
 ก่อน deploy ใหญ่ ควรตรวจ dependency
 
 ```bash
-npm audit
-npm outdated
+pnpm audit
+pnpm outdated
 ```
 
 แนวทาง
@@ -913,7 +965,7 @@ npm outdated
 - ถ้า update React, Vite, Ant Design หรือ Supabase client ให้ทดสอบ route หลักทั้งหมด
 - ถ้ามี `package-lock.json` แล้ว ควร commit lock file เพื่อให้ build reproducible
 
-หมายเหตุ: ถ้า repo ยังไม่มี lock file ทีมควรตกลงว่าจะใช้ npm lock file หรือไม่ เพื่อให้ Netlify build ได้เหมือนเครื่องพัฒนา
+หมายเหตุ: ถ้า repo ยังไม่มี lock file ทีมควรตกลงว่าจะใช้ pnpm lock file หรือไม่ เพื่อให้ Netlify build ได้เหมือนเครื่องพัฒนา
 
 ## 28. Performance Checklist ก่อน deploy
 
@@ -945,13 +997,13 @@ src/hooks/dashboard/selectors.js
 อาการ
 
 ```text
-npm ERR!
+pnpm ERR!
 ```
 
 แนวทางแก้
 
 - ตรวจ Node version บน Netlify
-- รัน `npm install` และ `npm run build` ในเครื่องก่อน
+- รัน `pnpm install` และ `pnpm build` ในเครื่องก่อน
 - ตรวจว่า package ใน `package.json` ครบ
 - ถ้ามี lock file ให้ commit ขึ้น repo
 
@@ -1014,11 +1066,11 @@ NVIDIA_API_KEY
 
 ### 30.1 Code และ build
 
-- [ ] `npm install` ผ่าน
-- [ ] `npm run lint` ผ่านหรือทราบรายการที่ต้องแก้
-- [ ] `npm run test` ผ่านถ้ามี test ที่เกี่ยวข้อง
-- [ ] `npm run build` ผ่าน
-- [ ] `npm run preview` ตรวจ route หลักแล้ว
+- [ ] `pnpm install` ผ่าน
+- [ ] `pnpm lint` ผ่านหรือทราบรายการที่ต้องแก้
+- [ ] `pnpm test` ผ่านถ้ามี test ที่เกี่ยวข้อง
+- [ ] `pnpm build` ผ่าน
+- [ ] `pnpm preview` ตรวจ route หลักแล้ว
 - [ ] ไม่มี console error สำคัญ
 
 ### 30.2 Secrets และ env
@@ -1077,18 +1129,18 @@ NVIDIA_API_KEY
 
 หลังระบบเริ่มใช้งานจริง ควรวางแผนเพิ่มความปลอดภัยระยะถัดไป
 
-| เรื่อง | แนวทาง |
-|---|---|
+| เรื่อง          | แนวทาง                                  |
+| --------------- | --------------------------------------- |
 | RLS รายกลุ่มงาน | editor แก้ได้เฉพาะตารางของกลุ่มงานตนเอง |
-| RLS รายอำเภอ | อำเภอแก้ได้เฉพาะข้อมูลอำเภอตนเอง |
-| Public view | แยกข้อมูล public ออกจากตารางจริง |
-| Field masking | ซ่อนเบอร์โทรบางส่วน เช่น `08x-xxx-1234` |
-| Rate limit AI | จำกัดจำนวนคำถามต่อผู้ใช้หรือช่วงเวลา |
-| Function CORS | จำกัด origin เฉพาะ domain จริง |
-| Audit retention | กำหนดระยะเวลาเก็บ audit log |
-| Backup schedule | ตั้งรอบ export/backup ข้อมูลสำคัญ |
-| Staging project | แยก staging จาก production |
-| Monitoring | ตรวจ error, usage และค่าใช้จ่ายเป็นรอบ |
+| RLS รายอำเภอ    | อำเภอแก้ได้เฉพาะข้อมูลอำเภอตนเอง        |
+| Public view     | แยกข้อมูล public ออกจากตารางจริง        |
+| Field masking   | ซ่อนเบอร์โทรบางส่วน เช่น `08x-xxx-1234` |
+| Rate limit AI   | จำกัดจำนวนคำถามต่อผู้ใช้หรือช่วงเวลา    |
+| Function CORS   | จำกัด origin เฉพาะ domain จริง          |
+| Audit retention | กำหนดระยะเวลาเก็บ audit log             |
+| Backup schedule | ตั้งรอบ export/backup ข้อมูลสำคัญ       |
+| Staging project | แยก staging จาก production              |
+| Monitoring      | ตรวจ error, usage และค่าใช้จ่ายเป็นรอบ  |
 
 ## 33. ผลลัพธ์ที่ควรได้จากบทนี้
 

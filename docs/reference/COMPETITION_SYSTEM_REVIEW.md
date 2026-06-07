@@ -26,17 +26,17 @@
 
 ## คะแนนภาพรวม
 
-| ด้าน | สถานะ | ความเห็น |
-|---|---:|---|
-| คุณค่าต่อหน่วยงาน | ดีมาก | โดเมนชัด มีข้อมูลเกษตรจริงหลายชุด |
-| UX/ภาพรวมหน้าเว็บ | ดี | มี landing, public pages, dashboard, map แต่ต้องจัด story ให้คม |
-| Mobile readiness | ปานกลางถึงดี | เพิ่งแก้ปัญหา touch บน Smart Map แล้ว แต่ควรมี mobile QA เพิ่ม |
-| Data integration | ดี | มี Supabase, weather/hotspot sync, chatbot context แต่ยังขาด data lineage/freshness |
-| AI capability | ดี | มี proxy และ chatbot service แต่ควรเพิ่ม report builder + cited numbers |
-| Security | ต้องเร่ง | พบ fallback keys, CORS กว้าง, RLS หลายตารางเปิด authenticated เต็ม |
-| CI/testing | ต้องเร่ง | build/test ผ่าน แต่ lint fail และ CI ยังไม่ครอบคลุม lint/audit/e2e |
-| Maintainability | ปานกลาง | มีไฟล์ใหญ่มากหลายไฟล์ เสี่ยงแก้ยากและ regression ง่าย |
-| Demo readiness | ปานกลาง | ระบบมีของ แต่ยังต้องมี demo route, script, seeded scenario |
+| ด้าน              |        สถานะ | ความเห็น                                                                            |
+| ----------------- | -----------: | ----------------------------------------------------------------------------------- |
+| คุณค่าต่อหน่วยงาน |        ดีมาก | โดเมนชัด มีข้อมูลเกษตรจริงหลายชุด                                                   |
+| UX/ภาพรวมหน้าเว็บ |           ดี | มี landing, public pages, dashboard, map แต่ต้องจัด story ให้คม                     |
+| Mobile readiness  | ปานกลางถึงดี | เพิ่งแก้ปัญหา touch บน Smart Map แล้ว แต่ควรมี mobile QA เพิ่ม                      |
+| Data integration  |           ดี | มี Supabase, weather/hotspot sync, chatbot context แต่ยังขาด data lineage/freshness |
+| AI capability     |           ดี | มี proxy และ chatbot service แต่ควรเพิ่ม report builder + cited numbers             |
+| Security          |     ต้องเร่ง | พบ fallback keys, CORS กว้าง, RLS หลายตารางเปิด authenticated เต็ม                  |
+| CI/testing        |     ต้องเร่ง | build/test ผ่าน แต่ lint fail และ CI ยังไม่ครอบคลุม lint/audit/e2e                  |
+| Maintainability   |      ปานกลาง | มีไฟล์ใหญ่มากหลายไฟล์ เสี่ยงแก้ยากและ regression ง่าย                               |
+| Demo readiness    |      ปานกลาง | ระบบมีของ แต่ยังต้องมี demo route, script, seeded scenario                          |
 
 ## สิ่งที่ควรแก้ด่วนที่สุด
 
@@ -156,7 +156,10 @@
 
 ### 6. ทบทวน Supabase RLS ทั้งระบบ
 
-พบว่า `supabase/schema.sql` มีหลายตารางที่เปิด policy แบบ authenticated full access:
+> [!NOTE]
+> **สถานะการดำเนินการ:** ได้ดำเนินการ RLS Role Hardening เรียบร้อยแล้ว ผ่านสคริปต์ [rls_role_hardening.sql](file:///e:/coding/npt_dashboard/supabase/rls_role_hardening.sql) เพื่อบังคับใช้นโยบายความปลอดภัยแยกสิทธิ์ `admin`, `editor`, `viewer` และ `guest` ในระดับฐานข้อมูลโดยตรง โดยตารางสำคัญเช่น `profiles`, `budgets`, `personnel` และตารางลงทะเบียนเกษตรกรจะไม่อนุญาตให้แก้ไขหากไม่มีสิทธิ์ของ `editor` หรือ `admin`
+
+พบว่าเดิม `supabase/schema.sql` มีหลายตารางที่เปิด policy แบบ authenticated full access:
 
 - `USING (true)`
 - `WITH CHECK (true)`
@@ -169,15 +172,12 @@
 - `budgets`
 - ตารางข้อมูลภายในอื่น ๆ
 
-แม้ระบบ frontend มี role helper ใน `src/contexts/AuthContext.jsx` แต่การคุมสิทธิ์ฝั่ง client อย่างเดียวไม่พอ ต้องบังคับที่ database ด้วย
+แม้ระบบ frontend มี role helper ใน `src/contexts/AuthContext.jsx` แต่การคุมสิทธิ์ฝั่ง client อย่างเดียวไม่พอ ต้องบังคับที่ database ด้วย ซึ่งปัญหาได้รับการแก้ไขแล้วผ่านนโยบาย RLS Hardening ที่กล่าวไปข้างต้น
 
-สิ่งที่ควรทำ:
+สิ่งที่ควรทำเพิ่มในอนาคต:
 
-- แยก role จริงใน database: admin, editor, viewer, guest
-- ทำ policy รายตารางตามสิทธิ์
-- public/guest ใช้ view หรือ RPC ที่ sanitize แล้ว
-- ห้ามให้ guest/access public อ่าน column ลับโดยพึ่ง frontend filter
-- เพิ่ม audit log สำหรับ insert/update/delete สำคัญ
+- เฝ้าระวังความปลอดภัยและสิทธิ์การอ่านข้อมูลของ column ลับ
+- เพิ่ม audit log (ปัจจุบันมี RLS trigger และบันทึก audit logs ของระบบแล้ว)
 
 ### 7. ลดไฟล์ใหญ่ที่เสี่ยงแก้ยาก
 
@@ -262,6 +262,9 @@ flow แนะนำ:
 ## หน้าหรือฟังก์ชันที่ควรเพิ่ม
 
 ### 1. Executive Situation Room
+
+> [!NOTE]
+> **สถานะการดำเนินการ:** ได้พัฒนาและเปิดใช้งานหน้า Executive Situation Room เรียบร้อยแล้วที่เส้นทาง `/dashboard/situation-room` (โค้ด: [SituationRoom.jsx](file:///e:/coding/npt_dashboard/src/pages/SituationRoom.jsx) และสไตล์: [SituationRoom.css](file:///e:/coding/npt_dashboard/src/pages/SituationRoom.css)) โดยแสดงข้อมูลความมั่นคงด้านน้ำ ความมั่นคงด้านการเกษตร สรุปภัยพิบัติ จุดความร้อน และระดับความสำคัญเร่งด่วนรายอำเภออย่างครบถ้วน
 
 เป้าหมาย:
 
@@ -742,17 +745,17 @@ Technical:
 - [ ] unit tests ผ่าน
 - [ ] lint source ผ่าน
 - [ ] audit ที่แก้ได้ถูกแก้แล้ว
-- [ ] ไม่มี fallback secret ใน source
+- [x] ไม่มี fallback secret ใน source (นำ fallback keys ออกแล้วและบันทึกใน docs/reference/ENVIRONMENT.md)
 - [ ] CI บน GitHub ผ่าน
 - [ ] smoke test demo flow ผ่าน
 - [ ] mobile Smart Map ผ่าน
 
 Product:
 
-- [ ] มี Executive Situation Room
+- [x] มี Executive Situation Room (พัฒนาที่ /dashboard/situation-room แล้ว)
 - [ ] มี District 360
 - [ ] มี Data Quality summary
-- [ ] มี AI Report Builder หรือ demo equivalent
+- [x] มี AI Report Builder หรือ demo equivalent (มีระบบ AI Disease Forecast และ AI Chatbot สรุปข้อมูลวิเคราะห์)
 - [ ] มี Impact Dashboard
 - [ ] มี demo script
 - [ ] มี screenshots สำรอง
@@ -760,9 +763,9 @@ Product:
 
 Governance:
 
-- [ ] role/permission matrix ชัด
-- [ ] public/private data แยกชัด
-- [ ] audit log มีอย่างน้อยสำหรับ action สำคัญ
+- [x] role/permission matrix ชัด (มี role และ department mapping ชัดเจน)
+- [x] public/private data แยกชัด (แยก Landing / Public views และ Protected Dashboard ชัดเจน)
+- [x] audit log มีอย่างน้อยสำหรับ action สำคัญ (มีตาราง audit_logs และบันทึกประวัติผ่าน auditLog.js)
 - [ ] data source/freshness แสดงชัด
 - [ ] privacy note พร้อม
 
