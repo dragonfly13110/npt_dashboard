@@ -2,7 +2,7 @@
 
 [build]
   publish = "dist"
-  command = "npm run build:netlify"
+  command = "pnpm run build:netlify"
 
 # ===== HEADERS =====
 [[headers]]
@@ -12,6 +12,7 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co https://*.supabase.in https://gen.ai.kku.ac.th https://agriapi.nabc.go.th https://api-gateway.gistda.or.th https://nakhonpathom.doae.go.th https://esc.doae.go.th https://www.doae.go.th https://oil-price.bangchak.co.th https://*.openstreetmap.org https://*.basemaps.cartocdn.com https://*.arcgisonline.com; img-src 'self' data: blob: https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com https://*.arcgisonline.com https://*.doae.go.th https://*.moac.go.th https://*.wikimedia.org;"
 
 [[headers]]
   for = "/sitemap.xml"

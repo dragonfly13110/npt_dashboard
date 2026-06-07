@@ -12,6 +12,7 @@ __pycache__/
 
 # Dependencies
 node_modules/
+.pnpm-store/
 venv/
 .venv/
 .env

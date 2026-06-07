@@ -1,100 +1,112 @@
 import { useEffect, useState } from 'react';
 
+function FitDistrictBounds({ geoJSONData, L, useMap }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!geoJSONData || !L) return;
+
+    const bounds = L.geoJSON(geoJSONData).getBounds();
+    if (!bounds.isValid()) return;
+
+    map.invalidateSize();
+    map.fitBounds(bounds, {
+      paddingTopLeft: [28, 44],
+      paddingBottomRight: [28, 28],
+      maxZoom: 10.1,
+      animate: false,
+    });
+  }, [geoJSONData, L, map]);
+
+  return null;
+}
+
 export default function LandingMap({ mapData, districtStats }) {
-    const [MapComponents, setMapComponents] = useState(null);
-    const [geoJSONData, setGeoJSONData] = useState(null);
-    const [selectedDistrict, setSelectedDistrict] = useState(null);
+  const [MapComponents, setMapComponents] = useState(null);
+  const [geoJSONData, setGeoJSONData] = useState(null);
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
 
-    useEffect(() => {
-        // Load GeoJSON data directly
-        import('../../data/nakhon_pathom_districts.json').then(module => {
-            setGeoJSONData(module.default);
+  useEffect(() => {
+    // Load GeoJSON data directly
+    import('../../data/nakhon_pathom_districts.json').then((module) => {
+      setGeoJSONData(module.default);
+    });
+
+    // Dynamic import to avoid SSR issues
+    Promise.all([import('leaflet'), import('react-leaflet')]).then(
+      ([L, RL]) => {
+        // Fix default icon issue
+        delete L.default.Icon.Default.prototype._getIconUrl;
+        L.default.Icon.Default.mergeOptions({
+          iconRetinaUrl:
+            'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+          iconUrl:
+            'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+          shadowUrl:
+            'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
         });
 
-        // Dynamic import to avoid SSR issues
-        Promise.all([
-            import('leaflet'),
-            import('react-leaflet'),
-        ]).then(([L, RL]) => {
-            // Fix default icon issue
-            delete L.default.Icon.Default.prototype._getIconUrl;
-            L.default.Icon.Default.mergeOptions({
-                iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
-                iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
-                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
-            });
+        setMapComponents({ L: L.default, ...RL });
+      }
+    );
+  }, []);
 
-            setMapComponents({ L: L.default, ...RL });
-        });
-    }, []);
+  if (!MapComponents) {
+    return <div className="map-placeholder">กำลังโหลดแผนที่...</div>;
+  }
+  const {
+    L,
+    MapContainer,
+    TileLayer,
+    Popup,
+    CircleMarker,
+    GeoJSON,
+    LayersControl,
+    LayerGroup,
+    useMap,
+  } = MapComponents;
 
-    if (!MapComponents) {
-        return <div className="map-placeholder">กำลังโหลดแผนที่...</div>;
-    }
-    const { L, MapContainer, TileLayer, Popup, CircleMarker, GeoJSON, LayersControl, LayerGroup, useMap } = MapComponents;
+  const gisMarkers = mapData.filter((d) => d.type === 'gis');
+  const tourMarkers = mapData.filter((d) => d.type === 'tourism');
 
-    const gisMarkers = mapData.filter(d => d.type === 'gis');
-    const tourMarkers = mapData.filter(d => d.type === 'tourism');
-
-    const FitDistrictBounds = () => {
-        const map = useMap();
-
-        useEffect(() => {
-            if (!geoJSONData || !L) return;
-
-            const bounds = L.geoJSON(geoJSONData).getBounds();
-            if (!bounds.isValid()) return;
-
-            map.invalidateSize();
-            map.fitBounds(bounds, {
-                paddingTopLeft: [28, 44],
-                paddingBottomRight: [28, 28],
-                maxZoom: 10.1,
-                animate: false,
-            });
-        }, [geoJSONData, L, map]);
-
-        return null;
-    };
-
-    return (
-        <div className="bento-map-wrapper">
-            <MapContainer
-                center={[13.82, 100.05]}
-                zoom={10}
-                zoomSnap={0.25}
-                zoomDelta={0.5}
-                style={{ height: '100%', width: '100%', borderRadius: 16 }}
-                scrollWheelZoom={true}
-            >
-                <FitDistrictBounds />
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                <LayersControl position="topright">
-                    <LayersControl.Overlay checked name="🗺️ ขอบเขตอำเภอและข้อมูลเชิงลึก">
-                        {geoJSONData && Object.keys(districtStats).length > 0 && (
-                            <GeoJSON
-                                key={`${Object.keys(districtStats).length}-${selectedDistrict || 'none'}`}
-                                data={geoJSONData}
-                                style={(feature) => {
-                                    const distName = feature.properties?.amp_th;
-                                    const isSelected = distName === selectedDistrict;
-                                    return {
-                                        color: isSelected ? '#ef4444' : '#3b82f6', // red-500 vs blue-500
-                                        weight: isSelected ? 3 : 2,
-                                        opacity: isSelected ? 0.95 : 0.7,
-                                        fillColor: isSelected ? '#fca5a5' : '#93c5fd', // red-300 vs blue-300
-                                        fillOpacity: isSelected ? 0.35 : 0.15,
-                                        dashArray: isSelected ? '' : '5, 5'
-                                    };
-                                }}
-                                onEachFeature={(feature, layer) => {
-                                    const distName = feature.properties?.amp_th;
-                                    if (distName && districtStats[distName]) {
-                                        const stats = districtStats[distName];
-                                        const html = `
+  return (
+    <div className="bento-map-wrapper">
+      <MapContainer
+        center={[13.82, 100.05]}
+        zoom={10}
+        zoomSnap={0.25}
+        zoomDelta={0.5}
+        style={{ height: '100%', width: '100%', borderRadius: 16 }}
+        scrollWheelZoom={true}
+      >
+        <FitDistrictBounds geoJSONData={geoJSONData} L={L} useMap={useMap} />
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <LayersControl position="topright">
+          <LayersControl.Overlay checked name="🗺️ ขอบเขตอำเภอและข้อมูลเชิงลึก">
+            {geoJSONData && Object.keys(districtStats).length > 0 && (
+              <GeoJSON
+                key={`${Object.keys(districtStats).length}-${selectedDistrict || 'none'}`}
+                data={geoJSONData}
+                style={(feature) => {
+                  const distName = feature.properties?.amp_th;
+                  const isSelected = distName === selectedDistrict;
+                  return {
+                    color: isSelected ? '#ef4444' : '#3b82f6', // red-500 vs blue-500
+                    weight: isSelected ? 3 : 2,
+                    opacity: isSelected ? 0.95 : 0.7,
+                    fillColor: isSelected ? '#fca5a5' : '#93c5fd', // red-300 vs blue-300
+                    fillOpacity: isSelected ? 0.35 : 0.15,
+                    dashArray: isSelected ? '' : '5, 5',
+                  };
+                }}
+                onEachFeature={(feature, layer) => {
+                  const distName = feature.properties?.amp_th;
+                  if (distName && districtStats[distName]) {
+                    const stats = districtStats[distName];
+                    const html = `
                                             <div class="dist-tooltip">
                                                 <div class="dist-tooltip-title">🎯 อำเภอ${distName}</div>
                                                 <div class="dist-tooltip-row">
@@ -132,95 +144,147 @@ export default function LandingMap({ mapData, districtStats }) {
                                                 </div>
                                             </div>
                                         `;
-                                        layer.bindTooltip(html, {
-                                            sticky: true,
-                                            direction: 'auto',
-                                            className: 'dist-tooltip-container'
-                                        });
-                                        layer.on({
-                                            mouseover: (e) => {
-                                                const l = e.target;
-                                                l.setStyle({ fillOpacity: 0.35, color: '#dc2626', weight: 3, dashArray: '' });
-                                            },
-                                            mouseout: (e) => {
-                                                const l = e.target;
-                                                const isSelected = distName === selectedDistrict;
-                                                l.setStyle({
-                                                    fillOpacity: isSelected ? 0.35 : 0.15,
-                                                    color: isSelected ? '#ef4444' : '#3b82f6',
-                                                    weight: isSelected ? 3 : 2,
-                                                    dashArray: isSelected ? '' : '5, 5'
-                                                });
-                                            },
-                                            click: () => {
-                                                setSelectedDistrict(prev => prev === distName ? null : distName);
-                                            }
-                                        });
-                                    }
-                                }}
-                            />
-                        )}
-                    </LayersControl.Overlay>
-                    <LayersControl.Overlay checked name="📍 พื้นที่ GIS (หมุดสีน้ำเงิน)">
-                        <LayerGroup>
-                            {gisMarkers.map((item, idx) => (
-                                <CircleMarker
-                                    key={`gis-${idx}`}
-                                    center={[item.lat, item.lon]}
-                                    radius={8}
-                                    fillColor="#2563eb"
-                                    fillOpacity={0.85}
-                                    color="#fff"
-                                    weight={2}
-                                >
-                                    <Popup>
-                                        <div style={{ fontFamily: 'inherit', minWidth: 160 }}>
-                                            <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: '#1e293b' }}>
-                                                {item.name}
-                                            </div>
-                                            <div style={{ fontSize: 13, color: '#64748b', display: 'flex', gap: 6 }}>
-                                                <span style={{ background: '#e0f2fe', color: '#0369a1', padding: '2px 6px', borderRadius: 4 }}>
-                                                    {item.typeLabel}
-                                                </span>
-                                                <span>อ.{item.district}</span>
-                                            </div>
-                                        </div>
-                                        </Popup>
-                                </CircleMarker>
-                            ))}
-                        </LayerGroup>
-                    </LayersControl.Overlay>
-                    <LayersControl.Overlay checked name="🏕️ ท่องเที่ยวเชิงเกษตร (หมุดสีเขียว)">
-                        <LayerGroup>
-                            {tourMarkers.map((item, idx) => (
-                                <CircleMarker
-                                    key={`tour-${idx}`}
-                                    center={[item.lat, item.lon]}
-                                    radius={8}
-                                    fillColor="#16a34a"
-                                    fillOpacity={0.85}
-                                    color="#fff"
-                                    weight={2}
-                                >
-                                    <Popup>
-                                        <div style={{ fontFamily: 'inherit', minWidth: 160 }}>
-                                            <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: '#1e293b' }}>
-                                                {item.name}
-                                            </div>
-                                            <div style={{ fontSize: 13, color: '#64748b', display: 'flex', gap: 6 }}>
-                                                <span style={{ background: '#dcfce3', color: '#166534', padding: '2px 6px', borderRadius: 4 }}>
-                                                    {item.typeLabel}
-                                                </span>
-                                                <span>อ.{item.district}</span>
-                                            </div>
-                                        </div>
-                                    </Popup>
-                                </CircleMarker>
-                            ))}
-                        </LayerGroup>
-                    </LayersControl.Overlay>
-                </LayersControl>
-            </MapContainer>
-        </div>
-    );
+                    layer.bindTooltip(html, {
+                      sticky: true,
+                      direction: 'auto',
+                      className: 'dist-tooltip-container',
+                    });
+                    layer.on({
+                      mouseover: (e) => {
+                        const l = e.target;
+                        l.setStyle({
+                          fillOpacity: 0.35,
+                          color: '#dc2626',
+                          weight: 3,
+                          dashArray: '',
+                        });
+                      },
+                      mouseout: (e) => {
+                        const l = e.target;
+                        const isSelected = distName === selectedDistrict;
+                        l.setStyle({
+                          fillOpacity: isSelected ? 0.35 : 0.15,
+                          color: isSelected ? '#ef4444' : '#3b82f6',
+                          weight: isSelected ? 3 : 2,
+                          dashArray: isSelected ? '' : '5, 5',
+                        });
+                      },
+                      click: () => {
+                        setSelectedDistrict((prev) =>
+                          prev === distName ? null : distName
+                        );
+                      },
+                    });
+                  }
+                }}
+              />
+            )}
+          </LayersControl.Overlay>
+          <LayersControl.Overlay checked name="📍 พื้นที่ GIS (หมุดสีน้ำเงิน)">
+            <LayerGroup>
+              {gisMarkers.map((item, idx) => (
+                <CircleMarker
+                  key={`gis-${idx}`}
+                  center={[item.lat, item.lon]}
+                  radius={8}
+                  fillColor="#2563eb"
+                  fillOpacity={0.85}
+                  color="#fff"
+                  weight={2}
+                >
+                  <Popup>
+                    <div style={{ fontFamily: 'inherit', minWidth: 160 }}>
+                      <div
+                        style={{
+                          fontWeight: 700,
+                          fontSize: 15,
+                          marginBottom: 4,
+                          color: '#1e293b',
+                        }}
+                      >
+                        {item.name}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 13,
+                          color: '#64748b',
+                          display: 'flex',
+                          gap: 6,
+                        }}
+                      >
+                        <span
+                          style={{
+                            background: '#e0f2fe',
+                            color: '#0369a1',
+                            padding: '2px 6px',
+                            borderRadius: 4,
+                          }}
+                        >
+                          {item.typeLabel}
+                        </span>
+                        <span>อ.{item.district}</span>
+                      </div>
+                    </div>
+                  </Popup>
+                </CircleMarker>
+              ))}
+            </LayerGroup>
+          </LayersControl.Overlay>
+          <LayersControl.Overlay
+            checked
+            name="🏕️ ท่องเที่ยวเชิงเกษตร (หมุดสีเขียว)"
+          >
+            <LayerGroup>
+              {tourMarkers.map((item, idx) => (
+                <CircleMarker
+                  key={`tour-${idx}`}
+                  center={[item.lat, item.lon]}
+                  radius={8}
+                  fillColor="#16a34a"
+                  fillOpacity={0.85}
+                  color="#fff"
+                  weight={2}
+                >
+                  <Popup>
+                    <div style={{ fontFamily: 'inherit', minWidth: 160 }}>
+                      <div
+                        style={{
+                          fontWeight: 700,
+                          fontSize: 15,
+                          marginBottom: 4,
+                          color: '#1e293b',
+                        }}
+                      >
+                        {item.name}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 13,
+                          color: '#64748b',
+                          display: 'flex',
+                          gap: 6,
+                        }}
+                      >
+                        <span
+                          style={{
+                            background: '#dcfce3',
+                            color: '#166534',
+                            padding: '2px 6px',
+                            borderRadius: 4,
+                          }}
+                        >
+                          {item.typeLabel}
+                        </span>
+                        <span>อ.{item.district}</span>
+                      </div>
+                    </div>
+                  </Popup>
+                </CircleMarker>
+              ))}
+            </LayerGroup>
+          </LayersControl.Overlay>
+        </LayersControl>
+      </MapContainer>
+    </div>
+  );
 }
