@@ -199,10 +199,10 @@ export default function Dashboard() {
                 .filter((s) => s.group === g.group)
                 .reduce((sum, s) => sum + s.count, 0);
               const IconMap = {
-                ยุทธศาสตร์ฯ: AimOutlined,
-                ส่งเสริมการผลิต: BankOutlined,
-                พัฒนาเกษตรกร: TeamOutlined,
-                อารักขาพืช: AlertOutlined,
+                กลุ่มยุทธศาสตร์และสารสนเทศ: AimOutlined,
+                กลุ่มส่งเสริมและพัฒนาการผลิต: BankOutlined,
+                กลุ่มส่งเสริมและพัฒนาเกษตรกร: TeamOutlined,
+                กลุ่มอารักขาพืช: AlertOutlined,
               };
               const IconComp = IconMap[g.group] || AimOutlined;
               const colorMap = {
@@ -279,11 +279,11 @@ export default function Dashboard() {
               }}
             >
               <span style={{ fontSize: 20 }}>
-                {g.group === 'ยุทธศาสตร์ฯ'
+                {g.group === 'กลุ่มยุทธศาสตร์และสารสนเทศ'
                   ? '🎯'
-                  : g.group === 'ส่งเสริมการผลิต'
+                  : g.group === 'กลุ่มส่งเสริมและพัฒนาการผลิต'
                     ? '🌾'
-                    : g.group === 'พัฒนาเกษตรกร'
+                    : g.group === 'กลุ่มส่งเสริมและพัฒนาเกษตรกร'
                       ? '👥'
                       : '🛡️'}
               </span>
