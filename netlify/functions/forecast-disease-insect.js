@@ -39,8 +39,12 @@ async function callKkuForecast(prompt) {
     throw new Error('KKU API key is not configured.');
   }
 
+  const kkuBaseUrl = KKU_API_BASE.startsWith('/api/kku/')
+    ? `https://gen.ai.kku.ac.th/${KKU_API_BASE.replace(/^\/api\/kku\//, '')}`
+    : KKU_API_BASE;
+
   const response = await fetchWithTimeout(
-    `${KKU_API_BASE.replace(/\/$/, '')}/chat/completions`,
+    `${kkuBaseUrl.replace(/\/$/, '')}/chat/completions`,
     {
       method: 'POST',
       headers: {
@@ -97,6 +101,17 @@ function parseForecastJson(generatedText) {
   return parsed;
 }
 
+function isUsableForecast(row) {
+  return (
+    row &&
+    typeof row.summary === 'string' &&
+    row.summary.trim() &&
+    !row.summary.startsWith('Pending AI analysis') &&
+    Array.isArray(row.details) &&
+    row.details.length > 0
+  );
+}
+
 // Main forecast logic
 const generateForecast = async (event = {}) => {
   console.log('Starting Daily Crop Disease & Pest Risk AI Forecast...');
@@ -148,11 +163,11 @@ const generateForecast = async (event = {}) => {
     if (!isManualTrigger) {
       const { data: existing, error: checkError } = await supabase
         .from('ai_disease_forecasts')
-        .select('forecast_date')
+        .select('forecast_date, summary, details')
         .eq('forecast_date', bangkokDateStr)
         .maybeSingle();
 
-      if (!checkError && existing) {
+      if (!checkError && isUsableForecast(existing)) {
         console.log(
           `Forecast for ${bangkokDateStr} already exists. Skipping generation.`
         );
@@ -163,6 +178,12 @@ const generateForecast = async (event = {}) => {
             message: `Forecast for ${bangkokDateStr} already exists. Skipped.`,
           }),
         };
+      }
+
+      if (!checkError && existing) {
+        console.log(
+          `Forecast for ${bangkokDateStr} exists but is incomplete. Regenerating.`
+        );
       }
     }
 
@@ -239,12 +260,10 @@ const generateForecast = async (event = {}) => {
         : 'No recent pest outbreaks reported.';
 
     // 4. Set up Gemini API request and retry loop
-    if (!GEMINI_API_KEY) {
-      throw new Error('GEMINI_API_KEY is not configured in env variables.');
-    }
-
     const model = 'gemini-3.5-flash';
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
+    const url = GEMINI_API_KEY
+      ? `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`
+      : '';
 
     const basePrompt = `คุณคือผู้เชี่ยวชาญด้านโรคพืชและแมลงศัตรูพืชในเขตจังหวัดนครปฐม ประเทศไทย (พืชหลัก: ข้าว, อ้อย, มันสำปะหลัง, กล้วยไม้, มะพร้าวน้ำหอม, พืชผัก)
 วิเคราะห์สถานการณ์และพยากรณ์ความเสี่ยงโรคพืชและแมลงศัตรูพืชที่มีโอกาสระบาด "ล่วงหน้า 7 วัน" ในจังหวัดนครปฐม นับตั้งแต่วันที่ ${bangkokDateStr} เป็นต้นไป
@@ -284,7 +303,12 @@ ${outbreakSummary}`;
     let resultJson = null;
     let aiFailureReason = '';
 
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    if (!GEMINI_API_KEY) {
+      aiFailureReason = 'GEMINI_API_KEY is not configured in env variables.';
+      console.warn(aiFailureReason);
+    }
+
+    for (let attempt = 1; GEMINI_API_KEY && attempt <= maxRetries; attempt++) {
       console.log(`Forecast generation attempt ${attempt} of ${maxRetries}...`);
       try {
         let generatedText = '';
