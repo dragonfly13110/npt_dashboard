@@ -225,13 +225,13 @@ export default function Dashboard() {
                           {g.icon} {g.group}
                         </div>
                         <div className="md-stat-value">
-                          {groupTotal.toLocaleString()}
+                          {g.tables.length} หมวด
                         </div>
                       </div>
                     </div>
                     <div className="md-stat-footer">
                       <ScheduleOutlined />
-                      <span>รายการข้อมูลรวม {g.tables.length} หมวด</span>
+                      <span>คลิกดูตารางข้อมูลที่ด้านล่าง</span>
                     </div>
                   </div>
                 </div>

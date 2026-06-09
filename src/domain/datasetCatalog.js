@@ -13,9 +13,10 @@ export const DASHBOARD_GROUPS = [
     icon: '',
     color: '#1565c0',
     tables: [
+      { table: 'farmer_registry', label: 'ทะเบียนเกษตรกร' },
       { table: 'agricultural_areas', label: 'พื้นที่การเกษตร' },
       { table: 'learning_centers', label: 'ศพก.' },
-      { table: 'disasters', label: 'ภัยพิบัติ' },
+      { table: 'daily_weather', label: 'สภาพอากาศ/น้ำฝน' },
     ],
   },
   {
@@ -33,11 +34,18 @@ export const DASHBOARD_GROUPS = [
     icon: '',
     color: '#6a1b9a',
     tables: [
-      { table: 'community_enterprises', label: 'วิสาหกิจ' },
-      { table: 'young_smart_farmer_ysf', label: 'เกษตรกรรุ่นใหม่' },
-      { table: 'housewife_farmer_groups', label: 'กลุ่มแม่บ้าน' },
-      { table: 'farmer_institutes', label: 'สถาบันเกษตรกร' },
+      { table: 'community_enterprises', label: 'วิสาหกิจชุมชน' },
+      { table: 'smart_farmer_sf', label: 'เกษตรกรปราดเปรื่อง (SF)' },
+      { table: 'young_smart_farmer_ysf', label: 'เกษตรกรรุ่นใหม่ (YSF)' },
+      {
+        table: 'agricultural_career_groups',
+        label: 'กลุ่มส่งเสริมอาชีพการเกษตร',
+      },
+      { table: 'housewife_farmer_groups', label: 'กลุ่มแม่บ้านเกษตรกร' },
+      { table: 'young_farmer_groups_detailed', label: 'กลุ่มยุวเกษตรกร' },
+      { table: 'farmer_institutes', label: 'สถาบันเกษตรกร (รวม)' },
       { table: 'agri_tourism', label: 'ท่องเที่ยวเกษตร' },
+      { table: 'disasters', label: 'ภัยพิบัติ' },
     ],
   },
   {
@@ -60,6 +68,7 @@ export const TABLE_ROUTES = {
   learning_centers: '/dashboard/strategy/learning-centers',
   disasters: '/dashboard/development/disasters',
   farmer_registry: '/dashboard/strategy/farmer-registry',
+  daily_weather: '/dashboard/strategy/daily-weather',
   large_plots: '/dashboard/production/large-plots',
   certifications: '/dashboard/production/certifications',
   crop_production: '/dashboard/production/crop-production',
