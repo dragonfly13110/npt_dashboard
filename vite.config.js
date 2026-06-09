@@ -4,8 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 import { fileURLToPath, URL } from 'node:url';
 
 function publicFarmerInstitutesV2Plugin(env) {
-  const supabaseUrl =
-    env.VITE_SUPABASE_URL || 'https://cjjirwqoovypymndhvwt.supabase.co';
+  const supabaseUrl = env.VITE_SUPABASE_URL;
   const supabaseKey =
     env.SUPABASE_SERVICE_ROLE_KEY || env.VITE_SUPABASE_ANON_KEY;
   let supabase = null;
@@ -102,6 +101,26 @@ function publicFarmerInstitutesV2Plugin(env) {
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
+  // Environment variables validation
+  const requiredEnv = [
+    'VITE_SUPABASE_URL',
+    'VITE_SUPABASE_ANON_KEY',
+    'VITE_GISTDA_API_KEY',
+  ];
+  const missingEnv = requiredEnv.filter((key) => !env[key]);
+
+  if (missingEnv.length > 0) {
+    const errorMsg = `Missing environment variables: ${missingEnv.join(', ')}`;
+    if (mode === 'production') {
+      console.error(`\x1b[31mError: ${errorMsg}\x1b[0m`);
+      throw new Error(errorMsg);
+    } else {
+      console.warn(
+        `\x1b[33mWarning: ${errorMsg}. Please configure them in your .env.local file.\x1b[0m`
+      );
+    }
+  }
+
   return {
     plugins: [publicFarmerInstitutesV2Plugin(env), react()],
     cacheDir: 'tmp/vite-cache',
@@ -137,10 +156,7 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api\/gistda/, ''),
           headers: {
-            'API-Key':
-              env.VITE_GISTDA_API_KEY && env.VITE_GISTDA_API_KEY.length > 5
-                ? env.VITE_GISTDA_API_KEY
-                : '2lAkC1Ob7uugojJ1JlgHJPveFRdtCRg51qkZazYqh1fmEf18Me2DtLMsWLOT1aMi',
+            'API-Key': env.VITE_GISTDA_API_KEY || '',
             accept: 'application/json',
           },
         },

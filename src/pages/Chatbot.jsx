@@ -24,6 +24,7 @@ import {
   FilePdfOutlined,
   CloseCircleOutlined,
   ClearOutlined,
+  StopOutlined,
 } from '@ant-design/icons';
 
 import {
@@ -255,6 +256,7 @@ export default function Chatbot() {
     webSearch: false,
   });
   const [attachedFile, setAttachedFile] = useState(null);
+  const abortControllerRef = useRef(null);
   const chatEndRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -265,6 +267,14 @@ export default function Chatbot() {
   useEffect(() => {
     scrollToBottom();
   }, [messages, scrollToBottom]);
+
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
 
   // Auto-turn off webSearch when switching to unsupported model
   const handleModelChange = (key) => {
@@ -283,6 +293,23 @@ export default function Chatbot() {
     setSelectedProvider(provider);
     if (firstModel) handleModelChange(firstModel.key);
   };
+
+  const handleCancel = useCallback(() => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: 'bot',
+        text: '🛑 ยกเลิกการสร้างข้อความแล้ว',
+        timestamp: Date.now(),
+        type: 'error',
+      },
+    ]);
+    setLoading(false);
+  }, []);
 
   const handleSend = useCallback(
     async (text) => {
@@ -311,6 +338,12 @@ export default function Chatbot() {
           }
           return m;
         });
+
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+      const controller = new AbortController();
+      abortControllerRef.current = controller;
 
       const userMsg = { role: 'user', text: msg, timestamp: Date.now() };
       setMessages((prev) => [...prev, userMsg]);
@@ -349,7 +382,8 @@ export default function Chatbot() {
         const analysis = await fetchDatabaseContext(
           msg,
           currentModel,
-          validHistory
+          validHistory,
+          controller.signal
         );
 
         let aiText;
@@ -365,7 +399,8 @@ export default function Chatbot() {
             finalSystemPrompt,
             historyToSend,
             aiSettings,
-            fileData
+            fileData,
+            controller.signal
           );
           responseType = 'general';
         } else {
@@ -384,14 +419,14 @@ export default function Chatbot() {
           const hint =
             analysisHint[analysis.analysisType] || analysisHint.overview;
           const userPrompt = `คำถาม: ${msg}
-
+ 
 🎯 ประเภทการวิเคราะห์: ${analysis.analysisType || 'overview'}
 📋 แนวทาง: ${hint}
-
+ 
 --- ข้อมูลจริงจากฐานข้อมูลสำนักงานเกษตรจังหวัดนครปฐม (PRE-AGGREGATED) ---
 ${dbContext}
 --- จบข้อมูล ---
-
+ 
 ⚠️ คำแนะนำสำหรับการวิเคราะห์:
 1. ใช้ตัวเลขจาก aggregated_stats.totals/.averages/.rankings เป็นหลัก (คำนวณจริงจาก DB ทั้งหมด)
 2. ใช้ aggregated_stats.district_percentages สำหรับคำนวณสัดส่วน %
@@ -408,7 +443,8 @@ ${dbContext}
             finalSystemPrompt,
             historyToSend,
             aiSettings,
-            fileData
+            fileData,
+            controller.signal
           );
           responseType = analysis.isOverview ? 'overview' : 'specific';
         }
@@ -443,6 +479,10 @@ ${dbContext}
         };
         setMessages((prev) => [...prev, botMsg]);
       } catch (err) {
+        if (err.name === 'AbortError' || controller.signal.aborted) {
+          // Request was aborted by user or unmount, ignore error display
+          return;
+        }
         let errorMsg = err.message;
         if (errorMsg === 'Failed to fetch') {
           errorMsg =
@@ -462,6 +502,9 @@ ${dbContext}
           },
         ]);
       } finally {
+        if (abortControllerRef.current === controller) {
+          abortControllerRef.current = null;
+        }
         setLoading(false);
         inputRef.current?.focus();
       }
@@ -821,21 +864,38 @@ ${dbContext}
                 }
               />
             </div>
-            <Button
-              type="primary"
-              icon={<SendOutlined />}
-              onClick={() => handleSend()}
-              loading={loading}
-              size="large"
-              style={{
-                borderRadius: 14,
-                width: 50,
-                height: 44,
-                background: `linear-gradient(135deg, ${currentModelConfig.color}, ${currentModelConfig.color}cc)`,
-                border: 'none',
-                boxShadow: `0 2px 8px ${currentModelConfig.color}30`,
-              }}
-            />
+            {loading ? (
+              <Tooltip title="หยุดการสร้างข้อความ">
+                <Button
+                  type="primary"
+                  danger
+                  icon={<StopOutlined />}
+                  onClick={handleCancel}
+                  size="large"
+                  style={{
+                    borderRadius: 14,
+                    width: 50,
+                    height: 44,
+                    boxShadow: '0 2px 8px rgba(239, 68, 68, 0.3)',
+                  }}
+                />
+              </Tooltip>
+            ) : (
+              <Button
+                type="primary"
+                icon={<SendOutlined />}
+                onClick={() => handleSend()}
+                size="large"
+                style={{
+                  borderRadius: 14,
+                  width: 50,
+                  height: 44,
+                  background: `linear-gradient(135deg, ${currentModelConfig.color}, ${currentModelConfig.color}cc)`,
+                  border: 'none',
+                  boxShadow: `0 2px 8px ${currentModelConfig.color}30`,
+                }}
+              />
+            )}
           </div>
 
           {/* Status chips */}

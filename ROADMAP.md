@@ -24,52 +24,50 @@
 ### 🔴 Priority: สูงสุด (Must Do Before Production)
 
 #### 1.1 Security Hardening
-- [ ] **ลบ Hardcoded API Keys**
+
+- [x] **ลบ Hardcoded API Keys**
   - ไฟล์: `vite.config.js`
   - Action: ลบ API key ที่ hardcoded และบังคับใช้ environment variables เท่านั้น
   - Impact: 🔴 Critical Security Risk
-  
-- [ ] **เพิ่ม Environment Variables Validation**
+- [x] **เพิ่ม Environment Variables Validation**
   - สร้างไฟล์ `.env.example` พร้อมรายการ variables ที่จำเป็นทั้งหมด
   - เพิ่ม validation script ในขั้นตอน build
   - Alert เมื่อขาด variables สำคัญ
-  
-- [ ] **แก้ไข JWT Expiration Handling Bug**
+- [x] **แก้ไข JWT Expiration Handling Bug**
   - ไฟล์: `src/contexts/AuthContext.jsx`
   - Issue: ไม่ clear localStorage guestMode เมื่อ JWT หมดอายุ
   - Fix: เพิ่ม logic จัดการ guest mode conflict
-  
 - [ ] **ปรับปรุง CORS Policy**
   - เพิ่ม whitelist domains ที่ชัดเจน
   - Reject requests จาก unknown origins
   - เพิ่ม logging สำหรับ rejected requests
 
 #### 1.2 Error Handling & Monitoring
+
 - [ ] **แก้ไข Silent Error Catching**
   - ไฟล์: `src/services/aiService.js`
   - Action: เปลี่ยนจาก silent catch เป็น proper error logging
-  
 - [ ] **ติดตั้ง Error Monitoring Service**
   - เลือก service: Sentry หรือ LogRocket
   - Configure error tracking สำหรับ production
   - ตั้งค่า alerts สำหรับ critical errors
-  
 - [ ] **เพิ่ม Global Error Boundary**
   - ตรวจสอบทุก Page มี Error Boundary wrapper
   - เพิ่ม fallback UI ที่ user-friendly
 
 #### 1.3 Data Integrity
+
 - [ ] **เพิ่ม Schema Validation สำหรับ CSV Import**
   - ไฟล์: `src/services/chatbotDataService.js`
   - เพิ่ม validation ก่อน import ข้อมูล
   - แสดง error messages ที่ชัดเจนเมื่อ schema ไม่ตรง
-  
-- [ ] **ป้องกัน Memory Leak ใน SSE Streaming**
+- [x] **ป้องกัน Memory Leak ใน SSE Streaming**
   - ไฟล์: `src/services/aiService.js`
   - กำหนด max buffer size
   - เพิ่ม cleanup logic สำหรับ long-running streams
 
 **Deliverables Phase 1:**
+
 - ✅ Security audit report
 - ✅ Zero hardcoded secrets
 - ✅ Error monitoring dashboard
@@ -82,15 +80,14 @@
 ### 🟠 Priority: สูง (High Impact Improvements)
 
 #### 2.1 Code Architecture Refactoring
+
 - [ ] **แยก Routes Configuration**
   - ไฟล์: `src/App.jsx` (50+ routes)
   - Action: ย้าย routes ไปเป็น config file (`src/config/routes.js`)
   - แยก routes ตาม module (Admin, Strategy, Production, etc.)
-  
 - [ ] **Implement Lazy Loading**
   - ใช้ `React.lazy()` + `Suspense` สำหรับ pages ขนาดใหญ่
   - Target: `PlantProtectionFormDemo.jsx` (21KB), Dashboard pages
-  
 - [ ] **Standardize Naming Conventions**
   - สร้าง style guide document
   - บังคับใช้ camelCase สำหรับ functions/variables
@@ -98,6 +95,7 @@
   - บังคับใช้ snake_case สำหรับ database tables/columns
 
 #### 2.2 Performance Optimization
+
 - [ ] **Optimize React Query Settings**
   - ไฟล์: `src/hooks/useDashboardData.js`
   - Extract magic numbers เป็น constants:
@@ -105,32 +103,31 @@
     // src/config/constants.js
     export const CACHE_CONFIG = {
       STALE_TIME: 15 * 60 * 1000, // 15 minutes
-      GC_TIME: 60 * 60 * 1000,    // 1 hour
-      MAX_RETRIES: 3
+      GC_TIME: 60 * 60 * 1000, // 1 hour
+      MAX_RETRIES: 3,
     };
     ```
-  
 - [ ] **เพิ่ม Pagination สำหรับ Large Datasets**
   - ตรวจสอบทุก query ที่ return >1000 records
   - Implement server-side pagination
   - เพิ่ม infinite scroll หรือ pagination UI
-  
 - [ ] **Optimize Bundle Size**
   - วิเคราะห์ bundle ด้วย `vite-bundle-visualizer`
   - Split chunks ตาม feature modules
   - Remove unused dependencies
 
 #### 2.3 Rate Limiting & Caching
+
 - [ ] **Implement Persistent Rate Limiting**
   - ไฟล์: `netlify/functions/ai-proxy.js`
   - Issue: Rate limit reset on cold start
   - Solution: ใช้ Supabase table หรือ Redis สำหรับ persist request logs
-  
 - [ ] **เพิ่ม Response Caching**
   - Cache responses จาก external APIs (GISTDA, Gemini, etc.)
   - ใช้ Redis หรือ in-memory cache กับ TTL
 
 **Deliverables Phase 2:**
+
 - ✅ Modular route configuration
 - ✅ 40% faster initial load time
 - ✅ Reduced bundle size by 30%
@@ -143,18 +140,17 @@
 ### 🟡 Priority: ปานกลาง-สูง (Quality Foundation)
 
 #### 3.1 Expand Test Coverage
+
 - [ ] **เพิ่ม Unit Tests**
   - Target: 80% code coverage
   - Focus: Services, Utils, Custom Hooks
   - Tools: Vitest + React Testing Library
-  
 - [ ] **เพิ่ม Integration Tests**
   - Test critical user flows:
     - Login/Logout
     - Data submission workflow
     - AI Chatbot interactions
     - Report generation
-  
 - [ ] **ขยาย E2E Tests**
   - ไฟล์: `e2e/tests/*.spec.js`
   - เพิ่ม test cases สำหรับทุกกลุ่มงาน (5 groups)
@@ -162,32 +158,32 @@
   - เพิ่ม mobile viewport testing
 
 #### 3.2 Type Safety
+
 - [ ] **เพิ่ม JSDoc Types หรือ Migrate to TypeScript**
   - Option A: เพิ่ม JSDoc comments ทุก function/component
   - Option B: Migrate ทั้งโปรเจกต์เป็น TypeScript (แนะนำ)
   - เริ่มจาก core services และ contexts
-  
 - [ ] **สร้าง TypeScript Config (ถ้าเลือก Option B)**
   - Setup `tsconfig.json`
   - เพิ่ม type definitions สำหรับ Supabase schema
   - Convert files gradually (feature by feature)
 
 #### 3.3 Code Quality Tools
+
 - [ ] **Setup ESLint + Prettier**
   - สร้าง `.eslintrc.js` with strict rules
   - เพิ่ม pre-commit hooks ด้วย Husky
   - Auto-format on save
-  
 - [ ] **เพิ่ม Static Analysis**
   - Tools: SonarQube หรือ CodeClimate
   - Track code smells, duplication, complexity
-  
 - [ ] **Dependency Audit**
   - รัน `npm audit` เป็นประจำ
   - อัพเดท dependencies ที่มี security patches
   - Remove unused packages
 
 **Deliverables Phase 3:**
+
 - ✅ 80%+ test coverage
 - ✅ Type-safe codebase (TypeScript or JSDoc)
 - ✅ Automated code quality checks
@@ -200,55 +196,55 @@
 ### 🟢 Priority: ปานกลาง (User Value Add)
 
 #### 4.1 User Experience Improvements
+
 - [ ] **Mobile Optimization**
   - ปรับปรุง responsive design สำหรับ tablets และ mobiles
   - ทดสอบทุกหน้าบน mobile viewports
   - เพิ่ม touch-friendly UI elements
-  
 - [ ] **PWA Support**
   - เพิ่ม service worker สำหรับ offline mode
   - เพิ่ม manifest.json
   - Enable install prompt
-  
 - [ ] **Advanced Search Features**
   - เพิ่ม filters และ facets ใน Global Search
   - เพิ่ม search history
   - เพิ่ม saved searches
 
 #### 4.2 Data Management
+
 - [ ] **Export Functions**
   - Export reports เป็น PDF (พร้อม formatting)
   - Export data เป็น Excel (.xlsx) แทน CSV
   - เพิ่ม custom report builder
-  
 - [ ] **Bulk Import/Update**
   - เพิ่ม Excel template download
   - เพิ่ม preview ก่อน import
   - เพิ่ม rollback capability
 
 #### 4.3 Analytics & Insights
+
 - [ ] **Dashboard Enhancements**
   - เพิ่ม interactive charts (D3.js หรือ Chart.js)
   - เพิ่ม drill-down capabilities
   - เพิ่ม comparison views (YoY, MoM)
-  
 - [ ] **Predictive Analytics**
   - Integrate ML models สำหรับ yield prediction
   - เพิ่ม trend analysis
   - เพิ่ม early warning system สำหรับ pests/diseases
 
 #### 4.4 Notification System
+
 - [ ] **Email Notifications**
   - Setup email service (SendGrid หรือ AWS SES)
   - เพิ่ม notification templates
   - เพิ่ม user preferences สำหรับ notification types
-  
 - [ ] **In-App Notifications**
   - เพิ่ม notification bell UI
   - เพิ่ม real-time updates ด้วย WebSockets
   - เพิ่ม notification history
 
 **Deliverables Phase 4:**
+
 - ✅ Mobile-responsive design
 - ✅ PWA with offline support
 - ✅ Advanced export/import features
@@ -262,26 +258,25 @@
 ### 🔵 Priority: ปานกลาง (Long-term Sustainability)
 
 #### 5.1 CI/CD Pipeline
+
 - [ ] **Setup GitHub Actions หรือ GitLab CI**
   - Automated tests on every PR
   - Automated deployment to staging
   - Manual approval for production
-  
 - [ ] **Environment Management**
   - แยก environments: Development, Staging, Production
   - Automate environment provisioning
   - Secrets management (GitHub Secrets หรือ AWS Secrets Manager)
 
 #### 5.2 Monitoring & Observability
+
 - [ ] **Application Performance Monitoring (APM)**
   - Tools: New Relic, Datadog, หรือ Grafana
   - Track response times, error rates, throughput
-  
 - [ ] **Logging Infrastructure**
   - Centralized logging (ELK Stack หรือ Cloud provider)
   - Structured logging (JSON format)
   - Log retention policy
-  
 - [ ] **Health Check Endpoints**
   - เพิ่ม `/health` endpoint
   - ตรวจสอบ database connectivity
@@ -289,37 +284,36 @@
   - เพิ่ม uptime monitoring
 
 #### 5.3 Scalability
+
 - [ ] **Database Optimization**
   - เพิ่ม indexes สำหรับ frequent queries
   - Implement database connection pooling
   - พิจารณา read replicas สำหรับ heavy read loads
-  
 - [ ] **Caching Strategy**
   - Implement multi-level caching (browser, CDN, server)
   - Cache invalidation strategy
   - Monitor cache hit rates
-  
 - [ ] **Load Testing**
   - Tools: k6 หรือ Apache JMeter
   - Test concurrent users: 100, 500, 1000
   - Identify bottlenecks
 
 #### 5.4 Documentation & Knowledge Transfer
+
 - [ ] **API Documentation**
   - สร้าง OpenAPI/Swagger documentation
   - Host docs บน Netlify หรือ GitHub Pages
-  
 - [ ] **Developer Handbook**
   - Setup guide สำหรับ developers ใหม่
   - Architecture decision records (ADRs)
   - Coding standards และ best practices
-  
 - [ ] **User Training Materials**
   - Video tutorials
   - User manuals (PDF และ online)
   - FAQ section
 
 **Deliverables Phase 5:**
+
 - ✅ Fully automated CI/CD pipeline
 - ✅ Comprehensive monitoring dashboard
 - ✅ Load test report with recommendations
@@ -329,21 +323,22 @@
 
 ## 📊 Success Metrics (KPIs)
 
-| Metric | Current | Target (Phase 3) | Target (Phase 5) |
-|--------|---------|------------------|------------------|
-| **Security Score** | 6/10 | 8/10 | 9.5/10 |
-| **Test Coverage** | ~40% | 80% | 90% |
-| **Page Load Time** | ~3.5s | <2s | <1.5s |
-| **Bundle Size** | ~2.5MB | ~1.5MB | ~1MB |
-| **Error Rate** | Unknown | <0.5% | <0.1% |
-| **Uptime** | Unknown | 99% | 99.9% |
-| **Mobile Lighthouse** | ~75 | >90 | >95 |
+| Metric                | Current | Target (Phase 3) | Target (Phase 5) |
+| --------------------- | ------- | ---------------- | ---------------- |
+| **Security Score**    | 6/10    | 8/10             | 9.5/10           |
+| **Test Coverage**     | ~40%    | 80%              | 90%              |
+| **Page Load Time**    | ~3.5s   | <2s              | <1.5s            |
+| **Bundle Size**       | ~2.5MB  | ~1.5MB           | ~1MB             |
+| **Error Rate**        | Unknown | <0.5%            | <0.1%            |
+| **Uptime**            | Unknown | 99%              | 99.9%            |
+| **Mobile Lighthouse** | ~75     | >90              | >95              |
 
 ---
 
 ## 🛠️ Technology Stack Recommendations
 
 ### Current Stack
+
 - **Frontend:** React 19, Vite 7, TailwindCSS
 - **Backend:** Netlify Functions (Node.js)
 - **Database:** Supabase (PostgreSQL)
@@ -353,6 +348,7 @@
 - **Testing:** Vitest, Playwright
 
 ### Recommended Additions
+
 - **Type Safety:** TypeScript (migration recommended)
 - **Error Monitoring:** Sentry
 - **APM:** Grafana Cloud หรือ New Relic
@@ -364,14 +360,14 @@
 
 ## ⚠️ Risk Management
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|------------|
-| **Security Breach** | Medium | High | Phase 1 fixes, regular audits |
-| **Performance Degradation** | High | Medium | Continuous monitoring, load testing |
-| **Data Loss** | Low | High | Regular backups, transaction logs |
-| **Scope Creep** | High | Medium | Strict change management, prioritization |
-| **Team Turnover** | Medium | High | Documentation, knowledge sharing |
-| **Third-party API Downtime** | Medium | Medium | Fallback mechanisms, caching |
+| Risk                         | Probability | Impact | Mitigation                               |
+| ---------------------------- | ----------- | ------ | ---------------------------------------- |
+| **Security Breach**          | Medium      | High   | Phase 1 fixes, regular audits            |
+| **Performance Degradation**  | High        | Medium | Continuous monitoring, load testing      |
+| **Data Loss**                | Low         | High   | Regular backups, transaction logs        |
+| **Scope Creep**              | High        | Medium | Strict change management, prioritization |
+| **Team Turnover**            | Medium      | High   | Documentation, knowledge sharing         |
+| **Third-party API Downtime** | Medium      | Medium | Fallback mechanisms, caching             |
 
 ---
 
@@ -391,6 +387,7 @@
 ## 🎓 Training & Onboarding
 
 ### For New Developers
+
 - [ ] Read `/docs/manual/` ทั้งหมด
 - [ ] Setup local development environment
 - [ ] Complete "First Contribution" task
@@ -398,6 +395,7 @@
 - [ ] Review architecture documents
 
 ### For End Users
+
 - [ ] Watch video tutorials (YouTube หรือ internal LMS)
 - [ ] Attend live training session (monthly)
 - [ ] Access user manual และ FAQ
@@ -408,11 +406,13 @@
 ## 📞 Support & Maintenance
 
 ### Support Tiers
+
 - **Tier 1:** Self-service (docs, FAQ, community)
 - **Tier 2:** Email support (response within 24h)
 - **Tier 3:** Critical issues (phone support, response within 4h)
 
 ### Maintenance Schedule
+
 - **Daily:** Automated backups, health checks
 - **Weekly:** Dependency updates, security patches
 - **Monthly:** Performance review, user feedback analysis
@@ -422,10 +422,11 @@
 
 ## 🏁 Conclusion
 
-Roadmap นี้ถูกออกแบบมาเพื่อพัฒนา NPT Smart Agri Dashboard จากระบบ Beta ที่ใช้งานได้ สู่ระบบ Production-ready ที่มีคุณภาพสูง ปลอดภัย และ scalable 
+Roadmap นี้ถูกออกแบบมาเพื่อพัฒนา NPT Smart Agri Dashboard จากระบบ Beta ที่ใช้งานได้ สู่ระบบ Production-ready ที่มีคุณภาพสูง ปลอดภัย และ scalable
 
 **Timeline รวม:** 16 สัปดาห์ (4 เดือน)  
-**ทีมที่ต้องการ:** 
+**ทีมที่ต้องการ:**
+
 - 2 Frontend Developers
 - 1 Backend Developer
 - 1 DevOps Engineer (part-time)
@@ -439,11 +440,12 @@ Roadmap นี้ถูกออกแบบมาเพื่อพัฒนา
 ## 📬 Contact & Feedback
 
 หากมีคำถามหรือข้อเสนอแนะเกี่ยวกับ Roadmap นี้ กรุณาติดต่อ:
+
 - **Project Lead:** [ชื่อ-นามสกุล]
 - **Email:** [email@example.com]
 - **GitHub:** [Repository Issues]
 
 ---
 
-*Last Updated: 2026-01-XX*  
-*Version: 1.0*
+_Last Updated: 2026-01-XX_  
+_Version: 1.0_
