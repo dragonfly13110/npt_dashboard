@@ -113,7 +113,7 @@ function isUsableForecast(row) {
 }
 
 // Main forecast logic
-const generateForecast = async (event = {}) => {
+export const generateForecast = async (event = {}) => {
   console.log('Starting Daily Crop Disease & Pest Risk AI Forecast...');
 
   try {
