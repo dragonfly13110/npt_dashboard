@@ -102,11 +102,10 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   // Environment variables validation
-  const requiredEnv = [
-    'VITE_SUPABASE_URL',
-    'VITE_SUPABASE_ANON_KEY',
-    'VITE_GISTDA_API_KEY',
-  ];
+  const requiredEnv =
+    mode === 'production'
+      ? ['VITE_SUPABASE_URL', 'VITE_SUPABASE_ANON_KEY', 'VITE_GISTDA_API_KEY']
+      : ['VITE_SUPABASE_URL', 'VITE_SUPABASE_ANON_KEY'];
   const missingEnv = requiredEnv.filter((key) => !env[key]);
 
   if (missingEnv.length > 0) {
