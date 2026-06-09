@@ -133,6 +133,7 @@ const generateForecast = async (event = {}) => {
     let bangkokDateStr = now.toLocaleDateString('en-CA', {
       timeZone: 'Asia/Bangkok',
     });
+    let parsedBody = {};
 
     // Support manual date override for backfilling/testing (e.g. ?date=2026-06-05 or {"date": "2026-06-05"})
     if (
@@ -143,10 +144,10 @@ const generateForecast = async (event = {}) => {
       bangkokDateStr = event.queryStringParameters.date;
     } else if (event && event.body) {
       try {
-        const body =
+        parsedBody =
           typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
-        if (body && body.date) {
-          bangkokDateStr = body.date;
+        if (parsedBody && parsedBody.date) {
+          bangkokDateStr = parsedBody.date;
         }
       } catch (e) {
         // Ignore parse error
@@ -159,8 +160,13 @@ const generateForecast = async (event = {}) => {
       (event &&
         event.queryStringParameters &&
         event.queryStringParameters.force === 'true');
+    const isForceTrigger =
+      (event &&
+        event.queryStringParameters &&
+        event.queryStringParameters.force === 'true') ||
+      parsedBody?.force === true;
 
-    if (!isManualTrigger) {
+    if (!isForceTrigger) {
       const { data: existing, error: checkError } = await supabase
         .from('ai_disease_forecasts')
         .select('forecast_date, summary, details')
@@ -175,7 +181,8 @@ const generateForecast = async (event = {}) => {
           statusCode: 200,
           headers: CORS_HEADERS,
           body: JSON.stringify({
-            message: `Forecast for ${bangkokDateStr} already exists. Skipped.`,
+            message: `มีข้อมูลพยากรณ์วันที่ ${bangkokDateStr} อยู่แล้ว`,
+            data: existing,
           }),
         };
       }
@@ -302,13 +309,38 @@ ${outbreakSummary}`;
     const maxRetries = 3;
     let resultJson = null;
     let aiFailureReason = '';
+    const preferKkuFirst = isManualTrigger && KKU_API_KEY;
+
+    if (preferKkuFirst) {
+      console.log(
+        `Manual forecast request detected. Trying KKU ${KKU_FORECAST_MODEL} first to avoid request timeout...`
+      );
+      try {
+        const prompt = `${basePrompt}${responseFormatInstruction}`;
+        const generatedText = await callKkuForecast(prompt);
+        resultJson = parseForecastJson(generatedText);
+        console.log(
+          `Successfully generated forecast using KKU ${KKU_FORECAST_MODEL}.`
+        );
+      } catch (kkuErr) {
+        aiFailureReason = kkuErr.message;
+        console.warn(
+          `KKU ${KKU_FORECAST_MODEL} first attempt failed:`,
+          kkuErr.message
+        );
+      }
+    }
 
     if (!GEMINI_API_KEY) {
       aiFailureReason = 'GEMINI_API_KEY is not configured in env variables.';
       console.warn(aiFailureReason);
     }
 
-    for (let attempt = 1; GEMINI_API_KEY && attempt <= maxRetries; attempt++) {
+    for (
+      let attempt = 1;
+      !resultJson && GEMINI_API_KEY && attempt <= maxRetries;
+      attempt++
+    ) {
       console.log(`Forecast generation attempt ${attempt} of ${maxRetries}...`);
       try {
         let generatedText = '';
