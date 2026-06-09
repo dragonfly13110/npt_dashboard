@@ -76,6 +76,8 @@ function compactMoney(value) {
 
 function normalizeCondition(value) {
   const text = compactText(value, 'ใช้งาน');
+  if (/ชำรุดซ่อมได้/.test(text)) return 'ชำรุดซ่อมได้';
+  if (/ชำรุดซ่อมไม่ได้/.test(text)) return 'ชำรุดซ่อมไม่ได้';
   if (/ชำรุด|เสีย|ซ่อม/.test(text)) return 'ชำรุด';
   if (/จำหน่าย|ตัด/.test(text)) return 'จำหน่าย';
   return text;
@@ -129,7 +131,7 @@ function topGroups(rows, keyFn, limit = 10) {
 
 function conditionColor(condition) {
   if (condition === 'ดี' || condition === 'ใช้งาน') return 'green';
-  if (condition === 'ชำรุด') return 'gold';
+  if (/ชำรุด/.test(condition)) return 'gold';
   if (condition === 'จำหน่าย') return 'red';
   return 'blue';
 }
