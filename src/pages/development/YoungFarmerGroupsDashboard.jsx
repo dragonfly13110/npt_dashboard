@@ -46,6 +46,7 @@ import {
   getPublicSelectColumns,
 } from '../../utils/dataPrivacy';
 import districtGeoJSON from '../../data/nakhon_pathom_districts.json';
+import subdistrictGeoJSON from '../../data/nakhon_pathom_subdistricts.json';
 
 function FitBounds({ points, MapComponents, useMap }) {
   const map = useMap();
@@ -423,6 +424,31 @@ function YoungFarmerGroupsMap({ rows, year }) {
             const name =
               feature.properties?.amp_th || feature.properties?.AMP_NAMT;
             if (name) layer.bindTooltip(`อำเภอ${name}`, { sticky: true });
+          }}
+        />
+        <GeoJSON
+          data={subdistrictGeoJSON}
+          style={{
+            color: '#7c3aed',
+            weight: 1,
+            opacity: 0.5,
+            fillColor: '#ede9fe',
+            fillOpacity: 0.04,
+            dashArray: '2, 4',
+          }}
+          onEachFeature={(feature, layer) => {
+            const props = feature.properties || {};
+            const tambon = props.tam_th || props.tam_en;
+            const district = props.amp_th || props.amp_en;
+            if (tambon || district) {
+              layer.bindTooltip(
+                `ต.${tambon || '-'}${district ? ` / อ.${district}` : ''}`,
+                {
+                  sticky: true,
+                  direction: 'auto',
+                }
+              );
+            }
           }}
         />
         {points.map((item) => (
