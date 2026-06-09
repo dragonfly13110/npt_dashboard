@@ -151,15 +151,20 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api\/nabc/, ''),
         },
-        '/api/gistda': {
-          target: 'https://api-gateway.gistda.or.th',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api\/gistda/, ''),
-          headers: {
-            'API-Key': env.VITE_GISTDA_API_KEY || '',
-            accept: 'application/json',
-          },
-        },
+        '/api/gistda': env.VITE_GISTDA_API_KEY
+          ? {
+              target: 'https://api-gateway.gistda.or.th',
+              changeOrigin: true,
+              rewrite: (path) => path.replace(/^\/api\/gistda/, ''),
+              headers: {
+                'API-Key': env.VITE_GISTDA_API_KEY,
+                accept: 'application/json',
+              },
+            }
+          : {
+              target: 'https://npt-dashboard.netlify.app',
+              changeOrigin: true,
+            },
         '/api/doae-npt': {
           target: 'https://nakhonpathom.doae.go.th',
           changeOrigin: true,
