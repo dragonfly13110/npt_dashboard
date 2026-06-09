@@ -287,10 +287,7 @@ export default function Assets() {
       0
     );
     const active = filteredRows.filter(
-      (row) =>
-        row.sourceStatus === 'ใช้งาน' ||
-        row.conditionGroup === 'ดี' ||
-        row.conditionGroup === 'ใช้งาน'
+      (row) => row.conditionGroup === 'ดี' || row.conditionGroup === 'ใช้งาน'
     ).length;
     const units = new Set(
       filteredRows.map((row) => row.assignedTo).filter(Boolean)
