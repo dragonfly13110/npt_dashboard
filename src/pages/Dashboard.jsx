@@ -195,9 +195,6 @@ export default function Dashboard() {
               </div>
             ))
           : groupConfig.map((g) => {
-              const groupTotal = stats
-                .filter((s) => s.group === g.group)
-                .reduce((sum, s) => sum + s.count, 0);
               const IconMap = {
                 กลุ่มยุทธศาสตร์และสารสนเทศ: AimOutlined,
                 กลุ่มส่งเสริมและพัฒนาการผลิต: BankOutlined,
