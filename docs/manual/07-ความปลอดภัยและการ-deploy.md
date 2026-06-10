@@ -495,7 +495,7 @@ const allowedOrigins = [
 
 1. **ฟังก์ชันเกี่ยวกับ AI และข้อมูลเกษตร:**
    - `ai-proxy.js`: จุดเชื่อมต่อหลักสำหรับ AI Chatbot (Gemini, NVIDIA, OpenRouter)
-   - `kku-proxy.js`: จุดเชื่อมต่อ API แชทบอทน้องข้าวหอม ร่วมกับ มหาวิทยาลัยขอนแก่น
+   - `kku-proxy.js`: จุดเชื่อมต่อ API แชทบอทน้องข้าวหลาม ร่วมกับ มหาวิทยาลัยขอนแก่น
    - `forecast-disease-insect.js`: ประมวลผลและแสดงผลทำนายการระบาดของโรคและแมลงศัตรูพืช
    - `forecast-disease-insect-daily.js`: รันทำนายสภาพอากาศและโรคแมลงประจำวัน
 2. **ฟังก์ชัน Proxy ดึงข้อมูลภายนอก (External Data Proxies):**

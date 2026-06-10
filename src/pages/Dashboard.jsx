@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Skeleton, Button, Row, Col, Card } from 'antd';
+import { Skeleton, Button, Row, Col, Card, message as antMessage } from 'antd';
 import {
   FilePdfOutlined,
   AimOutlined,
@@ -33,6 +33,7 @@ import {
 } from '../hooks/useDashboardData';
 import { supabase } from '../supabaseClient';
 import { TABLE_ROUTES } from '../domain/datasetCatalog';
+import { buildDashboardPdfReportHtml } from './dashboardPdfReport';
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -49,7 +50,6 @@ export default function Dashboard() {
   } = useDashboardData();
 
   const [pdfExporting, setPdfExporting] = useState(false);
-  const dashRef = useRef(null);
   const [visits, setVisits] = useState(0);
   const hasTourismData =
     loading || tourism.count > 0 || tourism.list.length > 0;
@@ -79,35 +79,86 @@ export default function Dashboard() {
   const totalRecords = stats.reduce((sum, s) => sum + s.count, 0);
 
   const handleExportPdf = async () => {
-    if (!dashRef.current) return;
+    if (loading) {
+      antMessage.warning(
+        'กำลังโหลดข้อมูล กรุณารอสักครู่แล้วลองพิมพ์ PDF อีกครั้ง'
+      );
+      return;
+    }
+
     setPdfExporting(true);
+    let printFrame = null;
     try {
-      const html2canvas = (await import('html2canvas')).default;
-      const { jsPDF } = await import('jspdf');
-      const canvas = await html2canvas(dashRef.current, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        backgroundColor: '#f6f8fa',
+      const html = buildDashboardPdfReportHtml({
+        stats,
+        groupConfig,
+        districtStats,
+        tourism,
+        instituteStats,
+        lpStats,
+        agriStats,
+        agriPie,
+        lpPie,
+        visits,
+        generatedAt: new Date(),
       });
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('l', 'mm', 'a4');
-      const pdfW = pdf.internal.pageSize.getWidth();
-      const pdfH = pdf.internal.pageSize.getHeight();
-      const ratio = Math.min(pdfW / canvas.width, pdfH / canvas.height);
-      const w = canvas.width * ratio;
-      const h = canvas.height * ratio;
-      pdf.addImage(imgData, 'PNG', (pdfW - w) / 2, 4, w, h);
-      pdf.save(`dashboard_${new Date().toISOString().slice(0, 10)}.pdf`);
+
+      printFrame = document.createElement('iframe');
+      printFrame.title = 'dashboard-pdf-report';
+      printFrame.style.position = 'fixed';
+      printFrame.style.right = '0';
+      printFrame.style.bottom = '0';
+      printFrame.style.width = '0';
+      printFrame.style.height = '0';
+      printFrame.style.border = '0';
+      printFrame.style.opacity = '0';
+      document.body.appendChild(printFrame);
+
+      const frameWindow = printFrame.contentWindow;
+      const frameDocument = frameWindow?.document;
+      if (!frameWindow || !frameDocument) {
+        throw new Error('ไม่สามารถเตรียมหน้ารายงานสำหรับพิมพ์ PDF ได้');
+      }
+
+      frameDocument.open();
+      frameDocument.write(html);
+      frameDocument.close();
+
+      await new Promise((resolve) => {
+        printFrame.onload = resolve;
+        window.setTimeout(resolve, 350);
+      });
+
+      if (frameDocument.fonts?.ready) {
+        await frameDocument.fonts.ready;
+      }
+
+      frameWindow.focus();
+      frameWindow.print();
+      antMessage.success(
+        'เปิดหน้าต่างพิมพ์ PDF แล้ว เลือก “Save as PDF” ได้เลย'
+      );
+
+      const cleanup = () => {
+        if (printFrame?.parentNode) {
+          printFrame.parentNode.removeChild(printFrame);
+        }
+      };
+      frameWindow.addEventListener('afterprint', cleanup, { once: true });
+      window.setTimeout(cleanup, 60000);
     } catch (err) {
       console.error(err);
+      if (printFrame?.parentNode) {
+        printFrame.parentNode.removeChild(printFrame);
+      }
+      antMessage.error('พิมพ์ PDF ไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');
     } finally {
       setPdfExporting(false);
     }
   };
 
   return (
-    <div ref={dashRef} className="dashboard-unified">
+    <div className="dashboard-unified">
       {/* Page Header */}
       <div
         style={{

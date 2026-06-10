@@ -273,7 +273,7 @@ function Generate4 {
         @{t="Dashboard รวมข้อมูล"; d="สรุปตัวเลข กราฟ และสถานะตามกลุ่มงาน"; c=$green},
         @{t="Smart Map / GIS"; d="ดูรายอำเภอ พิกัดพื้นที่ และชั้นข้อมูลเชิงพื้นที่"; c=$sky},
         @{t="Global Search"; d="ค้นหาคำเดียว เจอข้อมูลข้ามหลายตาราง"; c=$gold},
-        @{t="AI Chatbot น้องข้าวหอม"; d="ถามด้วยภาษาธรรมชาติ ให้ AI ช่วยสรุป"; c=$violet},
+        @{t="AI Chatbot น้องข้าวหลาม"; d="ถามด้วยภาษาธรรมชาติ ให้ AI ช่วยสรุป"; c=$violet},
         @{t="CRUD + Import / Export"; d="เพิ่ม แก้ ลบ นำเข้า CSV/Excel และส่งออกรายงาน"; c=$teal},
         @{t="Live Widgets"; d="ข่าว อากาศ AQI ราคาเกษตร เขื่อน และ Hotspot"; c=$orange},
         @{t="Data Request Workflow"; d="จังหวัดสร้างคำขอ อำเภอกรอก ระบบรวมผล"; c=$slate},

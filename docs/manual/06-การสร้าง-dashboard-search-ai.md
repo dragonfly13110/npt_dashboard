@@ -31,15 +31,15 @@ Dashboard, Search, AI Chatbot
 
 แยกตามโมดูลได้ดังนี้
 
-| ส่วน                          | หน้าที่                                                                    | ไฟล์หลัก                                                                                                                                                  |
-| ----------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Dashboard                     | แสดงภาพรวม กราฟ แผนที่ widget และข้อมูลรายอำเภอ                            | `src/pages/Dashboard.jsx`, `src/pages/InteractiveDashboard.jsx`, `src/pages/SituationRoom.jsx`, `src/pages/SmartMap.jsx`, `src/hooks/useDashboardData.js` |
-| Landing Chatbot (น้องข้าวหอม) | แชทบอทวิเคราะห์คำถามสาธารณะที่หน้าแรกของระบบ                               | `src/components/LandingChatbot/LandingChatbot.jsx`                                                                                                        |
-| Data Management               | แสดงตาราง เพิ่ม แก้ ลบ import/export CSV/Excel                             | `src/components/DataTable/CrudTable.jsx`, `src/components/DataTable/CsvImportModal.jsx`                                                                   |
-| Global Search                 | ค้นหาข้ามหลายตารางในระบบ                                                   | `src/pages/SearchResults.jsx`, `src/services/globalSearchService.js`                                                                                      |
-| AI Chatbot                    | วิเคราะห์คำถาม ดึงข้อมูลจากฐานข้อมูล และให้ AI ตอบจากข้อมูลจริง            | `src/pages/Chatbot.jsx`, `src/services/chatbotDataService.js`, `src/services/aiService.js`                                                                |
-| AI Proxy                      | รับคำขอจาก frontend แล้วส่งต่อไปยัง provider เช่น Gemini/OpenRouter/NVIDIA | `netlify/functions/ai-proxy.js`                                                                                                                           |
-| Config กลาง                   | เก็บชื่อ table, field ค้นหา, field ตัวเลข, model และ system prompt         | `src/utils/chatbotConstants.js`                                                                                                                           |
+| ส่วน                           | หน้าที่                                                                    | ไฟล์หลัก                                                                                                                                                  |
+| ------------------------------ | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dashboard                      | แสดงภาพรวม กราฟ แผนที่ widget และข้อมูลรายอำเภอ                            | `src/pages/Dashboard.jsx`, `src/pages/InteractiveDashboard.jsx`, `src/pages/SituationRoom.jsx`, `src/pages/SmartMap.jsx`, `src/hooks/useDashboardData.js` |
+| Landing Chatbot (น้องข้าวหลาม) | แชทบอทวิเคราะห์คำถามสาธารณะที่หน้าแรกของระบบ                               | `src/components/LandingChatbot/LandingChatbot.jsx`                                                                                                        |
+| Data Management                | แสดงตาราง เพิ่ม แก้ ลบ import/export CSV/Excel                             | `src/components/DataTable/CrudTable.jsx`, `src/components/DataTable/CsvImportModal.jsx`                                                                   |
+| Global Search                  | ค้นหาข้ามหลายตารางในระบบ                                                   | `src/pages/SearchResults.jsx`, `src/services/globalSearchService.js`                                                                                      |
+| AI Chatbot                     | วิเคราะห์คำถาม ดึงข้อมูลจากฐานข้อมูล และให้ AI ตอบจากข้อมูลจริง            | `src/pages/Chatbot.jsx`, `src/services/chatbotDataService.js`, `src/services/aiService.js`                                                                |
+| AI Proxy                       | รับคำขอจาก frontend แล้วส่งต่อไปยัง provider เช่น Gemini/OpenRouter/NVIDIA | `netlify/functions/ai-proxy.js`                                                                                                                           |
+| Config กลาง                    | เก็บชื่อ table, field ค้นหา, field ตัวเลข, model และ system prompt         | `src/utils/chatbotConstants.js`                                                                                                                           |
 
 หลักคิดสำคัญคือ ข้อมูลหนึ่งชุดไม่ควรถูกผูกกับหน้าเดียวเท่านั้น แต่ควรออกแบบให้ใช้ซ้ำได้ทั้ง Dashboard, Search และ AI
 
@@ -848,7 +848,7 @@ supabase
 ระบบนี้มี AI Chatbot สองส่วนหลักสำหรับการให้บริการที่แตกต่างกัน:
 
 1. **แชทบอทระบบภายใน (Chatbot page):** หน้าหลักอยู่ที่ `/dashboard/chatbot` (สำหรับผู้ใช้ที่ลงชื่อเข้าใช้งาน) สามารถวิเคราะห์คำถามที่ดึงข้อมูลจริงจาก Supabase มาจัดทำ Context และส่งต่อไปยัง AI Provider (เช่น Gemini/NVIDIA/KKU) มีโหมดคิดเชิงลึกและต่อเน็ตเพื่อคำตอบที่ถูกต้องแม่นยำ
-2. **น้องข้าวหอม แชทบอทหน้าแรก (Landing Chatbot):** แสดงเป็นฟองสบู่คุยที่หน้าแรกแบบสาธารณะ (`LandingChatbot.jsx`) ใช้สำหรับแนะนำเมนู แนะนำระบบ คีย์เวิร์ดเด่น โดยเชื่อมกับ API ภายนอกของ มหาวิทยาลัยขอนแก่น (KKU API - `/api/kku`) เพื่อเป็นผู้ช่วยคนสำคัญของหน้าเว็บ
+2. **น้องข้าวหลาม แชทบอทหน้าแรก (Landing Chatbot):** แสดงเป็นฟองสบู่คุยที่หน้าแรกแบบสาธารณะ (`LandingChatbot.jsx`) ใช้สำหรับแนะนำเมนู แนะนำระบบ คีย์เวิร์ดเด่น โดยเชื่อมกับ API ภายนอกของ มหาวิทยาลัยขอนแก่น (KKU API - `/api/kku`) เพื่อเป็นผู้ช่วยคนสำคัญของหน้าเว็บ
 
 ไฟล์หลักสำหรับ Chatbot:
 
@@ -1255,7 +1255,7 @@ buildContextForAI(analysis);
    - `gemini` (ใช้ `GEMINI_API_KEY`)
    - `openrouter` (ใช้ `OPENROUTER_API_KEY`)
    - `nvidia` (ใช้ `NVIDIA_API_KEY`)
-2. **KKU API Proxy (`/api/kku`):** ตั้งค่า rewrite ใน `vite.config.js` และ redirect ใน Netlify เพื่อส่ง request จากหน้าบ้านไปยัง `https://gen.ai.kku.ac.th` โดยไม่มีปัญหา CORS ใช้สำหรับน้องข้าวหอมแชทบอทหน้าแรก
+2. **KKU API Proxy (`/api/kku`):** ตั้งค่า rewrite ใน `vite.config.js` และ redirect ใน Netlify เพื่อส่ง request จากหน้าบ้านไปยัง `https://gen.ai.kku.ac.th` โดยไม่มีปัญหา CORS ใช้สำหรับน้องข้าวหลามแชทบอทหน้าแรก
 
 ข้อควรปฏิบัติ
 
