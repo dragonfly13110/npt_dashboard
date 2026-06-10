@@ -4,6 +4,9 @@
   publish = "dist"
   command = "pnpm run build:netlify"
 
+[functions]
+  node_bundler = "esbuild"
+
 # ===== HEADERS =====
 [[headers]]
   for = "/*"
