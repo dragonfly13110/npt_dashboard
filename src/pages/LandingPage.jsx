@@ -22,11 +22,13 @@ import {
   TeamOutlined,
   UpOutlined,
   UserSwitchOutlined,
+  LikeOutlined,
 } from '@ant-design/icons';
 import { supabase } from '../supabaseClient';
 import AgencyLinksPanel from '../components/widgets/AgencyLinksPanel';
 import LandingFooter from '../components/widgets/LandingFooter';
 import NewsAccordion from '../components/widgets/NewsAccordion';
+import WebsiteEvaluationForm from '../components/widgets/WebsiteEvaluationForm';
 import './LandingPage.css';
 import './SaastyTheme.css';
 
@@ -367,6 +369,17 @@ export default function LandingPage() {
           <span>
             <strong>ชุมชนเกษตรกร</strong>
             <small>Farmer Forum</small>
+          </span>
+        </button>
+        <button
+          className="landing-system-tab evaluation-warning-tab"
+          onClick={() => setActiveInfoModal('websiteEvaluation')}
+          style={{ cursor: 'pointer', borderLeft: '3px solid #16a34a' }}
+        >
+          <LikeOutlined aria-hidden="true" />
+          <span>
+            <strong>ประเมินเว็บไซต์</strong>
+            <small>แบบสำรวจความพึงพอใจ</small>
           </span>
         </button>
       </div>
@@ -847,6 +860,18 @@ export default function LandingPage() {
             เข้าสู่กระดานข่าว / ตั้งกระทู้ถาม
           </button>
         </div>
+      </Modal>
+
+      <Modal
+        title="📝 แบบประเมินความพึงพอใจการใช้งานเว็บไซต์"
+        open={activeInfoModal === 'websiteEvaluation'}
+        onCancel={() => setActiveInfoModal(null)}
+        footer={null}
+        width={650}
+        className="landing-info-modal landing-evaluation-modal"
+        destroyOnClose
+      >
+        <WebsiteEvaluationForm onSuccess={() => setActiveInfoModal(null)} />
       </Modal>
 
       <Modal

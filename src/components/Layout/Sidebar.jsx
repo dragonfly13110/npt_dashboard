@@ -287,6 +287,11 @@ const adminOnlyItems = [
         label: 'จัดการสิทธิ์ผู้ใช้',
       },
       {
+        key: '/dashboard/admin/website-evaluations',
+        icon: <FormOutlined />,
+        label: 'ผลการประเมินเว็บไซต์',
+      },
+      {
         key: '/dashboard/admin/audit-log',
         icon: <HistoryOutlined />,
         label: 'ประวัติการแก้ไข',
