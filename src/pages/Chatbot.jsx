@@ -40,6 +40,7 @@ import {
 
 import ChatMessage from '../components/Chatbot/ChatMessage';
 import LoadingIndicator from '../components/Chatbot/LoadingIndicator';
+import khaolamAvatar from '../assets/khaolam-avatar.png';
 
 const { Text } = Typography;
 
@@ -579,7 +580,7 @@ ${dbContext}
         <div style={styles.toolbarTitle}>
           <Avatar
             size={32}
-            icon={<RobotOutlined />}
+            src={khaolamAvatar}
             style={{
               background: `linear-gradient(135deg, ${currentModelConfig.color}, ${currentModelConfig.color}aa)`,
               boxShadow: `0 0 12px ${currentModelConfig.color}40`,

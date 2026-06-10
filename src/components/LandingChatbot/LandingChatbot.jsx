@@ -12,6 +12,7 @@ import {
   WarningOutlined,
 } from '@ant-design/icons';
 import './LandingChatbot.css';
+import khaolamAvatar from '../../assets/khaolam-avatar.png';
 import {
   LANDING_CHATBOT_LINK_POLICY_PROMPT,
   normalizeLandingChatbotLink,
@@ -356,8 +357,18 @@ export default function LandingChatbot() {
             setShowWelcomeBubble(false);
           }}
           title="คุยกับน้องข้าวหลาม AI"
+          style={{ padding: 0, overflow: 'hidden' }}
         >
-          <CommentOutlined className="toggle-icon-chat" />
+          <img
+            src={khaolamAvatar}
+            alt="น้องข้าวหลาม AI"
+            style={{
+              width: '85%',
+              height: '85%',
+              objectFit: 'contain',
+              borderRadius: '50%',
+            }}
+          />
           <span className="toggle-btn-badge">AI</span>
         </button>
       )}
@@ -370,8 +381,9 @@ export default function LandingChatbot() {
             <div className="header-info">
               <Avatar
                 size={36}
-                icon={<RobotOutlined />}
+                src={khaolamAvatar}
                 className="header-avatar"
+                style={{ background: 'rgba(255, 255, 255, 0.2)' }}
               />
               <div className="header-text">
                 <span className="header-name">น้องข้าวหลาม AI</span>
@@ -407,7 +419,7 @@ export default function LandingChatbot() {
                   {msg.role === 'assistant' && (
                     <Avatar
                       size={28}
-                      icon={<RobotOutlined />}
+                      src={khaolamAvatar}
                       className="message-avatar"
                     />
                   )}
@@ -432,7 +444,7 @@ export default function LandingChatbot() {
                 <div className="message-row assistant loading">
                   <Avatar
                     size={28}
-                    icon={<RobotOutlined />}
+                    src={khaolamAvatar}
                     className="message-avatar"
                   />
                   <div className="message-bubble loading-bubble">
