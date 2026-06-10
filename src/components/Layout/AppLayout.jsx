@@ -111,6 +111,7 @@ export default function AppLayout() {
       key: 'profile',
       icon: <UserOutlined />,
       label: 'โปรไฟล์',
+      onClick: () => navigate('/dashboard/profile'),
     },
     { type: 'divider' },
     {

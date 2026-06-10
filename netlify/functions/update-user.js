@@ -64,6 +64,7 @@ export default async (request) => {
       full_name,
       role,
       department,
+      position,
     } = await request.json();
     if (!isUuid(targetUserId)) {
       return jsonResponse(400, { error: 'Invalid user id' });
@@ -84,7 +85,7 @@ export default async (request) => {
     // Verify target user exists
     const { data: targetProfile, error: targetProfileError } = await supabase
       .from('profiles')
-      .select('id,email,role,full_name,department')
+      .select('id,email,role,full_name,department,position')
       .eq('id', targetUserId)
       .single();
 
@@ -124,6 +125,7 @@ export default async (request) => {
         role: role !== undefined ? role : targetProfile.role,
         department:
           department !== undefined ? department : targetProfile.department,
+        position: position !== undefined ? position : targetProfile.position,
         updated_at: new Date().toISOString(),
       })
       .eq('id', targetUserId);
@@ -144,6 +146,7 @@ export default async (request) => {
         role: role !== undefined ? role : targetProfile.role,
         department:
           department !== undefined ? department : targetProfile.department,
+        position: position !== undefined ? position : targetProfile.position,
       },
     });
 

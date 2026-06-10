@@ -298,6 +298,7 @@ describe('update-user serverless function', () => {
           role: 'viewer',
           full_name: 'John',
           department: null,
+          position: null,
         },
         error: null,
       });
@@ -330,6 +331,7 @@ describe('update-user serverless function', () => {
           full_name: 'John Doe',
           role: 'editor',
           department: 'กลุ่มอารักขาพืช',
+          position: 'หัวหน้ากลุ่มงาน',
         },
         { authorization: 'Bearer valid-token' }
       )
@@ -346,6 +348,7 @@ describe('update-user serverless function', () => {
         full_name: 'John Doe',
         role: 'editor',
         department: 'กลุ่มอารักขาพืช',
+        position: 'หัวหน้ากลุ่มงาน',
       })
     );
     expect(mockInsert).toHaveBeenCalledWith(
@@ -356,6 +359,7 @@ describe('update-user serverless function', () => {
           full_name: 'John Doe',
           role: 'editor',
           department: 'กลุ่มอารักขาพืช',
+          position: 'หัวหน้ากลุ่มงาน',
         },
       })
     );

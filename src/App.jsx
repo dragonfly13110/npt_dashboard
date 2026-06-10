@@ -47,6 +47,7 @@ const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 const UserManagement = lazy(() => import('./pages/admin/UserManagement'));
 const AuditLog = lazy(() => import('./pages/admin/AuditLog'));
 const RecentActivities = lazy(() => import('./pages/admin/RecentActivities'));
+const Profile = lazy(() => import('./pages/Profile'));
 
 // Strategy
 const Disasters = lazy(() => import('./pages/strategy/Disasters'));
@@ -277,6 +278,7 @@ function AppRoutes() {
           }
         >
           <Route index element={<Dashboard />} />
+          <Route path="profile" element={<Profile />} />
           <Route
             path="situation-room"
             element={

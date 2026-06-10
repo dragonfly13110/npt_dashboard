@@ -33,6 +33,14 @@ const departments = [
   'กลุ่มส่งเสริมและพัฒนาการผลิต',
   'กลุ่มส่งเสริมและพัฒนาเกษตรกร',
   'กลุ่มอารักขาพืช',
+  'เมืองนครปฐม',
+  'กำแพงแสน',
+  'นครชัยศรี',
+  'ดอนตูม',
+  'บางเลน',
+  'สามพราน',
+  'พุทธมณฑล',
+  'อื่นๆ',
 ];
 
 export default function UserManagement() {
@@ -63,6 +71,7 @@ export default function UserManagement() {
       role: record.role || 'viewer',
       department: record.department || undefined,
       full_name: record.full_name || '',
+      position: record.position || '',
     });
     setEditModal(true);
   };
@@ -90,6 +99,7 @@ export default function UserManagement() {
           full_name: values.full_name,
           role: values.role,
           department: values.department,
+          position: values.position,
         }),
       });
 
@@ -190,6 +200,14 @@ export default function UserManagement() {
       title: 'ชื่อ',
       dataIndex: 'full_name',
       key: 'full_name',
+      width: 180,
+      render: (val) =>
+        val || <span style={{ color: '#8b949e' }}>ยังไม่ระบุ</span>,
+    },
+    {
+      title: 'ตำแหน่ง',
+      dataIndex: 'position',
+      key: 'position',
       width: 180,
       render: (val) =>
         val || <span style={{ color: '#8b949e' }}>ยังไม่ระบุ</span>,
@@ -345,6 +363,9 @@ export default function UserManagement() {
         <Form form={form} layout="vertical">
           <Form.Item name="full_name" label="ชื่อ-นามสกุล">
             <input className="ant-input" placeholder="กรอกชื่อ-นามสกุล" />
+          </Form.Item>
+          <Form.Item name="position" label="ตำแหน่ง">
+            <input className="ant-input" placeholder="กรอกตำแหน่งหน้าที่" />
           </Form.Item>
           <Form.Item name="role" label="สิทธิ์" rules={[{ required: true }]}>
             <Select
