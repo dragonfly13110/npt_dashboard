@@ -70,11 +70,41 @@ export default function UserManagement() {
   const handleSave = async () => {
     try {
       const values = await form.validateFields();
-      const { error } = await supabase
-        .from('profiles')
-        .update(values)
-        .eq('id', editingUser.id);
-      if (error) throw error;
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      const accessToken = session?.access_token;
+      if (!accessToken) {
+        throw new Error('ไม่พบ session สำหรับยืนยันสิทธิ์ผู้ดูแลระบบ');
+      }
+
+      const response = await fetch('/api/admin/users/update', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          user_id: editingUser.id,
+          full_name: values.full_name,
+          role: values.role,
+          department: values.department,
+        }),
+      });
+
+      const contentType = response.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        throw new Error(
+          'ไม่พบ API สำหรับแก้ไขผู้ใช้ กรุณาใช้งานผ่าน Netlify/Production หรือ netlify dev'
+        );
+      }
+
+      const payload = await response.json();
+      if (!response.ok || !payload.ok) {
+        throw new Error(payload.error || 'แก้ไขสิทธิ์ผู้ใช้ไม่สำเร็จ');
+      }
+
       notification.success({
         message: 'บันทึกสำเร็จ',
         description: 'อัปเดตข้อมูลผู้ใช้เรียบร้อยแล้ว',

@@ -70,8 +70,8 @@ CREATE POLICY "Profiles read own or admin" ON profiles
 DROP POLICY IF EXISTS "Profiles update own basic profile or admin" ON profiles;
 CREATE POLICY "Profiles update own basic profile or admin" ON profiles
   FOR UPDATE TO authenticated
-  USING (id = auth.uid() OR public.is_admin())
-  WITH CHECK (id = auth.uid() OR public.is_admin());
+  USING (public.is_admin())
+  WITH CHECK (public.is_admin());
 
 DO $$
 DECLARE
