@@ -10,6 +10,25 @@ export default function WebsiteEvaluationForm({ onSuccess }) {
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (values) => {
+    // 1. Honeypot check to block bot spammers
+    if (values.honeypot) {
+      message.success('ขอบคุณสำหรับความคิดเห็นและการประเมินเว็บไซต์ของคุณค่ะ! 🙏');
+      if (onSuccess) onSuccess();
+      return;
+    }
+
+    // 2. Cooldown check (24 hours) to prevent double submissions from the same browser
+    const lastSubmission = localStorage.getItem('npt_website_evaluation_submitted');
+    if (lastSubmission) {
+      const diff = Date.now() - parseInt(lastSubmission);
+      const cooldownPeriod = 24 * 60 * 60 * 1000; // 24 hours
+      if (diff < cooldownPeriod) {
+        message.warning('คุณเคยส่งประเมินความพึงพอใจแล้วในวันนี้ ขอบคุณมากค่ะ! 🙏');
+        if (onSuccess) onSuccess();
+        return;
+      }
+    }
+
     setSubmitting(true);
     try {
       const payload = {
@@ -27,9 +46,10 @@ export default function WebsiteEvaluationForm({ onSuccess }) {
 
       if (error) throw error;
 
-      message.success(
-        'ขอบคุณสำหรับความคิดเห็นและการประเมินเว็บไซต์ของคุณค่ะ! 🙏'
-      );
+      // Save submission time to localStorage
+      localStorage.setItem('npt_website_evaluation_submitted', Date.now().toString());
+
+      message.success('ขอบคุณสำหรับความคิดเห็นและการประเมินเว็บไซต์ของคุณค่ะ! 🙏');
       form.resetFields();
       if (onSuccess) onSuccess();
     } catch (err) {
@@ -64,8 +84,14 @@ export default function WebsiteEvaluationForm({ onSuccess }) {
           rating_usability: 5,
           rating_information: 5,
           rating_speed: 5,
+          honeypot: '',
         }}
       >
+        {/* Honeypot field (hidden from real users, but filled by bots) */}
+        <Form.Item name="honeypot" style={{ display: 'none' }}>
+          <Input tabIndex={-1} autoComplete="off" />
+        </Form.Item>
+
         {/* User Type */}
         <Form.Item
           name="user_type"
