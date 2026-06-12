@@ -107,12 +107,14 @@ function readShpPolygons(filePath) {
       parts.push(buffer.readInt32LE(partsOffset + i * 4));
     }
 
+    const utmPoints = [];
     const points = [];
     for (let i = 0; i < numPoints; i += 1) {
       const pointOffset = pointsOffset + i * 16;
       const easting = buffer.readDoubleLE(pointOffset);
       const northing = buffer.readDoubleLE(pointOffset + 8);
       const { latitude, longitude } = utm.toLatLon(easting, northing, 47, 'N');
+      utmPoints.push([easting, northing]);
       points.push([roundCoordinate(longitude), roundCoordinate(latitude)]);
     }
 
@@ -120,8 +122,17 @@ function readShpPolygons(filePath) {
       const end = parts[index + 1] ?? points.length;
       return points.slice(start, end);
     });
+    const utmRings = parts.map((start, index) => {
+      const end = parts[index + 1] ?? utmPoints.length;
+      return utmPoints.slice(start, end);
+    });
 
-    polygons.push(ringsToPolygonGeometry(rings));
+    polygons.push({
+      geometry: ringsToPolygonGeometry(rings),
+      areaSqm: Math.abs(
+        utmRings.reduce((sum, ring) => sum + ringArea(ring), 0)
+      ),
+    });
     offset += 8 + contentLengthBytes;
   }
 
@@ -169,10 +180,15 @@ function main() {
   const features = geometries
     .map((geometry, index) => {
       if (!geometry) return null;
+      const areaRai = geometry.areaSqm / 1600;
       return {
         type: 'Feature',
-        properties: properties[index] || {},
-        geometry,
+        properties: {
+          ...(properties[index] || {}),
+          area_sqm: Math.round(geometry.areaSqm),
+          area_rai: Math.round(areaRai * 100) / 100,
+        },
+        geometry: geometry.geometry,
       };
     })
     .filter(Boolean);

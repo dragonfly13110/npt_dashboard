@@ -130,6 +130,7 @@ const getSoilProperty = (properties, keys) => {
 const getSoilFeatureLabel = (properties) => {
   const series =
     getSoilProperty(properties, [
+      'soilserien',
       'SOIL_SERIE',
       'SOIL_SERIES',
       'SOIL_NAME',
@@ -141,6 +142,7 @@ const getSoilFeatureLabel = (properties) => {
       'name',
     ]) || 'Soil series';
   const group = getSoilProperty(properties, [
+    'soilgroup',
     'SOIL_GROUP',
     'GROUP',
     'SGROUP',
@@ -148,6 +150,7 @@ const getSoilFeatureLabel = (properties) => {
     'group',
   ]);
   const unit = getSoilProperty(properties, [
+    'soilseries',
     'MAP_UNIT',
     'UNIT',
     'SYMBOL',
@@ -156,8 +159,37 @@ const getSoilFeatureLabel = (properties) => {
     'symbol',
     'code',
   ]);
+  const texture = getSoilProperty(properties, ['texture_to', 'TEXTURE']);
+  const fertility = getSoilProperty(properties, ['fertility', 'FERTILITY']);
+  const ph = getSoilProperty(properties, ['pH_top', 'PH_TOP']);
+  const amphoe = getSoilProperty(properties, ['AMPHOE_T', 'amphoe']);
+  const areaRai = getSoilProperty(properties, ['area_rai', 'AREA_RAI']);
 
-  return { series, group, unit };
+  return { series, group, unit, texture, fertility, ph, amphoe, areaRai };
+};
+
+const SOIL_LAYER_COLORS = [
+  '#7c3aed',
+  '#0f766e',
+  '#d97706',
+  '#dc2626',
+  '#2563eb',
+  '#16a34a',
+  '#c026d3',
+  '#ea580c',
+  '#0891b2',
+  '#65a30d',
+  '#be123c',
+  '#4f46e5',
+];
+
+const getStableColor = (value) => {
+  const text = String(value || '');
+  let hash = 0;
+  for (let i = 0; i < text.length; i += 1) {
+    hash = (hash * 31 + text.charCodeAt(i)) >>> 0;
+  }
+  return SOIL_LAYER_COLORS[hash % SOIL_LAYER_COLORS.length];
 };
 
 // ===== MINI BAR CHART (pure CSS) =====
@@ -2282,24 +2314,44 @@ ${cropsStr}
             <GeoJSON
               key={`soil-series-${soilLayerData.features?.length || 0}`}
               data={soilLayerData}
-              style={() => ({
-                color: '#6d28d9',
-                weight: 1,
-                opacity: 0.72,
-                fillColor: '#a78bfa',
-                fillOpacity: 0.22,
-              })}
+              style={(feature) => {
+                const props = feature.properties || {};
+                const color = getStableColor(
+                  props.soilgroup || props.soilseries || props.soilserien
+                );
+                return {
+                  color,
+                  weight: 1.8,
+                  opacity: 0.9,
+                  fillColor: color,
+                  fillOpacity: 0.16,
+                };
+              }}
               onEachFeature={(feature, layer) => {
                 const props = feature.properties || {};
-                const { series, group, unit } = getSoilFeatureLabel(props);
+                const {
+                  series,
+                  group,
+                  unit,
+                  texture,
+                  fertility,
+                  ph,
+                  amphoe,
+                  areaRai,
+                } = getSoilFeatureLabel(props);
                 const metaName =
                   soilLayerMeta?.name ||
                   soilLayerMeta?.title ||
                   'LDD soil series';
                 layer.bindTooltip(
                   `<div class="tooltip-name">${series}</div>
-                   ${group ? `<div class="tooltip-row"><span>Group</span><strong>${group}</strong></div>` : ''}
-                   ${unit ? `<div class="tooltip-row"><span>Unit</span><strong>${unit}</strong></div>` : ''}
+                   ${unit ? `<div class="tooltip-row"><span>รหัสชุดดิน</span><strong>${unit}</strong></div>` : ''}
+                   ${group ? `<div class="tooltip-row"><span>กลุ่มชุดดิน</span><strong>${group}</strong></div>` : ''}
+                   ${texture ? `<div class="tooltip-row"><span>เนื้อดิน</span><strong>${texture}</strong></div>` : ''}
+                   ${fertility ? `<div class="tooltip-row"><span>ความอุดมสมบูรณ์</span><strong>${fertility}</strong></div>` : ''}
+                   ${ph ? `<div class="tooltip-row"><span>pH ดินบน</span><strong>${ph}</strong></div>` : ''}
+                   ${areaRai ? `<div class="tooltip-row"><span>พื้นที่</span><strong>${Number(areaRai).toLocaleString('th-TH', { maximumFractionDigits: 2 })} ไร่</strong></div>` : ''}
+                   ${amphoe ? `<div class="tooltip-row"><span>อำเภอ</span><strong>${amphoe}</strong></div>` : ''}
                    <div class="tooltip-hint">${metaName}</div>`,
                   {
                     sticky: true,
@@ -2311,7 +2363,8 @@ ${cropsStr}
             />
           )}
 
-          {(selectedDistrict || mapZoom >= 11) &&
+          {!isSoilLayerVisible &&
+            (selectedDistrict || mapZoom >= 11) &&
             visibleSubdistrictFeatures.length > 0 && (
               <GeoJSON
                 key={`subdistrict-${selectedDistrict?.name || 'all'}-${selectedSubdistrict?.code || 'none'}-${mapZoom}`}
