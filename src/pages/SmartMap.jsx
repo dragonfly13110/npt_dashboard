@@ -340,6 +340,7 @@ export default function SmartMap() {
   const [soilLayerLoading, setSoilLayerLoading] = useState(false);
   const [soilLayerError, setSoilLayerError] = useState(null);
   const [isSoilLayerVisible, setIsSoilLayerVisible] = useState(false);
+  const [showSubdistrictLayer, setShowSubdistrictLayer] = useState(true);
   const [activeMetric, setActiveMetric] = useState('area');
   const [visibleLayers, setVisibleLayers] = useState({
     young_farmer: false,
@@ -1093,6 +1094,26 @@ ${cropsStr}
         {soilLayerError && (
           <div className="control-layer-error">{soilLayerError}</div>
         )}
+        <label
+          className={`control-toggle-checkbox-label ${showSubdistrictLayer ? 'active' : ''}`}
+          title="Show or hide subdistrict boundaries"
+        >
+          <input
+            type="checkbox"
+            checked={showSubdistrictLayer}
+            onChange={() => setShowSubdistrictLayer((current) => !current)}
+            className="control-toggle-checkbox-input"
+          />
+          <span
+            className="control-toggle-checkbox-custom"
+            style={{ '--accent-color': '#7c3aed' }}
+          />
+          <span
+            className="control-toggle-dot"
+            style={{ background: '#7c3aed' }}
+          />
+          <span className="control-toggle-text">ขอบเขตตำบล</span>
+        </label>
 
         <div className="controls-divider" />
         <div className="controls-section-title">แผนที่พื้นหลัง</div>
@@ -2314,6 +2335,26 @@ ${cropsStr}
             />
           )}
 
+          {geoJSONData && (
+            <GeoJSON
+              key={`district-boundaries-${selectedDistrict ? selectedDistrict.name : 'none'}-${activeMetric || 'off'}`}
+              data={geoJSONData}
+              style={(feature) => {
+                const distName = feature.properties?.amp_th;
+                const isSelected =
+                  selectedDistrict && selectedDistrict.name === distName;
+                return {
+                  fillOpacity: 0,
+                  color: isSelected ? '#dc2626' : '#334155',
+                  weight: isSelected ? 4.5 : 2.5,
+                  opacity: isSelected ? 0.95 : 0.65,
+                  dashArray: '',
+                };
+              }}
+              interactive={false}
+            />
+          )}
+
           {isSoilLayerVisible && soilLayerData && (
             <GeoJSON
               key={`soil-series-${soilLayerData.features?.length || 0}`}
@@ -2367,7 +2408,7 @@ ${cropsStr}
             />
           )}
 
-          {!isSoilLayerVisible &&
+          {showSubdistrictLayer &&
             (selectedDistrict || mapZoom >= 11) &&
             visibleSubdistrictFeatures.length > 0 && (
               <GeoJSON
