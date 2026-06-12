@@ -56,6 +56,12 @@ const MARKER_LAYERS = [
   { key: 'hotspot', label: 'จุดความร้อน', color: '#ef4444', icon: '🔥' },
 ];
 
+const SOIL_LAYER_URL =
+  import.meta.env.VITE_SOIL_LAYER_URL ||
+  '/gis/soil/nakhon-pathom-soil-series.geojson';
+const SOIL_LAYER_METADATA_URL =
+  import.meta.env.VITE_SOIL_LAYER_METADATA_URL || '';
+
 const DISTRICT_CENTROIDS = {
   เมืองนครปฐม: [13.82, 100.04],
   กำแพงแสน: [14.01, 99.98],
@@ -108,6 +114,50 @@ const getPm25LevelLabel = (val) => {
   if (val <= 37.5) return 'ปานกลาง';
   if (val <= 75) return 'เริ่มมีผลกระทบ';
   return 'อันตรายต่อสุขภาพ';
+};
+
+const getSoilProperty = (properties, keys) => {
+  if (!properties) return null;
+  for (const key of keys) {
+    const value = properties[key];
+    if (value !== undefined && value !== null && value !== '') {
+      return value;
+    }
+  }
+  return null;
+};
+
+const getSoilFeatureLabel = (properties) => {
+  const series =
+    getSoilProperty(properties, [
+      'SOIL_SERIE',
+      'SOIL_SERIES',
+      'SOIL_NAME',
+      'SERIES',
+      'S_NAME',
+      'soil_series',
+      'soil_name',
+      'series',
+      'name',
+    ]) || 'Soil series';
+  const group = getSoilProperty(properties, [
+    'SOIL_GROUP',
+    'GROUP',
+    'SGROUP',
+    'soil_group',
+    'group',
+  ]);
+  const unit = getSoilProperty(properties, [
+    'MAP_UNIT',
+    'UNIT',
+    'SYMBOL',
+    'CODE',
+    'map_unit',
+    'symbol',
+    'code',
+  ]);
+
+  return { series, group, unit };
 };
 
 // ===== MINI BAR CHART (pure CSS) =====
@@ -253,6 +303,11 @@ export default function SmartMap() {
 
   const [MapComponents, setMapComponents] = useState(null);
   const [geoJSONData, setGeoJSONData] = useState(null);
+  const [soilLayerData, setSoilLayerData] = useState(null);
+  const [soilLayerMeta, setSoilLayerMeta] = useState(null);
+  const [soilLayerLoading, setSoilLayerLoading] = useState(false);
+  const [soilLayerError, setSoilLayerError] = useState(null);
+  const [isSoilLayerVisible, setIsSoilLayerVisible] = useState(false);
   const [activeMetric, setActiveMetric] = useState('area');
   const [visibleLayers, setVisibleLayers] = useState({
     young_farmer: false,
@@ -374,6 +429,65 @@ export default function SmartMap() {
   useEffect(() => {
     fetchWeatherAndAirQuality();
   }, [fetchWeatherAndAirQuality]);
+
+  useEffect(() => {
+    if (!isSoilLayerVisible || soilLayerData || soilLayerLoading) return;
+    if (!SOIL_LAYER_URL && !SOIL_LAYER_METADATA_URL) {
+      setSoilLayerError('Soil layer URL is not configured.');
+      return;
+    }
+
+    const controller = new AbortController();
+    const loadSoilLayer = async () => {
+      setSoilLayerLoading(true);
+      setSoilLayerError(null);
+
+      try {
+        let geojsonUrl = SOIL_LAYER_URL;
+        if (SOIL_LAYER_METADATA_URL) {
+          const metadataRes = await fetch(SOIL_LAYER_METADATA_URL, {
+            signal: controller.signal,
+          });
+          if (!metadataRes.ok) {
+            throw new Error(`Metadata request failed: ${metadataRes.status}`);
+          }
+          const metadata = await metadataRes.json();
+          setSoilLayerMeta(metadata);
+          geojsonUrl =
+            metadata.geojsonUrl ||
+            metadata.geojson_url ||
+            metadata.url ||
+            SOIL_LAYER_URL;
+        }
+
+        if (!geojsonUrl) {
+          throw new Error('Soil layer GeoJSON URL is missing.');
+        }
+
+        const layerRes = await fetch(geojsonUrl, {
+          signal: controller.signal,
+        });
+        if (!layerRes.ok) {
+          throw new Error(`Soil layer request failed: ${layerRes.status}`);
+        }
+        const layerGeoJson = await layerRes.json();
+        setSoilLayerData(layerGeoJson);
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          console.error('Failed to load soil layer', error);
+          setSoilLayerError(error.message || 'Failed to load soil layer.');
+          setIsSoilLayerVisible(false);
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setSoilLayerLoading(false);
+        }
+      }
+    };
+
+    loadSoilLayer();
+    return () => controller.abort();
+  }, [isSoilLayerVisible, soilLayerData, soilLayerLoading]);
 
   // Fetch coordinates for GIS, Young Farmers, Career Groups, Forecast Plots, and Fire Hotspots from Supabase
   useEffect(() => {
@@ -543,6 +657,10 @@ export default function SmartMap() {
       });
       return nextState;
     });
+  }, []);
+
+  const toggleSoilLayer = useCallback(() => {
+    setIsSoilLayerVisible((prev) => !prev);
   }, []);
 
   // Close panel with animation
@@ -909,6 +1027,38 @@ ${cropsStr}
             </span>
           </label>
         ))}
+
+        <div className="controls-divider" />
+        <div className="controls-section-title">External GIS layers</div>
+        <label
+          className={`control-toggle-checkbox-label ${isSoilLayerVisible ? 'active' : ''}`}
+          title={
+            SOIL_LAYER_URL || SOIL_LAYER_METADATA_URL
+              ? 'Load LDD soil series polygons from external storage'
+              : 'Set VITE_SOIL_LAYER_URL or VITE_SOIL_LAYER_METADATA_URL'
+          }
+        >
+          <input
+            type="checkbox"
+            checked={isSoilLayerVisible}
+            onChange={toggleSoilLayer}
+            className="control-toggle-checkbox-input"
+          />
+          <span
+            className="control-toggle-checkbox-custom"
+            style={{ '--accent-color': '#8b5cf6' }}
+          />
+          <span
+            className="control-toggle-dot"
+            style={{ background: '#8b5cf6' }}
+          />
+          <span className="control-toggle-text">
+            Soil series {soilLayerLoading ? '(loading...)' : ''}
+          </span>
+        </label>
+        {soilLayerError && (
+          <div className="control-layer-error">{soilLayerError}</div>
+        )}
 
         <div className="controls-divider" />
         <div className="controls-section-title">แผนที่พื้นหลัง</div>
@@ -2124,6 +2274,39 @@ ${cropsStr}
                     });
                   },
                 });
+              }}
+            />
+          )}
+
+          {isSoilLayerVisible && soilLayerData && (
+            <GeoJSON
+              key={`soil-series-${soilLayerData.features?.length || 0}`}
+              data={soilLayerData}
+              style={() => ({
+                color: '#6d28d9',
+                weight: 1,
+                opacity: 0.72,
+                fillColor: '#a78bfa',
+                fillOpacity: 0.22,
+              })}
+              onEachFeature={(feature, layer) => {
+                const props = feature.properties || {};
+                const { series, group, unit } = getSoilFeatureLabel(props);
+                const metaName =
+                  soilLayerMeta?.name ||
+                  soilLayerMeta?.title ||
+                  'LDD soil series';
+                layer.bindTooltip(
+                  `<div class="tooltip-name">${series}</div>
+                   ${group ? `<div class="tooltip-row"><span>Group</span><strong>${group}</strong></div>` : ''}
+                   ${unit ? `<div class="tooltip-row"><span>Unit</span><strong>${unit}</strong></div>` : ''}
+                   <div class="tooltip-hint">${metaName}</div>`,
+                  {
+                    sticky: true,
+                    direction: 'auto',
+                    className: 'smart-map-tooltip',
+                  }
+                );
               }}
             />
           )}
