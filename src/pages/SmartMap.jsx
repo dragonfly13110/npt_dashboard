@@ -713,13 +713,13 @@ export default function SmartMap() {
   }, [closePanel]);
 
   // Get metric info
-  const currentMetric =
-    METRICS.find((m) => m.key === activeMetric) || METRICS[0];
+  const currentMetric = METRICS.find((m) => m.key === activeMetric) || null;
 
   // Compute choropleth min/max
   const { minVal, maxVal } = useMemo(() => {
     if (!districtStats || Object.keys(districtStats).length === 0)
       return { minVal: 0, maxVal: 1 };
+    if (!activeMetric) return { minVal: 0, maxVal: 1 };
     const vals = Object.values(districtStats).map((d) => d[activeMetric] || 0);
     return { minVal: Math.min(...vals), maxVal: Math.max(...vals, 1) };
   }, [districtStats, activeMetric]);
@@ -728,7 +728,7 @@ export default function SmartMap() {
   const getDistrictColor = useCallback(
     (value) => {
       const t = maxVal > minVal ? (value - minVal) / (maxVal - minVal) : 0.5;
-      const colors = currentMetric.colors;
+      const colors = currentMetric?.colors || METRICS[0].colors;
       const idx = Math.min(Math.floor(t * colors.length), colors.length - 1);
       return colors[idx];
     },
@@ -1026,7 +1026,9 @@ ${cropsStr}
           <button
             key={m.key}
             className={`control-btn ${activeMetric === m.key ? 'active' : ''}`}
-            onClick={() => setActiveMetric(m.key)}
+            onClick={() =>
+              setActiveMetric((current) => (current === m.key ? null : m.key))
+            }
           >
             <span className="control-btn-icon">{m.icon}</span>
             <span className="control-btn-label">{m.label}</span>
@@ -1119,21 +1121,23 @@ ${cropsStr}
         </div>
 
         {/* ===== LEGEND ===== */}
-        <div className="smart-map-legend">
-          <div className="legend-title">
-            {currentMetric.icon} {currentMetric.label} ({currentMetric.unit})
+        {currentMetric && (
+          <div className="smart-map-legend">
+            <div className="legend-title">
+              {currentMetric.icon} {currentMetric.label} ({currentMetric.unit})
+            </div>
+            <div
+              className="legend-bar"
+              style={{
+                background: `linear-gradient(90deg, ${currentMetric.colors.join(', ')})`,
+              }}
+            />
+            <div className="legend-labels">
+              <span>{minVal.toLocaleString()}</span>
+              <span>{maxVal.toLocaleString()}</span>
+            </div>
           </div>
-          <div
-            className="legend-bar"
-            style={{
-              background: `linear-gradient(90deg, ${currentMetric.colors.join(', ')})`,
-            }}
-          />
-          <div className="legend-labels">
-            <span>{minVal.toLocaleString()}</span>
-            <span>{maxVal.toLocaleString()}</span>
-          </div>
-        </div>
+        )}
       </div>
 
       {/* ===== DISTRICT DETAIL PANEL ===== */}
@@ -2209,7 +2213,7 @@ ${cropsStr}
           <ZoomControl position="topright" />
 
           {/* ===== CHOROPLETH GEOJSON ===== */}
-          {Object.keys(districtStats).length > 0 && (
+          {activeMetric && Object.keys(districtStats).length > 0 && (
             <GeoJSON
               key={`choropleth-${activeMetric}-${selectedDistrict ? selectedDistrict.name : 'none'}-weather-${Object.keys(weatherData).length}`}
               data={geoJSONData}
