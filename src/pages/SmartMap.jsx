@@ -2388,8 +2388,12 @@ ${cropsStr}
                   soilLayerMeta?.name ||
                   soilLayerMeta?.title ||
                   'LDD soil series';
+                const displaySeries = String(series).startsWith('ชุดดิน')
+                  ? series
+                  : `ชุดดิน${series}`;
                 layer.bindTooltip(
-                  `<div class="tooltip-name">${series}</div>
+                  `<div class="tooltip-name">${displaySeries}</div>
+                   <div class="tooltip-row"><span>ชื่อชุดดิน</span><strong>${displaySeries}</strong></div>
                    ${unit ? `<div class="tooltip-row"><span>รหัสชุดดิน</span><strong>${unit}</strong></div>` : ''}
                    ${group ? `<div class="tooltip-row"><span>กลุ่มชุดดิน</span><strong>${group}</strong></div>` : ''}
                    ${texture ? `<div class="tooltip-row"><span>เนื้อดิน</span><strong>${texture}</strong></div>` : ''}
