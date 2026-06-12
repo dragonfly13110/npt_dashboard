@@ -487,7 +487,7 @@ export default function SmartMap() {
 
     loadSoilLayer();
     return () => controller.abort();
-  }, [isSoilLayerVisible, soilLayerData, soilLayerLoading]);
+  }, [isSoilLayerVisible, soilLayerData]);
 
   // Fetch coordinates for GIS, Young Farmers, Career Groups, Forecast Plots, and Fire Hotspots from Supabase
   useEffect(() => {
