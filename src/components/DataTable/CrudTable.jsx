@@ -4,6 +4,8 @@ import {
   Button,
   Input,
   Modal,
+  Drawer,
+  Descriptions,
   Form,
   Space,
   Popconfirm,
@@ -17,6 +19,7 @@ import {
   InputNumber,
   Switch,
   Alert,
+  Timeline,
 } from 'antd';
 import {
   PlusOutlined,
@@ -29,6 +32,7 @@ import {
   FileExcelOutlined,
   FilterOutlined,
   SettingOutlined,
+  EyeOutlined,
 } from '@ant-design/icons';
 import { useSupabaseCrud } from '../../hooks/useSupabase';
 import CsvImportModal from './CsvImportModal';
@@ -78,6 +82,7 @@ export default function CrudTable({
   const [modalOpen, setModalOpen] = useState(false);
   const [editingRecord, setEditingRecord] = useState(null);
   const [search, setSearch] = useState('');
+  const [searchText, setSearchText] = useState('');
   const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [filters, setFilters] = useState({});
@@ -88,8 +93,34 @@ export default function CrudTable({
   const [customFields, setCustomFields] = useState([]);
   const [customFieldModalOpen, setCustomFieldModalOpen] = useState(false);
   const [editingCustomField, setEditingCustomField] = useState(null);
+  const [detailRecord, setDetailRecord] = useState(null);
+  const [editHistory, setEditHistory] = useState([]);
+  const [loadingHistory, setLoadingHistory] = useState(false);
   const [form] = Form.useForm();
   const [customFieldForm] = Form.useForm();
+
+  useEffect(() => {
+    if (detailRecord && role === 'admin') {
+      setLoadingHistory(true);
+      supabase
+        .from('audit_logs')
+        .select('*')
+        .eq('table_name', tableName)
+        .eq('record_id', String(detailRecord.id))
+        .order('created_at', { ascending: false })
+        .then(({ data, error }) => {
+          if (error) {
+            console.error('Error fetching audit logs:', error);
+            setEditHistory([]);
+          } else {
+            setEditHistory(data || []);
+          }
+          setLoadingHistory(false);
+        });
+    } else {
+      setEditHistory([]);
+    }
+  }, [detailRecord, role, tableName]);
 
   const userCanEdit = readOnly ? false : canEdit();
   const userCanDelete = readOnly ? false : canDelete();
@@ -353,6 +384,7 @@ export default function CrudTable({
 
   const handleSearch = (value) => {
     setSearch(value);
+    setSearchText(value);
     setPagination({ ...pagination, current: 1 });
   };
 
@@ -367,9 +399,17 @@ export default function CrudTable({
     setPagination({ ...pagination, current: 1 });
   };
 
+  const handleClearAll = () => {
+    setSearch('');
+    setSearchText('');
+    setFilters({});
+    setPagination({ ...pagination, current: 1 });
+  };
+
   const activeFilterCount = Object.values(filters).filter(
     (v) => v !== undefined && v !== null && v !== ''
   ).length;
+  const hasActiveSearchOrFilters = Boolean(search) || activeFilterCount > 0;
 
   const customColumns = useMemo(
     () =>
@@ -390,15 +430,39 @@ export default function CrudTable({
     return [...getPublicColumns(tableName, columns, role), ...customColumns];
   }, [columns, customColumns, role, tableName]);
 
-  // Apply column picker filter
+  // Apply column picker filter and freeze key columns
   const visibleColumns = useMemo(() => {
-    return allPublicColumns.filter((col) => {
-      if (!col.dataIndex) return true; // keep action columns etc.
-      return (
-        requiredColumnKeys.includes(col.dataIndex) ||
-        visibleOptionalColumns.includes(col.dataIndex)
-      );
-    });
+    return allPublicColumns
+      .map((col) => {
+        const dataIdx = col.dataIndex;
+        if (!dataIdx) return col;
+
+        const shouldFreeze = [
+          'record_code',
+          'group_name',
+          'enterprise_name',
+          'spot_name',
+          'farmer_name',
+          'full_name',
+          'district',
+        ].includes(dataIdx);
+
+        if (shouldFreeze) {
+          return {
+            ...col,
+            fixed: 'left',
+            width: col.width || 120, // ensure width is set for fixed column
+          };
+        }
+        return col;
+      })
+      .filter((col) => {
+        if (!col.dataIndex) return true; // keep action columns etc.
+        return (
+          requiredColumnKeys.includes(col.dataIndex) ||
+          visibleOptionalColumns.includes(col.dataIndex)
+        );
+      });
   }, [allPublicColumns, requiredColumnKeys, visibleOptionalColumns]);
 
   // Column selector popover content
@@ -484,6 +548,62 @@ export default function CrudTable({
     return row[key] ?? '';
   };
 
+  const getColumnTitleText = (column) => {
+    if (typeof column.title === 'string') return column.title;
+    if (typeof column.dataIndex === 'string') return column.dataIndex;
+    return 'ข้อมูล';
+  };
+
+  const getDetailValue = (record, column) => {
+    if (!record || !column?.dataIndex) return null;
+    if (column.customField) {
+      const fieldKey = String(column.dataIndex).replace(/^custom__/, '');
+      const definition = customFields.find(
+        (field) => field.field_key === fieldKey
+      );
+      return formatCustomValue(record.custom_fields?.[fieldKey], definition);
+    }
+    if (column.render) return column.render(record[column.dataIndex], record);
+    return record[column.dataIndex];
+  };
+
+  const renderDetailValue = (value) => {
+    if (value === null || value === undefined || value === '') {
+      return <span className="detail-empty-value">ไม่มีข้อมูล</span>;
+    }
+    if (typeof value === 'boolean') return value ? 'ใช่' : 'ไม่ใช่';
+    if (Array.isArray(value)) return value.join(', ');
+    if (typeof value === 'object' && value.$$typeof) return value;
+    if (typeof value === 'object') return JSON.stringify(value);
+    return String(value);
+  };
+
+  const detailColumns = useMemo(
+    () => allPublicColumns.filter((column) => column.dataIndex),
+    [allPublicColumns]
+  );
+
+  const getChangedFieldsText = (historyItem) => {
+    if (historyItem.action !== 'UPDATE') return '';
+    const oldVal = historyItem.old_data || {};
+    const newVal = historyItem.new_data || {};
+    const changed = [];
+    Object.keys(newVal).forEach((key) => {
+      if (key === 'updated_at' || key === 'id' || key === 'created_at') return;
+      if (JSON.stringify(oldVal[key]) !== JSON.stringify(newVal[key])) {
+        const col = detailColumns.find((c) => c.dataIndex === key);
+        const colName = col
+          ? typeof col.title === 'string'
+            ? col.title
+            : col.dataIndex
+          : key;
+        changed.push(colName);
+      }
+    });
+    if (changed.length === 0) return 'แก้ไข (ไม่มีฟิลด์หลักเปลี่ยน)';
+    return `แก้ไขฟิลด์: ${changed.join(', ')}`;
+  };
+
   const handleExportCSV = () => {
     if (!data.length) return;
     const headers = visibleColumns
@@ -557,54 +677,65 @@ export default function CrudTable({
     col.dataIndex && !col.customField ? { ...col, sorter: true } : col
   );
 
-  // Action column — ซ่อนตาม role
-  const actionColumn = userCanEdit
-    ? {
-        title: 'จัดการ',
-        key: 'actions',
-        width: userCanDelete ? 100 : 70,
-        fixed: 'right',
-        align: 'center',
-        render: (_, record) => (
-          <Space size={4}>
-            <Tooltip title="แก้ไข">
+  // Action column - present for all roles to view details, and for admin/editor to edit/delete
+  const actionColumn = {
+    title: 'จัดการ',
+    key: 'actions',
+    width: userCanEdit ? (userCanDelete ? 140 : 100) : 60,
+    fixed: 'right',
+    align: 'center',
+    render: (_, record) => (
+      <Space size={4}>
+        <Tooltip title="ดูรายละเอียด">
+          <Button
+            className="action-btn view"
+            icon={<EyeOutlined />}
+            style={{ color: 'var(--primary)' }}
+            onClick={(e) => {
+              e.stopPropagation(); // prevent row click double trigger
+              setDetailRecord(record);
+            }}
+          />
+        </Tooltip>
+        {userCanEdit && (
+          <Tooltip title="แก้ไข">
+            <Button
+              className="action-btn edit"
+              icon={<EditOutlined />}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (!userCanEdit) {
+                  message.warning('คุณไม่มีสิทธิ์แก้ไข');
+                  return;
+                }
+                handleEdit(record);
+              }}
+            />
+          </Tooltip>
+        )}
+        {userCanEdit && userCanDelete && (
+          <Popconfirm
+            title="ยืนยันการลบ"
+            description="คุณต้องการลบข้อมูลนี้ใช่หรือไม่?"
+            onConfirm={() => handleDelete(record.id)}
+            okText="ลบ"
+            cancelText="ยกเลิก"
+            okButtonProps={{ danger: true }}
+          >
+            <Tooltip title="ลบ">
               <Button
-                className="action-btn edit"
-                icon={<EditOutlined />}
-                onClick={() => {
-                  if (!userCanEdit) {
-                    message.warning('คุณไม่มีสิทธิ์แก้ไข');
-                    return;
-                  }
-                  handleEdit(record);
-                }}
+                className="action-btn delete"
+                icon={<DeleteOutlined />}
+                onClick={(e) => e.stopPropagation()}
               />
             </Tooltip>
-            {userCanDelete && (
-              <Popconfirm
-                title="ยืนยันการลบ"
-                description="คุณต้องการลบข้อมูลนี้ใช่หรือไม่?"
-                onConfirm={() => handleDelete(record.id)}
-                okText="ลบ"
-                cancelText="ยกเลิก"
-                okButtonProps={{ danger: true }}
-              >
-                <Tooltip title="ลบ">
-                  <Button
-                    className="action-btn delete"
-                    icon={<DeleteOutlined />}
-                  />
-                </Tooltip>
-              </Popconfirm>
-            )}
-          </Space>
-        ),
-      }
-    : null;
+          </Popconfirm>
+        )}
+      </Space>
+    ),
+  };
 
-  const allColumns = actionColumn
-    ? [...sortableColumns, actionColumn]
-    : [...sortableColumns];
+  const allColumns = [...sortableColumns, actionColumn];
 
   const openCreateCustomField = () => {
     setEditingCustomField(null);
@@ -764,15 +895,43 @@ export default function CrudTable({
   return (
     <div className="crud-container">
       <div className="crud-header">
-        <div className="crud-header-left">
+        <div
+          className="crud-header-left"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            flexWrap: 'wrap',
+          }}
+        >
           <span className="crud-title">{title}</span>
-          <Tag className="crud-count">{total} รายการ</Tag>
+          <Tag
+            className="crud-count"
+            color={hasActiveSearchOrFilters ? 'blue' : 'default'}
+          >
+            {hasActiveSearchOrFilters
+              ? `พบผลลัพธ์ ${total} รายการ`
+              : `ทั้งหมด ${total} รายการ`}
+          </Tag>
+          {hasActiveSearchOrFilters && (
+            <Button
+              type="link"
+              size="small"
+              danger
+              onClick={handleClearAll}
+              style={{ padding: '0 4px', fontSize: 13, height: 'auto' }}
+            >
+              ล้างการค้นหาและตัวกรอง
+            </Button>
+          )}
         </div>
         <div className="crud-header-right">
           {publicSearchFields.length > 0 && (
             <Input.Search
               placeholder="ค้นหา..."
               allowClear
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
               onSearch={handleSearch}
               style={{ width: 220 }}
               prefix={<SearchOutlined />}
@@ -910,6 +1069,18 @@ export default function CrudTable({
         onChange={handleTableChange}
         locale={{ emptyText: <Empty description="ยังไม่มีข้อมูล" /> }}
         scroll={{ x: scrollX }}
+        onRow={(record) => ({
+          onClick: (event) => {
+            const isAction =
+              event.target.closest('.action-btn') ||
+              event.target.closest('.ant-popconfirm') ||
+              event.target.closest('.ant-popover') ||
+              event.target.closest('.ant-modal');
+            if (isAction) return;
+            setDetailRecord(record);
+          },
+          style: { cursor: 'pointer' },
+        })}
       />
 
       <Modal
@@ -1114,6 +1285,125 @@ export default function CrudTable({
         columns={[...columns, ...customColumns]}
         onSuccess={loadData}
       />
+
+      <Drawer
+        title={
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <EyeOutlined style={{ color: 'var(--primary)' }} />
+            <span>รายละเอียดข้อมูล</span>
+          </div>
+        }
+        placement="right"
+        onClose={() => setDetailRecord(null)}
+        open={Boolean(detailRecord)}
+        width={window.innerWidth > 768 ? 600 : '100%'}
+        destroyOnClose
+        className="detail-drawer"
+      >
+        {detailRecord && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <div>
+              <h3
+                style={{
+                  margin: '0 0 16px 0',
+                  fontSize: 16,
+                  fontWeight: 700,
+                  borderBottom: '2px solid var(--border-light)',
+                  paddingBottom: 8,
+                }}
+              >
+                ข้อมูลพื้นฐาน
+              </h3>
+              <Descriptions
+                bordered
+                column={1}
+                size="small"
+                labelStyle={{ width: 150, fontWeight: 600 }}
+              >
+                {detailColumns.map((col) => {
+                  const val = getDetailValue(detailRecord, col);
+                  return (
+                    <Descriptions.Item
+                      key={col.dataIndex}
+                      label={col.title || col.dataIndex}
+                    >
+                      {renderDetailValue(val)}
+                    </Descriptions.Item>
+                  );
+                })}
+              </Descriptions>
+            </div>
+
+            {role === 'admin' && (
+              <div>
+                <h3
+                  style={{
+                    margin: '0 0 16px 0',
+                    fontSize: 16,
+                    fontWeight: 700,
+                    borderBottom: '2px solid var(--border-light)',
+                    paddingBottom: 8,
+                  }}
+                >
+                  ประวัติการแก้ไขข้อมูล
+                </h3>
+                {loadingHistory ? (
+                  <div style={{ textAlign: 'center', padding: 20 }}>
+                    กำลังโหลด...
+                  </div>
+                ) : editHistory.length === 0 ? (
+                  <div style={{ color: '#656d76', fontStyle: 'italic' }}>
+                    ไม่มีประวัติการแก้ไข
+                  </div>
+                ) : (
+                  <div style={{ padding: '8px 16px' }}>
+                    <Timeline mode="left">
+                      {editHistory.map((item, idx) => {
+                        let color = 'blue';
+                        if (item.action === 'CREATE') color = 'green';
+                        if (item.action === 'DELETE') color = 'red';
+
+                        const timeStr = item.created_at
+                          ? new Date(item.created_at).toLocaleString('th-TH')
+                          : '-';
+
+                        return (
+                          <Timeline.Item key={item.id || idx} color={color}>
+                            <div style={{ fontWeight: 600 }}>
+                              {item.action === 'CREATE'
+                                ? 'เพิ่มข้อมูล'
+                                : item.action === 'DELETE'
+                                  ? 'ลบข้อมูล'
+                                  : 'แก้ไขข้อมูล'}
+                            </div>
+                            <div style={{ fontSize: 12, color: '#656d76' }}>
+                              โดย: {item.user_email || 'ระบบ'}
+                            </div>
+                            <div style={{ fontSize: 12, color: '#656d76' }}>
+                              เมื่อ: {timeStr}
+                            </div>
+                            {item.action === 'UPDATE' && (
+                              <div
+                                style={{
+                                  fontSize: 12,
+                                  color: '#0969da',
+                                  marginTop: 4,
+                                }}
+                              >
+                                {getChangedFieldsText(item)}
+                              </div>
+                            )}
+                          </Timeline.Item>
+                        );
+                      })}
+                    </Timeline>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </Drawer>
     </div>
   );
 }

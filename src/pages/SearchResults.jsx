@@ -1,6 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Input, Card, Tag, Empty, Spin, Table, Typography, Badge } from 'antd';
+import {
+  Input,
+  Card,
+  Tag,
+  Empty,
+  Spin,
+  Table,
+  Typography,
+  Badge,
+  Drawer,
+  Descriptions,
+  Button,
+} from 'antd';
 import {
   SearchOutlined,
   DatabaseOutlined,
@@ -103,6 +115,74 @@ function getThaiColumnName(key) {
   return key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
+const getTopDistrict = (items) => {
+  const counts = {};
+  items.forEach((item) => {
+    const d =
+      item.raw?.district ||
+      item.raw?.plot_district ||
+      item.raw?.farmer_district;
+    if (d && d !== '-' && d !== 'ไม่ระบุ') {
+      counts[d] = (counts[d] || 0) + 1;
+    }
+  });
+  const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  return sorted[0] ? sorted[0][0] : null;
+};
+
+const getTopActivity = (items) => {
+  const counts = {};
+  items.forEach((item) => {
+    const act =
+      item.raw?.activity ||
+      item.raw?.agricultural_activity ||
+      item.raw?.main_activity ||
+      item.raw?.commodity ||
+      item.raw?.crop_name ||
+      item.raw?.spot_type ||
+      item.raw?.main_crop_type;
+    if (act && act !== '-' && act !== 'ไม่ระบุ') {
+      counts[act] = (counts[act] || 0) + 1;
+    }
+  });
+  const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  return sorted[0] ? sorted[0][0] : null;
+};
+
+const getLatestUpdateText = (items) => {
+  let latestDate = null;
+  let latestYear = null;
+  items.forEach((item) => {
+    const y = item.raw?.year || item.raw?.data_year || item.raw?.forecast_year;
+    if (y && (!latestYear || y > latestYear)) {
+      latestYear = y;
+    }
+    const d =
+      item.raw?.updated_at || item.raw?.created_at || item.raw?.approval_date;
+    if (d) {
+      const parsed = new Date(d);
+      if (
+        !Number.isNaN(parsed.getTime()) &&
+        (!latestDate || parsed > latestDate)
+      ) {
+        latestDate = parsed;
+      }
+    }
+  });
+
+  if (latestDate) {
+    return latestDate.toLocaleDateString('th-TH', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  }
+  if (latestYear) {
+    return `ปี ${latestYear}`;
+  }
+  return null;
+};
+
 // Suggested searches for empty state
 const SUGGESTIONS = [
   { icon: '🏠', text: 'กำแพงแสน', desc: 'ค้นหาข้อมูลอำเภอ' },
@@ -122,6 +202,8 @@ export default function SearchResults() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [expandedTable, setExpandedTable] = useState(null);
+  const [detailRecord, setDetailRecord] = useState(null);
+  const [detailTable, setDetailTable] = useState(null);
 
   const performSearch = useCallback(
     async (searchTerm) => {
@@ -147,18 +229,24 @@ export default function SearchResults() {
   );
 
   useEffect(() => {
-    if (initialQuery) {
+    setQuery(initialQuery);
+    if (initialQuery && initialQuery.trim().length >= 2) {
       performSearch(initialQuery);
+    } else {
+      setResults([]);
     }
   }, [initialQuery, performSearch]);
 
   const handleSearch = (value) => {
-    setQuery(value);
-    if (value.trim().length >= 2) {
-      navigate(`/dashboard/search?q=${encodeURIComponent(value.trim())}`, {
+    const trimmed = value ? value.trim() : '';
+    if (trimmed.length >= 2) {
+      navigate(`/dashboard/search?q=${encodeURIComponent(trimmed)}`, {
         replace: true,
       });
-      performSearch(value);
+    } else {
+      navigate(`/dashboard/search`, {
+        replace: true,
+      });
     }
   };
 
@@ -201,20 +289,33 @@ export default function SearchResults() {
     const otherKeys = keys.filter((k) => !priorityKeys.includes(k));
     const finalKeys = [...priorityKeys, ...otherKeys].slice(0, 6);
 
-    return finalKeys.map((key) => ({
-      title: getThaiColumnName(key),
-      dataIndex: ['raw', key],
-      key,
-      ellipsis: true,
-      width: 160,
-      render: (val) => {
-        if (val === null || val === undefined)
-          return <Text type="secondary">-</Text>;
-        const str = String(val);
-        if (str.length > 60) return str.substring(0, 60) + '...';
-        return highlightText(str, query);
-      },
-    }));
+    return finalKeys.map((key) => {
+      const shouldFreeze = [
+        'record_code',
+        'group_name',
+        'enterprise_name',
+        'spot_name',
+        'farmer_name',
+        'full_name',
+        'district',
+      ].includes(key);
+
+      return {
+        title: getThaiColumnName(key),
+        dataIndex: ['raw', key],
+        key,
+        ellipsis: true,
+        width: 160,
+        fixed: shouldFreeze ? 'left' : undefined,
+        render: (val) => {
+          if (val === null || val === undefined)
+            return <Text type="secondary">-</Text>;
+          const str = String(val);
+          if (str.length > 60) return str.substring(0, 60) + '...';
+          return highlightText(str, query);
+        },
+      };
+    });
   };
 
   return (
@@ -385,6 +486,9 @@ export default function SearchResults() {
             {results.map((tableResult) => {
               const isExpanded = expandedTable === tableResult.table;
               const columns = buildColumns(tableResult);
+              const topDistrict = getTopDistrict(tableResult.results);
+              const topActivity = getTopActivity(tableResult.results);
+              const latestUpdate = getLatestUpdateText(tableResult.results);
 
               return (
                 <Card
@@ -420,35 +524,99 @@ export default function SearchResults() {
                     >
                       <span style={{ fontSize: 22 }}>{tableResult.icon}</span>
                       <div>
-                        <Title level={5} style={{ margin: 0, fontSize: 15 }}>
-                          {tableResult.label}
-                        </Title>
-                        <Text type="secondary" style={{ fontSize: 12 }}>
-                          {tableResult.group}
-                        </Text>
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 8,
+                          }}
+                        >
+                          <Title level={5} style={{ margin: 0, fontSize: 15 }}>
+                            {tableResult.label}
+                          </Title>
+                          <Badge
+                            count={tableResult.totalCount}
+                            style={{
+                              backgroundColor:
+                                GROUP_COLORS[tableResult.group] || '#8b949e',
+                              fontSize: 11,
+                            }}
+                          />
+                        </div>
+                        <div
+                          style={{
+                            display: 'flex',
+                            gap: 12,
+                            marginTop: 4,
+                            flexWrap: 'wrap',
+                          }}
+                        >
+                          <Text type="secondary" style={{ fontSize: 12 }}>
+                            {tableResult.group}
+                          </Text>
+                          {(topDistrict || topActivity || latestUpdate) && (
+                            <div
+                              style={{
+                                display: 'flex',
+                                gap: 12,
+                                fontSize: 11,
+                                color: '#656d76',
+                                alignItems: 'center',
+                                flexWrap: 'wrap',
+                              }}
+                            >
+                              <span style={{ color: '#d0d7de' }}>|</span>
+                              {topDistrict && (
+                                <span>
+                                  📍 อำเภอเด่น:{' '}
+                                  <strong style={{ color: '#24292f' }}>
+                                    {topDistrict}
+                                  </strong>
+                                </span>
+                              )}
+                              {topActivity && (
+                                <span>
+                                  🌾 สินค้าเด่น:{' '}
+                                  <strong style={{ color: '#24292f' }}>
+                                    {topActivity}
+                                  </strong>
+                                </span>
+                              )}
+                              {latestUpdate && (
+                                <span>
+                                  📅 ล่าสุด:{' '}
+                                  <strong style={{ color: '#24292f' }}>
+                                    {latestUpdate}
+                                  </strong>
+                                </span>
+                              )}
+                            </div>
+                          )}
+                        </div>
                       </div>
-                      <Badge
-                        count={tableResult.totalCount}
-                        style={{
-                          backgroundColor:
-                            GROUP_COLORS[tableResult.group] || '#8b949e',
-                          fontSize: 11,
-                        }}
-                      />
                     </div>
                     <div
                       style={{ display: 'flex', alignItems: 'center', gap: 8 }}
                     >
-                      <Tag
-                        color="blue"
-                        style={{ cursor: 'pointer', fontSize: 11 }}
+                      <Button
+                        type="default"
+                        size="small"
+                        icon={<DatabaseOutlined />}
+                        style={{
+                          borderColor:
+                            GROUP_COLORS[tableResult.group] || '#0969da',
+                          color: GROUP_COLORS[tableResult.group] || '#0969da',
+                          fontWeight: 600,
+                          borderRadius: 6,
+                          fontSize: 12,
+                        }}
                         onClick={(e) => {
                           e.stopPropagation();
                           navigate(tableResult.route);
                         }}
                       >
-                        ไปที่หน้าข้อมูล <RightOutlined />
-                      </Tag>
+                        เปิดตารางข้อมูล
+                      </Button>
                       <RightOutlined
                         style={{
                           fontSize: 11,
@@ -474,6 +642,13 @@ export default function SearchResults() {
                         }
                         scroll={{ x: 'max-content' }}
                         style={{ fontSize: 13 }}
+                        onRow={(record) => ({
+                          onClick: () => {
+                            setDetailRecord(record.raw);
+                            setDetailTable(tableResult.table);
+                          },
+                          style: { cursor: 'pointer' },
+                        })}
                       />
                     </div>
                   )}
@@ -483,6 +658,67 @@ export default function SearchResults() {
           </div>
         </>
       ) : null}
+
+      <Drawer
+        title={
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <DatabaseOutlined style={{ color: 'var(--primary)' }} />
+            <span>รายละเอียดข้อมูล</span>
+          </div>
+        }
+        placement="right"
+        onClose={() => {
+          setDetailRecord(null);
+          setDetailTable(null);
+        }}
+        open={Boolean(detailRecord)}
+        width={window.innerWidth > 768 ? 600 : '100%'}
+        destroyOnClose
+      >
+        {detailRecord && detailTable && (
+          <div>
+            <Descriptions
+              bordered
+              column={1}
+              size="small"
+              labelStyle={{ width: 150, fontWeight: 600 }}
+            >
+              {Object.keys(detailRecord)
+                .filter(
+                  (k) =>
+                    !['id', 'created_at', 'updated_at'].includes(k) &&
+                    !(
+                      role === 'guest' &&
+                      isPrivateColumn(detailTable, { dataIndex: k })
+                    ) &&
+                    !k.includes('image') &&
+                    !k.includes('url') &&
+                    !k.includes('file') &&
+                    !k.includes('path')
+                )
+                .map((key) => (
+                  <Descriptions.Item key={key} label={getThaiColumnName(key)}>
+                    {detailRecord[key] === null ||
+                    detailRecord[key] === undefined ||
+                    detailRecord[key] === '' ? (
+                      <span style={{ color: '#8b949e', fontStyle: 'italic' }}>
+                        ไม่มีข้อมูล
+                      </span>
+                    ) : typeof detailRecord[key] === 'boolean' ? (
+                      detailRecord[key] ? (
+                        'ใช่'
+                      ) : (
+                        'ไม่ใช่'
+                      )
+                    ) : (
+                      String(detailRecord[key])
+                    )}
+                  </Descriptions.Item>
+                ))}
+            </Descriptions>
+          </div>
+        )}
+      </Drawer>
     </div>
   );
 }

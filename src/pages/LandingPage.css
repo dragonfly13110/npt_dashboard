@@ -1184,10 +1184,9 @@ html {
 
 .ce-filter-row {
   display: grid;
-  grid-template-columns: minmax(110px, 1fr) minmax(110px, 1fr) minmax(
-      160px,
-      1.5fr
-    ) auto;
+  grid-template-columns:
+    minmax(110px, 1fr) minmax(110px, 1fr) minmax(160px, 1.5fr)
+    auto;
   gap: 10px;
   align-items: end;
 }
@@ -1893,6 +1892,10 @@ html {
   font-size: 14px;
 }
 
+.inst-v2-insights-banner {
+  margin: 6px 18px 12px;
+}
+
 .inst-v2-body {
   display: grid;
   grid-template-columns: minmax(360px, 0.95fr) minmax(420px, 1.25fr);
@@ -2044,8 +2047,13 @@ html {
 
   .inst-v2-widget.is-collapsed .inst-v2-type-tabs,
   .inst-v2-widget.is-collapsed .inst-v2-active-title,
-  .inst-v2-widget.is-collapsed .inst-v2-toolbar {
+  .inst-v2-widget.is-collapsed .inst-v2-toolbar,
+  .inst-v2-widget.is-collapsed .inst-v2-insights-banner {
     display: none;
+  }
+
+  .inst-v2-insights-banner {
+    margin: 6px 14px 12px;
   }
 
   .inst-v2-widget.is-collapsed .inst-v2-stats {

@@ -13,19 +13,19 @@ test.describe('Dashboard PDF export', () => {
 
     await page.evaluate(() => {
       window.__dashboardPdfPrintCalled = false;
-      const originalAppendChild = document.body.appendChild.bind(document.body);
-      document.body.appendChild = (node) => {
-        const result = originalAppendChild(node);
-        if (
-          node?.tagName === 'IFRAME' &&
-          node.title === 'dashboard-pdf-report'
-        ) {
-          node.contentWindow.print = () => {
-            window.__dashboardPdfPrintCalled = true;
-          };
-        }
-        return result;
-      };
+      Object.defineProperty(HTMLIFrameElement.prototype, 'contentWindow', {
+        get() {
+          const win = this.contentDocument?.defaultView;
+          if (win && !win.__printMocked) {
+            win.__printMocked = true;
+            win.print = () => {
+              window.__dashboardPdfPrintCalled = true;
+            };
+          }
+          return win;
+        },
+        configurable: true,
+      });
     });
 
     await page.getByRole('button', { name: /PDF/ }).click();
