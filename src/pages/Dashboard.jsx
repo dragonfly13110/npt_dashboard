@@ -57,9 +57,21 @@ export default function Dashboard() {
   useEffect(() => {
     const trackVisit = async () => {
       if (!sessionStorage.getItem('visited_home')) {
-        const { data, error } = await supabase.rpc('increment_site_visit');
-        if (data !== null) {
-          setVisits(data);
+        try {
+          const response = await fetch('/api/track-visit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              path: window.location.pathname,
+              referrer: document.referrer,
+            }),
+          });
+          const payload = await response.json();
+          if (response.ok && payload.visits !== null) {
+            setVisits(payload.visits);
+          }
+        } catch (err) {
+          console.warn('Visit tracking failed:', err);
         }
         sessionStorage.setItem('visited_home', 'true');
       } else {

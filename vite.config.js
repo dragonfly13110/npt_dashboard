@@ -100,11 +100,12 @@ function publicFarmerInstitutesV2Plugin(env) {
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
+  const gistdaApiKey = env.GISTDA_API_KEY || env.VITE_GISTDA_API_KEY;
 
   // Environment variables validation
   const requiredEnv =
     mode === 'production'
-      ? ['VITE_SUPABASE_URL', 'VITE_SUPABASE_ANON_KEY', 'VITE_GISTDA_API_KEY']
+      ? ['VITE_SUPABASE_URL', 'VITE_SUPABASE_ANON_KEY']
       : ['VITE_SUPABASE_URL', 'VITE_SUPABASE_ANON_KEY'];
   const missingEnv = requiredEnv.filter((key) => !env[key]);
 
@@ -150,13 +151,13 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api\/nabc/, ''),
         },
-        '/api/gistda': env.VITE_GISTDA_API_KEY
+        '/api/gistda': gistdaApiKey
           ? {
               target: 'https://api-gateway.gistda.or.th',
               changeOrigin: true,
               rewrite: (path) => path.replace(/^\/api\/gistda/, ''),
               headers: {
-                'API-Key': env.VITE_GISTDA_API_KEY,
+                'API-Key': gistdaApiKey,
                 accept: 'application/json',
               },
             }
