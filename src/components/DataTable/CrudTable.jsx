@@ -75,6 +75,7 @@ export default function CrudTable({
   requiredColumns = null,
   defaultColumns = null,
   readOnly = false,
+  importPolicy = null,
 }) {
   const { createRecord, updateRecord, deleteRecord, fetchAll } =
     useSupabaseCrud(tableName);
@@ -546,12 +547,6 @@ export default function CrudTable({
     }
 
     return row[key] ?? '';
-  };
-
-  const getColumnTitleText = (column) => {
-    if (typeof column.title === 'string') return column.title;
-    if (typeof column.dataIndex === 'string') return column.dataIndex;
-    return 'ข้อมูล';
   };
 
   const getDetailValue = (record, column) => {
@@ -1283,6 +1278,7 @@ export default function CrudTable({
         onClose={() => setImportModalOpen(false)}
         tableName={tableName}
         columns={[...columns, ...customColumns]}
+        importPolicy={importPolicy}
         onSuccess={loadData}
       />
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Modal,
   Button,
@@ -10,92 +10,108 @@ import {
   Tag,
   Space,
   Upload,
+  Radio,
 } from 'antd';
 import {
-  UploadOutlined,
   FileTextOutlined,
   CheckCircleOutlined,
   WarningOutlined,
   CloudUploadOutlined,
   ArrowRightOutlined,
 } from '@ant-design/icons';
+import { parseTableFile } from '../../utils/csv';
+import { getImportPolicy, IMPORT_MODES } from './importPolicies';
 
 const { Dragger } = Upload;
 
-/**
- * Parse CSV text → array of objects
- * รองรับ UTF-8 + BOM, comma/semicolon, ค่าที่มี quotes และขึ้นบรรทัดใหม่ในเซลล์
- */
-function parseCsv(text) {
-  // Remove BOM
-  const clean = text.replace(/^\uFEFF/, '');
-  if (!clean.trim()) return { headers: [], rows: [] };
+const MODE_OPTIONS = [
+  {
+    value: IMPORT_MODES.upsert,
+    label: 'อัปเดต/เพิ่มใหม่',
+    help: 'ถ้าเจอข้อมูลเดิมตามคีย์ จะอัปเดตแถวนั้น ถ้าไม่เจอจะเพิ่มใหม่',
+  },
+  {
+    value: IMPORT_MODES.append,
+    label: 'เพิ่มต่อท้าย',
+    help: 'เพิ่มทุกแถวเป็นรายการใหม่ เหมาะกับข้อมูลคนละชุด',
+  },
+  {
+    value: IMPORT_MODES.replaceScope,
+    label: 'แทนที่ชุดข้อมูล',
+    help: 'ลบข้อมูลเดิมใน scope เดียวกันก่อนนำเข้า ใช้เมื่อไฟล์เป็นชุดข้อมูลเต็ม',
+  },
+];
 
-  // Detect delimiter from first line
-  const firstLine = clean.split(/\r?\n/)[0];
-  const delimiter =
-    firstLine.includes(';') && !firstLine.includes(',') ? ';' : ',';
+function makeRecord(row, mapping) {
+  const record = {};
+  Object.entries(mapping).forEach(([sourceColumn, dbColumn]) => {
+    const value = row[sourceColumn];
+    if (!dbColumn || value === undefined || value === '') return;
 
-  const rowsData = [];
-  let currentRow = [];
-  let currentCell = '';
-  let inQuotes = false;
-
-  for (let i = 0; i < clean.length; i++) {
-    const char = clean[i];
-
-    if (char === '"') {
-      if (inQuotes && clean[i + 1] === '"') {
-        currentCell += '"';
-        i++; // skip escaped quote
-      } else {
-        inQuotes = !inQuotes;
-      }
-    } else if (char === delimiter && !inQuotes) {
-      currentRow.push(currentCell.trim());
-      currentCell = '';
-    } else if ((char === '\n' || char === '\r') && !inQuotes) {
-      if (char === '\r' && clean[i + 1] === '\n') {
-        i++; // skip \n
-      }
-      if (currentCell !== '' || currentRow.length > 0) {
-        currentRow.push(currentCell.trim());
-        rowsData.push(currentRow);
-      }
-      currentRow = [];
-      currentCell = '';
+    if (String(dbColumn).startsWith('custom__')) {
+      const fieldKey = String(dbColumn).replace(/^custom__/, '');
+      record.custom_fields = {
+        ...(record.custom_fields || {}),
+        [fieldKey]: value,
+      };
     } else {
-      currentCell += char;
+      record[dbColumn] = value;
     }
-  }
+  });
+  return record;
+}
 
-  // Push the last row if file doesn't end with a newline
-  if (currentCell !== '' || currentRow.length > 0) {
-    currentRow.push(currentCell.trim());
-    rowsData.push(currentRow);
-  }
+function keySignature(record, fields) {
+  return fields.map((field) => String(record[field] ?? '').trim()).join('|');
+}
 
-  // Remove completely empty rows
-  const validRows = rowsData.filter((row) =>
-    row.some((cell) => cell.trim() !== '')
-  );
+function findMissingKeyRows(records, fields) {
+  if (!fields.length) return [];
+  return records
+    .filter(({ data }) =>
+      fields.some((field) => String(data[field] ?? '').trim() === '')
+    )
+    .map((record) => record._rowNum);
+}
 
-  if (validRows.length < 2) return { headers: [], rows: [] };
+function findDuplicateKeyRows(records, fields) {
+  if (!fields.length) return [];
+  const seen = new Map();
+  const duplicateRows = [];
 
-  // Remove newlines from headers (handles Excel Alt+Enter, e.g. "แปลงใหญ่\nปี" -> "แปลงใหญ่ปี")
-  const headers = validRows[0].map((h) => h.replace(/\r?\n/g, '').trim());
+  records.forEach((record) => {
+    const signature = keySignature(record.data, fields);
+    if (!signature || signature.split('|').some((part) => part === '')) return;
+    if (seen.has(signature)) duplicateRows.push(record._rowNum);
+    else seen.set(signature, record._rowNum);
+  });
 
-  const rows = [];
-  for (let i = 1; i < validRows.length; i++) {
-    const vals = validRows[i];
-    const obj = {};
-    headers.forEach((h, idx) => {
-      obj[h] = vals[idx] || '';
+  return duplicateRows;
+}
+
+async function countExistingRows(supabase, tableName, records, uniqueFields) {
+  if (!records.length || !uniqueFields.length) return 0;
+
+  let count = 0;
+  const firstField = uniqueFields[0];
+  const remainingFields = uniqueFields.slice(1);
+
+  for (const record of records) {
+    let query = supabase
+      .from(tableName)
+      .select('id', { count: 'exact', head: true })
+      .eq(firstField, record.data[firstField]);
+
+    remainingFields.forEach((field) => {
+      query = query.eq(field, record.data[field]);
     });
-    obj._rowNum = i + 1; // Preserve logical row number for error reporting
-    rows.push(obj);
+
+    const { count: rowCount, error } = await query;
+    if (error) throw error;
+    if ((rowCount || 0) > 0) count += 1;
   }
-  return { headers, rows };
+
+  return count;
 }
 
 export default function CsvImportModal({
@@ -104,30 +120,91 @@ export default function CsvImportModal({
   tableName,
   columns,
   onSuccess,
+  importPolicy: importPolicyOverride = null,
 }) {
-  const [step, setStep] = useState(0); // 0=upload, 1=preview+map, 2=importing, 3=result
+  const importPolicy = useMemo(
+    () => getImportPolicy(tableName, importPolicyOverride),
+    [tableName, importPolicyOverride]
+  );
+  const canUpsert = importPolicy.uniqueFields.length > 0;
+  const canReplaceScope = importPolicy.replaceScopeFields.length > 0;
+
+  const [step, setStep] = useState(0);
   const [csvHeaders, setCsvHeaders] = useState([]);
   const [csvRows, setCsvRows] = useState([]);
-  const [mapping, setMapping] = useState({}); // csvHeader → dbColumn
+  const [mapping, setMapping] = useState({});
+  const [importMode, setImportMode] = useState(
+    canUpsert ? IMPORT_MODES.upsert : IMPORT_MODES.append
+  );
   const [progress, setProgress] = useState(0);
-  const [result, setResult] = useState({ success: 0, failed: 0, errors: [] });
+  const [result, setResult] = useState({
+    success: 0,
+    inserted: 0,
+    updated: 0,
+    failed: 0,
+    skipped: 0,
+    errors: [],
+  });
 
-  // DB columns จาก columns prop (ตัดคอลัมน์ actions ออก)
   const dbColumns = columns
-    .filter((c) => c.dataIndex)
-    .map((c) => ({
+    .filter((column) => column.dataIndex)
+    .map((column) => ({
       label:
-        c.importHeader || (typeof c.title === 'string' ? c.title : c.dataIndex),
-      value: c.dataIndex,
+        column.importHeader ||
+        (typeof column.title === 'string' ? column.title : column.dataIndex),
+      value: column.dataIndex,
     }));
+
+  const records = useMemo(
+    () =>
+      csvRows
+        .map((row) => ({
+          data: makeRecord(row, mapping),
+          _rowNum: row._rowNum,
+        }))
+        .filter((record) => Object.keys(record.data).length > 0),
+    [csvRows, mapping]
+  );
+
+  const mappedCount = Object.values(mapping).filter(Boolean).length;
+  const previewData = csvRows.slice(0, 5);
+  const activeKeyFields =
+    importMode === IMPORT_MODES.append
+      ? []
+      : importMode === IMPORT_MODES.replaceScope
+        ? importPolicy.replaceScopeFields
+        : importPolicy.uniqueFields;
+  const missingKeyRows = findMissingKeyRows(records, activeKeyFields);
+  const duplicateKeyRows = findDuplicateKeyRows(
+    records,
+    importPolicy.uniqueFields
+  );
+  const keyFieldsMapped = activeKeyFields.every((field) =>
+    Object.values(mapping).includes(field)
+  );
+  const importBlocked =
+    mappedCount === 0 ||
+    (importMode === IMPORT_MODES.upsert && (!canUpsert || !keyFieldsMapped)) ||
+    (importMode === IMPORT_MODES.replaceScope &&
+      (!canReplaceScope || !keyFieldsMapped)) ||
+    missingKeyRows.length > 0 ||
+    (importMode !== IMPORT_MODES.append && duplicateKeyRows.length > 0);
 
   const reset = () => {
     setStep(0);
     setCsvHeaders([]);
     setCsvRows([]);
     setMapping({});
+    setImportMode(canUpsert ? IMPORT_MODES.upsert : IMPORT_MODES.append);
     setProgress(0);
-    setResult({ success: 0, failed: 0, errors: [] });
+    setResult({
+      success: 0,
+      inserted: 0,
+      updated: 0,
+      failed: 0,
+      skipped: 0,
+      errors: [],
+    });
   };
 
   const handleClose = () => {
@@ -135,72 +212,109 @@ export default function CsvImportModal({
     onClose();
   };
 
-  // อ่านไฟล์ CSV
-  const handleFile = (file) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const { headers, rows } = parseCsv(e.target.result);
-      if (headers.length === 0) {
-        return;
-      }
+  const handleFile = async (file) => {
+    try {
+      const { headers, rows } = await parseTableFile(file);
+      if (headers.length === 0) return false;
+
+      const autoMap = {};
+      headers.forEach((header) => {
+        const match = dbColumns.find(
+          (column) =>
+            column.value.toLowerCase() === header.toLowerCase() ||
+            String(column.label).toLowerCase() === header.toLowerCase()
+        );
+        if (match) autoMap[header] = match.value;
+      });
+
       setCsvHeaders(headers);
       setCsvRows(rows);
-
-      // Auto-map: ถ้า CSV header ตรงกับ dbColumn → map อัตโนมัติ
-      const autoMap = {};
-      headers.forEach((h) => {
-        const match = dbColumns.find(
-          (dc) =>
-            dc.value.toLowerCase() === h.toLowerCase() ||
-            dc.label.toLowerCase() === h.toLowerCase()
-        );
-        if (match) autoMap[h] = match.value;
-      });
       setMapping(autoMap);
+      setImportMode(canUpsert ? IMPORT_MODES.upsert : IMPORT_MODES.append);
       setStep(1);
-    };
-    reader.readAsText(file, 'UTF-8');
-    return false; // ไม่ให้ antd upload อัตโนมัติ
+    } catch (error) {
+      setResult({
+        success: 0,
+        inserted: 0,
+        updated: 0,
+        failed: 0,
+        skipped: 0,
+        errors: [{ rows: '-', message: error.message }],
+      });
+      setStep(3);
+    }
+    return false;
   };
 
-  // Import ข้อมูลเข้า Supabase
+  const deleteReplaceScope = async (supabase, batchData) => {
+    const scopes = new Map();
+    batchData.forEach((record) => {
+      const signature = keySignature(record, importPolicy.replaceScopeFields);
+      if (signature) scopes.set(signature, record);
+    });
+
+    for (const scopeRecord of scopes.values()) {
+      let query = supabase.from(tableName).delete();
+      importPolicy.replaceScopeFields.forEach((field) => {
+        query = query.eq(field, scopeRecord[field]);
+      });
+      const { error } = await query;
+      if (error) throw error;
+    }
+  };
+
   const handleImport = async () => {
     setStep(2);
 
-    // สร้าง records จาก mapping
-    const records = csvRows
-      .map((row) => {
-        const record = {};
-        Object.entries(mapping).forEach(([csvCol, dbCol]) => {
-          if (dbCol && row[csvCol] !== undefined && row[csvCol] !== '') {
-            if (String(dbCol).startsWith('custom__')) {
-              const fieldKey = String(dbCol).replace(/^custom__/, '');
-              record.custom_fields = {
-                ...(record.custom_fields || {}),
-                [fieldKey]: row[csvCol],
-              };
-            } else {
-              record[dbCol] = row[csvCol];
-            }
-          }
-        });
-        return { data: record, _rowNum: row._rowNum };
-      })
-      .filter((r) => Object.keys(r.data).length > 0);
-
     const batchSize = 50;
     let success = 0;
+    let inserted = 0;
+    let updated = 0;
     let failed = 0;
     const errors = [];
 
     const { supabase } = await import('../../supabaseClient');
 
+    try {
+      if (importMode === IMPORT_MODES.replaceScope) {
+        await deleteReplaceScope(
+          supabase,
+          records.map((record) => record.data)
+        );
+      } else if (importMode === IMPORT_MODES.upsert) {
+        updated = await countExistingRows(
+          supabase,
+          tableName,
+          records,
+          importPolicy.uniqueFields
+        );
+      }
+    } catch (error) {
+      setResult({
+        success: 0,
+        inserted: 0,
+        updated: 0,
+        failed: records.length,
+        skipped: 0,
+        errors: [{ rows: 'ทั้งหมด', message: error.message }],
+      });
+      setStep(3);
+      return;
+    }
+
     for (let i = 0; i < records.length; i += batchSize) {
       const batch = records.slice(i, i + batchSize);
-      const batchData = batch.map((r) => r.data);
+      const batchData = batch.map((record) => record.data);
 
       try {
-        const { error } = await supabase.from(tableName).insert(batchData);
+        const query =
+          importMode === IMPORT_MODES.upsert
+            ? supabase.from(tableName).upsert(batchData, {
+                onConflict: importPolicy.uniqueFields.join(','),
+              })
+            : supabase.from(tableName).insert(batchData);
+
+        const { error } = await query;
         if (error) {
           failed += batch.length;
           errors.push({
@@ -210,52 +324,61 @@ export default function CsvImportModal({
         } else {
           success += batch.length;
         }
-      } catch (err) {
+      } catch (error) {
         failed += batch.length;
         errors.push({
           rows: `${batch[0]._rowNum}-${batch[batch.length - 1]._rowNum}`,
-          message: err.message,
+          message: error.message,
         });
       }
 
       setProgress(Math.round(((i + batch.length) / records.length) * 100));
     }
 
-    setResult({ success, failed, errors });
+    if (importMode === IMPORT_MODES.upsert)
+      inserted = Math.max(success - updated, 0);
+    else inserted = success;
+
+    setResult({ success, inserted, updated, failed, skipped: 0, errors });
     setStep(3);
   };
 
-  const mappedCount = Object.values(mapping).filter(Boolean).length;
-  const previewData = csvRows.slice(0, 5);
-
-  // Preview table แสดงข้อมูล CSV ที่ map แล้ว
-  const previewColumns = csvHeaders.map((h) => ({
+  const previewColumns = csvHeaders.map((header) => ({
     title: (
       <div className="csv-col-header">
-        <div className="csv-col-original">{h}</div>
+        <div className="csv-col-original">{header}</div>
         <Select
           size="small"
           placeholder="เลือก field..."
-          value={mapping[h] || undefined}
-          onChange={(val) => setMapping((prev) => ({ ...prev, [h]: val }))}
-          options={[{ label: '— ข้าม —', value: '' }, ...dbColumns]}
+          value={mapping[header] || undefined}
+          onChange={(value) =>
+            setMapping((previous) => ({ ...previous, [header]: value }))
+          }
+          options={[{ label: '-- ข้าม --', value: '' }, ...dbColumns]}
           style={{ width: '100%', marginTop: 4 }}
           allowClear
         />
       </div>
     ),
-    dataIndex: h,
-    key: h,
+    dataIndex: header,
+    key: header,
     width: 160,
     ellipsis: true,
   }));
 
+  const modeOptions = MODE_OPTIONS.map((option) => ({
+    ...option,
+    disabled:
+      (option.value === IMPORT_MODES.upsert && !canUpsert) ||
+      (option.value === IMPORT_MODES.replaceScope && !canReplaceScope),
+  }));
+
   return (
     <Modal
-      title="📥 นำเข้าข้อมูลจาก CSV"
+      title="นำเข้าข้อมูลจาก CSV / Excel"
       open={open}
       onCancel={handleClose}
-      width={820}
+      width={900}
       className="crud-modal csv-import-modal"
       footer={null}
       destroyOnClose
@@ -273,20 +396,21 @@ export default function CsvImportModal({
       />
 
       <div className="csv-step-content">
-        {/* Step 0: Upload */}
         {step === 0 && (
           <div className="csv-upload-zone">
             <Dragger
-              accept=".csv,.txt"
+              accept=".csv,.txt,.xlsx,.xls"
               showUploadList={false}
               beforeUpload={handleFile}
               multiple={false}
             >
               <div className="csv-upload-inner">
                 <CloudUploadOutlined className="csv-upload-icon" />
-                <p className="csv-upload-text">ลากไฟล์ CSV มาวางที่นี่</p>
+                <p className="csv-upload-text">
+                  ลากไฟล์ CSV หรือ Excel มาวางที่นี่
+                </p>
                 <p className="csv-upload-hint">
-                  หรือกดเพื่อเลือกไฟล์ · รองรับ .csv, .txt (UTF-8)
+                  รองรับ .csv, .txt, .xlsx, .xls และใช้แถวแรกเป็นหัวคอลัมน์
                 </p>
               </div>
             </Dragger>
@@ -295,40 +419,109 @@ export default function CsvImportModal({
                 type="info"
                 showIcon
                 message="คำแนะนำ"
-                description={
-                  <ul style={{ margin: 0, paddingLeft: 16 }}>
-                    <li>ไฟล์ CSV ต้องมีแถวหัวข้อ (header) เป็นแถวแรก</li>
-                    <li>
-                      รองรับตัวคั่นทั้งเครื่องหมายจุลภาค (,) และ semicolon (;)
-                    </li>
-                    <li>
-                      ถ้าคอลัมน์ CSV ชื่อตรงกับชื่อ field ในระบบ จะ map
-                      ให้อัตโนมัติ
-                    </li>
-                  </ul>
-                }
+                description="ถ้าต้องการกันข้อมูลซ้ำ ให้เลือกโหมดอัปเดต/เพิ่มใหม่ และต้องมีคีย์ของตารางครบ เช่น ปีข้อมูล + รหัสระเบียน"
               />
             </div>
           </div>
         )}
 
-        {/* Step 1: Preview + Column Mapping */}
         {step === 1 && (
           <div className="csv-preview">
-            <div className="csv-preview-info">
-              <Space>
-                <Tag color="blue">
-                  <FileTextOutlined /> {csvRows.length} แถว
+            <Space wrap className="csv-preview-info">
+              <Tag color="blue">
+                <FileTextOutlined /> {csvRows.length} แถว
+              </Tag>
+              <Tag color="green">{csvHeaders.length} คอลัมน์</Tag>
+              <Tag color={mappedCount > 0 ? 'green' : 'red'}>
+                map แล้ว {mappedCount}/{csvHeaders.length}
+              </Tag>
+              {canUpsert && (
+                <Tag color="purple">
+                  คีย์: {importPolicy.uniqueFields.join(' + ')}
                 </Tag>
-                <Tag color="green">{csvHeaders.length} คอลัมน์</Tag>
-                <Tag color={mappedCount > 0 ? 'green' : 'red'}>
-                  map แล้ว {mappedCount}/{csvHeaders.length}
-                </Tag>
-              </Space>
-            </div>
+              )}
+            </Space>
+
+            <Radio.Group
+              className="csv-import-mode"
+              value={importMode}
+              onChange={(event) => setImportMode(event.target.value)}
+              optionType="button"
+              buttonStyle="solid"
+            >
+              {modeOptions.map((option) => (
+                <Radio.Button
+                  key={option.value}
+                  value={option.value}
+                  disabled={option.disabled}
+                >
+                  {option.label}
+                </Radio.Button>
+              ))}
+            </Radio.Group>
+            <Alert
+              type={importMode === IMPORT_MODES.append ? 'warning' : 'info'}
+              showIcon
+              message={
+                MODE_OPTIONS.find((option) => option.value === importMode)
+                  ?.label
+              }
+              description={
+                MODE_OPTIONS.find((option) => option.value === importMode)
+                  ?.help || ''
+              }
+              style={{ marginBottom: 12 }}
+            />
+
+            {importBlocked && (
+              <Alert
+                type="error"
+                showIcon
+                style={{ marginBottom: 12 }}
+                message="ยังนำเข้าไม่ได้"
+                description={
+                  <Space direction="vertical" size={2}>
+                    {mappedCount === 0 && (
+                      <span>ต้อง map อย่างน้อย 1 คอลัมน์</span>
+                    )}
+                    {!keyFieldsMapped && activeKeyFields.length > 0 && (
+                      <span>
+                        ต้อง map คีย์ให้ครบ: {activeKeyFields.join(', ')}
+                      </span>
+                    )}
+                    {missingKeyRows.length > 0 && (
+                      <span>
+                        แถวที่คีย์ไม่ครบ:{' '}
+                        {missingKeyRows.slice(0, 10).join(', ')}
+                      </span>
+                    )}
+                    {duplicateKeyRows.length > 0 && (
+                      <span>
+                        ไฟล์มีคีย์ซ้ำแถว:{' '}
+                        {duplicateKeyRows.slice(0, 10).join(', ')}
+                      </span>
+                    )}
+                  </Space>
+                }
+              />
+            )}
+            {!importBlocked &&
+              importMode === IMPORT_MODES.append &&
+              duplicateKeyRows.length > 0 && (
+                <Alert
+                  type="warning"
+                  showIcon
+                  style={{ marginBottom: 12 }}
+                  message="พบคีย์ซ้ำในไฟล์"
+                  description={`โหมดเพิ่มต่อท้ายจะพยายามเพิ่มทุกแถว หากฐานข้อมูลมี unique constraint อาจนำเข้าไม่สำเร็จ แถวซ้ำ: ${duplicateKeyRows
+                    .slice(0, 10)
+                    .join(', ')}`}
+                />
+              )}
+
             <div className="csv-mapping-hint">
-              เลือก field ที่ต้องการ map ในแต่ละคอลัมน์ (คอลัมน์ที่ไม่ได้ map
-              จะถูกข้าม)
+              เลือก field ที่ต้องการ map ในแต่ละคอลัมน์ คอลัมน์ที่ไม่ map
+              จะถูกข้าม
             </div>
             <Table
               dataSource={previewData}
@@ -345,30 +538,23 @@ export default function CsvImportModal({
               </div>
             )}
             <div className="csv-preview-actions">
-              <Button
-                onClick={() => {
-                  reset();
-                }}
-              >
-                เลือกไฟล์ใหม่
-              </Button>
+              <Button onClick={reset}>เลือกไฟล์ใหม่</Button>
               <Button
                 type="primary"
                 icon={<ArrowRightOutlined />}
                 onClick={handleImport}
-                disabled={mappedCount === 0}
+                disabled={importBlocked}
                 className="add-btn"
               >
-                นำเข้า {csvRows.length} แถว
+                นำเข้า {records.length} แถว
               </Button>
             </div>
           </div>
         )}
 
-        {/* Step 2: Importing */}
         {step === 2 && (
           <div className="csv-importing">
-            <div className="csv-importing-icon">📤</div>
+            <div className="csv-importing-icon">Uploading</div>
             <h3>กำลังนำเข้าข้อมูล...</h3>
             <Progress
               percent={progress}
@@ -380,11 +566,10 @@ export default function CsvImportModal({
           </div>
         )}
 
-        {/* Step 3: Results */}
         {step === 3 && (
           <div className="csv-result">
             <div className="csv-result-icon">
-              {result.failed === 0 ? '🎉' : '⚠️'}
+              {result.failed === 0 ? 'สำเร็จ' : 'มีข้อผิดพลาด'}
             </div>
             <h3>นำเข้าเสร็จสิ้น</h3>
 
@@ -393,6 +578,18 @@ export default function CsvImportModal({
                 <CheckCircleOutlined />
                 <span>{result.success} สำเร็จ</span>
               </div>
+              {result.inserted > 0 && (
+                <div className="csv-result-stat success">
+                  <CheckCircleOutlined />
+                  <span>{result.inserted} เพิ่มใหม่</span>
+                </div>
+              )}
+              {result.updated > 0 && (
+                <div className="csv-result-stat success">
+                  <CheckCircleOutlined />
+                  <span>{result.updated} อัปเดต</span>
+                </div>
+              )}
               {result.failed > 0 && (
                 <div className="csv-result-stat failed">
                   <WarningOutlined />
@@ -416,9 +613,9 @@ export default function CsvImportModal({
                         overflow: 'auto',
                       }}
                     >
-                      {result.errors.map((err, i) => (
-                        <li key={i}>
-                          แถว {err.rows}: {err.message}
+                      {result.errors.map((error, index) => (
+                        <li key={index}>
+                          แถว {error.rows}: {error.message}
                         </li>
                       ))}
                     </ul>
