@@ -287,6 +287,13 @@ export default function GlobalSearch({ collapsed = false }) {
               พบ <strong>{totalResults.toLocaleString()}</strong> รายการ จาก{' '}
               <strong>{results.length}</strong> ตาราง
             </span>
+            <button
+              type="button"
+              className="global-search-view-all"
+              onClick={handleViewAll}
+            >
+              <SearchOutlined /> ดูทั้งหมด
+            </button>
           </div>
 
           <div className="global-search-results">
@@ -340,10 +347,6 @@ export default function GlobalSearch({ collapsed = false }) {
                 </div>
               </div>
             ))}
-          </div>
-
-          <div className="global-search-footer" onClick={handleViewAll}>
-            <SearchOutlined /> ดูผลลัพธ์ทั้งหมดสำหรับ &quot;{query}&quot;
           </div>
         </>
       )}

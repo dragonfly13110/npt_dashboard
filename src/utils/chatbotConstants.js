@@ -180,13 +180,6 @@ export const TABLE_CONFIG = {
     group: 'กลุ่มส่งเสริมและพัฒนาการผลิต',
     descTh: 'ข้อมูลผลผลิตพืชรายอำเภอ',
   },
-  coconut_aromatic_surveys: {
-    label: 'แบบเก็บมะพร้าวน้ำหอม',
-    icon: '🥥',
-    group: 'กลุ่มส่งเสริมและพัฒนาการผลิต',
-    descTh:
-      'ข้อมูลเกษตรกรผู้ปลูกมะพร้าวน้ำหอม จัดเก็บทุก 20 วัน มีพื้นที่ปลูก ต้นทุน ผลผลิต ราคา รายได้ และรอบจัดเก็บ',
-  },
   community_enterprises: {
     label: 'วิสาหกิจชุมชน',
     icon: '🏪',
@@ -317,13 +310,6 @@ export const TABLE_SEARCH_COLS = {
   large_plots: ['plot_name', 'commodity', 'secondary_commodity', 'agency'],
   certifications: ['farmer_name', 'crop_name', 'plot_code'],
   crop_production: ['crop_name'],
-  coconut_aromatic_surveys: [
-    'farmer_code',
-    'farmer_name',
-    'subdistrict',
-    'district',
-    'round_label',
-  ],
   community_enterprises: ['enterprise_name', 'enterprise_type'],
   smart_farmers: ['full_name', 'main_product', 'farmer_type'],
   smart_farmer_sf: [
@@ -380,7 +366,6 @@ export const TABLE_SEARCH_COLS = {
 export const DISTRICT_COLS = {
   certifications: 'plot_district',
   forecast_plots: 'district',
-  coconut_aromatic_surveys: 'district',
   smart_farmer_sf: 'district',
   young_smart_farmer_ysf: 'district',
   agricultural_career_groups: 'district',
@@ -411,16 +396,6 @@ export const NUMERIC_COLS = {
     'harvested_area_rai',
     'yield_kg_per_rai',
     'total_production_ton',
-  ],
-  coconut_aromatic_surveys: [
-    'planted_area_rai',
-    'production_cost_per_rai',
-    'cost_per_fruit',
-    'standard_fruit_per_rai',
-    'small_fruit_per_rai',
-    'total_fruit_per_rai',
-    'income_per_rai',
-    'total_income',
   ],
   community_enterprises: ['member_count', 'capital_baht'],
   smart_farmer_sf: ['age', 'annual_agri_income'],
@@ -476,7 +451,6 @@ export const CATEGORY_COLS = {
     'potential_level',
   ],
   certifications: ['crop_name'],
-  coconut_aromatic_surveys: ['district', 'subdistrict', 'round_label'],
   agri_tourism: ['spot_type'],
   disasters: ['disaster_type'],
   fire_hotspots: ['land_use', 'confidence', 'satellite'],

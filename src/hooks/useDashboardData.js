@@ -101,7 +101,6 @@ export function useDashboardData() {
       disasterData,
       pestData,
       fireData,
-      coconutData,
       certData,
     } = await fetchCommunityData(supabase);
 
@@ -135,7 +134,6 @@ export function useDashboardData() {
       disasterData,
       pestData,
       fireData,
-      coconutData,
       certData,
       dStats,
     });
@@ -160,7 +158,6 @@ export function useDashboardData() {
       lpStats,
       largePlotsList: rawLpData || [],
       agriStats,
-      coconutList: coconutData || [],
     };
   };
 
@@ -186,7 +183,6 @@ export function useDashboardData() {
     lpStats = {},
     largePlotsList = [],
     agriStats = {},
-    coconutList = [],
   } = dashData || {};
 
   const agriPie = useMemo(() => createAgriPieData(agriData), [agriData]);
@@ -212,6 +208,5 @@ export function useDashboardData() {
     agriPie,
     lpPie,
     largePlotsList,
-    coconutList,
   };
 }

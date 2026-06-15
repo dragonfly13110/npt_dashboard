@@ -28,7 +28,6 @@ const GROUP_TABLES = {
     'learning_centers',
     'certifications',
     'crop_production',
-    'coconut_aromatic_surveys',
   ],
   development: [
     'community_enterprises',

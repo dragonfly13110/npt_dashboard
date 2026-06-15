@@ -9,8 +9,6 @@ import {
   Table,
   Typography,
   Badge,
-  Drawer,
-  Descriptions,
   Button,
 } from 'antd';
 import {
@@ -69,6 +67,12 @@ const COLUMN_LABELS = {
   agency: 'หน่วยงาน',
   disaster_type: 'ประเภทภัย',
   project_name: 'โครงการ',
+  activity: 'กิจกรรม',
+  budget_amount: 'งบประมาณ',
+  spent_amount: 'เบิกแล้ว',
+  budget_source: 'แหล่งงบประมาณ',
+  fiscal_year: 'ปีงบประมาณ',
+  budget_round: 'รอบ',
   total_area_rai: 'พื้นที่ (ไร่)',
   agri_crop_area_rai: 'พื้นที่เพาะปลูก (ไร่)',
   farmer_households: 'ครัวเรือนเกษตรกร',
@@ -113,6 +117,20 @@ function getThaiColumnName(key) {
   if (COLUMN_LABELS[key]) return COLUMN_LABELS[key];
   // Titlecase fallback
   return key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function formatCellValue(key, value) {
+  if (
+    ['budget_amount', 'spent_amount', 'damage_baht', 'capital_baht'].includes(
+      key
+    )
+  ) {
+    const amount = Number(value);
+    if (!Number.isNaN(amount)) {
+      return `${amount.toLocaleString('th-TH')} บาท`;
+    }
+  }
+  return String(value);
 }
 
 const getTopDistrict = (items) => {
@@ -201,9 +219,8 @@ export default function SearchResults() {
   const [query, setQuery] = useState(initialQuery);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [expandedTable, setExpandedTable] = useState(null);
-  const [detailRecord, setDetailRecord] = useState(null);
-  const [detailTable, setDetailTable] = useState(null);
+  const [expandedTables, setExpandedTables] = useState(new Set());
+  const [visibleTables, setVisibleTables] = useState(new Set());
 
   const performSearch = useCallback(
     async (searchTerm) => {
@@ -216,7 +233,11 @@ export default function SearchResults() {
         const data = await globalSearch(searchTerm, 50, role);
         setResults(data);
         if (data.length > 0) {
-          setExpandedTable(data[0].table);
+          setExpandedTables(new Set([data[0].table]));
+          setVisibleTables(new Set([data[0].table]));
+        } else {
+          setExpandedTables(new Set());
+          setVisibleTables(new Set());
         }
       } catch (err) {
         console.error('Search error:', err);
@@ -251,6 +272,42 @@ export default function SearchResults() {
   };
 
   const totalResults = results.reduce((sum, r) => sum + r.totalCount, 0);
+  const allVisible =
+    results.length > 0 && visibleTables.size === results.length;
+
+  const toggleTable = (table) => {
+    setVisibleTables((current) => {
+      const next = new Set(current);
+      if (next.has(table)) {
+        next.delete(table);
+        setExpandedTables((expanded) => {
+          const nextExpanded = new Set(expanded);
+          nextExpanded.delete(table);
+          return nextExpanded;
+        });
+      } else {
+        next.add(table);
+        setExpandedTables((expanded) => new Set(expanded).add(table));
+      }
+      return next;
+    });
+  };
+
+  const toggleAllTables = () => {
+    if (allVisible) {
+      setVisibleTables(new Set());
+      setExpandedTables(new Set());
+    } else {
+      const tableNames = results.map((result) => result.table);
+      setVisibleTables(new Set(tableNames));
+      setExpandedTables(new Set(tableNames));
+    }
+  };
+
+  const expandTable = (table) => {
+    setVisibleTables((current) => new Set(current).add(table));
+    setExpandedTables((current) => new Set(current).add(table));
+  };
 
   useEffect(() => {
     document.title = 'ค้นหาข้อมูล | ศูนย์ข้อมูลการเกษตรนครปฐม';
@@ -310,12 +367,42 @@ export default function SearchResults() {
         render: (val) => {
           if (val === null || val === undefined)
             return <Text type="secondary">-</Text>;
-          const str = String(val);
+          const str = formatCellValue(key, val);
           if (str.length > 60) return str.substring(0, 60) + '...';
           return highlightText(str, query);
         },
       };
     });
+  };
+
+  const getMatchedKeys = (item) => {
+    const q = query.trim().toLowerCase();
+    if (!q || !item.raw) return [];
+    return Object.entries(item.raw)
+      .filter(([, value]) =>
+        String(value ?? '')
+          .toLowerCase()
+          .includes(q)
+      )
+      .map(([key]) => key)
+      .filter(
+        (key) =>
+          !['id', 'created_at', 'updated_at'].includes(key) &&
+          !key.includes('image') &&
+          !key.includes('url') &&
+          !key.includes('file') &&
+          !key.includes('path')
+      );
+  };
+
+  const getRelevanceTags = (tableResult) => {
+    const labels = new Map();
+    tableResult.results.forEach((item) => {
+      getMatchedKeys(item).forEach((key) =>
+        labels.set(key, getThaiColumnName(key))
+      );
+    });
+    return Array.from(labels.values()).slice(0, 3);
   };
 
   return (
@@ -476,6 +563,9 @@ export default function SearchResults() {
               <Text strong>{query}</Text>&quot;
             </Text>
             <div style={{ flex: 1 }} />
+            <Button size="small" onClick={toggleAllTables}>
+              {allVisible ? 'ยุบทั้งหมด' : 'ขยายทั้งหมด'}
+            </Button>
             <Text type="secondary" style={{ fontSize: 12 }}>
               <ReloadOutlined /> ข้อมูลแบบ Real-time จาก Database
             </Text>
@@ -484,11 +574,14 @@ export default function SearchResults() {
           {/* Results grouped by table */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {results.map((tableResult) => {
-              const isExpanded = expandedTable === tableResult.table;
+              const isExpanded = expandedTables.has(tableResult.table);
+              const isVisible = visibleTables.has(tableResult.table);
               const columns = buildColumns(tableResult);
               const topDistrict = getTopDistrict(tableResult.results);
               const topActivity = getTopActivity(tableResult.results);
               const latestUpdate = getLatestUpdateText(tableResult.results);
+              const relevanceTags = getRelevanceTags(tableResult);
+              const previewItems = tableResult.results.slice(0, 3);
 
               return (
                 <Card
@@ -504,9 +597,7 @@ export default function SearchResults() {
                   styles={{ body: { padding: 0 } }}
                 >
                   <div
-                    onClick={() =>
-                      setExpandedTable(isExpanded ? null : tableResult.table)
-                    }
+                    onClick={() => toggleTable(tableResult.table)}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -542,6 +633,15 @@ export default function SearchResults() {
                               fontSize: 11,
                             }}
                           />
+                          {relevanceTags.map((tag) => (
+                            <Tag
+                              key={tag}
+                              color="blue"
+                              style={{ marginInlineEnd: 0 }}
+                            >
+                              ตรง{tag}
+                            </Tag>
+                          ))}
                         </div>
                         <div
                           style={{
@@ -599,6 +699,30 @@ export default function SearchResults() {
                       style={{ display: 'flex', alignItems: 'center', gap: 8 }}
                     >
                       <Button
+                        type={isVisible ? 'default' : 'primary'}
+                        size="small"
+                        icon={<SearchOutlined />}
+                        style={{
+                          borderColor:
+                            GROUP_COLORS[tableResult.group] || '#0969da',
+                          color: isVisible
+                            ? GROUP_COLORS[tableResult.group] || '#0969da'
+                            : undefined,
+                          background: isVisible
+                            ? undefined
+                            : GROUP_COLORS[tableResult.group] || '#0969da',
+                          fontWeight: 600,
+                          borderRadius: 6,
+                          fontSize: 12,
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleTable(tableResult.table);
+                        }}
+                      >
+                        {isVisible ? 'ยุบผลลัพธ์' : 'ดูผลลัพธ์'}
+                      </Button>
+                      <Button
                         type="default"
                         size="small"
                         icon={<DatabaseOutlined />}
@@ -615,20 +739,89 @@ export default function SearchResults() {
                           navigate(tableResult.route);
                         }}
                       >
-                        เปิดตารางข้อมูล
+                        ตารางเต็ม
                       </Button>
                       <RightOutlined
                         style={{
                           fontSize: 11,
                           color: '#8b949e',
-                          transform: isExpanded ? 'rotate(90deg)' : 'none',
+                          transform: isVisible ? 'rotate(90deg)' : 'none',
                           transition: 'transform 0.2s',
                         }}
                       />
                     </div>
                   </div>
 
-                  {isExpanded && (
+                  {isVisible && !isExpanded && previewItems.length > 0 && (
+                    <div
+                      style={{
+                        padding: '0 20px 14px 52px',
+                        display: 'grid',
+                        gap: 6,
+                      }}
+                    >
+                      {previewItems.map((item, index) => (
+                        <div
+                          key={item.id || index}
+                          onClick={() => expandTable(tableResult.table)}
+                          style={{
+                            cursor: 'pointer',
+                            padding: '8px 10px',
+                            borderRadius: 8,
+                            background: '#f6f8fa',
+                            border: '1px solid #e8ecf0',
+                          }}
+                        >
+                          <div
+                            style={{
+                              fontSize: 13,
+                              fontWeight: 600,
+                              color: '#24292f',
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                            }}
+                          >
+                            {highlightText(item.title, query)}
+                          </div>
+                          {item.subtitle && (
+                            <div
+                              style={{
+                                marginTop: 2,
+                                fontSize: 12,
+                                color: '#656d76',
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                              }}
+                            >
+                              {highlightText(item.subtitle, query)}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                      {tableResult.totalCount > previewItems.length && (
+                        <button
+                          type="button"
+                          onClick={() => expandTable(tableResult.table)}
+                          style={{
+                            justifySelf: 'start',
+                            border: 'none',
+                            background: 'transparent',
+                            color: GROUP_COLORS[tableResult.group] || '#0969da',
+                            fontWeight: 600,
+                            cursor: 'pointer',
+                            padding: 0,
+                          }}
+                        >
+                          +{tableResult.totalCount - previewItems.length}{' '}
+                          รายการเพิ่มเติม
+                        </button>
+                      )}
+                    </div>
+                  )}
+
+                  {isVisible && isExpanded && (
                     <div style={{ padding: '0 4px 4px' }}>
                       <Table
                         dataSource={tableResult.results}
@@ -642,12 +835,9 @@ export default function SearchResults() {
                         }
                         scroll={{ x: 'max-content' }}
                         style={{ fontSize: 13 }}
-                        onRow={(record) => ({
-                          onClick: () => {
-                            setDetailRecord(record.raw);
-                            setDetailTable(tableResult.table);
-                          },
-                          style: { cursor: 'pointer' },
+                        onRow={() => ({
+                          onClick: () => undefined,
+                          style: { cursor: 'default' },
                         })}
                       />
                     </div>
@@ -658,67 +848,6 @@ export default function SearchResults() {
           </div>
         </>
       ) : null}
-
-      <Drawer
-        title={
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <DatabaseOutlined style={{ color: 'var(--primary)' }} />
-            <span>รายละเอียดข้อมูล</span>
-          </div>
-        }
-        placement="right"
-        onClose={() => {
-          setDetailRecord(null);
-          setDetailTable(null);
-        }}
-        open={Boolean(detailRecord)}
-        width={window.innerWidth > 768 ? 600 : '100%'}
-        destroyOnClose
-      >
-        {detailRecord && detailTable && (
-          <div>
-            <Descriptions
-              bordered
-              column={1}
-              size="small"
-              labelStyle={{ width: 150, fontWeight: 600 }}
-            >
-              {Object.keys(detailRecord)
-                .filter(
-                  (k) =>
-                    !['id', 'created_at', 'updated_at'].includes(k) &&
-                    !(
-                      role === 'guest' &&
-                      isPrivateColumn(detailTable, { dataIndex: k })
-                    ) &&
-                    !k.includes('image') &&
-                    !k.includes('url') &&
-                    !k.includes('file') &&
-                    !k.includes('path')
-                )
-                .map((key) => (
-                  <Descriptions.Item key={key} label={getThaiColumnName(key)}>
-                    {detailRecord[key] === null ||
-                    detailRecord[key] === undefined ||
-                    detailRecord[key] === '' ? (
-                      <span style={{ color: '#8b949e', fontStyle: 'italic' }}>
-                        ไม่มีข้อมูล
-                      </span>
-                    ) : typeof detailRecord[key] === 'boolean' ? (
-                      detailRecord[key] ? (
-                        'ใช่'
-                      ) : (
-                        'ไม่ใช่'
-                      )
-                    ) : (
-                      String(detailRecord[key])
-                    )}
-                  </Descriptions.Item>
-                ))}
-            </Descriptions>
-          </div>
-        )}
-      </Drawer>
     </div>
   );
 }
