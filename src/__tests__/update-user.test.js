@@ -1,6 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import handler from '../../netlify/functions/update-user.js';
-import { createClient } from '@supabase/supabase-js';
 
 // Setup Supabase Mock
 const mockSupabase = {

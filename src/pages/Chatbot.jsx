@@ -275,8 +275,8 @@ export default function Chatbot() {
       console.error('Error saving chatbot history:', e);
     }
   }, [messages]);
-  const [selectedModel, setSelectedModel] = useState('gemini');
-  const [selectedProvider, setSelectedProvider] = useState('Google');
+  const [selectedModel, setSelectedModel] = useState('kkuDeepseek');
+  const [selectedProvider, setSelectedProvider] = useState('OKMD AI');
   const [aiSettings, setAiSettings] = useState({
     deepThinking: false,
     webSearch: false,
@@ -535,15 +535,7 @@ ${dbContext}
         inputRef.current?.focus();
       }
     },
-    [
-      input,
-      loading,
-      messages,
-      selectedModel,
-      selectedProvider,
-      aiSettings,
-      attachedFile,
-    ]
+    [input, loading, messages, selectedModel, aiSettings, attachedFile]
   );
 
   const handleClear = useCallback(() => {
