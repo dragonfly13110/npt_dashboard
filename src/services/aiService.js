@@ -23,7 +23,8 @@ async function callGeminiAI(
   settings,
   fileData,
   retries = 2,
-  signal = null
+  signal = null,
+  onChunk = null
 ) {
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
@@ -122,6 +123,9 @@ async function callGeminiAI(
                   .map((p) => p.text || '')
                   .join('');
                 resultText += chunkText;
+                if (onChunk && chunkText) {
+                  onChunk(chunkText, resultText);
+                }
               } catch (e) {
                 // ignore parse errors for partial chunks
               }
@@ -146,6 +150,9 @@ async function callGeminiAI(
               .map((p) => p.text || '')
               .join('');
             resultText += chunkText;
+            if (onChunk && chunkText) {
+              onChunk(chunkText, resultText);
+            }
           } catch (e) {}
         }
       }
@@ -171,7 +178,8 @@ async function callOpenRouterAI(
   messagesHistory,
   settings,
   retries = 2,
-  signal = null
+  signal = null,
+  onChunk = null
 ) {
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
@@ -204,7 +212,11 @@ async function callOpenRouterAI(
 
       if (!res.ok) throw new Error('OpenRouter Error');
       const data = await res.json();
-      return data.choices?.[0]?.message?.content || null;
+      const content = data.choices?.[0]?.message?.content || null;
+      if (onChunk && content) {
+        onChunk(content, content);
+      }
+      return content;
     } catch (err) {
       if (err.name === 'AbortError' || signal?.aborted) {
         throw err;
@@ -225,7 +237,8 @@ async function callNvidiaAI(
   messagesHistory,
   settings,
   retries = 2,
-  signal = null
+  signal = null,
+  onChunk = null
 ) {
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
@@ -310,6 +323,9 @@ async function callNvidiaAI(
                 const delta = data.choices?.[0]?.delta;
                 if (delta?.content) {
                   resultText += delta.content;
+                  if (onChunk) {
+                    onChunk(delta.content, resultText);
+                  }
                 }
               } catch (e) {
                 // ignore parse errors for partial chunks
@@ -332,6 +348,9 @@ async function callNvidiaAI(
             const delta = data.choices?.[0]?.delta;
             if (delta?.content) {
               resultText += delta.content;
+              if (onChunk) {
+                onChunk(delta.content, resultText);
+              }
             }
           } catch (e) {}
         }
@@ -355,7 +374,8 @@ async function callKkuAI(
   messagesHistory,
   settings,
   retries = 2,
-  signal = null
+  signal = null,
+  onChunk = null
 ) {
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
@@ -392,7 +412,11 @@ async function callKkuAI(
       }
 
       const data = await res.json();
-      return data.choices?.[0]?.message?.content || null;
+      const content = data.choices?.[0]?.message?.content || null;
+      if (onChunk && content) {
+        onChunk(content, content);
+      }
+      return content;
     } catch (err) {
       if (err.name === 'AbortError' || signal?.aborted) {
         throw err;
@@ -413,7 +437,8 @@ export async function callAI(
   messagesHistory,
   settings,
   fileData,
-  signal = null
+  signal = null,
+  onChunk = null
 ) {
   // เสริมคำสั่งให้ AI กล้าใช้ Search และไฟล์มากขึ้น
   let finalSystemPrompt = systemPrompt;
@@ -434,7 +459,8 @@ export async function callAI(
       settings,
       fileData,
       2,
-      signal
+      signal,
+      onChunk
     );
   }
   if (modelKey === 'gemini') {
@@ -445,7 +471,8 @@ export async function callAI(
       settings,
       fileData,
       2,
-      signal
+      signal,
+      onChunk
     );
   }
   if (modelKey === 'qwen') {
@@ -455,7 +482,8 @@ export async function callAI(
       messagesHistory,
       settings,
       2,
-      signal
+      signal,
+      onChunk
     );
   }
   if (modelKey === 'kimi') {
@@ -465,7 +493,8 @@ export async function callAI(
       messagesHistory,
       settings,
       2,
-      signal
+      signal,
+      onChunk
     );
   }
   if (modelKey === 'mistralLarge') {
@@ -475,7 +504,8 @@ export async function callAI(
       messagesHistory,
       settings,
       2,
-      signal
+      signal,
+      onChunk
     );
   }
   if (modelKey === 'deepseekV4') {
@@ -485,7 +515,8 @@ export async function callAI(
       messagesHistory,
       settings,
       2,
-      signal
+      signal,
+      onChunk
     );
   }
   if (modelKey === 'llama31_8b') {
@@ -495,7 +526,8 @@ export async function callAI(
       messagesHistory,
       settings,
       2,
-      signal
+      signal,
+      onChunk
     );
   }
   if (modelKey === 'llama33') {
@@ -505,7 +537,8 @@ export async function callAI(
       messagesHistory,
       settings,
       2,
-      signal
+      signal,
+      onChunk
     );
   }
   if (modelKey === 'llama4_maverick') {
@@ -515,7 +548,8 @@ export async function callAI(
       messagesHistory,
       settings,
       2,
-      signal
+      signal,
+      onChunk
     );
   }
   if (modelKey === 'ministral14b') {
@@ -525,7 +559,8 @@ export async function callAI(
       messagesHistory,
       settings,
       2,
-      signal
+      signal,
+      onChunk
     );
   }
   if (KKU_MODEL_IDS[modelKey]) {
@@ -535,7 +570,8 @@ export async function callAI(
       messagesHistory,
       settings,
       2,
-      signal
+      signal,
+      onChunk
     );
   }
   return callOpenRouterAI(
@@ -544,6 +580,7 @@ export async function callAI(
     messagesHistory,
     settings,
     2,
-    signal
+    signal,
+    onChunk
   );
 }

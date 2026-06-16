@@ -262,6 +262,7 @@ export default function Chatbot() {
   });
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isStreaming, setIsStreaming] = useState(false);
 
   useEffect(() => {
     try {
@@ -375,6 +376,7 @@ export default function Chatbot() {
       setMessages((prev) => [...prev, userMsg]);
       setInput('');
       setLoading(true);
+      setIsStreaming(false);
 
       try {
         let fileData = null;
@@ -415,6 +417,33 @@ export default function Chatbot() {
         let aiText;
         let responseType = 'specific';
 
+        if (!analysis.directAnswer) {
+          const botMsgPlaceholder = {
+            role: 'bot',
+            text: '',
+            type: 'specific',
+            timestamp: Date.now(),
+            modelKey: currentModel,
+            isStreaming: true,
+          };
+          setMessages((prev) => [...prev, botMsgPlaceholder]);
+        }
+
+        const onChunk = (chunkText, accumulatedText) => {
+          setIsStreaming(true);
+          setMessages((prev) => {
+            const updated = [...prev];
+            const lastIndex = updated.length - 1;
+            if (lastIndex >= 0 && updated[lastIndex].role === 'bot') {
+              updated[lastIndex] = {
+                ...updated[lastIndex],
+                text: accumulatedText,
+              };
+            }
+            return updated;
+          });
+        };
+
         if (analysis.isGeneral) {
           const historyToSend = [
             ...validHistory,
@@ -426,7 +455,8 @@ export default function Chatbot() {
             historyToSend,
             aiSettings,
             fileData,
-            controller.signal
+            controller.signal,
+            onChunk
           );
           responseType = 'general';
         } else {
@@ -470,7 +500,8 @@ ${dbContext}
             historyToSend,
             aiSettings,
             fileData,
-            controller.signal
+            controller.signal,
+            onChunk
           );
           responseType = analysis.isOverview ? 'overview' : 'specific';
         }
@@ -495,15 +526,34 @@ ${dbContext}
           }
         }
 
-        const botMsg = {
-          role: 'bot',
-          text: aiText,
-          data: analysis.results,
-          type: responseType,
-          timestamp: Date.now(),
-          modelKey: currentModel,
-        };
-        setMessages((prev) => [...prev, botMsg]);
+        if (analysis.directAnswer) {
+          const botMsg = {
+            role: 'bot',
+            text: aiText,
+            data: analysis.results,
+            type: responseType,
+            timestamp: Date.now(),
+            modelKey: currentModel,
+          };
+          setMessages((prev) => [...prev, botMsg]);
+        } else {
+          setMessages((prev) => {
+            const updated = [...prev];
+            const lastIndex = updated.length - 1;
+            if (lastIndex >= 0 && updated[lastIndex].role === 'bot') {
+              updated[lastIndex] = {
+                ...updated[lastIndex],
+                text: aiText,
+                data: analysis.results,
+                type: responseType,
+                timestamp: Date.now(),
+                modelKey: currentModel,
+                isStreaming: false,
+              };
+            }
+            return updated;
+          });
+        }
       } catch (err) {
         if (err.name === 'AbortError' || controller.signal.aborted) {
           // Request was aborted by user or unmount, ignore error display
@@ -517,21 +567,33 @@ ${dbContext}
           errorMsg =
             'AI ใช้เวลาคิดและค้นหาข้อมูลนานเกินไปจนหมดเวลา (Timeout 502) — แนะนำให้ปิดโหมด "ต่อเน็ต" หรือ "คิดเชิงลึก" เพื่อให้ตอบกลับเร็วขึ้นครับ';
         }
-        setMessages((prev) => [
-          ...prev,
-          {
+        setMessages((prev) => {
+          const updated = [...prev];
+          const lastIndex = updated.length - 1;
+          const errorMsgObj = {
             role: 'bot',
             text: `⚠️ เกิดข้อผิดพลาดจาก ${modelConfig.description}: ${errorMsg}\n\nลองสลับไปใช้โมเดลอื่น หรือลองใหม่อีกครั้งครับ 🙏`,
             timestamp: Date.now(),
             type: 'error',
             modelKey: currentModel,
-          },
-        ]);
+          };
+          if (
+            lastIndex >= 0 &&
+            updated[lastIndex].role === 'bot' &&
+            (updated[lastIndex].isStreaming || updated[lastIndex].text === '')
+          ) {
+            updated[lastIndex] = errorMsgObj;
+          } else {
+            updated.push(errorMsgObj);
+          }
+          return updated;
+        });
       } finally {
         if (abortControllerRef.current === controller) {
           abortControllerRef.current = null;
         }
         setLoading(false);
+        setIsStreaming(false);
         inputRef.current?.focus();
       }
     },
@@ -749,7 +811,7 @@ ${dbContext}
             />
           ))}
 
-          {loading && (
+          {loading && !isStreaming && (
             <LoadingIndicator currentModelConfig={AI_MODELS[selectedModel]} />
           )}
 
