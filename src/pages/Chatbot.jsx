@@ -239,17 +239,42 @@ const styles = {
 };
 
 export default function Chatbot() {
-  const [messages, setMessages] = useState(() => [
-    {
+  const [messages, setMessages] = useState(() => {
+    const defaultGreeting = {
       role: 'bot',
       text: `สวัสดีครับ! 🌾 ผม **น้องข้าวหลาม** ผู้ช่วย AI ประจำสำนักงานเกษตรจังหวัดนครปฐม\n\nผมรู้ข้อมูลทุกอย่างในระบบ ถามได้ทุกเรื่อง เช่น:\n• 📍 พื้นที่การเกษตรแต่ละอำเภอ\n• 🌿 แปลงใหญ่, มาตรฐาน GAP\n• 🏪 วิสาหกิจชุมชน, Smart Farmer\n• 🏫 ศูนย์เรียนรู้, ศจช., ศดปช.\n• ⛈️ ภัยพิบัติ, PM2.5\n• 💬 หรือจะคุยเรื่องทั่วไปก็ได้ครับ!\n\nลองถามได้เลย หรือเลือกคำถามด้านล่าง 👇`,
       timestamp: Date.now(),
       type: 'greeting',
       modelKey: null,
-    },
-  ]);
+    };
+    try {
+      const stored = localStorage.getItem('npt_dashboard_chatbot_messages_v1');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.error('Error reading chatbot history:', e);
+    }
+    return [defaultGreeting];
+  });
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    try {
+      // Keep only last 50 messages to save space
+      const toStore = messages.slice(-50);
+      localStorage.setItem(
+        'npt_dashboard_chatbot_messages_v1',
+        JSON.stringify(toStore)
+      );
+    } catch (e) {
+      console.error('Error saving chatbot history:', e);
+    }
+  }, [messages]);
   const [selectedModel, setSelectedModel] = useState('gemini');
   const [selectedProvider, setSelectedProvider] = useState('Google');
   const [aiSettings, setAiSettings] = useState({
@@ -531,13 +556,18 @@ ${dbContext}
         modelKey: null,
       },
     ]);
+    try {
+      localStorage.removeItem('npt_dashboard_chatbot_messages_v1');
+    } catch (e) {
+      console.error('Error clearing chatbot history:', e);
+    }
   }, []);
 
   const currentModelConfig = AI_MODELS[selectedModel];
   // NVIDIA Qwen doesn't support Google Search grounding
   const canUseWebSearch =
     selectedModel === 'gemini' || selectedModel === 'gemma';
-  const providerOptions = ['Google', 'NVIDIA', 'KKU']
+  const providerOptions = ['Google', 'NVIDIA', 'OKMD AI']
     .filter((provider) =>
       Object.values(AI_MODELS).some((model) => model.provider === provider)
     )

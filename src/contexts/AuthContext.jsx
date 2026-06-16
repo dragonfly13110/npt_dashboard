@@ -174,6 +174,9 @@ export function AuthProvider({ children }) {
         fetchProfile(u.id);
       } else {
         setProfile(null);
+        try {
+          localStorage.removeItem('npt_dashboard_chatbot_messages_v1');
+        } catch (e) {}
       }
     });
 

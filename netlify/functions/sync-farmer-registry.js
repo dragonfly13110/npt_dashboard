@@ -1,58 +1,157 @@
 import { schedule } from '@netlify/functions';
+import { createClient } from '@supabase/supabase-js';
 import { scrapeFarmerRegistry } from '../../scripts/scrape_farmer_registry.js';
 
-const PROJECT_REF = process.env.SUPABASE_PROJECT_REF;
-const ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN;
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Authorization, Content-Type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Content-Type': 'application/json',
+};
+
+function jsonResponse(status, payload) {
+  return new Response(JSON.stringify(payload), {
+    status,
+    headers: CORS_HEADERS,
+  });
+}
+
+function requireManagementEnv() {
+  const PROJECT_REF = process.env.SUPABASE_PROJECT_REF;
+  const ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN;
+  if (!PROJECT_REF || !ACCESS_TOKEN) {
+    throw new Error('Missing SUPABASE_PROJECT_REF or SUPABASE_ACCESS_TOKEN');
+  }
+  return { PROJECT_REF, ACCESS_TOKEN };
+}
 
 async function runSQL(sql) {
-    const response = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/database/query`, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${ACCESS_TOKEN}`,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query: sql }),
-    });
-
-    if (!response.ok) {
-        const text = await response.text().catch(() => '');
-        throw new Error(`DB query failed: ${response.status} ${text}`);
+  const { PROJECT_REF, ACCESS_TOKEN } = requireManagementEnv();
+  const response = await fetch(
+    `https://api.supabase.com/v1/projects/${PROJECT_REF}/database/query`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ query: sql }),
     }
+  );
 
-    return response.json();
+  if (!response.ok) {
+    const text = await response.text().catch(() => '');
+    throw new Error(`DB query failed: ${response.status} ${text}`);
+  }
+
+  return response.json();
 }
 
 async function shouldRun() {
-    if (!PROJECT_REF || !ACCESS_TOKEN) {
-        throw new Error('Missing SUPABASE_PROJECT_REF or SUPABASE_ACCESS_TOKEN');
-    }
-
-    const rows = await runSQL(`
+  const rows = await runSQL(`
         SELECT MAX(scraped_at) AS latest_snapshot
         FROM farmer_registry_snapshots;
     `);
-    const latestSnapshot = rows?.[0]?.latest_snapshot ? new Date(rows[0].latest_snapshot) : null;
-    if (!latestSnapshot) return true;
+  const latestSnapshot = rows?.[0]?.latest_snapshot
+    ? new Date(rows[0].latest_snapshot)
+    : null;
+  if (!latestSnapshot) return true;
 
-    const safetyThresholdMs = 2.5 * 24 * 60 * 60 * 1000; // 2.5 days to allow 3-day cron to pass safely
-    return Date.now() - latestSnapshot.getTime() >= safetyThresholdMs;
+  const safetyThresholdMs = 2.5 * 24 * 60 * 60 * 1000; // 2.5 days to allow 3-day cron to pass safely
+  return Date.now() - latestSnapshot.getTime() >= safetyThresholdMs;
 }
 
-async function syncHandler() {
-    const due = await shouldRun();
-    if (!due) {
-        return new Response(JSON.stringify({ ok: true, skipped: true, reason: 'Latest snapshot is newer than 2.5 days' }), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' },
-        });
-    }
-
-    await scrapeFarmerRegistry();
-    return new Response(JSON.stringify({ ok: true, skipped: false }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
+async function requireAdmin(request) {
+  const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
+  const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+    return jsonResponse(500, {
+      error:
+        'Missing Supabase service configuration. Set SUPABASE_SERVICE_ROLE_KEY on Netlify.',
     });
+  }
+
+  const authHeader = request.headers.get('authorization') || '';
+  const token = authHeader.replace(/^Bearer\s+/i, '').trim();
+  if (!token) {
+    return jsonResponse(401, { error: 'Missing authorization token' });
+  }
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser(token);
+
+  if (userError || !user) {
+    return jsonResponse(401, { error: 'Invalid authorization token' });
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('id,role')
+    .eq('id', user.id)
+    .single();
+
+  if (profileError || profile?.role !== 'admin') {
+    return jsonResponse(403, {
+      error: 'Only admins can sync farmer registry data',
+    });
+  }
+
+  return null;
+}
+
+async function runSync({ force = false } = {}) {
+  const due = force ? true : await shouldRun();
+  if (!due) {
+    return jsonResponse(200, {
+      ok: true,
+      skipped: true,
+      reason: 'Latest snapshot is newer than 2.5 days',
+    });
+  }
+
+  await scrapeFarmerRegistry();
+  return jsonResponse(200, { ok: true, skipped: false });
+}
+
+export async function scheduledSyncFarmerRegistry() {
+  try {
+    return await runSync({ force: false });
+  } catch (err) {
+    console.error('sync-farmer-registry scheduled error:', err);
+    return jsonResponse(500, {
+      error: err.message || 'Farmer registry sync failed',
+    });
+  }
+}
+
+export default async function syncFarmerRegistry(request) {
+  if (request.method === 'OPTIONS') {
+    return new Response('', { status: 204, headers: CORS_HEADERS });
+  }
+
+  if (request.method !== 'POST') {
+    return jsonResponse(405, { error: 'Method not allowed' });
+  }
+
+  try {
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
+    const body = await request.json().catch(() => ({}));
+    return await runSync({ force: body.force === true });
+  } catch (err) {
+    console.error('sync-farmer-registry manual error:', err);
+    return jsonResponse(500, {
+      error: err.message || 'Farmer registry sync failed',
+    });
+  }
 }
 
 // Runs every 3 days at 00:00 UTC (07:00 AM Thailand time)
-export const handler = schedule('0 0 */3 * *', syncHandler);
+export const handler = schedule('0 0 */3 * *', scheduledSyncFarmerRegistry);

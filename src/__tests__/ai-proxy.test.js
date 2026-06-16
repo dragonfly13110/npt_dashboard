@@ -158,4 +158,31 @@ describe('ai-proxy', () => {
       '/gemini-3-flash-preview:generateContent?'
     );
   });
+
+  it('forwards valid NVIDIA requests for the new models', async () => {
+    process.env.NVIDIA_API_KEY = 'test-nvidia-key';
+    fetch.mockResolvedValue(
+      new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      })
+    );
+
+    const response = await handler(
+      request({
+        provider: 'nvidia',
+        body: {
+          model: 'meta/llama-4-maverick-17b-128e-instruct',
+          messages: [{ role: 'user', content: 'hello' }],
+        },
+      })
+    );
+
+    expect(response.status).toBe(200);
+    const [url, init] = fetch.mock.calls[0];
+    expect(url).toBe('https://integrate.api.nvidia.com/v1/chat/completions');
+    expect(JSON.parse(init.body).model).toBe(
+      'meta/llama-4-maverick-17b-128e-instruct'
+    );
+  });
 });

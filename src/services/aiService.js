@@ -4,6 +4,12 @@ import {
   GEMINI_MODEL,
   QWEN_MODEL,
   KIMI_MODEL,
+  MISTRAL_LARGE_MODEL,
+  DEEPSEEK_V4_FLASH_MODEL,
+  LLAMA31_8B_MODEL,
+  LLAMA33_MODEL,
+  LLAMA4_MAVERICK_MODEL,
+  MINISTRAL_14B_MODEL,
   KKU_MODEL_IDS,
 } from '../utils/chatbotConstants';
 
@@ -455,6 +461,66 @@ export async function callAI(
   if (modelKey === 'kimi') {
     return callNvidiaAI(
       KIMI_MODEL,
+      finalSystemPrompt,
+      messagesHistory,
+      settings,
+      2,
+      signal
+    );
+  }
+  if (modelKey === 'mistralLarge') {
+    return callNvidiaAI(
+      MISTRAL_LARGE_MODEL,
+      finalSystemPrompt,
+      messagesHistory,
+      settings,
+      2,
+      signal
+    );
+  }
+  if (modelKey === 'deepseekV4') {
+    return callNvidiaAI(
+      DEEPSEEK_V4_FLASH_MODEL,
+      finalSystemPrompt,
+      messagesHistory,
+      settings,
+      2,
+      signal
+    );
+  }
+  if (modelKey === 'llama31_8b') {
+    return callNvidiaAI(
+      LLAMA31_8B_MODEL,
+      finalSystemPrompt,
+      messagesHistory,
+      settings,
+      2,
+      signal
+    );
+  }
+  if (modelKey === 'llama33') {
+    return callNvidiaAI(
+      LLAMA33_MODEL,
+      finalSystemPrompt,
+      messagesHistory,
+      settings,
+      2,
+      signal
+    );
+  }
+  if (modelKey === 'llama4_maverick') {
+    return callNvidiaAI(
+      LLAMA4_MAVERICK_MODEL,
+      finalSystemPrompt,
+      messagesHistory,
+      settings,
+      2,
+      signal
+    );
+  }
+  if (modelKey === 'ministral14b') {
+    return callNvidiaAI(
+      MINISTRAL_14B_MODEL,
       finalSystemPrompt,
       messagesHistory,
       settings,
