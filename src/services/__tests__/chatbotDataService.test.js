@@ -14,21 +14,18 @@ const mockRows = {
   ],
 };
 
+const mockNotSpy = vi.fn();
+
 function createQuery(table) {
   const query = {
     data: mockRows[table] || [],
     count: mockRows[table]?.length || 0,
     error: null,
     order: vi.fn(() => query),
-    limit: vi.fn(() =>
-      Promise.resolve({
-        data: mockRows[table] || [],
-        count: mockRows[table]?.length || 0,
-        error: null,
-      })
-    ),
+    limit: vi.fn(() => query),
     ilike: vi.fn(() => query),
     or: vi.fn(() => query),
+    not: mockNotSpy.mockImplementation(() => query),
     then(resolve) {
       return Promise.resolve({
         data: mockRows[table] || [],
@@ -57,6 +54,16 @@ vi.mock('../aiService', () => ({
         keyword: null,
         analysis_type: 'overview',
         is_general_question: true,
+      });
+    }
+
+    if (prompt.includes('force-banana-intent')) {
+      return JSON.stringify({
+        district: null,
+        tables: ['certifications'],
+        keyword: 'กล้วย',
+        analysis_type: 'overview',
+        is_general_question: false,
       });
     }
 
@@ -241,5 +248,21 @@ describe('chatbotDataService aggregation', () => {
     expect(result.results[0].table).toBe('budgets');
     expect(result.directAnswer).toContain('ข้อมูลชุดนี้มีอยู่');
     expect(result.directAnswer).toContain('767,495 บาท');
+  });
+
+  it('excludes กล้วยไม้ when the search keyword is กล้วย (banana)', async () => {
+    mockNotSpy.mockClear();
+
+    await fetchDatabaseContext(
+      'force-banana-intent หาแหล่งปลูกกล้วยน้ำว้า',
+      'gemini'
+    );
+
+    expect(mockNotSpy).toHaveBeenCalled();
+    expect(mockNotSpy).toHaveBeenCalledWith(
+      expect.any(String),
+      'ilike',
+      '%กล้วยไม้%'
+    );
   });
 });

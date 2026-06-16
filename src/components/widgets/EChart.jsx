@@ -147,7 +147,12 @@ function polishOption(option) {
   };
 }
 
-export default function EChart({ option, style, theme = null }) {
+export default function EChart({
+  option,
+  style,
+  theme = null,
+  onChartReady = null,
+}) {
   const chartRef = useRef(null);
   const chartInstanceRef = useRef(null);
 
@@ -157,6 +162,9 @@ export default function EChart({ option, style, theme = null }) {
     // Initialize chart
     const chart = echarts.init(chartRef.current, theme);
     chartInstanceRef.current = chart;
+    if (onChartReady) {
+      onChartReady(chart);
+    }
 
     // Set option
     if (option) {
@@ -189,8 +197,11 @@ export default function EChart({ option, style, theme = null }) {
       }
       chart.dispose();
       chartInstanceRef.current = null;
+      if (onChartReady) {
+        onChartReady(null);
+      }
     };
-  }, [theme]); // Re-initialize only if theme changes
+  }, [theme, onChartReady]); // Re-initialize if theme or callback changes
 
   // Update option when props option changes
   useEffect(() => {

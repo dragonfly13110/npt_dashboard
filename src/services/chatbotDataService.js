@@ -374,6 +374,14 @@ async function computeAggregation(
         .map((c) => `${c}.ilike.%${searchKeyword}%`)
         .join(',');
       query = query.or(orString);
+      if (
+        searchKeyword.includes('กล้วย') &&
+        !searchKeyword.includes('กล้วยไม้')
+      ) {
+        cols.forEach((c) => {
+          query = query.not(c, 'ilike', '%กล้วยไม้%');
+        });
+      }
     }
 
     const { data, error } = await query.limit(10000);
@@ -667,6 +675,15 @@ export async function fetchDatabaseContext(
         try {
           countQuery = countQuery.or(orString);
           dataQuery = dataQuery.or(orString);
+          if (
+            searchKeyword.includes('กล้วย') &&
+            !searchKeyword.includes('กล้วยไม้')
+          ) {
+            cols.forEach((c) => {
+              countQuery = countQuery.not(c, 'ilike', '%กล้วยไม้%');
+              dataQuery = dataQuery.not(c, 'ilike', '%กล้วยไม้%');
+            });
+          }
           usedKeyword = true;
         } catch {
           /* swallow */
@@ -765,6 +782,14 @@ export async function fetchDatabaseContext(
             .map((c) => `${c}.ilike.%${searchKeyword}%`)
             .join(',');
           summaryQuery = summaryQuery.or(orString);
+          if (
+            searchKeyword.includes('กล้วย') &&
+            !searchKeyword.includes('กล้วยไม้')
+          ) {
+            cols.forEach((c) => {
+              summaryQuery = summaryQuery.not(c, 'ilike', '%กล้วยไม้%');
+            });
+          }
         }
         // Fetch up to 10000 rows for counting only
         const { data: summaryData } = await summaryQuery.limit(10000);
