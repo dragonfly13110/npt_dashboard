@@ -13,6 +13,7 @@ export const LANDING_CHATBOT_ALLOWED_LINKS = Object.freeze({
   '/public/agricultural-prices': 'ข้อมูลราคาสินค้าเกษตร',
   '/public/disease-forecast': 'ระบบพยากรณ์เตือนภัยโรคและแมลงศัตรูพืช',
   '/public/fire-hotspots': 'พิกัดจุดความร้อน',
+  '/dashboard/chatbot': 'คุยกับ AI วิเคราะห์ข้อมูล',
 });
 
 const LANDING_CHATBOT_LINK_ALIASES = Object.freeze({

@@ -23,13 +23,9 @@ import {
   loadLandingChatbotMessages,
   saveLandingChatbotMessages,
 } from './conversationStorage';
+import { getLandingQuickReply } from './quickReply';
 
-const API_URL =
-  (import.meta.env.VITE_LANDING_CHATBOT_API_URL || '/api/kku/okmd/api/v1') +
-  '/chat/completions';
-const API_KEY =
-  import.meta.env.VITE_LANDING_CHATBOT_API_KEY ||
-  'sk_dl0cb9rVTEYh960G4Ovy7xOYMagsl5cmWquk0aqjyLCTXYPqR9PVBvvzI6DNZAso';
+const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
 const MODEL_NAME =
   import.meta.env.VITE_LANDING_CHATBOT_MODEL || 'deepseek-v4-flash';
 const DAILY_LIMIT = 10;
@@ -233,6 +229,18 @@ export default function LandingChatbot() {
     const text = (textToSend || inputValue).trim();
     if (!text || loading) return;
 
+    const newUserMsg = { role: 'user', content: text };
+    const quickReply = getLandingQuickReply(text);
+    if (quickReply) {
+      setMessages((prev) => [
+        ...prev,
+        newUserMsg,
+        { role: 'assistant', content: quickReply },
+      ]);
+      setInputValue('');
+      return;
+    }
+
     // Check rate limit
     if (remainingLimit <= 0) {
       antMessage.warning(
@@ -242,7 +250,6 @@ export default function LandingChatbot() {
     }
 
     // Add user message
-    const newUserMsg = { role: 'user', content: text };
     setMessages((prev) => [...prev, newUserMsg]);
     setInputValue('');
     setLoading(true);
@@ -265,17 +272,17 @@ export default function LandingChatbot() {
     ];
 
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(AI_PROXY_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${API_KEY}`,
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: MODEL_NAME,
-          messages: apiMessages,
-          temperature: 0.5,
-          max_tokens: 1000,
+          provider: 'kku',
+          body: {
+            model: MODEL_NAME,
+            messages: apiMessages,
+            temperature: 0.5,
+            max_tokens: 1000,
+          },
         }),
       });
 

@@ -185,4 +185,30 @@ describe('ai-proxy', () => {
       'meta/llama-4-maverick-17b-128e-instruct'
     );
   });
+
+  it('forwards valid KKU requests for the landing chatbot through the server key', async () => {
+    process.env.LANDING_CHATBOT_API_KEY = 'test-kku-key';
+    fetch.mockResolvedValue(
+      new Response(JSON.stringify({ choices: [] }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      })
+    );
+
+    const response = await handler(
+      request({
+        provider: 'kku',
+        body: {
+          model: 'deepseek-v4-flash',
+          messages: [{ role: 'user', content: 'hello' }],
+          max_tokens: 1000,
+        },
+      })
+    );
+
+    expect(response.status).toBe(200);
+    const [url, init] = fetch.mock.calls[0];
+    expect(url).toBe('https://gen.ai.kku.ac.th/okmd/api/v1/chat/completions');
+    expect(init.headers.Authorization).toBe('Bearer test-kku-key');
+  });
 });
