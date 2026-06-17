@@ -1,5 +1,4 @@
 import { useEffect, lazy, Suspense, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useDashboardData } from '../hooks/useDashboardData';
 import { FloatButton, Modal, Spin, Button } from 'antd';
 import {
@@ -242,7 +241,6 @@ export default function LandingPage() {
     agriStats,
   } = useDashboardData();
 
-  const navigate = useNavigate();
   const [activeInfoModal, setActiveInfoModal] = useState(null);
   const [moreDrawerOpen, setMoreDrawerOpen] = useState(false);
   const [moreDrawerClosing, setMoreDrawerClosing] = useState(false);
@@ -296,32 +294,26 @@ export default function LandingPage() {
         className="landing-floating-system-tabs"
         aria-label="System shortcuts"
       >
-        <button
+        <a
+          href="/public/disease-forecast"
           className="landing-system-tab forecast-warning-tab"
-          onClick={() => setActiveInfoModal('aiForecast')}
-          style={{ cursor: 'pointer' }}
         >
           <BugOutlined className="forecast-pulse-icon" aria-hidden="true" />
           <span>
             <strong>เตือนภัยโรคและแมลง</strong>
             <small>พยากรณ์ล่วงหน้า 7 วัน</small>
           </span>
-        </button>
+        </a>
         {externalSystemLinks.map(
           ({ href, title, subtitle, Icon, isInternal }) =>
             isInternal ? (
-              <button
-                key={href}
-                className="landing-system-tab"
-                onClick={() => navigate(href)}
-                style={{ cursor: 'pointer' }}
-              >
+              <a key={href} href={href} className="landing-system-tab">
                 <Icon aria-hidden="true" />
                 <span>
                   <strong>{title}</strong>
                   <small>{subtitle}</small>
                 </span>
-              </button>
+              </a>
             ) : (
               <a
                 key={href}
@@ -360,17 +352,13 @@ export default function LandingPage() {
             <small>ข้อมูลอ่างเก็บน้ำ</small>
           </span>
         </button>
-        <button
-          className="landing-system-tab"
-          onClick={() => setActiveInfoModal('forumCta')}
-          style={{ cursor: 'pointer' }}
-        >
+        <a href="/dashboard/community/forum" className="landing-system-tab">
           <CommentOutlined aria-hidden="true" />
           <span>
             <strong>ชุมชนเกษตรกร</strong>
             <small>Farmer Forum</small>
           </span>
-        </button>
+        </a>
         <button
           className="landing-system-tab evaluation-warning-tab"
           onClick={() => setActiveInfoModal('websiteEvaluation')}
@@ -405,14 +393,13 @@ export default function LandingPage() {
                 <span>{label}</span>
               </button>
             ))}
-            <button
-              type="button"
+            <a
+              href="/login"
               className="quick-nav-link quick-nav-button login-btn-quick"
-              onClick={() => navigate('/login')}
             >
               <LoginOutlined aria-hidden="true" />
               <span>เข้าสู่ระบบ</span>
-            </button>
+            </a>
           </div>
         </div>
       </nav>
@@ -439,8 +426,8 @@ export default function LandingPage() {
             >
               🏛️ เข้าสู่เว็บไซต์สำนักงานเกษตรจังหวัดนครปฐม
             </a>
-            <button
-              onClick={() => navigate('/interactive-dashboard')}
+            <a
+              href="/interactive-dashboard"
               style={{
                 background: '#16a34a',
                 color: 'white',
@@ -449,10 +436,10 @@ export default function LandingPage() {
                 borderRadius: '12px',
                 fontSize: '16px',
                 fontWeight: 700,
-                cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '10px',
+                textDecoration: 'none',
                 boxShadow: '0 10px 25px -5px rgba(22, 163, 74, 0.4)',
                 transition: 'transform 0.2s, box-shadow 0.2s',
                 fontFamily:
@@ -470,7 +457,7 @@ export default function LandingPage() {
               }}
             >
               📊 ดูสรุปข้อมูลแบบ Interactive (ทดลองใช้)
-            </button>
+            </a>
           </div>
 
           <div className="bento-motto" aria-label="คำขวัญจังหวัดนครปฐม">
@@ -825,11 +812,8 @@ export default function LandingPage() {
             พื้นที่แลกเปลี่ยนเรียนรู้ ถามตอบปัญหา แจ้งพิกัดโรคพืช
             และอัปเดตราคาตลาด สำหรับเกษตรกรนครปฐม
           </p>
-          <button
-            onClick={() => {
-              setActiveInfoModal(null);
-              navigate('/dashboard/community/forum');
-            }}
+          <a
+            href="/dashboard/community/forum"
             style={{
               background: '#16a34a',
               color: 'white',
@@ -842,6 +826,7 @@ export default function LandingPage() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
+              textDecoration: 'none',
               transition: 'transform 0.2s, box-shadow 0.2s',
               boxShadow: '0 4px 15px rgba(22,163,74,0.3)',
               fontFamily: 'inherit',
@@ -858,7 +843,7 @@ export default function LandingPage() {
             }}
           >
             เข้าสู่กระดานข่าว / ตั้งกระทู้ถาม
-          </button>
+          </a>
         </div>
       </Modal>
 
@@ -895,10 +880,7 @@ export default function LandingPage() {
               type="primary"
               icon={<BugOutlined />}
               size="middle"
-              onClick={() => {
-                setActiveInfoModal(null);
-                navigate('/public/disease-forecast');
-              }}
+              href="/public/disease-forecast"
               style={{
                 background: '#166534',
                 borderColor: '#166534',
@@ -1019,13 +1001,10 @@ export default function LandingPage() {
 
       {/* ===== MOBILE BOTTOM NAV BAR ===== */}
       <nav className="mobile-bottom-nav" aria-label="เมนูลัดมือถือ">
-        <button
-          className="mobile-bottom-nav-item"
-          onClick={() => navigate('/smart-map')}
-        >
+        <a href="/smart-map" className="mobile-bottom-nav-item">
           <EnvironmentOutlined />
           <span>แผนที่</span>
-        </button>
+        </a>
         <button
           className="mobile-bottom-nav-item"
           onClick={() => setActiveInfoModal('soilMoistureDetail')}
@@ -1040,13 +1019,10 @@ export default function LandingPage() {
           <CloudOutlined />
           <span>สถานการณ์น้ำ</span>
         </button>
-        <button
-          className="mobile-bottom-nav-item"
-          onClick={() => setActiveInfoModal('forumCta')}
-        >
+        <a href="/dashboard/community/forum" className="mobile-bottom-nav-item">
           <CommentOutlined />
           <span>ชุมชน</span>
-        </button>
+        </a>
         <button
           className="mobile-bottom-nav-item"
           onClick={() => setMoreDrawerOpen(true)}
@@ -1119,26 +1095,22 @@ export default function LandingPage() {
                 <FacebookOutlined />
                 <span>ติดต่อเกษตร</span>
               </button>
-              <button
+              <a
+                href="/public/disease-forecast"
                 className="mobile-more-item"
-                onClick={() => {
-                  closeMoreDrawer();
-                  setActiveInfoModal('aiForecast');
-                }}
+                onClick={closeMoreDrawer}
               >
                 <BugOutlined style={{ color: '#ef4444' }} />
                 <span>เตือนภัยโรค & แมลง</span>
-              </button>
-              <button
+              </a>
+              <a
+                href="/login"
                 className="mobile-more-item"
-                onClick={() => {
-                  closeMoreDrawer();
-                  navigate('/login');
-                }}
+                onClick={closeMoreDrawer}
               >
                 <LoginOutlined />
                 <span>เข้าสู่ระบบ</span>
-              </button>
+              </a>
             </div>
           </div>
         </div>
