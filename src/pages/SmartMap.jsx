@@ -5,6 +5,7 @@ import { supabase } from '../supabaseClient';
 import { utmToLatLng } from '../utils/geo';
 import subdistrictGeoJSON from '../data/nakhon_pathom_subdistricts.json';
 import { getSubdistrictsForDistrict } from '../utils/geojsonBoundaries';
+import 'leaflet/dist/leaflet.css';
 import './SmartMap.css';
 
 // ===== CHOROPLETH CONFIG =====
@@ -288,17 +289,53 @@ function FitBounds({ useMap, geoJSONData, L, resetKey, selectedDistrict }) {
   const map = useMap();
   useEffect(() => {
     if (!geoJSONData || !L) return;
-    const bounds = L.geoJSON(geoJSONData).getBounds();
-    if (!bounds.isValid()) return;
-    map.invalidateSize();
-    map.fitBounds(bounds, {
-      paddingTopLeft: [selectedDistrict ? 360 : 28, 80],
-      paddingBottomRight: [240, 100],
-      maxZoom: 11,
-      animate: true,
-    });
+    const fitMap = () => {
+      const bounds = L.geoJSON(geoJSONData).getBounds();
+      if (!bounds.isValid()) return;
+      map.invalidateSize();
+      map.fitBounds(bounds, {
+        paddingTopLeft: [selectedDistrict ? 360 : 28, 80],
+        paddingBottomRight: [240, 100],
+        maxZoom: 11,
+        animate: true,
+      });
+    };
+    const frame = requestAnimationFrame(fitMap);
+    const timeout = window.setTimeout(fitMap, 250);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.clearTimeout(timeout);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geoJSONData, L, map, resetKey]);
+  return null;
+}
+
+// ===== KEEP LEAFLET SIZE IN SYNC WITH FULLSCREEN LAYOUT =====
+function MapSizeInvalidator({ useMap, watchKey }) {
+  const map = useMap();
+
+  useEffect(() => {
+    const container = map.getContainer();
+    const invalidate = () => map.invalidateSize({ animate: false });
+    const frame = requestAnimationFrame(invalidate);
+    const timeout = window.setTimeout(invalidate, 250);
+    const observer =
+      typeof ResizeObserver === 'undefined'
+        ? null
+        : new ResizeObserver(invalidate);
+
+    observer?.observe(container);
+    window.addEventListener('resize', invalidate);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.clearTimeout(timeout);
+      observer?.disconnect();
+      window.removeEventListener('resize', invalidate);
+    };
+  }, [map, watchKey]);
+
   return null;
 }
 
@@ -2213,6 +2250,10 @@ ${cropsStr}
             L={L}
             resetKey={resetKey}
             selectedDistrict={selectedDistrict}
+          />
+          <MapSizeInvalidator
+            useMap={useMap}
+            watchKey={`${basemap}-${isControlsOpen}-${selectedDistrict?.name || 'none'}`}
           />
           <MapFlyTo useMap={useMap} selectedDistrict={selectedDistrict} L={L} />
           <MapZoomTracker useMapEvents={useMapEvents} setMapZoom={setMapZoom} />
