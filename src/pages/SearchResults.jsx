@@ -24,6 +24,9 @@ import { isPrivateColumn } from '../utils/dataPrivacy';
 
 const { Text, Title } = Typography;
 
+const escapeRegex = (value) =>
+  String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 const GROUP_COLORS = {
   กลุ่มยุทธศาสตร์และสารสนเทศ: '#0969da',
   กลุ่มส่งเสริมและพัฒนาการผลิต: '#1a7f37',
@@ -855,9 +858,10 @@ export default function SearchResults() {
 function highlightText(text, query) {
   if (!text || !query) return text;
   const str = String(text);
+  const escapedQuery = escapeRegex(query);
 
   // Split by query case-insensitive
-  const parts = str.split(new RegExp(`(${query})`, 'gi'));
+  const parts = str.split(new RegExp(`(${escapedQuery})`, 'gi'));
   if (parts.length === 1) return str;
 
   return (

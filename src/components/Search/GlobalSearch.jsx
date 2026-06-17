@@ -37,6 +37,9 @@ const SEARCH_SUGGESTIONS = [
   'สามพราน',
 ];
 
+const escapeRegex = (value) =>
+  String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 export default function GlobalSearch({ collapsed = false }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
@@ -402,9 +405,10 @@ export default function GlobalSearch({ collapsed = false }) {
 function highlightMatch(text, query) {
   if (!text || !query) return text;
   const str = String(text);
+  const escapedQuery = escapeRegex(query);
 
   // Split by query case-insensitive
-  const parts = str.split(new RegExp(`(${query})`, 'gi'));
+  const parts = str.split(new RegExp(`(${escapedQuery})`, 'gi'));
   if (parts.length === 1) return str;
 
   return (

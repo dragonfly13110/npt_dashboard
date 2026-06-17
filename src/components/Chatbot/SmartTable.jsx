@@ -19,6 +19,22 @@ const COLORS = [
   '#13c2c2',
 ];
 
+const stripBold = (value) =>
+  String(value ?? '').replace(/\*\*(.*?)\*\*/g, '$1');
+
+const renderBold = (value) => {
+  const text = String(value ?? '');
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+
+  return parts.map((part, index) =>
+    part.startsWith('**') && part.endsWith('**') ? (
+      <strong key={index}>{part.slice(2, -2)}</strong>
+    ) : (
+      part
+    )
+  );
+};
+
 export default function SmartTable({ rawLines }) {
   const [viewMode, setViewMode] = useState('table');
   const [chartInstance, setChartInstance] = useState(null);
@@ -44,9 +60,10 @@ export default function SmartTable({ rawLines }) {
     return <pre>{rawLines.join('\n')}</pre>;
 
   const columns = headerRow.map((h, i) => ({
-    title: h,
+    title: stripBold(h),
     dataIndex: `col_${i}`,
     key: `col_${i}`,
+    render: renderBold,
   }));
 
   let isChartable = false;
@@ -55,10 +72,11 @@ export default function SmartTable({ rawLines }) {
   // Check if the table has data that can be charted
   if (columns.length >= 2) {
     chartData = dataRows.map((row) => {
-      const obj = { name: row[0] };
+      const obj = { name: stripBold(row[0]) };
       row.forEach((v, colIdx) => {
-        const val = v.replace(/,/g, ''); // Fix commas
-        obj[`col_${colIdx}`] = !isNaN(val) && val !== '' ? Number(val) : v;
+        const clean = stripBold(v);
+        const val = clean.replace(/,/g, ''); // Fix commas
+        obj[`col_${colIdx}`] = !isNaN(val) && val !== '' ? Number(val) : clean;
       });
       return obj;
     });
