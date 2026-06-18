@@ -447,7 +447,13 @@ export const TABLE_SEARCH_COLS = {
   large_plots: ['plot_name', 'commodity', 'secondary_commodity', 'agency'],
   certifications: ['farmer_name', 'crop_name', 'plot_code'],
   crop_production: ['crop_name'],
-  community_enterprises: ['enterprise_name', 'enterprise_type'],
+  community_enterprises: [
+    'enterprise_name',
+    'enterprise_type',
+    'district',
+    'subdistrict',
+    'address',
+  ],
   smart_farmers: ['full_name', 'main_product', 'farmer_type'],
   smart_farmer_sf: [
     'registration_code',
