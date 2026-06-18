@@ -3,6 +3,10 @@ import { vi } from 'vitest';
 
 // Mock matchMedia
 if (typeof window !== 'undefined') {
+  const originalGetComputedStyle = window.getComputedStyle;
+
+  window.getComputedStyle = (element) => originalGetComputedStyle(element);
+
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: vi.fn().mockImplementation((query) => ({

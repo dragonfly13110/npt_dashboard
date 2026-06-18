@@ -80,7 +80,8 @@ SELECT public._grant_anon_public_columns('agri_tourism', ARRAY[
 ]);
 
 SELECT public._grant_anon_public_columns('personnel', ARRAY[
-  'full_name', 'phone', 'email', 'address'
+  'full_name', 'phone', 'email', 'address', 'appointed_date',
+  'current_position_start_date', 'education', 'highest_education', 'birth_date'
 ]);
 
 SELECT public._grant_anon_public_columns('forum_posts', ARRAY[

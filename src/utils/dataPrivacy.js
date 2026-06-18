@@ -46,7 +46,17 @@ const TABLE_PRIVATE_COLUMNS = {
   ],
   large_plots: ['contact_person', 'phone', 'address'],
   agri_tourism: ['contact_person', 'phone', 'address'],
-  personnel: ['full_name', 'phone', 'email', 'address'],
+  personnel: [
+    'full_name',
+    'phone',
+    'email',
+    'address',
+    'appointed_date',
+    'current_position_start_date',
+    'education',
+    'highest_education',
+    'birth_date',
+  ],
   forum_posts: ['author_name', 'avatar'],
   forum_comments: ['author_name', 'avatar'],
 };

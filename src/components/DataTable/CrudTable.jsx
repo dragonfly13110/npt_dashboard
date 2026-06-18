@@ -76,6 +76,8 @@ export default function CrudTable({
   defaultColumns = null,
   readOnly = false,
   importPolicy = null,
+  transformRecordForForm = null,
+  transformValuesBeforeSave = null,
 }) {
   const { createRecord, updateRecord, deleteRecord, fetchAll } =
     useSupabaseCrud(tableName);
@@ -332,7 +334,9 @@ export default function CrudTable({
 
   const handleEdit = (record) => {
     setEditingRecord(record);
-    form.setFieldsValue(record);
+    form.setFieldsValue(
+      transformRecordForForm ? transformRecordForForm(record) : record
+    );
     setModalOpen(true);
   };
 
@@ -343,7 +347,10 @@ export default function CrudTable({
 
   const handleSubmit = async () => {
     try {
-      const values = await form.validateFields();
+      let values = await form.validateFields();
+      if (transformValuesBeforeSave) {
+        values = transformValuesBeforeSave(values, editingRecord);
+      }
       if (values.custom_fields) {
         values.custom_fields = Object.fromEntries(
           Object.entries(values.custom_fields).filter(

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import dayjs from 'dayjs';
 import {
   Form,
   Input,
@@ -18,6 +19,44 @@ import CrudTable from '../../components/DataTable/CrudTable';
 import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { supabase } from '../../supabaseClient';
 import EChart from '../../components/widgets/EChart';
+
+const DATE_FIELDS = [
+  'appointed_date',
+  'current_position_start_date',
+  'birth_date',
+];
+
+const EDUCATION_OPTIONS = [
+  'ต่ำกว่าปริญญาตรี',
+  'ปริญญาตรี',
+  'ปริญญาโท',
+  'ปริญญาเอก',
+  'ประกาศนียบัตรวิชาชีพ (ปวช.)',
+  'ประกาศนียบัตรวิชาชีพชั้นสูง (ปวส.)',
+  'อื่น ๆ',
+];
+
+const formatDate = (value) => (value ? dayjs(value).format('DD/MM/YYYY') : '-');
+
+const transformPersonnelRecordForForm = (record) => ({
+  ...record,
+  ...Object.fromEntries(
+    DATE_FIELDS.map((field) => [
+      field,
+      record[field] ? dayjs(record[field]) : null,
+    ])
+  ),
+});
+
+const transformPersonnelValuesBeforeSave = (values) => ({
+  ...values,
+  ...Object.fromEntries(
+    DATE_FIELDS.map((field) => [
+      field,
+      values[field] ? values[field].format('YYYY-MM-DD') : null,
+    ])
+  ),
+});
 
 const columns = [
   {
@@ -44,6 +83,39 @@ const columns = [
   },
   { title: 'เบอร์โทร', dataIndex: 'phone', key: 'phone', width: 130 },
   { title: 'อีเมล', dataIndex: 'email', key: 'email', width: 180 },
+  {
+    title: 'วันที่บรรจุ',
+    dataIndex: 'appointed_date',
+    key: 'appointed_date',
+    width: 130,
+    render: formatDate,
+  },
+  {
+    title: 'วันที่เข้าตำแหน่งปัจจุบัน',
+    dataIndex: 'current_position_start_date',
+    key: 'current_position_start_date',
+    width: 180,
+    render: formatDate,
+  },
+  {
+    title: 'วุฒิการศึกษา',
+    dataIndex: 'education',
+    key: 'education',
+    width: 180,
+  },
+  {
+    title: 'วุฒิการศึกษาสูงสุด',
+    dataIndex: 'highest_education',
+    key: 'highest_education',
+    width: 170,
+  },
+  {
+    title: 'วันเดือนปีเกิด',
+    dataIndex: 'birth_date',
+    key: 'birth_date',
+    width: 140,
+    render: formatDate,
+  },
   {
     title: 'สถานะ',
     dataIndex: 'status',
@@ -116,6 +188,57 @@ const formFields = (
     </Form.Item>
     <Form.Item name="email" label="อีเมล">
       <Input placeholder="email@doae.go.th" />
+    </Form.Item>
+    <Row gutter={12}>
+      <Col xs={24} md={12}>
+        <Form.Item name="birth_date" label="วันเดือนปีเกิด">
+          <DatePicker
+            style={{ width: '100%' }}
+            format="DD/MM/YYYY"
+            placeholder="เลือกวันเดือนปีเกิด"
+            disabledDate={(current) =>
+              current && current > dayjs().endOf('day')
+            }
+          />
+        </Form.Item>
+      </Col>
+      <Col xs={24} md={12}>
+        <Form.Item name="appointed_date" label="วันที่บรรจุ">
+          <DatePicker
+            style={{ width: '100%' }}
+            format="DD/MM/YYYY"
+            placeholder="เลือกวันที่บรรจุ"
+          />
+        </Form.Item>
+      </Col>
+    </Row>
+    <Form.Item
+      name="current_position_start_date"
+      label="วันที่เข้าตำแหน่งปัจจุบัน"
+    >
+      <DatePicker
+        style={{ width: '100%' }}
+        format="DD/MM/YYYY"
+        placeholder="เลือกวันที่เข้าตำแหน่งปัจจุบัน"
+      />
+    </Form.Item>
+    <Form.Item name="highest_education" label="วุฒิการศึกษาสูงสุด">
+      <Select
+        allowClear
+        showSearch
+        placeholder="เลือกวุฒิการศึกษาสูงสุด"
+        options={EDUCATION_OPTIONS.map((value) => ({ label: value, value }))}
+      />
+    </Form.Item>
+    <Form.Item
+      name="education"
+      label="วุฒิการศึกษา"
+      extra="ระบุสาขา/สถาบัน/รายละเอียดเพิ่มเติมได้ เช่น ปริญญาโท ส่งเสริมการเกษตร ม.เกษตรศาสตร์"
+    >
+      <Input.TextArea
+        rows={3}
+        placeholder="เช่น ปริญญาตรี วิทยาศาสตรบัณฑิต สาขาเกษตรศาสตร์"
+      />
     </Form.Item>
     <Form.Item name="status" label="สถานะ">
       <Select
@@ -407,9 +530,30 @@ export default function Personnel() {
         columns={columns}
         formFields={formFields}
         searchField="full_name"
-        searchFields={['full_name', 'department', 'district', 'position']}
+        searchFields={[
+          'full_name',
+          'department',
+          'district',
+          'position',
+          'education',
+          'highest_education',
+        ]}
         filterConfig={filterConfig}
+        scrollX={1600}
         defaultSort={{ field: 'sort_order', order: 'ascend' }}
+        defaultColumns={[
+          'department',
+          'phone',
+          'email',
+          'appointed_date',
+          'current_position_start_date',
+          'highest_education',
+          'education',
+          'birth_date',
+          'status',
+        ]}
+        transformRecordForForm={transformPersonnelRecordForForm}
+        transformValuesBeforeSave={transformPersonnelValuesBeforeSave}
         extraActions={() => {
           fetchStats();
           return null;
