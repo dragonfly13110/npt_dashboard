@@ -41,7 +41,7 @@ const mockFetch = vi.fn();
 vi.stubGlobal('fetch', mockFetch);
 
 // Require CommonJS webhook file
-const webhook = require('../../netlify/functions/line-webhook');
+const webhook = require('../../netlify/functions/line-webhook.cjs');
 webhook.setSupabase(mockSupabase);
 
 describe('line-webhook.js', () => {
