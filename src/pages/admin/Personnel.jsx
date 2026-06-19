@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import dayjs from 'dayjs';
 import {
   Form,
@@ -315,7 +315,7 @@ export default function Personnel() {
     return pos;
   };
 
-  const fetchStats = async () => {
+  const fetchStats = useCallback(async () => {
     const { data, error } = await supabase
       .from('personnel')
       .select('office_type, position, district, status');
@@ -352,11 +352,11 @@ export default function Personnel() {
 
       setPositionData(formatForPie(posCounts));
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchStats();
-  }, []);
+  }, [fetchStats]);
 
   useEffect(() => {
     if (rawData.length > 0) {
@@ -554,10 +554,7 @@ export default function Personnel() {
         ]}
         transformRecordForForm={transformPersonnelRecordForForm}
         transformValuesBeforeSave={transformPersonnelValuesBeforeSave}
-        extraActions={() => {
-          fetchStats();
-          return null;
-        }}
+        onMutationSuccess={fetchStats}
       />
     </div>
   );

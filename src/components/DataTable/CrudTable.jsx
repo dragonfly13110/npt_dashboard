@@ -78,6 +78,7 @@ export default function CrudTable({
   importPolicy = null,
   transformRecordForForm = null,
   transformValuesBeforeSave = null,
+  onMutationSuccess = null,
 }) {
   const { createRecord, updateRecord, deleteRecord, fetchAll } =
     useSupabaseCrud(tableName);
@@ -342,7 +343,10 @@ export default function CrudTable({
 
   const handleDelete = async (id) => {
     const ok = await deleteRecord(id);
-    if (ok) loadData();
+    if (ok) {
+      loadData();
+      onMutationSuccess?.();
+    }
   };
 
   const handleSubmit = async () => {
@@ -374,6 +378,7 @@ export default function CrudTable({
         setModalOpen(false);
         form.resetFields();
         loadData();
+        onMutationSuccess?.();
       }
     } catch {
       /* validation error, ant handles display */
@@ -1286,7 +1291,10 @@ export default function CrudTable({
         tableName={tableName}
         columns={[...columns, ...customColumns]}
         importPolicy={importPolicy}
-        onSuccess={loadData}
+        onSuccess={() => {
+          loadData();
+          onMutationSuccess?.();
+        }}
       />
 
       <Drawer
