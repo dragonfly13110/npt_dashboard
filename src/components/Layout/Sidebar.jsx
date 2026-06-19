@@ -72,6 +72,11 @@ const allMenuItems = [
     label: 'คำขอข้อมูล',
   },
   {
+    key: '/manual',
+    icon: <FileTextOutlined />,
+    label: 'คู่มือระบบ',
+  },
+  {
     key: 'admin',
     group: 'admin',
     icon: <TeamOutlined />,
@@ -339,6 +344,7 @@ function getFilteredMenuItems(role, department) {
         '/dashboard/situation-room',
         '/dashboard/chatbot',
         '/dashboard/data-requests',
+        '/manual',
         '/dashboard/community/forum',
       ].includes(item.key)
     )

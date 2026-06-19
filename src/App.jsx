@@ -29,6 +29,8 @@ const queryClient = new QueryClient({
 // Lazy-loaded pages
 const Login = lazy(() => import('./pages/Login'));
 const LandingPage = lazy(() => import('./pages/LandingPage'));
+const Manual = lazy(() => import('./pages/Manual'));
+const ManualArticle = lazy(() => import('./pages/ManualArticle'));
 const InteractiveDashboard = lazy(() => import('./pages/InteractiveDashboard'));
 const SmartMap = lazy(() => import('./pages/SmartMap'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -194,6 +196,8 @@ function AppRoutes() {
       <Routes>
         {/* Landing Page — PUBLIC */}
         <Route path="/" element={<LandingPage />} />
+        <Route path="/manual" element={<Manual />} />
+        <Route path="/manual/:slug" element={<ManualArticle />} />
 
         {/* Interactive Dashboard — PUBLIC */}
         <Route

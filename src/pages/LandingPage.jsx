@@ -370,6 +370,13 @@ export default function LandingPage() {
             <small>แบบสำรวจความพึงพอใจ</small>
           </span>
         </button>
+        <a href="/manual" className="landing-system-tab">
+          <BookOutlined aria-hidden="true" />
+          <span>
+            <strong>คู่มือระบบ</strong>
+            <small>Manual Portal</small>
+          </span>
+        </a>
       </div>
 
       <nav className="landing-quick-nav" aria-label="เมนูลัดข้อมูล">

@@ -1,0 +1,76 @@
+import {
+  AuditOutlined,
+  DatabaseOutlined,
+  DeploymentUnitOutlined,
+  ReadOutlined,
+  SafetyCertificateOutlined,
+  SettingOutlined,
+  TeamOutlined,
+  ToolOutlined,
+} from '@ant-design/icons';
+
+export const manualRegistry = [
+  {
+    slug: 'system-overview',
+    title: 'ภาพรวมและความพร้อมของระบบ',
+    file: '00-ภาพรวมและความพร้อมของระบบ.md',
+    audience: 'ผู้ใช้งาน / ผู้บริหาร / หน่วยงานที่ต้องประเมินระบบ',
+    Icon: ReadOutlined,
+  },
+  {
+    slug: 'overview',
+    title: 'ภาพรวมและเป้าหมายระบบ',
+    file: '01-ภาพรวมและเป้าหมายระบบ.md',
+    audience: 'กรรมการ / ผู้บริหาร',
+    Icon: ReadOutlined,
+  },
+  {
+    slug: 'data-collection',
+    title: 'การรวบรวมข้อมูลจากจังหวัด',
+    file: '02-การรวบรวมข้อมูลจากจังหวัด.md',
+    audience: 'เจ้าหน้าที่ข้อมูล',
+    Icon: DatabaseOutlined,
+  },
+  {
+    slug: 'data-preparation',
+    title: 'การทำความสะอาดและเตรียมข้อมูล',
+    file: '03-การทำความสะอาดและเตรียมข้อมูล.md',
+    audience: 'เจ้าหน้าที่ข้อมูล',
+    Icon: ToolOutlined,
+  },
+  {
+    slug: 'supabase-design',
+    title: 'การออกแบบฐานข้อมูลและตั้งค่า Supabase',
+    file: '04-การออกแบบฐานข้อมูลและตั้งค่า-supabase.md',
+    audience: 'ผู้ดูแลระบบ / นักพัฒนา',
+    Icon: SettingOutlined,
+  },
+  {
+    slug: 'project-setup',
+    title: 'การติดตั้งและตั้งค่าโปรเจกต์',
+    file: '05-การติดตั้งและตั้งค่าโปรเจกต์.md',
+    audience: 'นักพัฒนา',
+    Icon: DeploymentUnitOutlined,
+  },
+  {
+    slug: 'dashboard-search-ai',
+    title: 'การสร้าง Dashboard, Search และ AI',
+    file: '06-การสร้าง-dashboard-search-ai.md',
+    audience: 'กรรมการ / นักพัฒนา',
+    Icon: AuditOutlined,
+  },
+  {
+    slug: 'security-deploy',
+    title: 'ความปลอดภัยและการ Deploy',
+    file: '07-ความปลอดภัยและการ-deploy.md',
+    audience: 'ผู้ดูแลระบบ',
+    Icon: SafetyCertificateOutlined,
+  },
+  {
+    slug: 'operations-training',
+    title: 'การดูแลระบบและอบรมผู้ใช้งาน',
+    file: '08-การดูแลระบบและอบรมผู้ใช้งาน.md',
+    audience: 'ผู้ดูแลระบบ / เจ้าหน้าที่',
+    Icon: TeamOutlined,
+  },
+];
