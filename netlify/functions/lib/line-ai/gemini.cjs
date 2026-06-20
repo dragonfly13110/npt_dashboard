@@ -115,7 +115,8 @@ Analyze user request and categorize.
 Generate JSON complying with the schema.
 - intent: 'database' if we need to search databases (community enterprises, farmer info, weather, hotspots, etc.), 'general' for generic questions, 'current' for daily/real-time info (like today's weather/news), 'clarify' if unclear.
 - tools: allowlisted tools ONLY ['global_search', 'latest_weather', 'fire_hotspots'].
-- searchTerms: search terms for global_search if intent is 'database'.
+- searchTerms: search terms for global_search. Extract ONLY specific commodities (e.g., 'ข้าว', 'กล้วยไม้'), specific districts (e.g., 'เมืองนครปฐม', 'สามพราน'), or specific entity/people names.
+  CRITICAL: Never output generic category names ('แปลงใหญ่', 'วิสาหกิจชุมชน', 'กลุ่มเกษตรกร', 'ศูนย์เรียนรู้') or the province name ('นครปฐม', 'จังหวัดนครปฐม') by themselves, as they flood the search results.
 - needsGrounding: true ONLY if intent is 'current'.
 - answer: direct response if general/clarify.`;
 

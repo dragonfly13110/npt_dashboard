@@ -17,9 +17,16 @@ describe('LINE AI tools and rendering', () => {
   });
 
   it('runs allowlisted tools successfully', async () => {
-    const mockRpc = vi
-      .fn()
-      .mockResolvedValue({ data: ['result'], error: null });
+    const mockRpc = vi.fn().mockResolvedValue({
+      data: [
+        {
+          table: 'large_plots',
+          totalCount: 1,
+          results: [{ id: '1', plot_name: 'สวนส้มโอสมชาย' }],
+        },
+      ],
+      error: null,
+    });
     const mockLimit = vi
       .fn()
       .mockReturnValue({ data: ['weather'], error: null });
@@ -41,7 +48,7 @@ describe('LINE AI tools and rendering', () => {
     expect(results).toHaveLength(2);
     expect(mockRpc).toHaveBeenCalledWith('global_search', {
       search_term: 'ส้มโอ',
-      result_limit: 3,
+      result_limit: 10,
     });
     expect(mockFrom).toHaveBeenCalledWith('daily_weather');
   });
