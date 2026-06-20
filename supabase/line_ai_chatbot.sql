@@ -50,15 +50,25 @@ alter table public.line_ai_usage enable row level security;
 alter table public.line_ai_cache enable row level security;
 alter table public.line_ai_key_health enable row level security;
 
-revoke all on table public.line_conversations from anon, authenticated;
-revoke all on table public.line_ai_usage from anon, authenticated;
-revoke all on table public.line_ai_cache from anon, authenticated;
-revoke all on table public.line_ai_key_health from anon, authenticated;
+revoke all on table public.line_conversations from public, anon, authenticated;
+revoke all on table public.line_ai_usage from public, anon, authenticated;
+revoke all on table public.line_ai_cache from public, anon, authenticated;
+revoke all on table public.line_ai_key_health from public, anon, authenticated;
 
 grant all on table public.line_conversations to service_role;
 grant all on table public.line_ai_usage to service_role;
 grant all on table public.line_ai_cache to service_role;
 grant all on table public.line_ai_key_health to service_role;
+
+revoke all on sequence public.line_conversations_id_seq
+  from public, anon, authenticated;
+revoke all on sequence public.line_ai_usage_id_seq
+  from public, anon, authenticated;
+
+grant usage, select on sequence public.line_conversations_id_seq
+  to service_role;
+grant usage, select on sequence public.line_ai_usage_id_seq
+  to service_role;
 
 create or replace function public.claim_line_ai_quota(
   p_user_id text,
@@ -77,10 +87,27 @@ declare
     date_trunc('day', now() at time zone 'Asia/Bangkok')
       at time zone 'Asia/Bangkok';
   daily_count integer;
-  window_count integer;
+  window_count integer := 0;
 begin
-  if p_kind not in ('ai', 'grounding') then
+  if p_user_id is null or btrim(p_user_id) = '' then
+    raise exception 'invalid user id';
+  end if;
+
+  if p_kind is null or p_kind not in ('ai', 'grounding') then
     raise exception 'invalid usage kind';
+  end if;
+
+  if p_daily_limit is null or p_daily_limit <= 0 then
+    raise exception 'invalid daily limit';
+  end if;
+
+  if p_window_limit is null or p_window_limit < 0 then
+    raise exception 'invalid window limit';
+  end if;
+
+  if p_window_limit > 0
+    and (p_window_seconds is null or p_window_seconds <= 0) then
+    raise exception 'invalid window seconds';
   end if;
 
   perform pg_advisory_xact_lock(hashtext(p_user_id || ':' || p_kind));
@@ -92,12 +119,14 @@ begin
     and usage_type = p_kind
     and created_at >= day_start;
 
-  select count(*)
-  into window_count
-  from public.line_ai_usage
-  where line_user_id = p_user_id
-    and usage_type = p_kind
-    and created_at >= now() - make_interval(secs => p_window_seconds);
+  if p_window_limit > 0 then
+    select count(*)
+    into window_count
+    from public.line_ai_usage
+    where line_user_id = p_user_id
+      and usage_type = p_kind
+      and created_at >= now() - make_interval(secs => p_window_seconds);
+  end if;
 
   if daily_count >= p_daily_limit then
     return jsonb_build_object(
