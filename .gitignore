@@ -45,6 +45,7 @@ build/
 target/
 .gradle/
 .netlify/
+.worktrees/
 tmp/
 output/playwright/
 output/vite-cache/
