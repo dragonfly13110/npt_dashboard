@@ -179,19 +179,19 @@ describe('line-webhook.js', () => {
 
     const carousel = payload.messages[0].contents;
     expect(carousel.type).toBe('carousel');
-    expect(carousel.bubbles).toHaveLength(2); // One for personnel, one for large_plots
+    expect(carousel.contents).toHaveLength(2); // One for personnel, one for large_plots
 
     // Bubble 1: Personnel
-    expect(carousel.bubbles[0].header.contents[0].text).toContain(
+    expect(carousel.contents[0].header.contents[0].text).toContain(
       'บุคลากรเกษตร'
     );
-    expect(carousel.bubbles[0].body.contents[0].contents[0].text).toBe(
+    expect(carousel.contents[0].body.contents[0].contents[0].text).toBe(
       'สมชาย ดีใจ'
     );
 
     // Bubble 2: Large Plots
-    expect(carousel.bubbles[1].header.contents[0].text).toContain('แปลงใหญ่');
-    expect(carousel.bubbles[1].body.contents[0].contents[0].text).toBe(
+    expect(carousel.contents[1].header.contents[0].text).toContain('แปลงใหญ่');
+    expect(carousel.contents[1].body.contents[0].contents[0].text).toBe(
       'แปลงใหญ่กล้วยไม้สามพราน'
     );
   });
