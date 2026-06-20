@@ -564,7 +564,7 @@ function createLargePlotsCarousel(plots, title = 'ข้อมูลแปลง
   const cards = plots.slice(0, 10).map((plot) => {
     return {
       type: 'bubble',
-      size: 'small',
+      size: 'kilo',
       styles: {
         header: {
           backgroundColor: '#fef3c7',
@@ -1139,7 +1139,7 @@ function createGlobalSearchCarousel(categories, searchTerm) {
 
     return {
       type: 'bubble',
-      size: 'medium',
+      size: 'kilo',
       styles: {
         header: {
           backgroundColor: '#f0fdf4',
