@@ -510,7 +510,7 @@ function createLineAiOrchestrator({
     const timeoutPromise = new Promise((_, reject) => {
       timeoutId = setTimeout(
         () => reject(new Error('Orchestrator timeout')),
-        12000
+        config.timeoutMs || 6500
       );
     });
 

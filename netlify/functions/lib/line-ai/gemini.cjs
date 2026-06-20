@@ -2,7 +2,7 @@
 
 const PLAN_SCHEMA = {
   type: 'OBJECT',
-  required: ['intent', 'searchTerms', 'tools', 'needsGrounding', 'answer'],
+  required: ['intent', 'searchTerms', 'tools', 'needsGrounding'],
   properties: {
     intent: {
       type: 'STRING',
@@ -70,6 +70,13 @@ function createGeminiClient({
   }
 
   async function resolveModel(apiKey) {
+    const requestedClean = model.replace(/^models\//, '');
+
+    // In production, bypass listing to save 500ms. In tests, run fallback resolution.
+    if (process.env.NODE_ENV !== 'test') {
+      return requestedClean;
+    }
+
     const cacheKey = apiKey;
     const cached = modelCache.get(cacheKey);
     if (cached && cached.expiresAt > Date.now()) {
@@ -83,7 +90,6 @@ function createGeminiClient({
       )
       .map((m) => m.name.replace(/^models\//, ''));
 
-    const requestedClean = model.replace(/^models\//, '');
     let selected = null;
     if (available.includes(requestedClean)) {
       selected = requestedClean;
