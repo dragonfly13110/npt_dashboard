@@ -503,13 +503,14 @@ function createLineAiOrchestrator({
       return { messages, sourceType: plan.intent };
     };
 
-    // Timeout & Error safety: entire answer operation gets a 20-second deadline.
+    // Timeout & Error safety: entire answer operation gets a 12-second deadline.
     // If it fails or times out, return null to continue with standard database search.
+    // Keep this well under LINE's ~30s replyToken TTL to leave room for fallback.
     let timeoutId;
     const timeoutPromise = new Promise((_, reject) => {
       timeoutId = setTimeout(
         () => reject(new Error('Orchestrator timeout')),
-        20000
+        12000
       );
     });
 

@@ -1253,14 +1253,22 @@ async function handleMessageEvent(event) {
   if (text.length >= 2) {
     const orchestratorInstance = getOrchestrator();
     if (orchestratorInstance) {
+      const aiStart = Date.now();
       const aiResult = await orchestratorInstance.answer({
         userId: event.source?.userId,
         text,
       });
+      const aiDurationMs = Date.now() - aiStart;
       if (aiResult && aiResult.messages && aiResult.messages.length > 0) {
+        console.log(
+          `✅ AI replied in ${aiDurationMs}ms (${aiResult.sourceType})`
+        );
         await sendLineReply(replyToken, aiResult.messages);
         return;
       }
+      console.warn(
+        `⚠️ AI returned null after ${aiDurationMs}ms, falling back to legacy search`
+      );
     }
 
     try {
