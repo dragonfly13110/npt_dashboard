@@ -436,7 +436,7 @@ function createLineAiOrchestrator({
       }
 
       // 7. Grounding quota if needed
-      let useGrounding = plan.needsGrounding;
+      let useGrounding = plan.needsGrounding && config.groundingEnabled;
       if (useGrounding) {
         const groundingLimits = {
           daily: config.groundingDailyLimit,

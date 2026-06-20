@@ -25,6 +25,7 @@ describe('LINE AI Orchestrator', () => {
       timeoutMs: 8000,
       adminUserIds: new Set(['admin-1']),
       geminiApiKeys: new Map([[1, 'key-1']]),
+      groundingEnabled: true,
     };
 
     store = {

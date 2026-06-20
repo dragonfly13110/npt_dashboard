@@ -35,6 +35,7 @@ function loadConfig(env = process.env, netlifyEnv = globalThis.Netlify?.env) {
       'gemini-2.5-flash-lite',
     ]),
     aiDailyLimit: positiveInteger(get('LINE_AI_DAILY_LIMIT'), 30),
+    groundingEnabled: get('LINE_AI_GROUNDING_ENABLED') === 'true',
     groundingDailyLimit: positiveInteger(
       get('LINE_AI_GROUNDING_DAILY_LIMIT'),
       5
