@@ -20,18 +20,13 @@ describe('LINE AI tools and rendering', () => {
     const mockRpc = vi
       .fn()
       .mockResolvedValue({ data: ['result'], error: null });
-    const mockSelect = vi
-      .fn()
-      .mockResolvedValue({ data: ['weather'], error: null });
     const mockLimit = vi
       .fn()
       .mockReturnValue({ data: ['weather'], error: null });
     const mockOrder = vi.fn().mockReturnValue({ limit: mockLimit });
-    const mockFrom = vi
-      .fn()
-      .mockReturnValue({
-        select: vi.fn().mockReturnValue({ order: mockOrder }),
-      });
+    const mockFrom = vi.fn().mockReturnValue({
+      select: vi.fn().mockReturnValue({ order: mockOrder }),
+    });
 
     const supabase = {
       rpc: mockRpc,
