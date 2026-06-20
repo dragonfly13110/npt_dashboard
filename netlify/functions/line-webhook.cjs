@@ -1498,10 +1498,11 @@ async function handlePostbackEvent(event) {
   // Case: User requested agricultural areas for a specific district
   if (params.action === 'agri_areas_by_district') {
     const district = params.district;
+    const queryDistrict = district === 'เมืองนครปฐม' ? 'เมือง' : district;
     const { data, error } = await supabase
       .from('agricultural_areas')
       .select('*')
-      .eq('district', district)
+      .eq('district', queryDistrict)
       .limit(10);
 
     if (error) {
