@@ -16,7 +16,7 @@ create table if not exists public.line_ai_usage (
   id bigint generated always as identity primary key,
   line_user_id text not null,
   usage_type text not null check (usage_type in ('ai', 'grounding')),
-  key_slot smallint,
+  key_slot smallint check (key_slot is null or key_slot between 1 and 5),
   created_at timestamptz not null default now()
 );
 
@@ -108,6 +108,10 @@ begin
   if p_window_limit > 0
     and (p_window_seconds is null or p_window_seconds <= 0) then
     raise exception 'invalid window seconds';
+  end if;
+
+  if p_key_slot is not null and p_key_slot not between 1 and 5 then
+    raise exception 'invalid key slot';
   end if;
 
   perform pg_advisory_xact_lock(hashtext(p_user_id || ':' || p_kind));

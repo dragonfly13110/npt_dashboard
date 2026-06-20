@@ -2,6 +2,10 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 const sql = readFileSync('supabase/line_ai_chatbot.sql', 'utf8');
+const usageTable = sql.match(
+  /create table if not exists public\.line_ai_usage\s*\((?<body>[\s\S]*?)\);/i
+);
+const usageBody = usageTable?.groups?.body ?? '';
 const quotaFunction = sql.match(
   /create or replace function public\.claim_line_ai_quota[\s\S]*?as\s+\$\$(?<body>[\s\S]*?)\$\$;/i
 );
@@ -29,6 +33,13 @@ describe('LINE AI schema', () => {
     );
     expect(sql).toMatch(
       new RegExp(`grant all on table public\\.${table} to service_role`, 'i')
+    );
+  });
+
+  it('restricts recorded AI usage to configured key slots', () => {
+    expect(usageTable).not.toBeNull();
+    expect(usageBody).toMatch(
+      /key_slot\s+smallint\s+check\s*\(\s*key_slot\s+is\s+null\s+or\s+key_slot\s+between\s+1\s+and\s+5\s*\)/i
     );
   });
 
@@ -71,6 +82,7 @@ describe('LINE AI schema', () => {
       /if\s+p_daily_limit\s+is\s+null\s+or\s+p_daily_limit\s*<=\s*0\s+then/i,
       /if\s+p_window_limit\s+is\s+null\s+or\s+p_window_limit\s*<\s*0\s+then/i,
       /if\s+p_window_limit\s*>\s*0\s+and\s*\(\s*p_window_seconds\s+is\s+null\s+or\s+p_window_seconds\s*<=\s*0\s*\)\s+then/i,
+      /if\s+p_key_slot\s+is\s+not\s+null\s+and\s+p_key_slot\s+not\s+between\s+1\s+and\s+5\s+then/i,
     ];
     const lockIndex = quotaBody.search(/pg_advisory_xact_lock/i);
 
