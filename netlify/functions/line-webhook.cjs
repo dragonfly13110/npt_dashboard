@@ -63,8 +63,82 @@ function verifySignature(body, signature, channelSecret) {
   return hash === signature;
 }
 
-// Send reply message back to user via LINE Messaging API
-async function sendLineReply(replyToken, messages) {
+// Send push message back to user via LINE Messaging API
+async function sendLinePush(to, messages) {
+  if (!LINE_CHANNEL_ACCESS_TOKEN) {
+    console.warn(
+      '⚠️ LINE_CHANNEL_ACCESS_TOKEN is not configured. Push Payload:',
+      JSON.stringify({ to, messages }, null, 2)
+    );
+    return false;
+  }
+
+  try {
+    const response = await fetch('https://api.line.me/v2/bot/message/push', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}`,
+      },
+      body: JSON.stringify({
+        to,
+        messages,
+      }),
+    });
+
+    if (!response.ok) {
+      const text = await response.text();
+      console.error(`❌ Failed to send LINE push: ${response.status} ${text}`);
+      return false;
+    }
+    console.log(`✅ LINE push message sent successfully to ${to}`);
+    return true;
+  } catch (err) {
+    console.error('❌ Exception sending LINE push:', err);
+    return false;
+  }
+}
+
+// Start chat loading animation via LINE Messaging API
+async function sendLineLoading(chatId, loadingSeconds = 20) {
+  if (!LINE_CHANNEL_ACCESS_TOKEN) {
+    console.warn(
+      '⚠️ LINE_CHANNEL_ACCESS_TOKEN is not configured for loading animation.'
+    );
+    return false;
+  }
+  try {
+    const response = await fetch(
+      'https://api.line.me/v2/bot/chat/loading/start',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}`,
+        },
+        body: JSON.stringify({
+          chatId,
+          loadingSeconds,
+        }),
+      }
+    );
+    if (!response.ok) {
+      const text = await response.text();
+      console.error(
+        `❌ Failed to start LINE loading: ${response.status} ${text}`
+      );
+      return false;
+    }
+    console.log(`✅ Started LINE chat loading for ${chatId}`);
+    return true;
+  } catch (err) {
+    console.error('❌ Exception starting LINE loading:', err);
+    return false;
+  }
+}
+
+// Send reply message back to user via LINE Messaging API with push fallback
+async function sendLineReply(replyToken, messages, userId = null) {
   if (!LINE_CHANNEL_ACCESS_TOKEN) {
     console.warn(
       '⚠️ LINE_CHANNEL_ACCESS_TOKEN is not configured. Reply Payload:',
@@ -89,11 +163,25 @@ async function sendLineReply(replyToken, messages) {
     if (!response.ok) {
       const text = await response.text();
       console.error(`❌ Failed to send LINE reply: ${response.status} ${text}`);
+
+      // Fallback to push message if userId is available
+      if (userId) {
+        console.log(
+          `⚠️ Reply token failed/expired. Attempting push message fallback to: ${userId}`
+        );
+        return await sendLinePush(userId, messages);
+      }
       return false;
     }
     return true;
   } catch (err) {
     console.error('❌ Exception sending LINE reply:', err);
+    if (userId) {
+      console.log(
+        `⚠️ Reply exception. Attempting push message fallback to: ${userId}`
+      );
+      return await sendLinePush(userId, messages);
+    }
     return false;
   }
 }
@@ -1253,6 +1341,14 @@ async function handleMessageEvent(event) {
   if (text.length >= 2) {
     const orchestratorInstance = getOrchestrator();
     if (orchestratorInstance) {
+      // Start LINE loading animation (skip in test environment to avoid breaking mocks)
+      if (
+        process.env.NODE_ENV !== 'test' &&
+        event.source?.type === 'user' &&
+        event.source?.userId
+      ) {
+        await sendLineLoading(event.source.userId, 40);
+      }
       const aiStart = Date.now();
       const aiResult = await orchestratorInstance.answer({
         userId: event.source?.userId,
@@ -1263,7 +1359,11 @@ async function handleMessageEvent(event) {
         console.log(
           `✅ AI replied in ${aiDurationMs}ms (${aiResult.sourceType})`
         );
-        await sendLineReply(replyToken, aiResult.messages);
+        await sendLineReply(
+          replyToken,
+          aiResult.messages,
+          event.source?.userId
+        );
         return;
       }
       console.warn(
@@ -1373,32 +1473,78 @@ async function handlePostbackEvent(event) {
       type: 'action',
       action: {
         type: 'postback',
+        data: `action=agri_areas_by_district&district=${dist}`,
         label: dist,
-        data: `action=personnel_by_district&district=${dist}`,
-        displayText: `ดูรายชื่อบุคลากร อ.${dist}`,
+        displayText: `สอบถามพื้นที่ปลูก อ.${dist}`,
       },
     }));
 
-    await sendLineReply(replyToken, [
-      {
-        type: 'text',
-        text: '👤 เลือกอำเภอที่คุณต้องการดูรายชื่อบุคลากรเกษตรอำเภอค่ะ:',
-        quickReply: {
-          items: [
-            {
-              type: 'action',
-              action: {
-                type: 'postback',
-                label: 'ระดับจังหวัด',
-                data: 'action=personnel_provincial',
-                displayText: 'ดูรายชื่อบุคลากรระดับจังหวัด',
-              },
-            },
-            ...quickReplyItems,
-          ],
+    await sendLineReply(
+      replyToken,
+      [
+        {
+          type: 'text',
+          text: '🌾 เลือกอำเภอที่ต้องการสอบถามพื้นที่ปลูกการเกษตรค่ะ:',
+          quickReply: {
+            items: quickReplyItems,
+          },
         },
-      },
-    ]);
+      ],
+      event.source?.userId
+    );
+    return;
+  }
+
+  // Case: User requested agricultural areas for a specific district
+  if (params.action === 'agri_areas_by_district') {
+    const district = params.district;
+    const { data, error } = await supabase
+      .from('agricultural_areas')
+      .select('*')
+      .eq('district', district)
+      .limit(10);
+
+    if (error) {
+      console.error(error);
+      await sendLineReply(
+        replyToken,
+        [
+          {
+            type: 'text',
+            text: '❌ เกิดข้อผิดพลาดในการดึงข้อมูลพื้นที่การเกษตร',
+          },
+        ],
+        event.source?.userId
+      );
+      return;
+    }
+
+    if (data && data.length > 0) {
+      // Generate bubbles for agricultural_areas category search results
+      const categories = [
+        {
+          table: 'agricultural_areas',
+          totalCount: data.length,
+          results: data,
+        },
+      ];
+      const searchMessage = createGlobalSearchCarousel(
+        categories,
+        `พื้นที่เกษตร อ.${district}`
+      );
+      await sendLineReply(replyToken, [searchMessage], event.source?.userId);
+    } else {
+      await sendLineReply(
+        replyToken,
+        [
+          {
+            type: 'text',
+            text: `ไม่พบข้อมูลพื้นที่ปลูกการเกษตรใน อ.${district} ในขณะนี้ค่ะ`,
+          },
+        ],
+        event.source?.userId
+      );
+    }
     return;
   }
 
@@ -1412,16 +1558,22 @@ async function handlePostbackEvent(event) {
       .limit(10);
 
     if (data && data.length > 0) {
-      await sendLineReply(replyToken, [
-        createPersonnelCarousel(data, `รายชื่อข้าราชการ อ.${district}`),
-      ]);
+      await sendLineReply(
+        replyToken,
+        [createPersonnelCarousel(data, `รายชื่อข้าราชการ อ.${district}`)],
+        event.source?.userId
+      );
     } else {
-      await sendLineReply(replyToken, [
-        {
-          type: 'text',
-          text: `ไม่พบรายชื่อบุคลากรเกษตรอำเภอ ${district} ในขณะนี้ค่ะ`,
-        },
-      ]);
+      await sendLineReply(
+        replyToken,
+        [
+          {
+            type: 'text',
+            text: `ไม่พบรายชื่อบุคลากรเกษตรอำเภอ ${district} ในขณะนี้ค่ะ`,
+          },
+        ],
+        event.source?.userId
+      );
     }
     return;
   }
@@ -1467,6 +1619,39 @@ async function handlePostbackEvent(event) {
         },
       },
     ]);
+    return;
+  }
+
+  // Case: User clicked Farmer Groups main menu
+  if (params.action === 'farmer_groups_menu') {
+    const groupTypes = [
+      { label: 'กลุ่มแม่บ้านเกษตรกร', text: 'กลุ่มแม่บ้านเกษตรกร' },
+      { label: 'กลุ่มยุวเกษตรกร', text: 'กลุ่มยุวเกษตรกร' },
+      { label: 'กลุ่มส่งเสริมอาชีพ', text: 'กลุ่มส่งเสริมอาชีพการเกษตร' },
+      { label: 'สถาบันเกษตรกร', text: 'สถาบันเกษตรกร' },
+    ];
+    const quickReplies = groupTypes.map((type) => ({
+      type: 'action',
+      action: {
+        type: 'message',
+        label: type.label,
+        text: type.text,
+      },
+    }));
+
+    await sendLineReply(
+      replyToken,
+      [
+        {
+          type: 'text',
+          text: '🤝 เลือกประเภทกลุ่มเกษตรกรที่ต้องการสืบค้นข้อมูลค่ะ:',
+          quickReply: {
+            items: quickReplies,
+          },
+        },
+      ],
+      event.source?.userId
+    );
     return;
   }
 
@@ -1562,6 +1747,45 @@ exports.handler = async function (event, context) {
     };
   }
 
+  const isBackground =
+    process.env.NODE_ENV === 'test' ||
+    event.queryStringParameters?.background === 'true' ||
+    event.headers['x-local-background'] === 'true';
+
+  if (!isBackground) {
+    try {
+      const host = event.headers.host || event.headers.Host;
+      const isHttps =
+        event.headers['x-forwarded-proto'] === 'https' ||
+        !host.includes('localhost');
+      const protocol = isHttps ? 'https' : 'http';
+      const bgFunctionUrl = `${protocol}://${host}/.netlify/functions/line-webhook-background?background=true`;
+
+      console.log(
+        `[Proxy] Forwarding webhook to background function: ${bgFunctionUrl}`
+      );
+
+      // We await the fetch to ensure Netlify has accepted and queued the task.
+      // Background functions return a 202 Accepted response almost immediately.
+      await fetch(bgFunctionUrl, {
+        method: 'POST',
+        headers: {
+          ...event.headers,
+          'x-local-background': 'true',
+        },
+        body: rawBody,
+      });
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ message: 'Accepted (queued)' }),
+      };
+    } catch (err) {
+      console.error('[Proxy] Failed to trigger background function:', err);
+      console.log('[Proxy] Falling back to synchronous processing...');
+    }
+  }
+
   try {
     const payload = JSON.parse(rawBody);
     const events = payload.events || [];
@@ -1593,12 +1817,16 @@ exports.handler = async function (event, context) {
         console.error(`❌ Error processing individual event:`, eventErr);
         // Try to send a fallback error message to the user
         try {
-          await sendLineReply(evt.replyToken, [
-            {
-              type: 'text',
-              text: '⚠️ ขออภัยค่ะ เกิดข้อผิดพลาดในการประมวลผลค่ะ กรุณาลองใหม่อีกครั้งนะคะ',
-            },
-          ]);
+          await sendLineReply(
+            evt.replyToken,
+            [
+              {
+                type: 'text',
+                text: '⚠️ ขออภัยค่ะ เกิดข้อผิดพลาดในการประมวลผลค่ะ กรุณาลองใหม่อีกครั้งนะคะ',
+              },
+            ],
+            evt.source?.userId
+          );
         } catch (fallbackErr) {
           console.error('❌ Even fallback reply failed:', fallbackErr);
         }
