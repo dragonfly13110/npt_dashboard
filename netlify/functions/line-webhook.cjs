@@ -1748,45 +1748,9 @@ exports.handler = async function (event, context) {
     };
   }
 
-  const isBackground =
-    process.env.NODE_ENV === 'test' ||
-    event.queryStringParameters?.background === 'true' ||
-    event.headers['x-local-background'] === 'true';
-
-  if (!isBackground) {
-    try {
-      const host = event.headers.host || event.headers.Host;
-      const isHttps =
-        event.headers['x-forwarded-proto'] === 'https' ||
-        !host.includes('localhost');
-      const protocol = isHttps ? 'https' : 'http';
-      const bgFunctionUrl = `${protocol}://${host}/.netlify/functions/line-webhook-background?background=true`;
-
-      console.log(
-        `[Proxy] Forwarding webhook to background function: ${bgFunctionUrl}`
-      );
-
-      // We await the fetch to ensure Netlify has accepted and queued the task.
-      // Background functions return a 202 Accepted response almost immediately.
-      await fetch(bgFunctionUrl, {
-        method: 'POST',
-        headers: {
-          ...event.headers,
-          'x-local-background': 'true',
-        },
-        body: rawBody,
-      });
-
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ message: 'Accepted (queued)' }),
-      };
-    } catch (err) {
-      console.error('[Proxy] Failed to trigger background function:', err);
-      console.log('[Proxy] Falling back to synchronous processing...');
-    }
-  }
-
+  // Process events directly (synchronous).
+  // Postback events are fast (<2s). For slow AI orchestrator calls,
+  // sendLineReply falls back to sendLinePush when the reply token expires.
   try {
     const payload = JSON.parse(rawBody);
     const events = payload.events || [];
