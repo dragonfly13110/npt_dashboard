@@ -9,6 +9,47 @@ let supabase =
     ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
     : null;
 
+let lineAiOrchestrator = null;
+
+function getOrchestrator() {
+  if (lineAiOrchestrator) return lineAiOrchestrator;
+  if (!supabase) return null;
+  try {
+    const { getConfig } = require('./lib/line-ai/config.cjs');
+    const { createLineAiStore } = require('./lib/line-ai/store.cjs');
+    const { createKeyPool } = require('./lib/line-ai/key-pool.cjs');
+    const { createGeminiClient } = require('./lib/line-ai/gemini.cjs');
+    const { executeTools } = require('./lib/line-ai/tools.cjs');
+    const { renderAiReply } = require('./lib/line-ai/flex.cjs');
+    const {
+      createLineAiOrchestrator,
+    } = require('./lib/line-ai/orchestrator.cjs');
+
+    const config = getConfig();
+    if (!config.enabled || config.geminiApiKeys.size === 0) return null;
+    const store = createLineAiStore(supabase);
+    const keyPool = createKeyPool({ keys: config.geminiApiKeys, store });
+    const gemini = createGeminiClient({
+      model: config.model,
+      fallbacks: config.fallbackModels,
+      timeoutMs: config.timeoutMs,
+    });
+    lineAiOrchestrator = createLineAiOrchestrator({
+      supabase,
+      config,
+      store,
+      keyPool,
+      gemini,
+      executeTools,
+      renderAiReply,
+    });
+    return lineAiOrchestrator;
+  } catch (err) {
+    console.error('Failed to initialize LINE AI orchestrator:', err);
+    return null;
+  }
+}
+
 const LINE_CHANNEL_SECRET = process.env.LINE_CHANNEL_SECRET;
 const LINE_CHANNEL_ACCESS_TOKEN = process.env.LINE_CHANNEL_ACCESS_TOKEN;
 
@@ -1072,7 +1113,7 @@ async function handleMessageEvent(event) {
   if (event.message.type !== 'text') return;
 
   const text = event.message.text.trim();
-  console.log(`💬 User typed: "${text}"`);
+  console.log('💬 Processing text message event');
 
   if (!supabase) {
     await sendLineReply(replyToken, [
@@ -1210,6 +1251,18 @@ async function handleMessageEvent(event) {
 
   // 6. GLOBAL SEARCH fallback (when no command prefix matches)
   if (text.length >= 2) {
+    const orchestratorInstance = getOrchestrator();
+    if (orchestratorInstance) {
+      const aiResult = await orchestratorInstance.answer({
+        userId: event.source?.userId,
+        text,
+      });
+      if (aiResult && aiResult.messages && aiResult.messages.length > 0) {
+        await sendLineReply(replyToken, aiResult.messages);
+        return;
+      }
+    }
+
     try {
       // Parallel fetch from personnel and global_search RPC
       const [personnelRes, globalRes] = await Promise.all([
@@ -1444,7 +1497,11 @@ async function handlePostbackEvent(event) {
 // ----------------------------------------------------
 // MAIN WEBHOOK EXPORT
 // ----------------------------------------------------
-exports.handler = async function (event) {
+exports.handler = async function (event, context) {
+  const startTime = Date.now();
+  const requestId =
+    event.headers?.['x-nf-request-id'] || crypto.randomBytes(8).toString('hex');
+
   // Debug endpoint: GET /.netlify/functions/line-webhook?debug=1
   if (event.httpMethod === 'GET') {
     return {
@@ -1480,25 +1537,17 @@ exports.handler = async function (event) {
       ? Buffer.from(event.body, 'base64').toString('utf8')
       : event.body;
 
-  // Log debug information for signature verification
-  console.log(`[Webhook Debug] httpMethod: ${event.httpMethod}`);
-  console.log(
-    `[Webhook Debug] hasSecret: ${!!LINE_CHANNEL_SECRET}, secretLength: ${LINE_CHANNEL_SECRET ? LINE_CHANNEL_SECRET.length : 0}`
-  );
-  console.log(`[Webhook Debug] signatureHeader: ${signature}`);
-  console.log(`[Webhook Debug] isBase64Encoded: ${event.isBase64Encoded}`);
-  console.log(
-    `[Webhook Debug] bodyLength: ${event.body ? event.body.length : 0}`
-  );
-  console.log(`[Webhook Debug] rawBodyLength: ${rawBody ? rawBody.length : 0}`);
-  console.log(`[Webhook Debug] rawBody: "${rawBody}"`);
+  // Log debug information without exposing sensitive raw request parameters
+  console.log(JSON.stringify({ requestId, httpMethod: event.httpMethod }));
 
   // Validate LINE Signature
   if (
     LINE_CHANNEL_SECRET &&
     !verifySignature(rawBody, signature, LINE_CHANNEL_SECRET)
   ) {
-    console.error('❌ Signature verification failed');
+    console.error(
+      JSON.stringify({ requestId, error: 'Signature verification failed' })
+    );
     return {
       statusCode: 401,
       body: JSON.stringify({ error: 'Unauthorized signature' }),
@@ -1509,16 +1558,26 @@ exports.handler = async function (event) {
     const payload = JSON.parse(rawBody);
     const events = payload.events || [];
 
-    console.log(`📨 Received ${events.length} event(s)`);
+    console.log(JSON.stringify({ requestId, eventCount: events.length }));
 
     for (const evt of events) {
       try {
         if (evt.type === 'message') {
           console.log(
-            `💬 Processing message event: "${evt.message?.text || evt.message?.type}"`
+            JSON.stringify({
+              requestId,
+              eventType: evt.type,
+              messageType: evt.message?.type,
+            })
           );
           await handleMessageEvent(evt);
-          console.log(`✅ Message event processed successfully`);
+          console.log(
+            JSON.stringify({
+              requestId,
+              status: 'success',
+              durationMs: Date.now() - startTime,
+            })
+          );
         } else if (evt.type === 'postback') {
           await handlePostbackEvent(evt);
         }
@@ -1555,5 +1614,8 @@ exports.handler = async function (event) {
 if (process.env.NODE_ENV === 'test') {
   exports.setSupabase = (client) => {
     supabase = client;
+  };
+  exports.setLineAiOrchestrator = (orchestrator) => {
+    lineAiOrchestrator = orchestrator;
   };
 }

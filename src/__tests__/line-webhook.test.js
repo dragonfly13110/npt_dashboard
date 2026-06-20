@@ -47,6 +47,9 @@ webhook.setSupabase(mockSupabase);
 describe('line-webhook.js', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    if (typeof webhook.setLineAiOrchestrator === 'function') {
+      webhook.setLineAiOrchestrator(null);
+    }
     mockFetch.mockResolvedValue({
       ok: true,
       text: async () => 'OK',
@@ -238,5 +241,115 @@ describe('line-webhook.js', () => {
     expect(payload.messages[0].text).toContain(
       'ไม่พบข้อมูลที่เกี่ยวข้องกับ "คำที่ไม่น่าจะมีข้อมูล"'
     );
+  });
+
+  it('sends exactly one AI reply for free text', async () => {
+    webhook.setLineAiOrchestrator({
+      answer: vi.fn().mockResolvedValue({
+        messages: [{ type: 'text', text: 'คำตอบ AI' }],
+        sourceType: 'general',
+      }),
+    });
+
+    const event = {
+      httpMethod: 'POST',
+      headers: {},
+      body: JSON.stringify({
+        events: [
+          {
+            type: 'message',
+            replyToken: 'mockReplyToken',
+            message: {
+              type: 'text',
+              text: 'ถามอะไรก็ได้',
+            },
+          },
+        ],
+      }),
+    };
+
+    const signature = crypto
+      .createHmac('sha256', 'mock-secret')
+      .update(event.body)
+      .digest('base64');
+    event.headers['x-line-signature'] = signature;
+
+    await webhook.handler(event);
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    const [, options] = mockFetch.mock.calls[0];
+    expect(JSON.parse(options.body).messages[0].text).toBe('คำตอบ AI');
+  });
+
+  it('falls through to existing DB search when AI returns null', async () => {
+    webhook.setLineAiOrchestrator({
+      answer: vi.fn().mockResolvedValue(null),
+    });
+
+    const event = {
+      httpMethod: 'POST',
+      headers: {},
+      body: JSON.stringify({
+        events: [
+          {
+            type: 'message',
+            replyToken: 'mockReplyToken',
+            message: {
+              type: 'text',
+              text: 'ส้มโอ',
+            },
+          },
+        ],
+      }),
+    };
+
+    const signature = crypto
+      .createHmac('sha256', 'mock-secret')
+      .update(event.body)
+      .digest('base64');
+    event.headers['x-line-signature'] = signature;
+
+    await webhook.handler(event);
+    expect(mockSupabase.rpc).toHaveBeenCalledWith('global_search', {
+      search_term: 'ส้มโอ',
+      result_limit: 3,
+    });
+  });
+
+  it('never logs raw body, signature, user ID, or message text', async () => {
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {});
+    webhook.setLineAiOrchestrator({
+      answer: vi.fn().mockResolvedValue(null),
+    });
+
+    const event = {
+      httpMethod: 'POST',
+      headers: {},
+      body: JSON.stringify({
+        events: [
+          {
+            type: 'message',
+            replyToken: 'mockReplyToken',
+            source: { userId: 'U-test-123' },
+            message: {
+              type: 'text',
+              text: 'ข้อความลับสุดยอด',
+            },
+          },
+        ],
+      }),
+    };
+
+    const signature = crypto
+      .createHmac('sha256', 'mock-secret')
+      .update(event.body)
+      .digest('base64');
+    event.headers['x-line-signature'] = signature;
+
+    await webhook.handler(event);
+    const combinedLogs = log.mock.calls.flat().join(' ');
+    expect(combinedLogs).not.toMatch(
+      /ข้อความลับสุดยอด|x-line-signature|rawBody|U-test-123/
+    );
+    log.mockRestore();
   });
 });
