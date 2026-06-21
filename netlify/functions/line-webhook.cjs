@@ -1087,7 +1087,7 @@ function createGlobalSearchCarousel(categories, searchTerm) {
         const itemBox = {
           type: 'box',
           layout: 'vertical',
-          spacing: 'xxs',
+          spacing: 'xs',
           contents: contents,
         };
 
@@ -1101,7 +1101,7 @@ function createGlobalSearchCarousel(categories, searchTerm) {
               type: 'box',
               layout: 'vertical',
               margin: 'md',
-              spacing: 'xxs',
+              spacing: 'xs',
               contents: contents,
             },
           ];

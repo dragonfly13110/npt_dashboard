@@ -475,17 +475,32 @@ function createLineAiOrchestrator({
       }
 
       // 9. Synthesize through key pool
+      const trimmedEvidence = (toolResults || []).map((tr) => {
+        if (tr.tool === 'global_search') {
+          const trimmedData = (tr.data || []).slice(0, 5).map((cat) => ({
+            table: cat.table,
+            totalCount: cat.totalCount,
+            results: (cat.results || []).slice(0, 2),
+          }));
+          return {
+            tool: tr.tool,
+            data: trimmedData,
+          };
+        }
+        return tr;
+      });
+
       const answerText = await keyPool.execute(async ({ apiKey }) => {
         const resolvedModel = await gemini.resolveModel(apiKey);
         return gemini.synthesize(apiKey, resolvedModel, {
           question: text,
           history,
-          evidence: toolResults,
+          evidence: trimmedEvidence,
           grounding: useGrounding,
         });
       });
 
-      const records = formatDeterministicSummary(toolResults);
+      const records = formatDeterministicSummary(trimmedEvidence);
       const messages = renderAiReply({ text: answerText, records });
       await store.appendMessage(userId, 'assistant', answerText, plan.intent);
 
