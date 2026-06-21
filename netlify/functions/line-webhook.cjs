@@ -1372,17 +1372,66 @@ async function handleMessageEvent(event) {
     }
 
     try {
+      // Extract clean search term for legacy fallback if user sent a long sentence
+      let searchTerm = text.trim();
+      if (searchTerm.length > 10) {
+        const districts = [
+          'กำแพงแสน',
+          'นครชัยศรี',
+          'ดอนตูม',
+          'บางเลน',
+          'สามพราน',
+          'พุทธมณฑล',
+          'เมืองนครปฐม',
+          'เมือง',
+        ];
+        let matchedDist = null;
+        for (const dist of districts) {
+          if (searchTerm.includes(dist)) {
+            matchedDist = dist === 'เมืองนครปฐม' ? 'เมือง' : dist;
+            break;
+          }
+        }
+
+        const crops = [
+          'ข้าว',
+          'กล้วยไม้',
+          'มะพร้าว',
+          'มะนาว',
+          'ส้มโอ',
+          'กระชาย',
+          'กุ้ง',
+          'ผัก',
+          'ผลไม้',
+        ];
+        let matchedCrop = null;
+        for (const crop of crops) {
+          if (searchTerm.includes(crop)) {
+            matchedCrop = crop;
+            break;
+          }
+        }
+
+        if (matchedDist && matchedCrop) {
+          searchTerm = `${matchedDist} ${matchedCrop}`;
+        } else if (matchedDist) {
+          searchTerm = matchedDist;
+        } else if (matchedCrop) {
+          searchTerm = matchedCrop;
+        }
+      }
+
       // Parallel fetch from personnel and global_search RPC
       const [personnelRes, globalRes] = await Promise.all([
         supabase
           .from('personnel')
           .select('*')
           .or(
-            `full_name.ilike.%${text}%,position.ilike.%${text}%,department.ilike.%${text}%`
+            `full_name.ilike.%${searchTerm}%,position.ilike.%${searchTerm}%,department.ilike.%${searchTerm}%`
           )
           .limit(3),
         supabase.rpc('global_search', {
-          search_term: text,
+          search_term: searchTerm,
           result_limit: 3,
         }),
       ]);
