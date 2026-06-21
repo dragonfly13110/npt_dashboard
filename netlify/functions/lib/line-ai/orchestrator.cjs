@@ -290,11 +290,89 @@ const TABLE_METADATA = {
   },
 };
 
-function formatDeterministicSummary(toolResults) {
+function formatDeterministicSummary(toolResults, queryText = '') {
   const records = [];
+  const q = (queryText || '').toLowerCase();
+
   for (const tr of toolResults || []) {
     if (tr.tool === 'global_search') {
-      for (const cat of tr.data || []) {
+      let categories = tr.data || [];
+
+      // Filter categories by query keywords if queryText is provided
+      if (q) {
+        let allowedTables = null;
+        if (
+          q.includes('พื้นที่') ||
+          q.includes('ปลูก') ||
+          q.includes('ขนาด') ||
+          q.includes('ไร่') ||
+          q.includes('ตารางเมตร')
+        ) {
+          allowedTables = [
+            'agricultural_areas',
+            'large_plots',
+            'farmer_registry',
+            'crop_production',
+            'certifications',
+            'forecast_plots',
+            'disasters',
+          ];
+        } else if (
+          q.includes('วิสาหกิจ') ||
+          q.includes('กลุ่ม') ||
+          q.includes('สมาคม') ||
+          q.includes('สหกรณ์')
+        ) {
+          allowedTables = [
+            'community_enterprises',
+            'agricultural_career_groups',
+            'housewife_farmer_groups',
+            'young_farmer_groups_detailed',
+            'farmer_institutes',
+          ];
+        } else if (
+          q.includes('คน') ||
+          q.includes('ติดต่อ') ||
+          q.includes('เบอร์') ||
+          q.includes('โทร') ||
+          q.includes('เจ้าหน้าที่') ||
+          q.includes('บุคลากร') ||
+          q.includes('หัวหน้า') ||
+          q.includes('ผู้จัดการ') ||
+          q.includes('ประธาน')
+        ) {
+          allowedTables = [
+            'personnel',
+            'smart_farmers',
+            'smart_farmer_sf',
+            'young_smart_farmer_ysf',
+            'plant_doctors',
+          ];
+        } else if (
+          q.includes('โรค') ||
+          q.includes('ศัตรูพืช') ||
+          q.includes('แมลง') ||
+          q.includes('หมอพืช') ||
+          q.includes('ระบาด')
+        ) {
+          allowedTables = [
+            'ai_disease_forecasts',
+            'pest_centers',
+            'plant_doctors',
+          ];
+        }
+
+        if (allowedTables) {
+          const filtered = categories.filter((cat) =>
+            allowedTables.includes(cat.table)
+          );
+          if (filtered.length > 0) {
+            categories = filtered;
+          }
+        }
+      }
+
+      for (const cat of categories) {
         const table = cat.table;
         const route = TABLE_ROUTES[table] || '/dashboard';
         const meta = TABLE_METADATA[table];
@@ -458,7 +536,7 @@ function createLineAiOrchestrator({
         const claim2 = await store.claimQuota(userId, 'ai', aiLimits);
         if (!claim2.allowed) {
           // Denied second call -> summarize retrieved records deterministically
-          const records = formatDeterministicSummary(toolResults);
+          const records = formatDeterministicSummary(toolResults, text);
           const messages = renderAiReply({
             text: 'โควต้า AI สำหรับสรุปผลในวันนี้หมดแล้ว แต่นี่คือข้อมูลที่ค้นพบจากระบบคลังข้อมูล:',
             records,
@@ -500,7 +578,7 @@ function createLineAiOrchestrator({
         });
       });
 
-      const records = formatDeterministicSummary(trimmedEvidence);
+      const records = formatDeterministicSummary(trimmedEvidence, text);
       const messages = renderAiReply({ text: answerText, records });
       await store.appendMessage(userId, 'assistant', answerText, plan.intent);
 

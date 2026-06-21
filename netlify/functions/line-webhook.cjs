@@ -1039,6 +1039,89 @@ const TABLE_METADATA = {
   },
 };
 
+// Filter search categories by user query keywords to show only relevant tables in Carousel
+function filterCategoriesByQuery(categories, queryText) {
+  if (!queryText || !Array.isArray(categories)) return categories;
+  const q = queryText.toLowerCase();
+
+  let allowedTables = null;
+
+  // 1. Planting area / agricultural area / farm size
+  if (
+    q.includes('พื้นที่') ||
+    q.includes('ปลูก') ||
+    q.includes('ขนาด') ||
+    q.includes('ไร่') ||
+    q.includes('ตารางเมตร')
+  ) {
+    allowedTables = [
+      'agricultural_areas',
+      'large_plots',
+      'farmer_registry',
+      'crop_production',
+      'certifications',
+      'forecast_plots',
+      'disasters',
+    ];
+  }
+  // 2. Community enterprises / groups / career groups
+  else if (
+    q.includes('วิสาหกิจ') ||
+    q.includes('กลุ่ม') ||
+    q.includes('สมาคม') ||
+    q.includes('สหกรณ์')
+  ) {
+    allowedTables = [
+      'community_enterprises',
+      'agricultural_career_groups',
+      'housewife_farmer_groups',
+      'young_farmer_groups_detailed',
+      'farmer_institutes',
+    ];
+  }
+  // 3. Personnel / contacts / chiefs
+  else if (
+    q.includes('คน') ||
+    q.includes('ติดต่อ') ||
+    q.includes('เบอร์') ||
+    q.includes('โทร') ||
+    q.includes('เจ้าหน้าที่') ||
+    q.includes('บุคลากร') ||
+    q.includes('หัวหน้า') ||
+    q.includes('ผู้จัดการ') ||
+    q.includes('ประธาน')
+  ) {
+    allowedTables = [
+      'personnel',
+      'smart_farmers',
+      'smart_farmer_sf',
+      'young_smart_farmer_ysf',
+      'plant_doctors',
+    ];
+  }
+  // 4. Diseases / pests / plant doctors
+  else if (
+    q.includes('โรค') ||
+    q.includes('ศัตรูพืช') ||
+    q.includes('แมลง') ||
+    q.includes('หมอพืช') ||
+    q.includes('ระบาด')
+  ) {
+    allowedTables = ['ai_disease_forecasts', 'pest_centers', 'plant_doctors'];
+  }
+
+  if (allowedTables) {
+    const filtered = categories.filter((cat) =>
+      allowedTables.includes(cat.table)
+    );
+    if (filtered.length > 0) {
+      return filtered;
+    }
+  }
+
+  return categories;
+}
+
 // Generates a LINE Flex Message Carousel for global search results
 function createGlobalSearchCarousel(categories, searchTerm) {
   const bubbles = categories.slice(0, 10).map((cat) => {
@@ -1460,10 +1543,20 @@ async function handleMessageEvent(event) {
         }
       }
 
-      if (categories.length > 0) {
+      let displayCategories = categories;
+      try {
+        displayCategories = filterCategoriesByQuery(categories, text);
+      } catch (e) {
+        console.error('Error filtering categories:', e);
+      }
+
+      if (displayCategories.length > 0) {
         // Build Carousel of Flex Message bubbles for each matching category
         try {
-          const searchMessage = createGlobalSearchCarousel(categories, text);
+          const searchMessage = createGlobalSearchCarousel(
+            displayCategories,
+            text
+          );
           const sent = await sendLineReply(replyToken, [searchMessage]);
           if (sent) return;
           // If Flex message failed, fall back to plain text summary
@@ -1473,7 +1566,7 @@ async function handleMessageEvent(event) {
         }
 
         // Fallback: send plain text summary of results
-        const summaryLines = categories.slice(0, 5).map((cat) => {
+        const summaryLines = displayCategories.slice(0, 5).map((cat) => {
           const meta = TABLE_METADATA[cat.table] || {
             label: cat.table,
             icon: '📂',
