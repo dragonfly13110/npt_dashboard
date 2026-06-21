@@ -30,7 +30,7 @@ function renderAiReply({ text, records }) {
 
     return {
       type: 'bubble',
-      size: 'small',
+      size: 'micro',
       body: {
         type: 'box',
         layout: 'vertical',
