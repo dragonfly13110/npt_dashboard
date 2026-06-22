@@ -352,4 +352,107 @@ describe('line-webhook.js', () => {
     );
     log.mockRestore();
   });
+
+  it('handles local greeting keywords with a detailed response', async () => {
+    const event = {
+      httpMethod: 'POST',
+      headers: {},
+      body: JSON.stringify({
+        events: [
+          {
+            type: 'message',
+            replyToken: 'mockReplyToken',
+            message: {
+              type: 'text',
+              text: 'สวัสดีครับน้องข้าวหลาม',
+            },
+          },
+        ],
+      }),
+    };
+
+    const signature = crypto
+      .createHmac('sha256', 'mock-secret')
+      .update(event.body)
+      .digest('base64');
+    event.headers['x-line-signature'] = signature;
+
+    const response = await webhook.handler(event);
+    expect(response.statusCode).toBe(200);
+
+    expect(mockFetch).toHaveBeenCalled();
+    const [, options] = mockFetch.mock.calls[0];
+    const payload = JSON.parse(options.body);
+    expect(payload.messages[0].text).toContain('สวัสดีค่ะ! หนู "น้องข้าวหลาม"');
+  });
+
+  it('handles local venting keywords with a detailed response', async () => {
+    const event = {
+      httpMethod: 'POST',
+      headers: {},
+      body: JSON.stringify({
+        events: [
+          {
+            type: 'message',
+            replyToken: 'mockReplyToken',
+            message: {
+              type: 'text',
+              text: 'วันนี้เหนื่อยและร้อนมากเลย',
+            },
+          },
+        ],
+      }),
+    };
+
+    const signature = crypto
+      .createHmac('sha256', 'mock-secret')
+      .update(event.body)
+      .digest('base64');
+    event.headers['x-line-signature'] = signature;
+
+    const response = await webhook.handler(event);
+    expect(response.statusCode).toBe(200);
+
+    expect(mockFetch).toHaveBeenCalled();
+    const [, options] = mockFetch.mock.calls[0];
+    const payload = JSON.parse(options.body);
+    expect(payload.messages[0].text).toContain(
+      'เข้าใจความรู้สึกของคุณพี่เลยค่ะ'
+    );
+  });
+
+  it('handles local goodbye keywords with a detailed response', async () => {
+    const event = {
+      httpMethod: 'POST',
+      headers: {},
+      body: JSON.stringify({
+        events: [
+          {
+            type: 'message',
+            replyToken: 'mockReplyToken',
+            message: {
+              type: 'text',
+              text: 'ขอบคุณมากครับ ไปละ บ๊ายบาย',
+            },
+          },
+        ],
+      }),
+    };
+
+    const signature = crypto
+      .createHmac('sha256', 'mock-secret')
+      .update(event.body)
+      .digest('base64');
+    event.headers['x-line-signature'] = signature;
+
+    const response = await webhook.handler(event);
+    expect(response.statusCode).toBe(200);
+
+    expect(mockFetch).toHaveBeenCalled();
+    const [, options] = mockFetch.mock.calls[0];
+    const payload = JSON.parse(options.body);
+    expect(payload.messages[0].text).toContain(
+      'ด้วยความยินดีเป็นอย่างยิ่งเลยค่ะ!'
+    );
+  });
 });
