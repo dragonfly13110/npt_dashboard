@@ -11,76 +11,87 @@ function isValidDashboardUrl(url) {
 }
 
 function renderAiReply({ text, records }) {
-  if (!records || !Array.isArray(records) || records.length === 0) {
-    return [
-      {
-        type: 'text',
-        text: text || '',
-      },
-    ];
+  const messages = [];
+
+  if (text) {
+    messages.push({
+      type: 'text',
+      text: text,
+    });
   }
 
-  const bubbles = records.slice(0, 10).map((record) => {
-    const title = String(record.title || 'ข้อมูล').slice(0, 40);
-    const subtitle = String(record.subtitle || '-').slice(0, 60);
-    const rawUrl = record.url;
-    const url = isValidDashboardUrl(rawUrl)
-      ? rawUrl
-      : 'https://npt-dashboard.netlify.app/dashboard';
+  if (records && Array.isArray(records) && records.length > 0) {
+    const bubbles = records.slice(0, 10).map((record) => {
+      const title = String(record.title || 'ข้อมูล').slice(0, 40);
+      const subtitle = String(record.subtitle || '-').slice(0, 60);
+      const rawUrl = record.url;
+      const url = isValidDashboardUrl(rawUrl)
+        ? rawUrl
+        : 'https://npt-dashboard.netlify.app/dashboard';
 
-    return {
-      type: 'bubble',
-      size: 'micro',
-      body: {
-        type: 'box',
-        layout: 'vertical',
-        spacing: 'sm',
-        contents: [
-          {
-            type: 'text',
-            text: title,
-            weight: 'bold',
-            size: 'sm',
-            wrap: true,
-          },
-          {
-            type: 'text',
-            text: subtitle,
-            size: 'xs',
-            color: '#64748b',
-            wrap: true,
-          },
-        ],
-      },
-      footer: {
-        type: 'box',
-        layout: 'vertical',
-        contents: [
-          {
-            type: 'button',
-            style: 'link',
-            height: 'sm',
-            action: {
-              type: 'uri',
-              label: 'เปิดดูรายละเอียด',
-              uri: url,
+      return {
+        type: 'bubble',
+        size: 'micro',
+        body: {
+          type: 'box',
+          layout: 'vertical',
+          spacing: 'sm',
+          contents: [
+            {
+              type: 'text',
+              text: title,
+              weight: 'bold',
+              size: 'sm',
+              wrap: true,
             },
-          },
-        ],
-      },
-    };
-  });
+            {
+              type: 'text',
+              text: subtitle,
+              size: 'xs',
+              color: '#64748b',
+              wrap: true,
+            },
+          ],
+        },
+        footer: {
+          type: 'box',
+          layout: 'vertical',
+          contents: [
+            {
+              type: 'button',
+              style: 'link',
+              height: 'sm',
+              action: {
+                type: 'uri',
+                label: 'เปิดดูรายละเอียด',
+                uri: url,
+              },
+            },
+          ],
+        },
+      };
+    });
 
-  return [
-    {
-      type: 'flex',
-      altText: (text || 'พบข้อมูลจากระบบ').slice(0, 400),
-      contents: {
-        type: 'carousel',
-        contents: bubbles,
-      },
-    },
-  ];
+    if (bubbles.length > 0) {
+      messages.push({
+        type: 'flex',
+        altText: (text || 'พบข้อมูลจากระบบ').slice(0, 400),
+        contents: {
+          type: 'carousel',
+          contents: bubbles,
+        },
+      });
+    }
+  }
+
+  if (messages.length === 0) {
+    messages.push({
+      type: 'text',
+      text: '',
+    });
+  }
+
+  return messages;
 }
 
 function validateLineMessages(messages) {

@@ -54,7 +54,7 @@ describe('LINE AI tools and rendering', () => {
   });
 
   it('uses contents, never bubbles, for Flex carousel', () => {
-    const [message] = renderAiReply({
+    const messages = renderAiReply({
       text: 'พบข้อมูล',
       records: [
         {
@@ -64,6 +64,8 @@ describe('LINE AI tools and rendering', () => {
         },
       ],
     });
+    const message = messages.find((m) => m.type === 'flex');
+    expect(message).toBeDefined();
     expect(message.contents).toEqual(
       expect.objectContaining({ type: 'carousel', contents: expect.any(Array) })
     );
