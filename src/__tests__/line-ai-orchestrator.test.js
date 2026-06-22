@@ -308,6 +308,116 @@ describe('LINE AI Orchestrator', () => {
     expect(executeTools).not.toHaveBeenCalled();
     expect(gemini.synthesize).not.toHaveBeenCalled();
   });
+  it('renders three disease risks as three dashboard records', async () => {
+    store.getPreference.mockResolvedValue({
+      crop: 'ข้าว',
+      district: 'สามพราน',
+    });
+    gemini.plan.mockResolvedValue({
+      intent: 'database',
+      tools: ['disease_forecast'],
+      tables: [],
+      searchTerms: [],
+      crop: null,
+      district: null,
+      preferenceAction: 'none',
+      needsGrounding: false,
+    });
+    executeTools.mockResolvedValue([
+      {
+        tool: 'disease_forecast',
+        data: {
+          scope: 'province',
+          risks: [
+            { name: 'โรคไหม้ข้าว', target_crop: 'ข้าว', risk_level: 'สูง' },
+            {
+              name: 'เพลี้ยกระโดด',
+              target_crop: 'ข้าว',
+              risk_level: 'ปานกลาง',
+            },
+            { name: 'หนอนกอ', target_crop: 'ข้าว', risk_level: 'ต่ำ' },
+          ],
+        },
+      },
+    ]);
+    gemini.synthesize.mockResolvedValue('พบ 3 ความเสี่ยง');
+
+    const orchestrator = createLineAiOrchestrator({
+      supabase,
+      config,
+      store,
+      keyPool,
+      gemini,
+      executeTools,
+      renderAiReply,
+      clock,
+    });
+
+    await orchestrator.answer({ userId: 'U1', text: 'ต้องระวังอะไร' });
+
+    expect(gemini.synthesize).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.objectContaining({
+        preferences: { crop: 'ข้าว', district: 'สามพราน' },
+      })
+    );
+    expect(renderAiReply).toHaveBeenCalledWith({
+      text: 'พบ 3 ความเสี่ยง',
+      records: [
+        expect.objectContaining({ title: 'โรคไหม้ข้าว', totalCount: 3 }),
+        expect.objectContaining({ title: 'เพลี้ยกระโดด', totalCount: 3 }),
+        expect.objectContaining({ title: 'หนอนกอ', totalCount: 3 }),
+      ],
+    });
+  });
+
+  it('keeps one disease risk text-only', async () => {
+    store.getPreference.mockResolvedValue({
+      crop: 'ข้าว',
+      district: 'สามพราน',
+    });
+    gemini.plan.mockResolvedValue({
+      intent: 'database',
+      tools: ['disease_forecast'],
+      tables: [],
+      searchTerms: [],
+      crop: null,
+      district: null,
+      preferenceAction: 'none',
+      needsGrounding: false,
+    });
+    executeTools.mockResolvedValue([
+      {
+        tool: 'disease_forecast',
+        data: {
+          scope: 'province',
+          risks: [
+            { name: 'โรคไหม้ข้าว', target_crop: 'ข้าว', risk_level: 'สูง' },
+          ],
+        },
+      },
+    ]);
+    gemini.synthesize.mockResolvedValue('พบความเสี่ยงเดียว');
+
+    const orchestrator = createLineAiOrchestrator({
+      supabase,
+      config,
+      store,
+      keyPool,
+      gemini,
+      executeTools,
+      renderAiReply,
+      clock,
+    });
+
+    await orchestrator.answer({ userId: 'U1', text: 'ต้องระวังอะไร' });
+
+    expect(renderAiReply).toHaveBeenCalledWith({
+      text: 'พบความเสี่ยงเดียว',
+      records: [],
+    });
+  });
   it('claims grounding quota only for current intent', async () => {
     gemini.plan.mockResolvedValue({
       intent: 'current',

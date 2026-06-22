@@ -58,6 +58,32 @@ describe('Gemini LINE client', () => {
     expect(body.tools).toEqual([{ google_search: {} }]);
   });
 
+  it('keeps district context province-honest during synthesis', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      status: 200,
+      json: async () => ({
+        candidates: [{ content: { parts: [{ text: 'คำตอบ' }] } }],
+      }),
+    });
+    const client = createGeminiClient({
+      fetch: fetchMock,
+      model: 'gemini-2.5-flash-lite',
+      timeoutMs: 8000,
+    });
+
+    await client.synthesize('key-scope', 'gemini-2.5-flash-lite', {
+      question: 'ต้องระวังอะไร',
+      evidence: [{ tool: 'disease_forecast', scope: 'province' }],
+      preferences: { crop: 'ข้าว', district: 'สามพราน' },
+    });
+
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+    const instruction = body.systemInstruction.parts[0].text;
+    const prompt = body.contents.at(-1).parts[0].text;
+    expect(instruction).toContain('province-level');
+    expect(instruction).toContain('Never claim');
+    expect(prompt).toContain('สามพราน');
+  });
   it('plans correctly and sanitizes invalid values', async () => {
     const planResponse = {
       intent: 'invalid-intent-here',

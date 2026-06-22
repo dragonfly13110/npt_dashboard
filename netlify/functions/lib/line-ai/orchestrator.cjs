@@ -388,6 +388,23 @@ function formatDeterministicSummary(toolResults, queryText = '') {
           });
         }
       }
+    } else if (tr.tool === 'disease_forecast') {
+      const risks = tr.data?.risks || [];
+      if (risks.length > 2) {
+        for (const risk of risks.slice(0, 3)) {
+          records.push({
+            title: risk.name || 'ความเสี่ยงโรคและแมลง',
+            subtitle:
+              (risk.target_crop || '-') +
+              ' • ความเสี่ยง' +
+              (risk.risk_level || '-'),
+            totalCount: risks.length,
+            url:
+              'https://npt-dashboard.netlify.app/dashboard/protection/' +
+              'disease-forecast',
+          });
+        }
+      }
     } else if (tr.tool === 'latest_weather') {
       for (const row of tr.data || []) {
         records.push({
@@ -630,6 +647,7 @@ function createLineAiOrchestrator({
           history,
           evidence: trimmedEvidence,
           grounding: useGrounding,
+          preferences: effectivePreference,
         });
       });
 
