@@ -98,7 +98,7 @@ describe('LINE AI Orchestrator', () => {
     const result = await orchestrator.answer({ userId: 'U1', text: 'สวัสดี' });
     expect(result.messages[0].text).toBe('คำตอบสำหรับการพูดคุย');
     expect(gemini.synthesize).not.toHaveBeenCalled();
-    expect(store.claimQuota).toHaveBeenCalledTimes(1); // 1 for plan
+    expect(store.claimQuota).not.toHaveBeenCalled();
     expect(store.putCache).toHaveBeenCalled();
   });
 
@@ -147,7 +147,7 @@ describe('LINE AI Orchestrator', () => {
     });
 
     await orchestrator.answer({ userId: 'U1', text: 'ส้มโออยู่ไหน' });
-    expect(store.claimQuota).toHaveBeenCalledTimes(2); // 1 plan, 1 synthesis
+    expect(store.claimQuota).not.toHaveBeenCalled();
     expect(executeTools).toHaveBeenCalledWith(
       supabase,
       ['global_search'],
@@ -418,15 +418,13 @@ describe('LINE AI Orchestrator', () => {
       records: [],
     });
   });
-  it('claims grounding quota only for current intent', async () => {
+  it('uses grounding without application quota', async () => {
     gemini.plan.mockResolvedValue({
-      intent: 'current',
+      intent: 'news',
       answer: '',
       tools: [],
-      searchTerms: [],
       needsGrounding: true,
     });
-    gemini.synthesize.mockResolvedValue('ข่าวสภาพอากาศวันนี้');
     const orchestrator = createLineAiOrchestrator({
       supabase,
       config,
@@ -439,102 +437,13 @@ describe('LINE AI Orchestrator', () => {
     });
 
     await orchestrator.answer({ userId: 'U1', text: 'ข่าววันนี้' });
-    expect(store.claimQuota).toHaveBeenCalledWith(
-      'U1',
-      'grounding',
-      expect.any(Object)
+    expect(gemini.synthesize).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.any(String),
+      expect.objectContaining({ grounding: true })
     );
-  });
-
-  it('returns deterministic limit message when daily quota denied', async () => {
-    store.claimQuota.mockResolvedValue({ allowed: false, reason: 'daily' });
-    const orchestrator = createLineAiOrchestrator({
-      supabase,
-      config,
-      store,
-      keyPool,
-      gemini,
-      executeTools,
-      renderAiReply,
-      clock,
-    });
-
-    const result = await orchestrator.answer({ userId: 'U1', text: 'ถาม AI' });
-    expect(result.messages[0].text).toContain('โควต้า AI วันนี้หมด');
-    expect(keyPool.execute).not.toHaveBeenCalled();
-  });
-
-  it('bypasses quota for admin users', async () => {
-    gemini.plan.mockResolvedValue({
-      intent: 'general',
-      answer: 'admin reply',
-      tools: [],
-      needsGrounding: false,
-    });
-    const orchestrator = createLineAiOrchestrator({
-      supabase,
-      config,
-      store,
-      keyPool,
-      gemini,
-      executeTools,
-      renderAiReply,
-      clock,
-    });
-
-    await orchestrator.answer({ userId: 'admin-1', text: 'สวัสดี' });
     expect(store.claimQuota).not.toHaveBeenCalled();
   });
-
-  it('returns deterministic summary when second AI quota is denied', async () => {
-    gemini.plan.mockResolvedValue({
-      intent: 'database',
-      answer: '',
-      tools: ['global_search'],
-      searchTerms: ['ส้มโอ'],
-      needsGrounding: false,
-    });
-    store.claimQuota
-      .mockResolvedValueOnce({ allowed: true }) // First quota (plan) allowed
-      .mockResolvedValueOnce({ allowed: false }); // Second quota (synthesis) denied
-
-    executeTools.mockResolvedValue([
-      {
-        tool: 'global_search',
-        data: [
-          {
-            table: 'large_plots',
-            results: [
-              { plot_name: 'สวนส้มโอสมชาย', district: 'สามพราน', area_rai: 10 },
-            ],
-          },
-        ],
-      },
-    ]);
-
-    const orchestrator = createLineAiOrchestrator({
-      supabase,
-      config,
-      store,
-      keyPool,
-      gemini,
-      executeTools,
-      renderAiReply,
-      clock,
-    });
-
-    await orchestrator.answer({ userId: 'U1', text: 'สวนส้มโออยู่ไหน' });
-    // Expect renderAiReply to be called with the deterministic summary records
-    expect(renderAiReply).toHaveBeenCalledWith(
-      expect.objectContaining({
-        text: expect.stringContaining('โควต้า AI สำหรับสรุปผลในวันนี้หมดแล้ว'),
-        records: expect.arrayContaining([
-          expect.objectContaining({ title: 'สวนส้มโอสมชาย' }),
-        ]),
-      })
-    );
-  });
-
   it('falls back when every key fails', async () => {
     keyPool.execute.mockRejectedValue(
       Object.assign(new Error('none'), { code: 'NO_HEALTHY_KEY' })

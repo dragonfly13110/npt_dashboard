@@ -477,30 +477,7 @@ function createLineAiOrchestrator({
       // 2. Load History
       const history = await store.getHistory(userId, clock.now());
 
-      // 3. Claim AI Quota (Plan call)
-      const isAdmin = config.adminUserIds?.has(userId);
-      const aiLimits = {
-        daily: config.aiDailyLimit,
-        window: config.rollingLimit,
-        seconds: config.rollingWindowSeconds,
-      };
-
-      if (!isAdmin) {
-        const claim = await store.claimQuota(userId, 'ai', aiLimits);
-        if (!claim.allowed) {
-          return {
-            messages: [
-              {
-                type: 'text',
-                text: 'ขออภัยค่ะ โควต้า AI วันนี้หมดแล้ว กรุณาลองใหม่วันพรุ่งนี้นะคะ',
-              },
-            ],
-            sourceType: 'quota_limit',
-          };
-        }
-      }
-
-      // 4. Run Planner
+      // 3. Run Planner
       const plan = await keyPool.execute(async ({ apiKey }) => {
         const resolvedModel = await gemini.resolveModel(apiKey);
         return gemini.plan(apiKey, resolvedModel, {
@@ -585,46 +562,8 @@ function createLineAiOrchestrator({
         toolResults = await executeTools(...args);
       }
 
-      // 7. Grounding quota if needed
-      let useGrounding = plan.needsGrounding && config.groundingEnabled;
-      if (useGrounding) {
-        const groundingLimits = {
-          daily: config.groundingDailyLimit,
-          window: config.rollingLimit,
-          seconds: config.rollingWindowSeconds,
-        };
-        const groundingClaim = await store.claimQuota(
-          userId,
-          'grounding',
-          groundingLimits
-        );
-        if (!groundingClaim.allowed) {
-          useGrounding = false;
-        }
-      }
-
-      // 8. Claim second AI Quota (Synthesis call)
-      if (!isAdmin) {
-        const claim2 = await store.claimQuota(userId, 'ai', aiLimits);
-        if (!claim2.allowed) {
-          // Denied second call -> summarize retrieved records deterministically
-          const records = formatDeterministicSummary(toolResults, text);
-          const messages = renderAiReply({
-            text: 'โควต้า AI สำหรับสรุปผลในวันนี้หมดแล้ว แต่นี่คือข้อมูลที่ค้นพบจากระบบคลังข้อมูล:',
-            records,
-          });
-          // Append summary to history
-          await store.appendMessage(
-            userId,
-            'assistant',
-            'โควต้า AI หมดแล้ว แสดงข้อมูลดิบจากคลังความรู้',
-            plan.intent
-          );
-          return { messages, sourceType: plan.intent };
-        }
-      }
-
-      // 9. Synthesize through key pool
+      // 7. Synthesize through key pool
+      const useGrounding = plan.needsGrounding && config.groundingEnabled;
       const trimmedEvidence = (toolResults || []).map((tr) => {
         if (tr.tool === 'global_search') {
           const trimmedData = (tr.data || []).slice(0, 3).map((cat) => ({
