@@ -63,6 +63,9 @@ describe('Gemini LINE client', () => {
       intent: 'invalid-intent-here',
       tools: ['global_search', 'raw_sql'],
       tables: ['large_plots', 'personnel', 'audit_logs'],
+      crop: ' ข้าว ',
+      district: 'กรุงเทพ',
+      preferenceAction: 'overwrite_everything',
       searchTerms: ['term1', 'term2', 'term3', 'term4', 'term5', 'term6'],
       needsGrounding: true, // Should be forced to false because intent is not 'current'
       answer: 'General reply',
@@ -91,10 +94,52 @@ describe('Gemini LINE client', () => {
     expect(result.intent).toBe('general');
     expect(result.tools).toEqual(['global_search']);
     expect(result.tables).toEqual(['large_plots', 'personnel']);
+    expect(result.crop).toBe('ข้าว');
+    expect(result.district).toBeNull();
+    expect(result.preferenceAction).toBe('none');
     expect(result.searchTerms).toHaveLength(5);
     expect(result.needsGrounding).toBe(false);
   });
 
+  it('allows the disease forecast tool', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      status: 200,
+      json: async () => ({
+        candidates: [
+          {
+            content: {
+              parts: [
+                {
+                  text: JSON.stringify({
+                    intent: 'database',
+                    tools: ['disease_forecast'],
+                    tables: [],
+                    searchTerms: [],
+                    crop: 'ข้าว',
+                    district: 'สามพราน',
+                    preferenceAction: 'none',
+                    needsGrounding: false,
+                  }),
+                },
+              ],
+            },
+          },
+        ],
+      }),
+    });
+    const client = createGeminiClient({
+      fetch: fetchMock,
+      model: 'gemini-2.5-flash-lite',
+      timeoutMs: 8000,
+    });
+
+    const result = await client.plan('key-disease', 'gemini-2.5-flash-lite', {
+      question: 'ข้าวเสี่ยงโรคอะไร',
+      preferences: { crop: 'ข้าว', district: 'สามพราน' },
+    });
+
+    expect(result.tools).toEqual(['disease_forecast']);
+  });
   it('throws non-2xx responses carrying status and retryAfterMs', async () => {
     const fetchMock = vi.fn().mockResolvedValue({
       status: 429,

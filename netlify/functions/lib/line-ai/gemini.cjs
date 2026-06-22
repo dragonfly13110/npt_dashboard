@@ -1,10 +1,20 @@
 'use strict';
 
 const { PUBLIC_TABLES } = require('./tools.cjs');
+const { DISTRICTS } = require('./store.cjs');
 
 const PLAN_SCHEMA = {
   type: 'OBJECT',
-  required: ['intent', 'searchTerms', 'tables', 'tools', 'needsGrounding'],
+  required: [
+    'intent',
+    'searchTerms',
+    'tables',
+    'tools',
+    'crop',
+    'district',
+    'preferenceAction',
+    'needsGrounding',
+  ],
   properties: {
     intent: {
       type: 'STRING',
@@ -16,11 +26,22 @@ const PLAN_SCHEMA = {
       maxItems: 3,
     },
     searchTerms: { type: 'ARRAY', items: { type: 'STRING' }, maxItems: 5 },
+    crop: { type: 'STRING' },
+    district: { type: 'STRING', enum: ['', ...DISTRICTS] },
+    preferenceAction: {
+      type: 'STRING',
+      enum: ['none', 'save', 'clear'],
+    },
     tools: {
       type: 'ARRAY',
       items: {
         type: 'STRING',
-        enum: ['global_search', 'latest_weather', 'fire_hotspots'],
+        enum: [
+          'global_search',
+          'latest_weather',
+          'fire_hotspots',
+          'disease_forecast',
+        ],
       },
       maxItems: 3,
     },
@@ -122,12 +143,21 @@ function createGeminiClient({
     return selected;
   }
 
-  async function plan(apiKey, modelName, { question, history = [] }) {
+  async function plan(
+    apiKey,
+    modelName,
+    { question, history = [], preferences = null }
+  ) {
     const systemPrompt = `You are Nakhon Pathom Agriculture Smart Portal LINE chatbot orchestrator.
 Analyze user request and categorize.
 Generate JSON complying with the schema.
 - intent: 'database' if we need to search databases (community enterprises, farmer info, weather, hotspots, etc.), 'general' for generic questions, 'current' for daily/real-time info (like today's weather/news), 'clarify' if unclear.
-- tools: allowlisted tools ONLY ['global_search', 'latest_weather', 'fire_hotspots'].
+- tools: allowlisted tools ONLY ['global_search', 'latest_weather', 'fire_hotspots', 'disease_forecast'].
+- Use disease_forecast for disease, pest, outbreak, or crop-risk questions.
+- crop and district contain values explicitly present in the latest message only.
+- preferenceAction is 'save' only for explicit remember/change requests, 'clear' only for explicit forget/delete requests, otherwise 'none'.
+- Ordinary questions never mutate saved preferences.
+- Saved preferences for context: ${JSON.stringify(preferences)}.
 - tables: for global_search, choose 1-3 relevant public tables from: ${PUBLIC_TABLES.join(', ')}.
 - Never select internal tables. Personnel results exclude phone numbers and addresses.
 - searchTerms: search terms for global_search. Extract ONLY specific commodities (e.g., 'ข้าว', 'กล้วยไม้'), specific districts (e.g., 'เมืองนครปฐม', 'สามพราน'), or specific entity/people names.
@@ -173,7 +203,12 @@ Generate JSON complying with the schema.
     const allowedIntents = ['database', 'general', 'current', 'clarify'];
     if (!allowedIntents.includes(parsed.intent)) parsed.intent = 'general';
 
-    const allowedTools = ['global_search', 'latest_weather', 'fire_hotspots'];
+    const allowedTools = [
+      'global_search',
+      'latest_weather',
+      'fire_hotspots',
+      'disease_forecast',
+    ];
     parsed.tools = (parsed.tools || [])
       .filter((t) => allowedTools.includes(t))
       .slice(0, 3);
@@ -183,6 +218,19 @@ Generate JSON complying with the schema.
     parsed.searchTerms = (parsed.searchTerms || [])
       .map((t) => String(t).slice(0, 50))
       .slice(0, 5);
+
+    parsed.crop =
+      String(parsed.crop || '')
+        .trim()
+        .slice(0, 50) || null;
+    parsed.district = DISTRICTS.includes(parsed.district)
+      ? parsed.district
+      : null;
+    parsed.preferenceAction = ['none', 'save', 'clear'].includes(
+      parsed.preferenceAction
+    )
+      ? parsed.preferenceAction
+      : 'none';
 
     if (parsed.intent !== 'current') {
       parsed.needsGrounding = false;
