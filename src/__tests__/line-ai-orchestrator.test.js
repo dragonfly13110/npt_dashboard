@@ -128,6 +128,7 @@ describe('LINE AI Orchestrator', () => {
       answer: '',
       tools: ['global_search'],
       searchTerms: ['ส้มโอ'],
+      tables: ['large_plots'],
       needsGrounding: false,
     });
     gemini.synthesize.mockResolvedValue('พบข้อมูลเกษตรกรส้มโอ');
@@ -147,7 +148,8 @@ describe('LINE AI Orchestrator', () => {
     expect(executeTools).toHaveBeenCalledWith(
       supabase,
       ['global_search'],
-      ['ส้มโอ']
+      ['ส้มโอ'],
+      ['large_plots']
     );
     expect(gemini.synthesize).toHaveBeenCalled();
   });

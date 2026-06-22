@@ -21,7 +21,7 @@ function renderAiReply({ text, records }) {
   }
 
   if (records && Array.isArray(records) && records.length > 0) {
-    const bubbles = records.slice(0, 10).map((record) => {
+    const bubbles = records.slice(0, 3).map((record) => {
       const title = String(record.title || 'ข้อมูล').slice(0, 40);
       const subtitle = String(record.subtitle || '-').slice(0, 60);
       const rawUrl = record.url;
@@ -63,7 +63,9 @@ function renderAiReply({ text, records }) {
               height: 'sm',
               action: {
                 type: 'uri',
-                label: 'เปิดดูรายละเอียด',
+                label: record.totalCount
+                  ? `ดูทั้งหมด ${record.totalCount} รายการ`
+                  : 'เปิดดูรายละเอียด',
                 uri: url,
               },
             },

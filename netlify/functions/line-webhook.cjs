@@ -1307,6 +1307,41 @@ async function handleMessageEvent(event) {
     return;
   }
 
+  // AI-first for every free-text message; legacy handlers remain fallback.
+  if (text.length >= 2) {
+    const orchestratorInstance = getOrchestrator();
+    if (orchestratorInstance) {
+      // Start LINE loading animation (skip in test environment to avoid breaking mocks)
+      if (
+        process.env.NODE_ENV !== 'test' &&
+        event.source?.type === 'user' &&
+        event.source?.userId
+      ) {
+        await sendLineLoading(event.source.userId, 40);
+      }
+      const aiStart = Date.now();
+      const aiResult = await orchestratorInstance.answer({
+        userId: event.source?.userId,
+        text,
+      });
+      const aiDurationMs = Date.now() - aiStart;
+      if (aiResult && aiResult.messages && aiResult.messages.length > 0) {
+        console.log(
+          `✅ AI replied in ${aiDurationMs}ms (${aiResult.sourceType})`
+        );
+        await sendLineReply(
+          replyToken,
+          aiResult.messages,
+          event.source?.userId
+        );
+        return;
+      }
+      console.warn(
+        `⚠️ AI returned null after ${aiDurationMs}ms, falling back to legacy search`
+      );
+    }
+  }
+
   // 2. WEATHER command
   if (text === 'สภาพอากาศ' || text === 'เช็คสภาพอากาศ') {
     const { data } = await supabase
@@ -1517,38 +1552,6 @@ async function handleMessageEvent(event) {
 
   // 6. GLOBAL SEARCH fallback (when no command prefix matches)
   if (text.length >= 2) {
-    const orchestratorInstance = getOrchestrator();
-    if (orchestratorInstance) {
-      // Start LINE loading animation (skip in test environment to avoid breaking mocks)
-      if (
-        process.env.NODE_ENV !== 'test' &&
-        event.source?.type === 'user' &&
-        event.source?.userId
-      ) {
-        await sendLineLoading(event.source.userId, 40);
-      }
-      const aiStart = Date.now();
-      const aiResult = await orchestratorInstance.answer({
-        userId: event.source?.userId,
-        text,
-      });
-      const aiDurationMs = Date.now() - aiStart;
-      if (aiResult && aiResult.messages && aiResult.messages.length > 0) {
-        console.log(
-          `✅ AI replied in ${aiDurationMs}ms (${aiResult.sourceType})`
-        );
-        await sendLineReply(
-          replyToken,
-          aiResult.messages,
-          event.source?.userId
-        );
-        return;
-      }
-      console.warn(
-        `⚠️ AI returned null after ${aiDurationMs}ms, falling back to legacy search`
-      );
-    }
-
     try {
       // Extract clean search term for legacy fallback if user sent a long sentence
       let searchTerm = text.trim();

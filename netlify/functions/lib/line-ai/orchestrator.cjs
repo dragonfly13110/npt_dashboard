@@ -382,6 +382,7 @@ function formatDeterministicSummary(toolResults, queryText = '') {
             : { title: JSON.stringify(row), subtitle: '', info: '' };
           records.push({
             title: display.title || 'ข้อมูล',
+            totalCount: cat.totalCount || (cat.results || []).length,
             subtitle: `${display.subtitle || ''} ${display.info || ''}`.trim(),
             url: `https://npt-dashboard.netlify.app${route}`,
           });
@@ -433,7 +434,7 @@ function createLineAiOrchestrator({
       const normalized = text.trim().toLowerCase();
       const cacheKey = crypto
         .createHash('sha256')
-        .update(`${normalized}|${config.model}|v1`)
+        .update(`${normalized}|${config.model}|v2`)
         .digest('hex');
 
       // 1. Check Cache
@@ -509,7 +510,8 @@ function createLineAiOrchestrator({
         toolResults = await executeTools(
           supabase,
           plan.tools,
-          plan.searchTerms
+          plan.searchTerms,
+          plan.tables
         );
       }
 
@@ -555,10 +557,10 @@ function createLineAiOrchestrator({
       // 9. Synthesize through key pool
       const trimmedEvidence = (toolResults || []).map((tr) => {
         if (tr.tool === 'global_search') {
-          const trimmedData = (tr.data || []).slice(0, 5).map((cat) => ({
+          const trimmedData = (tr.data || []).slice(0, 3).map((cat) => ({
             table: cat.table,
             totalCount: cat.totalCount,
-            results: (cat.results || []).slice(0, 2),
+            results: (cat.results || []).slice(0, 3),
           }));
           return {
             tool: tr.tool,

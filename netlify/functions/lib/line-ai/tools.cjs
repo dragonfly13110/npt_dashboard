@@ -1,85 +1,57 @@
 'use strict';
 
+const PUBLIC_TABLES = [
+  'farmer_registry',
+  'agricultural_areas',
+  'learning_centers',
+  'daily_weather',
+  'large_plots',
+  'certifications',
+  'crop_production',
+  'community_enterprises',
+  'smart_farmers',
+  'smart_farmer_sf',
+  'young_smart_farmer_ysf',
+  'agricultural_career_groups',
+  'housewife_farmer_groups',
+  'young_farmer_groups_detailed',
+  'farmer_institutes',
+  'agri_tourism',
+  'disasters',
+  'forecast_plots',
+  'ai_disease_forecasts',
+  'pest_centers',
+  'plant_doctors',
+  'soil_fertilizer_centers',
+  'fire_hotspots',
+  'budgets',
+  'personnel',
+];
 const TOOL_RUNNERS = {
-  async global_search(supabase, terms) {
-    if (!terms || terms.length === 0) return [];
+  async global_search(supabase, terms, tables) {
+    const searchTerms = [
+      ...new Set(
+        (terms || [])
+          .flatMap((term) => String(term || '').split(/[\s,]+/))
+          .map((term) => term.trim())
+          .filter((term) => term.length >= 2)
+      ),
+    ].slice(0, 5);
+    const tableNames = [
+      ...new Set(
+        (tables || []).filter((table) => PUBLIC_TABLES.includes(table))
+      ),
+    ].slice(0, 3);
 
-    // Split terms by space or comma and extract clean, unique keywords of length >= 2
-    const keywords = [];
-    for (const rawTerm of terms) {
-      if (!rawTerm) continue;
-      const parts = String(rawTerm).split(/[\s,]+/);
-      for (const part of parts) {
-        const cleaned = part.trim();
-        if (cleaned.length >= 2 && !keywords.includes(cleaned)) {
-          keywords.push(cleaned);
-        }
-      }
-    }
+    if (searchTerms.length === 0 || tableNames.length === 0) return [];
 
-    if (keywords.length === 0) return [];
-
-    // Run searches in parallel
-    const searchPromises = keywords.map(async (kw) => {
-      const { data, error } = await supabase.rpc('global_search', {
-        search_term: kw,
-        result_limit: 10,
-      });
-      if (error) {
-        console.error(`Error in global_search RPC for keyword "${kw}":`, error);
-        return [];
-      }
-      return data || [];
+    const { data, error } = await supabase.rpc('global_search_public', {
+      search_terms: searchTerms,
+      table_names: tableNames,
+      result_limit: 3,
     });
-
-    const resultsArray = await Promise.all(searchPromises);
-
-    // Merge and count matches
-    const mergedMap = new Map(); // table -> { table, totalCount, resultsMap: id -> { row, matchCount } }
-
-    for (const categoryList of resultsArray) {
-      for (const cat of categoryList) {
-        const table = cat.table;
-        if (!mergedMap.has(table)) {
-          mergedMap.set(table, {
-            table,
-            totalCount: 0,
-            resultsMap: new Map(),
-          });
-        }
-        const mergedCat = mergedMap.get(table);
-
-        for (const row of cat.results || []) {
-          if (!mergedCat.resultsMap.has(row.id)) {
-            mergedCat.resultsMap.set(row.id, { row, matchCount: 1 });
-          } else {
-            mergedCat.resultsMap.get(row.id).matchCount += 1;
-          }
-        }
-
-        mergedCat.totalCount = Math.max(
-          mergedCat.totalCount,
-          cat.totalCount || 0
-        );
-      }
-    }
-
-    // Convert back and sort by matchCount descending
-    const mergedResults = [];
-    for (const [table, mergedCat] of mergedMap.entries()) {
-      const sortedResults = Array.from(mergedCat.resultsMap.values())
-        .sort((a, b) => b.matchCount - a.matchCount)
-        .map((item) => item.row)
-        .slice(0, 10);
-      const totalCount = Math.max(mergedCat.totalCount, sortedResults.length);
-      mergedResults.push({
-        table,
-        totalCount,
-        results: sortedResults,
-      });
-    }
-
-    return mergedResults;
+    if (error) throw error;
+    return data || [];
   },
   async latest_weather(supabase) {
     const { data, error } = await supabase
@@ -102,7 +74,7 @@ const TOOL_RUNNERS = {
   },
 };
 
-async function executeTools(supabase, names, terms) {
+async function executeTools(supabase, names, terms, tables) {
   for (const name of names) {
     if (!TOOL_RUNNERS[name]) {
       throw new Error(`Tool not allowed: ${name}`);
@@ -111,9 +83,9 @@ async function executeTools(supabase, names, terms) {
   return Promise.all(
     names.map(async (name) => ({
       tool: name,
-      data: await TOOL_RUNNERS[name](supabase, terms),
+      data: await TOOL_RUNNERS[name](supabase, terms, tables),
     }))
   );
 }
 
-module.exports = { executeTools };
+module.exports = { executeTools, PUBLIC_TABLES };

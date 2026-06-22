@@ -16,6 +16,14 @@ describe('LINE AI tools and rendering', () => {
     expect(supabase.rpc).not.toHaveBeenCalled();
   });
 
+  it('does not query internal tables even if passed directly', async () => {
+    const supabase = { rpc: vi.fn(), from: vi.fn() };
+
+    await expect(
+      executeTools(supabase, ['global_search'], ['ข้อมูล'], ['audit_logs'])
+    ).resolves.toEqual([{ tool: 'global_search', data: [] }]);
+    expect(supabase.rpc).not.toHaveBeenCalled();
+  });
   it('runs allowlisted tools successfully', async () => {
     const mockRpc = vi.fn().mockResolvedValue({
       data: [
@@ -43,12 +51,15 @@ describe('LINE AI tools and rendering', () => {
     const results = await executeTools(
       supabase,
       ['global_search', 'latest_weather'],
-      ['ส้มโอ']
+      ['ส้มโอ', 'สามพราน'],
+      ['large_plots']
     );
     expect(results).toHaveLength(2);
-    expect(mockRpc).toHaveBeenCalledWith('global_search', {
-      search_term: 'ส้มโอ',
-      result_limit: 10,
+    expect(mockRpc).toHaveBeenCalledTimes(1);
+    expect(mockRpc).toHaveBeenCalledWith('global_search_public', {
+      search_terms: ['ส้มโอ', 'สามพราน'],
+      table_names: ['large_plots'],
+      result_limit: 3,
     });
     expect(mockFrom).toHaveBeenCalledWith('daily_weather');
   });
@@ -72,6 +83,24 @@ describe('LINE AI tools and rendering', () => {
     expect(message.contents).not.toHaveProperty('bubbles');
   });
 
+  it('caps Flex preview at 3 cards and shows total count', () => {
+    const messages = renderAiReply({
+      text: 'พบแปลงใหญ่ 50 แห่ง',
+      records: Array.from({ length: 5 }, (_, index) => ({
+        title: 'แปลง ' + (index + 1),
+        subtitle: 'นครปฐม',
+        totalCount: 50,
+        url: 'https://npt-dashboard.netlify.app/dashboard/production/large-plots',
+      })),
+    });
+
+    const bubbles = messages.find((message) => message.type === 'flex').contents
+      .contents;
+    expect(bubbles).toHaveLength(3);
+    expect(bubbles[0].footer.contents[0].action.label).toBe(
+      'ดูทั้งหมด 50 รายการ'
+    );
+  });
   it('returns text reply when no records are provided', () => {
     const result = renderAiReply({ text: 'ไม่พบข้อมูล' });
     expect(result).toHaveLength(1);

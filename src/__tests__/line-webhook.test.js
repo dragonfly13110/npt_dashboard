@@ -353,7 +353,13 @@ describe('line-webhook.js', () => {
     log.mockRestore();
   });
 
-  it('handles local greeting keywords with a detailed response', async () => {
+  it('routes conversational text through AI before local keywords', async () => {
+    const answer = vi.fn().mockResolvedValue({
+      messages: [{ type: 'text', text: 'AI reply' }],
+      sourceType: 'general',
+    });
+    webhook.setLineAiOrchestrator({ answer });
+
     const event = {
       httpMethod: 'POST',
       headers: {},
@@ -379,11 +385,12 @@ describe('line-webhook.js', () => {
 
     const response = await webhook.handler(event);
     expect(response.statusCode).toBe(200);
+    expect(answer).toHaveBeenCalledTimes(1);
 
     expect(mockFetch).toHaveBeenCalled();
     const [, options] = mockFetch.mock.calls[0];
     const payload = JSON.parse(options.body);
-    expect(payload.messages[0].text).toContain('สวัสดีค่ะ! หนู "น้องข้าวหลาม"');
+    expect(payload.messages[0].text).toBe('AI reply');
   });
 
   it('handles local venting keywords with a detailed response', async () => {

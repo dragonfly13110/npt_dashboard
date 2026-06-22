@@ -1,12 +1,19 @@
 'use strict';
 
+const { PUBLIC_TABLES } = require('./tools.cjs');
+
 const PLAN_SCHEMA = {
   type: 'OBJECT',
-  required: ['intent', 'searchTerms', 'tools', 'needsGrounding'],
+  required: ['intent', 'searchTerms', 'tables', 'tools', 'needsGrounding'],
   properties: {
     intent: {
       type: 'STRING',
       enum: ['database', 'general', 'current', 'clarify'],
+    },
+    tables: {
+      type: 'ARRAY',
+      items: { type: 'STRING', enum: PUBLIC_TABLES },
+      maxItems: 3,
     },
     searchTerms: { type: 'ARRAY', items: { type: 'STRING' }, maxItems: 5 },
     tools: {
@@ -121,6 +128,8 @@ Analyze user request and categorize.
 Generate JSON complying with the schema.
 - intent: 'database' if we need to search databases (community enterprises, farmer info, weather, hotspots, etc.), 'general' for generic questions, 'current' for daily/real-time info (like today's weather/news), 'clarify' if unclear.
 - tools: allowlisted tools ONLY ['global_search', 'latest_weather', 'fire_hotspots'].
+- tables: for global_search, choose 1-3 relevant public tables from: ${PUBLIC_TABLES.join(', ')}.
+- Never select internal tables. Personnel results exclude phone numbers and addresses.
 - searchTerms: search terms for global_search. Extract ONLY specific commodities (e.g., 'ข้าว', 'กล้วยไม้'), specific districts (e.g., 'เมืองนครปฐม', 'สามพราน'), or specific entity/people names.
   CRITICAL: Never output generic category names ('แปลงใหญ่', 'วิสาหกิจชุมชน', 'กลุ่มเกษตรกร', 'ศูนย์เรียนรู้') or the province name ('นครปฐม', 'จังหวัดนครปฐม') by themselves, as they flood the search results.
 - needsGrounding: true ONLY if intent is 'current'.
@@ -167,6 +176,9 @@ Generate JSON complying with the schema.
     const allowedTools = ['global_search', 'latest_weather', 'fire_hotspots'];
     parsed.tools = (parsed.tools || [])
       .filter((t) => allowedTools.includes(t))
+      .slice(0, 3);
+    parsed.tables = (parsed.tables || [])
+      .filter((t) => PUBLIC_TABLES.includes(t))
       .slice(0, 3);
     parsed.searchTerms = (parsed.searchTerms || [])
       .map((t) => String(t).slice(0, 50))

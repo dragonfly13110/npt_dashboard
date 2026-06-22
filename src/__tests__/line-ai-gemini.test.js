@@ -62,6 +62,7 @@ describe('Gemini LINE client', () => {
     const planResponse = {
       intent: 'invalid-intent-here',
       tools: ['global_search', 'raw_sql'],
+      tables: ['large_plots', 'personnel', 'audit_logs'],
       searchTerms: ['term1', 'term2', 'term3', 'term4', 'term5', 'term6'],
       needsGrounding: true, // Should be forced to false because intent is not 'current'
       answer: 'General reply',
@@ -89,6 +90,7 @@ describe('Gemini LINE client', () => {
 
     expect(result.intent).toBe('general');
     expect(result.tools).toEqual(['global_search']);
+    expect(result.tables).toEqual(['large_plots', 'personnel']);
     expect(result.searchTerms).toHaveLength(5);
     expect(result.needsGrounding).toBe(false);
   });
