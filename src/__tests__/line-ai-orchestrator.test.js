@@ -29,6 +29,9 @@ describe('LINE AI Orchestrator', () => {
     };
 
     store = {
+      getPreference: vi.fn().mockResolvedValue(null),
+      savePreference: vi.fn(async (_userId, preference) => preference),
+      clearPreference: vi.fn(),
       getCache: vi.fn().mockResolvedValue(null),
       putCache: vi.fn(),
       getHistory: vi.fn().mockResolvedValue([]),
@@ -154,6 +157,157 @@ describe('LINE AI Orchestrator', () => {
     expect(gemini.synthesize).toHaveBeenCalled();
   });
 
+  it('uses a latest-message crop override without saving it', async () => {
+    store.getPreference.mockResolvedValue({
+      crop: 'ข้าว',
+      district: 'สามพราน',
+    });
+    gemini.plan.mockResolvedValue({
+      intent: 'database',
+      answer: '',
+      tools: ['disease_forecast'],
+      tables: [],
+      searchTerms: [],
+      crop: 'กล้วยไม้',
+      district: null,
+      preferenceAction: 'none',
+      needsGrounding: false,
+    });
+    gemini.synthesize.mockResolvedValue('ความเสี่ยงกล้วยไม้');
+
+    const orchestrator = createLineAiOrchestrator({
+      supabase,
+      config,
+      store,
+      keyPool,
+      gemini,
+      executeTools,
+      renderAiReply,
+      clock,
+    });
+
+    await orchestrator.answer({ userId: 'U1', text: 'แล้วกล้วยไม้ล่ะ' });
+
+    expect(executeTools).toHaveBeenCalledWith(
+      supabase,
+      ['disease_forecast'],
+      [],
+      [],
+      { crop: 'กล้วยไม้', district: 'สามพราน' }
+    );
+    expect(store.savePreference).not.toHaveBeenCalled();
+  });
+
+  it('saves an explicit preference update merged with saved values', async () => {
+    store.getPreference.mockResolvedValue({
+      crop: 'ข้าว',
+      district: 'สามพราน',
+    });
+    gemini.plan.mockResolvedValue({
+      intent: 'general',
+      answer: 'จำกล้วยไม้ให้แล้วค่ะ',
+      tools: [],
+      tables: [],
+      searchTerms: [],
+      crop: 'กล้วยไม้',
+      district: null,
+      preferenceAction: 'save',
+      needsGrounding: false,
+    });
+
+    const orchestrator = createLineAiOrchestrator({
+      supabase,
+      config,
+      store,
+      keyPool,
+      gemini,
+      executeTools,
+      renderAiReply,
+      clock,
+    });
+
+    await orchestrator.answer({
+      userId: 'U1',
+      text: 'เปลี่ยนเป็นกล้วยไม้ จำไว้',
+    });
+
+    expect(store.savePreference).toHaveBeenCalledWith('U1', {
+      crop: 'กล้วยไม้',
+      district: 'สามพราน',
+    });
+  });
+
+  it('clears preferences only for an explicit clear action', async () => {
+    store.getPreference.mockResolvedValue({
+      crop: 'ข้าว',
+      district: 'สามพราน',
+    });
+    gemini.plan.mockResolvedValue({
+      intent: 'general',
+      answer: 'ลืมข้อมูลให้แล้วค่ะ',
+      tools: [],
+      tables: [],
+      searchTerms: [],
+      crop: null,
+      district: null,
+      preferenceAction: 'clear',
+      needsGrounding: false,
+    });
+
+    const orchestrator = createLineAiOrchestrator({
+      supabase,
+      config,
+      store,
+      keyPool,
+      gemini,
+      executeTools,
+      renderAiReply,
+      clock,
+    });
+
+    await orchestrator.answer({ userId: 'U1', text: 'ลืมข้อมูลของฉัน' });
+
+    expect(store.clearPreference).toHaveBeenCalledWith('U1');
+    expect(store.savePreference).not.toHaveBeenCalled();
+  });
+
+  it('asks for a crop before running disease forecast', async () => {
+    store.getPreference.mockResolvedValue({
+      crop: null,
+      district: 'สามพราน',
+    });
+    gemini.plan.mockResolvedValue({
+      intent: 'database',
+      answer: '',
+      tools: ['disease_forecast'],
+      tables: [],
+      searchTerms: [],
+      crop: null,
+      district: null,
+      preferenceAction: 'none',
+      needsGrounding: false,
+    });
+
+    const orchestrator = createLineAiOrchestrator({
+      supabase,
+      config,
+      store,
+      keyPool,
+      gemini,
+      executeTools,
+      renderAiReply,
+      clock,
+    });
+
+    const result = await orchestrator.answer({
+      userId: 'U1',
+      text: 'ช่วงนี้ต้องระวังอะไร',
+    });
+
+    expect(result.messages[0].text).toContain('ระบุพืช');
+    expect(executeTools).not.toHaveBeenCalled();
+    expect(gemini.synthesize).not.toHaveBeenCalled();
+  });
   it('claims grounding quota only for current intent', async () => {
     gemini.plan.mockResolvedValue({
       intent: 'current',

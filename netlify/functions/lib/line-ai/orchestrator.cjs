@@ -431,10 +431,21 @@ function createLineAiOrchestrator({
     }
 
     const processAnswer = async () => {
+      let savedPreference = null;
+      try {
+        savedPreference = await store.getPreference(userId);
+      } catch {
+        console.error(JSON.stringify({ event: 'preference_load_failed' }));
+      }
+
       const normalized = text.trim().toLowerCase();
+      const preferenceKey = [
+        savedPreference?.crop || '',
+        savedPreference?.district || '',
+      ].join('|');
       const cacheKey = crypto
         .createHash('sha256')
-        .update(`${normalized}|${config.model}|v2`)
+        .update([normalized, preferenceKey, config.model, 'v3'].join('|'))
         .digest('hex');
 
       // 1. Check Cache
@@ -475,12 +486,55 @@ function createLineAiOrchestrator({
       // 4. Run Planner
       const plan = await keyPool.execute(async ({ apiKey }) => {
         const resolvedModel = await gemini.resolveModel(apiKey);
-        return gemini.plan(apiKey, resolvedModel, { question: text, history });
+        return gemini.plan(apiKey, resolvedModel, {
+          question: text,
+          history,
+          preferences: savedPreference,
+        });
       });
 
+      plan.preferenceAction ||= 'none';
+
+      if (plan.preferenceAction === 'clear') {
+        try {
+          await store.clearPreference(userId);
+          savedPreference = null;
+        } catch {
+          console.error(JSON.stringify({ event: 'preference_clear_failed' }));
+          plan.answer = 'ยังลบข้อมูลที่จำไว้ไม่ได้ กรุณาลองใหม่อีกครั้งค่ะ';
+        }
+      }
+
+      if (plan.preferenceAction === 'save') {
+        const nextPreference = {
+          crop: plan.crop || savedPreference?.crop || null,
+          district: plan.district || savedPreference?.district || null,
+        };
+        try {
+          savedPreference = await store.savePreference(userId, nextPreference);
+        } catch {
+          console.error(JSON.stringify({ event: 'preference_save_failed' }));
+          plan.answer = 'ยังบันทึกข้อมูลไม่ได้ กรุณาลองใหม่อีกครั้งค่ะ';
+        }
+      }
+
+      const effectivePreference = {
+        crop: plan.crop || savedPreference?.crop || null,
+        district: plan.district || savedPreference?.district || null,
+      };
       // 5. Append User message
       await store.appendMessage(userId, 'user', text, plan.intent);
 
+      if (
+        plan.tools?.includes('disease_forecast') &&
+        !effectivePreference.crop
+      ) {
+        const replyText =
+          'กรุณาระบุพืชที่ปลูกก่อนนะคะ เช่น ข้าว กล้วยไม้ หรือพืชผัก';
+        const messages = renderAiReply({ text: replyText });
+        await store.appendMessage(userId, 'assistant', replyText, 'clarify');
+        return { messages, sourceType: 'clarify' };
+      }
       // Handle general / clarify / no database intents with non-empty answers immediately
       if (
         (plan.intent === 'general' || plan.intent === 'clarify') &&
@@ -491,7 +545,7 @@ function createLineAiOrchestrator({
         await store.appendMessage(userId, 'assistant', replyText, plan.intent);
 
         // Cache if history is independent
-        if (history.length === 0) {
+        if (history.length === 0 && plan.preferenceAction === 'none') {
           await store.putCache({
             cache_key: cacheKey,
             response: { messages },
@@ -507,12 +561,11 @@ function createLineAiOrchestrator({
       // 6. Execute database tools
       let toolResults = [];
       if (plan.tools && plan.tools.length > 0) {
-        toolResults = await executeTools(
-          supabase,
-          plan.tools,
-          plan.searchTerms,
-          plan.tables
-        );
+        const args = [supabase, plan.tools, plan.searchTerms, plan.tables];
+        if (plan.tools.includes('disease_forecast')) {
+          args.push(effectivePreference);
+        }
+        toolResults = await executeTools(...args);
       }
 
       // 7. Grounding quota if needed
@@ -585,7 +638,7 @@ function createLineAiOrchestrator({
       await store.appendMessage(userId, 'assistant', answerText, plan.intent);
 
       // Cache if history is independent
-      if (history.length === 0) {
+      if (history.length === 0 && plan.preferenceAction === 'none') {
         await store.putCache({
           cache_key: cacheKey,
           response: { messages },
