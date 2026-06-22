@@ -49,6 +49,63 @@ describe('LINE AI store', () => {
     });
   });
 
+  it('loads one saved preference by LINE user', async () => {
+    const maybeSingle = vi.fn().mockResolvedValue({
+      data: { crop: 'ข้าว', district: 'สามพราน' },
+      error: null,
+    });
+    const eq = vi.fn().mockReturnValue({ maybeSingle });
+    const select = vi.fn().mockReturnValue({ eq });
+    const supabase = { from: vi.fn().mockReturnValue({ select }) };
+
+    const store = createLineAiStore(supabase);
+    await expect(store.getPreference('U1')).resolves.toEqual({
+      crop: 'ข้าว',
+      district: 'สามพราน',
+    });
+    expect(supabase.from).toHaveBeenCalledWith('line_user_preferences');
+  });
+
+  it('upserts one normalized preference row', async () => {
+    const upsert = vi.fn().mockResolvedValue({ data: null, error: null });
+    const supabase = { from: vi.fn().mockReturnValue({ upsert }) };
+
+    const store = createLineAiStore(supabase);
+    await store.savePreference('U1', {
+      crop: ' ข้าว ',
+      district: 'สามพราน',
+    });
+
+    expect(upsert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        line_user_id: 'U1',
+        crop: 'ข้าว',
+        district: 'สามพราน',
+      }),
+      { onConflict: 'line_user_id' }
+    );
+  });
+
+  it('clears one saved preference', async () => {
+    const eq = vi.fn().mockResolvedValue({ data: null, error: null });
+    const deleteFn = vi.fn().mockReturnValue({ eq });
+    const supabase = { from: vi.fn().mockReturnValue({ delete: deleteFn }) };
+
+    const store = createLineAiStore(supabase);
+    await store.clearPreference('U1');
+
+    expect(eq).toHaveBeenCalledWith('line_user_id', 'U1');
+  });
+
+  it('rejects an unknown district before DB access', async () => {
+    const supabase = { from: vi.fn() };
+    const store = createLineAiStore(supabase);
+
+    await expect(
+      store.savePreference('U1', { crop: 'ข้าว', district: 'กรุงเทพ' })
+    ).rejects.toThrow('Invalid district');
+    expect(supabase.from).not.toHaveBeenCalled();
+  });
   it('gets valid cache entry', async () => {
     const maybeSingle = vi.fn().mockResolvedValue({
       data: { response: 'hit', expires_at: '2026-06-20T11:00:00Z' },

@@ -1,5 +1,29 @@
 'use strict';
 
+const DISTRICTS = [
+  'เมืองนครปฐม',
+  'กำแพงแสน',
+  'นครชัยศรี',
+  'ดอนตูม',
+  'บางเลน',
+  'สามพราน',
+  'พุทธมณฑล',
+];
+
+function normalizePreference({ crop = null, district = null } = {}) {
+  const normalizedCrop = crop == null ? null : String(crop).trim().slice(0, 50);
+  const normalizedDistrict = district == null ? null : String(district).trim();
+  if (normalizedDistrict && !DISTRICTS.includes(normalizedDistrict)) {
+    throw new Error('Invalid district');
+  }
+  if (!normalizedCrop && !normalizedDistrict) {
+    throw new Error('Crop or district is required');
+  }
+  return {
+    crop: normalizedCrop || null,
+    district: normalizedDistrict || null,
+  };
+}
 function assertOk(result) {
   if (result.error) throw result.error;
   return result.data;
@@ -7,6 +31,38 @@ function assertOk(result) {
 
 function createLineAiStore(supabase) {
   return {
+    async getPreference(userId) {
+      const result = await supabase
+        .from('line_user_preferences')
+        .select('crop,district')
+        .eq('line_user_id', userId)
+        .maybeSingle();
+      return assertOk(result);
+    },
+
+    async savePreference(userId, preference) {
+      const normalized = normalizePreference(preference);
+      assertOk(
+        await supabase.from('line_user_preferences').upsert(
+          {
+            line_user_id: userId,
+            ...normalized,
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: 'line_user_id' }
+        )
+      );
+      return normalized;
+    },
+
+    async clearPreference(userId) {
+      assertOk(
+        await supabase
+          .from('line_user_preferences')
+          .delete()
+          .eq('line_user_id', userId)
+      );
+    },
     async getHistory(userId, now = new Date()) {
       const since = new Date(now.getTime() - 86400000).toISOString();
       const query = await supabase
@@ -108,4 +164,4 @@ function createLineAiStore(supabase) {
   };
 }
 
-module.exports = { createLineAiStore };
+module.exports = { createLineAiStore, DISTRICTS, normalizePreference };
