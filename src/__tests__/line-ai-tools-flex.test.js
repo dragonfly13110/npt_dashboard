@@ -64,6 +64,57 @@ describe('LINE AI tools and rendering', () => {
     expect(mockFrom).toHaveBeenCalledWith('daily_weather');
   });
 
+  it('filters the latest disease forecast by effective crop', async () => {
+    const maybeSingle = vi.fn().mockResolvedValue({
+      data: {
+        forecast_date: '2026-06-23',
+        summary: 'จังหวัดมีฝนต่อเนื่อง',
+        details: [
+          {
+            name: 'โรคไหม้ข้าว',
+            type: 'โรคพืช',
+            target_crop: 'ข้าว',
+            risk_level: 'สูง',
+            description: 'ความชื้นสูง',
+            prevention: 'ตรวจแปลง',
+          },
+          {
+            name: 'โรคเน่าดำกล้วยไม้',
+            type: 'โรคพืช',
+            target_crop: 'กล้วยไม้',
+            risk_level: 'สูง',
+          },
+        ],
+      },
+      error: null,
+    });
+    const limit = vi.fn().mockReturnValue({ maybeSingle });
+    const order = vi.fn().mockReturnValue({ limit });
+    const select = vi.fn().mockReturnValue({ order });
+    const supabase = { from: vi.fn().mockReturnValue({ select }) };
+
+    const result = await executeTools(supabase, ['disease_forecast'], [], [], {
+      crop: 'ข้าว',
+      district: 'สามพราน',
+    });
+
+    expect(supabase.from).toHaveBeenCalledWith('ai_disease_forecasts');
+    expect(select).toHaveBeenCalledWith('forecast_date,summary,details');
+    expect(order).toHaveBeenCalledWith('forecast_date', { ascending: false });
+    expect(result[0].data).toMatchObject({
+      forecastDate: '2026-06-23',
+      district: 'สามพราน',
+      scope: 'province',
+      risks: [
+        expect.objectContaining({
+          name: 'โรคไหม้ข้าว',
+          target_crop: 'ข้าว',
+          risk_level: 'สูง',
+        }),
+      ],
+    });
+    expect(result[0].data.risks).toHaveLength(1);
+  });
   it('uses contents, never bubbles, for Flex carousel', () => {
     const messages = renderAiReply({
       text: 'พบข้อมูล',

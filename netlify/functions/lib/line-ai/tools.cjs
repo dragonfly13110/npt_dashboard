@@ -53,6 +53,50 @@ const TOOL_RUNNERS = {
     if (error) throw error;
     return data || [];
   },
+  async disease_forecast(supabase, _terms, _tables, context = {}) {
+    const { data, error } = await supabase
+      .from('ai_disease_forecasts')
+      .select('forecast_date,summary,details')
+      .order('forecast_date', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (error) throw error;
+
+    const crop = String(context.crop || '')
+      .trim()
+      .toLowerCase();
+    const riskOrder = { สูง: 0, ปานกลาง: 1, ต่ำ: 2 };
+    const risks = (Array.isArray(data?.details) ? data.details : [])
+      .filter((item) => {
+        const target = String(item?.target_crop || '')
+          .trim()
+          .toLowerCase();
+        return crop && (target.includes(crop) || crop.includes(target));
+      })
+      .sort(
+        (a, b) =>
+          (riskOrder[a.risk_level] ?? 3) - (riskOrder[b.risk_level] ?? 3)
+      )
+      .slice(0, 3)
+      .map(
+        ({ name, type, risk_level, description, prevention, target_crop }) => ({
+          name,
+          type,
+          risk_level,
+          description,
+          prevention,
+          target_crop,
+        })
+      );
+
+    return {
+      forecastDate: data?.forecast_date || null,
+      summary: data?.summary || '',
+      risks,
+      district: context.district || null,
+      scope: 'province',
+    };
+  },
   async latest_weather(supabase) {
     const { data, error } = await supabase
       .from('daily_weather')
@@ -74,7 +118,7 @@ const TOOL_RUNNERS = {
   },
 };
 
-async function executeTools(supabase, names, terms, tables) {
+async function executeTools(supabase, names, terms, tables, context) {
   for (const name of names) {
     if (!TOOL_RUNNERS[name]) {
       throw new Error(`Tool not allowed: ${name}`);
@@ -83,7 +127,7 @@ async function executeTools(supabase, names, terms, tables) {
   return Promise.all(
     names.map(async (name) => ({
       tool: name,
-      data: await TOOL_RUNNERS[name](supabase, terms, tables),
+      data: await TOOL_RUNNERS[name](supabase, terms, tables, context),
     }))
   );
 }
