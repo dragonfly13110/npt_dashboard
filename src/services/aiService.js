@@ -264,21 +264,26 @@ async function callNvidiaAI(
         }
       }
 
+      const nvidiaBody = {
+        model: modelIdentifier,
+        messages: apiMessages,
+        max_tokens: 16384,
+        temperature: settings?.deepThinking ? 0.7 : 0.6,
+        top_p: 0.95,
+        stream: true,
+      };
+
+      if (Object.keys(chat_template_kwargs).length > 0) {
+        nvidiaBody.chat_template_kwargs = chat_template_kwargs;
+      }
+
       const res = await fetch(AI_PROXY_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         signal,
         body: JSON.stringify({
           provider: 'nvidia',
-          body: {
-            model: modelIdentifier,
-            messages: apiMessages,
-            max_tokens: 16384,
-            temperature: settings?.deepThinking ? 0.7 : 0.6,
-            top_p: 0.95,
-            stream: true,
-            chat_template_kwargs,
-          },
+          body: nvidiaBody,
         }),
       });
 
