@@ -27,7 +27,7 @@ const PLAN_SCHEMA = {
     },
     searchTerms: { type: 'ARRAY', items: { type: 'STRING' }, maxItems: 5 },
     crop: { type: 'STRING' },
-    district: { type: 'STRING', enum: ['', ...DISTRICTS] },
+    district: { type: 'STRING', enum: ['none', ...DISTRICTS] },
     preferenceAction: {
       type: 'STRING',
       enum: ['none', 'save', 'clear'],
@@ -220,10 +220,11 @@ Generate JSON complying with the schema.
       .map((t) => String(t).slice(0, 50))
       .slice(0, 5);
 
+    const cropStr = String(parsed.crop || '').trim();
     parsed.crop =
-      String(parsed.crop || '')
-        .trim()
-        .slice(0, 50) || null;
+      cropStr === '' || cropStr.toLowerCase() === 'none'
+        ? null
+        : cropStr.slice(0, 50);
     parsed.district = DISTRICTS.includes(parsed.district)
       ? parsed.district
       : null;
