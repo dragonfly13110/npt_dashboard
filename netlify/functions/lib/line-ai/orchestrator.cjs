@@ -462,7 +462,7 @@ function createLineAiOrchestrator({
       ].join('|');
       const cacheKey = crypto
         .createHash('sha256')
-        .update([normalized, preferenceKey, config.model, 'v3'].join('|'))
+        .update([normalized, preferenceKey, config.model, 'v4'].join('|'))
         .digest('hex');
 
       // 1. Check Cache
@@ -558,6 +558,11 @@ function createLineAiOrchestrator({
         const args = [supabase, plan.tools, plan.searchTerms, plan.tables];
         if (plan.tools.includes('disease_forecast')) {
           args.push(effectivePreference);
+        } else if (plan.tools.includes('personnel_summary')) {
+          args.push({
+            personnelScope: plan.personnelScope,
+            district: plan.district,
+          });
         }
         toolResults = await executeTools(...args);
       }

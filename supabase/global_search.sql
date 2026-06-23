@@ -109,7 +109,7 @@ BEGIN
       INTO where_sql
       FROM unnest(existing_search_cols) AS c;
 
-      where_sql := format('EXISTS (SELECT 1 FROM unnest($1::text[]) AS search_term(term_value) WHERE %s)', where_sql);
+      where_sql := format('NOT EXISTS (SELECT 1 FROM unnest($1::text[]) AS search_term(term_value) WHERE NOT (%s))', where_sql);
     ELSE
       where_sql := 'TRUE';
     END IF;

@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
+import { readFileSync } from 'node:fs';
 const {
   executeTools,
 } = require('../../netlify/functions/lib/line-ai/tools.cjs');
@@ -8,6 +9,13 @@ const {
 } = require('../../netlify/functions/lib/line-ai/flex.cjs');
 
 describe('LINE AI tools and rendering', () => {
+  it('requires every specific search term to match the same record', () => {
+    const sql = readFileSync('supabase/global_search.sql', 'utf8');
+    expect(sql).toMatch(
+      /NOT EXISTS \(SELECT 1 FROM unnest\(\$1::text\[\]\).*WHERE NOT \(%s\)\)/
+    );
+  });
+
   it('rejects unknown tools before DB access', async () => {
     const supabase = { rpc: vi.fn(), from: vi.fn() };
     await expect(executeTools(supabase, ['raw_sql'], ['x'])).rejects.toThrow(
@@ -99,6 +107,61 @@ describe('LINE AI tools and rendering', () => {
         results: [{ id: '1', group_name: 'กลุ่มแม่บ้านเกษตรกรบางเลน' }],
       },
     ]);
+  });
+
+  it('counts personnel by province, district, or every district without returning arbitrary names', async () => {
+    const rows = [
+      { district: '-', office_type: 'Provincial', position: 'นักวิชาการ' },
+      { district: '-', office_type: 'Provincial', position: 'สำนักงาน' },
+      { district: 'สามพราน', office_type: 'District', position: 'นักวิชาการ' },
+      { district: 'สามพราน', office_type: 'District', position: 'ธุรการ' },
+      { district: 'สามพราน', office_type: 'District', position: 'สำนักงาน' },
+      {
+        district: 'เมืองนครปฐม',
+        office_type: 'District',
+        position: 'นักวิชาการ',
+      },
+    ];
+    const neq = vi.fn().mockResolvedValue({ data: rows, error: null });
+    const select = vi.fn().mockReturnValue({ neq });
+    const supabase = { from: vi.fn().mockReturnValue({ select }) };
+
+    const province = await executeTools(
+      supabase,
+      ['personnel_summary'],
+      [],
+      ['personnel'],
+      { personnelScope: 'province' }
+    );
+    const district = await executeTools(
+      supabase,
+      ['personnel_summary'],
+      [],
+      ['personnel'],
+      { personnelScope: 'district', district: 'สามพราน' }
+    );
+    const breakdown = await executeTools(
+      supabase,
+      ['personnel_summary'],
+      [],
+      ['personnel'],
+      { personnelScope: 'district_breakdown' }
+    );
+
+    expect(province[0].data).toEqual({ scope: 'province', total: 1 });
+    expect(district[0].data).toEqual({
+      scope: 'district',
+      district: 'สามพราน',
+      total: 2,
+    });
+    expect(breakdown[0].data).toEqual({
+      scope: 'district_breakdown',
+      total: 3,
+      breakdown: [
+        { district: 'เมืองนครปฐม', count: 1 },
+        { district: 'สามพราน', count: 2 },
+      ],
+    });
   });
 
   it('filters the latest disease forecast by effective crop', async () => {

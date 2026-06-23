@@ -12,6 +12,7 @@ const PLAN_SCHEMA = {
     'tools',
     'crop',
     'district',
+    'personnelScope',
     'preferenceAction',
     'needsGrounding',
   ],
@@ -28,6 +29,10 @@ const PLAN_SCHEMA = {
     searchTerms: { type: 'ARRAY', items: { type: 'STRING' }, maxItems: 5 },
     crop: { type: 'STRING' },
     district: { type: 'STRING', enum: ['none', ...DISTRICTS] },
+    personnelScope: {
+      type: 'STRING',
+      enum: ['none', 'province', 'district', 'district_breakdown', 'all'],
+    },
     preferenceAction: {
       type: 'STRING',
       enum: ['none', 'save', 'clear'],
@@ -38,6 +43,7 @@ const PLAN_SCHEMA = {
         type: 'STRING',
         enum: [
           'global_search',
+          'personnel_summary',
           'latest_weather',
           'fire_hotspots',
           'disease_forecast',
@@ -153,7 +159,9 @@ Analyze user request and categorize.
 Generate JSON complying with the schema.
 - intent: 'database' if we need to search databases (community enterprises, farmer info, weather, hotspots, etc.), 'general' for generic questions, 'current' for daily/real-time info (like today's weather/news), 'clarify' if unclear.
 - Every portal-data question must use an allowlisted tool. Never answer it as general knowledge.
-- tools: allowlisted tools ONLY ['global_search', 'latest_weather', 'fire_hotspots', 'disease_forecast'].
+- tools: allowlisted tools ONLY ['global_search', 'personnel_summary', 'latest_weather', 'fire_hotspots', 'disease_forecast'].
+- Use personnel_summary ONLY when the user asks for a number, count, total, or breakdown: personnelScope 'province' for the provincial office, 'district' with district for one district, 'district_breakdown' for counts by every district, or 'all' for everyone.
+- Questions asking who, names, a list of people, roles, or where a person works MUST use global_search with the personnel table, even if the question also contains 'all' or 'ทั้งหมด'. Never use office rows as people.
 - Use disease_forecast for disease, pest, outbreak, or crop-risk questions.
 - crop and district contain values explicitly present in the latest message only.
 - preferenceAction is 'save' only for explicit remember/change requests, 'clear' only for explicit forget/delete requests, otherwise 'none'.
@@ -161,7 +169,7 @@ Generate JSON complying with the schema.
 - Saved preferences for context: ${JSON.stringify(preferences)}.
 - tables: for global_search, choose 1-3 relevant public tables from: ${PUBLIC_TABLES.join(', ')}.
 - Never select internal tables. Personnel results exclude phone numbers and addresses.
-- searchTerms: search terms for global_search. Extract ONLY specific commodities (e.g., 'ข้าว', 'กล้วยไม้'), specific districts (e.g., 'เมืองนครปฐม', 'สามพราน'), or specific entity/people names.
+- searchTerms: search terms for global_search. Extract ONLY specific commodities (e.g., 'ข้าว', 'กล้วยไม้'), specific districts (e.g., 'เมืองนครปฐม', 'สามพราน'), specific entity/people names, or specific personnel job titles (e.g., 'เกษตรอำเภอ', 'หัวหน้ากลุ่ม'). Include both district and job title when both are requested.
   CRITICAL: Never output generic category names ('แปลงใหญ่', 'วิสาหกิจชุมชน', 'กลุ่มเกษตรกร', 'ศูนย์เรียนรู้', 'บุคลากร', 'เจ้าหน้าที่', 'บุคคล', 'รายชื่อ', 'ชื่อ', 'คน', 'สมาชิก', 'เกษตรกร') or the province name ('นครปฐม', 'จังหวัดนครปฐม') by themselves, as they return no results or flood the search results. If the user asks generally about a category or list, keep searchTerms empty to browse.
 - needsGrounding: true ONLY if intent is 'current'.
 - answer: direct response if general/clarify.`;
@@ -206,6 +214,7 @@ Generate JSON complying with the schema.
 
     const allowedTools = [
       'global_search',
+      'personnel_summary',
       'latest_weather',
       'fire_hotspots',
       'disease_forecast',
@@ -228,6 +237,14 @@ Generate JSON complying with the schema.
     parsed.district = DISTRICTS.includes(parsed.district)
       ? parsed.district
       : null;
+    parsed.personnelScope = [
+      'province',
+      'district',
+      'district_breakdown',
+      'all',
+    ].includes(parsed.personnelScope)
+      ? parsed.personnelScope
+      : 'none';
     parsed.preferenceAction = ['none', 'save', 'clear'].includes(
       parsed.preferenceAction
     )

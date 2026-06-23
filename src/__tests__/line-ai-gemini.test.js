@@ -91,11 +91,26 @@ describe('Gemini LINE client', () => {
     const fetchMock = vi.fn().mockResolvedValue({
       status: 200,
       json: async () => ({
-        candidates: [{ content: { parts: [{ text: JSON.stringify({
-          intent: 'database', tools: ['global_search'], tables: ['large_plots'],
-          searchTerms: [], crop: '', district: '', preferenceAction: 'none',
-          needsGrounding: false,
-        }) }] } }],
+        candidates: [
+          {
+            content: {
+              parts: [
+                {
+                  text: JSON.stringify({
+                    intent: 'database',
+                    tools: ['global_search'],
+                    tables: ['large_plots'],
+                    searchTerms: [],
+                    crop: '',
+                    district: '',
+                    preferenceAction: 'none',
+                    needsGrounding: false,
+                  }),
+                },
+              ],
+            },
+          },
+        ],
       }),
     });
     const client = createGeminiClient({
@@ -112,6 +127,11 @@ describe('Gemini LINE client', () => {
       .systemInstruction.parts[0].text;
     expect(instruction).toContain('Every portal-data question');
     expect(instruction).toContain('must use an allowlisted tool');
+    expect(instruction).toContain('personnel_summary');
+    expect(instruction).toContain('district_breakdown');
+    expect(instruction).toContain('ONLY when the user asks for a number');
+    expect(instruction).toContain('MUST use global_search');
+    expect(instruction).toContain('specific personnel job titles');
   });
   it('plans correctly and sanitizes invalid values', async () => {
     const planResponse = {

@@ -53,6 +53,56 @@ const TOOL_RUNNERS = {
     if (error) throw error;
     return data || [];
   },
+  async personnel_summary(supabase, _terms, _tables, context = {}) {
+    // ponytail: aggregate the small staff table here; move to an RPC if it grows enough to measure.
+    const { data, error } = await supabase
+      .from('personnel')
+      .select('district,office_type,position')
+      .neq('position', 'สำนักงาน');
+    if (error) throw error;
+
+    const people = (data || []).filter((row) => row.position !== 'สำนักงาน');
+    const scope = context.personnelScope;
+    if (scope === 'province') {
+      return {
+        scope,
+        total: people.filter((row) => row.office_type === 'Provincial').length,
+      };
+    }
+    if (scope === 'district') {
+      if (!context.district) throw new Error('Personnel district is required');
+      return {
+        scope,
+        district: context.district,
+        total: people.filter(
+          (row) =>
+            row.office_type === 'District' && row.district === context.district
+        ).length,
+      };
+    }
+    if (scope === 'district_breakdown') {
+      const counts = new Map();
+      for (const row of people) {
+        if (
+          row.office_type === 'District' &&
+          row.district &&
+          row.district !== '-'
+        ) {
+          counts.set(row.district, (counts.get(row.district) || 0) + 1);
+        }
+      }
+      const breakdown = [...counts]
+        .map(([district, count]) => ({ district, count }))
+        .sort((a, b) => a.district.localeCompare(b.district, 'th'));
+      return {
+        scope,
+        total: breakdown.reduce((sum, item) => sum + item.count, 0),
+        breakdown,
+      };
+    }
+    if (scope === 'all') return { scope, total: people.length };
+    throw new Error('Invalid personnel scope');
+  },
   async disease_forecast(supabase, _terms, _tables, context = {}) {
     const { data, error } = await supabase
       .from('ai_disease_forecasts')
