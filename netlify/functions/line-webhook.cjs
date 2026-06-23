@@ -1296,6 +1296,16 @@ async function handleMessageEvent(event) {
     return;
   }
 
+  if (/^(สวัสดี|หวัดดี|hello|hi)(ครับ|ค่ะ|คะ)?/i.test(text)) {
+    await sendLineReply(replyToken, [
+      {
+        type: 'text',
+        text: 'สวัสดีค่ะ มีอะไรให้ช่วยค้นหาข้อมูลการเกษตรคะ 🌾',
+      },
+    ]);
+    return;
+  }
+
   // 1. HELP / MENU commands
   if (
     text.toLowerCase() === 'help' ||
@@ -1307,7 +1317,7 @@ async function handleMessageEvent(event) {
     return;
   }
 
-  // AI-first for every free-text message; legacy handlers remain fallback.
+  // AI-only for every free-text message; local handlers above are navigation only.
   if (text.length >= 2) {
     const orchestratorInstance = getOrchestrator();
     if (orchestratorInstance) {
@@ -1337,9 +1347,16 @@ async function handleMessageEvent(event) {
         return;
       }
       console.warn(
-        `⚠️ AI returned null after ${aiDurationMs}ms, falling back to legacy search`
+        `⚠️ AI returned null after ${aiDurationMs}ms`
       );
     }
+    await sendLineReply(replyToken, [
+      {
+        type: 'text',
+        text: 'ระบบ AI ยังตอบไม่ได้ กรุณาลองใหม่อีกครั้งค่ะ',
+      },
+    ]);
+    return;
   }
 
   // 2. WEATHER command

@@ -82,7 +82,36 @@ describe('Gemini LINE client', () => {
     const prompt = body.contents.at(-1).parts[0].text;
     expect(instruction).toContain('province-level');
     expect(instruction).toContain('Never claim');
+    expect(instruction).toContain('2-5 lines');
+    expect(instruction).toContain('Do not add unsolicited empathy');
     expect(prompt).toContain('สามพราน');
+  });
+
+  it('instructs planner to route every portal-data question through tools', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      status: 200,
+      json: async () => ({
+        candidates: [{ content: { parts: [{ text: JSON.stringify({
+          intent: 'database', tools: ['global_search'], tables: ['large_plots'],
+          searchTerms: [], crop: '', district: '', preferenceAction: 'none',
+          needsGrounding: false,
+        }) }] } }],
+      }),
+    });
+    const client = createGeminiClient({
+      fetch: fetchMock,
+      model: 'gemini-2.5-flash-lite',
+      timeoutMs: 8000,
+    });
+
+    await client.plan('key-routing', 'gemini-2.5-flash-lite', {
+      question: 'พุทธมณฑลมีแปลงใหญ่อะไรบ้าง',
+    });
+
+    const instruction = JSON.parse(fetchMock.mock.calls[0][1].body)
+      .systemInstruction.parts[0].text;
+    expect(instruction).toContain('Every portal-data question');
+    expect(instruction).toContain('must use an allowlisted tool');
   });
   it('plans correctly and sanitizes invalid values', async () => {
     const planResponse = {
