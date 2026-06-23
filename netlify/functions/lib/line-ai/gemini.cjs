@@ -162,7 +162,7 @@ Generate JSON complying with the schema.
 - tables: for global_search, choose 1-3 relevant public tables from: ${PUBLIC_TABLES.join(', ')}.
 - Never select internal tables. Personnel results exclude phone numbers and addresses.
 - searchTerms: search terms for global_search. Extract ONLY specific commodities (e.g., 'ข้าว', 'กล้วยไม้'), specific districts (e.g., 'เมืองนครปฐม', 'สามพราน'), or specific entity/people names.
-  CRITICAL: Never output generic category names ('แปลงใหญ่', 'วิสาหกิจชุมชน', 'กลุ่มเกษตรกร', 'ศูนย์เรียนรู้') or the province name ('นครปฐม', 'จังหวัดนครปฐม') by themselves, as they flood the search results.
+  CRITICAL: Never output generic category names ('แปลงใหญ่', 'วิสาหกิจชุมชน', 'กลุ่มเกษตรกร', 'ศูนย์เรียนรู้', 'บุคลากร', 'เจ้าหน้าที่', 'บุคคล', 'รายชื่อ', 'ชื่อ', 'คน', 'สมาชิก', 'เกษตรกร') or the province name ('นครปฐม', 'จังหวัดนครปฐม') by themselves, as they return no results or flood the search results. If the user asks generally about a category or list, keep searchTerms empty to browse.
 - needsGrounding: true ONLY if intent is 'current'.
 - answer: direct response if general/clarify.`;
 
