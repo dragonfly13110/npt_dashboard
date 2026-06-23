@@ -43,7 +43,7 @@ const TOOL_RUNNERS = {
       ),
     ].slice(0, 3);
 
-    if (searchTerms.length === 0 || tableNames.length === 0) return [];
+    if (tableNames.length === 0) return [];
 
     const { data, error } = await supabase.rpc('global_search_public', {
       search_terms: searchTerms,

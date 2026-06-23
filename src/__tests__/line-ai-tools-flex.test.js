@@ -64,6 +64,43 @@ describe('LINE AI tools and rendering', () => {
     expect(mockFrom).toHaveBeenCalledWith('daily_weather');
   });
 
+  it('runs global_search tool successfully with empty search terms (browse mode)', async () => {
+    const mockRpc = vi.fn().mockResolvedValue({
+      data: [
+        {
+          table: 'housewife_farmer_groups',
+          totalCount: 2,
+          results: [{ id: '1', group_name: 'กลุ่มแม่บ้านเกษตรกรบางเลน' }],
+        },
+      ],
+      error: null,
+    });
+    const supabase = {
+      rpc: mockRpc,
+    };
+
+    const results = await executeTools(
+      supabase,
+      ['global_search'],
+      [],
+      ['housewife_farmer_groups']
+    );
+    expect(results).toHaveLength(1);
+    expect(mockRpc).toHaveBeenCalledTimes(1);
+    expect(mockRpc).toHaveBeenCalledWith('global_search_public', {
+      search_terms: [],
+      table_names: ['housewife_farmer_groups'],
+      result_limit: 3,
+    });
+    expect(results[0].data).toEqual([
+      {
+        table: 'housewife_farmer_groups',
+        totalCount: 2,
+        results: [{ id: '1', group_name: 'กลุ่มแม่บ้านเกษตรกรบางเลน' }],
+      },
+    ]);
+  });
+
   it('filters the latest disease forecast by effective crop', async () => {
     const maybeSingle = vi.fn().mockResolvedValue({
       data: {

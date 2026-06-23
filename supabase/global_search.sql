@@ -29,9 +29,7 @@ BEGIN
     LIMIT 5
   ) clean;
 
-  IF cleaned_terms IS NULL
-    OR array_length(cleaned_terms, 1) IS NULL
-    OR table_names IS NULL
+  IF table_names IS NULL
     OR array_length(table_names, 1) IS NULL
   THEN
     RETURN result;
@@ -103,12 +101,18 @@ BEGIN
       CONTINUE;
     END IF;
 
-    SELECT string_agg(
-      format('%I::text ILIKE ''%%'' || term_value || ''%%''', c),
-      ' OR '
-    )
-    INTO where_sql
-    FROM unnest(existing_search_cols) AS c;
+    IF cleaned_terms IS NOT NULL AND array_length(cleaned_terms, 1) > 0 THEN
+      SELECT string_agg(
+        format('%I::text ILIKE ''%%'' || term_value || ''%%''', c),
+        ' OR '
+      )
+      INTO where_sql
+      FROM unnest(existing_search_cols) AS c;
+
+      where_sql := format('EXISTS (SELECT 1 FROM unnest($1::text[]) AS search_term(term_value) WHERE %s)', where_sql);
+    ELSE
+      where_sql := 'TRUE';
+    END IF;
 
     SELECT string_agg(format('%I', c), ', ')
     INTO select_sql
@@ -155,11 +159,7 @@ BEGIN
        FROM (
          SELECT %s, count(*) OVER() AS __total_count
          FROM public.%I
-         WHERE EXISTS (
-           SELECT 1
-           FROM unnest($1::text[]) AS search_term(term_value)
-           WHERE %s
-         )
+         WHERE %s
          LIMIT $2
        ) s',
       select_sql,
