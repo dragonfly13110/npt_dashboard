@@ -591,8 +591,20 @@ function createLineAiOrchestrator({
       });
 
       const records = formatDeterministicSummary(trimmedEvidence, text);
-      const messages = renderAiReply({ text: answerText, records });
-      await store.appendMessage(userId, 'assistant', answerText, plan.intent);
+      let finalAnswer = answerText;
+      if (records && records.length > 0) {
+        const uniqueUrls = [...new Set(records.map((r) => r.url))].filter(
+          Boolean
+        );
+        if (uniqueUrls.length > 0) {
+          finalAnswer +=
+            '\n\n(ดูตัวอย่างเพิ่มเติมได้จากการ์ดด้านล่าง หรือเข้าชมหน้าระบบได้ที่นี่:\n' +
+            uniqueUrls.join('\n') +
+            ')';
+        }
+      }
+      const messages = renderAiReply({ text: finalAnswer, records });
+      await store.appendMessage(userId, 'assistant', finalAnswer, plan.intent);
 
       // Cache if history is independent
       if (history.length === 0 && plan.preferenceAction === 'none') {

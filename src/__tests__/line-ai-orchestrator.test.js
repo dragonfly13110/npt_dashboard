@@ -363,7 +363,7 @@ describe('LINE AI Orchestrator', () => {
       })
     );
     expect(renderAiReply).toHaveBeenCalledWith({
-      text: 'พบ 3 ความเสี่ยง',
+      text: expect.stringContaining('พบ 3 ความเสี่ยง'),
       records: [
         expect.objectContaining({ title: 'โรคไหม้ข้าว', totalCount: 3 }),
         expect.objectContaining({ title: 'เพลี้ยกระโดด', totalCount: 3 }),
