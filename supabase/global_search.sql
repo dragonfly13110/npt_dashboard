@@ -114,6 +114,17 @@ BEGIN
       where_sql := 'TRUE';
     END IF;
 
+    -- Exclude offices from personnel unless 'สำนักงาน' is explicitly in cleaned_terms
+    IF cfg.table_name = 'personnel' THEN
+      IF NOT EXISTS (
+        SELECT 1
+        FROM unnest(COALESCE(cleaned_terms, ARRAY[]::text[])) AS term
+        WHERE term ILIKE '%สำนักงาน%'
+      ) THEN
+        where_sql := format('(%s) AND position IS DISTINCT FROM ''สำนักงาน''', where_sql);
+      END IF;
+    END IF;
+
     SELECT string_agg(format('%I', c), ', ')
     INTO select_sql
     FROM unnest(existing_return_cols) AS c;
