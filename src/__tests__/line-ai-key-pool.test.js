@@ -170,6 +170,7 @@ describe('LINE AI configuration', () => {
       LINE_AI_ROLLING_LIMIT: '7',
       LINE_AI_ROLLING_WINDOW_SECONDS: '700',
       LINE_AI_TIMEOUT_MS: '9000',
+      LINE_AI_GEMINI_TIMEOUT_MS: '6000',
       LINE_AI_ADMIN_USER_IDS: 'U1, U2',
     };
     const netlifyEnv = {
@@ -195,6 +196,7 @@ describe('LINE AI configuration', () => {
       rollingLimit: 7,
       rollingWindowSeconds: 700,
       timeoutMs: 9000,
+      geminiTimeoutMs: 6000,
     });
     expect(config.adminUserIds).toEqual(new Set(['U1', 'U2']));
   });
@@ -220,7 +222,8 @@ describe('LINE AI configuration', () => {
       groundingDailyLimit: 5,
       rollingLimit: 5,
       rollingWindowSeconds: 600,
-      timeoutMs: 8000,
+      timeoutMs: 25000,
+      geminiTimeoutMs: 15000,
     });
   });
 

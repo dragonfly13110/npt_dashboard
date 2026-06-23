@@ -45,7 +45,8 @@ function loadConfig(env = process.env, netlifyEnv = globalThis.Netlify?.env) {
       get('LINE_AI_ROLLING_WINDOW_SECONDS'),
       600
     ),
-    timeoutMs: positiveInteger(get('LINE_AI_TIMEOUT_MS'), 8000),
+    timeoutMs: positiveInteger(get('LINE_AI_TIMEOUT_MS'), 25000),
+    geminiTimeoutMs: positiveInteger(get('LINE_AI_GEMINI_TIMEOUT_MS'), 15000),
     adminUserIds: new Set(csv(get('LINE_AI_ADMIN_USER_IDS'))),
   };
   Object.defineProperty(config, 'geminiApiKeys', {

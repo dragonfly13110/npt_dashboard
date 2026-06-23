@@ -608,9 +608,7 @@ function createLineAiOrchestrator({
       return { messages, sourceType: plan.intent };
     };
 
-    // Timeout & Error safety: entire answer operation gets a 12-second deadline.
-    // If it fails or times out, return null to continue with standard database search.
-    // Keep this well under LINE's ~30s replyToken TTL to leave room for fallback.
+    // Keep the full pipeline below LINE's reply-token window; Gemini requests have their own timeout.
     let timeoutId;
     const timeoutPromise = new Promise((_, reject) => {
       timeoutId = setTimeout(

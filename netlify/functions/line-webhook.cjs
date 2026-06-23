@@ -32,7 +32,7 @@ function getOrchestrator() {
     const gemini = createGeminiClient({
       model: config.model,
       fallbacks: config.fallbackModels,
-      timeoutMs: config.timeoutMs,
+      timeoutMs: config.geminiTimeoutMs,
     });
     lineAiOrchestrator = createLineAiOrchestrator({
       supabase,
@@ -1346,9 +1346,7 @@ async function handleMessageEvent(event) {
         );
         return;
       }
-      console.warn(
-        `⚠️ AI returned null after ${aiDurationMs}ms`
-      );
+      console.warn(`⚠️ AI returned null after ${aiDurationMs}ms`);
     }
     await sendLineReply(replyToken, [
       {
