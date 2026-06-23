@@ -3,7 +3,7 @@
  *
  * Usage: node scripts/scrape_farmer_registry.js
  */
-import { chromium } from 'playwright';
+// Playwright browser import removed for serverless compatibility
 
 import fs from 'fs';
 import path from 'path';
@@ -92,58 +92,84 @@ async function runSQL(sql) {
 
 export async function scrapeFarmerRegistry() {
   validateRequiredEnv();
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({
-    viewport: { width: 1366, height: 900 },
-  });
-  const page = await context.newPage();
 
   try {
-    // === Step 1: Login ===
-    console.log('🔐 Logging in to DOAE...');
-    await page.goto(LOGIN_URL, { waitUntil: 'networkidle', timeout: 30000 });
-    await page.fill('#username', USERNAME);
-    await page.fill('#password', PASSWORD);
-    await page.evaluate(() => {
-      const form =
-        document.querySelector('form') || document.getElementById('form1');
-      if (form) form.submit();
-    });
-    await page
-      .waitForLoadState('networkidle', { timeout: 15000 })
-      .catch(() => {});
-    await page.waitForTimeout(3000);
+    // === Step 1: Initialize Session Cookie ===
+    console.log('🔐 Initializing DOAE session...');
+    const initialRes = await fetch('https://farmer.doae.go.th/index/index/2');
+    const initialSetCookies = initialRes.headers.getSetCookie();
 
-    if (!page.url().includes('/farmer')) {
-      throw new Error(`Login failed. Current URL: ${page.url()}`);
-    }
+    const cookieMap = new Map();
+    const addCookies = (setCookieHeaders) => {
+      for (const header of setCookieHeaders) {
+        const parts = header.split(';')[0].split('=');
+        const name = parts[0].trim();
+        const value = parts.slice(1).join('=').trim();
+        cookieMap.set(name, value);
+      }
+    };
+
+    addCookies(initialSetCookies);
+    const getCookieHeaderString = () => {
+      return Array.from(cookieMap.entries())
+        .map(([k, v]) => `${k}=${v}`)
+        .join('; ');
+    };
+
+    // === Step 2: Login via POST ===
+    console.log('🔐 Logging in to DOAE via HTTP POST...');
+    const loginRes = await fetch(
+      'https://farmer.doae.go.th/home/authen/portal_authen',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Cookie: getCookieHeaderString(),
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        },
+        body: new URLSearchParams({
+          username: USERNAME,
+          password: PASSWORD,
+        }),
+        redirect: 'manual',
+      }
+    );
+
+    const loginSetCookies = loginRes.headers.getSetCookie();
+    addCookies(loginSetCookies);
     console.log('✅ Login successful!');
 
-    // === Step 2: Navigate to report ===
-    console.log('📊 Navigating to report page...');
-    await page.goto(REPORT_URL, { waitUntil: 'networkidle', timeout: 30000 });
-    await page.waitForTimeout(8000);
-    console.log('✅ Report page loaded!');
-
-    // === Step 3: Extract cutoff date ===
-    const cutoffText = await page.evaluate(() => {
-      const cells = document.querySelectorAll('td');
-      for (const cell of cells) {
-        const text = cell.textContent.trim();
-        if (text.includes('วันที่ตัดยอดข้อมูล')) {
-          const match = text.match(
-            /(\d+)\s+(มกราคม|กุมภาพันธ์|มีนาคม|เมษายน|พฤษภาคม|มิถุนายน|กรกฎาคม|สิงหาคม|กันยายน|ตุลาคม|พฤศจิกายน|ธันวาคม)\s+(\d{4})/
-          );
-          return match
-            ? { day: match[1], month: match[2], year: match[3] }
-            : null;
-        }
-      }
-      return null;
+    // === Step 3: Navigate/Fetch Report Page ===
+    console.log('📊 Fetching report page via HTTP GET...');
+    const reportRes = await fetch(REPORT_URL, {
+      headers: {
+        Cookie: getCookieHeaderString(),
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      },
     });
 
+    if (!reportRes.ok) {
+      throw new Error(
+        `Failed to fetch report. HTTP Status: ${reportRes.status}`
+      );
+    }
+
+    const reportHtml = await reportRes.text();
+    if (reportHtml.includes('กรุณาเข้าสู่ระบบก่อน')) {
+      throw new Error(
+        'Authentication expired or invalid. Please check credentials.'
+      );
+    }
+    console.log('✅ Report page loaded!');
+
+    // === Step 4: Extract cutoff date ===
+    const cutoffMatch = reportHtml.match(
+      /(\d+)\s+(มกราคม|กุมภาพันธ์|มีนาคม|เมษายน|พฤษภาคม|มิถุนายน|กรกฎาคม|สิงหาคม|กันยายน|ตุลาคม|พฤศจิกายน|ธันวาคม)\s+(\d{4})/
+    );
     let cutoffDate = null;
-    if (cutoffText) {
+    if (cutoffMatch) {
       const thaiMonths = {
         มกราคม: '01',
         กุมภาพันธ์: '02',
@@ -158,98 +184,87 @@ export async function scrapeFarmerRegistry() {
         พฤศจิกายน: '11',
         ธันวาคม: '12',
       };
-      const ceYear = parseInt(cutoffText.year) - 543;
-      const month = thaiMonths[cutoffText.month] || '01';
-      const day = cutoffText.day.padStart(2, '0');
+      const ceYear = parseInt(cutoffMatch[3]) - 543;
+      const month = thaiMonths[cutoffMatch[2]] || '01';
+      const day = cutoffMatch[1].padStart(2, '0');
       cutoffDate = `${ceYear}-${month}-${day}`;
       console.log(
-        `📅 Cutoff date: ${cutoffDate} (${cutoffText.day} ${cutoffText.month} ${cutoffText.year})`
+        `📅 Cutoff date: ${cutoffDate} (${cutoffMatch[1]} ${cutoffMatch[2]} ${cutoffMatch[3]})`
       );
     }
 
-    // === Step 4: Extract data year ===
-    const dataYear = await page.evaluate(() => {
-      const cells = document.querySelectorAll('td');
-      for (const cell of cells) {
-        const text = cell.textContent.trim();
-        const match = text.match(/ปี\s*(\d{4})/);
-        if (match) return parseInt(match[1]);
-      }
-      return null;
-    });
+    // === Step 5: Extract data year ===
+    const yearMatch = reportHtml.match(/ปี\s*(\d{4})/);
+    const dataYear = yearMatch ? parseInt(yearMatch[1]) : null;
     console.log(`📅 Data year (พ.ศ.): ${dataYear}`);
 
-    // === Step 5: Extract table data ===
+    // === Step 6: Extract table data via regex ===
     console.log('📋 Extracting table data...');
-    const tableData = await page.evaluate(() => {
-      const tables = document.querySelectorAll('table');
-      for (const table of tables) {
-        const tds = table.querySelectorAll('td');
-        const hasDistrict = Array.from(tds).some(
-          (td) =>
-            td.textContent.includes('นครปฐม') &&
-            !td.textContent.includes('ผู้ใช้งาน')
-        );
-        if (!hasDistrict) continue;
-
-        const rows = table.querySelectorAll('tr');
-        const data = [];
-        for (const row of rows) {
-          const cells = row.querySelectorAll('td');
-          if (cells.length >= 17) {
-            const cellTexts = Array.from(cells).map((c) =>
-              c.textContent.trim()
-            );
-            const firstCell = cellTexts[0];
-            if (
-              firstCell &&
-              !firstCell.includes('จังหวัด') &&
-              !firstCell.includes('ครัวเรือน') &&
-              !firstCell.includes('แปลง') &&
-              !firstCell.includes('เนื้อที่')
-            ) {
-              data.push(cellTexts);
-            }
-          }
-        }
-        if (data.length > 0) return data;
-      }
-      return [];
-    });
-
-    console.log(`📊 Found ${tableData.length} data rows`);
+    const trRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
+    const tdRegex = /<td[^>]*>([\s\S]*?)<\/td>/gi;
 
     const records = [];
     let provinceTarget = null;
-    for (const cells of tableData) {
-      const rawDistrict = cells[0].replace(/^\s+/, '').trim();
-      if (rawDistrict === 'นครปฐม' || rawDistrict === 'จังหวัดนครปฐม') {
-        provinceTarget = parseNumber(cells[2]);
-        continue; // Skip province total row, let DB trigger calculate totals.
+    let trMatch;
+    let tableRowsCount = 0;
+
+    while ((trMatch = trRegex.exec(reportHtml)) !== null) {
+      const trContent = trMatch[1];
+      const cells = [];
+      let tdMatch;
+      while ((tdMatch = tdRegex.exec(trContent)) !== null) {
+        const cellText = tdMatch[1]
+          .replace(/<[^>]*>/g, '')
+          .replace(/&nbsp;/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+        cells.push(cellText);
       }
-      records.push({
-        district: rawDistrict,
-        household_count: parseNumber(cells[1]),
-        target: parseNumber(cells[2]),
-        update_tbk_households: parseNumber(cells[3]),
-        update_tbk_plots: parseNumber(cells[4]),
-        update_tbk_area_rai: parseNumber(cells[5]),
-        update_farmbook_households: parseNumber(cells[6]),
-        update_farmbook_plots: parseNumber(cells[7]),
-        update_farmbook_area_rai: parseNumber(cells[8]),
-        update_eform_households: parseNumber(cells[9]),
-        update_eform_plots: parseNumber(cells[10]),
-        update_eform_area_rai: parseNumber(cells[11]),
-        total_updated_households: parseNumber(cells[12]),
-        total_updated_plots: parseNumber(cells[13]),
-        total_updated_area_rai: parseNumber(cells[14]),
-        cancelled_households: parseNumber(cells[15]),
-        net_total_households: parseNumber(cells[16]),
-        farm_area_rai: parseNumber(cells[14]),
-        data_year: dataYear,
-        cutoff_date: cutoffDate,
-      });
+
+      if (cells.length >= 17) {
+        const firstCell = cells[0];
+        if (
+          firstCell &&
+          !firstCell.includes('จังหวัด') &&
+          !firstCell.includes('ครัวเรือน') &&
+          !firstCell.includes('แปลง') &&
+          !firstCell.includes('เนื้อที่')
+        ) {
+          tableRowsCount++;
+          const rawDistrict = firstCell.replace(/^\s+/, '').trim();
+          if (rawDistrict === 'นครปฐม' || rawDistrict === 'จังหวัดนครปฐม') {
+            provinceTarget = parseNumber(cells[2]);
+            continue;
+          }
+          records.push({
+            district: rawDistrict,
+            household_count: parseNumber(cells[1]),
+            target: parseNumber(cells[2]),
+            update_tbk_households: parseNumber(cells[3]),
+            update_tbk_plots: parseNumber(cells[4]),
+            update_tbk_area_rai: parseNumber(cells[5]),
+            update_farmbook_households: parseNumber(cells[6]),
+            update_farmbook_plots: parseNumber(cells[7]),
+            update_farmbook_area_rai: parseNumber(cells[8]),
+            update_eform_households: parseNumber(cells[9]),
+            update_eform_plots: parseNumber(cells[10]),
+            update_eform_area_rai: parseNumber(cells[11]),
+            total_updated_households: parseNumber(cells[12]),
+            total_updated_plots: parseNumber(cells[13]),
+            total_updated_area_rai: parseNumber(cells[14]),
+            cancelled_households: parseNumber(cells[15]),
+            net_total_households: parseNumber(cells[16]),
+            farm_area_rai: parseNumber(cells[14]),
+            data_year: dataYear,
+            cutoff_date: cutoffDate,
+          });
+        }
+      }
     }
+
+    console.log(
+      `📊 Found ${records.length} district data rows (total table rows processed: ${tableRowsCount})`
+    );
 
     console.log('\n📊 Extracted records:');
     records.forEach((r) => {
@@ -257,9 +272,10 @@ export async function scrapeFarmerRegistry() {
         `  ${r.district}: ครัวเรือน=${r.household_count}, ปรับปรุงรวม=${r.total_updated_households}, เนื้อที่=${r.total_updated_area_rai} ไร่`
       );
     });
+
     // === Step 7: Store progress snapshot and update latest state ===
     console.log(
-      '\n?? Saving Supabase snapshot and latest state via Management API...'
+      '\n💾 Saving Supabase snapshot and latest state via Management API...'
     );
 
     const columns = [
@@ -325,10 +341,10 @@ export async function scrapeFarmerRegistry() {
     const snapshotResult = await runSQL(snapshotSQL);
     if (snapshotResult.ok) {
       console.log(
-        `  ? Saved ${records.length} district snapshot records successfully!`
+        `  ✅ Saved ${records.length} district snapshot records successfully!`
       );
     } else {
-      console.error(`  ? Snapshot insert failed: ${snapshotResult.body}`);
+      console.error(`  ❌ Snapshot insert failed: ${snapshotResult.body}`);
       process.exitCode = 1;
       return;
     }
@@ -361,11 +377,11 @@ export async function scrapeFarmerRegistry() {
     const latestStateResult = await runSQL(latestStateSQL);
     if (latestStateResult.ok) {
       console.log(
-        `  ? Updated latest farmer_registry state for ${records.length} districts successfully!`
+        `  ✅ Updated latest farmer_registry state for ${records.length} districts successfully!`
       );
     } else {
       console.error(
-        `  ? Latest state update failed: ${latestStateResult.body}`
+        `  ❌ Latest state update failed: ${latestStateResult.body}`
       );
       process.exitCode = 1;
       return;
@@ -381,12 +397,13 @@ export async function scrapeFarmerRegistry() {
       const provinceTargetResult = await runSQL(provinceTargetSQL);
       if (!provinceTargetResult.ok) {
         console.error(
-          `  ? Province target update failed: ${provinceTargetResult.body}`
+          `  ❌ Province target update failed: ${provinceTargetResult.body}`
         );
       }
     }
+
     // === Step 8: Verify ===
-    console.log('\n🔍 Verifying data...');
+    console.log('\n🔍 Verifying data in database...');
     const verifyResult = await runSQL(
       `SELECT district, household_count, total_updated_households, total_updated_area_rai, data_year FROM farmer_registry WHERE data_year = ${dataYear} ORDER BY district;`
     );
@@ -403,14 +420,8 @@ export async function scrapeFarmerRegistry() {
 
     console.log('\n🎉 ทั้งหมดเสร็จสิ้น!');
   } catch (error) {
-    console.error('❌ Error:', error.message);
-    await page
-      .screenshot({ path: 'tmp/error_screenshot.png', fullPage: true })
-      .catch(() => {});
+    console.error('❌ Error during sync:', error.message);
     throw error;
-  } finally {
-    await browser.close();
-    console.log('✅ Browser closed');
   }
 }
 

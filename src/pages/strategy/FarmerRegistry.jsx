@@ -376,9 +376,102 @@ function registryOverviewOption(data) {
   };
 }
 
+function registryTrendOption(trendData, targetVal) {
+  const dates = trendData.map((d) => {
+    return new Date(d.date).toLocaleDateString('th-TH', {
+      day: 'numeric',
+      month: 'short',
+      year: '2-digit',
+    });
+  });
+
+  const updatedValues = trendData.map(
+    (d) => d.provinceUpdated || d.updated || 0
+  );
+  const finalTarget = targetVal || 34000;
+  const targetValues = trendData.map(() => finalTarget);
+
+  return {
+    color: ['#10b981', '#6366f1'],
+    tooltip: {
+      trigger: 'axis',
+      formatter: function (params) {
+        const dateStr = params[0].name;
+        let res = `<div style="font-weight: 700; margin-bottom: 4px;">รอบข้อมูล: ${dateStr}</div>`;
+        params.forEach((p) => {
+          const marker = p.marker;
+          const val = p.value.toLocaleString();
+          res += `<div style="display: flex; justify-content: space-between; gap: 20px;">
+            <span>${marker} ${p.seriesName}:</span>
+            <span style="font-weight: 600;">${val} ครัวเรือน</span>
+          </div>`;
+        });
+        const updated = params[0].value;
+        const pct = Math.round((updated / finalTarget) * 100);
+        res += `<div style="margin-top: 4px; border-top: 1px solid #e2e8f0; padding-top: 4px; font-weight: 700; color: #10b981;">
+          ความคืบหน้า: ${pct}%
+        </div>`;
+        return res;
+      },
+    },
+    legend: {
+      data: ['ปรับปรุงสะสม (ครัวเรือน)', 'เป้าหมาย (ครัวเรือน)'],
+      bottom: 0,
+      textStyle: { color: '#475569', fontSize: 12 },
+    },
+    grid: { top: 30, right: 24, bottom: 48, left: 48, containLabel: true },
+    xAxis: {
+      type: 'category',
+      data: dates,
+      axisLabel: { color: '#64748b', fontSize: 11 },
+      axisLine: { lineStyle: { color: '#e2e8f0' } },
+      axisTick: { show: false },
+    },
+    yAxis: {
+      type: 'value',
+      max: Math.ceil(finalTarget * 1.15),
+      axisLabel: { color: '#64748b', fontSize: 11 },
+      splitLine: { lineStyle: { color: '#f1f5f9', type: 'dashed' } },
+    },
+    series: [
+      {
+        name: 'ปรับปรุงสะสม (ครัวเรือน)',
+        type: 'line',
+        data: updatedValues,
+        smooth: true,
+        symbol: 'circle',
+        symbolSize: 8,
+        lineStyle: { width: 3, color: '#10b981' },
+        areaStyle: {
+          color: {
+            type: 'linear',
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              { offset: 0, color: 'rgba(16, 185, 129, 0.2)' },
+              { offset: 1, color: 'rgba(16, 185, 129, 0)' },
+            ],
+          },
+        },
+      },
+      {
+        name: 'เป้าหมาย (ครัวเรือน)',
+        type: 'line',
+        data: targetValues,
+        step: false,
+        symbol: 'none',
+        lineStyle: { width: 2, type: 'dashed', color: '#6366f1' },
+      },
+    ],
+  };
+}
+
 export default function FarmerRegistry() {
   const { isAdmin } = useAuth();
   const [chartData, setChartData] = useState([]);
+  const [trendData, setTrendData] = useState([]);
   const [stats, setStats] = useState({
     target: null,
     updated: 0,
@@ -447,6 +540,45 @@ export default function FarmerRegistry() {
       setLatestDates({ cutoff: latestCutoff, updated: latestUpdated });
 
       setChartData(districtsData);
+
+      // Fetch snapshots for trend data
+      const { data: snapshotRows } = await supabase
+        .from('farmer_registry_snapshots')
+        .select(
+          'snapshot_date, cutoff_date, district, total_updated_households, target, data_year'
+        )
+        .eq('data_year', activeYear)
+        .order('snapshot_date', { ascending: true });
+
+      if (snapshotRows) {
+        const snapshotMap = {};
+        snapshotRows.forEach((r) => {
+          const date = r.snapshot_date;
+          if (!snapshotMap[date]) {
+            snapshotMap[date] = {
+              date: date,
+              cutoff: r.cutoff_date,
+              updated: 0,
+              target: 0,
+            };
+          }
+          if (r.district !== 'จังหวัดนครปฐม' && r.district !== 'นครปฐม') {
+            snapshotMap[date].updated += r.total_updated_households || 0;
+            snapshotMap[date].target += r.target || 0;
+          } else {
+            if (r.target) {
+              snapshotMap[date].provinceTarget = r.target;
+            }
+            if (r.total_updated_households) {
+              snapshotMap[date].provinceUpdated = r.total_updated_households;
+            }
+          }
+        });
+        const aggregatedSnaps = Object.values(snapshotMap).sort((a, b) =>
+          a.date.localeCompare(b.date)
+        );
+        setTrendData(aggregatedSnaps);
+      }
     }
   }, []);
 
@@ -621,15 +753,10 @@ export default function FarmerRegistry() {
         </div>
       </div>
 
-      {/* Top Dashboard Section */}
+      {/* Top Stats Cards Section */}
       <Row gutter={[20, 20]}>
-        {/* Left Mini Sparkline Cards (10 columns) */}
-        <Col
-          xs={24}
-          lg={10}
-          style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
-        >
-          {/* Card 1: Target */}
+        {/* Card 1: Target */}
+        <Col xs={24} md={8}>
           <Card
             style={{
               borderRadius: '24px',
@@ -689,8 +816,10 @@ export default function FarmerRegistry() {
               </div>
             </div>
           </Card>
+        </Col>
 
-          {/* Card 2: Actual Updated */}
+        {/* Card 2: Actual Updated */}
+        <Col xs={24} md={8}>
           <Card
             style={{
               borderRadius: '24px',
@@ -754,8 +883,10 @@ export default function FarmerRegistry() {
               </div>
             </div>
           </Card>
+        </Col>
 
-          {/* Card 3: Remaining / Outstanding */}
+        {/* Card 3: Remaining / Outstanding */}
+        <Col xs={24} md={8}>
           <Card
             style={{
               borderRadius: '24px',
@@ -831,9 +962,12 @@ export default function FarmerRegistry() {
             </div>
           </Card>
         </Col>
+      </Row>
 
-        {/* Right Overview Double Bar & Trend Chart (14 columns) */}
-        <Col xs={24} lg={14}>
+      {/* Charts Section */}
+      <Row gutter={[20, 20]}>
+        {/* District Overview Chart (12 columns) */}
+        <Col xs={24} lg={12}>
           {chartData.length > 0 ? (
             <Card
               title={
@@ -859,16 +993,6 @@ export default function FarmerRegistry() {
                   'linear-gradient(155deg, rgba(255, 255, 255, 0.9) 0%, rgba(244, 247, 255, 0.95) 48%, rgba(255, 255, 255, 0.9) 100%)',
                 boxShadow: '0 15px 35px -15px rgba(0, 0, 0, 0.05)',
                 backdropFilter: 'blur(20px)',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-              }}
-              bodyStyle={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
               }}
             >
               <div style={{ width: '100%', height: '280px' }}>
@@ -881,14 +1005,66 @@ export default function FarmerRegistry() {
                 borderRadius: '24px',
                 border: 'none',
                 boxShadow: '0 8px 30px rgba(0,0,0,0.02)',
-                height: '100%',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                minHeight: '340px',
               }}
             >
               <span style={{ color: '#94a3b8' }}>
                 ยังไม่มีข้อมูลเปรียบเทียบ
+              </span>
+            </Card>
+          )}
+        </Col>
+
+        {/* Right: Trend & Progress Chart (12 columns) */}
+        <Col xs={24} lg={12}>
+          {trendData.length > 0 ? (
+            <Card
+              title={
+                <div
+                  style={{
+                    fontSize: '15px',
+                    fontWeight: 800,
+                    background:
+                      'linear-gradient(135deg, #064e3b 0%, #10b981 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    color: 'transparent',
+                  }}
+                >
+                  Trend & Progress — แนวโน้มความคืบหน้าการปรับปรุงข้อมูลสะสม
+                </div>
+              }
+              style={{
+                borderRadius: '24px',
+                border: '1px solid rgba(255, 255, 255, 0.8)',
+                background:
+                  'linear-gradient(155deg, rgba(255, 255, 255, 0.9) 0%, rgba(244, 247, 255, 0.95) 48%, rgba(255, 255, 255, 0.9) 100%)',
+                boxShadow: '0 15px 35px -15px rgba(0, 0, 0, 0.05)',
+                backdropFilter: 'blur(20px)',
+              }}
+            >
+              <div style={{ width: '100%', height: '280px' }}>
+                <EChart option={registryTrendOption(trendData, stats.target)} />
+              </div>
+            </Card>
+          ) : (
+            <Card
+              style={{
+                borderRadius: '24px',
+                border: 'none',
+                boxShadow: '0 8px 30px rgba(0,0,0,0.02)',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                minHeight: '340px',
+              }}
+            >
+              <span style={{ color: '#94a3b8' }}>
+                ยังไม่มีข้อมูลประวัติความคืบหน้า
               </span>
             </Card>
           )}
