@@ -114,6 +114,41 @@ BEGIN
     INTO select_sql
     FROM unnest(existing_return_cols) AS c;
 
+    -- Dynamically filter by latest year if data_year, year, or fiscal_year column exists
+    DECLARE
+      year_col TEXT := NULL;
+    BEGIN
+      IF EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = cfg.table_name
+          AND column_name = 'data_year'
+      ) THEN
+        year_col := 'data_year';
+      ELSIF EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = cfg.table_name
+          AND column_name = 'year'
+      ) THEN
+        year_col := 'year';
+      ELSIF EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = cfg.table_name
+          AND column_name = 'fiscal_year'
+      ) THEN
+        year_col := 'fiscal_year';
+      END IF;
+
+      IF year_col IS NOT NULL THEN
+        where_sql := format('(%s) AND %I = (SELECT COALESCE(max(%I), 0) FROM public.%I)', where_sql, year_col, year_col, cfg.table_name);
+      END IF;
+    END;
+
     EXECUTE format(
       'SELECT COALESCE(jsonb_agg(to_jsonb(s) - ''__total_count''), ''[]''::jsonb),
               COALESCE(max(s.__total_count), 0)

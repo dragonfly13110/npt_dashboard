@@ -598,9 +598,8 @@ function createLineAiOrchestrator({
         );
         if (uniqueUrls.length > 0) {
           finalAnswer +=
-            '\n\n(ดูตัวอย่างเพิ่มเติมได้จากการ์ดด้านล่าง หรือเข้าชมหน้าระบบได้ที่นี่:\n' +
-            uniqueUrls.join('\n') +
-            ')';
+            '\n\nดูตัวอย่างเพิ่มเติมได้จากการ์ดด้านล่าง หรือเข้าชมหน้าระบบได้ที่นี่:\n' +
+            uniqueUrls.join('\n');
         }
       }
       const messages = renderAiReply({ text: finalAnswer, records });
