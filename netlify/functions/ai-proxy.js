@@ -1,3 +1,6 @@
+import crypto from 'node:crypto';
+import { reportCriticalError } from './lib/error-alert.js';
+
 // netlify/functions/ai-proxy.js
 const MAX_BODY_BYTES = 4 * 1024 * 1024; // 4MB to support larger dashboard contexts
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
@@ -55,8 +58,6 @@ const PROVIDERS = {
   },
 };
 
-const requestLog = new Map();
-
 function getEnv(name) {
   return globalThis.Netlify?.env?.get?.(name) || process.env[name] || '';
 }
@@ -88,10 +89,14 @@ function getCorsHeaders(req) {
   };
 }
 
-function jsonResponse(req, status, body) {
+function jsonResponse(req, status, body, extraHeaders = {}) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' },
+    headers: {
+      ...getCorsHeaders(req),
+      'Content-Type': 'application/json',
+      ...extraHeaders,
+    },
   });
 }
 
@@ -109,22 +114,55 @@ function getClientKey(req) {
   );
 }
 
-function isRateLimited(req) {
-  const key = getClientKey(req);
-  const now = Date.now();
-  const entry = requestLog.get(key) || {
-    count: 0,
-    resetAt: now + RATE_LIMIT_WINDOW_MS,
-  };
-
-  if (now > entry.resetAt) {
-    requestLog.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
-    return false;
+async function claimPersistentRateLimit(req) {
+  const supabaseUrl = getEnv('VITE_SUPABASE_URL');
+  const serviceRoleKey = getEnv('SUPABASE_SERVICE_ROLE_KEY');
+  const hashSalt = getEnv('VISITOR_IP_HASH_SALT');
+  if (!supabaseUrl || !serviceRoleKey || !hashSalt) {
+    throw new Error('Missing persistent rate-limit configuration');
   }
 
-  entry.count += 1;
-  requestLog.set(key, entry);
-  return entry.count > RATE_LIMIT_MAX_REQUESTS;
+  const rateKey = crypto
+    .createHash('sha256')
+    .update(`${hashSalt}:ai-proxy:${getClientKey(req)}`)
+    .digest('hex');
+  const response = await fetch(
+    `${supabaseUrl.replace(/\/$/, '')}/rest/v1/rpc/claim_api_rate_limit`,
+    {
+      method: 'POST',
+      headers: {
+        apikey: serviceRoleKey,
+        Authorization: `Bearer ${serviceRoleKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        p_rate_key: rateKey,
+        p_limit: RATE_LIMIT_MAX_REQUESTS,
+        p_window_seconds: Math.ceil(RATE_LIMIT_WINDOW_MS / 1000),
+      }),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Rate-limit RPC failed: ${response.status}`);
+  }
+  const claim = await response.json();
+  if (typeof claim?.allowed !== 'boolean') {
+    throw new Error('Rate-limit RPC returned an invalid claim');
+  }
+  return claim;
+}
+
+async function alertCritical(context, details) {
+  const alert = reportCriticalError({
+    ...details,
+    requestId: context?.requestId || details.requestId || 'unavailable',
+  });
+  if (context?.waitUntil) {
+    context.waitUntil(alert);
+    return;
+  }
+  await alert;
 }
 
 function validatePayload(payload) {
@@ -224,7 +262,7 @@ async function callKku(apiKey, body) {
   });
 }
 
-export default async (req) => {
+export default async (req, context) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { status: 204, headers: getCorsHeaders(req) });
   }
@@ -233,9 +271,6 @@ export default async (req) => {
     return jsonResponse(req, 405, { error: 'Method not allowed' });
   if (!isOriginAllowed(req))
     return jsonResponse(req, 403, { error: 'Origin not allowed' });
-  if (isRateLimited(req))
-    return jsonResponse(req, 429, { error: 'Too many requests' });
-
   const contentLength = Number(req.headers.get('content-length') || 0);
   if (contentLength > MAX_BODY_BYTES)
     return jsonResponse(req, 413, { error: 'Payload too large' });
@@ -265,6 +300,32 @@ export default async (req) => {
     if (!apiKey)
       return jsonResponse(req, 500, { error: 'AI provider is not configured' });
 
+    let rateClaim;
+    try {
+      rateClaim = await claimPersistentRateLimit(req);
+    } catch (rateLimitError) {
+      console.error('AI proxy rate-limit error:', rateLimitError.message);
+      await alertCritical(context, {
+        functionName: 'ai-proxy',
+        event: 'rate_limit_unavailable',
+      });
+      return jsonResponse(req, 503, {
+        error: 'Rate limit service unavailable',
+      });
+    }
+    if (!rateClaim.allowed) {
+      const retryAfter = Math.max(
+        1,
+        Number(rateClaim.retry_after_seconds) || 1
+      );
+      return jsonResponse(
+        req,
+        429,
+        { error: 'Too many requests' },
+        { 'Retry-After': String(retryAfter) }
+      );
+    }
+
     console.log('AI proxy request', {
       provider: validation.provider,
       model: validation.body.model || 'default',
@@ -290,6 +351,10 @@ export default async (req) => {
     });
   } catch (err) {
     console.error('AI Proxy error:', err?.message || err);
+    await alertCritical(context, {
+      functionName: 'ai-proxy',
+      event: 'provider_request_failed',
+    });
     return jsonResponse(req, 500, { error: 'Internal proxy error' });
   }
 };

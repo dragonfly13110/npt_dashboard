@@ -45,6 +45,7 @@ function mockAdminProfile(role = 'admin') {
 
 describe('sync-farmer-registry function', () => {
   beforeEach(() => {
+    process.env.ALLOWED_ORIGINS = 'https://npt.example';
     process.env.VITE_SUPABASE_URL = 'https://example.supabase.co';
     process.env.SUPABASE_SERVICE_ROLE_KEY = 'service-key';
     process.env.SUPABASE_PROJECT_REF = 'project-ref';
@@ -72,6 +73,17 @@ describe('sync-farmer-registry function', () => {
     delete process.env.SUPABASE_SERVICE_ROLE_KEY;
     delete process.env.SUPABASE_PROJECT_REF;
     delete process.env.SUPABASE_ACCESS_TOKEN;
+    delete process.env.ALLOWED_ORIGINS;
+  });
+
+  it('rejects browser origins outside the allowlist', async () => {
+    const response = await syncFarmerRegistry(
+      request({ force: true }, { origin: 'https://evil.example' })
+    );
+
+    expect(response.status).toBe(403);
+    expect(await response.json()).toEqual({ error: 'Origin not allowed' });
+    expect(scrapeFarmerRegistry).not.toHaveBeenCalled();
   });
 
   it('rejects manual sync without an authorization token', async () => {

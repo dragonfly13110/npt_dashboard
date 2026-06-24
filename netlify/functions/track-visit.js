@@ -1,18 +1,15 @@
 /* global Netlify */
 import crypto from 'node:crypto';
 import { createClient } from '@supabase/supabase-js';
+import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Content-Type': 'application/json',
-};
-
-function jsonResponse(status, payload) {
+function jsonResponse(origin, status, payload) {
   return new Response(JSON.stringify(payload), {
     status,
-    headers: CORS_HEADERS,
+    headers: {
+      ...corsHeaders(origin),
+      'Content-Type': 'application/json',
+    },
   });
 }
 
@@ -85,12 +82,17 @@ function getGeo(request, context) {
 }
 
 export default async (request, context) => {
+  const origin = request.headers.get('origin');
+  if (!isOriginAllowed(origin)) {
+    return jsonResponse(origin, 403, { error: 'Origin not allowed' });
+  }
+
   if (request.method === 'OPTIONS') {
-    return new Response('', { status: 204, headers: CORS_HEADERS });
+    return new Response('', { status: 204, headers: corsHeaders(origin) });
   }
 
   if (request.method !== 'POST') {
-    return jsonResponse(405, { error: 'Method not allowed' });
+    return jsonResponse(origin, 405, { error: 'Method not allowed' });
   }
 
   const SUPABASE_URL = Netlify.env.get('VITE_SUPABASE_URL');
@@ -100,7 +102,9 @@ export default async (request, context) => {
   const VISITOR_IP_HASH_SALT = Netlify.env.get('VISITOR_IP_HASH_SALT');
 
   if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
-    return jsonResponse(500, { error: 'Missing Supabase service config' });
+    return jsonResponse(origin, 500, {
+      error: 'Missing Supabase service config',
+    });
   }
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
@@ -130,7 +134,7 @@ export default async (request, context) => {
 
     if (insertError) throw insertError;
 
-    return jsonResponse(200, {
+    return jsonResponse(origin, 200, {
       ok: true,
       visits: visitCount,
       geo: {
@@ -141,7 +145,9 @@ export default async (request, context) => {
     });
   } catch (err) {
     console.error('track-visit error:', err);
-    return jsonResponse(500, { error: err.message || 'Track visit failed' });
+    return jsonResponse(origin, 500, {
+      error: err.message || 'Track visit failed',
+    });
   }
 };
 

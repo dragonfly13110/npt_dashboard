@@ -36,3 +36,6 @@ jobs:
 
       - name: Build Production Bundle
         run: pnpm run build
+        env:
+          VITE_SUPABASE_URL: https://ci-placeholder.supabase.co
+          VITE_SUPABASE_ANON_KEY: ci-placeholder
