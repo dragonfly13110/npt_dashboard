@@ -1,11 +1,14 @@
 export const LANDING_CHATBOT_ALLOWED_LINKS = Object.freeze({
   '/': 'หน้าหลัก',
+  '/manual': 'คู่มือการใช้งาน',
   '/interactive-dashboard': 'ระบบภาพรวมสรุปแบบ Interactive',
   '/smart-map': 'แผนที่อัจฉริยะ',
   '/public/large-plots': 'ข้อมูลแปลงใหญ่',
   '/public/smart-farmers': 'ข้อมูล Smart Farmer รวม',
   '/public/smart-farmer-sf': 'ข้อมูลเกษตรกรปราดเปรื่อง (SF)',
   '/public/young-smart-farmer-ysf': 'ข้อมูลเกษตรกรรุ่นใหม่ (YSF)',
+  '/public/agricultural-career-groups': 'ข้อมูลกลุ่มส่งเสริมอาชีพการเกษตร',
+  '/public/young-farmer-groups': 'ข้อมูลกลุ่มยุวเกษตรกร',
   '/public/community-enterprises': 'ข้อมูลวิสาหกิจชุมชน',
   '/public/agri-tourism': 'ข้อมูลท่องเที่ยวเชิงเกษตร',
   '/public/farmer-institutes': 'ข้อมูลสถาบันเกษตรกร',
@@ -49,6 +52,7 @@ export function normalizeLandingChatbotLink(rawUrl) {
   }
 
   const pathOnly = trimmedUrl.split(/[?#]/, 1)[0];
+  if (/^\/manual\/[^/?#]+$/.test(pathOnly)) return pathOnly;
   const normalizedPath =
     pathOnly.length > 1 ? pathOnly.replace(/\/+$/, '') : pathOnly;
   const aliasedPath =
