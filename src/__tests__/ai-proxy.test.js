@@ -117,19 +117,41 @@ describe('ai-proxy', () => {
     expect(fetch).toHaveBeenCalledTimes(1);
   });
 
-  it('returns 503 without calling the provider when the rate-limit store fails', async () => {
+  it('falls back to memory rate limiting when rate-limit env is missing', async () => {
     process.env.GEMINI_API_KEY = 'test-key';
-    fetch.mockRejectedValueOnce(new Error('database unavailable'));
+    delete process.env.VITE_SUPABASE_URL;
+    delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+    delete process.env.VISITOR_IP_HASH_SALT;
+    fetch.mockResolvedValueOnce(
+      new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      })
+    );
 
     const response = await handler(
       request({ provider: 'gemini', body: { model: 'gemini-3.1-flash-lite' } })
     );
 
-    expect(response.status).toBe(503);
-    expect(await response.json()).toEqual({
-      error: 'Rate limit service unavailable',
-    });
+    expect(response.status).toBe(200);
     expect(fetch).toHaveBeenCalledTimes(1);
+  });
+  it('falls back to memory rate limiting when the persistent store fails', async () => {
+    process.env.GEMINI_API_KEY = 'test-key';
+    fetch.mockRejectedValueOnce(new Error('database unavailable'));
+    fetch.mockResolvedValueOnce(
+      new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      })
+    );
+
+    const response = await handler(
+      request({ provider: 'gemini', body: { model: 'gemini-3.1-flash-lite' } })
+    );
+
+    expect(response.status).toBe(200);
+    expect(fetch).toHaveBeenCalledTimes(2);
     expect(reportCriticalError).toHaveBeenCalledWith(
       expect.objectContaining({
         functionName: 'ai-proxy',

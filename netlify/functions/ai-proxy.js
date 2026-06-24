@@ -5,6 +5,7 @@ import { reportCriticalError } from './lib/error-alert.js';
 const MAX_BODY_BYTES = 4 * 1024 * 1024; // 4MB to support larger dashboard contexts
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 30;
+const memoryRateLimits = new Map();
 
 const PROVIDERS = {
   gemini: {
@@ -114,6 +115,36 @@ function getClientKey(req) {
   );
 }
 
+function claimMemoryRateLimit(req) {
+  // ponytail: per-instance fallback; use Supabase RPC when cross-instance limits matter.
+  const now = Date.now();
+  const rateKey = getClientKey(req);
+  const current = memoryRateLimits.get(rateKey);
+  if (!current || current.windowStartedAt + RATE_LIMIT_WINDOW_MS <= now) {
+    memoryRateLimits.set(rateKey, { windowStartedAt: now, requestCount: 1 });
+    return {
+      allowed: true,
+      remaining: RATE_LIMIT_MAX_REQUESTS - 1,
+      retry_after_seconds: 0,
+    };
+  }
+  if (current.requestCount < RATE_LIMIT_MAX_REQUESTS) {
+    current.requestCount += 1;
+    return {
+      allowed: true,
+      remaining: RATE_LIMIT_MAX_REQUESTS - current.requestCount,
+      retry_after_seconds: 0,
+    };
+  }
+  return {
+    allowed: false,
+    remaining: 0,
+    retry_after_seconds: Math.max(
+      1,
+      Math.ceil((current.windowStartedAt + RATE_LIMIT_WINDOW_MS - now) / 1000)
+    ),
+  };
+}
 async function claimPersistentRateLimit(req) {
   const supabaseUrl = getEnv('VITE_SUPABASE_URL');
   const serviceRoleKey = getEnv('SUPABASE_SERVICE_ROLE_KEY');
@@ -309,9 +340,7 @@ export default async (req, context) => {
         functionName: 'ai-proxy',
         event: 'rate_limit_unavailable',
       });
-      return jsonResponse(req, 503, {
-        error: 'Rate limit service unavailable',
-      });
+      rateClaim = claimMemoryRateLimit(req);
     }
     if (!rateClaim.allowed) {
       const retryAfter = Math.max(
