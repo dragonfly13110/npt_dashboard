@@ -177,11 +177,20 @@ export default function AiDiseaseForecast() {
         return;
       }
 
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
+      if (sessionError || !session?.access_token) {
+        throw new Error('กรุณาเข้าสู่ระบบอีกครั้งก่อนสั่งวิเคราะห์');
+      }
+
       const res = await fetch(
         '/.netlify/functions/forecast-disease-insect-background',
         {
           method: 'POST',
           headers: {
+            Authorization: `Bearer ${session.access_token}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ date: forecastDate, force: true }),
