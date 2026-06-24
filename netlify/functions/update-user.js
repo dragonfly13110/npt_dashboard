@@ -1,16 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
+import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Authorization, Content-Type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Content-Type': 'application/json',
-};
-
-function jsonResponse(status, payload) {
+function jsonResponse(origin, status, payload) {
   return new Response(JSON.stringify(payload), {
     status,
-    headers: CORS_HEADERS,
+    headers: {
+      ...corsHeaders(origin, { headers: 'Authorization, Content-Type' }),
+      'Content-Type': 'application/json',
+    },
   });
 }
 
@@ -21,19 +18,29 @@ function isUuid(value) {
 }
 
 export default async (request) => {
+  const origin = request.headers.get('origin');
+  if (!isOriginAllowed(origin)) {
+    return jsonResponse(origin, 403, { error: 'Origin not allowed' });
+  }
+
   if (request.method === 'OPTIONS') {
-    return new Response('', { status: 204, headers: CORS_HEADERS });
+    return new Response('', {
+      status: 204,
+      headers: corsHeaders(origin, {
+        headers: 'Authorization, Content-Type',
+      }),
+    });
   }
 
   if (request.method !== 'POST') {
-    return jsonResponse(405, { error: 'Method not allowed' });
+    return jsonResponse(origin, 405, { error: 'Method not allowed' });
   }
 
   const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
   const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
-    return jsonResponse(500, {
+    return jsonResponse(origin, 500, {
       error:
         'Missing Supabase service configuration. Set SUPABASE_SERVICE_ROLE_KEY on Netlify.',
     });
@@ -47,7 +54,9 @@ export default async (request) => {
     const authHeader = request.headers.get('authorization') || '';
     const token = authHeader.replace(/^Bearer\s+/i, '').trim();
     if (!token) {
-      return jsonResponse(401, { error: 'Missing authorization token' });
+      return jsonResponse(origin, 401, {
+        error: 'Missing authorization token',
+      });
     }
 
     const {
@@ -56,7 +65,9 @@ export default async (request) => {
     } = await supabase.auth.getUser(token);
 
     if (requesterError || !requester) {
-      return jsonResponse(401, { error: 'Invalid authorization token' });
+      return jsonResponse(origin, 401, {
+        error: 'Invalid authorization token',
+      });
     }
 
     const {
@@ -67,7 +78,7 @@ export default async (request) => {
       position,
     } = await request.json();
     if (!isUuid(targetUserId)) {
-      return jsonResponse(400, { error: 'Invalid user id' });
+      return jsonResponse(origin, 400, { error: 'Invalid user id' });
     }
 
     // Verify requester has admin role
@@ -79,7 +90,9 @@ export default async (request) => {
         .single();
 
     if (requesterProfileError || requesterProfile?.role !== 'admin') {
-      return jsonResponse(403, { error: 'Only admins can update users' });
+      return jsonResponse(origin, 403, {
+        error: 'Only admins can update users',
+      });
     }
 
     // Verify target user exists
@@ -90,12 +103,12 @@ export default async (request) => {
       .single();
 
     if (targetProfileError || !targetProfile) {
-      return jsonResponse(404, { error: 'User profile not found' });
+      return jsonResponse(origin, 404, { error: 'User profile not found' });
     }
 
     // Prevent demoting self if it is the only admin
     if (targetUserId === requester.id && role !== 'admin') {
-      return jsonResponse(400, {
+      return jsonResponse(origin, 400, {
         error:
           'Cannot demote your own account to prevent administrative lockout.',
       });
@@ -110,7 +123,7 @@ export default async (request) => {
 
       if (adminCountError) throw adminCountError;
       if ((count || 0) <= 1) {
-        return jsonResponse(400, {
+        return jsonResponse(origin, 400, {
           error: 'Cannot change role. At least one administrator is required.',
         });
       }
@@ -150,13 +163,15 @@ export default async (request) => {
       },
     });
 
-    return jsonResponse(200, {
+    return jsonResponse(origin, 200, {
       ok: true,
       updated_user_id: targetUserId,
     });
   } catch (err) {
     console.error('update-user error:', err);
-    return jsonResponse(500, { error: err.message || 'Update user failed' });
+    return jsonResponse(origin, 500, {
+      error: err.message || 'Update user failed',
+    });
   }
 };
 

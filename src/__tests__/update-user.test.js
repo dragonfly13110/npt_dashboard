@@ -29,14 +29,26 @@ function request(body, headers = {}) {
 
 describe('update-user serverless function', () => {
   beforeEach(() => {
+    process.env.ALLOWED_ORIGINS = 'https://npt.example';
     process.env.VITE_SUPABASE_URL = 'https://example.supabase.co';
     process.env.SUPABASE_SERVICE_ROLE_KEY = 'service-key';
     vi.clearAllMocks();
   });
 
   afterEach(() => {
+    delete process.env.ALLOWED_ORIGINS;
     delete process.env.VITE_SUPABASE_URL;
     delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+  });
+
+  it('rejects browser origins outside the allowlist', async () => {
+    const response = await handler(
+      request({}, { origin: 'https://evil.example' })
+    );
+
+    expect(response.status).toBe(403);
+    expect(await response.json()).toEqual({ error: 'Origin not allowed' });
+    expect(mockSupabase.auth.getUser).not.toHaveBeenCalled();
   });
 
   it('rejects unsupported methods (GET)', async () => {
