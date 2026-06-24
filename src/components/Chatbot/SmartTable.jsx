@@ -119,7 +119,7 @@ export default function SmartTable({ rawLines }) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
-    link.setAttribute('download', `ข้อมูลตาราง_${Date.now()}.csv`);
+    link.setAttribute('download', 'ข้อมูลตาราง.csv');
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
@@ -137,7 +137,7 @@ export default function SmartTable({ rawLines }) {
     link.setAttribute('href', url);
     link.setAttribute(
       'download',
-      `กราฟ_${columns[1]?.title || 'ข้อมูล'}_${Date.now()}.png`
+      `กราฟ_${columns[1]?.title || 'ข้อมูล'}.png`
     );
     link.style.visibility = 'hidden';
     document.body.appendChild(link);

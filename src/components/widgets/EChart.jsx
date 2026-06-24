@@ -166,11 +166,6 @@ export default function EChart({
       onChartReady(chart);
     }
 
-    // Set option
-    if (option) {
-      chart.setOption(polishOption(option), true);
-    }
-
     // Handle window resize
     const handleResize = () => {
       chart.resize();
@@ -211,7 +206,7 @@ export default function EChart({
         lazyUpdate: true,
       });
     }
-  }, [option]);
+  }, [option, theme, onChartReady]);
 
   return (
     <div

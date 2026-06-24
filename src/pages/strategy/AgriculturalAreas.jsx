@@ -176,7 +176,7 @@ export default function AgriculturalAreas() {
                 maxZoom: 10,
                 animate: false,
             });
-        }, [geoJSONData, map]);
+        }, [map]);
 
         return null;
     };

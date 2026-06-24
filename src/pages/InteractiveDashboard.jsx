@@ -99,10 +99,9 @@ export default function InteractiveDashboard() {
 
     const districts = ['ทั้งหมด', ...DISTRICT_LIST];
 
-    const getGlobalStat = (table) => stats?.find(s => s.table === table)?.count || 0;
-
     // ── Metric cards data ──────────────────────────────────
     const metrics = useMemo(() => {
+        const getGlobalStat = (table) => stats?.find(s => s.table === table)?.count || 0;
         const warningCount = latestForecast?.details?.filter(d => d.risk_level === 'สูง').length || 0;
         const totalDiseases = latestForecast?.details?.length || 0;
 

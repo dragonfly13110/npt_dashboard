@@ -86,19 +86,17 @@ const countBy = (items, key) => {
 };
 
 export const CommunityEnterprisesCard = ({ count, districtStats, details = {}, loading }) => {
-    const typeCounts = details.typeCounts || {};
-    const list = details.list || [];
     const [selectedType, setSelectedType] = useState('all');
     const [selectedDistrict, setSelectedDistrict] = useState('all');
     const [search, setSearch] = useState('');
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const typeOptions = useMemo(() => Object.entries(typeCounts).sort((a, b) => b[1] - a[1]), [typeCounts]);
+    const typeOptions = useMemo(() => Object.entries(details.typeCounts || {}).sort((a, b) => b[1] - a[1]), [details.typeCounts]);
     const districtOptions = useMemo(() => Object.entries(districtStats || {}).sort((a, b) => b[1] - a[1]), [districtStats]);
 
     const filteredList = useMemo(() => {
         const query = search.trim().toLowerCase();
-        return list.filter((item) => {
+        return (details.list || []).filter((item) => {
             if (selectedType !== 'all' && (item.enterprise_type || 'ไม่ระบุประเภท') !== selectedType) return false;
             if (selectedDistrict !== 'all' && item.district !== selectedDistrict) return false;
             if (!query) return true;
@@ -110,7 +108,7 @@ export const CommunityEnterprisesCard = ({ count, districtStats, details = {}, l
                 item.village_no,
             ].some((value) => String(value || '').toLowerCase().includes(query));
         });
-    }, [list, search, selectedDistrict, selectedType]);
+    }, [details.list, search, selectedDistrict, selectedType]);
 
     const filteredDistricts = useMemo(() => (
         Object.entries(countBy(filteredList, 'district')).sort((a, b) => b[1] - a[1])

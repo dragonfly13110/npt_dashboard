@@ -33,3 +33,9 @@ jobs:
 
       - name: Run Unit Tests
         run: pnpm run test
+
+      - name: Build Production Bundle
+        run: pnpm run build
+        env:
+          VITE_SUPABASE_URL: https://ci-placeholder.supabase.co
+          VITE_SUPABASE_ANON_KEY: ci-placeholder
