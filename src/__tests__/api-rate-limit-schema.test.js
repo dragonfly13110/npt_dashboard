@@ -47,4 +47,11 @@ describe('API rate-limit schema', () => {
     expect(claimBody).toMatch(/private\.api_rate_limits/i);
     expect(claimBody).toMatch(/jsonb_build_object\s*\(/i);
   });
+
+  it('does not shadow PostgreSQL current_time', () => {
+    expect(claimBody).toMatch(
+      /v_now\s+timestamptz\s*:=\s*clock_timestamp\(\)/i
+    );
+    expect(claimBody).not.toMatch(/\bcurrent_time\b/i);
+  });
 });

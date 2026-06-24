@@ -26,7 +26,7 @@ set search_path = ''
 as $$
 declare
   current_row private.api_rate_limits%rowtype;
-  current_time timestamptz := clock_timestamp();
+  v_now timestamptz := clock_timestamp();
   retry_after integer;
 begin
   if p_rate_key is null or btrim(p_rate_key) = '' then
@@ -53,20 +53,20 @@ begin
       request_count,
       updated_at
     )
-    values (p_rate_key, current_time, 1, current_time)
+    values (p_rate_key, v_now, 1, v_now)
     returning * into current_row;
   elsif current_row.window_started_at
-    + pg_catalog.make_interval(secs => p_window_seconds) <= current_time then
+    + pg_catalog.make_interval(secs => p_window_seconds) <= v_now then
     update private.api_rate_limits
-    set window_started_at = current_time,
+    set window_started_at = v_now,
         request_count = 1,
-        updated_at = current_time
+        updated_at = v_now
     where rate_key = p_rate_key
     returning * into current_row;
   elsif current_row.request_count < p_limit then
     update private.api_rate_limits
     set request_count = request_count + 1,
-        updated_at = current_time
+        updated_at = v_now
     where rate_key = p_rate_key
     returning * into current_row;
   else
@@ -77,7 +77,7 @@ begin
           epoch from (
             current_row.window_started_at
             + pg_catalog.make_interval(secs => p_window_seconds)
-            - current_time
+            - v_now
           )
         )
       )::integer
