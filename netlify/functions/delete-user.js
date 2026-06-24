@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { reportCriticalError } from './lib/error-alert.js';
 import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
@@ -20,7 +21,7 @@ function isUuid(value) {
   );
 }
 
-export default async (request) => {
+export default async (request, context) => {
   const origin = request.headers.get('origin');
   if (!isOriginAllowed(origin)) {
     return jsonResponse(origin, 403, { error: 'Origin not allowed' });
@@ -147,6 +148,13 @@ export default async (request) => {
     });
   } catch (err) {
     console.error('delete-user error:', err);
+    const alert = reportCriticalError({
+      functionName: 'delete-user',
+      event: 'delete_failed',
+      requestId: context?.requestId || 'unavailable',
+    });
+    if (context?.waitUntil) context.waitUntil(alert);
+    else await alert;
     return jsonResponse(origin, 500, {
       error: err.message || 'Delete user failed',
     });

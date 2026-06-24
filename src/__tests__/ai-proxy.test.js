@@ -1,5 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import handler from '../../netlify/functions/ai-proxy.js';
+import { reportCriticalError } from '../../netlify/functions/lib/error-alert.js';
+
+vi.mock('../../netlify/functions/lib/error-alert.js', () => ({
+  reportCriticalError: vi.fn(),
+}));
 
 function request(body, headers = {}) {
   return new Request(
@@ -45,6 +50,7 @@ describe('ai-proxy', () => {
     delete process.env.VITE_LANDING_CHATBOT_API_KEY;
     delete process.env.LANDING_CHATBOT_API_KEY;
     vi.stubGlobal('fetch', vi.fn());
+    reportCriticalError.mockResolvedValue(false);
   });
 
   afterEach(() => {
@@ -124,6 +130,32 @@ describe('ai-proxy', () => {
       error: 'Rate limit service unavailable',
     });
     expect(fetch).toHaveBeenCalledTimes(1);
+    expect(reportCriticalError).toHaveBeenCalledWith(
+      expect.objectContaining({
+        functionName: 'ai-proxy',
+        event: 'rate_limit_unavailable',
+      })
+    );
+  });
+
+  it('queues a critical alert when an AI provider request throws', async () => {
+    process.env.GEMINI_API_KEY = 'test-key';
+    mockAllowedRateClaim();
+    fetch.mockRejectedValueOnce(new Error('provider offline'));
+    const waitUntil = vi.fn();
+
+    const response = await handler(
+      request({ provider: 'gemini', body: { model: 'gemini-3.1-flash-lite' } }),
+      { requestId: 'req-ai-1', waitUntil }
+    );
+
+    expect(response.status).toBe(500);
+    expect(reportCriticalError).toHaveBeenCalledWith({
+      functionName: 'ai-proxy',
+      event: 'provider_request_failed',
+      requestId: 'req-ai-1',
+    });
+    expect(waitUntil).toHaveBeenCalledTimes(1);
   });
 
   it('forwards valid Gemini requests without internal fields', async () => {

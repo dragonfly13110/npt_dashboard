@@ -1,5 +1,6 @@
 import { schedule } from '@netlify/functions';
 import { createClient } from '@supabase/supabase-js';
+import { reportCriticalError } from './lib/error-alert.js';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
@@ -17,7 +18,7 @@ const CORS_HEADERS = {
     'Content-Type': 'application/json',
 };
 
-const syncWeather = async () => {
+const syncWeather = async (context) => {
     console.log('Triggering Daily Weather Sync (Robust Open-Meteo)...');
 
     try {
@@ -107,17 +108,24 @@ const syncWeather = async () => {
         return { statusCode: 200, headers: CORS_HEADERS, body: JSON.stringify({ message: `Synced ${dbRecords.length} records` }) };
     } catch (err) {
         console.error('Sync Error:', err.message);
+        const alert = reportCriticalError({
+            functionName: 'sync-weather',
+            event: 'scheduled_sync_failed',
+            requestId: context?.requestId || 'scheduled',
+        });
+        if (context?.waitUntil) context.waitUntil(alert);
+        else await alert;
         return { statusCode: 500, headers: CORS_HEADERS, body: JSON.stringify({ error: err.message }) };
     }
 };
 
-const syncHandler = async (event = {}) => {
+const syncHandler = async (event = {}, context) => {
     if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers: CORS_HEADERS, body: '' };
     if (event.httpMethod && !['GET', 'POST'].includes(event.httpMethod)) {
         return { statusCode: 405, headers: CORS_HEADERS, body: JSON.stringify({ error: 'Method not allowed' }) };
     }
 
-    return syncWeather();
+    return syncWeather(context);
 };
 
 export const handler = schedule('0 22 * * *', syncHandler);

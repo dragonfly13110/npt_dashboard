@@ -1,6 +1,7 @@
 import { schedule } from '@netlify/functions';
 import { createClient } from '@supabase/supabase-js';
 import { scrapeFarmerRegistry } from '../../scripts/scrape_farmer_registry.js';
+import { reportCriticalError } from './lib/error-alert.js';
 import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
 
 function jsonResponse(status, payload, origin = null) {
@@ -118,18 +119,25 @@ async function runSync({ force = false, origin = null } = {}) {
   return jsonResponse(200, { ok: true, skipped: false }, origin);
 }
 
-export async function scheduledSyncFarmerRegistry() {
+export async function scheduledSyncFarmerRegistry(_event, context) {
   try {
     return await runSync({ force: false });
   } catch (err) {
     console.error('sync-farmer-registry scheduled error:', err);
+    const alert = reportCriticalError({
+      functionName: 'sync-farmer-registry',
+      event: 'scheduled_sync_failed',
+      requestId: context?.requestId || 'scheduled',
+    });
+    if (context?.waitUntil) context.waitUntil(alert);
+    else await alert;
     return jsonResponse(500, {
       error: err.message || 'Farmer registry sync failed',
     });
   }
 }
 
-export default async function syncFarmerRegistry(request) {
+export default async function syncFarmerRegistry(request, context) {
   const origin = request.headers.get('origin');
   if (!isOriginAllowed(origin)) {
     return jsonResponse(403, { error: 'Origin not allowed' }, origin);
@@ -156,6 +164,13 @@ export default async function syncFarmerRegistry(request) {
     return await runSync({ force: body.force === true, origin });
   } catch (err) {
     console.error('sync-farmer-registry manual error:', err);
+    const alert = reportCriticalError({
+      functionName: 'sync-farmer-registry',
+      event: 'manual_sync_failed',
+      requestId: context?.requestId || 'unavailable',
+    });
+    if (context?.waitUntil) context.waitUntil(alert);
+    else await alert;
     return jsonResponse(
       500,
       { error: err.message || 'Farmer registry sync failed' },

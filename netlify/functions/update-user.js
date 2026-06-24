@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { reportCriticalError } from './lib/error-alert.js';
 import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
 
 function jsonResponse(origin, status, payload) {
@@ -17,7 +18,7 @@ function isUuid(value) {
   );
 }
 
-export default async (request) => {
+export default async (request, context) => {
   const origin = request.headers.get('origin');
   if (!isOriginAllowed(origin)) {
     return jsonResponse(origin, 403, { error: 'Origin not allowed' });
@@ -169,6 +170,13 @@ export default async (request) => {
     });
   } catch (err) {
     console.error('update-user error:', err);
+    const alert = reportCriticalError({
+      functionName: 'update-user',
+      event: 'update_failed',
+      requestId: context?.requestId || 'unavailable',
+    });
+    if (context?.waitUntil) context.waitUntil(alert);
+    else await alert;
     return jsonResponse(origin, 500, {
       error: err.message || 'Update user failed',
     });

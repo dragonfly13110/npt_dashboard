@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import { reportCriticalError } from './lib/error-alert.js';
 
 // netlify/functions/ai-proxy.js
 const MAX_BODY_BYTES = 4 * 1024 * 1024; // 4MB to support larger dashboard contexts
@@ -152,6 +153,18 @@ async function claimPersistentRateLimit(req) {
   return claim;
 }
 
+async function alertCritical(context, details) {
+  const alert = reportCriticalError({
+    ...details,
+    requestId: context?.requestId || details.requestId || 'unavailable',
+  });
+  if (context?.waitUntil) {
+    context.waitUntil(alert);
+    return;
+  }
+  await alert;
+}
+
 function validatePayload(payload) {
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
     return { error: 'Invalid JSON payload' };
@@ -249,7 +262,7 @@ async function callKku(apiKey, body) {
   });
 }
 
-export default async (req) => {
+export default async (req, context) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { status: 204, headers: getCorsHeaders(req) });
   }
@@ -292,6 +305,10 @@ export default async (req) => {
       rateClaim = await claimPersistentRateLimit(req);
     } catch (rateLimitError) {
       console.error('AI proxy rate-limit error:', rateLimitError.message);
+      await alertCritical(context, {
+        functionName: 'ai-proxy',
+        event: 'rate_limit_unavailable',
+      });
       return jsonResponse(req, 503, {
         error: 'Rate limit service unavailable',
       });
@@ -334,6 +351,10 @@ export default async (req) => {
     });
   } catch (err) {
     console.error('AI Proxy error:', err?.message || err);
+    await alertCritical(context, {
+      functionName: 'ai-proxy',
+      event: 'provider_request_failed',
+    });
     return jsonResponse(req, 500, { error: 'Internal proxy error' });
   }
 };

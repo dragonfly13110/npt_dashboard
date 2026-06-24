@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { reportCriticalError } from './lib/error-alert.js';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY =
@@ -113,7 +114,7 @@ function isUsableForecast(row) {
 }
 
 // Main forecast logic
-export const generateForecast = async (event = {}) => {
+export const generateForecast = async (event = {}, context) => {
   console.log('Starting Daily Crop Disease & Pest Risk AI Forecast...');
 
   try {
@@ -489,6 +490,14 @@ ${outbreakSummary}`;
     };
   } catch (err) {
     console.error('Forecast generation error:', err.message);
+    const alert = reportCriticalError({
+      functionName: 'forecast-disease-insect',
+      event: 'forecast_generation_failed',
+      requestId:
+        context?.requestId || event?.requestContext?.requestId || 'scheduled',
+    });
+    if (context?.waitUntil) context.waitUntil(alert);
+    else await alert;
     return {
       statusCode: 500,
       headers: CORS_HEADERS,
@@ -497,12 +506,12 @@ ${outbreakSummary}`;
   }
 };
 
-const forecastHandler = async (event = {}) => {
+const forecastHandler = async (event = {}, context) => {
   if (event.httpMethod === 'OPTIONS')
     return { statusCode: 204, headers: CORS_HEADERS, body: '' };
 
   // Support scheduled trigger or direct endpoint request
-  return generateForecast(event);
+  return generateForecast(event, context);
 };
 
 export const handler = forecastHandler;

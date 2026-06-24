@@ -1,5 +1,6 @@
 import { schedule } from '@netlify/functions';
 import { createClient } from '@supabase/supabase-js';
+import { reportCriticalError } from './lib/error-alert.js';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
@@ -12,7 +13,7 @@ if (!SUPABASE_URL || !SUPABASE_KEY || !GISTDA_KEY) {
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const syncHandler = async () => {
+const syncHandler = async (_event, context) => {
     console.log('Triggering Daily Fire Hotspot Sync...');
 
     try {
@@ -93,6 +94,13 @@ const syncHandler = async () => {
         };
     } catch (err) {
         console.error('Sync Error:', err.message);
+        const alert = reportCriticalError({
+            functionName: 'sync-hotspots',
+            event: 'scheduled_sync_failed',
+            requestId: context?.requestId || 'scheduled',
+        });
+        if (context?.waitUntil) context.waitUntil(alert);
+        else await alert;
         return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
     }
 };
