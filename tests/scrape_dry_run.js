@@ -143,7 +143,6 @@ async function main() {
 
     const records = [];
     let trMatch;
-    let tableRowsCount = 0;
 
     while ((trMatch = trRegex.exec(reportHtml)) !== null) {
       const trContent = trMatch[1];
@@ -167,7 +166,6 @@ async function main() {
           !firstCell.includes('แปลง') &&
           !firstCell.includes('เนื้อที่')
         ) {
-          tableRowsCount++;
           const rawDistrict = firstCell.replace(/^\s+/, '').trim();
           if (rawDistrict === 'นครปฐม' || rawDistrict === 'จังหวัดนครปฐม') {
             continue; // Skip province total row

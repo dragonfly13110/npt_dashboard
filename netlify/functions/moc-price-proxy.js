@@ -126,11 +126,11 @@ export default async (request) => {
         }
 
         // Parse unit from header e.g. บาท/กก. or บาท/100 ก.ก.
-        const unitRegex = /บาท\/([^<\)\"\r\n]+)/;
+        const unitRegex = /บาท\/([^<)"\r\n]+)/;
         const unitMatch = html.match(unitRegex);
         let unit = 'กก.';
         if (unitMatch) {
-          unit = unitMatch[1].trim().replace(/['\"]/g, '');
+          unit = unitMatch[1].trim().replace(/['"]/g, '');
         }
 
         const lastPoint = avgPoints[avgPoints.length - 1];

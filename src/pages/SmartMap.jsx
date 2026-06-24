@@ -501,7 +501,7 @@ export default function SmartMap() {
   }, [fetchWeatherAndAirQuality]);
 
   useEffect(() => {
-    if (!isSoilLayerVisible || soilLayerData || soilLayerLoading) return;
+    if (!isSoilLayerVisible || soilLayerData) return;
     if (!SOIL_LAYER_URL && !SOIL_LAYER_METADATA_URL) {
       setSoilLayerError('Soil layer URL is not configured.');
       return;

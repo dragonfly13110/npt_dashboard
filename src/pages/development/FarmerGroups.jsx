@@ -972,9 +972,10 @@ export function HousewifeFarmerGroups() {
           },
         ];
 
-  const scrollX = useMemo(() => {
-    return tableColumns.reduce((sum, col) => sum + (col.width || 120), 0);
-  }, [tableColumns]);
+  const scrollX = tableColumns.reduce(
+    (sum, col) => sum + (col.width || 120),
+    0
+  );
 
   return (
     <div>
