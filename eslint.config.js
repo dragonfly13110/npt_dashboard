@@ -13,6 +13,7 @@ export default defineConfig([
     'test-results',
     'tmp',
     'scratch',
+    '.worktrees',
   ]),
   {
     linterOptions: {
