@@ -24,6 +24,7 @@ import {
   saveLandingChatbotMessages,
 } from './conversationStorage';
 import { getLandingQuickReply } from './quickReply';
+import { LANDING_CHATBOT_PUBLIC_KNOWLEDGE_PROMPT } from './publicKnowledge';
 
 const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
 const MODEL_NAME =
@@ -266,7 +267,7 @@ export default function LandingChatbot() {
     const apiMessages = [
       {
         role: 'system',
-        content: `${SYSTEM_PROMPT}\n\n${CONTEXT_MEMORY_PROMPT}\n\n${LANDING_CHATBOT_LINK_POLICY_PROMPT}`,
+        content: `${SYSTEM_PROMPT}\n\n${LANDING_CHATBOT_PUBLIC_KNOWLEDGE_PROMPT}\n\n${CONTEXT_MEMORY_PROMPT}\n\n${LANDING_CHATBOT_LINK_POLICY_PROMPT}`,
       },
       ...history,
       newUserMsg,
