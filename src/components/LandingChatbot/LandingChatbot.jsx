@@ -29,6 +29,7 @@ const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
 const MODEL_NAME =
   import.meta.env.VITE_LANDING_CHATBOT_MODEL || 'deepseek-v4-flash';
 const DAILY_LIMIT = 10;
+const LANDING_CHATBOT_TIMEOUT_MS = 20000;
 const CONTEXT_MEMORY_PROMPT =
   'Use the recent conversation history as context for follow-up questions. If the user asks "that", "it", "same one", "เมื่อกี้", or similar references, resolve it from the previous messages instead of treating the new message as an isolated question.';
 
@@ -273,6 +274,7 @@ export default function LandingChatbot() {
 
     try {
       const response = await fetch(AI_PROXY_URL, {
+        signal: AbortSignal.timeout(LANDING_CHATBOT_TIMEOUT_MS),
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

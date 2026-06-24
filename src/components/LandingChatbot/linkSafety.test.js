@@ -35,5 +35,6 @@ describe('normalizeLandingChatbotLink', () => {
     expect(normalizeLandingChatbotLink('#top')).toBeNull();
     expect(normalizeLandingChatbotLink('/public/weather')).toBeNull();
     expect(normalizeLandingChatbotLink('/dashboard/admin/users')).toBeNull();
+    expect(normalizeLandingChatbotLink('/dashboard/chatbot')).toBeNull();
   });
 });
