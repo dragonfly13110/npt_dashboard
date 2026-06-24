@@ -13,12 +13,17 @@ This project must not rely on hardcoded service keys. Configure these values in 
 ## Netlify Function Variables
 
 - `SUPABASE_SERVICE_ROLE_KEY`: Server-only Supabase key for scheduled imports and protected writes.
+- `VISITOR_IP_HASH_SALT`: Server-only random secret used to hash client IPs before persistent rate-limit claims.
 - `GISTDA_API_KEY`: Server-only GISTDA API key.
 - `METEOSTAT_API_KEY`: Server-only RapidAPI Meteostat key.
 - `GEMINI_API_KEY`: Server-only Gemini API key.
 - `OPENROUTER_API_KEY`: Server-only OpenRouter API key.
 - `NVIDIA_API_KEY`: Server-only NVIDIA API key.
 - `ALLOWED_ORIGINS`: Comma-separated origins allowed to call sensitive functions, for example `http://localhost:5173,https://example.netlify.app`.
+- `LINE_CHANNEL_ACCESS_TOKEN`: Server-only LINE Messaging API token used for critical error alerts.
+- `ERROR_ALERT_LINE_USER_IDS`: Comma-separated LINE user IDs that receive critical error alerts. Leave empty to log errors without sending LINE messages.
+
+The AI proxy rate limiter also requires `VITE_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, and `VISITOR_IP_HASH_SALT`, plus the `supabase/api_rate_limits.sql` migration applied to the target project. It returns `503` instead of calling the AI provider when the shared rate-limit store is unavailable.
 
 ## GitHub Actions
 
