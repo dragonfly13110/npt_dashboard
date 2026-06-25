@@ -7,10 +7,6 @@
 
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath, pathToFileURL } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // Simple .env loader
 try {
@@ -427,7 +423,7 @@ export async function scrapeFarmerRegistry() {
 
 if (
   process.argv[1] &&
-  import.meta.url === pathToFileURL(process.argv[1]).href
+  path.basename(process.argv[1]) === 'scrape_farmer_registry.js'
 ) {
   scrapeFarmerRegistry().catch(() => {
     process.exitCode = 1;
