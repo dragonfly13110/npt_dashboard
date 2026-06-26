@@ -509,22 +509,6 @@ export default function LandingPage() {
                 </button>
               </div>
             </form>
-            <div className="landing-search-suggestions">
-              <span className="suggestion-label">ลองค้นหา:</span>
-              {['บางเลน', 'ดินเหนียว', 'GAP', 'ศพก'].map((term) => (
-                <button
-                  key={term}
-                  type="button"
-                  className="suggestion-tag-btn"
-                  onClick={() => {
-                    setLandingQuery(term);
-                    navigate(`/dashboard/search?q=${encodeURIComponent(term)}`);
-                  }}
-                >
-                  {term}
-                </button>
-              ))}
-            </div>
           </div>
         </div>
       </header>
