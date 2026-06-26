@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import {
   Alert,
   Button,
@@ -9,7 +9,6 @@ import {
   Row,
   Skeleton,
   Space,
-  Statistic,
   Tag,
   Typography,
   message,
@@ -33,15 +32,9 @@ import EChart from '../components/widgets/EChart';
 import budgetSeed from '../data/budgetRound2_2569.json';
 import './SituationRoom.css';
 
-const { Paragraph, Text, Title } = Typography;
+const { Text, Title } = Typography;
 const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
-const GEMINI_SITUATION_MODELS = [
-  'gemini-3.5-flash',
-  'gemini-3-flash-preview',
-  'gemini-3.1-flash-lite',
-  'gemini-2.5-flash',
-  'gemini-1.5-flash',
-];
+const GEMINI_SITUATION_MODEL = 'gemini-3.1-flash-lite';
 
 const DISTRICT_CENTROIDS = [
   { name: 'เมืองนครปฐม', lat: 13.82, lon: 100.04 },
@@ -99,32 +92,42 @@ async function maybeData(query) {
 }
 
 async function fetchExecutiveSignals() {
-  const [budgets, requests, assignments, hotspots] = await Promise.all([
-    maybeData(
-      supabase
-        .from('budgets')
-        .select(
-          'id,project_name,budget_amount,spent_amount,status,notes,fiscal_year,budget_round,created_at,updated_at,source_file'
-        )
-    ),
-    maybeData(
-      supabase
-        .from('data_requests')
-        .select('id,title,status,created_at')
-        .order('created_at', { ascending: false })
-        .limit(20)
-    ),
-    maybeData(supabase.from('data_request_assignments').select('id,status')),
-    maybeData(
-      supabase
-        .from('fire_hotspots')
-        .select('district,confidence,frp,acq_date')
-        .order('acq_date', { ascending: false })
-        .limit(200)
-    ),
-  ]);
+  const [budgets, requests, assignments, hotspots, registry] =
+    await Promise.all([
+      maybeData(
+        supabase
+          .from('budgets')
+          .select(
+            'id,project_name,budget_amount,spent_amount,status,notes,fiscal_year,budget_round,created_at,updated_at,source_file'
+          )
+      ),
+      maybeData(
+        supabase
+          .from('data_requests')
+          .select('id,title,status,created_at')
+          .order('created_at', { ascending: false })
+          .limit(20)
+      ),
+      maybeData(supabase.from('data_request_assignments').select('id,status')),
+      maybeData(
+        supabase
+          .from('fire_hotspots')
+          .select('district,confidence,frp,acq_date')
+          .order('acq_date', { ascending: false })
+          .limit(200)
+      ),
+      maybeData(
+        supabase
+          .from('farmer_registry')
+          .select(
+            'district,data_year,target,total_updated_households,total_updated_area_rai,cutoff_date'
+          )
+          .order('data_year', { ascending: false })
+          .order('district')
+      ),
+    ]);
 
-  return { budgets, requests, assignments, hotspots };
+  return { budgets, requests, assignments, hotspots, registry };
 }
 
 async function fetchWeatherRisk() {
@@ -241,6 +244,53 @@ function buildBudgetSummary(rows) {
     progress: totalBudget ? pct((totalSpent / totalBudget) * 100) : 0,
     statusCounts,
     topProjects,
+  };
+}
+
+function buildRegistrySummary(rows) {
+  const years = rows
+    .map((row) => Number(row.data_year))
+    .filter(Number.isFinite);
+  const activeYear = years.length ? Math.max(...years) : null;
+  const activeRows = activeYear
+    ? rows.filter((row) => Number(row.data_year) === activeYear)
+    : rows;
+  const districtRows = activeRows.filter(
+    (row) => !['จังหวัดนครปฐม', 'นครปฐม'].includes(row.district)
+  );
+  const provinceRow = activeRows.find((row) =>
+    ['จังหวัดนครปฐม', 'นครปฐม'].includes(row.district)
+  );
+
+  const target =
+    Number(provinceRow?.target) ||
+    districtRows.reduce((sum, row) => sum + (Number(row.target) || 0), 0);
+  const updated =
+    Number(provinceRow?.total_updated_households) ||
+    districtRows.reduce(
+      (sum, row) => sum + (Number(row.total_updated_households) || 0),
+      0
+    );
+  const area =
+    Number(provinceRow?.total_updated_area_rai) ||
+    districtRows.reduce(
+      (sum, row) => sum + (Number(row.total_updated_area_rai) || 0),
+      0
+    );
+  const latestCutoff = activeRows
+    .map((row) => row.cutoff_date)
+    .filter(Boolean)
+    .sort()
+    .at(-1);
+
+  return {
+    activeYear,
+    target,
+    updated,
+    area,
+    latestCutoff,
+    progress: target > 0 ? pct((updated / target) * 100) : 0,
+    remaining: target > 0 ? Math.max(target - updated, 0) : null,
   };
 }
 
@@ -380,22 +430,21 @@ function buildRecommendedActions({
 
 function buildPrompt(snapshot) {
   return `คุณคือผู้ช่วยวิเคราะห์สถานการณ์สำหรับผู้บริหารสำนักงานเกษตรจังหวัดนครปฐม
-สรุปเป็นภาษาไทย กระชับ ตรงประเด็น ไม่เปิดเผยข้อมูลส่วนบุคคล
+สรุปเป็นภาษาไทยแบบสั้นมาก ตรงประเด็น ไม่เปิดเผยข้อมูลส่วนบุคคล
 
 ข้อมูลวันนี้:
 ${JSON.stringify(snapshot, null, 2)}
 
-ตอบกลับเป็น 4 ส่วน:
-1. สถานการณ์รวมจังหวัด 2-3 ประโยค
-2. สิ่งที่ผู้บริหารต้องดูวันนี้ 3 ข้อ
-3. การตัดสินใจ/มอบหมายงานที่แนะนำ 3 ข้อ
-4. ประโยคสรุปสำหรับรายงานผู้บริหาร 1 ย่อหน้า`;
+ตอบกลับไม่เกิน 5 บรรทัด:
+1. ภาพรวมวันนี้ 1 บรรทัด
+2. จุดที่ต้องจับตา 2 ข้อ
+3. งานที่ควรมอบหมาย 2 ข้อ`;
 }
 
 function buildGenerationConfig(model) {
   const base = {
-    temperature: 0.35,
-    maxOutputTokens: 4096,
+    temperature: 0.25,
+    maxOutputTokens: 700,
   };
 
   if (model.includes('flash-lite') || model.startsWith('gemini-1.5')) {
@@ -488,7 +537,7 @@ function weatherRiskOption(data) {
 function isCompleteBriefing(text) {
   if (!text) return false;
   const normalized = text.replace(/\s+/g, ' ').trim();
-  return normalized.length >= 180 && /\p{L}/u.test(normalized);
+  return normalized.length >= 80 && /\p{L}/u.test(normalized);
 }
 
 async function callGeminiSituationModel(model, snapshot) {
@@ -522,49 +571,16 @@ async function callGeminiSituationModel(model, snapshot) {
 }
 
 async function callSituationAi(snapshot) {
-  const failures = [];
-  for (const model of GEMINI_SITUATION_MODELS) {
-    try {
-      const text = await callGeminiSituationModel(model, snapshot);
-      if (text) return { text, model };
-      failures.push(`${model}: empty response`);
-    } catch (err) {
-      failures.push(`${model}: ${err.message}`);
-    }
-  }
-  throw new Error(failures.join(' | '));
+  const text = await callGeminiSituationModel(GEMINI_SITUATION_MODEL, snapshot);
+  return { text, model: GEMINI_SITUATION_MODEL };
 }
 
-function TypewriterText({ text }) {
-  const [displayedText, setDisplayedText] = useState('');
-
-  useEffect(() => {
-    if (!text) {
-      setDisplayedText('');
-      return;
-    }
-
-    let index = 0;
-    setDisplayedText('');
-
-    const interval = setInterval(() => {
-      if (index < text.length) {
-        setDisplayedText((prev) => prev + text.slice(index, index + 4));
-        index += 4;
-      } else {
-        clearInterval(interval);
-      }
-    }, 15);
-
-    return () => clearInterval(interval);
-  }, [text]);
-
-  return (
-    <div className="ai-briefing-text">
-      {displayedText}
-      <span className="typewriter-cursor">|</span>
-    </div>
-  );
+function riskLabel(item, index) {
+  if (index === 0 || item.fire > 0 || item.score >= 20)
+    return { text: 'เสี่ยงสูง', color: 'red' };
+  if (index < 3 || item.pestArea > 0 || item.score >= 10)
+    return { text: 'ต้องติดตาม', color: 'orange' };
+  return { text: 'เฝ้าระวัง', color: 'blue' };
 }
 
 export default function SituationRoom() {
@@ -600,11 +616,14 @@ export default function SituationRoom() {
   const [aiBriefing, setAiBriefing] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState('');
-  const [reportReady, setReportReady] = useState(false);
 
   const budget = useMemo(
     () => buildBudgetSummary(signals.budgets || []),
     [signals.budgets]
+  );
+  const registry = useMemo(
+    () => buildRegistrySummary(signals.registry || []),
+    [signals.registry]
   );
   const ranking = useMemo(
     () => buildDistrictRanking(districtStats, signals.hotspots || []),
@@ -650,6 +669,14 @@ export default function SituationRoom() {
       }),
     [budget, pendingRequests, ranking, weatherRisk]
   );
+  const decisionItems = useMemo(
+    () =>
+      alerts.map((alert, index) => ({
+        ...alert,
+        action: actions[index] || actions[actions.length - 1],
+      })),
+    [actions, alerts]
+  );
   const snapshot = useMemo(
     () => ({
       generatedAt: new Date().toLocaleString('th-TH', {
@@ -674,6 +701,13 @@ export default function SituationRoom() {
         totalSpent: budget.totalSpent,
         progress: budget.progress,
       },
+      registry: {
+        activeYear: registry.activeYear,
+        target: registry.target,
+        updated: registry.updated,
+        progress: registry.progress,
+        remaining: registry.remaining,
+      },
       pendingRequests,
       pendingAssignments,
       topDistricts: ranking.slice(0, 3),
@@ -690,6 +724,7 @@ export default function SituationRoom() {
       pendingAssignments,
       pendingRequests,
       ranking,
+      registry,
       totalRecords,
       weatherRisk,
     ]
@@ -703,7 +738,6 @@ export default function SituationRoom() {
   const handleGenerateReport = async () => {
     setAiLoading(true);
     setAiError('');
-    setReportReady(true);
     try {
       const { text, model } = await callSituationAi(snapshot);
       setAiBriefing(`${text}\n\nใช้โมเดล: ${model}`);
@@ -728,10 +762,7 @@ export default function SituationRoom() {
         <div>
           <Tag color="green">Executive Decision Support</Tag>
           <Title level={2}>Executive Situation Room</Title>
-          <Paragraph>
-            หน้าเดียวสำหรับผู้บริหาร: สถานการณ์รวมจังหวัด, alert วันนี้,
-            งบประมาณ, คำขอข้อมูล และข้อเสนอแนะเชิงปฏิบัติ
-          </Paragraph>
+          <Text type="secondary">อัปเดต {snapshot.generatedAt}</Text>
         </div>
         <Space wrap>
           <Button icon={<ReloadOutlined />} onClick={handleRefresh}>
@@ -743,13 +774,11 @@ export default function SituationRoom() {
             loading={aiLoading}
             onClick={handleGenerateReport}
           >
-            สร้างรายงานผู้บริหาร
+            สรุป AI
           </Button>
-          {reportReady && (
-            <Button icon={<FilePdfOutlined />} onClick={handlePrint}>
-              พิมพ์ / บันทึก PDF
-            </Button>
-          )}
+          <Button icon={<FilePdfOutlined />} onClick={handlePrint}>
+            PDF
+          </Button>
         </Space>
       </div>
 
@@ -823,44 +852,29 @@ export default function SituationRoom() {
           </Row>
 
           <Row gutter={[16, 16]} className="situation-main-grid">
-            <Col xs={24} xl={15} className="situation-main-stack">
-              <Card title="สถานการณ์รวมจังหวัด" className="situation-card">
-                <div className="province-snapshot">
-                  <div>
-                    <Text type="secondary">ครัวเรือนเกษตรกร</Text>
-                    <strong>{money(agriStats.households)} ราย</strong>
-                  </div>
-                  <div>
-                    <Text type="secondary">แปลงใหญ่</Text>
-                    <strong>{money(lpStats.total)} แปลง</strong>
-                  </div>
-                  <div>
-                    <Text type="secondary">กลุ่ม/สถาบัน</Text>
-                    <strong>{money(instituteStats.total)} กลุ่ม</strong>
-                  </div>
-                  <div>
-                    <Text type="secondary">ฝนสูงสุด 3 วัน</Text>
-                    <strong>
-                      {Number(weatherRisk.maxRainTotal || 0).toFixed(1)} มม.
-                    </strong>
-                  </div>
-                </div>
-                <div className="risk-strip">
-                  <div>
-                    <CloudOutlined /> อุณหภูมิเฉลี่ย{' '}
-                    {Number(weatherRisk.avgTemp || 0).toFixed(1)}°C
-                  </div>
-                  <div>
-                    <ThunderboltOutlined /> โอกาสฝนสูงสุด{' '}
-                    {weatherRisk.maxRainProbability || 0}%
-                  </div>
-                  <div>
-                    <FireOutlined /> PM2.5 เฉลี่ย{' '}
-                    {Number(weatherRisk.avgPm25 || 0).toFixed(1)} µg/m³
-                  </div>
+            <Col xs={24} xl={14}>
+              <Card
+                title="Decision Queue"
+                className="situation-card decision-card"
+              >
+                <div className="decision-list">
+                  {decisionItems.map((item, index) => (
+                    <div
+                      className={`decision-item ${item.level}`}
+                      key={item.title}
+                    >
+                      <div className="decision-rank">{index + 1}</div>
+                      <div>
+                        <div className="decision-title">{item.title}</div>
+                        <div className="decision-detail">{item.detail}</div>
+                        <div className="decision-action">{item.action}</div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </Card>
-
+            </Col>
+            <Col xs={24} xl={10}>
               <Card
                 title="พื้นที่ต้องติดตาม"
                 extra={<Tag color="green">จุดความร้อน 7 วันล่าสุด</Tag>}
@@ -917,16 +931,8 @@ export default function SituationRoom() {
                               </div>
                             </div>
                           </div>
-                          <Tag
-                            color={
-                              index === 0
-                                ? 'red'
-                                : index < 3
-                                  ? 'orange'
-                                  : 'blue'
-                            }
-                          >
-                            score {item.score}
+                          <Tag color={riskLabel(item, index).color}>
+                            {riskLabel(item, index).text}
                           </Tag>
                         </div>
                       );
@@ -937,26 +943,79 @@ export default function SituationRoom() {
                 )}
               </Card>
             </Col>
-
-            <Col xs={24} xl={9}>
-              <Card title="Alert สำคัญ" className="situation-card alert-card">
-                <Space direction="vertical" size={10} style={{ width: '100%' }}>
-                  {alerts.map((item) => (
-                    <Alert
-                      key={item.title}
-                      showIcon
-                      type={item.level === 'critical' ? 'error' : item.level}
-                      message={item.title}
-                      description={item.detail}
-                    />
-                  ))}
-                </Space>
-              </Card>
-            </Col>
           </Row>
 
           <Row gutter={[16, 16]}>
-            <Col xs={24} lg={8}>
+            <Col xs={24} lg={6}>
+              <Card title="สถานการณ์รวมจังหวัด" className="situation-card">
+                <div className="province-snapshot compact">
+                  <div>
+                    <Text type="secondary">ครัวเรือน</Text>
+                    <strong>{money(agriStats.households)}</strong>
+                  </div>
+                  <div>
+                    <Text type="secondary">แปลงใหญ่</Text>
+                    <strong>{money(lpStats.total)}</strong>
+                  </div>
+                  <div>
+                    <Text type="secondary">กลุ่ม/สถาบัน</Text>
+                    <strong>{money(instituteStats.total)}</strong>
+                  </div>
+                  <div>
+                    <Text type="secondary">ฝน 3 วัน</Text>
+                    <strong>
+                      {Number(weatherRisk.maxRainTotal || 0).toFixed(1)} มม.
+                    </strong>
+                  </div>
+                </div>
+              </Card>
+            </Col>
+            <Col xs={24} lg={6}>
+              <Card
+                title={
+                  <Space>
+                    <span>ทะเบียนเกษตรกร</span>
+                    <Tag color="blue">ปี {registry.activeYear || '-'}</Tag>
+                  </Space>
+                }
+                className="situation-card registry-card"
+              >
+                <div className="registry-progress">
+                  <Progress
+                    type="dashboard"
+                    percent={registry.progress}
+                    size={122}
+                    strokeColor="#16a34a"
+                  />
+                  <div className="registry-progress-meta">
+                    <span>
+                      ปรับปรุงแล้ว <strong>{money(registry.updated)}</strong>{' '}
+                      ครัวเรือน
+                    </span>
+                    <span>
+                      เป้าหมาย <strong>{money(registry.target)}</strong>{' '}
+                      ครัวเรือน
+                    </span>
+                    {registry.remaining !== null && (
+                      <span>
+                        คงเหลือ <strong>{money(registry.remaining)}</strong>{' '}
+                        ครัวเรือน
+                      </span>
+                    )}
+                    <span>
+                      พื้นที่ปรับปรุง{' '}
+                      <strong>{money(Math.round(registry.area))}</strong> ไร่
+                    </span>
+                    {registry.latestCutoff && (
+                      <Text type="secondary">
+                        ข้อมูลถึง {registry.latestCutoff}
+                      </Text>
+                    )}
+                  </div>
+                </div>
+              </Card>
+            </Col>
+            <Col xs={24} lg={6}>
               <Card
                 title={
                   <Space>
@@ -1002,17 +1061,16 @@ export default function SituationRoom() {
                 </div>
               </Card>
             </Col>
-            <Col xs={24} lg={8}>
-              <Card
-                title="Weather / PM / Rain Overview"
-                className="situation-card"
-              >
+            <Col xs={24} lg={6}>
+              <Card title="Weather / PM / Rain" className="situation-card">
                 <EChart
                   option={weatherRiskOption(weatherRisk.districts.slice(0, 7))}
                   style={{ height: 220 }}
                 />
               </Card>
             </Col>
+          </Row>
+          <Row gutter={[16, 16]}>
             <Col xs={24} lg={8}>
               <Card title="Pending Data Requests" className="situation-card">
                 <div className="request-summary">
@@ -1047,25 +1105,12 @@ export default function SituationRoom() {
                 </div>
               </Card>
             </Col>
-          </Row>
-
-          <Row gutter={[16, 16]}>
-            <Col xs={24} lg={12}>
-              <Card title="Recommended Actions" className="situation-card">
-                <ol className="action-list">
-                  {actions.map((action) => (
-                    <li key={action}>{action}</li>
-                  ))}
-                </ol>
-              </Card>
-            </Col>
-            <Col xs={24} lg={12}>
+            <Col xs={24} lg={16}>
               <Card
                 title={
                   <Space>
-                    <div className="ai-pulse-dot" />
                     <RobotOutlined style={{ color: '#16a34a' }} />
-                    <span>AI Executive Briefing</span>
+                    <span>AI Brief</span>
                   </Space>
                 }
                 className="situation-card ai-briefing-card"
@@ -1091,10 +1136,10 @@ export default function SituationRoom() {
                   <Alert type="warning" showIcon message={aiError} />
                 )}
                 {!aiLoading && aiBriefing && (
-                  <TypewriterText text={aiBriefing} />
+                  <div className="ai-briefing-text">{aiBriefing}</div>
                 )}
                 {!aiLoading && !aiBriefing && !aiError && (
-                  <Empty description="กดปุ่ม 'สร้างรายงานผู้บริหาร' เพื่อให้ Gemini สรุปวิเคราะห์ข้อมูลในหน้านี้ให้คุณโดยอัตโนมัติ" />
+                  <Empty description="กด 'สรุป AI' เพื่อให้ Gemini สรุปสั้นจากข้อมูลหน้านี้" />
                 )}
               </Card>
             </Col>

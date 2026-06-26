@@ -2,6 +2,73 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { createClient } from '@supabase/supabase-js';
 import { fileURLToPath, URL } from 'node:url';
+import { syncGeoplotsProgress } from './scripts/sync_geoplots_progress.js';
+
+function json(res, status, payload) {
+  res.statusCode = status;
+  res.setHeader('Content-Type', 'application/json');
+  res.end(JSON.stringify(payload));
+}
+
+async function requireAdmin(req, env) {
+  const supabaseUrl = env.VITE_SUPABASE_URL;
+  const serviceKey = env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!supabaseUrl || !serviceKey) {
+    return { error: 'Missing local SUPABASE_SERVICE_ROLE_KEY', status: 503 };
+  }
+  const token = (req.headers.authorization || '')
+    .replace(/^Bearer\s+/i, '')
+    .trim();
+  if (!token) return { error: 'Missing authorization token', status: 401 };
+
+  const supabase = createClient(supabaseUrl, serviceKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser(token);
+  if (userError || !user)
+    return { error: 'Invalid authorization token', status: 401 };
+
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single();
+  if (profileError || profile?.role !== 'admin') {
+    return { error: 'Only admins can sync GEOPLOTS data', status: 403 };
+  }
+  return null;
+}
+
+function localGeoplotsSyncPlugin(env) {
+  return {
+    name: 'local-geoplots-sync',
+    configureServer(server) {
+      server.middlewares.use(
+        '/.netlify/functions/sync-geoplots-progress',
+        async (req, res) => {
+          if (req.method !== 'POST') {
+            json(res, 405, { error: 'Method not allowed' });
+            return;
+          }
+          try {
+            const authError = await requireAdmin(req, env);
+            if (authError) {
+              json(res, authError.status, { error: authError.error });
+              return;
+            }
+            const rows = await syncGeoplotsProgress();
+            json(res, 200, { ok: true, rows: rows.length });
+          } catch (err) {
+            json(res, 500, { error: err.message || 'GEOPLOTS sync failed' });
+          }
+        }
+      );
+    },
+  };
+}
 
 function publicFarmerInstitutesV2Plugin(env) {
   const supabaseUrl = env.VITE_SUPABASE_URL;
@@ -122,7 +189,11 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
-    plugins: [publicFarmerInstitutesV2Plugin(env), react()],
+    plugins: [
+      localGeoplotsSyncPlugin(env),
+      publicFarmerInstitutesV2Plugin(env),
+      react(),
+    ],
     cacheDir: 'tmp/vite-cache',
     resolve: {
       alias: {

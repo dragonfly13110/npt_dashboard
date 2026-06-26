@@ -121,6 +121,11 @@ const allMenuItems = [
         label: 'ทะเบียนเกษตรกร',
       },
       {
+        key: '/dashboard/strategy/parcel-drawing-progress',
+        icon: <EnvironmentOutlined />,
+        label: 'ติดตามการวาดแปลง',
+      },
+      {
         key: '/dashboard/strategy/agricultural-areas',
         icon: <EnvironmentOutlined />,
         label: 'พื้นที่การเกษตร',

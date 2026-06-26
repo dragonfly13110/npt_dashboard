@@ -276,7 +276,7 @@ export default function Chatbot() {
       console.error('Error saving chatbot history:', e);
     }
   }, [messages]);
-  const [selectedModel, setSelectedModel] = useState('kkuDeepseek');
+  const [selectedModel, setSelectedModel] = useState('kkuGeminiFlash');
   const [selectedProvider, setSelectedProvider] = useState('OKMD AI');
   const [aiSettings, setAiSettings] = useState({
     deepThinking: false,

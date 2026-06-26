@@ -407,6 +407,7 @@ async function callKkuAI(
             messages: apiMessages,
             temperature: settings?.deepThinking ? 0.7 : 0.5,
             max_tokens: 4096,
+            stream: true,
           },
         }),
       });
@@ -416,12 +417,69 @@ async function callKkuAI(
         throw new Error(errText || `HTTP ${res.status}`);
       }
 
-      const data = await res.json();
-      const content = data.choices?.[0]?.message?.content || null;
-      if (onChunk && content) {
-        onChunk(content, content);
+      // Parse SSE stream (OpenAI-compatible format)
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let resultText = '';
+      let buffer = '';
+
+      try {
+        while (true) {
+          if (signal?.aborted) {
+            throw new DOMException('Aborted', 'AbortError');
+          }
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop();
+
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const dataStr = line.slice(6).trim();
+              if (dataStr === '[DONE]') continue;
+              if (!dataStr) continue;
+
+              try {
+                const data = JSON.parse(dataStr);
+                const delta = data.choices?.[0]?.delta;
+                if (delta?.content) {
+                  resultText += delta.content;
+                  if (onChunk) {
+                    onChunk(delta.content, resultText);
+                  }
+                }
+              } catch (e) {
+                // ignore parse errors for partial chunks
+              }
+            }
+          }
+        }
+      } finally {
+        if (typeof reader.releaseLock === 'function') {
+          reader.releaseLock();
+        }
       }
-      return content;
+
+      // Process remaining buffer
+      if (buffer.startsWith('data: ')) {
+        const dataStr = buffer.slice(6).trim();
+        if (dataStr && dataStr !== '[DONE]') {
+          try {
+            const data = JSON.parse(dataStr);
+            const delta = data.choices?.[0]?.delta;
+            if (delta?.content) {
+              resultText += delta.content;
+              if (onChunk) {
+                onChunk(delta.content, resultText);
+              }
+            }
+          } catch (e) {}
+        }
+      }
+
+      return resultText || null;
     } catch (err) {
       if (err.name === 'AbortError' || signal?.aborted) {
         throw err;

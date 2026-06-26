@@ -64,6 +64,9 @@ const AgriculturalPrices = lazy(
 );
 const LearningCenters = lazy(() => import('./pages/strategy/LearningCenters'));
 const FarmerRegistry = lazy(() => import('./pages/strategy/FarmerRegistry'));
+const ParcelDrawingProgress = lazy(
+  () => import('./pages/strategy/ParcelDrawingProgress')
+);
 const StrategyDashboard = lazy(
   () => import('./pages/strategy/StrategyDashboard')
 );
@@ -391,6 +394,10 @@ function AppRoutes() {
           {/* Strategy */}
           <Route path="strategy/overview" element={<StrategyDashboard />} />
           <Route path="strategy/farmer-registry" element={<FarmerRegistry />} />
+          <Route
+            path="strategy/parcel-drawing-progress"
+            element={<ParcelDrawingProgress />}
+          />
           <Route
             path="strategy/agricultural-areas"
             element={<AgriculturalAreas />}

@@ -28,7 +28,7 @@ import { LANDING_CHATBOT_PUBLIC_KNOWLEDGE_PROMPT } from './publicKnowledge';
 
 const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
 const MODEL_NAME =
-  import.meta.env.VITE_LANDING_CHATBOT_MODEL || 'deepseek-v4-flash';
+  import.meta.env.VITE_LANDING_CHATBOT_MODEL || 'gemini-3.5-flash';
 const DAILY_LIMIT = 10;
 const LANDING_CHATBOT_TIMEOUT_MS = 20000;
 const CONTEXT_MEMORY_PROMPT =
@@ -285,6 +285,7 @@ export default function LandingChatbot() {
             messages: apiMessages,
             temperature: 0.5,
             max_tokens: 1000,
+            stream: true,
           },
         }),
       });
@@ -294,25 +295,107 @@ export default function LandingChatbot() {
         throw new Error(errText || `HTTP status ${response.status}`);
       }
 
-      const data = await response.json();
-      const reply = data.choices?.[0]?.message?.content;
+      // Add a placeholder message for the assistant
+      setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
 
-      if (reply) {
-        setMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let accumulatedReply = '';
+      let buffer = '';
+
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop();
+
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const dataStr = line.slice(6).trim();
+              if (dataStr === '[DONE]') continue;
+              if (!dataStr) continue;
+
+              try {
+                const data = JSON.parse(dataStr);
+                const delta = data.choices?.[0]?.delta;
+                if (delta?.content) {
+                  accumulatedReply += delta.content;
+                  setMessages((prev) => {
+                    const next = [...prev];
+                    if (next.length > 0) {
+                      next[next.length - 1] = {
+                        ...next[next.length - 1],
+                        content: accumulatedReply,
+                      };
+                    }
+                    return next;
+                  });
+                }
+              } catch (e) {
+                // ignore parse errors for partial chunks
+              }
+            }
+          }
+        }
+      } finally {
+        if (typeof reader.releaseLock === 'function') {
+          reader.releaseLock();
+        }
+      }
+
+      // Process remaining buffer
+      if (buffer.startsWith('data: ')) {
+        const dataStr = buffer.slice(6).trim();
+        if (dataStr && dataStr !== '[DONE]') {
+          try {
+            const data = JSON.parse(dataStr);
+            const delta = data.choices?.[0]?.delta;
+            if (delta?.content) {
+              accumulatedReply += delta.content;
+              setMessages((prev) => {
+                const next = [...prev];
+                if (next.length > 0) {
+                  next[next.length - 1] = {
+                    ...next[next.length - 1],
+                    content: accumulatedReply,
+                  };
+                }
+                return next;
+              });
+            }
+          } catch (e) {}
+        }
+      }
+
+      if (accumulatedReply) {
         incrementLimitUsage();
       } else {
         throw new Error('No reply content received from API');
       }
     } catch (err) {
       console.error('Landing chatbot error:', err);
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: 'assistant',
-          content:
-            'ขออภัยจริงๆ ค่ะ ระบบขัดข้องชั่วคราว ไม่สามารถตอบคุณพี่ได้ในขณะนี้ กรุณาลองใหม่อีกครั้งนะคะ หรือเลือกเมนูลัดต่างๆ บนหน้าแดชบอร์ดได้เลยค่ะ 🙏',
-        },
-      ]);
+      // Clean up final message if it is empty to avoid showing blank bubble
+      setMessages((prev) => {
+        const next = [...prev];
+        if (
+          next.length > 0 &&
+          next[next.length - 1].role === 'assistant' &&
+          !next[next.length - 1].content
+        ) {
+          next.pop();
+        }
+        return [
+          ...next,
+          {
+            role: 'assistant',
+            content:
+              'ขออภัยจริงๆ ค่ะ ระบบขัดข้องชั่วคราว ไม่สามารถตอบคุณพี่ได้ในขณะนี้ กรุณาลองใหม่อีกครั้งนะคะ หรือเลือกเมนูลัดต่างๆ บนหน้าแดชบอร์ดได้เลยค่ะ 🙏',
+          },
+        ];
+      });
     } finally {
       setLoading(false);
     }
