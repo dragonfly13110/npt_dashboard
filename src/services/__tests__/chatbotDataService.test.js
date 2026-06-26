@@ -47,6 +47,10 @@ vi.mock('../../supabaseClient', () => ({
 
 vi.mock('../aiService', () => ({
   callAI: vi.fn(async (_modelKey, prompt) => {
+    if (prompt.includes('force-fallback-intent')) {
+      return null;
+    }
+
     if (prompt.includes('force-general-budget-intent')) {
       return JSON.stringify({
         district: null,
@@ -264,5 +268,16 @@ describe('chatbotDataService aggregation', () => {
       'ilike',
       '%กล้วยไม้%'
     );
+  });
+
+  it('falls back to heuristic matching for soil_series keywords when AI returns null', async () => {
+    const result = await fetchDatabaseContext(
+      'force-fallback-intent แนะนำชุดดินเหนียวที่มี pH กรดจัดหน่อย',
+      'gemini'
+    );
+
+    expect(result).toBeDefined();
+    expect(result.results).toBeInstanceOf(Array);
+    expect(result.results.some((r) => r.table === 'soil_series')).toBe(true);
   });
 });

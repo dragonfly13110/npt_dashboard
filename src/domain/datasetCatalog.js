@@ -58,6 +58,7 @@ export const DASHBOARD_GROUPS = [
       { table: 'pest_centers', label: 'ศจช.' },
       { table: 'plant_doctors', label: 'หมอพืช' },
       { table: 'soil_fertilizer_centers', label: 'ศดปช.' },
+      { table: 'soil_series', label: 'ชุดดิน' },
       { table: 'fire_hotspots', label: 'จุดเฝ้าระวัง PM2.5' },
     ],
   },
@@ -89,6 +90,7 @@ export const TABLE_ROUTES = {
   pest_centers: '/dashboard/protection/pest-centers',
   plant_doctors: '/dashboard/protection/plant-doctors',
   soil_fertilizer_centers: '/dashboard/protection/soil-fertilizer',
+  soil_series: '/dashboard/protection/soil-series',
   fire_hotspots: '/dashboard/protection/fire-hotspots',
   budgets: '/dashboard/admin/budgets',
 };

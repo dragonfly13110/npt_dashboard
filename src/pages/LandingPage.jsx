@@ -1,4 +1,5 @@
 import { useEffect, lazy, Suspense, useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDashboardData } from '../hooks/useDashboardData';
 import { FloatButton, Modal, Spin, Button } from 'antd';
 import {
@@ -18,6 +19,7 @@ import {
   LinkOutlined,
   LoginOutlined,
   ReadOutlined,
+  SearchOutlined,
   TeamOutlined,
   UpOutlined,
   UserSwitchOutlined,
@@ -241,6 +243,8 @@ export default function LandingPage() {
     agriStats,
   } = useDashboardData();
 
+  const navigate = useNavigate();
+  const [landingQuery, setLandingQuery] = useState('');
   const [activeInfoModal, setActiveInfoModal] = useState(null);
   const [moreDrawerOpen, setMoreDrawerOpen] = useState(false);
   const [moreDrawerClosing, setMoreDrawerClosing] = useState(false);
@@ -248,6 +252,17 @@ export default function LandingPage() {
   const [forecastLoading, setForecastLoading] = useState(false);
   const hasTourismData =
     loading || tourism.count > 0 || tourism.list.length > 0;
+
+  const handleLandingSearchSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (!landingQuery.trim() || landingQuery.trim().length < 2) return;
+      navigate(
+        `/dashboard/search?q=${encodeURIComponent(landingQuery.trim())}`
+      );
+    },
+    [landingQuery, navigate]
+  );
 
   useEffect(() => {
     const fetchForecast = async () => {
@@ -472,6 +487,44 @@ export default function LandingPage() {
               "ส้มโอหวาน ข้าวสารขาว ลูกสาวงาม ข้าวหลามหวานมัน สนามจันทร์งามล้น
               พุทธมณฑลคู่ธานี พระปฐมเจดีย์เสียดฟ้า สวยงามตาแม่น้ำท่าจีน"
             </span>
+          </div>
+
+          {/* Search Box on Landing Page */}
+          <div className="landing-search-container">
+            <form
+              onSubmit={handleLandingSearchSubmit}
+              className="landing-search-form"
+            >
+              <div className="landing-search-input-wrapper">
+                <SearchOutlined className="landing-search-icon" />
+                <input
+                  type="text"
+                  placeholder="ค้นหาข้อมูลการเกษตรในจังหวัดนครปฐม... (เช่น บางเลน, ดินเหนียว, แปลงใหญ่, GAP)"
+                  value={landingQuery}
+                  onChange={(e) => setLandingQuery(e.target.value)}
+                  className="landing-search-input"
+                />
+                <button type="submit" className="landing-search-btn">
+                  ค้นหา
+                </button>
+              </div>
+            </form>
+            <div className="landing-search-suggestions">
+              <span className="suggestion-label">ลองค้นหา:</span>
+              {['บางเลน', 'ดินเหนียว', 'GAP', 'ศพก'].map((term) => (
+                <button
+                  key={term}
+                  type="button"
+                  className="suggestion-tag-btn"
+                  onClick={() => {
+                    setLandingQuery(term);
+                    navigate(`/dashboard/search?q=${encodeURIComponent(term)}`);
+                  }}
+                >
+                  {term}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </header>

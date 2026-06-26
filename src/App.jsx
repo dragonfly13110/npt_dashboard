@@ -115,6 +115,7 @@ const PlantDoctors = lazy(() => import('./pages/protection/PlantDoctors'));
 const SoilFertilizerCenters = lazy(
   () => import('./pages/protection/SoilFertilizerCenters')
 );
+const SoilSeries = lazy(() => import('./pages/protection/SoilSeries'));
 const FireHotspots = lazy(() => import('./pages/protection/FireHotspots'));
 const ProtectionDashboard = lazy(
   () => import('./pages/protection/ProtectionDashboard')
@@ -479,6 +480,7 @@ function AppRoutes() {
             path="protection/soil-fertilizer"
             element={<SoilFertilizerCenters />}
           />
+          <Route path="protection/soil-series" element={<SoilSeries />} />
           <Route path="protection/fire-hotspots" element={<FireHotspots />} />
         </Route>
 

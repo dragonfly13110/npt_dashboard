@@ -265,6 +265,11 @@ const allMenuItems = [
         label: 'ศดปช.',
       },
       {
+        key: '/dashboard/protection/soil-series',
+        icon: <ExperimentOutlined />,
+        label: 'ชุดดิน',
+      },
+      {
         key: '/dashboard/protection/fire-hotspots',
         icon: <FireOutlined />,
         label: 'จุด Hotspot (GISTDA)',

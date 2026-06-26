@@ -23,6 +23,7 @@ const PUBLIC_TABLES = [
   'pest_centers',
   'plant_doctors',
   'soil_fertilizer_centers',
+  'soil_series',
   'fire_hotspots',
   'budgets',
   'personnel',

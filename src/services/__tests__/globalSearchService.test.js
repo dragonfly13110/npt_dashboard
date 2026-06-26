@@ -124,6 +124,37 @@ describe('globalSearchService', () => {
       }
     });
 
+    it('formats soil_series search rows with correct subtitle layout', async () => {
+      const mockData = [
+        {
+          table: 'soil_series',
+          results: [
+            {
+              id: 99,
+              soil_series_name: 'บางเลน',
+              soil_series_code: 'Bl',
+              soil_group: '6',
+              texture: 'ดินเหนียว',
+              fertility: 'สูง',
+              ph_top: '6.0-6.5',
+              district: 'บางเลน',
+              area_rai: 1234,
+            },
+          ],
+          totalCount: 1,
+        },
+      ];
+      supabase.rpc.mockResolvedValue({ data: mockData, error: null });
+
+      const result = await globalSearchService.globalSearch('บางเลน', 5);
+      expect(result).toBeDefined();
+      expect(result[0].table).toBe('soil_series');
+
+      const soilRow = result[0].results[0];
+      expect(soilRow.title).toBe('บางเลน');
+      expect(soilRow.subtitle).toBe('อ.บางเลน • Bl • 6');
+    });
+
     it('formats budget search rows without exposing raw notes JSON', async () => {
       const mockData = [
         {

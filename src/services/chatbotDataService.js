@@ -559,6 +559,17 @@ export async function fetchDatabaseContext(
       pest_centers: ['ศจช', 'ศัตรูพืชชุมชน'],
       plant_doctors: ['หมอพืช', 'หมอพืชชุมชน'],
       soil_fertilizer_centers: ['ศดปช', 'ดิน', 'ปุ๋ย'],
+      soil_series: [
+        'ชุดดิน',
+        'กลุ่มชุดดิน',
+        'เนื้อดิน',
+        'ดินเหนียว',
+        'ดินร่วน',
+        'ความอุดมสมบูรณ์',
+        'ph',
+        'กรดจัด',
+        'ดินเปรี้ยว',
+      ],
       fire_hotspots: ['ไฟ', 'เผา', 'pm2.5', 'หมอกควัน'],
       daily_weather: [
         'สภาพอากาศ',
@@ -623,6 +634,7 @@ export async function fetchDatabaseContext(
       young_farmer_groups_detailed: ['smart_farmer_sf', 'farmer_institutes'],
       certifications: ['large_plots', 'crop_production'],
       disasters: ['agricultural_areas', 'farmer_registry'],
+      soil_series: ['agricultural_areas', 'forecast_plots'],
     };
     const existing = new Set(matchedTables);
     matchedTables.forEach((t) => {

@@ -406,6 +406,13 @@ export const TABLE_CONFIG = {
     group: 'กลุ่มอารักขาพืช',
     descTh: 'ศูนย์จัดการดินปุ๋ยชุมชน',
   },
+  soil_series: {
+    label: 'ชุดดิน',
+    icon: '🧪',
+    group: 'กลุ่มอารักขาพืช',
+    descTh:
+      'ข้อมูลชุดดินจังหวัดนครปฐมจากกรมพัฒนาที่ดิน แยกอำเภอ กลุ่มชุดดิน เนื้อดิน ความอุดมสมบูรณ์ pH และพื้นที่ไร่',
+  },
   fire_hotspots: {
     label: 'จุดเฝ้าระวัง PM2.5',
     icon: '🔥',
@@ -501,6 +508,15 @@ export const TABLE_SEARCH_COLS = {
   pest_centers: ['center_name', 'chairman', 'main_crop_type'],
   plant_doctors: ['full_name', 'district', 'subdistrict', 'contact_phone'],
   soil_fertilizer_centers: ['center_name', 'chairman', 'main_crop_type'],
+  soil_series: [
+    'soil_series_name',
+    'soil_series_code',
+    'soil_group',
+    'texture',
+    'fertility',
+    'ph_top',
+    'district',
+  ],
   fire_hotspots: ['spot_name'],
   daily_weather: [],
   budgets: ['project_name', 'budget_source', 'status', 'notes'],
@@ -513,6 +529,7 @@ export const DISTRICT_COLS = {
   young_smart_farmer_ysf: 'district',
   agricultural_career_groups: 'district',
   young_farmer_groups_detailed: 'district',
+  soil_series: 'district',
   budgets: 'notes',
 };
 
@@ -552,6 +569,7 @@ export const NUMERIC_COLS = {
   ],
   farmer_institutes: ['group_count', 'sf_count', 'ysf_count'],
   disasters: ['affected_area_rai', 'affected_households', 'damage_baht'],
+  soil_series: ['area_rai'],
   fire_hotspots: ['frp', 'bright_ti4', 'bright_ti5'],
   daily_weather: ['tavg', 'tmin', 'tmax', 'prcp', 'wspd', 'pres'],
   budgets: ['budget_amount', 'spent_amount'],
@@ -596,6 +614,7 @@ export const CATEGORY_COLS = {
   certifications: ['crop_name'],
   agri_tourism: ['spot_type'],
   disasters: ['disaster_type'],
+  soil_series: ['soil_series_name', 'soil_group', 'texture', 'fertility'],
   fire_hotspots: ['land_use', 'confidence', 'satellite'],
   budgets: ['budget_source', 'status'],
 };

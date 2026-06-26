@@ -27,6 +27,7 @@ const TABLE_ROUTES = {
   pest_centers: '/dashboard/protection/pest-centers',
   plant_doctors: '/dashboard/protection/plant-doctors',
   soil_fertilizer_centers: '/dashboard/protection/soil-fertilizer',
+  soil_series: '/dashboard/protection/soil-series',
   fire_hotspots: '/dashboard/protection/fire-hotspots',
   budgets: '/dashboard/admin/budgets',
   personnel: '/dashboard/admin/personnel',
@@ -251,6 +252,17 @@ const TABLE_METADATA = {
       info: row.main_crop_type ? `พืชหลัก: ${row.main_crop_type}` : '',
     }),
   },
+  soil_series: {
+    label: 'ชุดดิน',
+    icon: '🧪',
+    getDisplay: (row) => ({
+      title: row.soil_series_name || 'ชุดดิน',
+      subtitle: `อ.${row.district || '-'} • กลุ่มชุดดิน ${row.soil_group || '-'}`,
+      info: row.area_rai
+        ? `พื้นที่: ${Number(row.area_rai).toLocaleString('th-TH')} ไร่`
+        : row.texture || '',
+    }),
+  },
   fire_hotspots: {
     label: 'จุดเฝ้าระวัง PM2.5',
     icon: '🔥',
@@ -302,6 +314,16 @@ function formatDeterministicSummary(toolResults, queryText = '') {
       if (q) {
         let allowedTables = null;
         if (
+          q.includes('ชุดดิน') ||
+          q.includes('กลุ่มชุดดิน') ||
+          q.includes('เนื้อดิน') ||
+          q.includes('ดินเหนียว') ||
+          q.includes('ดินร่วน') ||
+          q.includes('ความอุดมสมบูรณ์') ||
+          q.includes('ph')
+        ) {
+          allowedTables = ['soil_series'];
+        } else if (
           q.includes('พื้นที่') ||
           q.includes('ปลูก') ||
           q.includes('ขนาด') ||

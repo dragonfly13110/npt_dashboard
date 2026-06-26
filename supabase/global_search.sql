@@ -103,7 +103,7 @@ BEGIN
 
     IF cleaned_terms IS NOT NULL AND array_length(cleaned_terms, 1) > 0 THEN
       SELECT string_agg(
-        format('%I::text ILIKE ''%%'' || term_value || ''%%''', c),
+        format('coalesce(%I::text, '''') ILIKE ''%%'' || term_value || ''%%''', c),
         ' OR '
       )
       INTO where_sql

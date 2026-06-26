@@ -53,6 +53,7 @@ const routeLabels = {
   'disease-forecast': 'พยากรณ์โรค & แมลง',
   'pest-centers': 'ศจช.',
   'plant-doctors': 'หมอพืช',
+  'soil-series': 'ชุดดิน',
   biocontrol: 'ชีวภัณฑ์',
   'fire-hotspots': 'จุดเฝ้าระวัง PM2.5',
 };

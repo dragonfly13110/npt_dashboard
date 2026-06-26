@@ -5363,3 +5363,131 @@ html {
   transition-property:
     background, background-color, border-color, box-shadow, color, opacity !important;
 }
+
+/* Landing Page Search Bar Styling */
+.landing-search-container {
+  max-width: 650px;
+  width: 90%;
+  margin: 22px auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  animation: subtitleFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+  box-sizing: border-box;
+}
+
+.landing-search-form {
+  width: 100%;
+}
+
+.landing-search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(22, 163, 74, 0.3);
+  border-radius: 99px;
+  padding: 6px 6px 6px 18px;
+  box-shadow: 0 15px 35px -5px rgba(15, 23, 42, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+}
+
+.landing-search-input-wrapper:focus-within {
+  background: #ffffff;
+  border-color: #16a34a;
+  box-shadow: 0 20px 40px -5px rgba(22, 163, 74, 0.22);
+  transform: translateY(-2px);
+}
+
+.landing-search-icon {
+  font-size: 20px;
+  color: #16a34a;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.landing-search-input {
+  flex-grow: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 15px;
+  font-family: 'Kanit', 'IBM Plex Sans Thai', sans-serif;
+  color: #0f172a;
+  width: 100%;
+  height: 38px;
+  padding: 0;
+}
+
+.landing-search-input::placeholder {
+  color: #64748b;
+  opacity: 0.85;
+}
+
+.landing-search-btn {
+  background: #16a34a;
+  color: #ffffff;
+  border: none;
+  border-radius: 99px;
+  padding: 10px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Kanit', 'IBM Plex Sans Thai', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+}
+
+.landing-search-btn:hover {
+  background: #15803d;
+  box-shadow: 0 6px 16px rgba(22, 163, 74, 0.3);
+}
+
+.landing-search-btn:active {
+  transform: scale(0.97);
+}
+
+.landing-search-suggestions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 4px;
+  font-size: 12.5px;
+}
+
+.suggestion-label {
+  color: #334155;
+  font-weight: 600;
+  font-family: 'Kanit', 'IBM Plex Sans Thai', sans-serif;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+}
+
+.suggestion-tag-btn {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 99px;
+  padding: 4px 12px;
+  font-size: 12px;
+  color: #1e293b;
+  font-family: 'Kanit', 'IBM Plex Sans Thai', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.suggestion-tag-btn:hover {
+  background: rgba(22, 163, 74, 0.08);
+  border-color: rgba(22, 163, 74, 0.35);
+  color: #16a34a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(15, 23, 42, 0.05);
+}
+
+.suggestion-tag-btn:active {
+  transform: translateY(0);
+}
