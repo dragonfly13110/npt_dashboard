@@ -607,13 +607,26 @@ export default function FarmerRegistry() {
         },
         body: JSON.stringify({ force: true }),
       });
-      const body = await response.json().catch(() => ({}));
+      const text = await response.text();
+      const body = text
+        ? (() => {
+            try {
+              return JSON.parse(text);
+            } catch {
+              return { error: text };
+            }
+          })()
+        : {};
       if (!response.ok) {
         throw new Error(body.error || 'อัปเดทข้อมูลไม่สำเร็จ');
       }
 
       message.success(
-        body.skipped ? 'ข้อมูลล่าสุดอยู่แล้ว' : 'อัปเดทข้อมูลทะเบียนเกษตรกรแล้ว'
+        body.queued
+          ? 'เริ่มอัปเดทข้อมูลจาก DOAE แล้ว ระบบจะปรับข้อมูลเมื่อซิงค์เสร็จ'
+          : body.skipped
+            ? 'ข้อมูลล่าสุดอยู่แล้ว'
+            : 'อัปเดทข้อมูลทะเบียนเกษตรกรแล้ว'
       );
       handleRefresh();
     } catch (err) {

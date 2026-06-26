@@ -50,6 +50,8 @@ describe('sync-farmer-registry function', () => {
     process.env.SUPABASE_SERVICE_ROLE_KEY = 'service-key';
     process.env.SUPABASE_PROJECT_REF = 'project-ref';
     process.env.SUPABASE_ACCESS_TOKEN = 'access-token';
+    process.env.DOAE_USERNAME = 'doae-user';
+    process.env.DOAE_PASSWORD = 'doae-pass';
     vi.stubGlobal('fetch', vi.fn());
     fetch.mockResolvedValue(
       new Response(JSON.stringify([{ latest_snapshot: null }]), {
@@ -73,6 +75,8 @@ describe('sync-farmer-registry function', () => {
     delete process.env.SUPABASE_SERVICE_ROLE_KEY;
     delete process.env.SUPABASE_PROJECT_REF;
     delete process.env.SUPABASE_ACCESS_TOKEN;
+    delete process.env.DOAE_USERNAME;
+    delete process.env.DOAE_PASSWORD;
     delete process.env.ALLOWED_ORIGINS;
   });
 
@@ -118,6 +122,34 @@ describe('sync-farmer-registry function', () => {
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual({ ok: true, skipped: false });
     expect(scrapeFarmerRegistry).toHaveBeenCalledTimes(1);
+  });
+
+  it('queues forced manual sync when waitUntil is available', async () => {
+    const waitUntil = vi.fn();
+
+    const response = await syncFarmerRegistry(
+      request({ force: true }, { authorization: 'Bearer admin-token' }),
+      { waitUntil, requestId: 'request-1' }
+    );
+
+    expect(response.status).toBe(202);
+    expect(await response.json()).toEqual({ ok: true, queued: true });
+    expect(waitUntil).toHaveBeenCalledTimes(1);
+  });
+
+  it('rejects queued manual sync when scraper env is missing', async () => {
+    delete process.env.DOAE_PASSWORD;
+
+    const response = await syncFarmerRegistry(
+      request({ force: true }, { authorization: 'Bearer admin-token' }),
+      { waitUntil: vi.fn(), requestId: 'request-1' }
+    );
+
+    expect(response.status).toBe(500);
+    expect(await response.json()).toEqual({
+      error: 'Missing required env: DOAE_PASSWORD',
+    });
+    expect(scrapeFarmerRegistry).not.toHaveBeenCalled();
   });
 
   it('surfaces scraper failures instead of reporting success', async () => {

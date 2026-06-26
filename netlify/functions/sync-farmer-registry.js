@@ -4,6 +4,10 @@ import { scrapeFarmerRegistry } from '../../scripts/scrape_farmer_registry.js';
 import { reportCriticalError } from './lib/error-alert.js';
 import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
 
+function getEnv(name) {
+  return globalThis.Netlify?.env?.get?.(name) || process.env[name] || '';
+}
+
 function jsonResponse(status, payload, origin = null) {
   return new Response(JSON.stringify(payload), {
     status,
@@ -15,12 +19,27 @@ function jsonResponse(status, payload, origin = null) {
 }
 
 function requireManagementEnv() {
-  const PROJECT_REF = process.env.SUPABASE_PROJECT_REF;
-  const ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN;
+  const PROJECT_REF = getEnv('SUPABASE_PROJECT_REF');
+  const ACCESS_TOKEN = getEnv('SUPABASE_ACCESS_TOKEN');
   if (!PROJECT_REF || !ACCESS_TOKEN) {
     throw new Error('Missing SUPABASE_PROJECT_REF or SUPABASE_ACCESS_TOKEN');
   }
   return { PROJECT_REF, ACCESS_TOKEN };
+}
+
+function requireSyncEnv() {
+  const missing = [];
+  for (const key of [
+    'DOAE_USERNAME',
+    'DOAE_PASSWORD',
+    'SUPABASE_PROJECT_REF',
+    'SUPABASE_ACCESS_TOKEN',
+  ]) {
+    if (!getEnv(key)) missing.push(key);
+  }
+  if (missing.length) {
+    throw new Error(`Missing required env: ${missing.join(', ')}`);
+  }
 }
 
 async function runSQL(sql) {
@@ -60,8 +79,8 @@ async function shouldRun() {
 }
 
 async function requireAdmin(request, origin) {
-  const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
-  const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const SUPABASE_URL = getEnv('VITE_SUPABASE_URL');
+  const SUPABASE_SERVICE_ROLE_KEY = getEnv('SUPABASE_SERVICE_ROLE_KEY');
   if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
     return jsonResponse(
       500,
@@ -127,6 +146,15 @@ async function runSync({ force = false, origin = null } = {}) {
   return jsonResponse(200, { ok: true, skipped: false }, origin);
 }
 
+async function reportManualSyncFailure(err, context) {
+  console.error('sync-farmer-registry manual background error:', err);
+  await reportCriticalError({
+    functionName: 'sync-farmer-registry',
+    event: 'manual_sync_failed',
+    requestId: context?.requestId || 'unavailable',
+  });
+}
+
 export async function scheduledSyncFarmerRegistry(_event, context) {
   try {
     return await runSync({ force: false });
@@ -169,6 +197,16 @@ export default async function syncFarmerRegistry(request, context) {
     if (authError) return authError;
 
     const body = await request.json().catch(() => ({}));
+    if (body.force === true && context?.waitUntil) {
+      requireSyncEnv();
+      context.waitUntil(
+        runSync({ force: true, origin }).catch((err) =>
+          reportManualSyncFailure(err, context)
+        )
+      );
+      return jsonResponse(202, { ok: true, queued: true }, origin);
+    }
+
     return await runSync({ force: body.force === true, origin });
   } catch (err) {
     console.error('sync-farmer-registry manual error:', err);
