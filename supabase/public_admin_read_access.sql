@@ -17,7 +17,6 @@ BEGIN
     'large_plots',
     'certifications',
     'crop_production',
-    'coconut_aromatic_surveys',
     'community_enterprises',
     'smart_farmers',
     'smart_farmer_sf',

@@ -149,7 +149,7 @@ flowchart TD
 - `profiles`
 - `personnel`, `assets`, `budgets`, `audit_logs`
 - `farmer_registry`, `gis_areas`, `disasters`, `agricultural_areas`, `daily_weather`
-- `large_plots`, `learning_centers`, `certifications`, `crop_production`, `coconut_aromatic_surveys`
+- `large_plots`, `learning_centers`, `certifications`, `crop_production`
 - `community_enterprises`, `smart_farmer_sf`, `young_smart_farmer_ysf`, `agricultural_career_groups`, `housewife_farmer_groups`, `young_farmer_groups_detailed`, `farmer_institutes`, `agri_tourism`
 - `forecast_plots`, `pest_centers`, `soil_fertilizer_centers`, `fire_hotspots`, `ai_disease_forecasts`, `plant_doctors`
 
@@ -224,7 +224,6 @@ flowchart TD
   - แปลงใหญ่
   - GAP / certifications
   - ผลผลิตพืช
-  - สำรวจมะพร้าวน้ำหอม
 - Development
   - วิสาหกิจชุมชน
   - Smart Farmer (SF) / Young Smart Farmer (YSF)

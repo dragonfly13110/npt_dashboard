@@ -51,7 +51,7 @@ BEGIN
     'large_plots','learning_centers','certifications','crop_production',
     'community_enterprises','smart_farmers','farmer_groups','young_farmer_groups','agri_tourism',
     'pest_outbreaks','pest_centers','plant_doctors','biocontrol_stock','fire_hotspots',
-    'forecast_plots','coconut_aromatic_surveys',
+    'forecast_plots',
     'data_requests','data_request_assignments','data_request_responses'
   ] LOOP
     EXECUTE format('DROP POLICY IF EXISTS "Allow authenticated full access" ON %I', tbl);
@@ -85,7 +85,7 @@ BEGIN
     'large_plots','learning_centers','certifications','crop_production',
     'community_enterprises','smart_farmers','farmer_groups','young_farmer_groups','agri_tourism',
     'pest_outbreaks','pest_centers','plant_doctors','biocontrol_stock','fire_hotspots',
-    'forecast_plots','coconut_aromatic_surveys'
+    'forecast_plots'
   ] LOOP
     EXECUTE format('DROP POLICY IF EXISTS "Role read %1$I" ON %1$I', tbl);
     EXECUTE format('DROP POLICY IF EXISTS "Role insert %1$I" ON %1$I', tbl);

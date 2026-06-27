@@ -202,8 +202,8 @@ Visual icons: farmer registry, GIS map pins, agricultural area, learning center,
 Data examples: farmer_registry, gis_areas, agricultural_areas, learning_centers, daily_weather, disasters.
 
 3. ส่งเสริมการผลิต / Production
-Visual icons: large plots, GAP certification, crop production, aromatic coconut survey, farm plots.
-Data examples: large_plots, certifications, crop_production, coconut_aromatic_surveys.
+Visual icons: large plots, GAP certification, crop production, farm plots.
+Data examples: large_plots, certifications, crop_production.
 
 4. ส่งเสริมและพัฒนาเกษตรกร / Farmer Development
 Visual icons: community enterprise shop, Smart Farmer, Young Smart Farmer, agricultural career groups, housewife farmer groups, young farmer groups, farmer institutes, agri tourism.
@@ -519,7 +519,6 @@ Aspect ratio 9:16, high resolution, executive presentation quality.
 - แปลงใหญ่
 - มาตรฐาน GAP
 - ผลผลิตพืช
-- แบบเก็บข้อมูลมะพร้าวน้ำหอม
 
 4. "ส่งเสริมและพัฒนาเกษตรกร"
 - วิสาหกิจชุมชน

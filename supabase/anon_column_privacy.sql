@@ -51,10 +51,6 @@ SELECT public._grant_anon_public_columns('smart_farmers', ARRAY[
   'full_name', 'phone', 'address'
 ]);
 
-SELECT public._grant_anon_public_columns('coconut_aromatic_surveys', ARRAY[
-  'farmer_name', 'phone', 'address'
-]);
-
 SELECT public._grant_anon_public_columns('farmer_registry', ARRAY[
   'contact_person', 'phone', 'address'
 ]);
