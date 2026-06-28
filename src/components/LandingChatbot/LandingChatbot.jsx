@@ -27,9 +27,47 @@ import { getLandingQuickReply } from './quickReply';
 import { LANDING_CHATBOT_PUBLIC_KNOWLEDGE_PROMPT } from './publicKnowledge';
 
 const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
-const PROVIDER_NAME = import.meta.env.VITE_LANDING_CHATBOT_PROVIDER || 'gemini';
-const MODEL_NAME =
+const RAW_PROVIDER_NAME =
+  import.meta.env.VITE_LANDING_CHATBOT_PROVIDER || 'gemini';
+const RAW_MODEL_NAME =
   import.meta.env.VITE_LANDING_CHATBOT_MODEL || 'gemini-3.1-flash-lite';
+
+const GEMINI_MODELS = [
+  'gemini-3.5-flash',
+  'gemini-3-flash-preview',
+  'gemini-3.1-flash-lite',
+  'gemini-3.1-flash-lite-preview',
+  'gemini-2.5-flash',
+  'gemini-2.5-flash-lite',
+  'gemini-1.5-flash',
+  'gemma-4-31b-it',
+];
+
+let PROVIDER_NAME = RAW_PROVIDER_NAME;
+let MODEL_NAME = RAW_MODEL_NAME;
+
+// Dynamically align provider and model if there is a configuration mismatch
+if (PROVIDER_NAME === 'gemini' && !GEMINI_MODELS.includes(MODEL_NAME)) {
+  const KKU_MODEL_PREFIXES = [
+    'deepseek',
+    'claude',
+    'gpt',
+    'qwen',
+    'sonar',
+    'llama',
+    'grok',
+    'nova',
+  ];
+  const isKkuModel = KKU_MODEL_PREFIXES.some((prefix) =>
+    MODEL_NAME.toLowerCase().startsWith(prefix)
+  );
+  if (isKkuModel) {
+    PROVIDER_NAME = 'kku';
+  } else {
+    MODEL_NAME = 'gemini-3.1-flash-lite';
+  }
+}
+
 const DAILY_LIMIT = 10;
 const LANDING_CHATBOT_TIMEOUT_MS = 20000;
 const CONTEXT_MEMORY_PROMPT =
