@@ -6,6 +6,15 @@ vi.mock('../../netlify/functions/lib/error-alert.js', () => ({
   reportCriticalError: vi.fn(),
 }));
 
+vi.mock('../../netlify/functions/lib/line-ai/key-pool.cjs', () => ({
+  createKeyPool: vi.fn().mockImplementation(({ keys }) => ({
+    execute: vi.fn().mockImplementation(async (op) => {
+      const [firstSlot] = keys.keys();
+      return op({ slot: firstSlot, apiKey: keys.get(firstSlot) });
+    }),
+  })),
+}));
+
 function request(body, headers = {}) {
   return new Request(
     'https://example.netlify.app/.netlify/functions/ai-proxy',
@@ -49,6 +58,9 @@ describe('ai-proxy', () => {
     delete process.env.VITE_NVIDIA_API_KEY;
     delete process.env.VITE_LANDING_CHATBOT_API_KEY;
     delete process.env.LANDING_CHATBOT_API_KEY;
+    for (let slot = 1; slot <= 5; slot += 1) {
+      delete process.env[`GEMINI_API_KEY_${slot}`];
+    }
     vi.stubGlobal('fetch', vi.fn());
     reportCriticalError.mockResolvedValue(false);
   });
@@ -57,6 +69,9 @@ describe('ai-proxy', () => {
     delete process.env.VITE_SUPABASE_URL;
     delete process.env.SUPABASE_SERVICE_ROLE_KEY;
     delete process.env.VISITOR_IP_HASH_SALT;
+    for (let slot = 1; slot <= 5; slot += 1) {
+      delete process.env[`GEMINI_API_KEY_${slot}`];
+    }
     vi.unstubAllGlobals();
     vi.restoreAllMocks();
   });
@@ -325,5 +340,107 @@ describe('ai-proxy', () => {
     const [url, init] = fetch.mock.calls[1];
     expect(url).toBe('https://gen.ai.kku.ac.th/okmd/api/v1/chat/completions');
     expect(init.headers.Authorization).toBe('Bearer test-kku-key');
+  });
+
+  it('performs in-memory key rotation when slot keys are provided but Supabase is missing', async () => {
+    delete process.env.VITE_SUPABASE_URL;
+    delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    process.env.GEMINI_API_KEY_1 = 'key-slot-1';
+    process.env.GEMINI_API_KEY_2 = 'key-slot-2';
+
+    fetch.mockResolvedValueOnce(
+      new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      })
+    );
+
+    const response = await handler(
+      request({
+        provider: 'gemini',
+        body: {
+          model: 'gemini-3.1-flash-lite',
+          contents: [{ role: 'user', parts: [{ text: 'hello' }] }],
+        },
+      })
+    );
+
+    expect(response.status).toBe(200);
+    const [url] = fetch.mock.calls[0];
+    expect(url).toSatisfy(
+      (u) => u.includes('key=key-slot-1') || u.includes('key=key-slot-2')
+    );
+  });
+
+  it('retries next key in-memory if the first one fails', async () => {
+    delete process.env.VITE_SUPABASE_URL;
+    delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    process.env.GEMINI_API_KEY_1 = 'key-slot-1';
+    process.env.GEMINI_API_KEY_2 = 'key-slot-2';
+
+    fetch.mockResolvedValueOnce(
+      new Response(JSON.stringify({ error: 'rate limit' }), {
+        status: 429,
+        headers: { 'content-type': 'application/json' },
+      })
+    );
+    fetch.mockResolvedValueOnce(
+      new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      })
+    );
+
+    const response = await handler(
+      request({
+        provider: 'gemini',
+        body: {
+          model: 'gemini-3.1-flash-lite',
+          contents: [{ role: 'user', parts: [{ text: 'hello' }] }],
+        },
+      })
+    );
+
+    expect(response.status).toBe(200);
+    expect(fetch.mock.calls.length).toBe(2);
+    const [url1] = fetch.mock.calls[0];
+    const [url2] = fetch.mock.calls[1];
+    expect(url1).toSatisfy(
+      (u) => u.includes('key=key-slot-1') || u.includes('key=key-slot-2')
+    );
+    expect(url2).toSatisfy(
+      (u) => u.includes('key=key-slot-1') || u.includes('key=key-slot-2')
+    );
+    expect(url1).not.toBe(url2);
+  });
+
+  it('calls keyPool.execute when Supabase is configured and slot keys are present', async () => {
+    process.env.VITE_SUPABASE_URL = 'https://example.supabase.co';
+    process.env.SUPABASE_SERVICE_ROLE_KEY = 'service-role-key';
+
+    process.env.GEMINI_API_KEY_1 = 'key-slot-1';
+
+    mockAllowedRateClaim();
+    fetch.mockResolvedValueOnce(
+      new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      })
+    );
+
+    const response = await handler(
+      request({
+        provider: 'gemini',
+        body: {
+          model: 'gemini-3.1-flash-lite',
+          contents: [{ role: 'user', parts: [{ text: 'hello' }] }],
+        },
+      })
+    );
+
+    expect(response.status).toBe(200);
+    expect(fetch.mock.calls[1][0]).toContain('key=key-slot-1');
   });
 });

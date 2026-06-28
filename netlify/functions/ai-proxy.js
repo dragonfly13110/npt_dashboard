@@ -1,4 +1,7 @@
 import crypto from 'node:crypto';
+import { createClient } from '@supabase/supabase-js';
+import { createKeyPool } from './lib/line-ai/key-pool.cjs';
+import { createLineAiStore } from './lib/line-ai/store.cjs';
 import { reportCriticalError } from './lib/error-alert.js';
 
 // netlify/functions/ai-proxy.js
@@ -315,18 +318,33 @@ export default async (req, context) => {
     if (validation.error)
       return jsonResponse(req, 400, { error: validation.error });
 
-    let apiKey = getEnv(validation.providerConfig.envKey);
-    if (!apiKey && validation.provider === 'gemini') {
-      apiKey = getEnv('VITE_GEMINI_API_KEY');
+    let apiKey = '';
+    const geminiApiKeys = new Map();
+    if (validation.provider === 'gemini') {
+      for (let slot = 1; slot <= 5; slot += 1) {
+        const val = getEnv(`GEMINI_API_KEY_${slot}`);
+        if (typeof val === 'string' && val.trim()) {
+          geminiApiKeys.set(slot, val.trim());
+        }
+      }
     }
-    if (!apiKey && validation.provider === 'openrouter') {
-      apiKey = getEnv('VITE_OPENROUTER_API_KEY');
-    }
-    if (!apiKey && validation.provider === 'nvidia') {
-      apiKey = getEnv('VITE_NVIDIA_API_KEY');
-    }
-    if (!apiKey && validation.provider === 'kku') {
-      apiKey = getEnv('LANDING_CHATBOT_API_KEY');
+
+    if (validation.provider === 'gemini' && geminiApiKeys.size > 0) {
+      apiKey = 'POOL_KEYS_PRESENT';
+    } else {
+      apiKey = getEnv(validation.providerConfig.envKey);
+      if (!apiKey && validation.provider === 'gemini') {
+        apiKey = getEnv('VITE_GEMINI_API_KEY');
+      }
+      if (!apiKey && validation.provider === 'openrouter') {
+        apiKey = getEnv('VITE_OPENROUTER_API_KEY');
+      }
+      if (!apiKey && validation.provider === 'nvidia') {
+        apiKey = getEnv('VITE_NVIDIA_API_KEY');
+      }
+      if (!apiKey && validation.provider === 'kku') {
+        apiKey = getEnv('LANDING_CHATBOT_API_KEY');
+      }
     }
     if (!apiKey)
       return jsonResponse(req, 500, { error: 'AI provider is not configured' });
@@ -361,14 +379,93 @@ export default async (req, context) => {
       stream: validation.body.stream === true,
     });
 
-    const upstream =
-      validation.provider === 'gemini'
-        ? await callGemini(apiKey, validation.body)
-        : validation.provider === 'openrouter'
-          ? await callOpenRouter(apiKey, validation.body)
-          : validation.provider === 'nvidia'
-            ? await callNvidia(apiKey, validation.body)
-            : await callKku(apiKey, validation.body);
+    let upstream;
+    if (validation.provider === 'gemini' && geminiApiKeys.size > 0) {
+      const supabaseUrl = getEnv('VITE_SUPABASE_URL');
+      const serviceRoleKey = getEnv('SUPABASE_SERVICE_ROLE_KEY');
+      let keyPool = null;
+      if (supabaseUrl && serviceRoleKey) {
+        try {
+          const supabase = createClient(supabaseUrl, serviceRoleKey);
+          const store = createLineAiStore(supabase);
+          keyPool = createKeyPool({ keys: geminiApiKeys, store });
+        } catch (err) {
+          console.error(
+            'Failed to initialize key pool store for AI proxy:',
+            err.message
+          );
+        }
+      }
+
+      if (keyPool) {
+        try {
+          upstream = await keyPool.execute(
+            async ({ slot, apiKey: slotKey }) => {
+              const res = await callGemini(slotKey, validation.body);
+              if (!res.ok) {
+                const error = new Error(
+                  `Gemini API failed with status ${res.status}`
+                );
+                error.status = res.status;
+                throw error;
+              }
+              return res;
+            }
+          );
+        } catch (poolError) {
+          console.error('All keys in Gemini pool failed:', poolError.message);
+          // Try a final fallback to default GEMINI_API_KEY / VITE_GEMINI_API_KEY if configured
+          const fallbackKey =
+            getEnv('GEMINI_API_KEY') || getEnv('VITE_GEMINI_API_KEY');
+          if (fallbackKey) {
+            console.log('Attempting fallback to default GEMINI_API_KEY');
+            upstream = await callGemini(fallbackKey, validation.body);
+          } else {
+            throw poolError;
+          }
+        }
+      } else {
+        // Fallback to in-memory key rotation if Supabase is unavailable
+        console.log('Using in-memory key rotation fallback');
+        const slots = Array.from(geminiApiKeys.keys());
+        const shuffled = slots.sort(() => Math.random() - 0.5);
+        let lastErr;
+        for (const slot of shuffled) {
+          try {
+            const slotKey = geminiApiKeys.get(slot);
+            const res = await callGemini(slotKey, validation.body);
+            if (!res.ok) {
+              throw new Error(`Gemini API failed with status ${res.status}`);
+            }
+            upstream = res;
+            break;
+          } catch (err) {
+            console.error(`In-memory slot ${slot} failed:`, err.message);
+            lastErr = err;
+          }
+        }
+        if (!upstream) {
+          // Try a final fallback to default GEMINI_API_KEY / VITE_GEMINI_API_KEY if configured
+          const fallbackKey =
+            getEnv('GEMINI_API_KEY') || getEnv('VITE_GEMINI_API_KEY');
+          if (fallbackKey) {
+            console.log('Attempting fallback to default GEMINI_API_KEY');
+            upstream = await callGemini(fallbackKey, validation.body);
+          } else {
+            throw lastErr || new Error('All in-memory slot keys failed');
+          }
+        }
+      }
+    } else {
+      upstream =
+        validation.provider === 'gemini'
+          ? await callGemini(apiKey, validation.body)
+          : validation.provider === 'openrouter'
+            ? await callOpenRouter(apiKey, validation.body)
+            : validation.provider === 'nvidia'
+              ? await callNvidia(apiKey, validation.body)
+              : await callKku(apiKey, validation.body);
+    }
 
     return new Response(upstream.body, {
       status: upstream.status,
