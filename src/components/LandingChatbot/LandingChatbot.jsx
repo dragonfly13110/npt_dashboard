@@ -27,8 +27,9 @@ import { getLandingQuickReply } from './quickReply';
 import { LANDING_CHATBOT_PUBLIC_KNOWLEDGE_PROMPT } from './publicKnowledge';
 
 const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
+const PROVIDER_NAME = import.meta.env.VITE_LANDING_CHATBOT_PROVIDER || 'gemini';
 const MODEL_NAME =
-  import.meta.env.VITE_LANDING_CHATBOT_MODEL || 'gemini-3.5-flash';
+  import.meta.env.VITE_LANDING_CHATBOT_MODEL || 'gemini-3.1-flash-lite';
 const DAILY_LIMIT = 10;
 const LANDING_CHATBOT_TIMEOUT_MS = 20000;
 const CONTEXT_MEMORY_PROMPT =
@@ -256,7 +257,7 @@ export default function LandingChatbot() {
     setInputValue('');
     setLoading(true);
 
-    // Prepare recent context/history in OpenAI format.
+    // Prepare recent context/history.
     const history = messages
       .slice(-LANDING_CHATBOT_CONTEXT_MESSAGE_LIMIT)
       .map((m) => ({
@@ -264,30 +265,63 @@ export default function LandingChatbot() {
         content: m.content,
       }));
 
-    const apiMessages = [
-      {
-        role: 'system',
-        content: `${SYSTEM_PROMPT}\n\n${LANDING_CHATBOT_PUBLIC_KNOWLEDGE_PROMPT}\n\n${CONTEXT_MEMORY_PROMPT}\n\n${LANDING_CHATBOT_LINK_POLICY_PROMPT}`,
-      },
-      ...history,
-      newUserMsg,
-    ];
+    let requestPayload;
+    if (PROVIDER_NAME === 'gemini') {
+      const systemInstructionContent = `${SYSTEM_PROMPT}\n\n${LANDING_CHATBOT_PUBLIC_KNOWLEDGE_PROMPT}\n\n${CONTEXT_MEMORY_PROMPT}\n\n${LANDING_CHATBOT_LINK_POLICY_PROMPT}`;
+      const contents = [
+        ...history.map((m) => ({
+          role: m.role === 'assistant' ? 'model' : 'user',
+          parts: [{ text: m.content }],
+        })),
+        {
+          role: 'user',
+          parts: [{ text: newUserMsg.content }],
+        },
+      ];
+
+      requestPayload = {
+        provider: 'gemini',
+        body: {
+          model: MODEL_NAME,
+          contents,
+          systemInstruction: {
+            parts: [{ text: systemInstructionContent }],
+          },
+          generationConfig: {
+            temperature: 0.5,
+            maxOutputTokens: 1000,
+          },
+          stream: true,
+        },
+      };
+    } else {
+      const apiMessages = [
+        {
+          role: 'system',
+          content: `${SYSTEM_PROMPT}\n\n${LANDING_CHATBOT_PUBLIC_KNOWLEDGE_PROMPT}\n\n${CONTEXT_MEMORY_PROMPT}\n\n${LANDING_CHATBOT_LINK_POLICY_PROMPT}`,
+        },
+        ...history,
+        newUserMsg,
+      ];
+
+      requestPayload = {
+        provider: 'kku',
+        body: {
+          model: MODEL_NAME,
+          messages: apiMessages,
+          temperature: 0.5,
+          max_tokens: 1000,
+          stream: true,
+        },
+      };
+    }
 
     try {
       const response = await fetch(AI_PROXY_URL, {
         signal: AbortSignal.timeout(LANDING_CHATBOT_TIMEOUT_MS),
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          provider: 'kku',
-          body: {
-            model: MODEL_NAME,
-            messages: apiMessages,
-            temperature: 0.5,
-            max_tokens: 1000,
-            stream: true,
-          },
-        }),
+        body: JSON.stringify(requestPayload),
       });
 
       if (!response.ok) {
@@ -320,9 +354,23 @@ export default function LandingChatbot() {
 
               try {
                 const data = JSON.parse(dataStr);
-                const delta = data.choices?.[0]?.delta;
-                if (delta?.content) {
-                  accumulatedReply += delta.content;
+                let chunkText = '';
+
+                if (PROVIDER_NAME === 'gemini') {
+                  const parts = data.candidates?.[0]?.content?.parts || [];
+                  chunkText = parts
+                    .filter((p) => !p.thought)
+                    .map((p) => p.text || '')
+                    .join('');
+                } else {
+                  const delta = data.choices?.[0]?.delta;
+                  if (delta?.content) {
+                    chunkText = delta.content;
+                  }
+                }
+
+                if (chunkText) {
+                  accumulatedReply += chunkText;
                   setMessages((prev) => {
                     const next = [...prev];
                     if (next.length > 0) {
@@ -352,9 +400,23 @@ export default function LandingChatbot() {
         if (dataStr && dataStr !== '[DONE]') {
           try {
             const data = JSON.parse(dataStr);
-            const delta = data.choices?.[0]?.delta;
-            if (delta?.content) {
-              accumulatedReply += delta.content;
+            let chunkText = '';
+
+            if (PROVIDER_NAME === 'gemini') {
+              const parts = data.candidates?.[0]?.content?.parts || [];
+              chunkText = parts
+                .filter((p) => !p.thought)
+                .map((p) => p.text || '')
+                .join('');
+            } else {
+              const delta = data.choices?.[0]?.delta;
+              if (delta?.content) {
+                chunkText = delta.content;
+              }
+            }
+
+            if (chunkText) {
+              accumulatedReply += chunkText;
               setMessages((prev) => {
                 const next = [...prev];
                 if (next.length > 0) {
