@@ -344,7 +344,7 @@ export default function Chatbot() {
       if (!msg || loading) return;
 
       const currentModel = selectedModel;
-      const modelConfig = AI_MODELS[currentModel];
+      let actualModelUsed = currentModel;
 
       const validHistory = messages
         .filter(
@@ -444,20 +444,87 @@ export default function Chatbot() {
           });
         };
 
+        const executeAiCall = async (modelKey, promptHistory) => {
+          try {
+            return await callAI(
+              modelKey,
+              finalSystemPrompt,
+              promptHistory,
+              aiSettings,
+              fileData,
+              controller.signal,
+              onChunk
+            );
+          } catch (firstErr) {
+            if (firstErr.name === 'AbortError' || controller.signal?.aborted) {
+              throw firstErr;
+            }
+
+            // Determine fallback model
+            const fallbackModelKey =
+              modelKey === 'deepseekV4' || modelKey === 'kkuDeepseek'
+                ? 'gemini'
+                : 'kkuDeepseek';
+
+            actualModelUsed = fallbackModelKey;
+
+            console.warn(
+              `Model ${modelKey} failed. Falling back to ${fallbackModelKey}...`,
+              firstErr
+            );
+
+            // Notify user
+            const failedModelName = AI_MODELS[modelKey]?.shortLabel || modelKey;
+            const fallbackModelName =
+              AI_MODELS[fallbackModelKey]?.shortLabel || fallbackModelKey;
+            antMessage.warning(
+              `⚠️ ${failedModelName} ขัดข้อง กำลังสลับใช้ ${fallbackModelName} แทนอัตโนมัติ...`
+            );
+
+            // Update selected model & provider state in UI so subsequent chats use fallback
+            setSelectedModel(fallbackModelKey);
+            setSelectedProvider(
+              AI_MODELS[fallbackModelKey]?.provider || selectedProvider
+            );
+
+            // Update the placeholder message's model key if present
+            setMessages((prev) => {
+              const updated = [...prev];
+              const lastIndex = updated.length - 1;
+              if (lastIndex >= 0 && updated[lastIndex].role === 'bot') {
+                updated[lastIndex] = {
+                  ...updated[lastIndex],
+                  modelKey: fallbackModelKey,
+                };
+              }
+              return updated;
+            });
+
+            let fallbackSettings = aiSettings;
+            if (fallbackModelKey !== 'gemini' && fallbackModelKey !== 'gemma') {
+              fallbackSettings = { ...aiSettings, webSearch: false };
+              setAiSettings(fallbackSettings);
+            }
+
+            // Retry with fallback
+            return await callAI(
+              fallbackModelKey,
+              finalSystemPrompt,
+              promptHistory,
+              fallbackSettings,
+              fileData,
+              controller.signal,
+              onChunk
+            );
+          }
+        };
+
         if (analysis.isGeneral) {
           const historyToSend = [
             ...validHistory,
             { role: 'user', text: `คำถาม: ${msg}` },
           ];
-          aiText = await callAI(
-            currentModel,
-            finalSystemPrompt,
-            historyToSend,
-            aiSettings,
-            fileData,
-            controller.signal,
-            onChunk
-          );
+          aiText = await executeAiCall(currentModel, historyToSend);
           responseType = 'general';
         } else {
           const dbContext = buildContextForAI(analysis);
@@ -494,15 +561,7 @@ ${dbContext}
             ...validHistory,
             { role: 'user', text: userPrompt },
           ];
-          aiText = await callAI(
-            currentModel,
-            finalSystemPrompt,
-            historyToSend,
-            aiSettings,
-            fileData,
-            controller.signal,
-            onChunk
-          );
+          aiText = await executeAiCall(currentModel, historyToSend);
           responseType = analysis.isOverview ? 'overview' : 'specific';
         }
 
@@ -533,7 +592,7 @@ ${dbContext}
             data: analysis.results,
             type: responseType,
             timestamp: Date.now(),
-            modelKey: currentModel,
+            modelKey: actualModelUsed,
           };
           setMessages((prev) => [...prev, botMsg]);
         } else {
@@ -547,7 +606,7 @@ ${dbContext}
                 data: analysis.results,
                 type: responseType,
                 timestamp: Date.now(),
-                modelKey: currentModel,
+                modelKey: actualModelUsed,
                 isStreaming: false,
               };
             }
@@ -572,10 +631,10 @@ ${dbContext}
           const lastIndex = updated.length - 1;
           const errorMsgObj = {
             role: 'bot',
-            text: `⚠️ เกิดข้อผิดพลาดจาก ${modelConfig.description}: ${errorMsg}\n\nลองสลับไปใช้โมเดลอื่น หรือลองใหม่อีกครั้งครับ 🙏`,
+            text: `⚠️ เกิดข้อผิดพลาดจาก ${AI_MODELS[actualModelUsed]?.description || actualModelUsed}: ${errorMsg}\n\nลองสลับไปใช้โมเดลอื่น หรือลองใหม่อีกครั้งครับ 🙏`,
             timestamp: Date.now(),
             type: 'error',
-            modelKey: currentModel,
+            modelKey: actualModelUsed,
           };
           if (
             lastIndex >= 0 &&
@@ -597,7 +656,18 @@ ${dbContext}
         inputRef.current?.focus();
       }
     },
-    [input, loading, messages, selectedModel, aiSettings, attachedFile]
+    [
+      input,
+      loading,
+      messages,
+      selectedModel,
+      selectedProvider,
+      aiSettings,
+      attachedFile,
+      setSelectedModel,
+      setSelectedProvider,
+      setAiSettings,
+    ]
   );
 
   const handleClear = useCallback(() => {

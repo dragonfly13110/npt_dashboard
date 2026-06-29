@@ -399,19 +399,17 @@ export default async (req, context) => {
 
       if (keyPool) {
         try {
-          upstream = await keyPool.execute(
-            async ({ slot, apiKey: slotKey }) => {
-              const res = await callGemini(slotKey, validation.body);
-              if (!res.ok) {
-                const error = new Error(
-                  `Gemini API failed with status ${res.status}`
-                );
-                error.status = res.status;
-                throw error;
-              }
-              return res;
+          upstream = await keyPool.execute(async ({ apiKey: slotKey }) => {
+            const res = await callGemini(slotKey, validation.body);
+            if (!res.ok) {
+              const error = new Error(
+                `Gemini API failed with status ${res.status}`
+              );
+              error.status = res.status;
+              throw error;
             }
-          );
+            return res;
+          });
         } catch (poolError) {
           console.error('All keys in Gemini pool failed:', poolError.message);
           // Try a final fallback to default GEMINI_API_KEY / VITE_GEMINI_API_KEY if configured
