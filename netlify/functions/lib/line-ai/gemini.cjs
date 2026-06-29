@@ -12,6 +12,9 @@ const PLAN_SCHEMA = {
     'tools',
     'crop',
     'district',
+    'subdistrict',
+    'areaScope',
+    'farmerGroupType',
     'personnelScope',
     'preferenceAction',
     'needsGrounding',
@@ -29,6 +32,27 @@ const PLAN_SCHEMA = {
     searchTerms: { type: 'ARRAY', items: { type: 'STRING' }, maxItems: 5 },
     crop: { type: 'STRING' },
     district: { type: 'STRING', enum: ['none', ...DISTRICTS] },
+    subdistrict: { type: 'STRING' },
+    areaScope: {
+      type: 'STRING',
+      enum: [
+        'province',
+        'district',
+        'subdistrict',
+        'district_breakdown',
+        'subdistrict_breakdown',
+      ],
+    },
+    farmerGroupType: {
+      type: 'STRING',
+      enum: [
+        'all',
+        'community_enterprise',
+        'housewife',
+        'young_farmer',
+        'career',
+      ],
+    },
     personnelScope: {
       type: 'STRING',
       enum: ['none', 'province', 'district', 'district_breakdown', 'all'],
@@ -47,6 +71,8 @@ const PLAN_SCHEMA = {
           'latest_weather',
           'fire_hotspots',
           'disease_forecast',
+          'area_summary',
+          'area_search',
         ],
       },
       maxItems: 3,
@@ -159,9 +185,14 @@ Analyze user request and categorize.
 Generate JSON complying with the schema.
 - intent: 'database' if we need to search databases (community enterprises, farmer info, weather, hotspots, etc.), 'general' for generic questions, 'current' for daily/real-time info (like today's weather/news), 'clarify' if unclear.
 - Every portal-data question must use an allowlisted tool. Never answer it as general knowledge.
-- tools: allowlisted tools ONLY ['global_search', 'personnel_summary', 'latest_weather', 'fire_hotspots', 'disease_forecast'].
+- tools: allowlisted tools ONLY ['global_search', 'personnel_summary', 'latest_weather', 'fire_hotspots', 'disease_forecast', 'area_summary', 'area_search'].
 - Use personnel_summary ONLY when the user asks for a number, count, total, or breakdown: personnelScope 'province' for the provincial office, 'district' with district for one district, 'district_breakdown' for counts by every district, or 'all' for everyone.
 - Questions asking who, names, a list of people, roles, or where a person works MUST use global_search with the personnel table, even if the question also contains 'all' or 'ทั้งหมด'. Never use office rows as people.
+- Use area_summary when the user asks for counts, totals, summaries, rankings, or breakdowns by province, district, or subdistrict for farmer groups such as community enterprises, housewife farmer groups, young farmer groups, or agricultural career groups.
+- Use area_search when the user asks what groups exist, which groups, names, lists, or examples in a district/subdistrict. Prefer subdistrict evidence when the user names a subdistrict; if there is no subdistrict evidence, fallback to district and say subdistrict data is insufficient.
+- farmerGroupType is 'young_farmer' for ยุวเกษตร/young farmer groups, 'housewife' for แม่บ้าน, 'career' for กลุ่มส่งเสริมอาชีพ, 'community_enterprise' for วิสาหกิจชุมชน, otherwise 'all'.
+- areaScope is 'subdistrict' when a tambon/subdistrict is named, 'district' when a district is named, 'province' for whole-province totals, 'district_breakdown' for by-district breakdown, and 'subdistrict_breakdown' for by-subdistrict breakdown within a district.
+- subdistrict contains the explicit tambon/subdistrict from the latest message only. Do not invent it. For subdistrict requests, fallback to district if subdistrict-level data is missing.
 - Use disease_forecast for disease, pest, outbreak, or crop-risk questions.
 - crop and district contain values explicitly present in the latest message only.
 - preferenceAction is 'save' only for explicit remember/change requests, 'clear' only for explicit forget/delete requests, otherwise 'none'.
@@ -218,6 +249,8 @@ Generate JSON complying with the schema.
       'latest_weather',
       'fire_hotspots',
       'disease_forecast',
+      'area_summary',
+      'area_search',
     ];
     parsed.tools = (parsed.tools || [])
       .filter((t) => allowedTools.includes(t))
@@ -237,6 +270,33 @@ Generate JSON complying with the schema.
     parsed.district = DISTRICTS.includes(parsed.district)
       ? parsed.district
       : null;
+    const subdistrictStr = String(parsed.subdistrict || '').trim();
+    parsed.subdistrict =
+      subdistrictStr === '' || subdistrictStr.toLowerCase() === 'none'
+        ? null
+        : subdistrictStr.slice(0, 50);
+    parsed.areaScope = [
+      'province',
+      'district',
+      'subdistrict',
+      'district_breakdown',
+      'subdistrict_breakdown',
+    ].includes(parsed.areaScope)
+      ? parsed.areaScope
+      : parsed.subdistrict
+        ? 'subdistrict'
+        : parsed.district
+          ? 'district'
+          : 'province';
+    parsed.farmerGroupType = [
+      'all',
+      'community_enterprise',
+      'housewife',
+      'young_farmer',
+      'career',
+    ].includes(parsed.farmerGroupType)
+      ? parsed.farmerGroupType
+      : 'all';
     parsed.personnelScope = [
       'province',
       'district',

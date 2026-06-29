@@ -133,13 +133,76 @@ describe('Gemini LINE client', () => {
     expect(instruction).toContain('MUST use global_search');
     expect(instruction).toContain('specific personnel job titles');
   });
+
+  it('instructs planner to route area counts and subdistrict lookups through area tools', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      status: 200,
+      json: async () => ({
+        candidates: [
+          {
+            content: {
+              parts: [
+                {
+                  text: JSON.stringify({
+                    intent: 'database',
+                    tools: ['area_summary'],
+                    tables: ['young_farmer_groups_detailed'],
+                    searchTerms: [],
+                    crop: '',
+                    district: 'บางเลน',
+                    subdistrict: 'บางช้าง',
+                    areaScope: 'subdistrict',
+                    farmerGroupType: 'young_farmer',
+                    personnelScope: 'none',
+                    preferenceAction: 'none',
+                    needsGrounding: false,
+                  }),
+                },
+              ],
+            },
+          },
+        ],
+      }),
+    });
+    const client = createGeminiClient({
+      fetch: fetchMock,
+      model: 'gemini-2.5-flash-lite',
+      timeoutMs: 8000,
+    });
+
+    const result = await client.plan('key-area', 'gemini-2.5-flash-lite', {
+      question: 'ตำบลบางช้างมีกลุ่มยุวเกษตรกี่กลุ่ม',
+    });
+
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+    const instruction = body.systemInstruction.parts[0].text;
+    const schema = body.generationConfig.responseSchema;
+    expect(instruction).toContain('area_summary');
+    expect(instruction).toContain('area_search');
+    expect(instruction).toContain('subdistrict');
+    expect(instruction).toContain('fallback to district');
+    expect(schema.properties).toHaveProperty('subdistrict');
+    expect(schema.properties).toHaveProperty('areaScope');
+    expect(schema.properties.tools.items.enum).toContain('area_summary');
+    expect(schema.properties.tools.items.enum).toContain('area_search');
+    expect(result).toMatchObject({
+      tools: ['area_summary'],
+      areaScope: 'subdistrict',
+      farmerGroupType: 'young_farmer',
+      subdistrict: 'บางช้าง',
+    });
+  });
+
   it('plans correctly and sanitizes invalid values', async () => {
     const planResponse = {
       intent: 'invalid-intent-here',
-      tools: ['global_search', 'raw_sql'],
+      tools: ['global_search', 'area_search', 'raw_sql'],
       tables: ['large_plots', 'personnel', 'audit_logs'],
       crop: ' ข้าว ',
       district: 'กรุงเทพ',
+      subdistrict: ' บางช้าง ',
+      areaScope: 'subdistrict_breakdown',
+      farmerGroupType: 'nonsense',
       preferenceAction: 'overwrite_everything',
       searchTerms: ['term1', 'term2', 'term3', 'term4', 'term5', 'term6'],
       needsGrounding: true, // Should be forced to false because intent is not 'current'
@@ -167,10 +230,13 @@ describe('Gemini LINE client', () => {
     });
 
     expect(result.intent).toBe('general');
-    expect(result.tools).toEqual(['global_search']);
+    expect(result.tools).toEqual(['global_search', 'area_search']);
     expect(result.tables).toEqual(['large_plots', 'personnel']);
     expect(result.crop).toBe('ข้าว');
     expect(result.district).toBeNull();
+    expect(result.subdistrict).toBe('บางช้าง');
+    expect(result.areaScope).toBe('subdistrict_breakdown');
+    expect(result.farmerGroupType).toBe('all');
     expect(result.preferenceAction).toBe('none');
     expect(result.searchTerms).toHaveLength(5);
     expect(result.needsGrounding).toBe(false);

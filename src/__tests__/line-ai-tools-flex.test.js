@@ -164,6 +164,180 @@ describe('LINE AI tools and rendering', () => {
     });
   });
 
+  it('summarizes farmer groups by district and subdistrict with fallback metadata', async () => {
+    const farmerRows = [
+      {
+        district: 'บางเลน',
+        total_groups: 9,
+        community_enterprise_groups: 4,
+        housewives_groups: 2,
+        young_farmer_groups: 3,
+        career_promotion_groups: 0,
+      },
+    ];
+    const youngRows = [
+      {
+        id: 'yfg-1',
+        group_name: 'กลุ่มยุวเกษตรบางช้าง',
+        district: 'บางเลน',
+        subdistrict: 'บางช้าง',
+        member_count: 20,
+        data_year: 2568,
+      },
+      {
+        id: 'yfg-2',
+        group_name: 'กลุ่มยุวเกษตรบางปลา',
+        district: 'บางเลน',
+        subdistrict: 'บางปลา',
+        member_count: 15,
+        data_year: 2568,
+      },
+    ];
+    const makeQuery = (rows) => ({
+      eq: vi.fn(function (field, value) {
+        return makeQuery(rows.filter((row) => row[field] === value));
+      }),
+      order: vi.fn(function () {
+        return this;
+      }),
+      then(resolve) {
+        return Promise.resolve({ data: rows, error: null }).then(resolve);
+      },
+    });
+    const supabase = {
+      from: vi.fn((table) => ({
+        select: vi.fn(() =>
+          makeQuery(table === 'farmer_institutes' ? farmerRows : youngRows)
+        ),
+      })),
+    };
+
+    const district = await executeTools(
+      supabase,
+      ['area_summary'],
+      [],
+      ['young_farmer_groups_detailed'],
+      {
+        areaScope: 'district',
+        district: 'บางเลน',
+        farmerGroupType: 'young_farmer',
+      }
+    );
+    const subdistrict = await executeTools(
+      supabase,
+      ['area_summary'],
+      [],
+      ['young_farmer_groups_detailed'],
+      {
+        areaScope: 'subdistrict',
+        district: 'บางเลน',
+        subdistrict: 'บางช้าง',
+        farmerGroupType: 'young_farmer',
+      }
+    );
+    const fallback = await executeTools(
+      supabase,
+      ['area_summary'],
+      [],
+      ['young_farmer_groups_detailed'],
+      {
+        areaScope: 'subdistrict',
+        district: 'บางเลน',
+        subdistrict: 'ไม่พบ',
+        farmerGroupType: 'young_farmer',
+      }
+    );
+
+    expect(district[0].data).toMatchObject({
+      coverage: 'district',
+      district: 'บางเลน',
+      total: 3,
+      url: 'https://npt-dashboard.netlify.app/dashboard/development/young-farmer-groups',
+    });
+    expect(subdistrict[0].data).toMatchObject({
+      coverage: 'subdistrict',
+      district: 'บางเลน',
+      subdistrict: 'บางช้าง',
+      total: 1,
+    });
+    expect(fallback[0].data).toMatchObject({
+      coverage: 'district_fallback',
+      district: 'บางเลน',
+      requestedSubdistrict: 'ไม่พบ',
+      total: 3,
+    });
+  });
+
+  it('searches farmer group records by subdistrict and returns grouped dashboard links', async () => {
+    const rowsByTable = {
+      community_enterprises: [
+        {
+          id: 'ce-1',
+          enterprise_name: 'วิสาหกิจชุมชนบางช้าง',
+          district: 'บางเลน',
+          subdistrict: 'บางช้าง',
+          member_count: 12,
+        },
+      ],
+      housewife_farmer_groups: [],
+      young_farmer_groups_detailed: [
+        {
+          id: 'yfg-1',
+          group_name: 'กลุ่มยุวเกษตรบางช้าง',
+          district: 'บางเลน',
+          subdistrict: 'บางช้าง',
+          member_count: 20,
+        },
+      ],
+      agricultural_career_groups: [],
+    };
+    const makeQuery = (rows) => ({
+      eq: vi.fn(function (field, value) {
+        return makeQuery(rows.filter((row) => row[field] === value));
+      }),
+      order: vi.fn(function () {
+        return this;
+      }),
+      limit: vi.fn(function () {
+        return this;
+      }),
+      then(resolve) {
+        return Promise.resolve({ data: rows, error: null }).then(resolve);
+      },
+    });
+    const supabase = {
+      from: vi.fn((table) => ({
+        select: vi.fn(() => makeQuery(rowsByTable[table] || [])),
+      })),
+    };
+
+    const result = await executeTools(supabase, ['area_search'], [], [], {
+      areaScope: 'subdistrict',
+      district: 'บางเลน',
+      subdistrict: 'บางช้าง',
+      farmerGroupType: 'all',
+    });
+
+    expect(result[0].data).toMatchObject({
+      coverage: 'subdistrict',
+      district: 'บางเลน',
+      subdistrict: 'บางช้าง',
+      total: 2,
+    });
+    expect(result[0].data.categories).toEqual([
+      expect.objectContaining({
+        table: 'community_enterprises',
+        totalCount: 1,
+        url: 'https://npt-dashboard.netlify.app/dashboard/development/community-enterprises',
+      }),
+      expect.objectContaining({
+        table: 'young_farmer_groups_detailed',
+        totalCount: 1,
+        url: 'https://npt-dashboard.netlify.app/dashboard/development/young-farmer-groups',
+      }),
+    ]);
+  });
+
   it('filters the latest disease forecast by effective crop', async () => {
     const maybeSingle = vi.fn().mockResolvedValue({
       data: {

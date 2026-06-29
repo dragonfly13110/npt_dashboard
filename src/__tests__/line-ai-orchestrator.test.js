@@ -157,6 +157,186 @@ describe('LINE AI Orchestrator', () => {
     expect(gemini.synthesize).toHaveBeenCalled();
   });
 
+  it('passes area summary context for farmer-group count questions', async () => {
+    gemini.plan.mockResolvedValue({
+      intent: 'database',
+      answer: '',
+      tools: ['area_summary'],
+      searchTerms: [],
+      tables: ['young_farmer_groups_detailed'],
+      district: 'บางเลน',
+      subdistrict: null,
+      areaScope: 'district',
+      farmerGroupType: 'young_farmer',
+      preferenceAction: 'none',
+      needsGrounding: false,
+    });
+    executeTools.mockResolvedValue([
+      {
+        tool: 'area_summary',
+        data: {
+          coverage: 'district',
+          label: 'กลุ่มยุวเกษตรกร',
+          district: 'บางเลน',
+          total: 3,
+          url: 'https://npt-dashboard.netlify.app/dashboard/development/young-farmer-groups',
+        },
+      },
+    ]);
+    gemini.synthesize.mockResolvedValue('อำเภอบางเลนมีกลุ่มยุวเกษตรกร 3 กลุ่ม');
+
+    const orchestrator = createLineAiOrchestrator({
+      supabase,
+      config,
+      store,
+      keyPool,
+      gemini,
+      executeTools,
+      renderAiReply,
+      clock,
+    });
+
+    await orchestrator.answer({
+      userId: 'U1',
+      text: 'อำเภอบางเลนมีกลุ่มยุวเกษตรกี่กลุ่ม',
+    });
+
+    expect(executeTools).toHaveBeenCalledWith(
+      supabase,
+      ['area_summary'],
+      [],
+      ['young_farmer_groups_detailed'],
+      {
+        areaScope: 'district',
+        district: 'บางเลน',
+        subdistrict: null,
+        farmerGroupType: 'young_farmer',
+      }
+    );
+  });
+
+  it('passes area search context for subdistrict farmer-group listing questions', async () => {
+    gemini.plan.mockResolvedValue({
+      intent: 'database',
+      answer: '',
+      tools: ['area_search'],
+      searchTerms: [],
+      tables: [],
+      district: 'บางเลน',
+      subdistrict: 'บางช้าง',
+      areaScope: 'subdistrict',
+      farmerGroupType: 'all',
+      preferenceAction: 'none',
+      needsGrounding: false,
+    });
+    executeTools.mockResolvedValue([
+      {
+        tool: 'area_search',
+        data: {
+          coverage: 'subdistrict',
+          district: 'บางเลน',
+          subdistrict: 'บางช้าง',
+          total: 1,
+          categories: [
+            {
+              table: 'young_farmer_groups_detailed',
+              label: 'กลุ่มยุวเกษตรกร',
+              totalCount: 1,
+              url: 'https://npt-dashboard.netlify.app/dashboard/development/young-farmer-groups',
+              results: [{ group_name: 'กลุ่มยุวเกษตรบางช้าง' }],
+            },
+          ],
+        },
+      },
+    ]);
+    gemini.synthesize.mockResolvedValue('ตำบลบางช้างพบกลุ่มเกษตรกร 1 รายการ');
+
+    const orchestrator = createLineAiOrchestrator({
+      supabase,
+      config,
+      store,
+      keyPool,
+      gemini,
+      executeTools,
+      renderAiReply,
+      clock,
+    });
+
+    await orchestrator.answer({
+      userId: 'U1',
+      text: 'ตำบลบางช้างมีกลุ่มเกษตรกรอะไรบ้าง',
+    });
+
+    expect(executeTools).toHaveBeenCalledWith(
+      supabase,
+      ['area_search'],
+      [],
+      [],
+      {
+        areaScope: 'subdistrict',
+        district: 'บางเลน',
+        subdistrict: 'บางช้าง',
+        farmerGroupType: 'all',
+      }
+    );
+  });
+
+  it('includes subdistrict fallback wording and district URL in rendered replies', async () => {
+    gemini.plan.mockResolvedValue({
+      intent: 'database',
+      tools: ['area_summary'],
+      tables: ['young_farmer_groups_detailed'],
+      searchTerms: [],
+      district: 'บางเลน',
+      subdistrict: 'ไม่พบ',
+      areaScope: 'subdistrict',
+      farmerGroupType: 'young_farmer',
+      preferenceAction: 'none',
+      needsGrounding: false,
+    });
+    executeTools.mockResolvedValue([
+      {
+        tool: 'area_summary',
+        data: {
+          coverage: 'district_fallback',
+          reason: 'ไม่พบข้อมูลระดับตำบล ไม่พบ',
+          label: 'กลุ่มยุวเกษตรกร',
+          district: 'บางเลน',
+          requestedSubdistrict: 'ไม่พบ',
+          total: 3,
+          url: 'https://npt-dashboard.netlify.app/dashboard/development/young-farmer-groups',
+        },
+      },
+    ]);
+    gemini.synthesize.mockResolvedValue('อำเภอบางเลนมีกลุ่มยุวเกษตรกร 3 กลุ่ม');
+
+    const orchestrator = createLineAiOrchestrator({
+      supabase,
+      config,
+      store,
+      keyPool,
+      gemini,
+      executeTools,
+      renderAiReply,
+      clock,
+    });
+
+    await orchestrator.answer({
+      userId: 'U1',
+      text: 'ตำบลไม่พบมีกลุ่มยุวเกษตรกี่กลุ่ม',
+    });
+
+    expect(renderAiReply).toHaveBeenCalledWith({
+      text: expect.stringContaining('ข้อมูลระดับตำบลไม่พอ'),
+      records: [
+        expect.objectContaining({
+          url: 'https://npt-dashboard.netlify.app/dashboard/development/young-farmer-groups',
+          totalCount: 3,
+        }),
+      ],
+    });
+  });
+
   it('uses a latest-message crop override without saving it', async () => {
     store.getPreference.mockResolvedValue({
       crop: 'ข้าว',

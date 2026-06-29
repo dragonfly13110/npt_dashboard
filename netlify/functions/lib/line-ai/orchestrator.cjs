@@ -410,6 +410,46 @@ function formatDeterministicSummary(toolResults, queryText = '') {
           });
         }
       }
+    } else if (tr.tool === 'area_summary') {
+      const data = tr.data || {};
+      const titleParts = [data.label || 'กลุ่มเกษตรกร'];
+      if (data.subdistrict) titleParts.push(`ต.${data.subdistrict}`);
+      if (data.district) titleParts.push(`อ.${data.district}`);
+      const breakdown = (data.breakdown || [])
+        .slice(0, 7)
+        .map((item) => `${item.subdistrict || item.district}: ${item.count}`)
+        .join(' / ');
+      records.push({
+        title: titleParts.join(' '),
+        totalCount: data.total || 0,
+        subtitle:
+          breakdown ||
+          `จำนวน ${Number(data.total || 0).toLocaleString('th-TH')} กลุ่ม`,
+        url: data.url || 'https://npt-dashboard.netlify.app/dashboard',
+      });
+    } else if (tr.tool === 'area_search') {
+      const data = tr.data || {};
+      for (const cat of data.categories || []) {
+        if ((cat.results || []).length === 0) {
+          records.push({
+            title: cat.label || 'กลุ่มเกษตรกร',
+            totalCount: cat.totalCount || 0,
+            subtitle: `พบ ${Number(cat.totalCount || 0).toLocaleString('th-TH')} รายการ`,
+            url: cat.url || 'https://npt-dashboard.netlify.app/dashboard',
+          });
+          continue;
+        }
+        for (const row of cat.results || []) {
+          records.push({
+            title: row.title || cat.label || 'กลุ่มเกษตรกร',
+            totalCount: cat.totalCount || (cat.results || []).length,
+            subtitle: [cat.label, row.subtitle, row.info]
+              .filter(Boolean)
+              .join(' • '),
+            url: cat.url || 'https://npt-dashboard.netlify.app/dashboard',
+          });
+        }
+      }
     } else if (tr.tool === 'disease_forecast') {
       const risks = tr.data?.risks || [];
       if (risks.length > 2) {
@@ -446,6 +486,22 @@ function formatDeterministicSummary(toolResults, queryText = '') {
     }
   }
   return records;
+}
+
+function buildAreaFallbackNote(toolResults) {
+  const fallback = (toolResults || []).find(
+    (tr) =>
+      (tr.tool === 'area_summary' || tr.tool === 'area_search') &&
+      tr.data?.coverage === 'district_fallback'
+  );
+  if (!fallback) return '';
+
+  const data = fallback.data || {};
+  const requested = data.requestedSubdistrict
+    ? ` ต.${data.requestedSubdistrict}`
+    : '';
+  const district = data.district ? ` อ.${data.district}` : '';
+  return `ข้อมูลระดับตำบลไม่พอสำหรับ${requested} จึงสรุปภาพรวม${district}แทน`;
 }
 
 function createLineAiOrchestrator({
@@ -578,7 +634,23 @@ function createLineAiOrchestrator({
       let toolResults = [];
       if (plan.tools && plan.tools.length > 0) {
         const args = [supabase, plan.tools, plan.searchTerms, plan.tables];
-        if (plan.tools.includes('disease_forecast')) {
+        if (
+          plan.tools.includes('area_summary') ||
+          plan.tools.includes('area_search')
+        ) {
+          args.push({
+            areaScope:
+              plan.areaScope ||
+              (plan.subdistrict
+                ? 'subdistrict'
+                : plan.district
+                  ? 'district'
+                  : 'province'),
+            district: plan.district || null,
+            subdistrict: plan.subdistrict || null,
+            farmerGroupType: plan.farmerGroupType || 'all',
+          });
+        } else if (plan.tools.includes('disease_forecast')) {
           args.push(effectivePreference);
         } else if (plan.tools.includes('personnel_summary')) {
           args.push({
@@ -618,7 +690,10 @@ function createLineAiOrchestrator({
       });
 
       const records = formatDeterministicSummary(trimmedEvidence, text);
-      let finalAnswer = answerText;
+      const areaFallbackNote = buildAreaFallbackNote(trimmedEvidence);
+      let finalAnswer = areaFallbackNote
+        ? `${areaFallbackNote}\n${answerText}`
+        : answerText;
       if (records && records.length > 0) {
         const uniqueUrls = [...new Set(records.map((r) => r.url))].filter(
           Boolean
