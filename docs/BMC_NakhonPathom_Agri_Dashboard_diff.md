@@ -1,465 +1,512 @@
---- BMC_NakhonPathom_Agri_Dashboard.md (原始)
-
-
-+++ BMC_NakhonPathom_Agri_Dashboard.md (修改后)
 # Business Model Canvas (BMC)
-## Dashboard การเกษตรจังหวัดนครปฐม (Nakhon Pathom Smart Agriculture Dashboard)
+
+## NPT Smart Agri Dashboard
+
+เอกสารฉบับนี้ปรับปรุงจากไฟล์ BMC เดิมให้สอดคล้องกับระบบจริงใน repository `npt_dashboard` โดยอ้างอิงจากโครงสร้าง route, dashboard module, dataset catalog, Supabase schema, Netlify Functions, คู่มือระบบ และเอกสาร reference ภายในโครงการ
+
+> เป้าหมายของ BMC นี้ไม่ใช่การขายซอฟต์แวร์เชิงพาณิชย์เป็นหลัก แต่คือการอธิบาย "โมเดลคุณค่าและการขยายผล" ของศูนย์ข้อมูลเกษตรจังหวัดนครปฐม เพื่อใช้ประกอบการนำเสนอ การประกวด การขอสนับสนุนงบประมาณ และการวางแผนส่งมอบระบบให้หน่วยงานใช้งานจริง
 
 ---
 
-## 1. Customer Segments (กลุ่มลูกค้า)
+## 1. Customer Segments
 
-### 1.1 กลุ่มหลัก (Primary Customers)
+### 1.1 กลุ่มผู้ใช้หลัก
 
-- **ผู้บริหารระดับจังหวัด** (ผู้ว่าราชการจังหวัด, รองผู้ว่าฯ)
-  - ความต้องการ: ข้อมูลภาพรวมเพื่อการตัดสินใจเชิงนโยบาย
-  - ปัญหาเดิม: ข้อมูลกระจัดกระจาย ต้องรอรายงานจากหลายหน่วยงาน
-  - มูลค่าที่ได้รับ: เห็นภาพรวม Real-time ตัดสินใจได้รวดเร็ว
+| กลุ่มผู้ใช้                                       | งานที่ต้องทำ                                                             | Pain Point เดิม                                                      | คุณค่าจากระบบ                                                                                                  |
+| ------------------------------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| ผู้บริหารจังหวัด / ผู้บริหารสำนักงานเกษตร         | เห็นภาพรวมสถานการณ์เกษตรระดับจังหวัด ตัดสินใจเชิงนโยบาย วางแผนงบประมาณ   | ข้อมูลกระจายหลายฝ่าย ต้องรอรายงานรวม ใช้เวลาประชุมและรวบรวมข้อมูลนาน | ใช้ dashboard, Situation Room, แผนที่ และตัวเลขรวมเพื่อเห็นสถานการณ์เร็วขึ้น                                   |
+| หัวหน้ากลุ่มงานและเจ้าหน้าที่สำนักงานเกษตรจังหวัด | ติดตามงานตามภารกิจ จัดการข้อมูลรายตาราง ทำรายงาน                         | ไฟล์ Excel/PDF หลายชุด โครงสร้างข้อมูลไม่สม่ำเสมอ ค้นหายาก           | มี CRUD table, Global Search, dashboard รายกลุ่มงาน และข้อมูลกลางบน Supabase                                   |
+| เจ้าหน้าที่เกษตรอำเภอ                             | ตรวจสอบข้อมูลพื้นที่ เกษตรกร แปลง พยากรณ์โรค ศัตรูพืช และงานส่งเสริม     | ต้องส่งไฟล์ซ้ำหลายรอบ ข้อมูลพื้นที่กับตารางแยกกัน                    | เข้าถึงข้อมูลตามสิทธิ์ ใช้แผนที่และตารางร่วมกัน ลดงานประสาน                                                    |
+| เจ้าหน้าที่ด้านอารักขาพืช                         | เฝ้าระวังโรค แมลง จุดความร้อน ศูนย์จัดการศัตรูพืช ศูนย์ดินปุ๋ย และหมอพืช | ข้อมูลสถานการณ์เปลี่ยนเร็ว ต้องรวมจากหลายแหล่ง                       | มี AI Disease Forecast, Fire Hotspots, forecast plots, pest centers, soil fertilizer centers และ plant doctors |
+| เจ้าหน้าที่ด้านยุทธศาสตร์และสารสนเทศ              | ดูทะเบียนเกษตรกร พื้นที่เกษตร แหล่งเรียนรู้ อากาศ ราคา และตัวชี้วัด      | ข้อมูลหลายแหล่ง ไม่เชื่อมกับ dashboard หรือ GIS                      | มี Strategy module, SmartMap, agricultural areas, farmer registry, daily weather และ prices                    |
 
-- **เจ้าหน้าที่สำนักงานเกษตรจังหวัด/อำเภอ**
-  - ความต้องการ: เครื่องมือวิเคราะห์ข้อมูล ติดตามสถานการณ์เกษตร
-  - ปัญหาเดิม: ใช้เวลาเตรียมรายงานนาน ข้อมูลไม่ทันสมัย
-  - มูลค่าที่ได้รับ: ลดเวลาทำงานซ้ำซ้อน วิเคราะห์แนวโน้มได้แม่นยำ
+### 1.2 กลุ่มผู้ใช้สาธารณะและภาคี
 
-- **นักวิชาการส่งเสริมการเกษตร**
-  - ความต้องการ: ข้อมูลเชิงลึกสำหรับวางแผนโครงการ
-  - ปัญหาเดิม: ขาดเครื่องมือวิเคราะห์ข้อมูลที่ครบวงจร
-  - มูลค่าที่ได้รับ: เข้าถึงข้อมูลหลากหลายมิติในแพลตฟอร์มเดียว
+| กลุ่มผู้ใช้                                                       | ความต้องการ                                                   | คุณค่าจากระบบ                                                                            |
+| ----------------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| ประชาชนและเกษตรกรทั่วไป                                           | ดูข้อมูลสาธารณะ ข่าว ราคา อากาศ แผนที่ แปลงใหญ่ วิสาหกิจชุมชน | Public Portal, Interactive Dashboard, SmartMap, Landing Chatbot และ public detail pages  |
+| วิสาหกิจชุมชน / กลุ่มเกษตรกร / แปลงใหญ่                           | แสดงตัวตนและศักยภาพของกลุ่ม ใช้ข้อมูลประกอบการพัฒนา           | public pages สำหรับ community enterprises, large plots, farmer institutes, smart farmers |
+| หน่วยงานภาคี เช่น พาณิชย์จังหวัด อุตสาหกรรมจังหวัด สถาบันการศึกษา | ใช้ข้อมูลประกอบการบูรณาการโครงการและนโยบาย                    | เข้าถึงข้อมูลภาพรวมที่ sanitize แล้ว และขอข้อมูลเพิ่มเติมผ่าน data request workflow      |
+| คณะกรรมการประกวด / ผู้ประเมินนวัตกรรม                             | เห็นปัญหา วิธีแก้ ผลกระทบ และความพร้อมของระบบ                 | มี story ชัด: data hub + dashboard + AI + map + security + deployable system             |
 
-### 1.2 กลุ่มรอง (Secondary Customers)
+### 1.3 กลุ่มผู้ใช้อนาคต
 
-- **เกษตรกรรายใหญ่/วิสาหกิจชุมชน**
-  - ความต้องการ: ข้อมูลตลาด แนวโน้มราคา สภาพอากาศ
-  - ปัญหาเดิม: เข้าถึงข้อมูลล่าช้า ไม่ทันต่อสถานการณ์
-  - มูลค่าที่ได้รับ: วางแผนการผลิตและการตลาดได้ดีขึ้น
-
-- **หน่วยงานพันธมิตร** (พาณิชย์จังหวัด, อุตสาหกรรมจังหวัด, ธกส.)
-  - ความต้องการ: ข้อมูลร่วมสำหรับบูรณาการงาน
-  - มูลค่าที่ได้รับ: ลดความซ้ำซ้อนในการเก็บข้อมูล
-
-### 1.3 กลุ่มอนาคต (Future Customers)
-
-- **เกษตรกรรายย่อย** (ผ่าน Mobile App ในอนาคต)
-- **นักลงทุน/ผู้ประกอบการด้านเกษตร**
-- **สถาบันการศึกษา/นักวิจัย**
+- จังหวัดอื่นที่ต้องการต้นแบบศูนย์ข้อมูลเกษตรระดับจังหวัด
+- นักวิจัยและมหาวิทยาลัยที่ต้องการข้อมูลเชิงพื้นที่และข้อมูลรวมที่ไม่เปิดเผย PII
+- หน่วยงานกลางที่ต้องการเชื่อมข้อมูลผ่าน API หรือ data sharing agreement
+- ผู้ประกอบการ AgriTech ที่ต้องการร่วมพัฒนาเครื่องมือวิเคราะห์หรือพยากรณ์
 
 ---
 
-## 2. Value Propositions (คุณค่าที่ส่งมอบ)
+## 2. Value Propositions
 
-### 2.1 คุณค่าหลัก (Core Values)
+### 2.1 คุณค่าหลัก
 
-- **Single Source of Truth**: แหล่งข้อมูลกลางที่เชื่อถือได้ ทันสมัย ครบถ้วน
-- **Real-time Decision Support**: สนับสนุนการตัดสินใจด้วยข้อมูลปัจจุบัน
-- **Data Visualization ที่เข้าใจง่าย**: แปลงข้อมูลซับซ้อนเป็นกราฟและ Dashboard ที่อ่านง่าย
-- **Cost Reduction**: ลดต้นทุนเวลาและทรัพยากรในการรวบรวมและวิเคราะห์ข้อมูล
-- **Transparency & Accountability**: เพิ่มความโปร่งใสในการบริหารจัดการภาคเกษตร
+1. **Single Source of Truth ระดับจังหวัด**
+   - รวมข้อมูลจากหลายกลุ่มงานไว้ใน Supabase
+   - ครอบคลุมข้อมูลยุทธศาสตร์ การผลิต การพัฒนาเกษตรกร อารักขาพืช และงานบริหาร
+   - ลดการส่งต่อไฟล์ซ้ำและลดความเสี่ยงจากข้อมูลหลายเวอร์ชัน
 
-### 2.2 คุณค่าเฉพาะ (Unique Values)
+2. **Decision Support สำหรับผู้บริหาร**
+   - มี dashboard ภาพรวม, Situation Room, chart, map และ KPI
+   - เชื่อมข้อมูลเชิงตารางกับข้อมูลเชิงพื้นที่
+   - เห็นแนวโน้มและพื้นที่เสี่ยงได้เร็วกว่า workflow รายงานแบบเดิม
 
-- **Bento Grid Design**: การจัดวางข้อมูลแบบโมดูลาร์ เข้าถึงเร็ว โฟกัสจุดสำคัญ
-- **Lazy Loading Performance**: โหลดเร็วแม้ข้อมูลมาก ประหยัด bandwidth
-- **Multi-dimensional Analysis**: วิเคราะห์ข้อมูลข้ามมิติ (พื้นที่, พืช, เวลา, ราคา)
-- **Accessibility First**: ออกแบบให้เข้าถึงได้ง่าย ทุกอุปกรณ์ ทุกความสามารถ
-- **Province-specific Customization**: ปรับแต่งเฉพาะสำหรับบริบทนครปฐม
+3. **Public Transparency**
+   - Public Portal เปิดเผยข้อมูลที่เหมาะสมต่อประชาชน
+   - มีหน้า `/interactive-dashboard`, `/smart-map`, และ `/public/*`
+   - ข้อมูลส่วนบุคคลถูกจำกัดผ่านแนวคิด public select columns, RLS และ endpoint ที่ sanitize ข้อมูล
 
-### 2.3 Emotional Values
+4. **AI-Assisted Work**
+   - Internal AI Chatbot ช่วยถามตอบจากข้อมูลฐานจริง
+   - Landing Chatbot ช่วยผู้ใช้สาธารณะค้นหาเมนูและข้อมูลทั่วไป
+   - AI Disease Forecast ช่วยประเมินความเสี่ยงโรคและแมลงจากข้อมูลแปลงและสภาพแวดล้อม
 
-- **ความมั่นใจ**: ผู้บริหารมั่นใจในการตัดสินใจด้วยข้อมูลที่ถูกต้อง
-- **ความภูมิใจ**: เจ้าหน้าที่ภูมิใจในระบบที่พัฒนาโดยคนในพื้นที่
-- **ความไว้วางใจ**: เกษตรกรไว้วางใจข้อมูลจากแหล่งราชการ
+5. **Operational Efficiency**
+   - CRUD table ช่วยให้เจ้าหน้าที่จัดการข้อมูลได้ในระบบเดียว
+   - Global Search ค้นหาข้ามตาราง
+   - Data Request workflow ช่วยรวบรวมคำขอข้อมูลและการตอบกลับอย่างเป็นระบบ
 
----
+### 2.2 จุดต่างจาก dashboard ทั่วไป
 
-## 3. Channels (ช่องทาง)
+- **เชื่อม public + internal ใน codebase เดียว**: หน้า public เปิดข้อมูลภาพรวม ส่วน `/dashboard/*` ป้องกันด้วย `ProtectedRoute`
+- **จัดกลุ่มตามภารกิจสำนักงานเกษตร**: Admin, Strategy, Production, Development, Protection
+- **มี GIS และ external feeds**: Leaflet, GeoJSON, Open-Meteo, GISTDA, MOC, RSS/WordPress proxy
+- **มี security layer หลายชั้น**: Supabase Auth, role/department, AdminRoute, DataRequestRoute, RLS hardening, Netlify proxy
+- **พร้อมนำเสนอและขยายผล**: มีคู่มือ `docs/manual`, architecture docs, test suite, Netlify deployment config
 
-### 3.1 ช่องทางหลัก (Primary Channels)
+### 2.3 คุณค่าเชิงผลกระทบ
 
-- **Web Application** (https://[domain].go.th)
-  - เข้าถึงผ่านเบราว์เซอร์บน Desktop/Tablet
-  - ไม่ต้องติดตั้ง ใช้งานทันที
-
-- **Internal Network** (เครือข่ายราชการ)
-  - เข้าถึงผ่าน VPN สำหรับข้อมูลความมั่นคง
-  - ความปลอดภัยสูง
-
-### 3.2 ช่องทางสนับสนุน (Supporting Channels)
-
-- **Email Newsletter**
-  - สรุปข้อมูลรายสัปดาห์/รายเดือน
-  - แจ้งเตือนสถานการณ์ฉุกเฉิน
-
-- **Social Media** (Facebook Page, Line OA)
-  - เผยแพร่ข้อมูลสรุปสู่สาธารณะ
-  - รับฟังความคิดเห็น
-
-- **Training Workshops**
-  - อบรมการใช้งานให้เจ้าหน้าที่
-  - คู่มือการใช้งานออนไลน์
-
-### 3.3 ช่องทางในอนาคต (Future Channels)
-
-- **Mobile Application** (iOS/Android)
-- **API Integration** (เชื่อมระบบอื่น)
-- **Kiosk Display** (จอแสดงข้อมูลในที่สาธารณะ)
+- ลดเวลารวบรวมข้อมูลเพื่อทำรายงาน
+- ลดความคลาดเคลื่อนจากการคัดลอกไฟล์หลายชุด
+- เพิ่มความโปร่งใสในการเผยแพร่ข้อมูลสาธารณะ
+- เพิ่มความพร้อมในการรับมือโรคพืช ภัยพิบัติ จุดความร้อน และสถานการณ์ราคาสินค้าเกษตร
+- สร้างต้นแบบที่จังหวัดอื่นสามารถศึกษาและปรับใช้ได้
 
 ---
 
-## 4. Customer Relationships (ความสัมพันธ์กับลูกค้า)
+## 3. Channels
 
-### 4.1 ประเภทความสัมพันธ์
+### 3.1 ช่องทางหลักที่ระบบมีแล้ว
 
-- **Personal Assistance** (ความช่วยเหลือส่วนบุคคล)
-  - ทีม Support ตอบคำถามผ่านโทรศัพท์/อีเมล
-  - เจ้าหน้าที่ประจำจังหวัดคอยช่วยเหลือ
+| Channel               | Route / Component                                                                         | กลุ่มเป้าหมาย               | บทบาท                              |
+| --------------------- | ----------------------------------------------------------------------------------------- | --------------------------- | ---------------------------------- |
+| Landing Page          | `/`, `LandingPage.jsx`                                                                    | ประชาชน ภาคี ผู้ประเมิน     | ประตูแรกของระบบ สรุปข้อมูลและนำทาง |
+| Interactive Dashboard | `/interactive-dashboard`                                                                  | ประชาชน ผู้บริหาร ภาคี      | Dashboard สาธารณะเชิงโต้ตอบ        |
+| SmartMap              | `/smart-map`                                                                              | ประชาชน เจ้าหน้าที่         | แผนที่และข้อมูลเชิงพื้นที่         |
+| Public Detail Pages   | `/public/large-plots`, `/public/community-enterprises`, `/public/agricultural-areas`, ฯลฯ | ประชาชน ภาคี                | เปิดข้อมูลเฉพาะเรื่อง              |
+| Internal Dashboard    | `/dashboard/*`                                                                            | เจ้าหน้าที่ ผู้บริหาร       | ระบบภายในหลัง login                |
+| Manual Portal         | `/manual`, `/manual/:slug`                                                                | ผู้ดูแลระบบ เจ้าหน้าที่ใหม่ | คู่มือใช้งานและสร้างระบบ           |
+| AI Chatbot            | `/dashboard/chatbot` และ Landing Chatbot                                                  | เจ้าหน้าที่ / ผู้ใช้ public | ถามตอบ ค้นหา แนะนำข้อมูล           |
 
-- **Self-Service** (บริการตนเอง)
-  - ระบบ Help Center และ FAQ
-  - Video Tutorial การใช้งาน
+### 3.2 ช่องทางสนับสนุน
 
-- **Automated Services** (บริการอัตโนมัติ)
-  - Email Alert เมื่อมีข้อมูลใหม่
-  - Chatbot ตอบคำถามพื้นฐาน
+- Netlify Functions เป็น API gateway/proxy สำหรับบริการภายนอก
+- LINE Webhook และ LINE AI Chatbot ใน `netlify/functions/line-webhook*.cjs` สำหรับต่อยอดช่องทางสนทนา
+- RSS/WordPress proxies สำหรับข่าวจาก DOAE, ESC, AgriTec, ICTC และแหล่งข่าวเกษตร
+- เอกสารคู่มือใน `docs/manual` สำหรับอบรมและส่งมอบระบบ
+- GitHub/CI และ Playwright/Vitest สำหรับตรวจสอบคุณภาพก่อน deploy
 
-- **Communities** (ชุมชนผู้ใช้)
-  - เวทีแลกเปลี่ยนประสบการณ์ระหว่างจังหวัด
-  - User Group Meeting รายไตรมาส
+### 3.3 ช่องทางอนาคต
 
-### 4.2 กลยุทธ์การรักษาผู้ใช้
-
-- **Onboarding Program**: อบรมการใช้งานสำหรับผู้เริ่มต้น
-- **Feedback Loop**: แบบสำรวจความพึงพอใจรายเดือน
-- **Continuous Improvement**: อัปเดตฟีเจอร์ตามความต้องการ
-- **Recognition Program**: ยกย่องหน่วยงานที่ใช้ระบบอย่างมีประสิทธิภาพ
-
----
-
-## 5. Revenue Streams (รายได้)
-
-### 5.1 รายได้โดยตรง (Direct Revenue) - _อาจไม่มีในระยะแรก_
-
-- **Subscription Fee** (สำหรับหน่วยงานภายนอก)
-  - จังหวัดอื่นที่ต้องการใช้ระบบ: 50,000 - 200,000 บาท/ปี
-  - องค์กรเอกชน: 100,000 - 500,000 บาท/ปี
-
-- **Premium Features**
-  - Advanced Analytics: 20,000 บาท/เดือน
-  - Custom Report Generation: 5,000 บาท/รายงาน
-  - API Access: 10,000 - 50,000 บาท/เดือน
-
-- **Training & Consulting**
-  - อบรมการใช้งาน: 15,000 บาท/วัน
-  - ที่ปรึกษาการปรับใช้: 30,000 บาท/โครงการ
-
-### 5.2 รายได้ทางอ้อม (Indirect Revenue)
-
-- **Cost Savings** (ประหยัดงบประมาณ)
-  - ลดการจัดทำรายงานด้วยมือ: ประหยัด 500,000 บาท/ปี
-  - ลดการประชุมที่ไม่จำเป็น: ประหยัด 300,000 บาท/ปี
-  - ลดความผิดพลาดจากการตัดสินใจ: ประหยัดหลายล้านบาท
-
-- **Increased Productivity**
-  - เจ้าหน้าที่มีเวลาทำงานเชิงรุกมากขึ้น 30%
-  - ลดเวลาการเตรียมข้อมูลจาก 3 วันเหลือ 3 ชั่วโมง
-
-### 5.3 โมเดลรายได้ในอนาคต
-
-- **Data-as-a-Service** (ขายข้อมูลเชิงสถิติให้วิจัย)
-- **White-label Solution** (ขายระบบให้จังหวัดอื่น)
-- **Public-Private Partnership** (ร่วมกับเอกชนพัฒนาฟีเจอร์)
+- LINE OA เป็นช่องทางถามตอบและแจ้งเตือน
+- API สำหรับ data sharing กับหน่วยงานภาคี
+- Mobile-friendly public portal สำหรับเกษตรกรในพื้นที่
+- Kiosk หรือจอ dashboard ในสำนักงาน/ศูนย์บริการ
+- Export รายงาน PDF/CSV สำหรับประชุมและสื่อสารผู้บริหาร
 
 ---
 
-## 6. Key Resources (ทรัพยากรหลัก)
+## 4. Customer Relationships
 
-### 6.1 ทรัพยากรบุคคล (Human Resources)
+### 4.1 รูปแบบความสัมพันธ์
 
-- **Developer Team** (2-3 คน)
-  - Frontend Developer (React/Vue)
-  - Backend Developer (Node.js/Python)
-  - Data Engineer
+| รูปแบบ                 | สิ่งที่ระบบรองรับ                                     | ความหมายเชิงปฏิบัติ                                       |
+| ---------------------- | ----------------------------------------------------- | --------------------------------------------------------- |
+| Self-service           | public portal, dashboard, search, manual              | ผู้ใช้ค้นหาและเรียนรู้เองได้                              |
+| Assisted service       | chatbot, manual, data request workflow                | เจ้าหน้าที่มีตัวช่วยตอบคำถามและรับคำขอข้อมูล              |
+| Role-based service     | role: admin/editor/viewer/guest, department filtering | ผู้ใช้เห็นเมนูและข้อมูลตามสิทธิ์                          |
+| Continuous improvement | website evaluations, audit logs, recent activities    | เก็บ feedback และตรวจสอบการเปลี่ยนแปลง                    |
+| Trust relationship     | RLS, public data sanitization, secrets isolation      | สร้างความเชื่อมั่นว่าข้อมูลอ่อนไหวไม่ถูกเปิดเผยผิดช่องทาง |
 
-- **Domain Experts**
-  - นักวิชาการเกษตร (ให้ข้อมูลและความต้องการ)
-  - นักสถิติ/นักวิเคราะห์ข้อมูล
+### 4.2 Onboarding และ adoption
 
-- **Support Staff**
-  - IT Support (ดูแลระบบ)
-  - Trainer (อบรมผู้ใช้)
+- อบรมผู้ดูแลระบบก่อน: Admin, editor, viewer, data owner
+- แยกคู่มือเป็นบท: ภาพรวม, รวบรวมข้อมูล, ทำความสะอาดข้อมูล, Supabase, install, dashboard/search/AI, security/deploy, operations
+- เริ่มจากกลุ่มงานที่ข้อมูลพร้อม เช่น แปลงใหญ่ GAP วิสาหกิจชุมชน Smart Farmer และอารักขาพืช
+- ใช้ public pages เป็นแรงจูงใจให้เจ้าของข้อมูลเห็นประโยชน์จากการอัปเดตข้อมูล
 
-### 6.2 ทรัพยากรเทคโนโลยี (Technological Resources)
+### 4.3 กลไกรักษาความสัมพันธ์ระยะยาว
 
-- **Infrastructure**
-  - Server (Cloud หรือ On-premise)
-  - Database (PostgreSQL/MongoDB)
-  - CDN สำหรับ Static Assets
-
-- **Software & Tools**
-  - Development Frameworks
-  - BI Tools (ถ้ามี)
-  - Version Control (Git)
-  - CI/CD Pipeline
-
-- **Data Assets**
-  - ฐานข้อมูลเกษตรจังหวัด
-  - Historical Data (ย้อนหลัง 5-10 ปี)
-  - API Connections (กรมอุตุนิยมวิทยา, กรมการค้าภายใน)
-
-### 6.3 ทรัพยากรอื่นๆ
-
-- **Budget** (งบประมาณพัฒนาและบำรุงรักษา)
-- **Partnerships** (ความร่วมมือกับหน่วยงาน)
-- **Intellectual Property** (โค้ด, อัลกอริทึม, Design)
+- ตั้งรอบตรวจสอบข้อมูลรายเดือนหรือรายไตรมาส
+- ใช้ audit log ตรวจการแก้ไขข้อมูลสำคัญ
+- ใช้ website evaluation เก็บ feedback จากผู้ใช้
+- ใช้ release note หรือ manual update เมื่อมี feature ใหม่
+- ใช้ dashboard performance/KPI เพื่อรายงานผลต่อผู้บริหาร
 
 ---
 
-## 7. Key Activities (กิจกรรมหลัก)
+## 5. Revenue Streams / Value Capture
 
-### 7.1 กิจกรรมพัฒนา (Development Activities)
+ระบบนี้เหมาะกับโมเดล "value capture ภาครัฐ" มากกว่า revenue stream ตรงแบบเอกชน รายได้หลักจึงควรตีความเป็นงบประมาณที่ประหยัดได้ มูลค่าการตัดสินใจที่ดีขึ้น และโอกาสขยายผล
 
-- **Requirement Gathering**
-  - สัมภาษณ์ผู้ใช้ทุกกลุ่ม
-  - วิเคราะห์ Pain Points
-  - จัดลำดับความสำคัญของฟีเจอร์
+### 5.1 คุณค่าทางตรงในหน่วยงาน
 
-- **System Development**
-  - Frontend Development (Dashboard UI)
-  - Backend Development (API, Database)
-  - Data Integration (เชื่อมแหล่งข้อมูล)
+- ลดเวลาการรวมรายงานจากหลายไฟล์
+- ลดค่าใช้จ่ายแฝงจากงานซ้ำ เช่น คัดลอกข้อมูล ตรวจไฟล์หลายเวอร์ชัน ประสานงานรายอำเภอ
+- เพิ่มความแม่นยำของข้อมูลประกอบการประชุมและตัดสินใจ
+- ลดความเสี่ยงจากข้อมูลส่วนบุคคลรั่วไหลด้วย policy และ data sanitization
 
-- **Testing & QA**
-  - Unit Testing
-  - User Acceptance Testing (UAT)
-  - Performance Testing
-  - Security Testing
+### 5.2 แหล่งงบประมาณที่เหมาะสม
 
-### 7.2 กิจกรรมดำเนินงาน (Operational Activities)
+| แหล่งสนับสนุน                                      | เหตุผล                                                |
+| -------------------------------------------------- | ----------------------------------------------------- |
+| งบพัฒนาระบบสารสนเทศของจังหวัด/สำนักงาน             | ระบบเป็น infrastructure ข้อมูลของหน่วยงาน             |
+| งบโครงการนวัตกรรมภาครัฐ / Digital Government       | มี data hub, dashboard, AI, map, security             |
+| งบส่งเสริมเกษตรอัจฉริยะ / BCG / Climate adaptation | ใช้ข้อมูลสภาพอากาศ โรคพืช จุดความร้อน และพื้นที่เกษตร |
+| ความร่วมมือมหาวิทยาลัย                             | ต่อยอด analytics, GIS, AI forecast                    |
+| ความร่วมมือหน่วยงานกลาง                            | เชื่อมข้อมูลมาตรฐานและขยายผลระดับจังหวัดอื่น          |
 
-- **Data Management**
-  - Data Collection & Validation
-  - Data Cleaning & Transformation
-  - Regular Data Updates (Daily/Weekly)
+### 5.3 Revenue stream อนาคต ถ้าขยายเป็น platform
 
-- **System Maintenance**
-  - Bug Fixes
-  - Performance Optimization
-  - Security Patches
-  - Backup & Recovery
+- ค่าบริการปรับใช้/อบรมสำหรับจังหวัดอื่น
+- ค่าบริการ maintenance และ data operation
+- API/data service สำหรับข้อมูล aggregate ที่ผ่านการ anonymize
+- template dashboard สำหรับสำนักงานเกษตรจังหวัดอื่น
+- consulting package ด้าน data governance และ dashboard implementation
 
-- **User Support**
-  - Help Desk Operations
-  - Training Sessions
-  - Documentation Updates
+### 5.4 ตัวชี้วัดมูลค่า
 
-### 7.3 กิจกรรมขยายผล (Expansion Activities)
-
-- **Marketing & Promotion**
-  - Presentations to Stakeholders
-  - Case Studies & Success Stories
-  - Participation in Agriculture Fairs
-
-- **Partnership Development**
-  - MOU with Other Provinces
-  - Collaboration with Universities
-  - Private Sector Engagement
+- ชั่วโมงทำงานที่ลดลงต่อรอบรายงาน
+- จำนวนไฟล์ Excel/PDF ที่ถูกแทนด้วยฐานข้อมูลกลาง
+- จำนวนผู้ใช้ภายในที่ใช้งานประจำ
+- จำนวนหน้า public ที่มีข้อมูลพร้อมเผยแพร่
+- จำนวนการค้นหา/ถามตอบผ่าน search และ chatbot
+- จำนวนเคสตัดสินใจ/แจ้งเตือนที่อ้างอิงข้อมูลจากระบบ
 
 ---
 
-## 8. Key Partnerships (พันธมิตรหลัก)
+## 6. Key Resources
 
-### 8.1 หน่วยงานราชการ (Government Agencies)
+### 6.1 Digital assets
 
-- **กรมส่งเสริมการเกษตร** (ข้อมูลนโยบายและแนวทาง)
-- **กรมอุตุนิยมวิทยา** (ข้อมูลสภาพอากาศ)
-- **กรมการค้าภายใน** (ข้อมูลราคาสินค้าเกษตร)
-- **สำนักงานสถิติแห่งชาติ** (ข้อมูลประชากรและเศรษฐกิจ)
-- **ธกส.** (ข้อมูลสินเชื่อเกษตรกร)
+| Resource        | รายละเอียดในระบบ                                                            |
+| --------------- | --------------------------------------------------------------------------- |
+| Frontend app    | React 19, Vite 7, React Router 7, Ant Design 6                              |
+| Data platform   | Supabase Auth, Database, RPC, RLS policies                                  |
+| Visualization   | ECharts, Leaflet, React-Leaflet, dashboard widgets                          |
+| AI layer        | AI proxy, Gemini/OpenRouter integration, chatbot data service               |
+| Proxy/API layer | Netlify Functions สำหรับ weather, AQI, news, prices, hotspots, LINE webhook |
+| Public GIS      | `public/nakhon_pathom.geojson`, soil series GeoJSON                         |
+| Documentation   | `docs/manual`, `docs/reference`, roadmap/spec/plans                         |
+| Tests           | Vitest unit tests และ Playwright e2e tests                                  |
 
-### 8.2 หน่วยงานในพื้นที่ (Local Partners)
+### 6.2 Data assets
 
-- **สำนักงานเกษตรอำเภอ** (8 อำเภอในนครปฐม)
-- **มหาวิทยาลัยศิลปากร** (วิจัยและพัฒนา)
-- **วิทยาลัยเกษตรและเทคโนโลยี** (ฝึกอบรม)
-- **วิสาหกิจชุมชน** (ข้อมูลจริงจากพื้นที่)
+ข้อมูลที่ระบบรองรับจริงแบ่งเป็น 5 กลุ่มหลัก:
 
-### 8.3 ภาคเอกชน (Private Sector)
+1. **ยุทธศาสตร์และสารสนเทศ**
+   - `farmer_registry`
+   - `agricultural_areas`
+   - `learning_centers`
+   - `daily_weather`
+   - `parcel_drawing_progress`
 
-- **Tech Companies** (Cloud Services, Software Vendors)
-- **Telecom Providers** (Internet Connectivity)
-- **Agri-Tech Startups** (นวัตกรรมใหม่ๆ)
+2. **ส่งเสริมและพัฒนาการผลิต**
+   - `large_plots`
+   - `certifications`
+   - `crop_production`
 
-### 8.4 องค์กรระหว่างประเทศ (International Organizations)
+3. **ส่งเสริมและพัฒนาเกษตรกร**
+   - `community_enterprises`
+   - `smart_farmer_sf`
+   - `young_smart_farmer_ysf`
+   - `agricultural_career_groups`
+   - `housewife_farmer_groups`
+   - `young_farmer_groups_detailed`
+   - `farmer_institutes`
+   - `agri_tourism`
+   - `disasters`
 
-- **FAO** (องค์การอาหารและการเกษตรแห่งสหประชาชาติ)
-- **World Bank** (โครงการพัฒนาเกษตรกรรม)
-- **ASEAN Secretariat** (ความร่วมมือระดับภูมิภาค)
+4. **อารักขาพืช**
+   - `forecast_plots`
+   - `ai_disease_forecasts`
+   - `pest_centers`
+   - `plant_doctors`
+   - `soil_fertilizer_centers`
+   - `soil_series`
+   - `fire_hotspots`
 
-### 8.5 รูปแบบความร่วมมือ
+5. **บริหารทั่วไป**
+   - `profiles`
+   - `personnel`
+   - `assets`
+   - `budgets`
+   - `audit_logs`
+   - `data_requests`
+   - `website_evaluations`
 
-- **Data Sharing Agreement** (ข้อตกลงแบ่งปันข้อมูล)
-- **MOU** (บันทึกความเข้าใจ)
-- **Joint Development** (พัฒนาร่วมกัน)
-- **Revenue Sharing** (แบ่งปันรายได้)
+### 6.3 Human resources
 
----
-
-## 9. Cost Structure (โครงสร้างต้นทุน)
-
-### 9.1 ต้นทุนพัฒนา (Development Costs) -一次性
-
-| รายการ                      | จำนวนเงิน (บาท) | หมายเหตุ                |
-| --------------------------- | --------------- | ----------------------- |
-| ค่าจ้าง Developer (6 เดือน) | 600,000         | 2 คน x 50,000 x 6 เดือน |
-| ค่าจ้าง Designer            | 150,000         | UI/UX Design            |
-| ค่าจ้าง Domain Expert       | 100,000         | ที่ปรึกษาด้านเกษตร      |
-| Hardware & Infrastructure   | 200,000         | Server, Network         |
-| Software Licenses           | 50,000          | Tools, Libraries        |
-| Training & Workshop         | 50,000          | อบรมทีมพัฒนา            |
-| **รวม**                     | **1,150,000**   |                         |
-
-### 9.2 ต้นทุนดำเนินงาน (Operational Costs) - รายปี
-
-| รายการ                    | จำนวนเงิน (บาท/ปี) | หมายเหตุ                 |
-| ------------------------- | ------------------ | ------------------------ |
-| ค่าจ้างทีม Support (2 คน) | 720,000            | 30,000 x 2 x 12 เดือน    |
-| Cloud Hosting & Bandwidth | 120,000            | 10,000/เดือน             |
-| Data Acquisition          | 100,000            | ซื้อข้อมูลจากแหล่งภายนอก |
-| Maintenance & Updates     | 200,000            | Bug fixes, New features  |
-| Training Users            | 100,000            | อบรมเจ้าหน้าที่          |
-| Marketing & Promotion     | 50,000             | ประชาสัมพันธ์            |
-| Contingency (10%)         | 129,000            | สำรองกรณีฉุกเฉิน         |
-| **รวม**                   | **1,419,000**      |                          |
-
-### 9.3 ต้นทุนแฝง (Hidden Costs)
-
-- **Opportunity Cost**: เวลาของเจ้าหน้าที่ที่มาร่วมประชุม
-- **Change Management**: การปรับตัวของผู้ใช้ระบบใหม่
-- **Security Compliance**: การปฏิบัติตามมาตรฐานความปลอดภัย
-
-### 9.4 กลยุทธ์ลดต้นทุน
-
-- **Open Source Technologies**: ใช้ซอฟต์แวร์ฟรี
-- **Cloud Scaling**: จ่ายตามการใช้งานจริง
-- **Volunteer Contributions**: นักศึกษาฝึกงาน, อาสาสมัคร
-- **Government Grants**: ขอทุนจากกรม/กระทรวง
+- Project owner / product owner ฝั่งสำนักงานเกษตรจังหวัด
+- Data owners ประจำกลุ่มงาน
+- Admin ผู้ดูแลผู้ใช้ สิทธิ์ และข้อมูลระบบ
+- Developer/maintainer สำหรับ frontend, Netlify Functions, Supabase schema
+- Domain experts ด้านพืช อารักขาพืช GIS และข้อมูลเกษตร
+- Trainer/support สำหรับอบรมและรับ feedback ผู้ใช้
 
 ---
 
-## การวิเคราะห์เพิ่มเติม
+## 7. Key Activities
 
-### SWOT Analysis
+### 7.1 งานสร้างและดูแลข้อมูล
 
-#### Strengths (จุดแข็ง)
+- สำรวจแหล่งข้อมูลจากทุกกลุ่มงาน
+- ทำความสะอาดข้อมูลและกำหนด schema
+- import/seed ข้อมูลผ่าน scripts ใน `scripts/` และ SQL migrations ใน `supabase/`
+- ตรวจคุณภาพข้อมูลก่อนเผยแพร่ public
+- ตั้งเจ้าของข้อมูลและรอบอัปเดต
 
-- ✅ ข้อมูลครบถ้วน ทันสมัย จากแหล่งที่น่าเชื่อถือ
-- ✅ ออกแบบ UX/UI ดี ใช้งานง่าย
-- ✅ พัฒนาโดยเข้าใจบริบทพื้นที่จริง
-- ✅ Cost-effective เทียบกับประโยชน์ที่ได้รับ
-- ✅ Scalable ขยายไปจังหวัดอื่นได้
+### 7.2 งานระบบและ feature
 
-#### Weaknesses (จุดอ่อน)
+- พัฒนา dashboard, public views, CRUD table, map, widgets
+- เชื่อม external API ผ่าน Netlify Functions
+- ปรับ Global Search และ AI Chatbot ให้ตอบจากข้อมูลจริง
+- เพิ่ม PDF/CSV export และรายงานประกอบการประชุม
+- ดูแล performance, cache, responsive UI และ accessibility
 
-- ❌ ขึ้นอยู่กับความร่วมมือของหน่วยงานข้อมูล
-- ❌ ต้องการการบำรุงรักษาต่อเนื่อง
-- ❌ ผู้ใช้บางกลุ่มอาจต้านทานการเปลี่ยนแปลง
-- ❌ ข้อจำกัดด้านงบประมาณระยะยาว
-- ❌ ความท้าทายด้านความปลอดภัยไซเบอร์
+### 7.3 งาน security และ governance
 
-#### Opportunities (โอกาส)
+- ตั้ง Supabase Auth, profiles, role, department
+- ใช้ `ProtectedRoute`, `AdminRoute`, `DataRequestRoute`, `NonGuestRoute`
+- ตรวจ RLS, public column privacy, anon column privacy
+- แยก secrets ไป Netlify/GitHub environment
+- audit log การแก้ไขข้อมูลสำคัญ
+- ปรับ policy สำหรับข้อมูล public/internal/PII
 
-- 🚀 นโยบาย Thailand 4.0 สนับสนุน Digital Agriculture
-- 🚀 ความต้องการข้อมูลเกษตรเพิ่มขึ้นจาก Climate Change
-- 🚀 ขยายไปจังหวัดอื่นสร้าง Revenue Stream ใหม่
-- 🚀 พัฒนาเป็น Platform ระดับประเทศ
-- 🚀 ร่วมมือกับ Agri-Tech Startups
+### 7.4 งาน operation
 
-#### Threats (อุปสรรค)
-
-- ⚠️ การเปลี่ยนแปลงนโยบายรัฐบาล
-- ⚠️ ภัยคุกคามทางไซเบอร์เพิ่มขึ้น
-- ⚠️ คู่แข่งจาก Private Sector
-- ⚠️ ข้อจำกัดกฎหมายข้อมูลส่วนบุคคล (PDPA)
-- ⚠️ ภาวะเศรษฐกิจกระทบงบประมาณ
-
----
-
-## KPIs (ตัวชี้วัดความสำเร็จ)
-
-### 1. Adoption Metrics
-
-- **จำนวนผู้ใช้ที่ลงทะเบียน**: เป้า 500 คนในปีแรก
-- **อัตราการเข้าใช้งานรายวัน (DAU)**: เป้า 60% ของผู้ใช้ทั้งหมด
-- **ระยะเวลาใช้งานเฉลี่ยต่อเซสชัน**: เป้า > 10 นาที
-
-### 2. Performance Metrics
-
-- **เวลาโหลดหน้าแรก**: < 2 วินาที
-- **Uptime**: > 99.5%
-- **ความถูกต้องของข้อมูล**: > 98%
-
-### 3. Impact Metrics
-
-- **เวลาประหยัดได้ต่อการจัดทำรายงาน**: ลดลง 70%
-- **ความพึงพอใจของผู้ใช้**: คะแนนเฉลี่ย > 4.5/5
-- **จำนวนการตัดสินใจที่ใช้ข้อมูลจากระบบ**: เพิ่มขึ้น 50%
-
-### 4. Financial Metrics
-
-- **ROI (Return on Investment)**: > 200% ภายใน 2 ปี
-- **Cost per User**: < 3,000 บาท/ปี
-- **Revenue Growth** (ถ้ามี): 20% YoY
+- deploy ผ่าน Netlify
+- monitor build/test/e2e
+- สำรองข้อมูล Supabase
+- ตรวจ endpoint/proxy ที่เรียกบริการภายนอก
+- จัดอบรมผู้ใช้และทำคู่มือ
+- เก็บ feedback และจัดรอบปรับปรุง
 
 ---
 
-## แผนการดำเนินการ (Roadmap)
+## 8. Key Partners
 
-### ระยะสั้น (0-6 เดือน)
+### 8.1 หน่วยงานข้อมูลหลัก
 
-- [ ] ปรับปรุง UX บนมือถือ
-- [ ] เพิ่มฟีเจอร์ Export Data
-- [ ] จัดอบรมผู้ใช้ 5 รุ่น
-- [ ] เชื่อมข้อมูล Real-time เพิ่มเติม
-- [ ] ทำ User Feedback Survey
+| Partner                                   | บทบาท                                                |
+| ----------------------------------------- | ---------------------------------------------------- |
+| สำนักงานเกษตรจังหวัดนครปฐม                | เจ้าของระบบ เจ้าของข้อมูลหลัก และผู้ใช้ภายใน         |
+| สำนักงานเกษตรอำเภอ                        | ส่งข้อมูลพื้นที่ ตรวจสอบข้อมูลรายอำเภอ ใช้งานภาคสนาม |
+| กรมส่งเสริมการเกษตร                       | กรอบภารกิจ มาตรฐานข้อมูล ข่าวสาร และระบบส่วนกลาง     |
+| GISTDA                                    | จุดความร้อน/ข้อมูลดาวเทียม                           |
+| กรมอุตุนิยมวิทยา / Open-Meteo / Meteostat | สภาพอากาศและฝน                                       |
+| กระทรวงพาณิชย์ (MOC)                      | ราคาสินค้าเกษตร                                      |
+| กรมชลประทาน / แหล่งข้อมูลน้ำ              | ข้อมูลอ่างเก็บน้ำ/เขื่อน                             |
+| พัฒนาที่ดิน                               | ชุดดินและข้อมูลดิน                                   |
 
-### ระยะกลาง (6-18 เดือน)
+### 8.2 ภาคีท้องถิ่น
 
-- [ ] พัฒนา Mobile Application
-- [ ] ขยายไป 3 จังหวัดใกล้เคียง
-- [ ] เพิ่ม AI Predictive Analytics
-- [ ] เปิด API ให้ภายนอกใช้งาน
-- [ ] สร้าง Revenue Stream แรก
+- วิสาหกิจชุมชน กลุ่มแปลงใหญ่ กลุ่มแม่บ้านเกษตรกร ยุวเกษตรกร
+- ศูนย์เรียนรู้การเพิ่มประสิทธิภาพการผลิตสินค้าเกษตร
+- ศูนย์จัดการศัตรูพืชชุมชนและศูนย์จัดการดินปุ๋ยชุมชน
+- มหาวิทยาลัยและสถาบันวิจัยในพื้นที่
+- หน่วยงานจังหวัดที่ใช้ข้อมูลร่วม เช่น พาณิชย์จังหวัด อุตสาหกรรมจังหวัด ปภ. และองค์กรปกครองส่วนท้องถิ่น
 
-### ระยะยาว (18-36 เดือน)
+### 8.3 Technology partners
 
-- [ ] ขยายครอบคลุมทั้งประเทศ
-- [ ] พัฒนาเป็น National Agriculture Platform
-- [ ] Integrate กับ ASEAN Agriculture Network
-- [ ] สร้าง Ecosystem ของ Agri-Tech
-- [ ] เป็นโมเดลอ้างอิงระดับนานาชาติ
+- Supabase สำหรับ auth/database/RLS
+- Netlify สำหรับ hosting และ serverless functions
+- Open-source ecosystem: React, Vite, ECharts, Leaflet, Playwright, Vitest
+- AI providers ผ่าน proxy เพื่อให้ควบคุม key, payload และ provider ได้
 
----
+### 8.4 รูปแบบความร่วมมือ
 
-## บทสรุป
-
-Dashboard การเกษตรจังหวัดนครปฐม เป็นนวัตกรรมที่สร้างคุณค่าอย่างชัดเจนให้กับผู้มีส่วนได้ส่วนเสียทุกกลุ่ม ด้วยการใช้เทคโนโลยีที่เหมาะสมกับการแก้ปัญหาจริงในพื้นที่ แม้จะมีข้อจำกัดด้านงบประมาณและทรัพยากร แต่ด้วยโมเดลธุรกิจที่ยั่งยืนและการสนับสนุนจากภาคีเครือข่าย สามารถขยายผลและสร้างผลกระทบในวงกว้างได้
-
-**Key Success Factors:**
-
-1. ความมุ่งมั่นของผู้บริหารจังหวัด
-2. ความร่วมมือของหน่วยงานข้อมูล
-3. การออกแบบที่เน้นผู้ใช้เป็นศูนย์กลาง
-4. การบำรุงรักษาและพัฒนาต่อเนื่อง
-5. การสื่อสารคุณค่าให้ชัดเจน
-
-**Next Steps:**
-
-- นำเสนอ BMC นี้ต่อผู้ทรงคุณวุฒิเพื่อรับข้อเสนอแนะ
-- ปรับปรุงตาม Feedback
-- จัดทำ Action Plan รายละเอียด
-- เริ่มดำเนินการตาม Roadmap
+- Data sharing agreement
+- MOU ด้านข้อมูลและงานวิจัย
+- Joint development สำหรับ AI/GIS
+- Training partnership
+- Open-source template หรือ reference implementation สำหรับจังหวัดอื่น
 
 ---
 
-_เอกสารนี้จัดทำขึ้นเพื่อการนำเสนอในหัวข้อ "การขับเคลื่อนและขยายผลเกษตรนวัตกรรมด้วย Business Model Canvas"_
-_วันที่: {{current_date}}_
-_ผู้จัดทำ: ทีมพัฒนา Dashboard การเกษตรจังหวัดนครปฐม_
+## 9. Cost Structure
+
+### 9.1 ต้นทุนพัฒนาเริ่มต้น
+
+| รายการ                          | รายละเอียด                                                    |
+| ------------------------------- | ------------------------------------------------------------- |
+| วิเคราะห์ข้อมูลและออกแบบ schema | mapping ตาราง, privacy policy, data owner                     |
+| Frontend development            | public portal, internal dashboard, CRUD, search, chatbot, map |
+| Backend/serverless              | Netlify Functions, proxy, LINE webhook, sync functions        |
+| Supabase setup                  | schema, RLS, RPC, migrations, seed/import                     |
+| Data cleaning/import            | Excel/CSV/GIS/raw data processing                             |
+| Testing/QA                      | unit, integration, e2e, build verification                    |
+| Documentation/training          | manual, architecture docs, user onboarding                    |
+
+### 9.2 ต้นทุนดำเนินงานประจำ
+
+| รายการ                       | ความถี่         | หมายเหตุ                         |
+| ---------------------------- | --------------- | -------------------------------- |
+| Hosting และ serverless usage | รายเดือน        | Netlify plan และ bandwidth       |
+| Supabase database/storage    | รายเดือน        | ตามปริมาณข้อมูลและผู้ใช้         |
+| AI provider/API usage        | ตามการใช้งาน    | chatbot, forecast, summarization |
+| Data maintenance             | รายเดือน/ไตรมาส | อัปเดตข้อมูลรายตาราง             |
+| Security review              | รายไตรมาส       | RLS, secrets, dependency audit   |
+| Training/support             | รายรอบ          | onboarding เจ้าหน้าที่ใหม่       |
+| Backup/monitoring            | ต่อเนื่อง       | ลดความเสี่ยงข้อมูลสูญหาย         |
+
+### 9.3 ต้นทุนแฝงและความเสี่ยงต้นทุน
+
+- ข้อมูลต้นทางไม่สม่ำเสมอ ทำให้เสียเวลาทำความสะอาด
+- API ภายนอกเปลี่ยน format หรือจำกัด rate
+- เจ้าของข้อมูลไม่อัปเดตตามรอบ
+- ค่าใช้จ่าย AI เพิ่มตามจำนวนผู้ใช้และจำนวนคำถาม
+- ค่า maintenance เพิ่มเมื่อจำนวน module และจังหวัดที่ใช้เพิ่มขึ้น
+
+### 9.4 กลยุทธ์คุมต้นทุน
+
+- ใช้ open-source stack เป็นหลัก
+- ใช้ cache ผ่าน TanStack React Query และ browser cache
+- ใช้ Netlify proxy เฉพาะ API ที่ต้องซ่อน key หรือแก้ CORS
+- ทำ public data เป็น aggregated/sanitized เพื่อลดความเสี่ยง
+- แยก data owner ต่อ dataset เพื่อลดภาระทีมกลาง
+- ใช้ test automation เพื่อลดค่า regression หลังเพิ่ม feature
+
+---
+
+## SWOT Analysis
+
+### Strengths
+
+- มีระบบจริง ไม่ใช่แค่ mockup: React app, Supabase, Netlify Functions, tests, docs
+- ครอบคลุมทั้ง public portal และ internal dashboard
+- โครงสร้างข้อมูลแยกตามภารกิจเกษตรจังหวัดชัดเจน
+- มี AI, search, GIS, dashboard, CRUD และ security อยู่ในแพลตฟอร์มเดียว
+- มีเอกสารคู่มือและ architecture รองรับการส่งมอบ/ขยายผล
+
+### Weaknesses
+
+- ข้อมูลบางตารางยังว่างหรือเป็น seed/sample
+- Logic aggregation บางส่วนรวมอยู่ใน hook/service กลาง อาจซับซ้อนเมื่อขยายระบบ
+- คุณภาพข้อมูลขึ้นกับเจ้าของข้อมูลแต่ละกลุ่มงาน
+- API ภายนอกบางตัวเป็น best-effort และอาจล่มหรือเปลี่ยน response
+- ต้องตรวจ RLS ฝั่ง Supabase ให้ครบ ไม่พึ่ง UI route guard อย่างเดียว
+
+### Opportunities
+
+- ขยายเป็นต้นแบบ dashboard เกษตรจังหวัดอื่น
+- เชื่อม LINE OA เพื่อให้เจ้าหน้าที่และเกษตรกรเข้าถึงง่ายขึ้น
+- ต่อยอด AI forecast และ early warning
+- ทำ data governance model สำหรับข้อมูลเกษตรระดับจังหวัด
+- ใช้ข้อมูลรวมเพื่อสนับสนุนนโยบาย climate resilience, BCG, smart agriculture
+
+### Threats
+
+- ความเสี่ยง PDPA และข้อมูลส่วนบุคคลหาก public policy ไม่ชัด
+- ค่าใช้จ่าย API/AI เพิ่มเมื่อ adoption สูง
+- dependency หรือ package security issue เช่น library อ่าน spreadsheet
+- ความเปลี่ยนแปลงของแหล่งข้อมูลราชการ/API ภายนอก
+- บุคลากรผู้ดูแลระบบเปลี่ยน ทำให้ knowledge หายถ้าเอกสารไม่ถูกอัปเดต
+
+---
+
+## KPIs
+
+### Adoption
+
+| KPI                                              | เป้าหมายระยะ 6-12 เดือน |
+| ------------------------------------------------ | ----------------------- |
+| ผู้ใช้ภายในที่ login ใช้งานอย่างน้อยเดือนละครั้ง | 80% ของผู้เกี่ยวข้อง    |
+| กลุ่มงานที่มี data owner ชัดเจน                  | 5 กลุ่มงานหลัก          |
+| ตารางสำคัญที่มีข้อมูลพร้อมใช้งาน                 | อย่างน้อย 20 ตาราง      |
+| หน้า public ที่เผยแพร่ข้อมูลจริง                 | อย่างน้อย 10 หน้า       |
+| จำนวนคู่มือ/บทอบรมที่ใช้งานจริง                  | 8 บทหลัก                |
+
+### Data Quality
+
+| KPI                                            | เป้าหมาย                 |
+| ---------------------------------------------- | ------------------------ |
+| ตารางที่ระบุ owner และรอบอัปเดต                | 100% ของตาราง production |
+| ข้อมูล public ผ่าน privacy checklist           | 100% ก่อนเผยแพร่         |
+| จำนวน field PII ที่ถูกซ่อนจาก guest/AI context | ตรวจครบตาม policy        |
+| ความสมบูรณ์ข้อมูล key datasets                 | มากกว่า 90%              |
+
+### Performance & Reliability
+
+| KPI                             | เป้าหมาย                        |
+| ------------------------------- | ------------------------------- |
+| `npm run build`                 | ผ่านทุก release                 |
+| unit/e2e critical path          | ผ่านก่อน deploy                 |
+| dashboard load time             | ต่ำกว่า 3 วินาทีในเครือข่ายปกติ |
+| uptime public portal            | มากกว่า 99%                     |
+| external proxy failure handling | มี fallback/error state         |
+
+### Impact
+
+| KPI                                    | เป้าหมาย                |
+| -------------------------------------- | ----------------------- |
+| เวลารวบรวมรายงานผู้บริหาร              | ลดลง 50-70%             |
+| จำนวนคำถามที่ตอบได้ผ่าน search/chatbot | เพิ่มต่อเนื่องรายเดือน  |
+| จำนวนเคสตัดสินใจที่ใช้ dashboard       | อย่างน้อย 1-2 เคส/เดือน |
+| feedback satisfaction                  | มากกว่า 4/5             |
+
+---
+
+## Roadmap
+
+### ระยะสั้น: 0-3 เดือน
+
+- แก้ encoding เอกสารและข้อมูลภาษาไทยให้เป็น UTF-8 สม่ำเสมอ
+- ตรวจตาราง public/internal/PII ทุก dataset
+- ทำ dashboard demo story สำหรับผู้บริหารและเวทีประกวด
+- เติมข้อมูล sample ที่ยังว่างในตารางสำคัญ เช่น crop production, disasters, data requests
+- ตรวจ `npm run build`, `npm run test`, และ Playwright e2e
+- ปรับ manual ให้ตรงกับระบบล่าสุด
+
+### ระยะกลาง: 3-12 เดือน
+
+- ตั้ง data owner และรอบอัปเดตทุกกลุ่มงาน
+- เพิ่ม export PDF/CSV สำหรับรายงานประชุม
+- เพิ่ม alert/notification สำหรับ disease forecast, hotspots, weather risk
+- เชื่อม LINE OA workflow ให้ใช้งานจริง
+- แยก service/aggregation ที่ซับซ้อนออกเป็น module ตาม domain
+- ทำ dashboard usage analytics และ feedback loop
+
+### ระยะยาว: 12-36 เดือน
+
+- ทำ template สำหรับขยายผลไปจังหวัดอื่น
+- ออกแบบ API/data sharing layer สำหรับหน่วยงานภาคี
+- พัฒนา predictive analytics เพิ่มเติมจาก historical data
+- สร้าง governance handbook สำหรับศูนย์ข้อมูลเกษตรจังหวัด
+- ขยายสู่ regional/national agriculture data platform ถ้าหน่วยงานกลางสนับสนุน
+
+---
+
+## Critical Success Factors
+
+1. ผู้บริหารสนับสนุนให้ใช้ระบบเป็นแหล่งข้อมูลกลางจริง
+2. ทุกกลุ่มงานมีเจ้าของข้อมูลและรอบอัปเดตชัดเจน
+3. ข้อมูล public/internal/PII ถูกแยกก่อนเปิดใช้งานจริง
+4. ระบบผ่าน build/test/e2e ก่อน deploy
+5. คู่มือและการอบรมทำให้เจ้าหน้าที่ใช้งานเองได้
+6. Dashboard ตอบคำถามผู้บริหารได้ภายในเวลาใช้งานจริง ไม่ใช่แค่สวย
+7. AI ตอบจากข้อมูลที่ตรวจสอบได้ และไม่เปิดเผยข้อมูลอ่อนไหว
+
+---
+
+## Executive Summary
+
+NPT Smart Agri Dashboard คือแพลตฟอร์มศูนย์ข้อมูลเกษตรจังหวัดนครปฐมที่รวมข้อมูลกระจัดกระจายจากหลายกลุ่มงานให้อยู่ในระบบเดียว แสดงผลผ่าน public portal, internal dashboard, interactive map, chart, search และ AI assistant ระบบตอบโจทย์ทั้งประชาชน เจ้าหน้าที่ และผู้บริหาร โดยเน้น 3 คุณค่าหลัก: ลดภาระงานข้อมูล, เพิ่มความเร็วในการตัดสินใจ, และเผยแพร่ข้อมูลสาธารณะอย่างปลอดภัย
+
+Business Model ที่เหมาะสมคือ public-sector value model: ใช้งบประมาณพัฒนาระบบกลางเพื่อสร้างผลลัพธ์เชิงประสิทธิภาพ ความโปร่งใส และความพร้อมด้านข้อมูล มากกว่าการหารายได้เชิงพาณิชย์โดยตรง เมื่อระบบนิ่งและ governance ชัด สามารถขยายผลเป็น template สำหรับจังหวัดอื่น API สำหรับภาคี และฐานข้อมูลสนับสนุน smart agriculture ระดับพื้นที่ได้
+
+---
+
+_ปรับปรุงล่าสุด: 29 มิถุนายน 2569_
+_ผู้จัดทำ: ทีมพัฒนา NPT Smart Agri Dashboard_
