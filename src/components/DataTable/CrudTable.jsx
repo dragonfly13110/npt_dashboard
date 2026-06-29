@@ -58,6 +58,24 @@ import {
   parseCustomOptions,
   updateCustomFieldDefinition,
 } from '../../utils/customFields';
+import nptSubdistrictsGeoJSON from '../../data/nakhon_pathom_subdistricts.json';
+import { normalizePlaceName } from '../../utils/geojsonBoundaries';
+
+const getSubdistrictsList = (selectedDistrict) => {
+  if (!nptSubdistrictsGeoJSON?.features) return [];
+  const normalizedSelDist = selectedDistrict
+    ? normalizePlaceName(selectedDistrict)
+    : null;
+  const list = nptSubdistrictsGeoJSON.features
+    .filter((f) => {
+      if (!normalizedSelDist) return true;
+      const featDist = normalizePlaceName(f.properties?.amp_th);
+      return featDist === normalizedSelDist;
+    })
+    .map((f) => f.properties?.tam_th)
+    .filter(Boolean);
+  return [...new Set(list)].sort((a, b) => a.localeCompare(b, 'th'));
+};
 
 export default function CrudTable({
   tableName,
@@ -102,6 +120,70 @@ export default function CrudTable({
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [form] = Form.useForm();
   const [customFieldForm] = Form.useForm();
+
+  // ponytail: extract district and subdistrict keys from columns
+  const keys = useMemo(() => {
+    const distCol = columns.find(
+      (c) => c.dataIndex && /district/i.test(String(c.dataIndex))
+    );
+    const subdistCol = columns.find(
+      (c) => c.dataIndex && /subdistrict/i.test(String(c.dataIndex))
+    );
+    return {
+      district: distCol?.dataIndex || null,
+      subdistrict: subdistCol?.dataIndex || null,
+    };
+  }, [columns]);
+
+  // ponytail: automatically augment filterConfig with district & subdistrict if present in columns
+  const finalFilterConfig = useMemo(() => {
+    let conf = [...(filterConfig || [])];
+
+    if (keys.district && keys.subdistrict) {
+      // Ensure 'district' filter is in config
+      let distIndex = conf.findIndex((c) => c.key === keys.district);
+      if (distIndex === -1) {
+        conf.unshift({
+          key: keys.district,
+          label: 'อำเภอ',
+          options: [
+            'เมืองนครปฐม',
+            'นครชัยศรี',
+            'สามพราน',
+            'ดอนตูม',
+            'บางเลน',
+            'กำแพงแสน',
+            'พุทธมณฑล',
+          ],
+        });
+        distIndex = 0;
+      }
+
+      // Ensure 'subdistrict' filter is in config
+      const subdistIndex = conf.findIndex((c) => c.key === keys.subdistrict);
+      if (subdistIndex === -1) {
+        // Insert subdistrict immediately after district
+        conf.splice(distIndex + 1, 0, {
+          key: keys.subdistrict,
+          label: 'ตำบล',
+          options: [], // populated dynamically
+        });
+      }
+    }
+
+    // Populate subdistrict options dynamically based on selected district
+    return conf.map((c) => {
+      if (keys.subdistrict && c.key === keys.subdistrict) {
+        const selectedDistrict = filters[keys.district];
+        const options = getSubdistrictsList(selectedDistrict);
+        return {
+          ...c,
+          options,
+        };
+      }
+      return c;
+    });
+  }, [filterConfig, keys, filters]);
 
   useEffect(() => {
     if (detailRecord && role === 'admin') {
@@ -203,7 +285,7 @@ export default function CrudTable({
         searchField,
         searchFields,
         filters,
-        filterConfig,
+        filterConfig: finalFilterConfig,
         sorter,
         defaultSort,
       });
@@ -212,7 +294,7 @@ export default function CrudTable({
     const transformedFilters = {};
     Object.entries(filters).forEach(([key, val]) => {
       if (val !== undefined && val !== null && val !== '') {
-        const conf = filterConfig?.find((c) => c.key === key);
+        const conf = finalFilterConfig?.find((c) => c.key === key);
         if (conf && conf.operator) {
           transformedFilters[key] = {
             operator: conf.operator,
@@ -301,7 +383,7 @@ export default function CrudTable({
       filters,
       sorter,
       defaultSort,
-      JSON.stringify(filterConfig),
+      JSON.stringify(finalFilterConfig),
       customFields.map((field) => field.id).join(','),
     ],
     [
@@ -313,7 +395,7 @@ export default function CrudTable({
       filters,
       sorter,
       defaultSort,
-      filterConfig,
+      finalFilterConfig,
       customFields,
     ]
   );
@@ -403,6 +485,10 @@ export default function CrudTable({
 
   const handleFilterChange = (key, value) => {
     const newFilters = { ...filters, [key]: value };
+    // ponytail: reset subdistrict filter if district changes
+    if (keys.district && key === keys.district && keys.subdistrict) {
+      newFilters[keys.subdistrict] = undefined;
+    }
     setFilters(newFilters);
     setPagination({ ...pagination, current: 1 });
   };
@@ -944,7 +1030,7 @@ export default function CrudTable({
               prefix={<SearchOutlined />}
             />
           )}
-          {filterConfig.length > 0 && (
+          {finalFilterConfig.length > 0 && (
             <Tooltip title="กรองข้อมูล">
               <Button
                 icon={<FilterOutlined />}
@@ -1027,10 +1113,10 @@ export default function CrudTable({
       </div>
 
       {/* Advanced Filter Bar */}
-      {filterConfig.length > 0 && showFilters && (
+      {finalFilterConfig.length > 0 && showFilters && (
         <div className="filter-bar">
           <div className="filter-bar-inner">
-            {filterConfig.map((f) => (
+            {finalFilterConfig.map((f) => (
               <div key={f.key} className="filter-item">
                 <label className="filter-label">{f.label}</label>
                 <Select
