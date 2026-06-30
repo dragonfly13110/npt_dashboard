@@ -435,10 +435,11 @@ const TOOL_RUNNERS = {
     const riskOrder = { สูง: 0, ปานกลาง: 1, ต่ำ: 2 };
     const risks = (Array.isArray(data?.details) ? data.details : [])
       .filter((item) => {
+        if (!crop) return true;
         const target = String(item?.target_crop || '')
           .trim()
           .toLowerCase();
-        return crop && (target.includes(crop) || crop.includes(target));
+        return target.includes(crop) || crop.includes(target);
       })
       .sort(
         (a, b) =>

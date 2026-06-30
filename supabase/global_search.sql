@@ -159,7 +159,7 @@ BEGIN
         year_col := 'fiscal_year';
       END IF;
 
-      IF year_col IS NOT NULL THEN
+      IF year_col IS NOT NULL AND cfg.table_name = ANY(ARRAY['farmer_registry', 'crop_production', 'fire_hotspots']) THEN
         where_sql := format('(%s) AND %I = (SELECT COALESCE(max(%I), 0) FROM public.%I)', where_sql, year_col, year_col, cfg.table_name);
       END IF;
     END;
