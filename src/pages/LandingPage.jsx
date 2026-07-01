@@ -1,5 +1,5 @@
 import { useEffect, lazy, Suspense, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useDashboardData } from '../hooks/useDashboardData';
 import { FloatButton, Modal, Spin, Button } from 'antd';
 import {
@@ -244,8 +244,17 @@ export default function LandingPage() {
   } = useDashboardData();
 
   const navigate = useNavigate();
+  const location = useLocation();
   const [landingQuery, setLandingQuery] = useState('');
   const [activeInfoModal, setActiveInfoModal] = useState(null);
+
+  useEffect(() => {
+    if (location.state?.openPanel) {
+      setActiveInfoModal(location.state.openPanel);
+      // Clear state on history so refresh does not pop up modal again
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
   const [moreDrawerOpen, setMoreDrawerOpen] = useState(false);
   const [moreDrawerClosing, setMoreDrawerClosing] = useState(false);
   const [forecastData, setForecastData] = useState(null);

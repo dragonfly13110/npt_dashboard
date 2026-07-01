@@ -6,6 +6,7 @@ import {
   MessageOutlined,
   PhoneOutlined,
   LikeOutlined,
+  TableOutlined,
 } from '@ant-design/icons';
 import './LandingFooter.css';
 
@@ -71,6 +72,7 @@ export default function LandingFooter({ onOpenPanel = () => {} }) {
   const compactLinks = [
     ...contactLinks,
     { label: 'แผนที่อัจฉริยะ', href: '/smart-map', Icon: EnvironmentOutlined },
+    { label: 'ตาราง BMC', href: '/bmc', Icon: TableOutlined },
     { label: 'เข้าสู่ระบบเจ้าหน้าที่', href: '/login', Icon: LoginOutlined },
   ];
 

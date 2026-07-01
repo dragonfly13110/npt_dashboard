@@ -38,6 +38,7 @@ const SituationRoom = lazy(() => import('./pages/SituationRoom'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Chatbot = lazy(() => import('./pages/Chatbot'));
 const SearchResults = lazy(() => import('./pages/SearchResults'));
+const Bmc = lazy(() => import('./pages/Bmc'));
 const DataRequests = lazy(() => import('./pages/dataRequests/DataRequests'));
 const FarmerForum = lazy(() => import('./pages/community/FarmerForum'));
 
@@ -202,6 +203,7 @@ function AppRoutes() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/manual" element={<Manual />} />
         <Route path="/manual/:slug" element={<ManualArticle />} />
+        <Route path="/bmc" element={<Bmc />} />
 
         {/* Interactive Dashboard — PUBLIC */}
         <Route

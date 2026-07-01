@@ -1,0 +1,585 @@
+/* Bmc.css - Business Model Canvas Page Styles */
+
+.bmc-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 12px 32px;
+  font-family:
+    'IBM Plex Sans Thai',
+    'Inter',
+    -apple-system,
+    sans-serif;
+  color: var(--text-primary);
+  min-height: calc(100vh - 120px);
+}
+
+/* Header Section */
+.bmc-header {
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(26, 127, 55, 0.05) 0%,
+    rgba(9, 105, 218, 0.05) 100%
+  );
+  padding: 16px 24px;
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(26, 127, 55, 0.1);
+  box-shadow: var(--shadow-sm);
+}
+
+.bmc-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.bmc-subtitle {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.bmc-description {
+  font-size: 14px;
+  color: var(--text-secondary);
+  max-width: 800px;
+  margin: 0 auto 20px;
+  line-height: 1.6;
+}
+
+.bmc-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.bmc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bmc-btn-primary {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+}
+
+.bmc-btn-primary:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.bmc-btn-secondary {
+  background-color: white;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.bmc-btn-secondary:hover {
+  background-color: var(--bg-primary);
+  border-color: var(--text-secondary);
+  transform: translateY(-1px);
+}
+
+/* Canvas Grid Layout */
+.bmc-canvas {
+  background-color: #f1f5f9;
+  padding: 16px;
+  border-radius: var(--radius-xl);
+  border: 2px solid var(--border-light);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 32px;
+}
+
+.bmc-top-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+.bmc-bottom-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+/* Card Styling */
+.bmc-card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.bmc-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Spanning rules for desktop */
+.bmc-partner-card {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+
+.bmc-activity-card {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.bmc-resource-card {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.bmc-value-card {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+}
+
+.bmc-relationship-card {
+  grid-column: 4;
+  grid-row: 1;
+}
+
+.bmc-channel-card {
+  grid-column: 4;
+  grid-row: 2;
+}
+
+.bmc-customer-card {
+  grid-column: 5;
+  grid-row: 1 / span 2;
+}
+
+/* Card Themes & Left Border Accents */
+.bmc-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  transition: width 0.2s ease;
+}
+
+.bmc-card:hover::before {
+  width: 6px;
+}
+
+/* Colors for each segment */
+.bmc-partner-card::before {
+  background-color: #3b82f6;
+} /* Blue */
+.bmc-activity-card::before {
+  background-color: #10b981;
+} /* Emerald */
+.bmc-resource-card::before {
+  background-color: #06b6d4;
+} /* Cyan */
+.bmc-value-card::before {
+  background-color: #f59e0b;
+} /* Amber */
+.bmc-relationship-card::before {
+  background-color: #8b5cf6;
+} /* Purple */
+.bmc-channel-card::before {
+  background-color: #f97316;
+} /* Orange */
+.bmc-customer-card::before {
+  background-color: #ec4899;
+} /* Pink */
+.bmc-cost-card::before {
+  background-color: #64748b;
+} /* Slate */
+.bmc-revenue-card::before {
+  background-color: #22c55e;
+} /* Green */
+
+/* Card Contents */
+.bmc-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 8px;
+}
+
+.bmc-card-icon {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+/* Icon backgrounds matching themes */
+.bmc-partner-card .bmc-card-icon {
+  color: #3b82f6;
+  background-color: #eff6ff;
+}
+.bmc-activity-card .bmc-card-icon {
+  color: #10b981;
+  background-color: #ecfdf5;
+}
+.bmc-resource-card .bmc-card-icon {
+  color: #06b6d4;
+  background-color: #ecfeff;
+}
+.bmc-value-card .bmc-card-icon {
+  color: #f59e0b;
+  background-color: #fffbeb;
+}
+.bmc-relationship-card .bmc-card-icon {
+  color: #8b5cf6;
+  background-color: #f5f3ff;
+}
+.bmc-channel-card .bmc-card-icon {
+  color: #f97316;
+  background-color: #fff7ed;
+}
+.bmc-customer-card .bmc-card-icon {
+  color: #ec4899;
+  background-color: #fdf2f8;
+}
+.bmc-cost-card .bmc-card-icon {
+  color: #64748b;
+  background-color: #f8fafc;
+}
+.bmc-revenue-card .bmc-card-icon {
+  color: #22c55e;
+  background-color: #f0fdf4;
+}
+
+.bmc-card-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.bmc-card-title-th {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.bmc-card-title-en {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.bmc-card-body {
+  flex: 1;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.bmc-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bmc-item {
+  position: relative;
+  padding-left: 18px;
+  color: #334155;
+}
+
+.bmc-item-number {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.bmc-item-text {
+  word-break: break-word;
+}
+
+.bmc-item-sub-title {
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 6px;
+  margin-bottom: 2px;
+  font-size: 14.5px;
+}
+
+/* Learn More Section */
+.bmc-info-section {
+  background: white;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-light);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 40px;
+}
+
+.bmc-info-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bmc-info-text {
+  font-size: 14.5px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.bmc-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.bmc-info-col h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.bmc-info-col p {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ================= Responsive Layouts ================= */
+
+@media (max-width: 1024px) {
+  .bmc-top-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bmc-partner-card,
+  .bmc-value-card,
+  .bmc-customer-card {
+    grid-column: span 1;
+    grid-row: auto;
+    min-height: auto;
+  }
+
+  .bmc-activity-card,
+  .bmc-resource-card,
+  .bmc-relationship-card,
+  .bmc-channel-card {
+    grid-column: span 1;
+    grid-row: auto;
+    min-height: auto;
+  }
+
+  .bmc-customer-card {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .bmc-top-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bmc-customer-card {
+    grid-column: span 1;
+  }
+
+  .bmc-bottom-row {
+    grid-template-columns: 1fr;
+  }
+
+  .bmc-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bmc-title {
+    font-size: 26px;
+  }
+}
+
+/* ================= Print Styling ================= */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 11px !important;
+  }
+
+  .bmc-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Hide elements that shouldn't print */
+  a[href^='/'],
+  .bmc-header .bmc-actions,
+  .bmc-header .bmc-description,
+  .bmc-info-section,
+  footer,
+  .landing-footer-v2,
+  .mobile-bottom-nav,
+  .float-btn {
+    display: none !important;
+  }
+
+  .bmc-header {
+    background: transparent !important;
+    border: none !important;
+    padding: 10px 0 !important;
+    margin-bottom: 10px !important;
+    box-shadow: none !important;
+  }
+
+  .bmc-title {
+    font-size: 20px !important;
+    color: black !important;
+    margin-bottom: 4px !important;
+  }
+
+  .bmc-subtitle {
+    font-size: 13px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .bmc-canvas {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* Keep standard 5-column landscape grid layout for printing */
+  .bmc-top-grid {
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .bmc-bottom-row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    margin-top: 8px !important;
+  }
+
+  .bmc-card {
+    background: white !important;
+    border: 1px solid #94a3b8 !important;
+    padding: 8px !important;
+    box-shadow: none !important;
+    border-radius: 4px !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Retain grid spanning for print */
+  .bmc-partner-card {
+    grid-column: 1 !important;
+    grid-row: 1 / span 2 !important;
+    min-height: 380px !important;
+  }
+
+  .bmc-activity-card {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    min-height: 186px !important;
+  }
+
+  .bmc-resource-card {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+    min-height: 186px !important;
+  }
+
+  .bmc-value-card {
+    grid-column: 3 !important;
+    grid-row: 1 / span 2 !important;
+    min-height: 380px !important;
+  }
+
+  .bmc-relationship-card {
+    grid-column: 4 !important;
+    grid-row: 1 !important;
+    min-height: 186px !important;
+  }
+
+  .bmc-channel-card {
+    grid-column: 4 !important;
+    grid-row: 2 !important;
+    min-height: 186px !important;
+  }
+
+  .bmc-customer-card {
+    grid-column: 5 !important;
+    grid-row: 1 / span 2 !important;
+    min-height: 380px !important;
+  }
+
+  .bmc-card::before {
+    display: none !important;
+  }
+
+  .bmc-card-header {
+    margin-bottom: 6px !important;
+    padding-bottom: 4px !important;
+    border-bottom: 1px solid #cbd5e1 !important;
+  }
+
+  .bmc-card-icon {
+    display: none !important;
+  }
+
+  .bmc-card-title-th {
+    font-size: 11px !important;
+  }
+
+  .bmc-card-title-en {
+    font-size: 8px !important;
+  }
+
+  .bmc-card-body {
+    font-size: 9px !important;
+    line-height: 1.4 !important;
+  }
+
+  .bmc-list {
+    gap: 4px !important;
+  }
+
+  .bmc-item {
+    padding-left: 12px !important;
+  }
+}
