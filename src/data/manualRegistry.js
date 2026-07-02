@@ -39,6 +39,13 @@ export const manualRegistry = [
     Icon: ToolOutlined,
   },
   {
+    slug: 'csv-import',
+    title: 'คู่มือนำเข้าข้อมูล CSV สำหรับเจ้าหน้าที่',
+    file: '10-คู่มือนำเข้าข้อมูล-csv-สำหรับเจ้าหน้าที่.md',
+    audience: 'เจ้าหน้าที่ข้อมูล',
+    Icon: DatabaseOutlined,
+  },
+  {
     slug: 'supabase-design',
     title: 'การออกแบบฐานข้อมูลและตั้งค่า Supabase',
     file: '04-การออกแบบฐานข้อมูลและตั้งค่า-supabase.md',
@@ -60,6 +67,13 @@ export const manualRegistry = [
     Icon: AuditOutlined,
   },
   {
+    slug: 'ai-prompting',
+    title: 'เทคนิคการสั่ง AI ช่วยทำงานทุกขั้นตอน',
+    file: '09-เทคนิคการสั่ง-ai-ช่วยทำงานทุกขั้นตอน.md',
+    audience: 'เจ้าหน้าที่มือใหม่ / ผู้ดูแลระบบ',
+    Icon: ToolOutlined,
+  },
+  {
     slug: 'security-deploy',
     title: 'ความปลอดภัยและการ Deploy',
     file: '07-ความปลอดภัยและการ-deploy.md',
@@ -71,6 +85,13 @@ export const manualRegistry = [
     title: 'การดูแลระบบและอบรมผู้ใช้งาน',
     file: '08-การดูแลระบบและอบรมผู้ใช้งาน.md',
     audience: 'ผู้ดูแลระบบ / เจ้าหน้าที่',
+    Icon: TeamOutlined,
+  },
+  {
+    slug: 'admin-sop',
+    title: 'SOP ผู้ดูแลระบบ',
+    file: '11-sop-ผู้ดูแลระบบ.md',
+    audience: 'ผู้ดูแลระบบ',
     Icon: TeamOutlined,
   },
 ];
