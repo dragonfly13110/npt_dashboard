@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import dayjs from 'dayjs';
 import {
   Form,
@@ -9,6 +9,7 @@ import {
   Col,
   Card,
   Statistic,
+  Button,
 } from 'antd';
 import {
   TeamOutlined,
@@ -36,7 +37,14 @@ const EDUCATION_OPTIONS = [
   'อื่น ๆ',
 ];
 
+const EXECUTIVE_TRAINING_OPTIONS = ['นสต.', 'นบต.', 'นสก.', 'นบก.', 'นบส.'];
+
 const formatDate = (value) => (value ? dayjs(value).format('DD/MM/YYYY') : '-');
+
+const formatList = (value) => {
+  if (Array.isArray(value)) return value.length ? value.join(', ') : '-';
+  return value || '-';
+};
 
 const transformPersonnelRecordForForm = (record) => ({
   ...record,
@@ -108,6 +116,13 @@ const columns = [
     dataIndex: 'highest_education',
     key: 'highest_education',
     width: 170,
+  },
+  {
+    title: 'การอบรมนักบริหารฯ (สูงสุด)',
+    dataIndex: 'executive_training',
+    key: 'executive_training',
+    width: 180,
+    render: formatList,
   },
   {
     title: 'วันเดือนปีเกิด',
@@ -230,6 +245,17 @@ const formFields = (
         options={EDUCATION_OPTIONS.map((value) => ({ label: value, value }))}
       />
     </Form.Item>
+    <Form.Item name="executive_training" label="การอบรมนักบริหารฯ (สูงสุด)">
+      <Select
+        allowClear
+        mode="multiple"
+        placeholder="เลือกหลักสูตรที่ผ่านการอบรม"
+        options={EXECUTIVE_TRAINING_OPTIONS.map((value) => ({
+          label: value,
+          value,
+        }))}
+      />
+    </Form.Item>
     <Form.Item
       name="education"
       label="วุฒิการศึกษา"
@@ -297,6 +323,12 @@ const COLORS = [
   '#ffc658',
 ];
 
+const matchesPageFilters = (record, filters) =>
+  Object.entries(filters).every(([key, value]) => {
+    if (value === undefined || value === null || value === '') return true;
+    return record[key] === value;
+  });
+
 export default function Personnel() {
   const [stats, setStats] = useState({
     total: 0,
@@ -307,6 +339,7 @@ export default function Personnel() {
   const [positionData, setPositionData] = useState([]);
   const [locationData, setLocationData] = useState([]);
   const [selectedPosition, setSelectedPosition] = useState('all');
+  const [pageFilters, setPageFilters] = useState({});
 
   const normalizePosition = (pos) => {
     if (!pos) return 'ไม่ระบุ';
@@ -321,36 +354,6 @@ export default function Personnel() {
       .select('office_type, position, district, status');
     if (!error && data) {
       setRawData(data);
-
-      const activePersonnel = data.filter((d) => d.status !== 'สำนักงาน');
-
-      setStats({
-        total: activePersonnel.length,
-        provincial: activePersonnel.filter(
-          (d) => d.office_type === 'Provincial'
-        ).length,
-        district: activePersonnel.filter((d) => d.office_type === 'District')
-          .length,
-      });
-
-      // Process position counts for the pie chart (excluding offices)
-      const posCounts = {};
-      activePersonnel.forEach((d) => {
-        const pos = normalizePosition(d.position);
-        posCounts[pos] = (posCounts[pos] || 0) + 1;
-      });
-
-      const formatForPie = (counts) => {
-        const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-        const top = sorted
-          .slice(0, 6)
-          .map(([name, value]) => ({ name, value }));
-        const others = sorted.slice(6).reduce((sum, curr) => sum + curr[1], 0);
-        if (others > 0) top.push({ name: 'อื่นๆ', value: others });
-        return top;
-      };
-
-      setPositionData(formatForPie(posCounts));
     }
   }, []);
 
@@ -358,12 +361,45 @@ export default function Personnel() {
     fetchStats();
   }, [fetchStats]);
 
+  const filteredRawData = useMemo(
+    () => rawData.filter((record) => matchesPageFilters(record, pageFilters)),
+    [rawData, pageFilters]
+  );
+
   useEffect(() => {
-    if (rawData.length > 0) {
+    const activePersonnel = filteredRawData.filter(
+      (d) => d.status !== 'สำนักงาน'
+    );
+
+    setStats({
+      total: activePersonnel.length,
+      provincial: activePersonnel.filter((d) => d.office_type === 'Provincial')
+        .length,
+      district: activePersonnel.filter((d) => d.office_type === 'District')
+        .length,
+    });
+
+    const posCounts = {};
+    activePersonnel.forEach((d) => {
+      const pos = normalizePosition(d.position);
+      posCounts[pos] = (posCounts[pos] || 0) + 1;
+    });
+
+    const sorted = Object.entries(posCounts).sort((a, b) => b[1] - a[1]);
+    const top = sorted.slice(0, 6).map(([name, value]) => ({ name, value }));
+    const others = sorted.slice(6).reduce((sum, curr) => sum + curr[1], 0);
+    if (others > 0) top.push({ name: 'อื่นๆ', value: others });
+    setPositionData(top);
+  }, [filteredRawData]);
+
+  useEffect(() => {
+    if (filteredRawData.length > 0) {
       const locCounts = {};
 
       // Filter out 'สำนักงาน' from location data
-      const activeRawData = rawData.filter((d) => d.status !== 'สำนักงาน');
+      const activeRawData = filteredRawData.filter(
+        (d) => d.status !== 'สำนักงาน'
+      );
 
       // Filter data if a specific position is selected
       const filteredData =
@@ -390,13 +426,15 @@ export default function Personnel() {
       };
 
       setLocationData(formatForBar(locCounts));
+    } else {
+      setLocationData([]);
     }
-  }, [rawData, selectedPosition]);
+  }, [filteredRawData, selectedPosition]);
 
   // Extract unique positions for the dropdown (excluding offices)
   const uniquePositions = [
     ...new Set(
-      rawData
+      filteredRawData
         .filter((d) => d.status !== 'สำนักงาน')
         .map((d) => normalizePosition(d.position))
     ),
@@ -404,6 +442,45 @@ export default function Personnel() {
 
   return (
     <div style={{ paddingBottom: 24 }}>
+      <Card
+        bordered={false}
+        style={{
+          borderRadius: 12,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+          marginBottom: 16,
+        }}
+      >
+        <Row gutter={[16, 12]} align="bottom">
+          {filterConfig.map((f) => (
+            <Col xs={24} sm={8} md={6} lg={4} key={f.key}>
+              <label className="filter-label">{f.label}</label>
+              <Select
+                placeholder={`เลือก${f.label}`}
+                allowClear
+                value={pageFilters[f.key] || undefined}
+                onChange={(value) =>
+                  setPageFilters((current) => ({ ...current, [f.key]: value }))
+                }
+                style={{ width: '100%' }}
+                size="small"
+                options={f.options.map((option) =>
+                  typeof option === 'object'
+                    ? option
+                    : { label: String(option), value: option }
+                )}
+              />
+            </Col>
+          ))}
+          {Object.values(pageFilters).some(Boolean) && (
+            <Col xs={24} sm={8} md={6} lg={4}>
+              <Button size="small" onClick={() => setPageFilters({})}>
+                ล้างตัวกรอง
+              </Button>
+            </Col>
+          )}
+        </Row>
+      </Card>
+
       <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
         <Col xs={24} sm={8}>
           <Card
@@ -539,6 +616,9 @@ export default function Personnel() {
           'highest_education',
         ]}
         filterConfig={filterConfig}
+        controlledFilters={pageFilters}
+        onFiltersChange={setPageFilters}
+        hideFilterBar
         scrollX={1600}
         defaultSort={{ field: 'sort_order', order: 'ascend' }}
         defaultColumns={[
@@ -548,6 +628,7 @@ export default function Personnel() {
           'appointed_date',
           'current_position_start_date',
           'highest_education',
+          'executive_training',
           'education',
           'birth_date',
           'status',

@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS personnel (
   current_position_start_date DATE,
   education TEXT,
   highest_education TEXT,
+  executive_training TEXT[] DEFAULT '{}'::TEXT[],
   birth_date DATE,
   status TEXT DEFAULT 'ปฏิบัติงาน',
   notes TEXT,

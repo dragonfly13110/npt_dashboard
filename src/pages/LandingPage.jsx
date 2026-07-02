@@ -36,7 +36,7 @@ import './SaastyTheme.css';
 // SEO: Page metadata
 const SEO_TITLE = 'ศูนย์ข้อมูลการเกษตรนครปฐม | สำนักงานเกษตรจังหวัดนครปฐม';
 const SEO_DESCRIPTION =
-  'ระบบฐานข้อมูลกลาง สำนักงานเกษตรจังหวัดนครปฐม — ข้อมูลเกษตรกร พื้นที่เพาะปลูก วิสาหกิจชุมชน Smart Farmer แปลงใหญ่ ท่องเที่ยวเกษตร สภาพอากาศ และราคาสินค้าเกษตร จังหวัดนครปฐม';
+  'ระบบฐานข้อมูลกลาง สำนักงานเกษตรจังหวัดนครปฐม — ข้อมูลเกษตรกร พื้นที่เพาะปลูก วิสาหกิจชุมชน Smart Farmer แปลงใหญ่ ท่องเที่ยวเกษตร สภาพอากาศ และราคาสินค้าเกษตรและพลังงาน จังหวัดนครปฐม';
 
 // Component Loading Fallback
 const WidgetSkeleton = () => (
@@ -524,7 +524,10 @@ export default function LandingPage() {
 
       <main>
         {/* ===== LIVE WIDGETS ===== */}
-        <section id="live-data" aria-label="ข้อมูลสภาพอากาศและราคาสินค้าเกษตร">
+        <section
+          id="live-data"
+          aria-label="ข้อมูลสภาพอากาศและราคาสินค้าเกษตรและพลังงาน"
+        >
           <div className="top-widgets-container">
             <div className="top-widgets-col">
               <Suspense fallback={<WidgetSkeleton />}>

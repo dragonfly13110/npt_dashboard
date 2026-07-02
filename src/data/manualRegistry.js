@@ -21,7 +21,7 @@ export const manualRegistry = [
     slug: 'overview',
     title: 'ภาพรวมและเป้าหมายระบบ',
     file: '01-ภาพรวมและเป้าหมายระบบ.md',
-    audience: 'กรรมการ / ผู้บริหาร',
+    audience: 'ผู้บริหาร / เจ้าหน้าที่วางแผน',
     Icon: ReadOutlined,
   },
   {
@@ -63,7 +63,7 @@ export const manualRegistry = [
     slug: 'dashboard-search-ai',
     title: 'การสร้าง Dashboard, Search และ AI',
     file: '06-การสร้าง-dashboard-search-ai.md',
-    audience: 'กรรมการ / นักพัฒนา',
+    audience: 'ผู้บริหาร / นักพัฒนา',
     Icon: AuditOutlined,
   },
   {

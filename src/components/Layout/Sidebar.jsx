@@ -123,7 +123,7 @@ const allMenuItems = [
       {
         key: '/dashboard/strategy/parcel-drawing-progress',
         icon: <EnvironmentOutlined />,
-        label: 'ติดตามการวาดแปลง',
+        label: 'การวาดผังแปลงเกษตรกรรมดิจิทัล',
       },
       {
         key: '/dashboard/strategy/agricultural-areas',
@@ -131,14 +131,14 @@ const allMenuItems = [
         label: 'พื้นที่การเกษตร',
       },
       {
-        key: '/dashboard/strategy/agricultural-prices',
-        icon: <DollarOutlined />,
-        label: 'ราคาสินค้าเกษตร',
-      },
-      {
         key: '/dashboard/strategy/learning-centers',
         icon: <BankOutlined />,
         label: 'ศพก.',
+      },
+      {
+        key: '/dashboard/strategy/agricultural-prices',
+        icon: <DollarOutlined />,
+        label: 'ราคาสินค้าเกษตรและพลังงาน',
       },
       {
         key: '/dashboard/strategy/daily-weather',
@@ -305,6 +305,11 @@ const adminOnlyItems = [
         key: '/dashboard/admin/website-evaluations',
         icon: <FormOutlined />,
         label: 'ผลการประเมินเว็บไซต์',
+      },
+      {
+        key: '/dashboard/admin/visitors',
+        icon: <GlobalOutlined />,
+        label: 'ผู้เข้าชมเว็บ',
       },
       {
         key: '/dashboard/admin/audit-log',

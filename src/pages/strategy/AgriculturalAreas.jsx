@@ -9,6 +9,7 @@ import {
   Col,
   Card,
   Spin,
+  Button,
 } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
 import EChart from '../../components/widgets/EChart';
@@ -377,6 +378,8 @@ export default function AgriculturalAreas() {
     { key: 'district', label: 'อำเภอ', options: districtOptions },
   ];
 
+  const tableFilters = filterDistrict ? { district: filterDistrict } : {};
+
   const FitDistrictBounds = () => {
     const { useMap } = MapComponents;
     const map = useMap();
@@ -722,6 +725,41 @@ export default function AgriculturalAreas() {
         </p>
       </div>
 
+      <Card
+        bordered={false}
+        style={{
+          borderRadius: 12,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+          marginBottom: 16,
+        }}
+      >
+        <Row gutter={[16, 12]} align="bottom">
+          <Col xs={24} sm={12} md={8} lg={6}>
+            <label className="filter-label">อำเภอ</label>
+            <Select
+              value={filterDistrict}
+              onChange={setFilterDistrict}
+              options={districtOptions}
+              placeholder="ทุกอำเภอ"
+              allowClear
+              style={{ width: '100%' }}
+            />
+          </Col>
+          <Col xs={24} sm={12} md={8} lg={6}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Tag color="green" style={{ margin: 0 }}>
+                {hasActiveFilter ? `อ.${filterDistrict}` : 'รวมจังหวัด'}
+              </Tag>
+              {hasActiveFilter && (
+                <Button size="small" onClick={() => setFilterDistrict(null)}>
+                  ล้างตัวกรอง
+                </Button>
+              )}
+            </div>
+          </Col>
+        </Row>
+      </Card>
+
       {!chartLoading ? (
         <div className="gis-split-row">
           {/* Left sticky map panel */}
@@ -793,45 +831,6 @@ export default function AgriculturalAreas() {
               </div>
             )}
 
-            <div
-              style={{
-                background: '#fff',
-                padding: '16px 20px',
-                borderRadius: 12,
-                border: '1px solid #e2e8f0',
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  flexWrap: 'wrap',
-                  gap: 10,
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span
-                    style={{ fontSize: 13, color: '#656d76', fontWeight: 500 }}
-                  >
-                    เลือกอำเภอ:
-                  </span>
-                  <Select
-                    value={filterDistrict}
-                    onChange={setFilterDistrict}
-                    options={districtOptions}
-                    placeholder="ทั้งหมด"
-                    allowClear
-                    style={{ minWidth: 150 }}
-                    size="small"
-                  />
-                </div>
-                <Tag color="green" style={{ margin: 0 }}>
-                  {hasActiveFilter ? `อ.${filterDistrict}` : 'รวมจังหวัด'}
-                </Tag>
-              </div>
-            </div>
-
             {/* Charts */}
             <Card
               title={`📊 สัดส่วนพื้นที่เพาะปลูกพืช (อ.${filterDistrict || 'รวมทั้งหมด'})`}
@@ -885,6 +884,11 @@ export default function AgriculturalAreas() {
         searchField="district"
         searchFields={['district']}
         filterConfig={tableFilterConfig}
+        controlledFilters={tableFilters}
+        onFiltersChange={(nextFilters) =>
+          setFilterDistrict(nextFilters.district || null)
+        }
+        hideFilterBar
       />
     </div>
   );

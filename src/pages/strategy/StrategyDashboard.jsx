@@ -433,7 +433,7 @@ export default function StrategyDashboard() {
     <div>
       <PageHeader
         title="ยุทธศาสตร์และสารสนเทศ"
-        subtitle="ภาพรวมข้อมูลทะเบียนเกษตรกร พื้นที่การเกษตร ราคาสินค้าเกษตร ศพก. และสภาพอากาศ/น้ำฝน"
+        subtitle="ภาพรวมข้อมูลทะเบียนเกษตรกร พื้นที่การเกษตร ราคาสินค้าเกษตรและพลังงาน ศพก. และสภาพอากาศ/น้ำฝน"
         icon={PieChartOutlined}
       />
 
@@ -567,7 +567,7 @@ export default function StrategyDashboard() {
             />
 
             <CategoryBentoCard
-              title="ติดตามการวาดแปลง"
+              title="การวาดผังแปลงเกษตรกรรมดิจิทัล"
               icon="🗺️"
               totalLabel="อัปเดตล่าสุด"
               totalCount={formatDate(geoplots.latestScrapedAt)}
@@ -621,7 +621,7 @@ export default function StrategyDashboard() {
             />
 
             <LinkBentoCard
-              title="ราคาสินค้าเกษตร"
+              title="ราคาสินค้าเกษตรและพลังงาน"
               icon="📈"
               description="ข้อมูลราคาจากกรมการค้าภายในและราคาน้ำมันบางจาก แยกไว้ที่หน้ารายละเอียดเพื่อให้ dashboard รวมโหลดไว"
               to="/dashboard/strategy/agricultural-prices"
@@ -700,7 +700,7 @@ export default function StrategyDashboard() {
             </Col>
 
             <Col xs={24} lg={12}>
-              <CategoryChartCard title="🗺️ ติดตามการวาดแปลง: เป้าหมายเทียบวาดแล้วรายอำเภอ">
+              <CategoryChartCard title="🗺️ การวาดผังแปลงเกษตรกรรมดิจิทัล: เป้าหมายเทียบวาดแล้วรายอำเภอ">
                 {geoplots.rows.length > 0 ? (
                   <EChart
                     option={barOption(
@@ -714,7 +714,7 @@ export default function StrategyDashboard() {
                     )}
                   />
                 ) : (
-                  <EmptyChart label="ติดตามการวาดแปลง" />
+                  <EmptyChart label="การวาดผังแปลงเกษตรกรรมดิจิทัล" />
                 )}
               </CategoryChartCard>
             </Col>

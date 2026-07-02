@@ -50,6 +50,7 @@ const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 const UserManagement = lazy(() => import('./pages/admin/UserManagement'));
 const AuditLog = lazy(() => import('./pages/admin/AuditLog'));
 const RecentActivities = lazy(() => import('./pages/admin/RecentActivities'));
+const VisitorAnalytics = lazy(() => import('./pages/admin/VisitorAnalytics'));
 const WebsiteEvaluations = lazy(
   () => import('./pages/admin/WebsiteEvaluations')
 );
@@ -381,6 +382,14 @@ function AppRoutes() {
             element={
               <AdminRoute>
                 <RecentActivities />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="admin/visitors"
+            element={
+              <AdminRoute>
+                <VisitorAnalytics />
               </AdminRoute>
             }
           />

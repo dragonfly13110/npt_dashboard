@@ -97,6 +97,9 @@ export default function CrudTable({
   transformRecordForForm = null,
   transformValuesBeforeSave = null,
   onMutationSuccess = null,
+  controlledFilters = null,
+  onFiltersChange = null,
+  hideFilterBar = false,
 }) {
   const { createRecord, updateRecord, deleteRecord, fetchAll } =
     useSupabaseCrud(tableName);
@@ -120,6 +123,7 @@ export default function CrudTable({
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [form] = Form.useForm();
   const [customFieldForm] = Form.useForm();
+  const activeFilters = controlledFilters || filters;
 
   // ponytail: extract district and subdistrict keys from columns
   const keys = useMemo(() => {
@@ -174,7 +178,7 @@ export default function CrudTable({
     // Populate subdistrict options dynamically based on selected district
     return conf.map((c) => {
       if (keys.subdistrict && c.key === keys.subdistrict) {
-        const selectedDistrict = filters[keys.district];
+        const selectedDistrict = activeFilters[keys.district];
         const options = getSubdistrictsList(selectedDistrict);
         return {
           ...c,
@@ -183,7 +187,7 @@ export default function CrudTable({
       }
       return c;
     });
-  }, [filterConfig, keys, filters]);
+  }, [filterConfig, keys, activeFilters]);
 
   useEffect(() => {
     if (detailRecord && role === 'admin') {
@@ -284,7 +288,7 @@ export default function CrudTable({
         search,
         searchField,
         searchFields,
-        filters,
+        filters: activeFilters,
         filterConfig: finalFilterConfig,
         sorter,
         defaultSort,
@@ -292,7 +296,7 @@ export default function CrudTable({
     }
 
     const transformedFilters = {};
-    Object.entries(filters).forEach(([key, val]) => {
+    Object.entries(activeFilters).forEach(([key, val]) => {
       if (val !== undefined && val !== null && val !== '') {
         const conf = finalFilterConfig?.find((c) => c.key === key);
         if (conf && conf.operator) {
@@ -380,7 +384,7 @@ export default function CrudTable({
       search,
       publicSearchField,
       publicSearchFields,
-      filters,
+      activeFilters,
       sorter,
       defaultSort,
       JSON.stringify(finalFilterConfig),
@@ -392,7 +396,7 @@ export default function CrudTable({
       search,
       publicSearchField,
       publicSearchFields,
-      filters,
+      activeFilters,
       sorter,
       defaultSort,
       finalFilterConfig,
@@ -484,28 +488,31 @@ export default function CrudTable({
   };
 
   const handleFilterChange = (key, value) => {
-    const newFilters = { ...filters, [key]: value };
+    const newFilters = { ...activeFilters, [key]: value };
     // ponytail: reset subdistrict filter if district changes
     if (keys.district && key === keys.district && keys.subdistrict) {
       newFilters[keys.subdistrict] = undefined;
     }
-    setFilters(newFilters);
+    if (controlledFilters) onFiltersChange?.(newFilters);
+    else setFilters(newFilters);
     setPagination({ ...pagination, current: 1 });
   };
 
   const handleClearFilters = () => {
-    setFilters({});
+    if (controlledFilters) onFiltersChange?.({});
+    else setFilters({});
     setPagination({ ...pagination, current: 1 });
   };
 
   const handleClearAll = () => {
     setSearch('');
     setSearchText('');
-    setFilters({});
+    if (controlledFilters) onFiltersChange?.({});
+    else setFilters({});
     setPagination({ ...pagination, current: 1 });
   };
 
-  const activeFilterCount = Object.values(filters).filter(
+  const activeFilterCount = Object.values(activeFilters).filter(
     (v) => v !== undefined && v !== null && v !== ''
   ).length;
   const hasActiveSearchOrFilters = Boolean(search) || activeFilterCount > 0;
@@ -987,6 +994,39 @@ export default function CrudTable({
 
   return (
     <div className="crud-container">
+      {/* Advanced Filter Bar */}
+      {finalFilterConfig.length > 0 && showFilters && !hideFilterBar && (
+        <div className="filter-bar">
+          <div className="filter-bar-inner">
+            {finalFilterConfig.map((f) => (
+              <div key={f.key} className="filter-item">
+                <label className="filter-label">{f.label}</label>
+                <Select
+                  placeholder={`เลือก${f.label}`}
+                  allowClear
+                  value={activeFilters[f.key] || undefined}
+                  onChange={(val) => handleFilterChange(f.key, val)}
+                  style={{ width: 160 }}
+                  size="small"
+                  options={f.options.map((o) =>
+                    typeof o === 'object' ? o : { label: String(o), value: o }
+                  )}
+                />
+              </div>
+            ))}
+            {activeFilterCount > 0 && (
+              <Button
+                size="small"
+                onClick={handleClearFilters}
+                style={{ alignSelf: 'flex-end' }}
+              >
+                ล้างตัวกรอง
+              </Button>
+            )}
+          </div>
+        </div>
+      )}
+
       <div className="crud-header">
         <div
           className="crud-header-left"
@@ -1111,39 +1151,6 @@ export default function CrudTable({
           )}
         </div>
       </div>
-
-      {/* Advanced Filter Bar */}
-      {finalFilterConfig.length > 0 && showFilters && (
-        <div className="filter-bar">
-          <div className="filter-bar-inner">
-            {finalFilterConfig.map((f) => (
-              <div key={f.key} className="filter-item">
-                <label className="filter-label">{f.label}</label>
-                <Select
-                  placeholder={`เลือก${f.label}`}
-                  allowClear
-                  value={filters[f.key] || undefined}
-                  onChange={(val) => handleFilterChange(f.key, val)}
-                  style={{ width: 160 }}
-                  size="small"
-                  options={f.options.map((o) =>
-                    typeof o === 'object' ? o : { label: String(o), value: o }
-                  )}
-                />
-              </div>
-            ))}
-            {activeFilterCount > 0 && (
-              <Button
-                size="small"
-                onClick={handleClearFilters}
-                style={{ alignSelf: 'flex-end' }}
-              >
-                ล้างตัวกรอง
-              </Button>
-            )}
-          </div>
-        </div>
-      )}
 
       <Table
         dataSource={data}

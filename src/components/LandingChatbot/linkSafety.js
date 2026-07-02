@@ -13,7 +13,7 @@ export const LANDING_CHATBOT_ALLOWED_LINKS = Object.freeze({
   '/public/agri-tourism': 'ข้อมูลท่องเที่ยวเชิงเกษตร',
   '/public/farmer-institutes': 'ข้อมูลสถาบันเกษตรกร',
   '/public/agricultural-areas': 'ข้อมูลพื้นที่การเกษตร',
-  '/public/agricultural-prices': 'ข้อมูลราคาสินค้าเกษตร',
+  '/public/agricultural-prices': 'ข้อมูลราคาสินค้าเกษตรและพลังงาน',
   '/public/disease-forecast': 'ระบบพยากรณ์เตือนภัยโรคและแมลงศัตรูพืช',
   '/public/fire-hotspots': 'พิกัดจุดความร้อน',
 });

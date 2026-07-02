@@ -203,7 +203,7 @@ export default function ParcelDrawingProgress() {
   return (
     <div>
       <PageHeader
-        title="ติดตามการวาดแปลง"
+        title="การวาดผังแปลงเกษตรกรรมดิจิทัล"
         subtitle="ความก้าวหน้า GEOPLOTS รอบตัวชี้วัด 2/69 แยกรายอำเภอ จังหวัดนครปฐม"
         icon={EnvironmentOutlined}
       />

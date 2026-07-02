@@ -30,6 +30,7 @@ const routeLabels = {
   assets: 'พัสดุ/ครุภัณฑ์',
   budgets: 'งบประมาณ',
   users: 'จัดการสิทธิ์ผู้ใช้',
+  visitors: 'ผู้เข้าชมเว็บ',
   'audit-log': 'ประวัติการแก้ไข',
   'recent-activities': 'กิจกรรมล่าสุดทั้งหมด',
   overview: 'Dashboard กลุ่ม',

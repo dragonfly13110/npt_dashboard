@@ -163,6 +163,39 @@ function publicFarmerInstitutesV2Plugin(env) {
     },
   };
 }
+function localMocPriceProxyPlugin() {
+  return {
+    name: 'local-moc-price-proxy',
+    configureServer(server) {
+      server.middlewares.use(
+        '/.netlify/functions/moc-price-proxy',
+        async (req, res) => {
+          try {
+            const { default: handler } =
+              await import('./netlify/functions/moc-price-proxy.js');
+            const fullUrl = `http://localhost${req.url}`;
+            const mockRequest = {
+              method: req.method,
+              url: fullUrl,
+              headers: req.headers,
+            };
+            const response = await handler(mockRequest);
+            const responseBody = await response.text();
+            res.statusCode = response.status;
+            response.headers.forEach((val, key) => {
+              res.setHeader(key, val);
+            });
+            res.end(responseBody);
+          } catch (err) {
+            res.statusCode = 500;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ error: err.message }));
+          }
+        }
+      );
+    },
+  };
+}
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
@@ -191,6 +224,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       localGeoplotsSyncPlugin(env),
+      localMocPriceProxyPlugin(),
       publicFarmerInstitutesV2Plugin(env),
       react(),
     ],
