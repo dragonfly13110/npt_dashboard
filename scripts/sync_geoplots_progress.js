@@ -42,40 +42,59 @@ function sqlVal(value) {
   return String(value);
 }
 
-export function toProgressRows(rows) {
-  return rows.map((row) => {
-    const target = num(row.target_2_69);
-    const geoplots68 = num(row.geoplots_68);
-    const qgis68 = num(row.qgis_68);
-    const doae = 0;
-    const drawn = geoplots68 + qgis68 + doae;
-    const remainingTarget = Math.max(target - drawn, 0);
-    const progress = target > 0 ? (drawn / target) * 100 : 0;
+function toProgressRow(row, extra = {}) {
+  const target = num(row.target_2_69);
+  const geoplots68 = num(row.geoplots_68);
+  const qgis68 = num(row.qgis_68);
+  const doae = 0;
+  const drawn = geoplots68 + qgis68 + doae;
+  const remainingTarget = Math.max(target - drawn, 0);
+  const progress = target > 0 ? (drawn / target) * 100 : 0;
 
-    return {
+  return {
+    ...extra,
+    target_plots: target,
+    drawn_plots: drawn,
+    remaining_target_plots: remainingTarget,
+    remaining_list_68: num(row.remain_list_68),
+    remaining_list_67: num(row.remain_list_67),
+    geoplots_68: geoplots68,
+    geoplots_67: num(row.geoplots_67),
+    qgis_68: qgis68,
+    qgis_67: num(row.qgis_67),
+    doae_plots: doae,
+    progress_percent: Math.round(progress * 100) / 100,
+    total_chart_plots:
+      target +
+      remainingTarget +
+      num(row.remain_list_68) +
+      num(row.remain_list_67) +
+      drawn,
+  };
+}
+
+export function toProgressRows(rows) {
+  return rows.map((row) =>
+    toProgressRow(row, {
       district_code: String(row.code || ''),
       district: row.name || '',
       province_code: String(row.m_code || '73'),
       province: row.m_name || 'นครปฐม',
-      target_plots: target,
-      drawn_plots: drawn,
-      remaining_target_plots: remainingTarget,
-      remaining_list_68: num(row.remain_list_68),
-      remaining_list_67: num(row.remain_list_67),
-      geoplots_68: geoplots68,
-      geoplots_67: num(row.geoplots_67),
-      qgis_68: qgis68,
-      qgis_67: num(row.qgis_67),
-      doae_plots: doae,
-      progress_percent: Math.round(progress * 100) / 100,
-      total_chart_plots:
-        target +
-        remainingTarget +
-        num(row.remain_list_68) +
-        num(row.remain_list_67) +
-        drawn,
-    };
-  });
+    })
+  );
+}
+
+export function toSubdistrictProgressRows(rows, district) {
+  return rows.map((row) =>
+    toProgressRow(row, {
+      district_code: String(district.district_code || ''),
+      district: district.district || '',
+      subdistrict_code: String(row.code || ''),
+      subdistrict: row.name || '',
+      province_code: String(district.province_code || row.m_code || '73'),
+      province: district.province || row.m_name || 'นครปฐม',
+    })
+  );
 }
 
 async function runSQL(sql) {
@@ -99,13 +118,13 @@ async function runSQL(sql) {
   return text ? JSON.parse(text) : [];
 }
 
-async function fetchGeoplotsRows() {
+async function fetchGeoplotsRows(adminCode = '73') {
   const user = process.env.GEOPLOTS_USER || process.env.DOAE_USERNAME;
   if (!user) throw new Error('Missing GEOPLOTS_USER or DOAE_USERNAME');
 
   const body = new URLSearchParams({
     user,
-    admin_code: '73',
+    admin_code: adminCode,
     month_count: '',
   });
   const response = await fetch(GEOPLOTS_API, {
@@ -119,6 +138,25 @@ async function fetchGeoplotsRows() {
   if (!response.ok) throw new Error(`GEOPLOTS API failed: ${response.status}`);
   const json = await response.json();
   return json?.res?.data || [];
+}
+
+async function upsertRows(tableName, conflictColumn, columns, rows) {
+  if (!rows.length) return;
+  const values = rows.map(
+    (row) => `(${columns.map((col) => sqlVal(row[col])).join(', ')})`
+  );
+  await runSQL(`
+    INSERT INTO ${tableName} (${columns.join(', ')})
+    VALUES ${values.join(',\n')}
+    ON CONFLICT (${conflictColumn}) DO UPDATE SET
+      ${columns
+        .filter((col) => col !== conflictColumn)
+        .map((col) => `${col} = EXCLUDED.${col}`)
+        .join(',\n      ')},
+      snapshot_date = (NOW() AT TIME ZONE 'Asia/Bangkok')::DATE,
+      scraped_at = NOW(),
+      updated_at = NOW();
+  `);
 }
 
 export async function syncGeoplotsProgress() {
@@ -143,32 +181,23 @@ export async function syncGeoplotsProgress() {
     'progress_percent',
     'total_chart_plots',
   ];
-  const values = rows.map(
-    (row) => `(${columns.map((col) => sqlVal(row[col])).join(', ')})`
+  await upsertRows('geoplots_parcel_progress', 'district_code', columns, rows);
+
+  const subdistrictRows = (
+    await Promise.all(
+      rows.map(async (district) => {
+        const children = await fetchGeoplotsRows(district.district_code);
+        return toSubdistrictProgressRows(children, district);
+      })
+    )
+  ).flat();
+
+  await upsertRows(
+    'geoplots_parcel_subdistrict_progress',
+    'subdistrict_code',
+    ['subdistrict_code', 'subdistrict', ...columns],
+    subdistrictRows
   );
-  await runSQL(`
-    INSERT INTO geoplots_parcel_progress (${columns.join(', ')})
-    VALUES ${values.join(',\n')}
-    ON CONFLICT (district_code) DO UPDATE SET
-      district = EXCLUDED.district,
-      province_code = EXCLUDED.province_code,
-      province = EXCLUDED.province,
-      target_plots = EXCLUDED.target_plots,
-      drawn_plots = EXCLUDED.drawn_plots,
-      remaining_target_plots = EXCLUDED.remaining_target_plots,
-      remaining_list_68 = EXCLUDED.remaining_list_68,
-      remaining_list_67 = EXCLUDED.remaining_list_67,
-      geoplots_68 = EXCLUDED.geoplots_68,
-      geoplots_67 = EXCLUDED.geoplots_67,
-      qgis_68 = EXCLUDED.qgis_68,
-      qgis_67 = EXCLUDED.qgis_67,
-      doae_plots = EXCLUDED.doae_plots,
-      progress_percent = EXCLUDED.progress_percent,
-      total_chart_plots = EXCLUDED.total_chart_plots,
-      snapshot_date = (NOW() AT TIME ZONE 'Asia/Bangkok')::DATE,
-      scraped_at = NOW(),
-      updated_at = NOW();
-  `);
 
   return rows;
 }

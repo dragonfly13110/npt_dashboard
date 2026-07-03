@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { toProgressRows } from '../../scripts/sync_geoplots_progress.js';
+import {
+  toProgressRows,
+  toSubdistrictProgressRows,
+} from '../../scripts/sync_geoplots_progress.js';
 
 describe('toProgressRows', () => {
   it('matches GEOPLOTS KPI chart math', () => {
@@ -23,5 +26,34 @@ describe('toProgressRows', () => {
     expect(row.remaining_target_plots).toBe(500);
     expect(row.progress_percent).toBe(59.68);
     expect(row.total_chart_plots).toBe(2550);
+  });
+
+  it('keeps district metadata for subdistrict rows', () => {
+    const [row] = toSubdistrictProgressRows(
+      [
+        {
+          code: 730101,
+          name: 'พระปฐมเจดีย์',
+          target_2_69: '10',
+          geoplots_68: '4',
+          qgis_68: '1',
+        },
+      ],
+      {
+        district_code: '7301',
+        district: 'เมืองนครปฐม',
+        province_code: '73',
+        province: 'นครปฐม',
+      }
+    );
+
+    expect(row).toMatchObject({
+      district_code: '7301',
+      district: 'เมืองนครปฐม',
+      subdistrict_code: '730101',
+      subdistrict: 'พระปฐมเจดีย์',
+      drawn_plots: 5,
+      progress_percent: 50,
+    });
   });
 });

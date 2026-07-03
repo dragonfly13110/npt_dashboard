@@ -1,5 +1,15 @@
 import { useMemo, useState } from 'react';
-import { Button, Card, Col, message, Row, Spin, Table, Tag } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  message,
+  Row,
+  Select,
+  Spin,
+  Table,
+  Tag,
+} from 'antd';
 import {
   AimOutlined,
   EnvironmentOutlined,
@@ -56,20 +66,37 @@ function progressColor(percent) {
 export default function ParcelDrawingProgress() {
   const { isAdmin } = useAuth();
   const [syncing, setSyncing] = useState(false);
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
   const fetchRows = async () => {
-    const { data, error } = await supabase
-      .from('geoplots_parcel_progress')
-      .select('*')
-      .order('district_code');
-    if (error) throw error;
-    return data || [];
+    const [districts, subdistricts] = await Promise.all([
+      supabase
+        .from('geoplots_parcel_progress')
+        .select('*')
+        .order('district_code'),
+      supabase
+        .from('geoplots_parcel_subdistrict_progress')
+        .select('*')
+        .order('district_code')
+        .order('subdistrict'),
+    ]);
+    if (districts.error) throw districts.error;
+    if (subdistricts.error) throw subdistricts.error;
+    return {
+      districts: districts.data || [],
+      subdistricts: subdistricts.data || [],
+    };
   };
 
   const {
-    data: rows = [],
+    data = { districts: [], subdistricts: [] },
     isLoading,
     refetch,
   } = useApiCache('geoplots-parcel-progress', fetchRows);
+  const rows = useMemo(() => data.districts || [], [data.districts]);
+  const subdistrictRows = useMemo(
+    () => data.subdistricts || [],
+    [data.subdistricts]
+  );
 
   const handleManualSync = async () => {
     setSyncing(true);
@@ -198,6 +225,32 @@ export default function ParcelDrawingProgress() {
       align: 'right',
       render: (value) => formatNumber(value),
     },
+  ];
+
+  const subdistrictSummary = useMemo(() => {
+    const filteredRows = selectedDistrict
+      ? subdistrictRows.filter((row) => row.district_code === selectedDistrict)
+      : [];
+    return filteredRows.map((row) => ({
+      key: row.subdistrict_code,
+      name: row.subdistrict,
+      target: Number(row.target_plots) || 0,
+      drawn: Number(row.drawn_plots) || 0,
+      remainingTarget: Number(row.remaining_target_plots) || 0,
+      remaining68: Number(row.remaining_list_68) || 0,
+      remaining67: Number(row.remaining_list_67) || 0,
+      progress: Number(row.progress_percent) || 0,
+    }));
+  }, [selectedDistrict, subdistrictRows]);
+
+  const subdistrictColumns = [
+    {
+      title: 'ตำบล',
+      dataIndex: 'name',
+      fixed: 'left',
+      width: 140,
+    },
+    ...columns.slice(1),
   ];
 
   return (
@@ -365,6 +418,55 @@ export default function ParcelDrawingProgress() {
                   pagination={false}
                   size="middle"
                   scroll={{ x: 900 }}
+                />
+              </Card>
+            </Col>
+            <Col xs={24}>
+              <Card
+                title="รายละเอียดรายตำบล"
+                extra={
+                  <Select
+                    allowClear
+                    placeholder="เลือกอำเภอ"
+                    style={{ minWidth: 220 }}
+                    value={selectedDistrict}
+                    onChange={setSelectedDistrict}
+                    options={summary.rows.map((row) => ({
+                      value: row.key,
+                      label: row.name,
+                    }))}
+                  />
+                }
+                style={{ borderRadius: 8 }}
+              >
+                {selectedDistrict && subdistrictSummary.length > 0 && (
+                  <div style={{ marginBottom: 16 }}>
+                    <EChart
+                      option={barOption(
+                        subdistrictSummary,
+                        [
+                          { key: 'target', name: 'เป้าหมาย' },
+                          { key: 'drawn', name: 'วาดแล้ว' },
+                          { key: 'remainingTarget', name: 'คงเหลือเป้า' },
+                        ],
+                        { unit: 'แปลง', compact: true, layout: 'vertical' }
+                      )}
+                      style={{ height: 360 }}
+                    />
+                  </div>
+                )}
+                <Table
+                  rowKey="key"
+                  columns={subdistrictColumns}
+                  dataSource={subdistrictSummary}
+                  pagination={false}
+                  size="middle"
+                  scroll={{ x: 900 }}
+                  locale={{
+                    emptyText: selectedDistrict
+                      ? 'ยังไม่มีข้อมูลตำบลจาก GEOPLOTS'
+                      : 'เลือกอำเภอเพื่อดูรายตำบล',
+                  }}
                 />
               </Card>
             </Col>
