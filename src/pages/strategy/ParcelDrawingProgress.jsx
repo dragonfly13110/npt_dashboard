@@ -230,10 +230,11 @@ export default function ParcelDrawingProgress() {
   const subdistrictSummary = useMemo(() => {
     const filteredRows = selectedDistrict
       ? subdistrictRows.filter((row) => row.district_code === selectedDistrict)
-      : [];
+      : subdistrictRows;
     return filteredRows.map((row) => ({
       key: row.subdistrict_code,
       name: row.subdistrict,
+      district: row.district,
       target: Number(row.target_plots) || 0,
       drawn: Number(row.drawn_plots) || 0,
       remainingTarget: Number(row.remaining_target_plots) || 0,
@@ -248,6 +249,11 @@ export default function ParcelDrawingProgress() {
       title: 'ตำบล',
       dataIndex: 'name',
       fixed: 'left',
+      width: 140,
+    },
+    {
+      title: 'อำเภอ',
+      dataIndex: 'district',
       width: 140,
     },
     ...columns.slice(1),
@@ -439,7 +445,7 @@ export default function ParcelDrawingProgress() {
                 }
                 style={{ borderRadius: 8 }}
               >
-                {selectedDistrict && subdistrictSummary.length > 0 && (
+                {subdistrictSummary.length > 0 && (
                   <div style={{ marginBottom: 16 }}>
                     <EChart
                       option={barOption(
@@ -463,9 +469,7 @@ export default function ParcelDrawingProgress() {
                   size="middle"
                   scroll={{ x: 900 }}
                   locale={{
-                    emptyText: selectedDistrict
-                      ? 'ยังไม่มีข้อมูลตำบลจาก GEOPLOTS'
-                      : 'เลือกอำเภอเพื่อดูรายตำบล',
+                    emptyText: 'ยังไม่มีข้อมูลตำบลจาก GEOPLOTS',
                   }}
                 />
               </Card>
