@@ -1094,7 +1094,7 @@ export const FarmerInstitutesCard = ({ stats, loading }) => {
         </div>
       </div>
       <a
-        href="/public/farmer-institutes"
+        href="/public/community-enterprises"
         style={{
           display: 'block',
           textAlign: 'center',

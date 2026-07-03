@@ -11,7 +11,6 @@ export const LANDING_CHATBOT_ALLOWED_LINKS = Object.freeze({
   '/public/young-farmer-groups': 'ข้อมูลกลุ่มยุวเกษตรกร',
   '/public/community-enterprises': 'ข้อมูลวิสาหกิจชุมชน',
   '/public/agri-tourism': 'ข้อมูลท่องเที่ยวเชิงเกษตร',
-  '/public/farmer-institutes': 'ข้อมูลสถาบันเกษตรกร',
   '/public/agricultural-areas': 'ข้อมูลพื้นที่การเกษตร',
   '/public/agricultural-prices': 'ข้อมูลราคาสินค้าเกษตรและพลังงาน',
   '/public/disease-forecast': 'ระบบพยากรณ์เตือนภัยโรคและแมลงศัตรูพืช',
@@ -29,7 +28,8 @@ const LANDING_CHATBOT_LINK_ALIASES = Object.freeze({
   '/dashboard/development/smart-farmer-sf': '/public/smart-farmer-sf',
   '/dashboard/development/young-smart-farmer-ysf':
     '/public/young-smart-farmer-ysf',
-  '/dashboard/development/farmer-institutes': '/public/farmer-institutes',
+  '/dashboard/development/farmer-institutes': '/public/community-enterprises',
+  '/public/farmer-institutes': '/public/community-enterprises',
   '/dashboard/development/agri-tourism': '/public/agri-tourism',
   '/dashboard/protection/disease-forecast': '/public/disease-forecast',
   '/dashboard/protection/fire-hotspots': '/public/fire-hotspots',

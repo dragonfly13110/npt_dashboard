@@ -216,11 +216,7 @@ const allMenuItems = [
         icon: <UsergroupAddOutlined />,
         label: 'กลุ่มยุวเกษตรกร',
       },
-      {
-        key: '/dashboard/development/farmer-institutes',
-        icon: <UsergroupAddOutlined />,
-        label: 'สถาบันเกษตรกร (รวม)',
-      },
+
       {
         key: '/dashboard/development/agri-tourism',
         icon: <EnvironmentOutlined />,

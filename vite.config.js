@@ -163,6 +163,70 @@ function publicFarmerInstitutesV2Plugin(env) {
     },
   };
 }
+
+function publicCertificationsPlugin(env) {
+  const supabaseUrl = env.VITE_SUPABASE_URL;
+  const supabaseKey =
+    env.SUPABASE_SERVICE_ROLE_KEY || env.VITE_SUPABASE_ANON_KEY;
+  let supabase = null;
+
+  const fetchAllCertifications = async () => {
+    const pageSize = 1000;
+    const rows = [];
+    for (let from = 0; ; from += pageSize) {
+      const { data, error } = await supabase
+        .from('certifications')
+        .select(
+          'id,crop_name,plot_type,area_rai,production_volume_kg,cert_date,exp_date,plot_moo,plot_subdistrict,plot_district,farmer_moo,farmer_subdistrict,farmer_district,created_at'
+        )
+        .order('id', { ascending: true })
+        .range(from, from + pageSize - 1);
+      if (error) throw error;
+      rows.push(...(data || []));
+      if (!data || data.length < pageSize) return rows;
+    }
+  };
+
+  return {
+    name: 'local-public-certifications',
+    configureServer(server) {
+      server.middlewares.use(
+        '/api/public-certifications',
+        async (_req, res) => {
+          try {
+            if (!supabaseUrl || !supabaseKey) {
+              json(res, 503, {
+                error:
+                  'Supabase env is not configured for this local API route.',
+              });
+              return;
+            }
+            supabase ||= createClient(supabaseUrl, supabaseKey);
+            const { count, error: countError } = await supabase
+              .from('certifications')
+              .select('*', { count: 'exact', head: true });
+            if (countError) throw countError;
+
+            const rows = await fetchAllCertifications();
+
+            json(res, 200, {
+              data: rows.map((row) => ({
+                ...row,
+                farmer_name: null,
+                plot_code: null,
+                farmer_key: row.id ? `cert-${row.id}` : null,
+              })),
+              count: count || 0,
+            });
+          } catch (err) {
+            json(res, 500, { error: err.message });
+          }
+        }
+      );
+    },
+  };
+}
+
 function localMocPriceProxyPlugin() {
   return {
     name: 'local-moc-price-proxy',
@@ -226,6 +290,7 @@ export default defineConfig(({ mode }) => {
       localGeoplotsSyncPlugin(env),
       localMocPriceProxyPlugin(),
       publicFarmerInstitutesV2Plugin(env),
+      publicCertificationsPlugin(env),
       react(),
     ],
     cacheDir: 'tmp/vite-cache',

@@ -83,7 +83,6 @@ export const TABLE_ROUTES = {
   housewife_farmer_groups: '/dashboard/development/housewife-farmer-groups',
   young_farmer_groups: '/dashboard/development/young-farmer-groups',
   young_farmer_groups_detailed: '/dashboard/development/young-farmer-groups',
-  farmer_institutes: '/dashboard/development/farmer-institutes',
   agri_tourism: '/dashboard/development/agri-tourism',
   forecast_plots: '/dashboard/protection/pest-outbreaks',
   ai_disease_forecasts: '/dashboard/protection/disease-forecast',

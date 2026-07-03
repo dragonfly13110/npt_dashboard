@@ -38,6 +38,8 @@ import {
 } from '@ant-design/icons';
 import CrudTable from '../../components/DataTable/CrudTable';
 import CsvImportModal from '../../components/DataTable/CsvImportModal';
+import EChart from '../../components/widgets/EChart';
+import { barOption } from '../../components/charts/echartOptions';
 import { supabase } from '../../supabaseClient';
 import { useApiCache } from '../../hooks/useApiCache';
 import { useAuth } from '../../contexts/AuthContext';
@@ -85,6 +87,7 @@ const hasValue = (value) =>
   value !== null && value !== undefined && value !== '';
 const yes = (value) => String(value || '').trim() === 'มี';
 const HOUSEWIFE_TABLE = 'housewife_farmer_groups';
+const ALL = 'ทั้งหมด';
 
 function countBy(rows, key) {
   const map = new Map();
@@ -97,6 +100,10 @@ function countBy(rows, key) {
 
 function sum(rows, key) {
   return rows.reduce((total, row) => total + (Number(row[key]) || 0), 0);
+}
+
+function makeOptions(rows, key) {
+  return [ALL, ...countBy(rows, key).map(([name]) => name)];
 }
 
 function StatCard({ title, value, suffix, icon, color }) {
@@ -132,46 +139,22 @@ function StatCard({ title, value, suffix, icon, color }) {
 }
 
 function RankedList({ title, rows, suffix = 'กลุ่ม' }) {
-  const max = rows[0]?.[1] || 1;
+  const data = rows.slice(0, 8).map(([name, value]) => ({ name, value }));
   return (
     <Card
       title={title}
       style={{ height: '100%' }}
-      styles={{ body: { paddingTop: 8 } }}
+      styles={{ body: { padding: 12 } }}
     >
-      <Space direction="vertical" size={12} style={{ width: '100%' }}>
-        {rows.slice(0, 6).map(([label, value]) => (
-          <div key={label}>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                gap: 12,
-                marginBottom: 4,
-              }}
-            >
-              <span
-                style={{
-                  fontWeight: 600,
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {label}
-              </span>
-              <span style={{ color: '#57606a', flexShrink: 0 }}>
-                {number.format(value)} {suffix}
-              </span>
-            </div>
-            <Progress
-              percent={Math.round((value / max) * 100)}
-              showInfo={false}
-              strokeColor="#1a7f37"
-            />
-          </div>
-        ))}
-      </Space>
+      <div style={{ height: 300 }}>
+        <EChart
+          option={barOption(
+            data,
+            [{ key: 'value', name: suffix, color: '#1a7f37', maxBarSize: 28 }],
+            { layout: 'vertical', unit: suffix, grid: { left: 140 } }
+          )}
+        />
+      </div>
     </Card>
   );
 }
@@ -410,6 +393,7 @@ const housewifeColumns = [
     width: 75,
     fixed: 'left',
     align: 'center',
+    sorter: (a, b) => (Number(a.year) || 0) - (Number(b.year) || 0),
   },
   {
     title: 'ชื่อกลุ่ม',
@@ -418,17 +402,59 @@ const housewifeColumns = [
     width: 220,
     fixed: 'left',
     ellipsis: true,
+    sorter: (a, b) =>
+      String(a.group_name || '').localeCompare(
+        String(b.group_name || ''),
+        'th'
+      ),
   },
-  { title: 'อำเภอ', dataIndex: 'district', key: 'district', width: 100 },
-  { title: 'ตำบล', dataIndex: 'subdistrict', key: 'subdistrict', width: 100 },
-  { title: 'หมู่', dataIndex: 'moo', key: 'moo', width: 60, align: 'center' },
-  { title: 'เลขที่', dataIndex: 'address_no', key: 'address_no', width: 80 },
+  {
+    title: 'อำเภอ',
+    dataIndex: 'district',
+    key: 'district',
+    width: 100,
+    sorter: (a, b) =>
+      String(a.district || '').localeCompare(String(b.district || ''), 'th'),
+  },
+  {
+    title: 'ตำบล',
+    dataIndex: 'subdistrict',
+    key: 'subdistrict',
+    width: 100,
+    sorter: (a, b) =>
+      String(a.subdistrict || '').localeCompare(
+        String(b.subdistrict || ''),
+        'th'
+      ),
+  },
+  {
+    title: 'หมู่',
+    dataIndex: 'moo',
+    key: 'moo',
+    width: 60,
+    align: 'center',
+    sorter: (a, b) =>
+      String(a.moo || '').localeCompare(String(b.moo || ''), 'th'),
+  },
+  {
+    title: 'เลขที่',
+    dataIndex: 'address_no',
+    key: 'address_no',
+    width: 80,
+    sorter: (a, b) =>
+      String(a.address_no || '').localeCompare(
+        String(b.address_no || ''),
+        'th'
+      ),
+  },
   {
     title: 'สมาชิก',
     dataIndex: 'member_count',
     key: 'member_count',
     width: 80,
     align: 'right',
+    sorter: (a, b) =>
+      (Number(a.member_count) || 0) - (Number(b.member_count) || 0),
     render: (v) => number.format(v || 0),
   },
   {
@@ -437,12 +463,19 @@ const housewifeColumns = [
     key: 'activity',
     width: 200,
     ellipsis: true,
+    sorter: (a, b) =>
+      String(a.activity || '').localeCompare(String(b.activity || ''), 'th'),
   },
   {
     title: 'ศักยภาพ',
     dataIndex: 'potential_level',
     key: 'potential_level',
     width: 95,
+    sorter: (a, b) =>
+      String(a.potential_level || '').localeCompare(
+        String(b.potential_level || ''),
+        'th'
+      ),
     render: (v) =>
       v ? <Tag color={v === 'ดี' ? 'green' : 'gold'}>{v}</Tag> : '-',
   },
@@ -451,6 +484,11 @@ const housewifeColumns = [
     dataIndex: 'has_sales_channel',
     key: 'has_sales_channel',
     width: 110,
+    sorter: (a, b) =>
+      String(a.has_sales_channel || '').localeCompare(
+        String(b.has_sales_channel || ''),
+        'th'
+      ),
     render: (v) => (
       <Tag color={yes(v) ? 'blue' : 'default'}>{v || 'ไม่มี'}</Tag>
     ),
@@ -461,6 +499,11 @@ const housewifeColumns = [
     key: 'community_enterprise_registration',
     width: 150,
     ellipsis: true,
+    sorter: (a, b) =>
+      String(a.community_enterprise_registration || '').localeCompare(
+        String(b.community_enterprise_registration || ''),
+        'th'
+      ),
   },
   {
     title: 'กลุ่มต้นแบบ',
@@ -468,6 +511,11 @@ const housewifeColumns = [
     key: 'model_group',
     width: 100,
     ellipsis: true,
+    sorter: (a, b) =>
+      String(a.model_group || '').localeCompare(
+        String(b.model_group || ''),
+        'th'
+      ),
   },
   {
     title: 'ทุน',
@@ -475,6 +523,8 @@ const housewifeColumns = [
     key: 'fund_management',
     width: 100,
     align: 'right',
+    sorter: (a, b) =>
+      (Number(a.fund_management) || 0) - (Number(b.fund_management) || 0),
     render: (v) => money.format(v || 0),
   },
   {
@@ -483,6 +533,7 @@ const housewifeColumns = [
     key: 'income',
     width: 100,
     align: 'right',
+    sorter: (a, b) => (Number(a.income) || 0) - (Number(b.income) || 0),
     render: (v) => money.format(v || 0),
   },
   {
@@ -490,6 +541,11 @@ const housewifeColumns = [
     dataIndex: 'production_standard',
     key: 'production_standard',
     width: 130,
+    sorter: (a, b) =>
+      String(a.production_standard || '').localeCompare(
+        String(b.production_standard || ''),
+        'th'
+      ),
     render: (v) => v || '-',
     ellipsis: true,
   },
@@ -498,6 +554,11 @@ const housewifeColumns = [
     dataIndex: 'online_domestic',
     key: 'online_domestic',
     width: 120,
+    sorter: (a, b) =>
+      String(a.online_domestic || '').localeCompare(
+        String(b.online_domestic || ''),
+        'th'
+      ),
     render: (v) => v || '-',
     ellipsis: true,
   },
@@ -506,6 +567,11 @@ const housewifeColumns = [
     dataIndex: 'online_international',
     key: 'online_international',
     width: 130,
+    sorter: (a, b) =>
+      String(a.online_international || '').localeCompare(
+        String(b.online_international || ''),
+        'th'
+      ),
     render: (v) => v || '-',
     ellipsis: true,
   },
@@ -514,6 +580,11 @@ const housewifeColumns = [
     dataIndex: 'offline_domestic',
     key: 'offline_domestic',
     width: 120,
+    sorter: (a, b) =>
+      String(a.offline_domestic || '').localeCompare(
+        String(b.offline_domestic || ''),
+        'th'
+      ),
     render: (v) => v || '-',
     ellipsis: true,
   },
@@ -522,6 +593,11 @@ const housewifeColumns = [
     dataIndex: 'offline_international',
     key: 'offline_international',
     width: 130,
+    sorter: (a, b) =>
+      String(a.offline_international || '').localeCompare(
+        String(b.offline_international || ''),
+        'th'
+      ),
     render: (v) => v || '-',
     ellipsis: true,
   },
@@ -530,6 +606,8 @@ const housewifeColumns = [
     dataIndex: 'phone',
     key: 'phone',
     width: 110,
+    sorter: (a, b) =>
+      String(a.phone || '').localeCompare(String(b.phone || ''), 'th'),
     render: (v) => (v && v !== '0' ? v : '-'),
   },
   {
@@ -538,12 +616,18 @@ const housewifeColumns = [
     key: 'established_text',
     width: 110,
     ellipsis: true,
+    sorter: (a, b) =>
+      String(a.established_text || '').localeCompare(
+        String(b.established_text || ''),
+        'th'
+      ),
   },
   {
     title: 'Lat',
     dataIndex: 'lat',
     key: 'lat',
     width: 90,
+    sorter: (a, b) => (Number(a.lat) || 0) - (Number(b.lat) || 0),
     render: (v) => (hasValue(v) ? Number(v).toFixed(6) : '-'),
   },
   {
@@ -551,6 +635,7 @@ const housewifeColumns = [
     dataIndex: 'lon',
     key: 'lon',
     width: 90,
+    sorter: (a, b) => (Number(a.lon) || 0) - (Number(b.lon) || 0),
     render: (v) => (hasValue(v) ? Number(v).toFixed(6) : '-'),
   },
 ];
@@ -716,7 +801,10 @@ export function HousewifeFarmerGroups() {
   const userCanEdit = canEdit();
   const userCanDelete = canDelete();
   const [search, setSearch] = useState('');
-  const [district, setDistrict] = useState('ทั้งหมด');
+  const [district, setDistrict] = useState(ALL);
+  const [activity, setActivity] = useState(ALL);
+  const [potential, setPotential] = useState(ALL);
+  const [salesChannel, setSalesChannel] = useState(ALL);
   const [year, setYear] = useState(2568);
   const [modalOpen, setModalOpen] = useState(false);
   const [importModalOpen, setImportModalOpen] = useState(false);
@@ -744,10 +832,6 @@ export function HousewifeFarmerGroups() {
     refetch,
   } = useApiCache(['housewife_farmer_groups_full'], fetchGroups);
 
-  const districts = useMemo(
-    () => ['ทั้งหมด', ...countBy(rows, 'district').map(([name]) => name)],
-    [rows]
-  );
   const years = useMemo(
     () =>
       countBy(rows, 'year')
@@ -760,12 +844,32 @@ export function HousewifeFarmerGroups() {
     () => rows.filter((row) => row.year === activeYear),
     [rows, activeYear]
   );
+  const districts = useMemo(
+    () => makeOptions(activeYearRows, 'district'),
+    [activeYearRows]
+  );
+  const activities = useMemo(
+    () => makeOptions(activeYearRows, 'activity'),
+    [activeYearRows]
+  );
+  const potentials = useMemo(
+    () => makeOptions(activeYearRows, 'potential_level'),
+    [activeYearRows]
+  );
+  const salesChannels = useMemo(
+    () => makeOptions(activeYearRows, 'has_sales_channel'),
+    [activeYearRows]
+  );
 
   const filteredRows = useMemo(() => {
     const text = search.trim().toLowerCase();
-    return rows.filter((row) => {
-      const matchDistrict = district === 'ทั้งหมด' || row.district === district;
-      const matchYear = row.year === activeYear;
+    return activeYearRows.filter((row) => {
+      const matchDistrict = district === ALL || row.district === district;
+      const matchActivity = activity === ALL || row.activity === activity;
+      const matchPotential =
+        potential === ALL || row.potential_level === potential;
+      const matchSales =
+        salesChannel === ALL || row.has_sales_channel === salesChannel;
       const matchText =
         !text ||
         [
@@ -780,28 +884,34 @@ export function HousewifeFarmerGroups() {
             .toLowerCase()
             .includes(text)
         );
-      return matchDistrict && matchYear && matchText;
+      return (
+        matchDistrict &&
+        matchActivity &&
+        matchPotential &&
+        matchSales &&
+        matchText
+      );
     });
-  }, [rows, search, district, activeYear]);
+  }, [activeYearRows, search, district, activity, potential, salesChannel]);
 
   const stats = useMemo(() => {
-    const sales = activeYearRows.filter((row) =>
+    const sales = filteredRows.filter((row) =>
       yes(row.has_sales_channel)
     ).length;
     return {
-      total: activeYearRows.length,
-      members: sum(activeYearRows, 'member_count'),
+      total: filteredRows.length,
+      members: sum(filteredRows, 'member_count'),
       sales,
-      salesPct: activeYearRows.length
-        ? Math.round((sales / activeYearRows.length) * 100)
+      salesPct: filteredRows.length
+        ? Math.round((sales / filteredRows.length) * 100)
         : 0,
-      income: sum(activeYearRows, 'income'),
-      good: activeYearRows.filter((row) => row.potential_level === 'ดี').length,
-      districts: countBy(activeYearRows, 'district'),
-      activities: countBy(activeYearRows, 'activity'),
-      potential: countBy(activeYearRows, 'potential_level'),
+      income: sum(filteredRows, 'income'),
+      good: filteredRows.filter((row) => row.potential_level === 'ดี').length,
+      districts: countBy(filteredRows, 'district'),
+      activities: countBy(filteredRows, 'activity'),
+      potential: countBy(filteredRows, 'potential_level'),
     };
-  }, [activeYearRows]);
+  }, [filteredRows]);
 
   const openAdd = () => {
     setEditingRecord(null);
@@ -987,12 +1097,62 @@ export function HousewifeFarmerGroups() {
         </p>
       </div>
 
+      <Card style={{ marginBottom: 16 }} styles={{ body: { padding: 16 } }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+            gap: 12,
+          }}
+        >
+          <Select
+            value={activeYear}
+            onChange={(value) => {
+              setYear(value);
+              setDistrict(ALL);
+              setActivity(ALL);
+              setPotential(ALL);
+              setSalesChannel(ALL);
+            }}
+            options={years.map((value) => ({ value, label: `ปี ${value}` }))}
+            placeholder="เลือกปี"
+          />
+          <Input
+            allowClear
+            prefix={<SearchOutlined />}
+            placeholder="ค้นหาชื่อกลุ่ม อำเภอ ตำบล กิจกรรม"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+          />
+          <Select
+            value={district}
+            onChange={setDistrict}
+            options={districts.map((value) => ({ value, label: value }))}
+          />
+          <Select
+            value={activity}
+            onChange={setActivity}
+            options={activities.map((value) => ({ value, label: value }))}
+          />
+          <Select
+            value={potential}
+            onChange={setPotential}
+            options={potentials.map((value) => ({ value, label: value }))}
+          />
+          <Select
+            value={salesChannel}
+            onChange={setSalesChannel}
+            options={salesChannels.map((value) => ({ value, label: value }))}
+          />
+        </div>
+      </Card>
+
       <Row
         gutter={[16, 16]}
         style={{ marginBottom: 16, alignItems: 'stretch' }}
       >
         <Col xs={24} lg={18}>
-          <HousewifeMap rows={rows} year={activeYear} />
+          <HousewifeMap rows={filteredRows} year={activeYear} />
         </Col>
         <Col xs={24} lg={6}>
           <YearComparison rows={rows} />
@@ -1087,37 +1247,6 @@ export function HousewifeFarmerGroups() {
           </Space>
         }
       >
-        <Space
-          wrap
-          style={{
-            marginBottom: 16,
-            width: '100%',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Input
-            allowClear
-            prefix={<SearchOutlined />}
-            placeholder="ค้นหาชื่อกลุ่ม อำเภอ ตำบล กิจกรรม"
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-            style={{ width: 320, maxWidth: '100%' }}
-          />
-          <Space wrap>
-            <Select
-              value={activeYear}
-              onChange={setYear}
-              options={years.map((value) => ({ value, label: value }))}
-              style={{ width: 130 }}
-            />
-            <Select
-              value={district}
-              onChange={setDistrict}
-              options={districts.map((value) => ({ value, label: value }))}
-              style={{ width: 180 }}
-            />
-          </Space>
-        </Space>
         <Table
           rowKey="id"
           loading={isLoading}

@@ -74,6 +74,7 @@ const columns = [
     width: 90,
     align: 'center',
     importHeader: 'ปีข้อมูล',
+    sorter: (a, b) => (Number(a.data_year) || 0) - (Number(b.data_year) || 0),
   },
   {
     title: 'รหัสระเบียน',
@@ -81,6 +82,11 @@ const columns = [
     key: 'record_code',
     width: 130,
     importHeader: 'รหัสระเบียน',
+    sorter: (a, b) =>
+      String(a.record_code || '').localeCompare(
+        String(b.record_code || ''),
+        'th'
+      ),
   },
   {
     title: 'ชื่อกลุ่ม',
@@ -88,6 +94,11 @@ const columns = [
     key: 'group_name',
     width: 260,
     importHeader: 'ชื่อกลุ่ม',
+    sorter: (a, b) =>
+      String(a.group_name || '').localeCompare(
+        String(b.group_name || ''),
+        'th'
+      ),
   },
   {
     title: 'เลขที่',
@@ -95,6 +106,11 @@ const columns = [
     key: 'address_no',
     width: 90,
     importHeader: 'เลขที่',
+    sorter: (a, b) =>
+      String(a.address_no || '').localeCompare(
+        String(b.address_no || ''),
+        'th'
+      ),
   },
   {
     title: 'หมู่',
@@ -103,6 +119,8 @@ const columns = [
     width: 70,
     align: 'center',
     importHeader: 'หมู่',
+    sorter: (a, b) =>
+      String(a.moo || '').localeCompare(String(b.moo || ''), 'th'),
   },
   {
     title: 'ตำบล',
@@ -110,6 +128,11 @@ const columns = [
     key: 'subdistrict',
     width: 120,
     importHeader: 'ตำบล',
+    sorter: (a, b) =>
+      String(a.subdistrict || '').localeCompare(
+        String(b.subdistrict || ''),
+        'th'
+      ),
   },
   {
     title: 'อำเภอ',
@@ -117,6 +140,8 @@ const columns = [
     key: 'district',
     width: 130,
     importHeader: 'อำเภอ',
+    sorter: (a, b) =>
+      String(a.district || '').localeCompare(String(b.district || ''), 'th'),
   },
   {
     title: 'จังหวัด',
@@ -124,6 +149,8 @@ const columns = [
     key: 'province',
     width: 110,
     importHeader: 'จังหวัด',
+    sorter: (a, b) =>
+      String(a.province || '').localeCompare(String(b.province || ''), 'th'),
   },
   {
     title: 'โทรศัพท์',
@@ -131,6 +158,8 @@ const columns = [
     key: 'phone',
     width: 120,
     importHeader: 'เบอร์โทรศัพท์',
+    sorter: (a, b) =>
+      String(a.phone || '').localeCompare(String(b.phone || ''), 'th'),
   },
   {
     title: 'มือถือ',
@@ -138,6 +167,8 @@ const columns = [
     key: 'mobile',
     width: 120,
     importHeader: 'เบอร์มือถือ',
+    sorter: (a, b) =>
+      String(a.mobile || '').localeCompare(String(b.mobile || ''), 'th'),
   },
   {
     title: 'วันที่จัดตั้ง',
@@ -145,6 +176,11 @@ const columns = [
     key: 'established_date',
     width: 120,
     importHeader: 'วันที่จัดตั้งกลุ่ม',
+    sorter: (a, b) =>
+      String(a.established_date || '').localeCompare(
+        String(b.established_date || ''),
+        'th'
+      ),
   },
   {
     title: 'ปีจัดตั้ง พ.ศ.',
@@ -152,6 +188,9 @@ const columns = [
     key: 'established_year_be',
     width: 100,
     importHeader: 'ปีจัดตั้ง_พ.ศ.',
+    sorter: (a, b) =>
+      (Number(a.established_year_be) || 0) -
+      (Number(b.established_year_be) || 0),
   },
   {
     title: 'ปีจัดตั้ง ค.ศ.',
@@ -159,6 +198,9 @@ const columns = [
     key: 'established_year_ce',
     width: 100,
     importHeader: 'ปีจัดตั้ง_ค.ศ.',
+    sorter: (a, b) =>
+      (Number(a.established_year_ce) || 0) -
+      (Number(b.established_year_ce) || 0),
   },
   {
     title: 'สมาชิก',
@@ -167,6 +209,8 @@ const columns = [
     width: 90,
     align: 'right',
     importHeader: 'จำนวนสมาชิกกลุ่ม',
+    sorter: (a, b) =>
+      (Number(a.member_count) || 0) - (Number(b.member_count) || 0),
     render: (value) => number.format(value || 0),
   },
   {
@@ -175,6 +219,11 @@ const columns = [
     key: 'model_group',
     width: 130,
     importHeader: 'การเป็นกลุ่มต้นแบบ',
+    sorter: (a, b) =>
+      String(a.model_group || '').localeCompare(
+        String(b.model_group || ''),
+        'th'
+      ),
   },
   {
     title: 'ทุน',
@@ -183,6 +232,8 @@ const columns = [
     width: 110,
     align: 'right',
     importHeader: 'การบริหารจัดการทุน_บาท',
+    sorter: (a, b) =>
+      (Number(a.fund_management) || 0) - (Number(b.fund_management) || 0),
     render: (value) => number.format(value || 0),
   },
   {
@@ -192,6 +243,7 @@ const columns = [
     width: 110,
     align: 'right',
     importHeader: 'รายได้กลุ่ม_บาท',
+    sorter: (a, b) => (Number(a.income) || 0) - (Number(b.income) || 0),
     render: (value) => number.format(value || 0),
   },
   {
@@ -200,6 +252,8 @@ const columns = [
     key: 'activity',
     width: 280,
     importHeader: 'กิจกรรมกลุ่ม',
+    sorter: (a, b) =>
+      String(a.activity || '').localeCompare(String(b.activity || ''), 'th'),
   },
   {
     title: 'จำนวนกิจกรรม',
@@ -208,6 +262,8 @@ const columns = [
     width: 110,
     align: 'center',
     importHeader: 'จำนวนกิจกรรมที่ระบุ',
+    sorter: (a, b) =>
+      (Number(a.activity_count) || 0) - (Number(b.activity_count) || 0),
   },
   {
     title: 'ศักยภาพ',
@@ -215,6 +271,11 @@ const columns = [
     key: 'potential_level',
     width: 110,
     importHeader: 'ระดับการประเมินศักยภาพ',
+    sorter: (a, b) =>
+      String(a.potential_level || '').localeCompare(
+        String(b.potential_level || ''),
+        'th'
+      ),
     render: (value) =>
       value ? (
         <Tag color={value === 'ดี' ? 'green' : 'gold'}>{value}</Tag>
@@ -228,6 +289,7 @@ const columns = [
     key: 'lat',
     width: 100,
     importHeader: 'Lat',
+    sorter: (a, b) => (Number(a.lat) || 0) - (Number(b.lat) || 0),
     render: (value) => (value ? Number(value).toFixed(6) : '-'),
   },
   {
@@ -236,6 +298,7 @@ const columns = [
     key: 'lon',
     width: 100,
     importHeader: 'Lon',
+    sorter: (a, b) => (Number(a.lon) || 0) - (Number(b.lon) || 0),
     render: (value) => (value ? Number(value).toFixed(6) : '-'),
   },
 ];

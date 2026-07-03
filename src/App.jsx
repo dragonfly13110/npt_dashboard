@@ -102,9 +102,7 @@ const HousewifeFarmerGroups = lazy(() =>
 const YoungFarmerGroups = lazy(
   () => import('./pages/development/YoungFarmerGroupsDashboard')
 );
-const FarmerInstitutes = lazy(
-  () => import('./pages/development/FarmerInstitutes')
-);
+
 const AgriTourism = lazy(() => import('./pages/development/AgriTourism'));
 const DevelopmentDashboard = lazy(
   () => import('./pages/development/DevelopmentDashboard')
@@ -234,7 +232,7 @@ function AppRoutes() {
             Component: CommunityEnterprises,
           },
           { path: '/public/agri-tourism', Component: AgriTourism },
-          { path: '/public/farmer-institutes', Component: FarmerInstitutes },
+
           { path: '/public/agricultural-areas', Component: AgriculturalAreas },
           {
             path: '/public/agricultural-prices',
@@ -478,10 +476,7 @@ function AppRoutes() {
             path="development/young-farmer-groups"
             element={<YoungFarmerGroups />}
           />
-          <Route
-            path="development/farmer-institutes"
-            element={<FarmerInstitutes />}
-          />
+
           <Route path="development/agri-tourism" element={<AgriTourism />} />
           <Route path="development/disasters" element={<Disasters />} />
 
