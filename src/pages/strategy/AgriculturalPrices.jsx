@@ -400,6 +400,20 @@ const BUYING_POINTS_DATA = [
   },
 ];
 
+function getBuyingPointMapUrl(item) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    `${item.name} ${item.area}`
+  )}`;
+}
+
+const BUYING_POINTS = BUYING_POINTS_DATA.map((item) => ({
+  ...item,
+  lat: 'search by place name',
+  lng: 'not fixed GPS',
+  mapQuery: `${item.name} ${item.area}`,
+  mapUrl: getBuyingPointMapUrl(item),
+}));
+
 const BUYING_POINTS_COLUMNS = [
   {
     title: 'ประเภท',
@@ -425,11 +439,11 @@ const BUYING_POINTS_COLUMNS = [
     title: 'ชื่อจุดรับซื้อ / ล้ง',
     dataIndex: 'name',
     key: 'name',
-    render: (text, record) => (
+    render: (text) => (
       <div>
         <strong style={{ color: '#0f172a', fontSize: '14.5px' }}>{text}</strong>
         <div style={{ fontSize: '12px', color: '#0969da', marginTop: 4 }}>
-          📍 พิกัด GPS: {record.lat}, {record.lng}
+          ค้นหาใน Google Maps จากชื่อสถานที่และพื้นที่ ไม่ใช้พิกัดเดิม
         </div>
       </div>
     ),
@@ -594,7 +608,7 @@ export default function AgriculturalPrices() {
   const [buyingTypeFilter, setBuyingTypeFilter] = useState('All');
 
   const filteredBuyingPoints = useMemo(() => {
-    return BUYING_POINTS_DATA.filter((item) => {
+    return BUYING_POINTS.filter((item) => {
       const matchesSearch =
         item.name.toLowerCase().includes(buyingSearchQuery.toLowerCase()) ||
         item.area.toLowerCase().includes(buyingSearchQuery.toLowerCase()) ||

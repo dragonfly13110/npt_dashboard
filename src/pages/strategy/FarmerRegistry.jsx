@@ -119,6 +119,18 @@ const columns = [
   },
 ];
 
+const subdistrictColumns = [
+  columns[0],
+  {
+    title: 'ตำบล',
+    dataIndex: 'subdistrict',
+    key: 'subdistrict',
+    width: 120,
+    fixed: 'left',
+  },
+  ...columns.slice(1),
+];
+
 const formFields = (
   <div style={{ maxHeight: '60vh', overflowY: 'auto', paddingRight: '8px' }}>
     <Divider orientation="left" style={{ marginTop: 0 }}>
@@ -1111,6 +1123,64 @@ export default function FarmerRegistry() {
             'remaining_target',
           ]}
           defaultColumns={[
+            'cancelled_households',
+            'net_total_households',
+            'total_updated_area_rai',
+            'cutoff_date',
+            'updated_at',
+          ]}
+          extraActions={
+            <div style={{ display: 'flex', gap: '8px' }}>
+              {isAdmin() && (
+                <Button
+                  icon={<SyncOutlined spin={syncing} />}
+                  loading={syncing}
+                  onClick={handleManualSync}
+                  className="export-btn"
+                >
+                  อัปเดทจาก DOAE
+                </Button>
+              )}
+              <Button
+                icon={<SyncOutlined />}
+                onClick={handleRefresh}
+                className="export-btn"
+              >
+                รีเฟรชตาราง
+              </Button>
+            </div>
+          }
+        />
+      </Card>
+
+      {/* Subdistrict CRUD Table */}
+      <Card
+        style={{
+          borderRadius: '24px',
+          border: '1px solid rgba(255, 255, 255, 0.8)',
+          background:
+            'linear-gradient(155deg, rgba(255, 255, 255, 0.9) 0%, rgba(244, 247, 255, 0.95) 48%, rgba(255, 255, 255, 0.9) 100%)',
+          boxShadow: '0 15px 35px -15px rgba(0, 0, 0, 0.05)',
+          backdropFilter: 'blur(20px)',
+        }}
+      >
+        <CrudTable
+          tableName="farmer_registry_subdistricts"
+          title="ตารางรายละเอียดรายตำบล"
+          columns={subdistrictColumns}
+          formFields={formFields}
+          searchField="subdistrict"
+          searchFields={['district', 'subdistrict']}
+          filterConfig={filterConfig}
+          scrollX={1450}
+          requiredColumns={[
+            'district',
+            'subdistrict',
+            'data_year',
+            'total_updated_households',
+          ]}
+          defaultColumns={[
+            'target',
             'cancelled_households',
             'net_total_households',
             'total_updated_area_rai',
