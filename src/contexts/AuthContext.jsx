@@ -1,6 +1,11 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
+import {
+  clearGuestSession,
+  createGuestSession,
+  getGuestSession,
+} from '../services/guestSessionService';
 
 const AuthContext = createContext(null);
 
@@ -101,7 +106,7 @@ export function AuthProvider({ children }) {
           error.message?.includes('JWT expired')
         ) {
           console.warn('[Auth] JWT expired — signing out stale session');
-          localStorage.removeItem('guestMode');
+          await clearGuestSession();
           await supabase.auth.signOut({ scope: 'local' });
           setUser(null);
           setProfile(null);
@@ -117,19 +122,16 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const loginAsGuest = () => {
-    localStorage.setItem('guestMode', 'true');
+  const loginAsGuest = async () => {
+    await createGuestSession();
     setUser({ id: 'guest', email: 'guest@example.com' });
     setProfile({ role: 'guest', department: null });
   };
 
   useEffect(() => {
-    const checkGuestMode = () => {
-      return localStorage.getItem('guestMode') === 'true';
-    };
-
     const initAuth = async () => {
-      if (checkGuestMode()) {
+      const guestSession = await getGuestSession();
+      if (guestSession) {
         setUser({ id: 'guest', email: 'guest@example.com' });
         setProfile({ role: 'guest', department: null });
         setLoading(false);
@@ -143,7 +145,7 @@ export function AuthProvider({ children }) {
         } = await supabase.auth.getSession();
         if (error) {
           console.warn('[Auth] getSession error:', error.message);
-          localStorage.removeItem('guestMode');
+          await clearGuestSession();
           await supabase.auth.signOut({ scope: 'local' });
           setUser(null);
           setProfile(null);
@@ -157,7 +159,7 @@ export function AuthProvider({ children }) {
         }
       } catch (err) {
         console.warn('[Auth] initAuth failed, clearing session:', err);
-        localStorage.removeItem('guestMode');
+        await clearGuestSession();
         await supabase.auth.signOut({ scope: 'local' }).catch(() => {});
         setUser(null);
         setProfile(null);
@@ -170,7 +172,6 @@ export function AuthProvider({ children }) {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (checkGuestMode()) return;
       const u = session?.user ?? null;
       setUser(u);
       if (u) {

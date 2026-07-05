@@ -12,6 +12,7 @@ import Sidebar from './Sidebar';
 import { supabase } from '../../supabaseClient';
 import { useSessionTimeout } from '../../hooks/useSessionTimeout.jsx';
 import { useAuth } from '../../contexts/AuthContext';
+import { clearGuestSession } from '../../services/guestSessionService';
 
 const { Header, Content } = Layout;
 
@@ -101,6 +102,7 @@ export default function AppLayout() {
   }, [location.pathname]);
 
   const handleLogout = async () => {
+    await clearGuestSession();
     await supabase.auth.signOut();
     navigate('/');
   };

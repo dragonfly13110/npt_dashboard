@@ -1,4 +1,11 @@
-import { useEffect, useState, useCallback, useMemo, Fragment } from 'react';
+import {
+  createElement,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  Fragment,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDashboardData } from '../hooks/useDashboardData';
 import { supabase } from '../supabaseClient';
@@ -192,6 +199,153 @@ const getStableColor = (value) => {
   }
   return SOIL_LAYER_COLORS[hash % SOIL_LAYER_COLORS.length];
 };
+
+const MARKER_STYLE = {
+  young_farmer: {
+    radius: 7,
+    fillColor: '#fbbf24',
+    color: 'rgba(255,255,255,0.6)',
+    weight: 1.5,
+    titleColor: '#b45309',
+    badgeBg: '#fef3c7',
+    badgeColor: '#b45309',
+  },
+  career_group: {
+    radius: 7,
+    fillColor: '#a855f7',
+    color: 'rgba(255,255,255,0.6)',
+    weight: 1.5,
+    titleColor: '#6b21a8',
+    badgeBg: '#f3e8ff',
+    badgeColor: '#6b21a8',
+  },
+  forecast: {
+    radius: 7,
+    fillColor: '#ec4899',
+    color: 'rgba(255,255,255,0.6)',
+    weight: 1.5,
+    titleColor: '#1e293b',
+    badgeBg: '#f3e8ff',
+    badgeColor: '#6b21a8',
+  },
+  hotspot: {
+    radius: 8,
+    fillColor: '#ef4444',
+    color: 'rgba(255,255,255,0.8)',
+    weight: 2,
+    titleColor: '#dc2626',
+    badgeBg: '#fee2e2',
+    badgeColor: '#991b1b',
+  },
+};
+
+const markerDetailStyle = {
+  fontSize: 12,
+  color: '#475569',
+  marginBottom: 4,
+};
+
+function MarkerTooltipContent({ item, style }) {
+  return (
+    <div style={{ minWidth: 180 }}>
+      <div
+        style={{
+          fontWeight: 700,
+          fontSize: 14,
+          marginBottom: 4,
+          color: style.titleColor,
+        }}
+      >
+        {item.type === 'hotspot' ? `🔥 ${item.name}` : item.name}
+      </div>
+      {item.memberCount > 0 && (
+        <div style={markerDetailStyle}>
+          👥 <strong>สมาชิก:</strong> {item.memberCount.toLocaleString()} ราย
+        </div>
+      )}
+      {item.activity && (
+        <div style={{ ...markerDetailStyle, marginBottom: 6 }}>
+          🌾 <strong>กิจกรรมหลัก:</strong> {item.activity}
+        </div>
+      )}
+      {item.type === 'forecast' && (
+        <>
+          <div style={markerDetailStyle}>
+            🌾 <strong>ชนิดพืช:</strong> {item.cropType || 'ไม่ระบุ'}
+          </div>
+          <div style={markerDetailStyle}>
+            📐 <strong>ขนาดพื้นที่:</strong>{' '}
+            {item.area ? `${item.area.toLocaleString()} ไร่` : 'ไม่ระบุ'}
+          </div>
+          <div style={{ ...markerDetailStyle, marginBottom: 6 }}>
+            📈 <strong>สถานะแปลง:</strong> {item.status || 'ไม่ระบุ'}
+          </div>
+        </>
+      )}
+      {item.type === 'hotspot' && (
+        <>
+          <div style={markerDetailStyle}>
+            🎯 <strong>ความมั่นใจ:</strong> {item.confidence}%
+          </div>
+          <div style={{ ...markerDetailStyle, marginBottom: 6 }}>
+            ⚡ <strong>กำลังความร้อน (FRP):</strong> {item.frp} MW
+          </div>
+        </>
+      )}
+      <div style={{ fontSize: 11, color: '#64748b' }}>
+        <span
+          style={{
+            background: style.badgeBg,
+            color: style.badgeColor,
+            padding: '2px 6px',
+            borderRadius: 4,
+            fontWeight: 600,
+          }}
+        >
+          {item.typeLabel}
+        </span>{' '}
+        {item.subdistrict ? `ต.${item.subdistrict} ` : ''}อ.
+        {item.district || '-'}
+      </div>
+    </div>
+  );
+}
+
+function MarkerLayer({
+  layerKey,
+  items,
+  circleMarker: CircleMarker,
+  tooltip: Tooltip,
+}) {
+  const style = MARKER_STYLE[layerKey];
+
+  return items.map((item, idx) =>
+    createElement(
+      CircleMarker,
+      {
+        key: `${layerKey}-${idx}`,
+        center: [item.lat, item.lon],
+        radius: style.radius,
+        fillColor: style.fillColor,
+        fillOpacity: 0.9,
+        color: style.color,
+        weight: style.weight,
+        className: `pulse-marker-${layerKey}`,
+        pane: 'markerPane',
+      },
+      createElement(
+        Tooltip,
+        {
+          className: 'smart-map-marker-tooltip',
+          direction: 'top',
+          offset: [0, -5],
+          opacity: 1,
+        },
+        <MarkerTooltipContent item={item} style={style} />
+      )
+    )
+  );
+}
 
 // ===== MINI BAR CHART (pure CSS) =====
 function MiniBarChart({ data }) {
@@ -2555,301 +2709,18 @@ ${cropsStr}
               );
             })}
 
-          {/* ===== YOUNG FARMER MARKERS ===== */}
-          {visibleLayers.young_farmer &&
-            allCoords.young_farmer.map((item, idx) => (
-              <CircleMarker
-                key={`young_farmer-${idx}`}
-                center={[item.lat, item.lon]}
-                radius={7}
-                fillColor="#fbbf24"
-                fillOpacity={0.9}
-                color="rgba(255,255,255,0.6)"
-                weight={1.5}
-                className="pulse-marker-young_farmer"
-                pane="markerPane"
-              >
-                <Tooltip
-                  className="smart-map-marker-tooltip"
-                  direction="top"
-                  offset={[0, -5]}
-                  opacity={1}
-                >
-                  <div style={{ minWidth: 180 }}>
-                    <div
-                      style={{
-                        fontWeight: 700,
-                        fontSize: 14,
-                        marginBottom: 4,
-                        color: '#b45309',
-                      }}
-                    >
-                      {item.name}
-                    </div>
-                    {item.memberCount > 0 && (
-                      <div
-                        style={{
-                          fontSize: 12,
-                          color: '#475569',
-                          marginBottom: 4,
-                        }}
-                      >
-                        👥 <strong>สมาชิก:</strong>{' '}
-                        {item.memberCount.toLocaleString()} ราย
-                      </div>
-                    )}
-                    {item.activity && (
-                      <div
-                        style={{
-                          fontSize: 12,
-                          color: '#475569',
-                          marginBottom: 6,
-                        }}
-                      >
-                        🌾 <strong>กิจกรรมหลัก:</strong> {item.activity}
-                      </div>
-                    )}
-                    <div style={{ fontSize: 11, color: '#64748b' }}>
-                      <span
-                        style={{
-                          background: '#fef3c7',
-                          color: '#b45309',
-                          padding: '2px 6px',
-                          borderRadius: 4,
-                          fontWeight: 600,
-                        }}
-                      >
-                        {item.typeLabel}
-                      </span>{' '}
-                      {item.subdistrict ? `ต.${item.subdistrict} ` : ''}อ.
-                      {item.district}
-                    </div>
-                  </div>
-                </Tooltip>
-              </CircleMarker>
-            ))}
-
-          {/* ===== AGRICULTURAL CAREER MARKERS ===== */}
-          {visibleLayers.career_group &&
-            allCoords.career_group.map((item, idx) => (
-              <CircleMarker
-                key={`career_group-${idx}`}
-                center={[item.lat, item.lon]}
-                radius={7}
-                fillColor="#a855f7"
-                fillOpacity={0.9}
-                color="rgba(255,255,255,0.6)"
-                weight={1.5}
-                className="pulse-marker-career_group"
-                pane="markerPane"
-              >
-                <Tooltip
-                  className="smart-map-marker-tooltip"
-                  direction="top"
-                  offset={[0, -5]}
-                  opacity={1}
-                >
-                  <div style={{ minWidth: 180 }}>
-                    <div
-                      style={{
-                        fontWeight: 700,
-                        fontSize: 14,
-                        marginBottom: 4,
-                        color: '#6b21a8',
-                      }}
-                    >
-                      {item.name}
-                    </div>
-                    {item.memberCount > 0 && (
-                      <div
-                        style={{
-                          fontSize: 12,
-                          color: '#475569',
-                          marginBottom: 4,
-                        }}
-                      >
-                        👥 <strong>สมาชิก:</strong>{' '}
-                        {item.memberCount.toLocaleString()} ราย
-                      </div>
-                    )}
-                    {item.activity && (
-                      <div
-                        style={{
-                          fontSize: 12,
-                          color: '#475569',
-                          marginBottom: 6,
-                        }}
-                      >
-                        🌾 <strong>กิจกรรมหลัก:</strong> {item.activity}
-                      </div>
-                    )}
-                    <div style={{ fontSize: 11, color: '#64748b' }}>
-                      <span
-                        style={{
-                          background: '#f3e8ff',
-                          color: '#6b21a8',
-                          padding: '2px 6px',
-                          borderRadius: 4,
-                          fontWeight: 600,
-                        }}
-                      >
-                        {item.typeLabel}
-                      </span>{' '}
-                      {item.subdistrict ? `ต.${item.subdistrict} ` : ''}อ.
-                      {item.district}
-                    </div>
-                  </div>
-                </Tooltip>
-              </CircleMarker>
-            ))}
-
-          {/* ===== FORECAST MARKERS ===== */}
-          {visibleLayers.forecast &&
-            allCoords.forecast.map((item, idx) => (
-              <CircleMarker
-                key={`forecast-${idx}`}
-                center={[item.lat, item.lon]}
-                radius={7}
-                fillColor="#ec4899"
-                fillOpacity={0.9}
-                color="rgba(255,255,255,0.6)"
-                weight={1.5}
-                className="pulse-marker-forecast"
-                pane="markerPane"
-              >
-                <Tooltip
-                  className="smart-map-marker-tooltip"
-                  direction="top"
-                  offset={[0, -5]}
-                  opacity={1}
-                >
-                  <div style={{ minWidth: 180 }}>
-                    <div
-                      style={{
-                        fontWeight: 700,
-                        fontSize: 14,
-                        marginBottom: 4,
-                        color: '#1e293b',
-                      }}
-                    >
-                      แปลงพยากรณ์
-                    </div>
-                    <div
-                      style={{
-                        fontSize: 12,
-                        color: '#475569',
-                        marginBottom: 4,
-                      }}
-                    >
-                      🌾 <strong>ชนิดพืช:</strong> {item.cropType || 'ไม่ระบุ'}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: 12,
-                        color: '#475569',
-                        marginBottom: 4,
-                      }}
-                    >
-                      📐 <strong>ขนาดพื้นที่:</strong>{' '}
-                      {item.area
-                        ? `${item.area.toLocaleString()} ไร่`
-                        : 'ไม่ระบุ'}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: 12,
-                        color: '#475569',
-                        marginBottom: 6,
-                      }}
-                    >
-                      📈 <strong>สถานะแปลง:</strong> {item.status || 'ไม่ระบุ'}
-                    </div>
-                    <div style={{ fontSize: 11, color: '#64748b' }}>
-                      <span
-                        style={{
-                          background: '#f3e8ff',
-                          color: '#6b21a8',
-                          padding: '2px 6px',
-                          borderRadius: 4,
-                          fontWeight: 600,
-                        }}
-                      >
-                        {item.typeLabel}
-                      </span>{' '}
-                      ต.{item.subdistrict} อ.{item.district}
-                    </div>
-                  </div>
-                </Tooltip>
-              </CircleMarker>
-            ))}
-
-          {/* ===== HOTSPOT MARKERS ===== */}
-          {visibleLayers.hotspot &&
-            allCoords.hotspot.map((item, idx) => (
-              <CircleMarker
-                key={`hotspot-${idx}`}
-                center={[item.lat, item.lon]}
-                radius={8}
-                fillColor="#ef4444"
-                fillOpacity={0.9}
-                color="rgba(255,255,255,0.8)"
-                weight={2}
-                className="pulse-marker-hotspot"
-                pane="markerPane"
-              >
-                <Tooltip
-                  className="smart-map-marker-tooltip"
-                  direction="top"
-                  offset={[0, -5]}
-                  opacity={1}
-                >
-                  <div style={{ minWidth: 180 }}>
-                    <div
-                      style={{
-                        fontWeight: 700,
-                        fontSize: 14,
-                        marginBottom: 4,
-                        color: '#dc2626',
-                      }}
-                    >
-                      🔥 {item.name}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: 12,
-                        color: '#475569',
-                        marginBottom: 4,
-                      }}
-                    >
-                      🎯 <strong>ความมั่นใจ:</strong> {item.confidence}%
-                    </div>
-                    <div
-                      style={{
-                        fontSize: 12,
-                        color: '#475569',
-                        marginBottom: 6,
-                      }}
-                    >
-                      ⚡ <strong>กำลังความร้อน (FRP):</strong> {item.frp} MW
-                    </div>
-                    <div style={{ fontSize: 11, color: '#64748b' }}>
-                      <span
-                        style={{
-                          background: '#fee2e2',
-                          color: '#991b1b',
-                          padding: '2px 6px',
-                          borderRadius: 4,
-                          fontWeight: 600,
-                        }}
-                      >
-                        {item.typeLabel}
-                      </span>{' '}
-                      ต.{item.subdistrict || '-'} อ.{item.district || '-'}
-                    </div>
-                  </div>
-                </Tooltip>
-              </CircleMarker>
-            ))}
+          {MARKER_LAYERS.map(
+            ({ key }) =>
+              visibleLayers[key] && (
+                <MarkerLayer
+                  key={key}
+                  layerKey={key}
+                  items={allCoords[key]}
+                  circleMarker={CircleMarker}
+                  tooltip={Tooltip}
+                />
+              )
+          )}
         </MapContainer>
       </div>
     </div>

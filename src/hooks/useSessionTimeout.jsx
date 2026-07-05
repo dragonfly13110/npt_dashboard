@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { Modal } from 'antd';
 import { LogoutOutlined, ReloadOutlined } from '@ant-design/icons';
 import { supabase } from '../supabaseClient';
+import { clearGuestSession } from '../services/guestSessionService';
 
 /**
  * Hook ที่ตรวจสอบ session expiry ของ Supabase
@@ -21,6 +22,7 @@ export function useSessionTimeout() {
   const handleLogout = useCallback(async () => {
     clearTimers();
     setShowWarning(false);
+    await clearGuestSession();
     await supabase.auth.signOut();
     window.location.href = '/login';
   }, [clearTimers]);

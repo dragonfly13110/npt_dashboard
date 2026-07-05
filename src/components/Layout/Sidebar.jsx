@@ -34,6 +34,7 @@ import {
 } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
 import { useAuth } from '../../contexts/AuthContext';
+import { clearGuestSession } from '../../services/guestSessionService';
 import GlobalSearch from '../Search/GlobalSearch';
 
 const { Sider } = Layout;
@@ -469,7 +470,7 @@ export default function Sidebar({ user, mobileOpen, onMobileClose }) {
 
   const handleMenuClick = async ({ key }) => {
     if (key === 'logout') {
-      localStorage.removeItem('guestMode');
+      await clearGuestSession();
       await supabase.auth.signOut();
       navigate('/');
     } else if (key === 'home') {
