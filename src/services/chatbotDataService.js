@@ -10,12 +10,20 @@ import {
   listDatasetKeys,
 } from '../domain/datasetCatalog';
 import budgetSeed from '../data/budgetRound2_2569.json';
+import productionCostSeed from '../data/production_costs_2567.json';
 
 const BUDGET_SEED_YEAR = Number(budgetSeed?.meta?.fiscalYear || 2569);
 const BUDGET_SEED_ROUND = Number(budgetSeed?.meta?.round || 2);
 const BUDGET_SEED_SOURCE =
   budgetSeed?.meta?.sourceFile || 'budgetRound2_2569.json';
 const formatThaiNumber = (value) => Number(value || 0).toLocaleString('th-TH');
+const PRODUCTION_COST_SEED_ROWS = productionCostSeed.map((row) => ({
+  ...row,
+  id: `seed-production-cost-${row.data_year}-${row.crop_name}`,
+  created_at: '2026-01-01T00:00:00.000Z',
+  updated_at: '2026-01-01T00:00:00.000Z',
+  _seedFallback: true,
+}));
 
 function parseBudgetNotes(notes) {
   if (!notes || typeof notes !== 'string') return {};
@@ -119,6 +127,67 @@ function hasBudgetSeedPeriod(rows) {
       Number(row.budget_round || notes.round) === BUDGET_SEED_ROUND
     );
   });
+}
+
+function summarizeLocalRows(table, rows, distCol) {
+  const numCols = getNumericColumns(table);
+  if (!numCols?.length || !rows?.length) return null;
+
+  const stats = {
+    total_rows: rows.length,
+    totals: {},
+    averages: {},
+    by_district: {},
+  };
+  numCols.forEach((col) => {
+    stats.totals[col] = 0;
+    stats.averages[col] = 0;
+  });
+
+  rows.forEach((row) => {
+    const district = row[distCol] || row.crop_name || 'ไม่ระบุ';
+    if (!stats.by_district[district]) {
+      stats.by_district[district] = { count: 0 };
+      numCols.forEach((col) => {
+        stats.by_district[district][col] = 0;
+      });
+    }
+    stats.by_district[district].count++;
+    numCols.forEach((col) => {
+      const value = Number(row[col]) || 0;
+      stats.totals[col] += value;
+      stats.by_district[district][col] += value;
+    });
+  });
+
+  numCols.forEach((col) => {
+    stats.averages[col] =
+      Math.round((stats.totals[col] / rows.length) * 100) / 100;
+  });
+  stats.district_percentages = {};
+  Object.entries(stats.by_district).forEach(([district, item]) => {
+    stats.district_percentages[district] = { count: item.count };
+    numCols.forEach((col) => {
+      stats.district_percentages[district][col] =
+        stats.totals[col] > 0
+          ? Math.round((item[col] / stats.totals[col]) * 10000) / 100
+          : 0;
+    });
+  });
+  stats.rankings = {};
+  numCols.slice(0, 5).forEach((col) => {
+    const sorted = Object.entries(stats.by_district)
+      .map(([district, item]) => ({ district, value: item[col] }))
+      .filter((item) => item.value > 0)
+      .sort((a, b) => b.value - a.value);
+    if (sorted.length) {
+      stats.rankings[col] = {
+        top: sorted[0],
+        bottom: sorted[sorted.length - 1],
+      };
+    }
+  });
+  return stats;
 }
 
 function mergeBudgetSeedRows(rows, { force = false } = {}) {
@@ -733,22 +802,31 @@ export async function fetchDatabaseContext(
       }
 
       if (countError) {
-        const fb = await supabase
-          .from(table)
-          .select('*', { count: 'exact', head: true });
-        count = fb.count || 0;
-        if (count > 0) {
-          const fbData = await supabase
+        if (table === 'production_costs') {
+          sampleData = PRODUCTION_COST_SEED_ROWS;
+          count = sampleData.length;
+          countError = null;
+        } else {
+          const fb = await supabase
             .from(table)
-            .select(aiSelectColumns)
-            .order('created_at', { ascending: false })
-            .limit(sampleLimit);
-          sampleData = fbData.data || [];
+            .select('*', { count: 'exact', head: true });
+          count = fb.count || 0;
+          if (count > 0) {
+            const fbData = await supabase
+              .from(table)
+              .select(aiSelectColumns)
+              .order('created_at', { ascending: false })
+              .limit(sampleLimit);
+            sampleData = fbData.data || [];
+          }
         }
       } else if (sampleData.length === 0) {
         if (count > 0) {
           const { data } = await dataQuery;
           sampleData = data || [];
+        } else if (table === 'production_costs') {
+          sampleData = PRODUCTION_COST_SEED_ROWS;
+          count = sampleData.length;
         }
       }
 
@@ -756,6 +834,9 @@ export async function fetchDatabaseContext(
         table === 'budgets' &&
         forceBudgetSeed &&
         !hasBudgetSeedPeriod(sampleData);
+      const usesProductionCostSeed =
+        table === 'production_costs' &&
+        sampleData.some((row) => row._seedFallback);
       if (usesBudgetSeed) {
         sampleData = mergeBudgetSeedRows(sampleData, { force: true });
         count = sampleData.length;
@@ -764,12 +845,14 @@ export async function fetchDatabaseContext(
       // Compute server-side aggregation for numeric tables
       const aggregatedStats = usesBudgetSeed
         ? summarizeBudgetRows(sampleData)
-        : await computeAggregation(
-            table,
-            distCol,
-            matchedDistrict,
-            usedKeyword ? searchKeyword : null
-          );
+        : usesProductionCostSeed
+          ? summarizeLocalRows(table, sampleData, distCol)
+          : await computeAggregation(
+              table,
+              distCol,
+              matchedDistrict,
+              usedKeyword ? searchKeyword : null
+            );
 
       // District and Category summary (lightweight)
       let districtSummary = null;
@@ -842,7 +925,7 @@ export async function fetchDatabaseContext(
         icon: TABLE_CONFIG[table].icon,
         group: TABLE_CONFIG[table].group,
         count: count || 0,
-        seedFallback: usesBudgetSeed,
+        seedFallback: usesBudgetSeed || usesProductionCostSeed,
         districtSummary,
         categorySummary,
         aggregatedStats,

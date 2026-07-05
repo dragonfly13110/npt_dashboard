@@ -28,6 +28,7 @@ const GROUP_TABLES = {
     'learning_centers',
     'certifications',
     'crop_production',
+    'production_costs',
   ],
   development: [
     'community_enterprises',

@@ -317,6 +317,13 @@ export const TABLE_CONFIG = {
     group: 'กลุ่มส่งเสริมและพัฒนาการผลิต',
     descTh: 'ข้อมูลผลผลิตพืชรายอำเภอ',
   },
+  production_costs: {
+    label: 'ต้นทุนการผลิต',
+    icon: '💰',
+    group: 'กลุ่มส่งเสริมและพัฒนาการผลิต',
+    descTh:
+      'ข้อมูลต้นทุนการผลิต ปี 2567 แยกตามพืช มีผลผลิตเฉลี่ย มูลค่าเฉลี่ย ค่าใช้จ่ายย่อย และรวมค่าใช้จ่ายต่อไร่',
+  },
   community_enterprises: {
     label: 'วิสาหกิจชุมชน',
     icon: '🏪',
@@ -454,6 +461,7 @@ export const TABLE_SEARCH_COLS = {
   large_plots: ['plot_name', 'commodity', 'secondary_commodity', 'agency'],
   certifications: ['farmer_name', 'crop_name', 'plot_code'],
   crop_production: ['crop_name'],
+  production_costs: ['crop_name'],
   community_enterprises: [
     'enterprise_name',
     'enterprise_type',
@@ -531,6 +539,7 @@ export const DISTRICT_COLS = {
   young_farmer_groups_detailed: 'district',
   soil_series: 'district',
   budgets: 'notes',
+  production_costs: 'crop_name',
 };
 
 // Columns that contain numeric data for aggregation
@@ -557,6 +566,20 @@ export const NUMERIC_COLS = {
     'yield_kg_per_rai',
     'total_production_ton',
   ],
+  production_costs: [
+    'yield_kg_per_rai',
+    'revenue_baht_per_rai',
+    'seed_cost_baht',
+    'fertilizer_cost_baht',
+    'pesticide_cost_baht',
+    'service_cost_baht',
+    'equipment_cost_baht',
+    'fuel_cost_baht',
+    'repair_depreciation_cost_baht',
+    'packaging_cost_baht',
+    'other_cost_baht',
+    'total_cost_baht',
+  ],
   community_enterprises: ['member_count', 'capital_baht'],
   smart_farmer_sf: ['age', 'annual_agri_income'],
   young_smart_farmer_ysf: ['farm_area_rai', 'annual_agri_income'],
@@ -579,6 +602,7 @@ export const NUMERIC_COLS = {
 export const CATEGORY_COLS = {
   community_enterprises: ['enterprise_type'],
   large_plots: ['commodity'],
+  production_costs: ['data_year', 'crop_name'],
   smart_farmers: ['farmer_type', 'main_product'],
   smart_farmer_sf: [
     'data_year',

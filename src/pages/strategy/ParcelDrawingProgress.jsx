@@ -455,9 +455,14 @@ export default function ParcelDrawingProgress() {
                           { key: 'drawn', name: 'วาดแล้ว' },
                           { key: 'remainingTarget', name: 'คงเหลือเป้า' },
                         ],
-                        { unit: 'แปลง', compact: true, layout: 'vertical' }
+                        {
+                          unit: 'แปลง',
+                          compact: true,
+                          rotate: 45,
+                          grid: { bottom: 88 },
+                        }
                       )}
-                      style={{ height: 360 }}
+                      style={{ height: 420 }}
                     />
                   </div>
                 )}

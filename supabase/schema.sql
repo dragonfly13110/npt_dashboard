@@ -180,6 +180,28 @@ CREATE TABLE IF NOT EXISTS crop_production (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS production_costs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  data_year INTEGER NOT NULL DEFAULT 2567,
+  crop_name TEXT NOT NULL,
+  yield_kg_per_rai NUMERIC,
+  revenue_baht_per_rai NUMERIC,
+  seed_cost_baht NUMERIC,
+  fertilizer_cost_baht NUMERIC,
+  pesticide_cost_baht NUMERIC,
+  service_cost_baht NUMERIC,
+  equipment_cost_baht NUMERIC,
+  fuel_cost_baht NUMERIC,
+  repair_depreciation_cost_baht NUMERIC,
+  packaging_cost_baht NUMERIC,
+  other_cost_baht NUMERIC,
+  total_cost_baht NUMERIC,
+  source_file TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE (data_year, crop_name)
+);
+
 -- ==================== กลุ่ม 4: ส่งเสริมและพัฒนาเกษตรกร ====================
 
 CREATE TABLE IF NOT EXISTS community_enterprises (
@@ -483,6 +505,7 @@ ALTER TABLE large_plots ENABLE ROW LEVEL SECURITY;
 ALTER TABLE learning_centers ENABLE ROW LEVEL SECURITY;
 ALTER TABLE certifications ENABLE ROW LEVEL SECURITY;
 ALTER TABLE crop_production ENABLE ROW LEVEL SECURITY;
+ALTER TABLE production_costs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE community_enterprises ENABLE ROW LEVEL SECURITY;
 ALTER TABLE smart_farmers ENABLE ROW LEVEL SECURITY;
 ALTER TABLE smart_farmer_sf ENABLE ROW LEVEL SECURITY;

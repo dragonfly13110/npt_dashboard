@@ -173,6 +173,11 @@ const allMenuItems = [
         icon: <BarChartOutlined />,
         label: 'ผลผลิตพืช',
       },
+      {
+        key: '/dashboard/production/production-costs',
+        icon: <DollarOutlined />,
+        label: 'ต้นทุนการผลิต',
+      },
     ],
   },
   {

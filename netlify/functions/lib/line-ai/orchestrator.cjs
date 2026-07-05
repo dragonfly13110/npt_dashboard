@@ -11,6 +11,7 @@ const TABLE_ROUTES = {
   large_plots: '/dashboard/production/large-plots',
   certifications: '/dashboard/production/certifications',
   crop_production: '/dashboard/production/crop-production',
+  production_costs: '/dashboard/production/production-costs',
   community_enterprises: '/dashboard/development/community-enterprises',
   smart_farmers: '/dashboard/development/smart-farmers',
   smart_farmer_sf: '/dashboard/development/smart-farmer-sf',
@@ -108,6 +109,17 @@ const TABLE_METADATA = {
       title: `ผลผลิต${row.crop_name || ''}`,
       subtitle: `อ.${row.district || '-'} • ผลผลิต: ${row.production_ton || 0} ตัน`,
       info: row.planted_area ? `พื้นที่ปลูก: ${row.planted_area} ไร่` : '',
+    }),
+  },
+  production_costs: {
+    label: 'ต้นทุนการผลิต',
+    icon: '💰',
+    getDisplay: (row) => ({
+      title: `ต้นทุนการผลิต${row.crop_name || ''}`,
+      subtitle: `ปี ${row.data_year || '-'} • ต้นทุน: ${row.total_cost_baht || 0} บาท/ไร่`,
+      info: row.revenue_baht_per_rai
+        ? `มูลค่าเฉลี่ย: ${row.revenue_baht_per_rai} บาท/ไร่`
+        : '',
     }),
   },
   community_enterprises: {
@@ -335,6 +347,7 @@ function formatDeterministicSummary(toolResults, queryText = '') {
             'large_plots',
             'farmer_registry',
             'crop_production',
+            'production_costs',
             'certifications',
             'forecast_plots',
             'disasters',

@@ -78,6 +78,9 @@ const DailyWeather = lazy(() => import('./pages/strategy/DailyWeather'));
 const LargePlots = lazy(() => import('./pages/production/LargePlots'));
 const Certifications = lazy(() => import('./pages/production/Certifications'));
 const CropProduction = lazy(() => import('./pages/production/CropProduction'));
+const ProductionCosts = lazy(
+  () => import('./pages/production/ProductionCosts')
+);
 const ProductionDashboard = lazy(
   () => import('./pages/production/ProductionDashboard')
 );
@@ -435,6 +438,10 @@ function AppRoutes() {
           <Route
             path="production/crop-production"
             element={<CropProduction />}
+          />
+          <Route
+            path="production/production-costs"
+            element={<ProductionCosts />}
           />
 
           {/* Development */}

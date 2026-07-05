@@ -46,6 +46,7 @@ BEGIN
         ('large_plots'::text, ARRAY['plot_name','commodity','secondary_commodity','district','subdistrict','agency']::text[], ARRAY['id','plot_name','commodity','secondary_commodity','district','subdistrict','member_count','area_rai','year','agency','created_at','updated_at']::text[]),
         ('certifications'::text, ARRAY['farm_name','cert_type','commodity','district','status']::text[], ARRAY['id','farm_name','cert_type','commodity','district','status','certified_area_rai','created_at','updated_at']::text[]),
         ('crop_production'::text, ARRAY['crop_name','district','harvest_period']::text[], ARRAY['id','crop_name','district','planted_area','production_ton','harvest_period','year','created_at','updated_at']::text[]),
+        ('production_costs'::text, ARRAY['crop_name']::text[], ARRAY['id','data_year','crop_name','yield_kg_per_rai','revenue_baht_per_rai','total_cost_baht','created_at','updated_at']::text[]),
         ('community_enterprises'::text, ARRAY['enterprise_name','enterprise_type','product_type','district','subdistrict','level']::text[], ARRAY['id','enterprise_name','enterprise_type','product_type','district','subdistrict','member_count','level','created_at','updated_at']::text[]),
         ('smart_farmers'::text, ARRAY['full_name','farmer_type','district','main_product']::text[], ARRAY['id','full_name','farmer_type','district','main_product','created_at','updated_at']::text[]),
         ('smart_farmer_sf'::text, ARRAY['record_code','full_name','district','province','farmer_status','agricultural_activity','production_standard']::text[], ARRAY['id','record_code','full_name','district','province','farmer_status','agricultural_activity','production_standard','data_year','created_at','updated_at']::text[]),
@@ -209,7 +210,7 @@ AS $$
     ARRAY[search_term],
     ARRAY[
       'farmer_registry','agricultural_areas','learning_centers','daily_weather',
-      'large_plots','certifications','crop_production','community_enterprises',
+      'large_plots','certifications','crop_production','production_costs','community_enterprises',
       'smart_farmers','smart_farmer_sf','young_smart_farmer_ysf',
       'agricultural_career_groups','housewife_farmer_groups',
       'young_farmer_groups_detailed','farmer_institutes','agri_tourism',

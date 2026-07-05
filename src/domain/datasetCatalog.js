@@ -27,6 +27,7 @@ export const DASHBOARD_GROUPS = [
       { table: 'large_plots', label: 'แปลงใหญ่' },
       { table: 'certifications', label: 'มาตรฐาน GAP' },
       { table: 'crop_production', label: 'ผลผลิตพืช' },
+      { table: 'production_costs', label: 'ต้นทุนการผลิต' },
     ],
   },
   {
@@ -73,6 +74,7 @@ export const TABLE_ROUTES = {
   large_plots: '/dashboard/production/large-plots',
   certifications: '/dashboard/production/certifications',
   crop_production: '/dashboard/production/crop-production',
+  production_costs: '/dashboard/production/production-costs',
   community_enterprises: '/dashboard/development/community-enterprises',
   smart_farmers: '/dashboard/development/smart-farmers',
   smart_farmer_sf: '/dashboard/development/smart-farmer-sf',

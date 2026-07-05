@@ -8,6 +8,7 @@ const PUBLIC_TABLES = [
   'large_plots',
   'certifications',
   'crop_production',
+  'production_costs',
   'community_enterprises',
   'smart_farmers',
   'smart_farmer_sf',

@@ -48,7 +48,7 @@ BEGIN
   FOREACH tbl IN ARRAY ARRAY[
     'profiles','personnel','assets','budgets',
     'farmer_registry','gis_areas','disasters',
-    'large_plots','learning_centers','certifications','crop_production',
+    'large_plots','learning_centers','certifications','crop_production','production_costs',
     'community_enterprises','smart_farmers','farmer_groups','young_farmer_groups','agri_tourism',
     'pest_outbreaks','pest_centers','plant_doctors','biocontrol_stock','fire_hotspots',
     'forecast_plots',
@@ -82,7 +82,7 @@ BEGIN
   FOREACH tbl IN ARRAY ARRAY[
     'personnel','assets','budgets',
     'farmer_registry','gis_areas','disasters',
-    'large_plots','learning_centers','certifications','crop_production',
+    'large_plots','learning_centers','certifications','crop_production','production_costs',
     'community_enterprises','smart_farmers','farmer_groups','young_farmer_groups','agri_tourism',
     'pest_outbreaks','pest_centers','plant_doctors','biocontrol_stock','fire_hotspots',
     'forecast_plots'
