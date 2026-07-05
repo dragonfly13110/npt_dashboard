@@ -366,13 +366,9 @@ export default defineConfig(({ mode }) => {
               if (id.includes('echarts')) {
                 return 'echarts';
               }
-              if (id.includes('antd') || id.includes('@ant-design')) {
-                return 'antd';
-              }
               if (id.includes('xlsx')) {
                 return 'xlsx';
               }
-              return 'vendor';
             }
           },
         },
