@@ -487,7 +487,7 @@ export default function YoungSmartFarmerYsf() {
   const [form] = Form.useForm();
   const [editingRecord, setEditingRecord] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
-  const userCanEdit = canEdit();
+  const userCanEdit = canEdit('young_smart_farmer_ysf');
   const userCanDelete = canDelete();
 
   useEffect(() => {

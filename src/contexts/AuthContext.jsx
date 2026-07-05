@@ -79,6 +79,8 @@ const PUBLIC_READ_TABLES = [
   ]),
 ];
 
+const DISTRICT_WRITE_TABLES = ['personnel', 'budgets'];
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
@@ -190,12 +192,20 @@ export function AuthProvider({ children }) {
   const groupKey = department ? DEPARTMENT_GROUP_MAP[department] : null;
 
   const isAdmin = () => role === 'admin';
-  const canEdit = () => role === 'admin' || role === 'editor';
+  const isDistrictEditor = () => role === 'district_editor';
+  const canEdit = (tableName = null) => {
+    if (role === 'admin') return true;
+    if (!tableName) return role === 'editor' || isDistrictEditor();
+    if (isDistrictEditor()) return DISTRICT_WRITE_TABLES.includes(tableName);
+    if (role !== 'editor' || !groupKey) return false;
+    return GROUP_TABLES[groupKey]?.includes(tableName) || false;
+  };
   const canDelete = () => role === 'admin';
 
   // ตรวจสอบว่าผู้ใช้สามารถเข้าถึงกลุ่มงานนี้ได้หรือไม่
   const canAccessGroup = (targetGroup) => {
     if (role === 'admin') return true;
+    if (role === 'editor' || isDistrictEditor()) return true;
     if (role === 'guest') return PUBLIC_READ_GROUPS.includes(targetGroup);
     return groupKey === targetGroup;
   };
@@ -203,6 +213,7 @@ export function AuthProvider({ children }) {
   // ตรวจสอบว่าผู้ใช้สามารถเข้าถึงตารางนี้ได้หรือไม่
   const canAccessTable = (tableName) => {
     if (role === 'admin') return true;
+    if (role === 'editor' || isDistrictEditor()) return true;
     if (role === 'guest') return PUBLIC_READ_TABLES.includes(tableName);
     if (!groupKey) return false;
     return GROUP_TABLES[groupKey]?.includes(tableName) || false;

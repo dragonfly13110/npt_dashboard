@@ -385,7 +385,7 @@ export default function AgriculturalCareerGroups() {
   const [form] = Form.useForm();
   const [editingRecord, setEditingRecord] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
-  const userCanEdit = canEdit();
+  const userCanEdit = canEdit('agricultural_career_groups');
   const userCanDelete = canDelete();
 
   useEffect(() => {

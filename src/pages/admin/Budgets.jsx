@@ -318,7 +318,7 @@ export default function Budgets() {
   const [reimbursementForm] = Form.useForm();
   const tableWrapRef = useRef(null);
 
-  const userCanEdit = canEdit();
+  const userCanEdit = canEdit('budgets');
   const userCanDelete = canDelete();
 
   const loadData = useCallback(async () => {

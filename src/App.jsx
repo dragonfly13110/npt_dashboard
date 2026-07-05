@@ -54,6 +54,7 @@ const VisitorAnalytics = lazy(() => import('./pages/admin/VisitorAnalytics'));
 const WebsiteEvaluations = lazy(
   () => import('./pages/admin/WebsiteEvaluations')
 );
+const DataQuality = lazy(() => import('./pages/admin/DataQuality'));
 const Profile = lazy(() => import('./pages/Profile'));
 
 // Strategy
@@ -367,6 +368,14 @@ function AppRoutes() {
             element={
               <AdminRoute>
                 <UserManagement />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="admin/data-quality"
+            element={
+              <AdminRoute>
+                <DataQuality />
               </AdminRoute>
             }
           />

@@ -329,7 +329,7 @@ export default function AiDiseaseForecast() {
             และประวัติโรคระบาดด้วย AI
           </p>
         </div>
-        {canEdit() && (
+        {canEdit('ai_disease_forecasts') && (
           <div
             style={{
               display: 'flex',

@@ -6,6 +6,7 @@ import {
   CATEGORY_COLS,
 } from '../utils/chatbotConstants';
 import { getPublicSelectColumns, isPrivateColumn } from '../utils/dataPrivacy';
+import catalog from './datasetCatalog.json';
 
 export const DASHBOARD_GROUPS = [
   {
@@ -65,36 +66,7 @@ export const DASHBOARD_GROUPS = [
   },
 ];
 
-export const TABLE_ROUTES = {
-  agricultural_areas: '/dashboard/strategy/agricultural-areas',
-  learning_centers: '/dashboard/strategy/learning-centers',
-  disasters: '/dashboard/development/disasters',
-  farmer_registry: '/dashboard/strategy/farmer-registry',
-  daily_weather: '/dashboard/strategy/daily-weather',
-  large_plots: '/dashboard/production/large-plots',
-  certifications: '/dashboard/production/certifications',
-  crop_production: '/dashboard/production/crop-production',
-  production_costs: '/dashboard/production/production-costs',
-  community_enterprises: '/dashboard/development/community-enterprises',
-  smart_farmers: '/dashboard/development/smart-farmers',
-  smart_farmer_sf: '/dashboard/development/smart-farmer-sf',
-  young_smart_farmer_ysf: '/dashboard/development/young-smart-farmer-ysf',
-  agricultural_career_groups:
-    '/dashboard/development/agricultural-career-groups',
-  farmer_groups: '/dashboard/development/farmer-groups',
-  housewife_farmer_groups: '/dashboard/development/housewife-farmer-groups',
-  young_farmer_groups: '/dashboard/development/young-farmer-groups',
-  young_farmer_groups_detailed: '/dashboard/development/young-farmer-groups',
-  agri_tourism: '/dashboard/development/agri-tourism',
-  forecast_plots: '/dashboard/protection/pest-outbreaks',
-  ai_disease_forecasts: '/dashboard/protection/disease-forecast',
-  pest_centers: '/dashboard/protection/pest-centers',
-  plant_doctors: '/dashboard/protection/plant-doctors',
-  soil_fertilizer_centers: '/dashboard/protection/soil-fertilizer',
-  soil_series: '/dashboard/protection/soil-series',
-  fire_hotspots: '/dashboard/protection/fire-hotspots',
-  budgets: '/dashboard/admin/budgets',
-};
+export const TABLE_ROUTES = catalog.TABLE_ROUTES;
 
 const DASHBOARD_GROUP_BY_TABLE = DASHBOARD_GROUPS.reduce((acc, group) => {
   group.tables.forEach((table) => {

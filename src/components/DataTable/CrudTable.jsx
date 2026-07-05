@@ -212,7 +212,7 @@ export default function CrudTable({
     }
   }, [detailRecord, role, tableName]);
 
-  const userCanEdit = readOnly ? false : canEdit();
+  const userCanEdit = readOnly ? false : canEdit(tableName);
   const userCanDelete = readOnly ? false : canDelete();
   const customFieldsEnabled = canUseCustomFields(tableName);
   const userCanManageCustomFields = customFieldsEnabled && role === 'admin';

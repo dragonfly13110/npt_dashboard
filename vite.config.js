@@ -261,6 +261,58 @@ function localMocPriceProxyPlugin() {
   };
 }
 
+function localDataQualityStatsPlugin(env) {
+  return {
+    name: 'local-data-quality-stats',
+    configureServer(server) {
+      server.middlewares.use(
+        '/api/admin/data-quality-stats',
+        async (req, res) => {
+          try {
+            const { default: handler } =
+              await import('./netlify/functions/data-quality-stats.js');
+            const fullUrl = `http://localhost${req.url}`;
+            let body = '';
+            if (req.method === 'POST') {
+              body = await new Promise((resolve) => {
+                let data = '';
+                req.on('data', (chunk) => {
+                  data += chunk;
+                });
+                req.on('end', () => {
+                  resolve(data);
+                });
+              });
+            }
+            const mockRequest = {
+              method: req.method,
+              url: fullUrl,
+              headers: {
+                get(name) {
+                  return req.headers[name.toLowerCase()] || null;
+                },
+              },
+              json: async () => JSON.parse(body || '{}'),
+              text: async () => body,
+            };
+            const response = await handler(mockRequest);
+            const responseBody = await response.text();
+            res.statusCode = response.status;
+            response.headers.forEach((val, key) => {
+              res.setHeader(key, val);
+            });
+            res.end(responseBody);
+          } catch (err) {
+            res.statusCode = 500;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ error: err.message }));
+          }
+        }
+      );
+    },
+  };
+}
+
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -289,6 +341,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       localGeoplotsSyncPlugin(env),
       localMocPriceProxyPlugin(),
+      localDataQualityStatsPlugin(env),
       publicFarmerInstitutesV2Plugin(env),
       publicCertificationsPlugin(env),
       react(),
@@ -302,6 +355,27 @@ export default defineConfig(({ mode }) => {
             import.meta.url
           )
         ),
+      },
+    },
+    build: {
+      chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('echarts')) {
+                return 'echarts';
+              }
+              if (id.includes('antd') || id.includes('@ant-design')) {
+                return 'antd';
+              }
+              if (id.includes('xlsx')) {
+                return 'xlsx';
+              }
+              return 'vendor';
+            }
+          },
+        },
       },
     },
     server: {

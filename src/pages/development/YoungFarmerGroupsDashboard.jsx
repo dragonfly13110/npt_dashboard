@@ -597,7 +597,7 @@ export default function YoungFarmerGroupsDashboard() {
   const [form] = Form.useForm();
   const [editingRecord, setEditingRecord] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
-  const userCanEdit = canEdit();
+  const userCanEdit = canEdit('young_farmer_groups_detailed');
   const userCanDelete = canDelete();
 
   useEffect(() => {

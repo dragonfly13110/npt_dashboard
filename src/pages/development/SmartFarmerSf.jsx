@@ -331,7 +331,7 @@ export default function SmartFarmerSf() {
   const [form] = Form.useForm();
   const [editingRecord, setEditingRecord] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
-  const userCanEdit = canEdit();
+  const userCanEdit = canEdit('smart_farmer_sf');
   const userCanDelete = canDelete();
 
   useEffect(() => {
@@ -601,16 +601,16 @@ export default function SmartFarmerSf() {
             )
           }
         >
-          �¹��¸¥�¸·�¸­�¸�¸��¸±�¹��¸��¸«�¸¡�¸�
+          เลือกทั้งหมด
         </Button>
         <Button
           size="small"
           onClick={() => setVisibleOptionalColumns(defaultOptionalColumnKeys)}
         >
-          �¸��¹��¸²�¹��¸£�¸´�¹��¸¡�¸��¹��¸�
+          ค่าเริ่มต้น
         </Button>
         <Button size="small" onClick={() => setVisibleOptionalColumns([])}>
-          �¸«�¸¥�¸±�¸�¹��¸��¹��¸²�¸��¸±�¹��¸�
+          หลักเท่านั้น
         </Button>
       </Space>
     </div>

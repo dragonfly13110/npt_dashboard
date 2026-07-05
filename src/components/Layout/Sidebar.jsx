@@ -303,6 +303,11 @@ const adminOnlyItems = [
         label: 'จัดการสิทธิ์ผู้ใช้',
       },
       {
+        key: '/dashboard/admin/data-quality',
+        icon: <PieChartOutlined />,
+        label: 'คุณภาพข้อมูล (Data Quality)',
+      },
+      {
         key: '/dashboard/admin/website-evaluations',
         icon: <FormOutlined />,
         label: 'ผลการประเมินเว็บไซต์',
@@ -339,6 +344,11 @@ function getFilteredMenuItems(role, department) {
   // Admin เห็นทุกเมนู
   if (role === 'admin') {
     return [...allMenuItems, ...adminOnlyItems];
+  }
+
+  // Data owners can view every data group. RLS still limits writes by table.
+  if (role === 'editor' || role === 'district_editor') {
+    return allMenuItems;
   }
 
   // editor/viewer เห็นเฉพาะ Dashboard รวม + กลุ่มงานตัวเอง

@@ -798,7 +798,7 @@ const housewifeFormFields = (
 
 export function HousewifeFarmerGroups() {
   const { canEdit, canDelete } = useAuth();
-  const userCanEdit = canEdit();
+  const userCanEdit = canEdit('housewife_farmer_groups');
   const userCanDelete = canDelete();
   const [search, setSearch] = useState('');
   const [district, setDistrict] = useState(ALL);

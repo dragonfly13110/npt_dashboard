@@ -24,6 +24,7 @@ import { useAuth } from '../../contexts/AuthContext';
 const ROLE_CONFIG = {
   admin: { label: 'ผู้ดูแลระบบ', color: 'red', icon: '👑' },
   editor: { label: 'แก้ไขได้', color: 'blue', icon: '✏️' },
+  district_editor: { label: 'ผู้ดูแลข้อมูลอำเภอ', color: 'green', icon: '🏢' },
   viewer: { label: 'ดูอย่างเดียว', color: 'default', icon: '👁️' },
 };
 
@@ -47,6 +48,7 @@ export default function UserManagement() {
   const [editModal, setEditModal] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [deletingUserId, setDeletingUserId] = useState(null);
+  const [creatingDefaultUsers, setCreatingDefaultUsers] = useState(false);
   const [form] = Form.useForm();
   const { user: currentUser } = useAuth();
 
@@ -189,6 +191,76 @@ export default function UserManagement() {
     }
   };
 
+  const downloadDefaultUsersCsv = (accounts) => {
+    const header = [
+      'email',
+      'password',
+      'full_name',
+      'role',
+      'department',
+      'status',
+    ];
+    const escape = (value) => `"${String(value ?? '').replace(/"/g, '""')}"`;
+    const csv = [
+      header.join(','),
+      ...accounts.map((row) => header.map((key) => escape(row[key])).join(',')),
+    ].join('\n');
+    const blob = new Blob([`\ufeff${csv}`], {
+      type: 'text/csv;charset=utf-8;',
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `default-data-users-${new Date().toISOString().slice(0, 10)}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleCreateDefaultUsers = async () => {
+    setCreatingDefaultUsers(true);
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      const accessToken = session?.access_token;
+      if (!accessToken) {
+        throw new Error('ไม่พบ session สำหรับยืนยันสิทธิ์ผู้ดูแลระบบ');
+      }
+
+      const response = await fetch(
+        '/api/admin/users/create-default-data-users',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      const payload = await response.json();
+      if (!response.ok || !payload.ok) {
+        throw new Error(payload.error || 'สร้างบัญชีตั้งต้นไม่สำเร็จ');
+      }
+
+      downloadDefaultUsersCsv(payload.accounts || []);
+      notification.success({
+        message: 'สร้างบัญชีตั้งต้นเรียบร้อย',
+        description:
+          'ดาวน์โหลด CSV รหัสผ่านชั่วคราวแล้ว บัญชีที่มีอยู่เดิมจะไม่ออกรหัสผ่านใหม่',
+        placement: 'topRight',
+      });
+      loadUsers();
+    } catch (err) {
+      notification.error({
+        message: 'สร้างบัญชีตั้งต้นไม่สำเร็จ',
+        description: err.message,
+        placement: 'topRight',
+      });
+    } finally {
+      setCreatingDefaultUsers(false);
+    }
+  };
+
   const columns = [
     {
       title: 'อีเมล',
@@ -292,6 +364,21 @@ export default function UserManagement() {
           <Tag className="crud-count">{users.length} คน</Tag>
         </div>
         <div className="crud-header-right">
+          <Popconfirm
+            title="สร้างบัญชีผู้ดูแลข้อมูลตั้งต้น?"
+            description="ระบบจะสร้าง 5 บัญชีกลุ่มงาน และ 7 บัญชีอำเภอ พร้อมรหัสผ่านสุ่ม"
+            okText="สร้างบัญชี"
+            cancelText="ยกเลิก"
+            onConfirm={handleCreateDefaultUsers}
+          >
+            <Button
+              icon={<UserOutlined />}
+              loading={creatingDefaultUsers}
+              className="export-btn"
+            >
+              สร้างบัญชีตั้งต้น
+            </Button>
+          </Popconfirm>
           <Button
             icon={<ReloadOutlined />}
             onClick={loadUsers}
@@ -322,7 +409,9 @@ export default function UserManagement() {
             </Tag>
             <span style={{ color: '#656d76', marginLeft: 4 }}>
               {key === 'admin' && '— ทำได้ทุกอย่าง + จัดการผู้ใช้'}
-              {key === 'editor' && '— เพิ่ม/แก้ไขได้ ลบไม่ได้'}
+              {key === 'editor' && '— ดูได้ทุกหน้า แก้ได้เฉพาะกลุ่มงานตัวเอง'}
+              {key === 'district_editor' &&
+                '— ดูได้ทุกหน้า แก้ได้เฉพาะงบประมาณและบุคลากร'}
               {key === 'viewer' && '— ดูข้อมูลอย่างเดียว'}
             </span>
           </div>
@@ -371,7 +460,11 @@ export default function UserManagement() {
             <Select
               options={[
                 { label: '👑 ผู้ดูแลระบบ (admin)', value: 'admin' },
-                { label: '✏️ แก้ไขได้ (editor)', value: 'editor' },
+                { label: '✏️ ผู้ดูแลข้อมูลกลุ่ม (editor)', value: 'editor' },
+                {
+                  label: '🏢 ผู้ดูแลข้อมูลอำเภอ (district_editor)',
+                  value: 'district_editor',
+                },
                 { label: '👁️ ดูอย่างเดียว (viewer)', value: 'viewer' },
               ]}
             />
