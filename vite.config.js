@@ -3,6 +3,8 @@ import react from '@vitejs/plugin-react';
 import { createClient } from '@supabase/supabase-js';
 import { fileURLToPath, URL } from 'node:url';
 import { syncGeoplotsProgress } from './scripts/sync_geoplots_progress.js';
+import fs from 'node:fs';
+import path from 'node:path';
 
 function json(res, status, payload) {
   res.statusCode = status;
@@ -261,6 +263,159 @@ function localMocPriceProxyPlugin() {
   };
 }
 
+function localNetlifyFunctionsPlugin() {
+  return {
+    name: 'local-netlify-functions-router',
+    configureServer(server) {
+      server.middlewares.use(async (req, res, next) => {
+        if (!req.url.startsWith('/api/')) {
+          return next();
+        }
+
+        const urlObj = new URL(
+          req.url,
+          `http://${req.headers.host || 'localhost'}`
+        );
+        const parts = urlObj.pathname.split('/').filter(Boolean);
+
+        if (parts[0] !== 'api' || parts.length < 2) {
+          return next();
+        }
+
+        const functionName = parts[1];
+
+        // Skip endpoints that are already handled explicitly by other plugins
+        const skippedFunctions = [
+          'data-dictionary',
+          'public-farmer-institutes-v2',
+          'public-certifications',
+        ];
+        if (skippedFunctions.includes(functionName)) {
+          return next();
+        }
+
+        // We check for files inside netlify/functions/
+        const possibleFiles = [
+          path.resolve(`./netlify/functions/${functionName}.js`),
+          path.resolve(`./netlify/functions/${functionName}.cjs`),
+        ];
+
+        let fileToImport = null;
+        for (const file of possibleFiles) {
+          if (fs.existsSync(file)) {
+            fileToImport = file;
+            break;
+          }
+        }
+
+        if (!fileToImport) {
+          return next();
+        }
+
+        try {
+          const { default: handler } = await import(fileToImport);
+
+          let body = '';
+          if (
+            req.method === 'POST' ||
+            req.method === 'PUT' ||
+            req.method === 'DELETE' ||
+            req.method === 'PATCH'
+          ) {
+            body = await new Promise((resolve) => {
+              let data = '';
+              req.on('data', (chunk) => {
+                data += chunk;
+              });
+              req.on('end', () => {
+                resolve(data);
+              });
+            });
+          }
+
+          const mockRequest = {
+            method: req.method,
+            url: urlObj.href,
+            headers: {
+              get(name) {
+                return req.headers[name.toLowerCase()] || null;
+              },
+            },
+            json: async () => JSON.parse(body || '{}'),
+            text: async () => body,
+          };
+
+          const response = await handler(mockRequest);
+          const responseBody = await response.text();
+
+          res.statusCode = response.status;
+          response.headers.forEach((val, key) => {
+            res.setHeader(key, val);
+          });
+          res.end(responseBody);
+        } catch (err) {
+          console.error(
+            `Error in local function router for ${functionName}:`,
+            err
+          );
+          res.statusCode = 500;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ error: err.message }));
+        }
+      });
+    },
+  };
+}
+
+function localDataDictionaryPlugin() {
+  return {
+    name: 'local-data-dictionary',
+    configureServer(server) {
+      server.middlewares.use('/api/data-dictionary', async (req, res) => {
+        try {
+          const { default: handler } =
+            await import('./netlify/functions/data-dictionary.js');
+          const fullUrl = `http://localhost${req.url}`;
+          let body = '';
+          if (req.method === 'POST') {
+            body = await new Promise((resolve) => {
+              let data = '';
+              req.on('data', (chunk) => {
+                data += chunk;
+              });
+              req.on('end', () => {
+                resolve(data);
+              });
+            });
+          }
+          const mockRequest = {
+            method: req.method,
+            url: fullUrl,
+            headers: {
+              get(name) {
+                return req.headers[name.toLowerCase()] || null;
+              },
+            },
+            json: async () => JSON.parse(body || '{}'),
+            text: async () => body,
+          };
+          const response = await handler(mockRequest);
+          const responseBody = await response.text();
+          res.statusCode = response.status;
+          response.headers.forEach((val, key) => {
+            res.setHeader(key, val);
+          });
+          res.end(responseBody);
+        } catch (err) {
+          res.statusCode = 500;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ error: err.message }));
+        }
+      });
+    },
+  };
+}
+
 function localDataQualityStatsPlugin() {
   return {
     name: 'local-data-quality-stats',
@@ -342,6 +497,8 @@ export default defineConfig(({ mode }) => {
       localGeoplotsSyncPlugin(env),
       localMocPriceProxyPlugin(),
       localDataQualityStatsPlugin(env),
+      localDataDictionaryPlugin(),
+      localNetlifyFunctionsPlugin(),
       publicFarmerInstitutesV2Plugin(env),
       publicCertificationsPlugin(env),
       react(),

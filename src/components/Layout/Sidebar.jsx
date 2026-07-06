@@ -12,6 +12,7 @@ import {
   AimOutlined,
   BankOutlined,
   SafetyCertificateOutlined,
+  BookOutlined,
   BarChartOutlined,
   ShopOutlined,
   UserSwitchOutlined,
@@ -71,6 +72,11 @@ const allMenuItems = [
     key: '/dashboard/data-requests',
     icon: <FormOutlined />,
     label: 'คำขอข้อมูล',
+  },
+  {
+    key: '/dashboard/data-dictionary',
+    icon: <BookOutlined />,
+    label: 'คำอธิบายข้อมูล (Data Dictionary)',
   },
   {
     key: '/manual',

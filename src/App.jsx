@@ -41,6 +41,7 @@ const SearchResults = lazy(() => import('./pages/SearchResults'));
 const Bmc = lazy(() => import('./pages/Bmc'));
 const DataRequests = lazy(() => import('./pages/dataRequests/DataRequests'));
 const FarmerForum = lazy(() => import('./pages/community/FarmerForum'));
+const DataDictionary = lazy(() => import('./pages/DataDictionary'));
 
 // Admin
 const Personnel = lazy(() => import('./pages/admin/Personnel'));
@@ -308,6 +309,14 @@ function AppRoutes() {
             element={
               <NonGuestRoute>
                 <Chatbot />
+              </NonGuestRoute>
+            }
+          />
+          <Route
+            path="data-dictionary"
+            element={
+              <NonGuestRoute>
+                <DataDictionary />
               </NonGuestRoute>
             }
           />

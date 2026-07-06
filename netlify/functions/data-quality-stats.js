@@ -135,7 +135,7 @@ export default async (request) => {
             query: `
             SELECT table_name, column_name, data_type 
             FROM information_schema.columns 
-            WHERE table_schema = 'public' AND table_name IN (${TARGET_TABLES.map((t) => `'${t}'`).join(',')});
+            WHERE table_schema = 'public' AND table_name IN (${TARGET_TABLES.map((t) => `'${t}'`).join(',')})
           `,
           }),
         }
@@ -171,20 +171,31 @@ export default async (request) => {
 
       if (!dataCols.length) continue;
 
+      const hasUpdatedAt = cols.includes('updated_at');
+      const hasCreatedAt = cols.includes('created_at');
+      const lastUpdatedExpr =
+        hasUpdatedAt && hasCreatedAt
+          ? 'COALESCE(MAX(updated_at), MAX(created_at))'
+          : hasUpdatedAt
+            ? 'MAX(updated_at)'
+            : hasCreatedAt
+              ? 'MAX(created_at)'
+              : 'NULL::timestamp with time zone';
+
       // Construct a query to get row count, null count, and last updated
       const nullChecks = dataCols.map((c) => `(${c} IS NULL)::int`).join(' + ');
       const query = `
         SELECT 
           COUNT(*)::int AS total_rows,
-          COALESCE(MAX(updated_at), MAX(created_at)) AS last_updated,
+          ${lastUpdatedExpr} AS last_updated,
           SUM(${nullChecks})::int AS null_cells_count
-        FROM public.${tableName};
+        FROM public.${tableName}
       `;
 
       // Construct query for distinct count to calculate duplicates
       const distinctQuery = `
         SELECT COUNT(*)::int AS distinct_rows 
-        FROM (SELECT DISTINCT ${dataCols.join(', ')} FROM public.${tableName}) AS temp;
+        FROM (SELECT DISTINCT ${dataCols.join(', ')} FROM public.${tableName}) AS temp
       `;
 
       try {
