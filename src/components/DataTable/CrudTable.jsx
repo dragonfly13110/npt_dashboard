@@ -58,24 +58,7 @@ import {
   parseCustomOptions,
   updateCustomFieldDefinition,
 } from '../../utils/customFields';
-import nptSubdistrictsGeoJSON from '../../data/nakhon_pathom_subdistricts.json';
-import { normalizePlaceName } from '../../utils/geojsonBoundaries';
-
-const getSubdistrictsList = (selectedDistrict) => {
-  if (!nptSubdistrictsGeoJSON?.features) return [];
-  const normalizedSelDist = selectedDistrict
-    ? normalizePlaceName(selectedDistrict)
-    : null;
-  const list = nptSubdistrictsGeoJSON.features
-    .filter((f) => {
-      if (!normalizedSelDist) return true;
-      const featDist = normalizePlaceName(f.properties?.amp_th);
-      return featDist === normalizedSelDist;
-    })
-    .map((f) => f.properties?.tam_th)
-    .filter(Boolean);
-  return [...new Set(list)].sort((a, b) => a.localeCompare(b, 'th'));
-};
+import { getCrudLocationKeys, getSubdistrictsList } from './crudTableFilters';
 
 export default function CrudTable({
   tableName,
@@ -125,19 +108,7 @@ export default function CrudTable({
   const [customFieldForm] = Form.useForm();
   const activeFilters = controlledFilters || filters;
 
-  // ponytail: extract district and subdistrict keys from columns
-  const keys = useMemo(() => {
-    const distCol = columns.find(
-      (c) => c.dataIndex && /district/i.test(String(c.dataIndex))
-    );
-    const subdistCol = columns.find(
-      (c) => c.dataIndex && /subdistrict/i.test(String(c.dataIndex))
-    );
-    return {
-      district: distCol?.dataIndex || null,
-      subdistrict: subdistCol?.dataIndex || null,
-    };
-  }, [columns]);
+  const keys = useMemo(() => getCrudLocationKeys(columns), [columns]);
 
   // ponytail: automatically augment filterConfig with district & subdistrict if present in columns
   const finalFilterConfig = useMemo(() => {

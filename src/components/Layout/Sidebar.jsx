@@ -35,6 +35,10 @@ import {
 import { supabase } from '../../supabaseClient';
 import { useAuth } from '../../contexts/AuthContext';
 import { clearGuestSession } from '../../services/guestSessionService';
+import {
+  canGuestAccessGroup,
+  getDepartmentGroupKey,
+} from '../../domain/datasetCatalog';
 import GlobalSearch from '../Search/GlobalSearch';
 
 const { Sider } = Layout;
@@ -332,15 +336,6 @@ const adminOnlyItems = [
   },
 ];
 
-const PUBLIC_GUEST_GROUPS = [
-  'admin',
-  'strategy',
-  'production',
-  'development',
-  'protection',
-  'community',
-];
-
 function getFilteredMenuItems(role, department) {
   // Admin เห็นทุกเมนู
   if (role === 'admin') {
@@ -353,7 +348,7 @@ function getFilteredMenuItems(role, department) {
   }
 
   // editor/viewer เห็นเฉพาะ Dashboard รวม + กลุ่มงานตัวเอง
-  const userGroup = department ? GROUP_KEYS[department] : null;
+  const userGroup = getDepartmentGroupKey(department);
   const filtered = allMenuItems.filter((item) => {
     if (
       role === 'guest' &&
@@ -376,8 +371,7 @@ function getFilteredMenuItems(role, department) {
       ].includes(item.key)
     )
       return true;
-    if (role === 'guest' && item.group)
-      return PUBLIC_GUEST_GROUPS.includes(item.group);
+    if (role === 'guest' && item.group) return canGuestAccessGroup(item.group);
     // กลุ่มงานของตัวเอง
     if (item.group && item.group === userGroup) return true;
     // ไม่มีกลุ่มงานก็เห็นทุกกลุ่ม (fallback)
