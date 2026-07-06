@@ -68,6 +68,107 @@ export const DASHBOARD_GROUPS = [
 
 export const TABLE_ROUTES = catalog.TABLE_ROUTES;
 
+export const DEPARTMENT_GROUP_MAP = {
+  ฝ่ายบริหารทั่วไป: 'admin',
+  กลุ่มยุทธศาสตร์และสารสนเทศ: 'strategy',
+  กลุ่มส่งเสริมและพัฒนาการผลิต: 'production',
+  กลุ่มส่งเสริมและพัฒนาเกษตรกร: 'development',
+  กลุ่มอารักขาพืช: 'protection',
+  ชุมชนเกษตรกร: 'community',
+};
+
+export const GROUP_TABLES = {
+  admin: ['personnel', 'assets', 'budgets'],
+  strategy: [
+    'farmer_registry',
+    'agricultural_areas',
+    'learning_centers',
+    'disasters',
+    'daily_weather',
+  ],
+  production: [
+    'large_plots',
+    'learning_centers',
+    'certifications',
+    'crop_production',
+    'production_costs',
+  ],
+  development: [
+    'community_enterprises',
+    'smart_farmers',
+    'smart_farmer_sf',
+    'young_smart_farmer_ysf',
+    'agricultural_career_groups',
+    'farmer_groups',
+    'housewife_farmer_groups',
+    'young_farmer_groups',
+    'young_farmer_groups_detailed',
+    'farmer_institutes',
+    'agri_tourism',
+    'disasters',
+  ],
+  protection: [
+    'forecast_plots',
+    'pest_outbreaks',
+    'pest_centers',
+    'plant_doctors',
+    'soil_fertilizer_centers',
+    'biocontrol_stock',
+    'fire_hotspots',
+  ],
+  community: ['forum_posts', 'forum_comments'],
+};
+
+export const PUBLIC_READ_GROUPS = [
+  'admin',
+  'strategy',
+  'production',
+  'development',
+  'protection',
+  'community',
+];
+
+export const PUBLIC_READ_TABLES = [
+  ...new Set([
+    ...Object.values(GROUP_TABLES).flat(),
+    'agricultural_areas',
+    'learning_centers',
+    'pest_outbreaks',
+    'soil_fertilizer_centers',
+    'farmer_institutes',
+    'daily_weather',
+    'site_statistics',
+    'forum_posts',
+    'forum_comments',
+  ]),
+];
+
+export const DISTRICT_WRITE_TABLES = ['personnel', 'budgets'];
+
+export function getDepartmentGroupKey(department) {
+  return department ? DEPARTMENT_GROUP_MAP[department] || null : null;
+}
+
+export function getGroupTables(groupKey) {
+  return GROUP_TABLES[groupKey] || [];
+}
+
+export function canGroupAccessTable(groupKey, tableName) {
+  return getGroupTables(groupKey).includes(tableName);
+}
+
+export function canGuestAccessGroup(groupKey) {
+  return PUBLIC_READ_GROUPS.includes(groupKey);
+}
+
+export function canGuestAccessTable(tableName) {
+  return PUBLIC_READ_TABLES.includes(tableName);
+}
+
+export function canDistrictEditorWriteTable(tableName) {
+  return DISTRICT_WRITE_TABLES.includes(tableName);
+}
+
 const DASHBOARD_GROUP_BY_TABLE = DASHBOARD_GROUPS.reduce((acc, group) => {
   group.tables.forEach((table) => {
     acc[table.table] = {

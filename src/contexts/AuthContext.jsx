@@ -6,6 +6,13 @@ import {
   createGuestSession,
   getGuestSession,
 } from '../services/guestSessionService';
+import {
+  canDistrictEditorWriteTable,
+  canGroupAccessTable,
+  canGuestAccessGroup,
+  canGuestAccessTable,
+  getDepartmentGroupKey,
+} from '../domain/datasetCatalog';
 
 const AuthContext = createContext(null);
 
@@ -190,16 +197,16 @@ export function AuthProvider({ children }) {
   // Helper functions
   const role = user ? profile?.role || 'viewer' : 'guest';
   const department = profile?.department || null;
-  const groupKey = department ? DEPARTMENT_GROUP_MAP[department] : null;
+  const groupKey = getDepartmentGroupKey(department);
 
   const isAdmin = () => role === 'admin';
   const isDistrictEditor = () => role === 'district_editor';
   const canEdit = (tableName = null) => {
     if (role === 'admin') return true;
     if (!tableName) return role === 'editor' || isDistrictEditor();
-    if (isDistrictEditor()) return DISTRICT_WRITE_TABLES.includes(tableName);
+    if (isDistrictEditor()) return canDistrictEditorWriteTable(tableName);
     if (role !== 'editor' || !groupKey) return false;
-    return GROUP_TABLES[groupKey]?.includes(tableName) || false;
+    return canGroupAccessTable(groupKey, tableName);
   };
   const canDelete = () => role === 'admin';
 
@@ -207,7 +214,7 @@ export function AuthProvider({ children }) {
   const canAccessGroup = (targetGroup) => {
     if (role === 'admin') return true;
     if (role === 'editor' || isDistrictEditor()) return true;
-    if (role === 'guest') return PUBLIC_READ_GROUPS.includes(targetGroup);
+    if (role === 'guest') return canGuestAccessGroup(targetGroup);
     return groupKey === targetGroup;
   };
 
@@ -215,9 +222,9 @@ export function AuthProvider({ children }) {
   const canAccessTable = (tableName) => {
     if (role === 'admin') return true;
     if (role === 'editor' || isDistrictEditor()) return true;
-    if (role === 'guest') return PUBLIC_READ_TABLES.includes(tableName);
+    if (role === 'guest') return canGuestAccessTable(tableName);
     if (!groupKey) return false;
-    return GROUP_TABLES[groupKey]?.includes(tableName) || false;
+    return canGroupAccessTable(groupKey, tableName);
   };
 
   const value = {
