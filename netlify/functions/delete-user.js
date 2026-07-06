@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { reportCriticalError } from './lib/error-alert.js';
 import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
+import { sanitizeLogValue } from '../../src/utils/logSanitizer.js';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -147,7 +148,7 @@ export default async (request, context) => {
       deleted_email: targetProfile.email,
     });
   } catch (err) {
-    console.error('delete-user error:', err);
+    console.error('delete-user error:', sanitizeLogValue(err));
     const alert = reportCriticalError({
       functionName: 'delete-user',
       event: 'delete_failed',

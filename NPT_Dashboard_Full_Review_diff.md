@@ -2148,23 +2148,23 @@ npm run build:netlify
 
 ## ตารางสรุปปัญหา/ความเสี่ยง/แนวทางแก้ไข
 
-| #   | ปัญหา/ความเสี่ยง                                           | ระดับ  | แนวทางแก้ไข                                                    | Timeline  |
-| --- | ---------------------------------------------------------- | ------ | -------------------------------------------------------------- | --------- |
-| 1   | Guest Mode ถูก manipulate ได้                              | Done   | ใช้ server-issued HttpOnly guest session แล้ว                  | Done      |
-| 2   | Public Views อาจ leak PII                                  | Done   | ตัด field ส่วนบุคคลจาก public RPC/API แล้ว                     | Done      |
-| 3   | AI Prompt Injection                                        | Medium | Input Sanitization, Guardrails                                 | 1 สัปดาห์ |
-| 4   | SmartMap.jsx ยังใหญ่ แต่ marker layer ซ้ำถูก refactor แล้ว | Medium | แยก Map Logic/Data Fetching เฉพาะเมื่อมีงานแตะส่วนนั้น         | Done      |
-| 5   | chatbotDataService ซับซ้อน                                 | High   | แยก Services, เพิ่ม Tests                                      | 1 สัปดาห์ |
-| 6   | Lint Errors 45 จุด                                         | Medium | แก้ทีละไฟล์, เพิ่ม Pre-commit Hook                             | 2 วัน     |
-| 7   | ไม่มี Full-text Search Index                               | Done   | เพิ่ม pg_trgm GIN Indexes ใน full_text_search_indexes.sql แล้ว | Done      |
-| 8   | Rate Limit ใช้ Memory                                      | Low    | ย้ายไป Supabase Store                                          | 1 สัปดาห์ |
-| 9   | ไม่มี Monitoring/APM                                       | Medium | ติดตั้ง Sentry/New Relic                                       | 3 วัน     |
-| 10  | ไม่มี Automated Backup Plan                                | High   | ตั้ง Supabase Backup + Export                                  | 2 วัน     |
-| 11  | Logs อาจมี PII                                             | Medium | Sanitize Logs                                                  | 2 วัน     |
-| 12  | CORS กว้างเกินไป                                           | Low    | ลด Allowed Origins                                             | 1 วัน     |
-| 13  | ไม่มี Data Dictionary                                      | Medium | เขียน DATA_DICTIONARY.md                                       | 1 สัปดาห์ |
-| 14  | ตารางบางตัวยังว่าง                                         | Low    | ระบุสถานะหรือลบออก                                             | 2 วัน     |
-| 15  | ไม่มี Mobile App                                           | Medium | พัฒนา PWA                                                      | 2 เดือน   |
+| #   | ปัญหา/ความเสี่ยง                                           | ระดับ  | แนวทางแก้ไข                                                    | Timeline |
+| --- | ---------------------------------------------------------- | ------ | -------------------------------------------------------------- | -------- |
+| 1   | Guest Mode ถูก manipulate ได้                              | Done   | ใช้ server-issued HttpOnly guest session แล้ว                  | Done     |
+| 2   | Public Views อาจ leak PII                                  | Done   | ตัด field ส่วนบุคคลจาก public RPC/API แล้ว                     | Done     |
+| 3   | AI Prompt Injection                                        | Done   | Input Sanitization, Guardrails                                 | Done     |
+| 4   | SmartMap.jsx ยังใหญ่ แต่ marker layer ซ้ำถูก refactor แล้ว | Medium | แยก Map Logic/Data Fetching เฉพาะเมื่อมีงานแตะส่วนนั้น         | Done     |
+| 5   | chatbotDataService ซับซ้อน                                 | Done   | แยก Services, เพิ่ม Tests                                      | Done     |
+| 6   | Lint Errors 45 จุด                                         | Done   | แก้ lint errors แล้ว                                           | Done     |
+| 7   | ไม่มี Full-text Search Index                               | Done   | เพิ่ม pg_trgm GIN Indexes ใน full_text_search_indexes.sql แล้ว | Done     |
+| 8   | Rate Limit ใช้ Memory                                      | Done   | ย้ายไป Supabase Store                                          | Done     |
+| 9   | ไม่มี Monitoring/APM                                       | Done   | ติดตั้ง Sentry                                                 | Done     |
+| 10  | ไม่มี Automated Backup Plan                                | High   | ตั้ง Supabase Backup + Export                                  | 2 วัน    |
+| 11  | Logs อาจมี PII                                             | Done   | Sanitize Logs                                                  | Done     |
+| 12  | CORS กว้างเกินไป                                           | Done   | ลด Allowed Origins                                             | Done     |
+| 13  | ไม่มี Data Dictionary                                      | Done   | เขียน DATA_DICTIONARY.md                                       | Done     |
+| 14  | ตารางบางตัวยังว่าง                                         | Low    | ระบุสถานะหรือลบออก                                             | 2 วัน    |
+| 15  | ไม่มี Mobile App                                           | Medium | พัฒนา PWA                                                      | 2 เดือน  |
 
 ---
 

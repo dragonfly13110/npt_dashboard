@@ -5,18 +5,26 @@ import {
   getCategoryColumns,
   getDatasetSelectColumns,
   getDistrictColumn,
-  getNumericColumns,
   getSearchColumns,
   listDatasetKeys,
 } from '../domain/datasetCatalog';
-import budgetSeed from '../data/budgetRound2_2569.json';
 import productionCostSeed from '../data/production_costs_2567.json';
+import {
+  BUDGET_SEED_ROUND,
+  BUDGET_SEED_YEAR,
+  budgetSeedMeta,
+  buildBudgetDirectAnswer,
+  hasBudgetSeedPeriod,
+  isClearBudgetSeedConversation,
+  mergeBudgetSeedRows,
+  parseBudgetNotes,
+  summarizeBudgetRows,
+} from './chatbotBudgetService';
+import {
+  computeAggregation,
+  summarizeLocalRows,
+} from './chatbotAggregationService';
 
-const BUDGET_SEED_YEAR = Number(budgetSeed?.meta?.fiscalYear || 2569);
-const BUDGET_SEED_ROUND = Number(budgetSeed?.meta?.round || 2);
-const BUDGET_SEED_SOURCE =
-  budgetSeed?.meta?.sourceFile || 'budgetRound2_2569.json';
-const formatThaiNumber = (value) => Number(value || 0).toLocaleString('th-TH');
 const PRODUCTION_COST_SEED_ROWS = productionCostSeed.map((row) => ({
   ...row,
   id: `seed-production-cost-${row.data_year}-${row.crop_name}`,
@@ -24,289 +32,6 @@ const PRODUCTION_COST_SEED_ROWS = productionCostSeed.map((row) => ({
   updated_at: '2026-01-01T00:00:00.000Z',
   _seedFallback: true,
 }));
-
-function parseBudgetNotes(notes) {
-  if (!notes || typeof notes !== 'string') return {};
-  try {
-    const parsed = JSON.parse(notes);
-    return parsed && typeof parsed === 'object' ? parsed : {};
-  } catch {
-    return {};
-  }
-}
-
-function normalizeBudgetSeedRow(row) {
-  const detail = {
-    ...row,
-    fiscalYear: Number(row.fiscalYear || BUDGET_SEED_YEAR),
-    round: Number(row.round || BUDGET_SEED_ROUND),
-    sourceFile: row.sourceFile || BUDGET_SEED_SOURCE,
-    sourceId: row.sourceId || row.id,
-  };
-
-  return {
-    id: `seed-budget-${detail.sourceId}`,
-    project_name:
-      [detail.project, detail.activity].filter(Boolean).join(' / ') ||
-      'รายการงบประมาณ',
-    fiscal_year: detail.fiscalYear,
-    budget_round: detail.round,
-    budget_source:
-      detail.plan || `งบรอบ ${detail.round} ปี ${detail.fiscalYear}`,
-    budget_amount: Number(detail.budget || 0),
-    spent_amount: Number(detail.spentAmount || 0),
-    status: detail.status || 'กำลังดำเนินการ',
-    notes: JSON.stringify(detail),
-    source_file: detail.sourceFile,
-    source_row_id: detail.sourceId,
-    created_at: '2026-01-01T00:00:00.000Z',
-    updated_at: '2026-01-01T00:00:00.000Z',
-    _seedFallback: true,
-  };
-}
-
-function queryMentionsBudgetSeedPeriod(query) {
-  const text = String(query || '').toLowerCase();
-  return (
-    text.includes(String(BUDGET_SEED_YEAR)) ||
-    text.includes(`ปี ${BUDGET_SEED_YEAR}`) ||
-    text.includes(`รอบ ${BUDGET_SEED_ROUND}`) ||
-    text.includes(`รอบที่ ${BUDGET_SEED_ROUND}`)
-  );
-}
-
-function queryMentionsBudgetDataset(query) {
-  const text = String(query || '').toLowerCase();
-  return (
-    text.includes('งบ') ||
-    text.includes('งบประมาณ') ||
-    text.includes('โครงการ') ||
-    text.includes('แผนใช้จ่าย')
-  );
-}
-
-function isClearBudgetSeedQuery(query) {
-  const text = String(query || '').toLowerCase();
-  return (
-    queryMentionsBudgetSeedPeriod(query) &&
-    (queryMentionsBudgetDataset(query) || text.includes('รอบ'))
-  );
-}
-
-function isBudgetCorrectionFollowUp(query) {
-  const text = String(query || '').toLowerCase();
-  return (
-    text.includes('มีไม่ใช่') ||
-    text.includes('มันมี') ||
-    text.includes('แปลก') ||
-    text.includes('ไม่ใช่เหรอ') ||
-    text.includes('เมื่อกี้') ||
-    text.includes('แน่ใจ')
-  );
-}
-
-function isClearBudgetSeedConversation(query, chatHistory = []) {
-  if (isClearBudgetSeedQuery(query)) return true;
-  if (!isBudgetCorrectionFollowUp(query)) return false;
-
-  const recentContext = chatHistory
-    .slice(-6)
-    .map((m) => m?.text || '')
-    .join('\n');
-  return (
-    queryMentionsBudgetDataset(recentContext) &&
-    queryMentionsBudgetSeedPeriod(recentContext)
-  );
-}
-
-function hasBudgetSeedPeriod(rows) {
-  return rows.some((row) => {
-    const notes = parseBudgetNotes(row.notes);
-    return (
-      Number(row.fiscal_year || notes.fiscalYear) === BUDGET_SEED_YEAR &&
-      Number(row.budget_round || notes.round) === BUDGET_SEED_ROUND
-    );
-  });
-}
-
-function summarizeLocalRows(table, rows, distCol) {
-  const numCols = getNumericColumns(table);
-  if (!numCols?.length || !rows?.length) return null;
-
-  const stats = {
-    total_rows: rows.length,
-    totals: {},
-    averages: {},
-    by_district: {},
-  };
-  numCols.forEach((col) => {
-    stats.totals[col] = 0;
-    stats.averages[col] = 0;
-  });
-
-  rows.forEach((row) => {
-    const district = row[distCol] || row.crop_name || 'ไม่ระบุ';
-    if (!stats.by_district[district]) {
-      stats.by_district[district] = { count: 0 };
-      numCols.forEach((col) => {
-        stats.by_district[district][col] = 0;
-      });
-    }
-    stats.by_district[district].count++;
-    numCols.forEach((col) => {
-      const value = Number(row[col]) || 0;
-      stats.totals[col] += value;
-      stats.by_district[district][col] += value;
-    });
-  });
-
-  numCols.forEach((col) => {
-    stats.averages[col] =
-      Math.round((stats.totals[col] / rows.length) * 100) / 100;
-  });
-  stats.district_percentages = {};
-  Object.entries(stats.by_district).forEach(([district, item]) => {
-    stats.district_percentages[district] = { count: item.count };
-    numCols.forEach((col) => {
-      stats.district_percentages[district][col] =
-        stats.totals[col] > 0
-          ? Math.round((item[col] / stats.totals[col]) * 10000) / 100
-          : 0;
-    });
-  });
-  stats.rankings = {};
-  numCols.slice(0, 5).forEach((col) => {
-    const sorted = Object.entries(stats.by_district)
-      .map(([district, item]) => ({ district, value: item[col] }))
-      .filter((item) => item.value > 0)
-      .sort((a, b) => b.value - a.value);
-    if (sorted.length) {
-      stats.rankings[col] = {
-        top: sorted[0],
-        bottom: sorted[sorted.length - 1],
-      };
-    }
-  });
-  return stats;
-}
-
-function mergeBudgetSeedRows(rows, { force = false } = {}) {
-  if (!force && hasBudgetSeedPeriod(rows)) return rows;
-
-  const existingKeys = new Set(
-    rows.map((row) => {
-      const notes = parseBudgetNotes(row.notes);
-      return [
-        row.fiscal_year || notes.fiscalYear,
-        row.budget_round || notes.round,
-        row.source_file || notes.sourceFile,
-        row.source_row_id || notes.sourceId,
-      ].join('|');
-    })
-  );
-
-  const seedRows = (budgetSeed?.rows || [])
-    .map(normalizeBudgetSeedRow)
-    .filter((row) => {
-      const key = [
-        row.fiscal_year,
-        row.budget_round,
-        row.source_file,
-        row.source_row_id,
-      ].join('|');
-      return !existingKeys.has(key);
-    });
-
-  return force ? seedRows : [...seedRows, ...rows];
-}
-
-function summarizeBudgetRows(rows) {
-  if (!rows.length) return null;
-
-  const stats = {
-    total_rows: rows.length,
-    totals: { budget_amount: 0, spent_amount: 0 },
-    averages: { budget_amount: 0, spent_amount: 0 },
-    by_district: {},
-  };
-
-  rows.forEach((row) => {
-    const notes = parseBudgetNotes(row.notes);
-    const district = notes.district || 'ไม่ระบุ';
-    const budget = Number(row.budget_amount ?? notes.budget ?? 0) || 0;
-    const spent = Number(row.spent_amount ?? notes.spentAmount ?? 0) || 0;
-
-    if (!stats.by_district[district]) {
-      stats.by_district[district] = {
-        count: 0,
-        budget_amount: 0,
-        spent_amount: 0,
-      };
-    }
-
-    stats.totals.budget_amount += budget;
-    stats.totals.spent_amount += spent;
-    stats.by_district[district].count += 1;
-    stats.by_district[district].budget_amount += budget;
-    stats.by_district[district].spent_amount += spent;
-  });
-
-  stats.averages.budget_amount =
-    Math.round((stats.totals.budget_amount / rows.length) * 100) / 100;
-  stats.averages.spent_amount =
-    Math.round((stats.totals.spent_amount / rows.length) * 100) / 100;
-  stats.district_percentages = {};
-  Object.entries(stats.by_district).forEach(([district, value]) => {
-    stats.district_percentages[district] = {
-      count: value.count,
-      budget_amount:
-        stats.totals.budget_amount > 0
-          ? Math.round(
-              (value.budget_amount / stats.totals.budget_amount) * 10000
-            ) / 100
-          : 0,
-      spent_amount:
-        stats.totals.spent_amount > 0
-          ? Math.round(
-              (value.spent_amount / stats.totals.spent_amount) * 10000
-            ) / 100
-          : 0,
-    };
-  });
-  stats.rankings = {
-    budget_amount: {
-      top: Object.entries(stats.by_district)
-        .map(([district, value]) => ({ district, value: value.budget_amount }))
-        .sort((a, b) => b.value - a.value)[0],
-    },
-  };
-
-  return stats;
-}
-
-function buildDirectAnswer({ query, results, forceBudgetSeed = false }) {
-  const budgetResult = results.find((r) => r.table === 'budgets');
-  if (
-    budgetResult?.seedFallback &&
-    (forceBudgetSeed || queryMentionsBudgetSeedPeriod(query))
-  ) {
-    const totalBudget =
-      budgetResult.aggregatedStats?.totals?.budget_amount ??
-      budgetSeed.meta.totalBudget;
-    return [
-      `มีข้อมูลงบประมาณปีงบประมาณ ${BUDGET_SEED_YEAR} รอบ ${BUDGET_SEED_ROUND} ในระบบครับ`,
-      '',
-      `- จำนวนรายการ: ${formatThaiNumber(budgetResult.count || budgetSeed.meta.totalRows)} รายการ`,
-      `- จำนวนโครงการ: ${formatThaiNumber(budgetSeed.meta.totalProjects)} โครงการ`,
-      `- งบประมาณรวม: ${formatThaiNumber(totalBudget)} บาท`,
-      `- แหล่งข้อมูล: ${BUDGET_SEED_SOURCE}`,
-      '',
-      'สรุปคือข้อมูลชุดนี้มีอยู่ ไม่ใช่ข้อมูลปี 2568 ครับ',
-    ].join('\n');
-  }
-
-  return null;
-}
 
 export async function extractIntent(
   query,
@@ -411,135 +136,6 @@ ${recentHistory || 'ไม่มีบริบทก่อนหน้า'}
     console.error('Intent extraction failed:', e);
   }
   return null;
-}
-
-/**
- * Compute server-side aggregation stats for numeric columns via Supabase
- * This prevents sending thousands of raw rows and lets AI use pre-computed numbers
- */
-async function computeAggregation(
-  table,
-  distCol,
-  matchedDistrict,
-  searchKeyword
-) {
-  const numCols = getNumericColumns(table);
-  if (!numCols || numCols.length === 0) return null;
-
-  try {
-    // Build a select string that computes SUM for each numeric column
-    // We do this by fetching all rows for the relevant columns and aggregating client-side
-    // (Supabase REST API doesn't support SQL aggregation directly)
-    let query = supabase.from(table).select([distCol, ...numCols].join(','));
-
-    if (matchedDistrict) {
-      query = query.ilike(distCol, `%${matchedDistrict}%`);
-    }
-
-    const searchCols = getSearchColumns(table);
-    if (searchKeyword && searchCols.length > 0) {
-      const cols = searchCols;
-      const orString = cols
-        .map((c) => `${c}.ilike.%${searchKeyword}%`)
-        .join(',');
-      query = query.or(orString);
-      if (
-        searchKeyword.includes('กล้วย') &&
-        !searchKeyword.includes('กล้วยไม้')
-      ) {
-        cols.forEach((c) => {
-          query = query.not(c, 'ilike', '%กล้วยไม้%');
-        });
-      }
-    }
-
-    const { data, error } = await query.limit(10000);
-    if (error) {
-      console.error(
-        `[Aggregation Error] table=${table} district=${matchedDistrict} keyword=${searchKeyword}:`,
-        error
-      );
-    }
-    if (data && data.length === 0) {
-      console.warn(
-        `[Aggregation Empty] table=${table} district=${matchedDistrict} keyword=${searchKeyword}`
-      );
-    }
-    if (error || !data || data.length === 0) return null;
-
-    // Compute aggregation
-    const stats = {
-      total_rows: data.length,
-      totals: {},
-      averages: {},
-      by_district: {},
-    };
-
-    // Initialize
-    numCols.forEach((col) => {
-      stats.totals[col] = 0;
-      stats.averages[col] = 0;
-    });
-
-    // Process rows
-    data.forEach((row) => {
-      const budgetNotes =
-        table === 'budgets' ? parseBudgetNotes(row.notes) : null;
-      const district = budgetNotes?.district || row[distCol] || 'ไม่ระบุ';
-      if (!stats.by_district[district]) {
-        stats.by_district[district] = { count: 0 };
-        numCols.forEach((col) => {
-          stats.by_district[district][col] = 0;
-        });
-      }
-      stats.by_district[district].count++;
-
-      numCols.forEach((col) => {
-        const val = parseFloat(row[col]) || 0;
-        stats.totals[col] += val;
-        stats.by_district[district][col] += val;
-      });
-    });
-
-    // Compute averages
-    numCols.forEach((col) => {
-      stats.averages[col] =
-        data.length > 0
-          ? Math.round((stats.totals[col] / data.length) * 100) / 100
-          : 0;
-    });
-
-    // Compute percentages per district
-    stats.district_percentages = {};
-    Object.entries(stats.by_district).forEach(([dist, distData]) => {
-      stats.district_percentages[dist] = { count: distData.count };
-      numCols.forEach((col) => {
-        const total = stats.totals[col];
-        stats.district_percentages[dist][col] =
-          total > 0 ? Math.round((distData[col] / total) * 10000) / 100 : 0;
-      });
-    });
-
-    // Find top/bottom for key metrics
-    stats.rankings = {};
-    numCols.slice(0, 5).forEach((col) => {
-      const sorted = Object.entries(stats.by_district)
-        .map(([dist, d]) => ({ district: dist, value: d[col] }))
-        .filter((d) => d.value > 0)
-        .sort((a, b) => b.value - a.value);
-      if (sorted.length > 0) {
-        stats.rankings[col] = {
-          top: sorted[0],
-          bottom: sorted[sorted.length - 1],
-        };
-      }
-    });
-
-    return stats;
-  } catch (e) {
-    console.error(`Aggregation failed for ${table}:`, e);
-    return null;
-  }
 }
 
 export async function fetchDatabaseContext(
@@ -952,7 +548,7 @@ export async function fetchDatabaseContext(
     intent,
     matchedDistrict,
     analysisType,
-    directAnswer: buildDirectAnswer({ query, results, forceBudgetSeed }),
+    directAnswer: buildBudgetDirectAnswer({ query, results, forceBudgetSeed }),
   };
 }
 
@@ -970,7 +566,7 @@ export function buildContextForAI(analysis) {
       };
 
       if (r.seedFallback && r.table === 'budgets') {
-        entry._source_note = `ใช้ชุดข้อมูลงบประมาณ seed ที่ระบบ Dashboard ใช้อยู่: รอบ ${BUDGET_SEED_ROUND} ปีงบประมาณ ${BUDGET_SEED_YEAR}, ${budgetSeed.meta.totalRows} รายการ, ${budgetSeed.meta.totalProjects} โครงการ, งบรวม ${budgetSeed.meta.totalBudget} บาท`;
+        entry._source_note = `ใช้ชุดข้อมูลงบประมาณ seed ที่ระบบ Dashboard ใช้อยู่: รอบ ${BUDGET_SEED_ROUND} ปีงบประมาณ ${BUDGET_SEED_YEAR}, ${budgetSeedMeta.totalRows} รายการ, ${budgetSeedMeta.totalProjects} โครงการ, งบรวม ${budgetSeedMeta.totalBudget} บาท`;
         entry.fiscal_year = BUDGET_SEED_YEAR;
         entry.budget_round = BUDGET_SEED_ROUND;
       }

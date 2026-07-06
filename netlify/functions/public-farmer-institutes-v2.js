@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY =
@@ -70,21 +71,33 @@ async function fetchRows() {
   };
 }
 
-export default async () => {
+export default async (request) => {
+  const origin = request.headers.get('origin') || '';
+  const baseHeaders = corsHeaders(origin, { methods: 'GET, OPTIONS' });
+  if (request.method === 'OPTIONS') {
+    return new Response('', { status: 204, headers: baseHeaders });
+  }
+  if (!isOriginAllowed(origin)) {
+    return new Response(JSON.stringify({ error: 'Origin not allowed' }), {
+      status: 403,
+      headers: { ...baseHeaders, 'Content-Type': 'application/json' },
+    });
+  }
+
   try {
     const payload = await fetchRows();
     return new Response(JSON.stringify(payload), {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
+        ...baseHeaders,
         'Cache-Control': 'public, max-age=300',
       },
     });
   } catch (err) {
     return new Response(JSON.stringify({ error: err.message }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { ...baseHeaders, 'Content-Type': 'application/json' },
     });
   }
 };

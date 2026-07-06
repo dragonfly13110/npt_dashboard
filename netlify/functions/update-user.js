@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { reportCriticalError } from './lib/error-alert.js';
 import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
+import { sanitizeLogValue } from '../../src/utils/logSanitizer.js';
 
 function jsonResponse(origin, status, payload) {
   return new Response(JSON.stringify(payload), {
@@ -169,7 +170,7 @@ export default async (request, context) => {
       updated_user_id: targetUserId,
     });
   } catch (err) {
-    console.error('update-user error:', err);
+    console.error('update-user error:', sanitizeLogValue(err));
     const alert = reportCriticalError({
       functionName: 'update-user',
       event: 'update_failed',

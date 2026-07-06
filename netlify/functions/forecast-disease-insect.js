@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { reportCriticalError } from './lib/error-alert.js';
+import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY =
@@ -17,12 +18,10 @@ const WEATHER_TIMEOUT_MS = 8000;
 const GEMINI_TIMEOUT_MS = 30000;
 const KKU_TIMEOUT_MS = 45000;
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+const getResponseHeaders = (origin = '') => ({
+  ...corsHeaders(origin, { methods: 'GET, POST, OPTIONS' }),
   'Content-Type': 'application/json',
-};
+});
 
 const fetchWithTimeout = async (url, options = {}, timeoutMs = 12000) => {
   const controller = new AbortController();
@@ -115,13 +114,15 @@ function isUsableForecast(row) {
 
 // Main forecast logic
 export const generateForecast = async (event = {}, context) => {
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const responseHeaders = getResponseHeaders(origin);
   console.log('Starting Daily Crop Disease & Pest Risk AI Forecast...');
 
   try {
     if (!SUPABASE_URL || !SUPABASE_KEY) {
       return {
         statusCode: 500,
-        headers: CORS_HEADERS,
+        headers: responseHeaders,
         body: JSON.stringify({
           error:
             'Missing Supabase configuration. Set VITE_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.',
@@ -180,7 +181,7 @@ export const generateForecast = async (event = {}, context) => {
         );
         return {
           statusCode: 200,
-          headers: CORS_HEADERS,
+          headers: responseHeaders,
           body: JSON.stringify({
             message: `มีข้อมูลพยากรณ์วันที่ ${bangkokDateStr} อยู่แล้ว`,
             data: existing,
@@ -482,7 +483,7 @@ ${outbreakSummary}`;
 
     return {
       statusCode: 200,
-      headers: CORS_HEADERS,
+      headers: responseHeaders,
       body: JSON.stringify({
         message: `Forecast generated and saved successfully for ${bangkokDateStr}`,
         data: resultJson,
@@ -500,15 +501,24 @@ ${outbreakSummary}`;
     else await alert;
     return {
       statusCode: 500,
-      headers: CORS_HEADERS,
+      headers: responseHeaders,
       body: JSON.stringify({ error: err.message }),
     };
   }
 };
 
 const forecastHandler = async (event = {}, context) => {
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const responseHeaders = getResponseHeaders(origin);
   if (event.httpMethod === 'OPTIONS')
-    return { statusCode: 204, headers: CORS_HEADERS, body: '' };
+    return { statusCode: 204, headers: responseHeaders, body: '' };
+  if (!isOriginAllowed(origin)) {
+    return {
+      statusCode: 403,
+      headers: responseHeaders,
+      body: JSON.stringify({ error: 'Origin not allowed' }),
+    };
+  }
 
   // Support scheduled trigger or direct endpoint request
   return generateForecast(event, context);

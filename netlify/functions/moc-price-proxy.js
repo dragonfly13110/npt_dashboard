@@ -1,3 +1,5 @@
+import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
+
 const MAPPING = {
   3: 'W13000', // ผัก
   4: 'W14000', // ผลไม้
@@ -65,12 +67,6 @@ const ALLOWED_PRODUCTS = {
   ],
 };
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'GET, OPTIONS',
-};
-
 async function fetchInBatches(tasks, batchSize, fn) {
   const results = [];
   for (let i = 0; i < tasks.length; i += batchSize) {
@@ -82,10 +78,18 @@ async function fetchInBatches(tasks, batchSize, fn) {
 }
 
 export default async (request) => {
+  const origin = request.headers.get('origin') || '';
+  const baseHeaders = corsHeaders(origin, { methods: 'GET, OPTIONS' });
   if (request.method === 'OPTIONS') {
     return new Response(null, {
       status: 204,
-      headers: CORS_HEADERS,
+      headers: baseHeaders,
+    });
+  }
+  if (!isOriginAllowed(origin)) {
+    return new Response(JSON.stringify({ error: 'Origin not allowed' }), {
+      status: 403,
+      headers: { ...baseHeaders, 'Content-Type': 'application/json' },
     });
   }
 
@@ -263,7 +267,7 @@ export default async (request) => {
     return new Response(JSON.stringify(payload), {
       status: 200,
       headers: {
-        ...CORS_HEADERS,
+        ...baseHeaders,
         'Content-Type': 'application/json; charset=utf-8',
         'Cache-Control': 'public, max-age=1800, stale-while-revalidate=3600',
       },
@@ -278,7 +282,7 @@ export default async (request) => {
       {
         status: 502,
         headers: {
-          ...CORS_HEADERS,
+          ...baseHeaders,
           'Content-Type': 'application/json; charset=utf-8',
         },
       }

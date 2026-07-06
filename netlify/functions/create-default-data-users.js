@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { reportCriticalError } from './lib/error-alert.js';
 import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
+import { sanitizeLogValue } from '../../src/utils/logSanitizer.js';
 
 const GROUP_ACCOUNTS = [
   [
@@ -217,12 +218,18 @@ export default async (request, context) => {
       table_name: 'profiles',
       record_id: 'default-data-users',
       old_data: null,
-      new_data: { accounts: results.map(({ password, ...row }) => row) },
+      new_data: {
+        accounts: results.map((row) =>
+          Object.fromEntries(
+            Object.entries(row).filter(([key]) => key !== 'password')
+          )
+        ),
+      },
     });
 
     return jsonResponse(origin, 200, { ok: true, accounts: results });
   } catch (err) {
-    console.error('create-default-data-users error:', err);
+    console.error('create-default-data-users error:', sanitizeLogValue(err));
     const alert = reportCriticalError({
       functionName: 'create-default-data-users',
       event: 'create_failed',

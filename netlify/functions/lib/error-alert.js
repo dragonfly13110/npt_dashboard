@@ -1,3 +1,5 @@
+import { sanitizeLogValue } from '../../../src/utils/logSanitizer.js';
+
 function getEnv(name) {
   return globalThis.Netlify?.env?.get?.(name) || process.env[name] || '';
 }
@@ -17,7 +19,7 @@ export async function reportCriticalError({ functionName, event, requestId }) {
     request_id: safeLabel(requestId, 'unavailable'),
     timestamp: new Date().toISOString(),
   };
-  console.error(JSON.stringify(record));
+  console.error(JSON.stringify(sanitizeLogValue(record)));
 
   const token = getEnv('LINE_CHANNEL_ACCESS_TOKEN');
   const recipients = getEnv('ERROR_ALERT_LINE_USER_IDS')

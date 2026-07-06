@@ -1,8 +1,17 @@
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
   corsHeaders,
   isOriginAllowed,
 } from '../../netlify/functions/lib/http-security.js';
+
+function listFunctionFiles(dir) {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const fullPath = join(dir, entry.name);
+    return entry.isDirectory() ? listFunctionFiles(fullPath) : [fullPath];
+  });
+}
 
 describe('HTTP security helpers', () => {
   beforeEach(() => {
@@ -35,5 +44,17 @@ describe('HTTP security helpers', () => {
     expect(corsHeaders('https://evil.example')).not.toHaveProperty(
       'Access-Control-Allow-Origin'
     );
+  });
+
+  it('does not leave wildcard CORS in Netlify functions', () => {
+    const functionFiles = listFunctionFiles(
+      join(process.cwd(), 'netlify/functions')
+    ).filter((file) => /\.(cjs|js)$/.test(file));
+
+    for (const file of functionFiles) {
+      expect(readFileSync(file, 'utf8')).not.toMatch(
+        /Access-Control-Allow-Origin['"]?\s*:\s*['"]\*/
+      );
+    }
   });
 });

@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { scrapeFarmerRegistry } from '../../scripts/scrape_farmer_registry.js';
 import { reportCriticalError } from './lib/error-alert.js';
 import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
+import { sanitizeLogValue } from '../../src/utils/logSanitizer.js';
 
 function getEnv(name) {
   return globalThis.Netlify?.env?.get?.(name) || process.env[name] || '';
@@ -147,7 +148,10 @@ async function runSync({ force = false, origin = null } = {}) {
 }
 
 async function reportManualSyncFailure(err, context) {
-  console.error('sync-farmer-registry manual background error:', err);
+  console.error(
+    'sync-farmer-registry manual background error:',
+    sanitizeLogValue(err)
+  );
   await reportCriticalError({
     functionName: 'sync-farmer-registry',
     event: 'manual_sync_failed',
@@ -159,7 +163,10 @@ export async function scheduledSyncFarmerRegistry(_event, context) {
   try {
     return await runSync({ force: false });
   } catch (err) {
-    console.error('sync-farmer-registry scheduled error:', err);
+    console.error(
+      'sync-farmer-registry scheduled error:',
+      sanitizeLogValue(err)
+    );
     const alert = reportCriticalError({
       functionName: 'sync-farmer-registry',
       event: 'scheduled_sync_failed',
@@ -209,7 +216,7 @@ export default async function syncFarmerRegistry(request, context) {
 
     return await runSync({ force: body.force === true, origin });
   } catch (err) {
-    console.error('sync-farmer-registry manual error:', err);
+    console.error('sync-farmer-registry manual error:', sanitizeLogValue(err));
     const alert = reportCriticalError({
       functionName: 'sync-farmer-registry',
       event: 'manual_sync_failed',

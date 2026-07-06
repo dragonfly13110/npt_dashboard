@@ -1,7 +1,22 @@
 // Netlify serverless function to proxy KKU AI Chatbot API
 // Target: https://gen.ai.kku.ac.th/...
+import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
 
 export default async (request) => {
+  const origin = request.headers.get('origin') || '';
+  const baseHeaders = corsHeaders(origin, {
+    methods: 'GET, POST, PUT, DELETE, OPTIONS',
+    headers: 'Content-Type, Authorization',
+  });
+  if (request.method === 'OPTIONS')
+    return new Response('', { status: 204, headers: baseHeaders });
+  if (!isOriginAllowed(origin)) {
+    return new Response(JSON.stringify({ error: 'Origin not allowed' }), {
+      status: 403,
+      headers: { ...baseHeaders, 'Content-Type': 'application/json' },
+    });
+  }
+
   const url = new URL(request.url);
 
   // Remove /api/kku/ prefix to get the API path
@@ -26,8 +41,8 @@ export default async (request) => {
         {
           status: 500,
           headers: {
+            ...baseHeaders,
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
           },
         }
       );
@@ -54,9 +69,7 @@ export default async (request) => {
       headers: {
         'Content-Type':
           response.headers.get('Content-Type') || 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        ...baseHeaders,
       },
     });
   } catch (err) {
@@ -66,8 +79,8 @@ export default async (request) => {
       {
         status: 502,
         headers: {
+          ...baseHeaders,
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
         },
       }
     );

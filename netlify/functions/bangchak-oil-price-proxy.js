@@ -1,10 +1,7 @@
+import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
+
 const SOURCE_URL = 'https://oil-price.bangchak.co.th/ApiOilPrice2/th';
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'GET, OPTIONS',
-};
 const COMMON_OIL_ORDER = [
   'ดีเซล B20',
   'ไฮดีเซล S',
@@ -35,7 +32,8 @@ function getOilSortIndex(name) {
 function normalizeOilItems(json) {
   const payload = Array.isArray(json) ? json[0] : json;
   const rawOilList = payload?.OilList;
-  const oilList = typeof rawOilList === 'string' ? JSON.parse(rawOilList) : rawOilList;
+  const oilList =
+    typeof rawOilList === 'string' ? JSON.parse(rawOilList) : rawOilList;
   if (!Array.isArray(oilList)) return [];
 
   return oilList
@@ -43,13 +41,19 @@ function normalizeOilItems(json) {
       const name = String(item.OilName || '').trim();
       const today = String(item.PriceToday || '').trim();
       const tomorrow = String(item.PriceTomorrow || '').trim();
-      if (!isValidOilName(name) || (!isPriceText(today) && !isPriceText(tomorrow))) return null;
+      if (
+        !isValidOilName(name) ||
+        (!isPriceText(today) && !isPriceText(tomorrow))
+      )
+        return null;
       if (!isRegularOilPrice(today)) return null;
       return {
         name,
         today,
         tomorrow,
-        diff: String(item.PriceDifTomorrow || item.PriceDifYesterday || '').trim(),
+        diff: String(
+          item.PriceDifTomorrow || item.PriceDifYesterday || ''
+        ).trim(),
         icon: item.Icon || '',
       };
     })
@@ -58,8 +62,16 @@ function normalizeOilItems(json) {
 }
 
 export default async (request) => {
+  const origin = request.headers.get('origin') || '';
+  const baseHeaders = corsHeaders(origin, { methods: 'GET, OPTIONS' });
   if (request.method === 'OPTIONS') {
-    return new Response('', { status: 204, headers: CORS_HEADERS });
+    return new Response('', { status: 204, headers: baseHeaders });
+  }
+  if (!isOriginAllowed(origin)) {
+    return new Response(JSON.stringify({ error: 'Origin not allowed' }), {
+      status: 403,
+      headers: { ...baseHeaders, 'Content-Type': 'application/json' },
+    });
   }
 
   try {
@@ -81,33 +93,39 @@ export default async (request) => {
       throw new Error('No oil price rows found');
     }
 
-    return new Response(JSON.stringify({
-      success: true,
-      source: 'บริษัท บางจาก คอร์ปอเรชั่น จำกัด (มหาชน)',
-      sourceUrl: SOURCE_URL,
-      unit: 'บาท/ลิตร',
-      items,
-    }), {
-      status: 200,
-      headers: {
-        ...CORS_HEADERS,
-        'Content-Type': 'application/json; charset=utf-8',
-        'Cache-Control': 'public, max-age=300, stale-while-revalidate=600',
-      },
-    });
+    return new Response(
+      JSON.stringify({
+        success: true,
+        source: 'บริษัท บางจาก คอร์ปอเรชั่น จำกัด (มหาชน)',
+        sourceUrl: SOURCE_URL,
+        unit: 'บาท/ลิตร',
+        items,
+      }),
+      {
+        status: 200,
+        headers: {
+          ...baseHeaders,
+          'Content-Type': 'application/json; charset=utf-8',
+          'Cache-Control': 'public, max-age=300, stale-while-revalidate=600',
+        },
+      }
+    );
   } catch (err) {
-    return new Response(JSON.stringify({
-      success: false,
-      error: 'Bangchak oil price proxy error',
-      message: err.message,
-      sourceUrl: SOURCE_URL,
-    }), {
-      status: 502,
-      headers: {
-        ...CORS_HEADERS,
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-    });
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: 'Bangchak oil price proxy error',
+        message: err.message,
+        sourceUrl: SOURCE_URL,
+      }),
+      {
+        status: 502,
+        headers: {
+          ...baseHeaders,
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+      }
+    );
   }
 };
 

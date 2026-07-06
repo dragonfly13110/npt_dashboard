@@ -12,6 +12,10 @@ import {
   MINISTRAL_14B_MODEL,
   KKU_MODEL_IDS,
 } from '../utils/chatbotConstants';
+import {
+  addPromptGuardrails,
+  guardMessagesHistory,
+} from './promptGuardService';
 
 /**
  * Handles requests for Google Gemini API (including Gemini 3.1 and Gemma 4)
@@ -514,11 +518,14 @@ export async function callAI(
       '\n(สำคัญ: คุณได้รับไฟล์ PDF ที่แนบมาด้วย ให้คุณวิเคราะห์เนื้อหาในไฟล์นี้เพื่อตอบคำถามของผู้ใช้ หากผู้ใช้ขอให้สรุปหรือถามรายละเอียดเกี่ยวกับเอกสาร)';
   }
 
+  finalSystemPrompt = addPromptGuardrails(finalSystemPrompt);
+  const guardedMessagesHistory = guardMessagesHistory(messagesHistory);
+
   if (modelKey === 'gemma') {
     return callGeminiAI(
       GEMMA_MODEL,
       finalSystemPrompt,
-      messagesHistory,
+      guardedMessagesHistory,
       settings,
       fileData,
       2,
@@ -530,7 +537,7 @@ export async function callAI(
     return callGeminiAI(
       GEMINI_MODEL,
       finalSystemPrompt,
-      messagesHistory,
+      guardedMessagesHistory,
       settings,
       fileData,
       2,
@@ -542,7 +549,7 @@ export async function callAI(
     return callNvidiaAI(
       QWEN_MODEL,
       finalSystemPrompt,
-      messagesHistory,
+      guardedMessagesHistory,
       settings,
       2,
       signal,
@@ -553,7 +560,7 @@ export async function callAI(
     return callNvidiaAI(
       KIMI_MODEL,
       finalSystemPrompt,
-      messagesHistory,
+      guardedMessagesHistory,
       settings,
       2,
       signal,
@@ -564,7 +571,7 @@ export async function callAI(
     return callNvidiaAI(
       MISTRAL_LARGE_MODEL,
       finalSystemPrompt,
-      messagesHistory,
+      guardedMessagesHistory,
       settings,
       2,
       signal,
@@ -575,7 +582,7 @@ export async function callAI(
     return callNvidiaAI(
       DEEPSEEK_V4_FLASH_MODEL,
       finalSystemPrompt,
-      messagesHistory,
+      guardedMessagesHistory,
       settings,
       2,
       signal,
@@ -586,7 +593,7 @@ export async function callAI(
     return callNvidiaAI(
       LLAMA31_8B_MODEL,
       finalSystemPrompt,
-      messagesHistory,
+      guardedMessagesHistory,
       settings,
       2,
       signal,
@@ -597,7 +604,7 @@ export async function callAI(
     return callNvidiaAI(
       LLAMA33_MODEL,
       finalSystemPrompt,
-      messagesHistory,
+      guardedMessagesHistory,
       settings,
       2,
       signal,
@@ -608,7 +615,7 @@ export async function callAI(
     return callNvidiaAI(
       LLAMA4_MAVERICK_MODEL,
       finalSystemPrompt,
-      messagesHistory,
+      guardedMessagesHistory,
       settings,
       2,
       signal,
@@ -619,7 +626,7 @@ export async function callAI(
     return callNvidiaAI(
       MINISTRAL_14B_MODEL,
       finalSystemPrompt,
-      messagesHistory,
+      guardedMessagesHistory,
       settings,
       2,
       signal,
@@ -630,7 +637,7 @@ export async function callAI(
     return callKkuAI(
       KKU_MODEL_IDS[modelKey],
       finalSystemPrompt,
-      messagesHistory,
+      guardedMessagesHistory,
       settings,
       2,
       signal,
@@ -640,7 +647,7 @@ export async function callAI(
   return callOpenRouterAI(
     modelKey,
     finalSystemPrompt,
-    messagesHistory,
+    guardedMessagesHistory,
     settings,
     2,
     signal,

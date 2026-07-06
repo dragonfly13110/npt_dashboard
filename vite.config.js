@@ -261,7 +261,7 @@ function localMocPriceProxyPlugin() {
   };
 }
 
-function localDataQualityStatsPlugin(env) {
+function localDataQualityStatsPlugin() {
   return {
     name: 'local-data-quality-stats',
     configureServer(server) {

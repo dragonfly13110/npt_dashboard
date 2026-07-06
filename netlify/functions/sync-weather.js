@@ -1,6 +1,7 @@
 import { schedule } from '@netlify/functions';
 import { createClient } from '@supabase/supabase-js';
 import { reportCriticalError } from './lib/error-alert.js';
+import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY =
@@ -14,14 +15,12 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+const getResponseHeaders = (origin = '') => ({
+  ...corsHeaders(origin, { methods: 'GET, POST, OPTIONS' }),
   'Content-Type': 'application/json',
-};
+});
 
-const syncWeather = async (context) => {
+const syncWeather = async (context, headers) => {
   console.log('Triggering Daily Weather Sync (Robust Open-Meteo)...');
 
   try {
@@ -105,7 +104,7 @@ const syncWeather = async (context) => {
     if (dbRecords.length === 0) {
       return {
         statusCode: 200,
-        headers: CORS_HEADERS,
+        headers,
         body: JSON.stringify({ message: 'No weather data found' }),
       };
     }
@@ -118,7 +117,7 @@ const syncWeather = async (context) => {
     console.log(`Success: Sync'd ${dbRecords.length} robust weather records`);
     return {
       statusCode: 200,
-      headers: CORS_HEADERS,
+      headers,
       body: JSON.stringify({ message: `Synced ${dbRecords.length} records` }),
     };
   } catch (err) {
@@ -132,24 +131,33 @@ const syncWeather = async (context) => {
     else await alert;
     return {
       statusCode: 500,
-      headers: CORS_HEADERS,
+      headers,
       body: JSON.stringify({ error: err.message }),
     };
   }
 };
 
 const syncHandler = async (event = {}, context) => {
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getResponseHeaders(origin);
   if (event.httpMethod === 'OPTIONS')
-    return { statusCode: 204, headers: CORS_HEADERS, body: '' };
+    return { statusCode: 204, headers, body: '' };
+  if (!isOriginAllowed(origin)) {
+    return {
+      statusCode: 403,
+      headers,
+      body: JSON.stringify({ error: 'Origin not allowed' }),
+    };
+  }
   if (event.httpMethod && !['GET', 'POST'].includes(event.httpMethod)) {
     return {
       statusCode: 405,
-      headers: CORS_HEADERS,
+      headers,
       body: JSON.stringify({ error: 'Method not allowed' }),
     };
   }
 
-  return syncWeather(context);
+  return syncWeather(context, headers);
 };
 
 export const handler = schedule('0 22 * * *', syncHandler);
