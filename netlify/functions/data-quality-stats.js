@@ -43,7 +43,7 @@ const TARGET_TABLES = [
   'personnel',
 ];
 
-export default async (request, context) => {
+export default async (request, _context) => {
   const origin = request.headers.get('origin');
   if (!isOriginAllowed(origin)) {
     return jsonResponse(origin, 403, { error: 'Origin not allowed' });
@@ -121,11 +121,6 @@ export default async (request, context) => {
     // Fallback: Query columns using SQL
     let tableColumns = [];
     if (columnsError || !columns) {
-      const sqlColumnsQuery = `
-        SELECT table_name, column_name, data_type 
-        FROM information_schema.columns 
-        WHERE table_schema = 'public' AND table_name = ANY($1);
-      `;
       // We can fetch columns via a direct query
       const response = await fetch(
         `${SUPABASE_URL}/rest/v1/rpc/execute_sql_query`,

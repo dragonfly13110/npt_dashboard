@@ -217,7 +217,9 @@ export default async (request, context) => {
       table_name: 'profiles',
       record_id: 'default-data-users',
       old_data: null,
-      new_data: { accounts: results.map(({ password, ...row }) => row) },
+      new_data: {
+        accounts: results.map(({ password: _password, ...row }) => row),
+      },
     });
 
     return jsonResponse(origin, 200, { ok: true, accounts: results });
