@@ -1,77 +1,171 @@
-# NPT Smart Agri Dashboard 🌾
+# NPT Smart Agri Dashboard
 
-ศูนย์ข้อมูลการเกษตรอัจฉริยะจังหวัดนครปฐม (ระบบบูรณาการข้อมูลการเกษตรระดับจังหวัด)
+ศูนย์ข้อมูลการเกษตรอัจฉริยะจังหวัดนครปฐม สำหรับรวบรวมข้อมูลเกษตรระดับจังหวัด แสดงผลเป็นแดชบอร์ด แผนที่ ระบบค้นหา ระบบนำเข้าข้อมูล และผู้ช่วย AI/LINE chatbot
 
----
+## ภาพรวม
 
-## 📌 ที่มาที่ไป (Background)
+โปรเจกต์นี้เป็นเว็บแอป React + Vite ที่เชื่อม Supabase และ Netlify Functions เพื่อใช้เป็นทั้งหน้าสาธารณะและระบบเจ้าหน้าที่ภายใน
 
-งานข้อมูลการเกษตรระดับจังหวัดมักเผชิญปัญหาข้อมูลกระจัดกระจายอยู่ในหลายไฟล์ (Excel, PDF, Word) และกระจายอยู่ตามกลุ่มงานต่าง ๆ ทำให้การประมวลผลสรุปภาพรวมจังหวัดใช้เวลานานและซ้ำซ้อน ระบบ **NPT Smart Agri Dashboard** จึงถูกพัฒนาขึ้นเพื่อบูรณาการข้อมูลการเกษตรทั้งหมดเข้าสู่ระบบเดียวกัน ทำให้เป็น "ศูนย์กลางข้อมูลหนึ่งเดียว" ที่มีประสิทธิภาพ ปลอดภัย และนำไปใช้ประโยชน์ต่อยอดได้จริง
+- หน้าสาธารณะ: landing page, dashboard สรุป, Smart Map, BMC, คู่มือออนไลน์
+- ระบบภายใน: dashboard เจ้าหน้าที่, situation room, data dictionary, data requests, CRUD ตามกลุ่มงาน
+- ข้อมูล GIS: แผนที่นครปฐม, ชั้นข้อมูลชุดดิน, แปลง/พิกัด และข้อมูลพื้นที่เกษตร
+- AI/Search: global search, chatbot หน้าเว็บ, LINE AI chatbot, proxy สำหรับ model/API ภายนอก
+- งานระบบ: Supabase schema/RLS/RPC, Netlify Functions, audit log, visitor analytics, data quality
 
-## 🎯 เป้าหมาย (Goals)
+## Tech Stack
 
-1. **บูรณาการข้อมูลกลาง**: รวมข้อมูลเชิงสถิติ บุคลากร สินทรัพย์ ทะเบียนเกษตรกร และข้อมูลเชิงพื้นที่ (GIS) ของจังหวัดนครปฐม
-2. **ขับเคลื่อนด้วยแดชบอร์ด**: แสดงผลข้อมูลเป็นกราฟเชิงโต้ตอบ (Interactive Charts) และแผนที่พิกัดเชิงรุกสำหรับผู้บริหารและเจ้าหน้าที่
-3. **ระบบผู้ช่วย AI & การค้นหาอัจฉริยะ**: ใช้ AI Chatbot (น้องข้าวหลาม) ช่วยสืบค้นและตอบคำถามจากข้อมูลจริง รวมถึงค้นหาข้ามตารางได้อย่างรวดเร็ว
-4. **ความปลอดภัยของข้อมูล**: บังคับใช้นโยบายสิทธิ์แบบระบุบทบาท (RBAC) และนโยบายระดับแถวข้อมูล (Row-Level Security - RLS) เพื่อความปลอดภัยสูงสุด
+- Frontend: React 19, Vite 7, React Router 7, Ant Design 6
+- Data/API: Supabase, Netlify Functions, TanStack Query
+- Visualization: ECharts, Leaflet/React Leaflet
+- Testing: Vitest, Playwright, Testing Library
+- Tooling: ESLint, Prettier, Husky, lint-staged
 
-## 🖥️ ภาพรวมระบบและฟีเจอร์เด่น (System Overview)
+## เริ่มใช้งานในเครื่อง
 
-ระบบแบ่งออกเป็น 2 ส่วนหลักเพื่อตอบโจทย์ผู้ใช้แต่ละกลุ่ม:
+ต้องมี Node.js เวอร์ชันใหม่ที่รองรับ Vite 7 และแนะนำให้ใช้ pnpm ตาม lockfile ของโปรเจกต์
 
-### 1. สาธารณะ (Public Portal)
+```bash
+pnpm install
+cp .env.example .env
+pnpm dev
+```
 
-- **Interactive Dashboard**: สรุปข้อมูลสถิติพื้นที่พืชและการเกษตรภาพรวมจังหวัดนครปฐม
-- **SmartMap (แผนที่อัจฉริยะ)**: แผนที่แสดงเลเยอร์ข้อมูลพิกัดภูมิสารสนเทศ (GIS), แปลงใหญ่, แหล่งท่องเที่ยวเชิงเกษตร
-- **AI Disease Forecast & Hotspots**: รายงานทำนายเตือนภัยระบาดศัตรูพืชล่วงหน้า 7 วันด้วย AI และพิกัดจุดความร้อนประจำวัน
-- **แชทบอทน้องข้าวหลาม (Landing Chatbot)**: อำนวยความสะดวกในการค้นหาและแนะนำเมนูเด่นประจำเว็บไซต์
+เปิดเว็บที่ Vite แสดงใน terminal ปกติคือ `http://localhost:5173`
 
-### 2. ระบบภายในเจ้าหน้าที่ (Internal Dashboard)
+ถ้าใช้ npm ก็รันได้เช่นกัน:
 
-- **Executive Situation Room**: ห้องปฏิบัติการผู้บริหารเพื่อวิเคราะห์ เปรียบเทียบข้อมูลสถิติรายอำเภอเชิงลึก
-- **Data Management (CRUD)**: จัดการตารางข้อมูลกลุ่มงานต่าง ๆ ได้แก่:
-  - _บริหารทั่วไป_: บุคลากร (`personnel`), สินทรัพย์ (`assets`), งบประมาณ (`budgets`), บันทึกการแก้ไข (`audit_logs`)
-  - _ยุทธศาสตร์_: ทะเบียนเกษตรกร (`farmer_registry`), พื้นที่เกษตร (`agricultural_areas`), แหล่งเรียนรู้ (`learning_centers`)
-  - _ส่งเสริมการผลิต_: แปลงใหญ่ (`large_plots`), มาตรฐาน GAP (`certifications`), ผลผลิตพืช (`crop_production`)
-  - _ส่งเสริมเกษตรกร_: วิสาหกิจชุมชน (`community_enterprises`), Smart Farmer (`smart_farmer_sf`, `young_smart_farmer_ysf`), ท่องเที่ยวเกษตร
-  - _อารักขาพืช_: แปลงพยากรณ์ (`forecast_plots`), ศูนย์จัดการศัตรูพืช (`pest_centers`), ศูนย์ดินปุ๋ย (`soil_fertilizer_centers`)
-- **Data Requests Workflows**: ระบบสร้างคำขอข้อมูลและเชื่อมต่อข้อมูลดิบภายนอกผ่าน Google Sheets/CSV
-- **Internal AI Chatbot**: ผู้ช่วยตอบคำถามวิเคราะห์ข้อมูลเชิงตัวเลขและจัดอันดับที่คำนวณจาก database จริง
+```bash
+npm install
+npm run dev
+```
 
----
+## Environment Variables
 
-## 🛠️ แนะนำการติดตั้งและขั้นตอนสร้างระบบ (How to Build from Scratch)
+คัดลอก `.env.example` เป็น `.env` แล้วเติมค่าที่จำเป็น
 
-หากต้องการติดตั้งโปรเจกต์นี้เพื่อพัฒนาต่อ หรือต้องการสร้างระบบข้อมูลแบบเดียวกันนี้จากเริ่มต้น ให้ศึกษาตามคู่มือการสร้างระบบแบบเป็นขั้นตอนใน <a href="./docs/manual/" target="_blank">docs/manual/</a> ดังนี้:
+ค่าหลักสำหรับ frontend:
 
-| ขั้นตอนหลัก                       | เอกสารคู่มือและขั้นตอนการทำ                                                                                                      | รายละเอียดสำคัญ                                                                        |
-| :-------------------------------- | :------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------- |
-| **Step 1: ศึกษาภาพรวม**           | <a href="./docs/manual/01-ภาพรวมและเป้าหมายระบบ.md" target="_blank">01 ภาพรวมและเป้าหมายระบบ</a>                                 | ทำความเข้าใจโจทย์ ขอบเขตการทำงาน และการแบ่งกลุ่มงานของจังหวัด                          |
-| **Step 2: สำรวจและเก็บข้อมูล**    | <a href="./docs/manual/02-การรวบรวมข้อมูลจากจังหวัด.md" target="_blank">02 การรวบรวมข้อมูลจากจังหวัด</a>                         | วิธีการรวบรวมข้อมูลดิบจากหน่วยงานต่าง ๆ และโครงสร้างแบบฟอร์มจัดเก็บ                    |
-| **Step 3: ทำความสะอาดข้อมูล**     | <a href="./docs/manual/03-การทำความสะอาดและเตรียมข้อมูล.md" target="_blank">03 การทำความสะอาดและเตรียมข้อมูล</a>                 | การคลีนข้อมูล จัดฟิลด์ ลบข้อมูลซ้ำซ้อน และแปลงข้อมูลบุคคลให้อยู่ในรูปนิรนาม            |
-| **Step 4: ตั้งค่าฐานข้อมูล**      | <a href="./docs/manual/04-การออกแบบฐานข้อมูลและตั้งค่า-supabase.md" target="_blank">04 การออกแบบฐานข้อมูลและตั้งค่า Supabase</a> | การสร้างตารางบน Supabase Database, ออกแบบ Schema, และตั้งค่า RLS เบื้องต้น             |
-| **Step 5: ติดตั้งโปรเจกต์**       | <a href="./docs/manual/05-การติดตั้งและตั้งค่าโปรเจกต์.md" target="_blank">05 การติดตั้งและตั้งค่าโปรเจกต์</a>                   | การ Clone Repo, ตั้งค่าไฟล์ Env, การรัน Dev Server และชุดคำสั่งสั่งการผ่าน `pnpm`      |
-| **Step 6: พัฒนาฟังก์ชันเด่น**     | <a href="./docs/manual/06-การสร้าง-dashboard-search-ai.md" target="_blank">06 การสร้าง Dashboard, Search และ AI Chatbot</a>      | การเขียนแผนภูมิด้วย ECharts, เชื่อมต่อ Global Search และการทำ context injection ให้ AI |
-| **Step 7: ความปลอดภัยและเผยแพร่** | <a href="./docs/manual/07-ความปลอดภัยและการ-deploy.md" target="_blank">07 ความปลอดภัยและการ Deploy</a>                           | การทำ RLS Role Hardening, การ deploy ฟังก์ชัน proxy บน Netlify และขั้นตอนเปิดใช้จริง   |
-| **Step 8: ส่งมอบและดูแลระบบ**     | <a href="./docs/manual/08-การดูแลระบบและอบรมผู้ใช้งาน.md" target="_blank">08 การดูแลระบบและอบรมผู้ใช้งาน</a>                     | แผนการสำรองข้อมูล (Backup), การติดตาม Log และการจัดอบรมขยายผล                          |
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+- `VITE_LANDING_CHATBOT_API_URL`
+- `VITE_LANDING_CHATBOT_API_KEY`
+- `VITE_SOIL_LAYER_URL`
 
----
+ค่าสำหรับ Netlify Functions/server เท่านั้น:
 
-## 🚀 สรุป Tech Stack ที่สำคัญ
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `SUPABASE_PROJECT_REF`
+- `SUPABASE_ACCESS_TOKEN`
+- `GEMINI_API_KEY`, `OPENROUTER_API_KEY`, `NVIDIA_API_KEY`
+- `LINE_CHANNEL_SECRET`, `LINE_CHANNEL_ACCESS_TOKEN`
+- `LINE_AI_*`
+- API keys/credentials ของแหล่งข้อมูลภายนอก เช่น DOAE, GISTDA, Meteostat
 
-- **Frontend**: React 19, Vite 7, Ant Design 6, React Router DOM 7
-- **Database & Auth**: Supabase Database, Custom Database Functions (RPC), RLS Role Hardening
-- **Data Visualizations**: Apache ECharts (ผ่าน EChart Component Wrapper), Leaflet & React Leaflet (แผนที่)
-- **Package Manager**: `pnpm` (จัดการ dependency ในรูปแบบ Monorepo Workspace)
-- **Deployment**: Netlify Host, Serverless Functions (19 Services สำหรับ Proxy และ Tasks)
+อย่าใส่ service role key หรือ secret ใดๆ ด้วย prefix `VITE_` เพราะค่ากลุ่มนี้จะถูก bundle ไปฝั่ง browser
 
-## 📌 เอกสารเชิงลึกอื่น ๆ (References)
+## คำสั่งที่ใช้บ่อย
 
-สำหรับนักพัฒนาหรือวิศวกรข้อมูลที่ต้องการศึกษาความเชื่อมโยงระดับระบบอย่างละเอียด:
+```bash
+pnpm dev          # เปิด dev server
+pnpm build        # build production
+pnpm preview      # preview dist หลัง build
+pnpm lint         # ตรวจ lint ทั้งโปรเจกต์
+pnpm lint:src     # ตรวจ lint เฉพาะ src
+pnpm test         # unit/integration tests
+pnpm test:e2e     # Playwright e2e
+pnpm prerender    # สร้างไฟล์ prerender ด้วย scripts/prerender.js
+```
 
-- <a href="./docs/reference/SYSTEM_OVERVIEW.md" target="_blank">SYSTEM_OVERVIEW.md</a> - ภาพรวมสรุปของระบบ (รวมรายละเอียดจากไฟล์ PROJECT_REVIEW_FULL และ SECURITY_NOTES เดิม)
-- <a href="./docs/reference/ARCHITECTURE.md" target="_blank">ARCHITECTURE.md</a> - สถาปัตยกรรมและการไหลเวียนของข้อมูล (Data Flow) ในระบบ
-- <a href="./docs/reference/DATABASE_AND_WIDGET_TABLES.md" target="_blank">DATABASE_AND_WIDGET_TABLES.md</a> - รายละเอียดตารางและแหล่งที่มาของ Widget แต่ละตัว
-- <a href="./docs/reference/ENVIRONMENT.md" target="_blank">ENVIRONMENT.md</a> - การจัดการและคู่มือความปลอดภัยด้าน Secrets หมุนเวียนคีย์
-- <a href="./docs/reference/COMPETITION_SYSTEM_REVIEW.md" target="_blank">COMPETITION_SYSTEM_REVIEW.md</a> - รายงานผลการประเมินและการปรับปรุงระบบเพื่อเตรียมประกวด
-- <a href="./docs/reference/infographic_image_prompts.md" target="_blank">infographic_image_prompts.md</a> - ชุดคำสั่ง (Prompts) สำหรับสร้างรูปภาพอินโฟกราฟิกของระบบ
+## โครงสร้างโปรเจกต์
+
+```text
+src/
+  pages/          หน้าเว็บและหน้าระบบภายใน
+  components/     reusable UI, chatbot, widgets, maps, tables
+  hooks/          data hooks และ dashboard selectors
+  services/       search, AI, monitoring, guest session, chatbot services
+  utils/          helpers, privacy, CSV, geo, markdown
+  domain/         dataset catalog
+  data/           seed/static data
+
+netlify/functions/  serverless APIs, proxy, sync jobs, LINE webhook
+supabase/           schema, migrations, RLS, RPC/search SQL
+docs/manual/        คู่มือทำระบบและดูแลระบบ
+docs/reference/     เอกสารสถาปัตยกรรม ฐานข้อมูล และรีวิวระบบ
+tests/e2e/          Playwright specs
+public/             static assets, GIS, sitemap, robots
+scripts/            import/sync/migration/prerender scripts
+```
+
+## เส้นทางสำคัญ
+
+Public:
+
+- `/`
+- `/interactive-dashboard`
+- `/smart-map`
+- `/manual`
+- `/manual/:slug`
+- `/bmc`
+- `/login`
+
+Internal หลัง login:
+
+- `/dashboard`
+- `/dashboard/situation-room`
+- `/dashboard/chatbot`
+- `/dashboard/data-dictionary`
+- `/dashboard/search`
+- `/dashboard/data-requests`
+- `/dashboard/admin/*`
+- `/dashboard/strategy/*`
+- `/dashboard/production/*`
+- `/dashboard/development/*`
+- `/dashboard/protection/*`
+
+## ฐานข้อมูลและข้อมูลตั้งต้น
+
+ไฟล์ SQL อยู่ใน `supabase/` โดยมี `schema.sql` เป็นฐานหลัก และไฟล์เสริมสำหรับ RLS, RBAC, global search, data requests, LINE AI, visitor events และตารางเฉพาะกลุ่มงาน
+
+สคริปต์ import/sync อยู่ใน `scripts/` เช่น:
+
+- `run_sql_file.mjs`
+- `run_migration.js`
+- `apply_global_search.mjs`
+- `seed_fallback_data.mjs`
+- `seed_forecast_plots.mjs`
+- `sync_geoplots_progress.js`
+- `import_*.mjs`
+
+อ่านรายละเอียด field/table เพิ่มที่ `DATA_DICTIONARY.md` และ `docs/reference/DATABASE_AND_WIDGET_TABLES.md`
+
+## Netlify Deploy
+
+โปรเจกต์ตั้งค่าไว้ใน `netlify.toml`
+
+- build command: `npm run build:netlify`
+- publish directory: `dist`
+- functions directory: `netlify/functions`
+- SPA fallback: `/* -> /index.html`
+
+ก่อน deploy ให้ตั้งค่า environment variables บน Netlify ให้ครบ โดยเฉพาะ secret ฝั่ง server และ allowed origins
+
+## เอกสารเพิ่มเติม
+
+- `docs/manual/00-เริ่มต้นสำหรับมือใหม่-ทำเว็บตั้งแต่ศูนย์จนออนไลน์.md`
+- `docs/manual/05-การติดตั้งและตั้งค่าโปรเจกต์.md`
+- `docs/manual/07-ความปลอดภัยและการ-deploy.md`
+- `docs/manual/10-คู่มือนำเข้าข้อมูล-csv-สำหรับเจ้าหน้าที่.md`
+- `docs/manual/11-sop-ผู้ดูแลระบบ.md`
+- `docs/manual/12-troubleshooting-สำหรับมือใหม่.md`
+- `docs/reference/ARCHITECTURE.md`
+- `docs/reference/SYSTEM_OVERVIEW.md`
+- `docs/reference/ENVIRONMENT.md`
+- `docs/ROADMAP.md`
+
+## หมายเหตุสำหรับผู้ดูแล
+
+- เก็บ secrets ไว้ใน `.env` หรือ Netlify Environment Variables เท่านั้น
+- ตรวจ RLS/role ทุกครั้งก่อนเปิดข้อมูลภายในสู่ public route
+- หลังแก้ Netlify Functions หรือ SQL ให้รัน test ที่เกี่ยวข้องก่อน deploy
+- ถ้าแก้ข้อมูลที่แสดงใน dashboard ให้ตรวจทั้งหน้าสาธารณะและหน้า internal เพราะหลาย widget ใช้ source เดียวกัน
