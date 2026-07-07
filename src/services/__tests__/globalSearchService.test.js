@@ -192,6 +192,55 @@ describe('globalSearchService', () => {
       expect(budgetRow.notes).toBe('อบรมเกษตรกร • 20 ราย • กลุ่มส่งเสริมอาชีพ');
       expect(budgetRow.notes).not.toContain('{"');
     });
+
+    it('sorts table groups by score and exposes match metadata', async () => {
+      supabase.rpc.mockResolvedValue({
+        data: [
+          {
+            table: 'large_plots',
+            totalCount: 1,
+            results: [
+              {
+                id: 2,
+                plot_name: 'ข้าว',
+                score: 60,
+                match_column: 'plot_name',
+                match_value: 'ข้าว',
+                match_type: 'substring',
+              },
+            ],
+          },
+          {
+            table: 'budgets',
+            totalCount: 1,
+            results: [
+              {
+                id: 1,
+                project_name: 'งบข้าวสามพราน',
+                score: 100,
+                match_column: 'project_name',
+                match_value: 'งบข้าวสามพราน',
+                match_type: 'exact',
+              },
+            ],
+          },
+        ],
+        error: null,
+      });
+
+      const result = await globalSearchService.globalSearch(
+        'ข้าว สามพราน งบ ranking-test',
+        5
+      );
+
+      expect(result[0].table).toBe('budgets');
+      expect(result[0].results[0]).toMatchObject({
+        score: 120,
+        matchColumn: 'project_name',
+        matchValue: 'งบข้าวสามพราน',
+        matchType: 'exact',
+      });
+    });
   });
 
   describe('recent searches', () => {

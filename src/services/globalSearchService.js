@@ -8,6 +8,7 @@ import {
   listDatasetKeys,
 } from '../domain/datasetCatalog';
 import { getPublicColumns } from '../utils/dataPrivacy';
+import { parseSearchQuery } from './searchQueryParser';
 
 /**
  * Mapping: table name → dashboard route path
@@ -152,6 +153,10 @@ function normalizeBudgetRowForSearch(row) {
     notes: displayNotes || null,
     fiscal_year: row.fiscal_year || notes.fiscalYear || null,
     budget_round: row.budget_round || notes.round || null,
+    score: row.score ?? null,
+    match_column: row.match_column ?? null,
+    match_value: row.match_value ?? null,
+    match_type: row.match_type ?? null,
     created_at: row.created_at,
     updated_at: row.updated_at,
   };
@@ -203,7 +208,10 @@ function sanitizeRowForRole(table, row, role) {
   );
 }
 
-function enrichResults(rawResults, role = 'viewer') {
+const getRowScore = (row, tableHints = [], table) =>
+  Number(row.score || 0) + (tableHints.includes(table) ? 20 : 0);
+
+function enrichResults(rawResults, role = 'viewer', tableHints = []) {
   return rawResults
     .map((entry) => {
       const config = TABLE_CONFIG[entry.table];
@@ -220,16 +228,29 @@ function enrichResults(rawResults, role = 'viewer') {
         group: config.group,
         route: getDatasetRoute(entry.table),
         totalCount: entry.totalCount || entry.results?.length || 0,
-        results: safeRows.map((row) => ({
-          id: row.id,
-          title: getResultLabel(row, entry.table),
-          subtitle: getResultSubtitle(row, entry.table),
-          raw: row,
-        })),
+        results: safeRows
+          .map((row) => {
+            const score = getRowScore(row, tableHints, entry.table);
+            return {
+              id: row.id,
+              title: getResultLabel(row, entry.table),
+              subtitle: getResultSubtitle(row, entry.table),
+              score,
+              matchColumn: row.match_column || null,
+              matchValue: row.match_value || null,
+              matchType: row.match_type || null,
+              raw: row,
+            };
+          })
+          .sort((a, b) => b.score - a.score),
       };
     })
     .filter(Boolean)
-    .sort((a, b) => b.totalCount - a.totalCount);
+    .sort(
+      (a, b) =>
+        (b.results[0]?.score || 0) - (a.results[0]?.score || 0) ||
+        b.totalCount - a.totalCount
+    );
 }
 
 // ========== RPC-based search (single request → 18 tables) ==========
@@ -244,7 +265,12 @@ async function searchViaRPC(searchTerm, limitPerTable) {
 }
 
 // ========== Fallback: parallel search (18 requests) ==========
-async function searchViaParallel(searchTerm, limitPerTable, role = 'viewer') {
+async function searchViaParallel(
+  searchTerm,
+  limitPerTable,
+  role = 'viewer',
+  tableHints = []
+) {
   const tables = listDatasetKeys();
 
   const searchPromises = tables.map(async (table) => {
@@ -278,7 +304,7 @@ async function searchViaParallel(searchTerm, limitPerTable, role = 'viewer') {
   });
 
   const raw = (await Promise.all(searchPromises)).filter(Boolean);
-  return enrichResults(raw, role);
+  return enrichResults(raw, role, tableHints);
 }
 
 // ========== Main Search Function ==========
@@ -286,6 +312,7 @@ export async function globalSearch(query, limitPerTable = 5, role = 'viewer') {
   if (!query || query.trim().length < 2) return [];
 
   const searchTerm = query.trim();
+  const parsedQuery = parseSearchQuery(searchTerm);
   const cacheKey = `${role}:${searchTerm}:${limitPerTable}`;
 
   // Check cache first
@@ -302,14 +329,24 @@ export async function globalSearch(query, limitPerTable = 5, role = 'viewer') {
       // Try RPC first (1 request). Guest uses parallel path to avoid private search columns.
       results =
         role === 'guest'
-          ? await searchViaParallel(searchTerm, limitPerTable, role)
+          ? await searchViaParallel(
+              searchTerm,
+              limitPerTable,
+              role,
+              parsedQuery.tableHints
+            )
           : await searchViaRPC(searchTerm, limitPerTable).then((data) =>
-              enrichResults(data, role)
+              enrichResults(data, role, parsedQuery.tableHints)
             );
     } catch {
       // Fallback to parallel (18 requests)
       console.warn('RPC search failed, falling back to parallel search');
-      results = await searchViaParallel(searchTerm, limitPerTable, role);
+      results = await searchViaParallel(
+        searchTerm,
+        limitPerTable,
+        role,
+        parsedQuery.tableHints
+      );
     }
 
     // Save to cache
