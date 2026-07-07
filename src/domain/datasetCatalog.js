@@ -82,6 +82,7 @@ export const GROUP_TABLES = {
   strategy: [
     'farmer_registry',
     'agricultural_areas',
+    'gis_areas',
     'learning_centers',
     'disasters',
     'daily_weather',
@@ -109,10 +110,12 @@ export const GROUP_TABLES = {
   ],
   protection: [
     'forecast_plots',
+    'ai_disease_forecasts',
     'pest_outbreaks',
     'pest_centers',
     'plant_doctors',
     'soil_fertilizer_centers',
+    'soil_series',
     'biocontrol_stock',
     'fire_hotspots',
   ],

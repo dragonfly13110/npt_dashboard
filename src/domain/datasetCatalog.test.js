@@ -10,7 +10,28 @@ import {
   getDepartmentGroupKey,
   getGroupTables,
   getSearchColumns,
+  listDatasetKeys,
 } from './datasetCatalog';
+
+function readGlobalSearchSql() {
+  return readFileSync('supabase/global_search.sql', 'utf8');
+}
+
+function getRpcConfigTables(sql) {
+  return [...sql.matchAll(/\('([^']+)'::text,\s*ARRAY\[/g)].map(
+    (match) => match[1]
+  );
+}
+
+function getLegacyWrapperTables(sql) {
+  const wrapperSql = sql.slice(
+    sql.indexOf('CREATE OR REPLACE FUNCTION public.global_search(')
+  );
+  const arrays = [...wrapperSql.matchAll(/ARRAY\[\s*([\s\S]*?)\s*\]/g)];
+  return [...(arrays[1]?.[1] || '').matchAll(/'([^']+)'/g)].map(
+    (match) => match[1]
+  );
+}
 
 describe('datasetCatalog', () => {
   it('keeps table routes and search metadata in one place', () => {
@@ -24,18 +45,29 @@ describe('datasetCatalog', () => {
   });
 
   it('keeps RPC global search aligned with app search metadata', () => {
-    const sql = readFileSync('supabase/global_search.sql', 'utf8');
+    const sql = readGlobalSearchSql();
 
     expect(sql).toContain("'soil_series'::text");
     expect(sql).toContain("'assets'::text");
-    expect(sql).toContain("'soil_series','fire_hotspots'");
+    expect(sql).toContain("'soil_series','biocontrol_stock','fire_hotspots'");
     expect(sql).toContain(
       'safe_limit INTEGER := GREATEST(COALESCE(result_limit, 3), 1);'
     );
   });
 
+  it('keeps every app search table wired into global search SQL', () => {
+    const sql = readGlobalSearchSql();
+    const appTables = listDatasetKeys().sort();
+
+    expect(getRpcConfigTables(sql).sort()).toEqual(appTables);
+    expect(getLegacyWrapperTables(sql).sort()).toEqual(appTables);
+    expect(
+      appTables.filter((table) => getSearchColumns(table).length === 0)
+    ).toEqual([]);
+  });
+
   it('returns search relevance metadata from RPC SQL', () => {
-    const sql = readFileSync('supabase/global_search.sql', 'utf8');
+    const sql = readGlobalSearchSql();
 
     expect(sql).toContain('score');
     expect(sql).toContain('match_column');

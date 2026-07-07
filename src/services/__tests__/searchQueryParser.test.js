@@ -28,4 +28,15 @@ describe('parseSearchQuery', () => {
       'assets',
     ]);
   });
+  it('maps newly searchable table keywords to table hints', () => {
+    expect(parseSearchQuery('บุคลากร GIS ชีวภัณฑ์').tableHints).toEqual([
+      'personnel',
+      'gis_areas',
+      'biocontrol_stock',
+    ]);
+    expect(parseSearchQuery('ระบาดศัตรูพืช กลุ่มแม่บ้าน').tableHints).toEqual([
+      'housewife_farmer_groups',
+      'pest_outbreaks',
+    ]);
+  });
 });

@@ -21,6 +21,12 @@ const TABLE_HINTS = [
   { terms: ['แปลงใหญ่'], tables: ['large_plots'] },
   { terms: ['วิสาหกิจ'], tables: ['community_enterprises'] },
   { terms: ['ครุภัณฑ์', 'พัสดุ', 'ทรัพย์สิน'], tables: ['assets'] },
+  { terms: ['บุคลากร', 'เจ้าหน้าที่'], tables: ['personnel'] },
+  { terms: ['gis', 'แผนที่'], tables: ['gis_areas'] },
+  { terms: ['แม่บ้าน'], tables: ['housewife_farmer_groups'] },
+  { terms: ['ยุวเกษตรกร'], tables: ['young_farmer_groups'] },
+  { terms: ['ระบาด', 'ศัตรูพืช'], tables: ['pest_outbreaks'] },
+  { terms: ['ชีวภัณฑ์'], tables: ['biocontrol_stock'] },
 ];
 
 const unique = (values) => [...new Set(values.filter(Boolean))];

@@ -24,6 +24,11 @@ BEGIN
         ('idx_gin_agricultural_areas_district', 'agricultural_areas', 'district'),
         ('idx_gin_agricultural_areas_subdistrict', 'agricultural_areas', 'subdistrict'),
 
+        ('idx_gin_gis_areas_area_name', 'gis_areas', 'area_name'),
+        ('idx_gin_gis_areas_district', 'gis_areas', 'district'),
+        ('idx_gin_gis_areas_area_type', 'gis_areas', 'area_type'),
+        ('idx_gin_gis_areas_notes', 'gis_areas', 'notes'),
+
         ('idx_gin_learning_centers_center_name', 'learning_centers', 'center_name'),
         ('idx_gin_learning_centers_district', 'learning_centers', 'district'),
         ('idx_gin_learning_centers_manager', 'learning_centers', 'manager'),
@@ -85,6 +90,12 @@ BEGIN
         ('idx_gin_career_groups_potential', 'agricultural_career_groups', 'potential_level'),
         ('idx_gin_career_groups_ce_reg', 'agricultural_career_groups', 'community_enterprise_registration'),
 
+        ('idx_gin_farmer_groups_group_name', 'farmer_groups', 'group_name'),
+        ('idx_gin_farmer_groups_type', 'farmer_groups', 'group_type'),
+        ('idx_gin_farmer_groups_district', 'farmer_groups', 'district'),
+        ('idx_gin_farmer_groups_chairman', 'farmer_groups', 'chairman'),
+        ('idx_gin_farmer_groups_notes', 'farmer_groups', 'notes'),
+
         ('idx_gin_housewife_groups_group_name', 'housewife_farmer_groups', 'group_name'),
         ('idx_gin_housewife_groups_district', 'housewife_farmer_groups', 'district'),
         ('idx_gin_housewife_groups_subdistrict', 'housewife_farmer_groups', 'subdistrict'),
@@ -93,6 +104,11 @@ BEGIN
         ('idx_gin_housewife_groups_standard', 'housewife_farmer_groups', 'production_standard'),
         ('idx_gin_housewife_groups_potential', 'housewife_farmer_groups', 'potential_level'),
         ('idx_gin_housewife_groups_ce_reg', 'housewife_farmer_groups', 'community_enterprise_registration'),
+
+        ('idx_gin_young_farmer_groups_name', 'young_farmer_groups', 'group_name'),
+        ('idx_gin_young_farmer_groups_district', 'young_farmer_groups', 'district'),
+        ('idx_gin_young_farmer_groups_chairman', 'young_farmer_groups', 'chairman'),
+        ('idx_gin_young_farmer_groups_notes', 'young_farmer_groups', 'notes'),
 
         ('idx_gin_young_groups_record_code', 'young_farmer_groups_detailed', 'record_code'),
         ('idx_gin_young_groups_group_name', 'young_farmer_groups_detailed', 'group_name'),
@@ -122,6 +138,13 @@ BEGIN
         ('idx_gin_ai_forecasts_risk_level', 'ai_disease_forecasts', 'risk_level'),
         ('idx_gin_ai_forecasts_summary', 'ai_disease_forecasts', 'summary'),
 
+        ('idx_gin_pest_outbreaks_name', 'pest_outbreaks', 'pest_name'),
+        ('idx_gin_pest_outbreaks_crop', 'pest_outbreaks', 'affected_crop'),
+        ('idx_gin_pest_outbreaks_district', 'pest_outbreaks', 'district'),
+        ('idx_gin_pest_outbreaks_severity', 'pest_outbreaks', 'severity'),
+        ('idx_gin_pest_outbreaks_report_date', 'pest_outbreaks', 'report_date'),
+        ('idx_gin_pest_outbreaks_notes', 'pest_outbreaks', 'notes'),
+
         ('idx_gin_pest_centers_name', 'pest_centers', 'center_name'),
         ('idx_gin_pest_centers_district', 'pest_centers', 'district'),
         ('idx_gin_pest_centers_subdistrict', 'pest_centers', 'subdistrict'),
@@ -145,6 +168,12 @@ BEGIN
         ('idx_gin_soil_series_fertility', 'soil_series', 'fertility'),
         ('idx_gin_soil_series_ph_top', 'soil_series', 'ph_top'),
         ('idx_gin_soil_series_district', 'soil_series', 'district'),
+
+        ('idx_gin_biocontrol_stock_product', 'biocontrol_stock', 'product_name'),
+        ('idx_gin_biocontrol_stock_source', 'biocontrol_stock', 'source'),
+        ('idx_gin_biocontrol_stock_period', 'biocontrol_stock', 'period'),
+        ('idx_gin_biocontrol_stock_status', 'biocontrol_stock', 'status'),
+        ('idx_gin_biocontrol_stock_notes', 'biocontrol_stock', 'notes'),
 
         ('idx_gin_fire_hotspots_spot_name', 'fire_hotspots', 'spot_name'),
         ('idx_gin_fire_hotspots_district', 'fire_hotspots', 'district'),

@@ -109,8 +109,9 @@ function getResultLabel(row, table) {
   const distCol = getDistrictColumn(table);
 
   for (const col of searchCols) {
-    if (row[col] && typeof row[col] === 'string' && row[col].trim()) {
-      return row[col].trim();
+    const value = row[col];
+    if (value !== null && value !== undefined && String(value).trim()) {
+      return String(value).trim();
     }
   }
   if (row[distCol]) return row[distCol];
