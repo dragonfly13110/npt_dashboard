@@ -334,9 +334,13 @@ export default function GlobalSearch({ collapsed = false }) {
                       <div className="item-title">
                         {highlightMatch(item.title, query)}
                       </div>
-                      {item.subtitle && (
+                      {item.matchValue ? (
+                        <div className="item-subtitle">
+                          {highlightMatch(item.matchValue, query)}
+                        </div>
+                      ) : item.subtitle ? (
                         <div className="item-subtitle">{item.subtitle}</div>
-                      )}
+                      ) : null}
                     </div>
                   ))}
                   {tableResult.totalCount > 3 && (

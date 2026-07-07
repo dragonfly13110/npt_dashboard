@@ -34,6 +34,18 @@ const GROUP_COLORS = {
   กลุ่มอารักขาพืช: '#cf222e',
 };
 
+const MATCH_LABELS = {
+  exact: 'ตรงคำ',
+  prefix: 'ขึ้นต้น',
+  substring: 'มีคำนี้',
+  trigram: 'ใกล้เคียง',
+};
+
+function getMatchText(item) {
+  if (!item.matchValue) return null;
+  return `${MATCH_LABELS[item.matchType] || 'พบคำ'}: ${item.matchValue}`;
+}
+
 // ========== Thai column name mapping ==========
 const COLUMN_LABELS = {
   district: 'อำเภอ',
@@ -787,6 +799,20 @@ export default function SearchResults() {
                           >
                             {highlightText(item.title, query)}
                           </div>
+                          {getMatchText(item) && (
+                            <div
+                              style={{
+                                marginTop: 2,
+                                fontSize: 11,
+                                color: '#57606a',
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                              }}
+                            >
+                              {highlightText(getMatchText(item), query)}
+                            </div>
+                          )}
                           {item.subtitle && (
                             <div
                               style={{
