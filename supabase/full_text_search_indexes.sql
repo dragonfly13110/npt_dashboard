@@ -150,6 +150,13 @@ BEGIN
         ('idx_gin_fire_hotspots_district', 'fire_hotspots', 'district'),
         ('idx_gin_fire_hotspots_risk_level', 'fire_hotspots', 'risk_level'),
 
+        ('idx_gin_assets_name', 'assets', 'name'),
+        ('idx_gin_assets_category', 'assets', 'category'),
+        ('idx_gin_assets_serial', 'assets', 'serial_number'),
+        ('idx_gin_assets_location', 'assets', 'location'),
+        ('idx_gin_assets_condition', 'assets', 'condition'),
+        ('idx_gin_assets_notes', 'assets', 'notes'),
+
         ('idx_gin_budgets_project_name', 'budgets', 'project_name'),
         ('idx_gin_budgets_source', 'budgets', 'budget_source'),
         ('idx_gin_budgets_status', 'budgets', 'status'),

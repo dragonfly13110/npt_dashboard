@@ -20,6 +20,7 @@ const TABLE_HINTS = [
   },
   { terms: ['แปลงใหญ่'], tables: ['large_plots'] },
   { terms: ['วิสาหกิจ'], tables: ['community_enterprises'] },
+  { terms: ['ครุภัณฑ์', 'พัสดุ', 'ทรัพย์สิน'], tables: ['assets'] },
 ];
 
 const unique = (values) => [...new Set(values.filter(Boolean))];

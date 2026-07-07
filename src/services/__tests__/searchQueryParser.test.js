@@ -22,4 +22,10 @@ describe('parseSearchQuery', () => {
       'forecast_plots',
     ]);
   });
+
+  it('maps asset keywords to assets table hint', () => {
+    expect(parseSearchQuery('เครื่องชั่ง ครุภัณฑ์').tableHints).toEqual([
+      'assets',
+    ]);
+  });
 });

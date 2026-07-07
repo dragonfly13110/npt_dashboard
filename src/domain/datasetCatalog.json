@@ -26,6 +26,7 @@
     "soil_fertilizer_centers": "/dashboard/protection/soil-fertilizer",
     "soil_series": "/dashboard/protection/soil-series",
     "fire_hotspots": "/dashboard/protection/fire-hotspots",
+    "assets": "/dashboard/admin/assets",
     "budgets": "/dashboard/admin/budgets",
     "personnel": "/dashboard/admin/personnel"
   }

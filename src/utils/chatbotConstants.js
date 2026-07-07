@@ -439,6 +439,13 @@ export const TABLE_CONFIG = {
     descTh:
       'ข้อมูลงบประมาณส่งเสริมการเกษตร รอบ 2 ปีงบประมาณ 2569 มีแผนงาน โครงการ กิจกรรม พื้นที่ เป้าหมาย งบประมาณ แผนดำเนินงาน แผนใช้จ่ายเงิน และผู้รับผิดชอบ',
   },
+  assets: {
+    label: 'พัสดุ/ครุภัณฑ์',
+    icon: '🧰',
+    group: 'บริหาร',
+    descTh:
+      'ทะเบียนทรัพย์สินและครุภัณฑ์ ค้นชื่อ ประเภท รหัส สถานที่ สภาพ และรายละเอียดในหมายเหตุ',
+  },
 };
 
 export const QUICK_PROMPTS = [
@@ -528,6 +535,14 @@ export const TABLE_SEARCH_COLS = {
   ],
   fire_hotspots: ['spot_name'],
   daily_weather: [],
+  assets: [
+    'name',
+    'category',
+    'serial_number',
+    'location',
+    'condition',
+    'notes',
+  ],
   budgets: ['project_name', 'budget_source', 'status', 'notes'],
 };
 

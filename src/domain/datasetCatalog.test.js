@@ -18,6 +18,8 @@ describe('datasetCatalog', () => {
       '/dashboard/production/large-plots'
     );
     expect(getSearchColumns('large_plots')).toContain('plot_name');
+    expect(getDatasetRoute('assets')).toBe('/dashboard/admin/assets');
+    expect(getSearchColumns('assets')).toContain('name');
     expect(getSearchColumns('ai_disease_forecasts')).toContain('target_crop');
   });
 
@@ -25,6 +27,7 @@ describe('datasetCatalog', () => {
     const sql = readFileSync('supabase/global_search.sql', 'utf8');
 
     expect(sql).toContain("'soil_series'::text");
+    expect(sql).toContain("'assets'::text");
     expect(sql).toContain("'soil_series','fire_hotspots'");
     expect(sql).toContain(
       'safe_limit INTEGER := GREATEST(COALESCE(result_limit, 3), 1);'
