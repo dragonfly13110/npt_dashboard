@@ -1,7 +1,5 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
-const {
-  createLineAiOrchestrator,
-} = require('../../netlify/functions/lib/line-ai/orchestrator.cjs');
+import { createLineAiOrchestrator } from '../../netlify/functions/lib/line-ai/orchestrator.js';
 
 describe('LINE AI Orchestrator', () => {
   let config;

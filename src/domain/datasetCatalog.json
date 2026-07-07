@@ -31,6 +31,8 @@
     "fire_hotspots": "/dashboard/protection/fire-hotspots",
     "assets": "/dashboard/admin/assets",
     "budgets": "/dashboard/admin/budgets",
-    "personnel": "/dashboard/admin/personnel"
+    "personnel": "/dashboard/admin/personnel",
+    "geoplots_parcel_progress": "/dashboard/strategy/parcel-drawing-progress",
+    "geoplots_parcel_subdistrict_progress": "/dashboard/strategy/parcel-drawing-progress"
   }
 }

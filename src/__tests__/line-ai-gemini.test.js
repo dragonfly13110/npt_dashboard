@@ -1,7 +1,5 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
-const {
-  createGeminiClient,
-} = require('../../netlify/functions/lib/line-ai/gemini.cjs');
+import { createGeminiClient } from '../../netlify/functions/lib/line-ai/gemini.js';
 
 describe('Gemini LINE client', () => {
   beforeEach(() => {

@@ -340,7 +340,18 @@ export default function SearchResults() {
     const sampleRow = tableResult.results[0].raw;
     const keys = Object.keys(sampleRow).filter(
       (k) =>
-        !['id', 'created_at', 'updated_at'].includes(k) &&
+        ![
+          'id',
+          'created_at',
+          'updated_at',
+          'score',
+          'match_value',
+          'match_type',
+          'match_column',
+          'matchValue',
+          'matchType',
+          'matchColumn',
+        ].includes(k) &&
         !(
           role === 'guest' &&
           isPrivateColumn(tableResult.table, { dataIndex: k })
@@ -402,7 +413,18 @@ export default function SearchResults() {
       .map(([key]) => key)
       .filter(
         (key) =>
-          !['id', 'created_at', 'updated_at'].includes(key) &&
+          ![
+            'id',
+            'created_at',
+            'updated_at',
+            'score',
+            'match_value',
+            'match_type',
+            'match_column',
+            'matchValue',
+            'matchType',
+            'matchColumn',
+          ].includes(key) &&
           !key.includes('image') &&
           !key.includes('url') &&
           !key.includes('file') &&

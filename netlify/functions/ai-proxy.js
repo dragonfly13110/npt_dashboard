@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 import { createClient } from '@supabase/supabase-js';
-import { createKeyPool } from './lib/line-ai/key-pool.cjs';
-import { createLineAiStore } from './lib/line-ai/store.cjs';
+import { createKeyPool } from './lib/line-ai/key-pool.js';
+import { createLineAiStore } from './lib/line-ai/store.js';
 import { reportCriticalError } from './lib/error-alert.js';
 
 // netlify/functions/ai-proxy.js

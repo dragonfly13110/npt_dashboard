@@ -14,6 +14,8 @@ export default defineConfig([
     'tmp',
     'scratch',
     '.worktrees',
+    'netlify/functions/lib/line-ai/orchestrator.js',
+    'netlify/functions/lib/line-ai/webhook-core.js',
   ]),
   {
     linterOptions: {

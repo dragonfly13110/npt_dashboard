@@ -1,7 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-const {
-  createLineAiStore,
-} = require('../../netlify/functions/lib/line-ai/store.cjs');
+import { createLineAiStore } from '../../netlify/functions/lib/line-ai/store.js';
 
 describe('LINE AI store', () => {
   it('loads only latest ten messages inside 24 hours', async () => {

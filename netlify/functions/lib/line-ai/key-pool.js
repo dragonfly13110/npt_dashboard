@@ -1,7 +1,5 @@
-'use strict';
-
 const DEFAULT_COOLDOWN_SECONDS = 60;
-const MAX_SLOT_ATTEMPTS = 2;
+export const MAX_SLOT_ATTEMPTS = 2;
 
 function normalizeRecord(record) {
   return {
@@ -59,7 +57,7 @@ function isTimeoutOrNetworkError(error) {
   );
 }
 
-function classifyFailure(error, currentTime, defaultCooldownSeconds) {
+export function classifyFailure(error, currentTime, defaultCooldownSeconds) {
   const status = errorStatus(error);
   const failure = { status, disabled: false, cooldownUntil: null };
   if (status === 401 || status === 403) {
@@ -84,7 +82,7 @@ function noHealthyKeyError() {
   return error;
 }
 
-function createKeyPool({
+export function createKeyPool({
   keys,
   store,
   now = () => new Date(),
@@ -167,9 +165,3 @@ function createKeyPool({
 
   return { execute };
 }
-
-module.exports = {
-  MAX_SLOT_ATTEMPTS,
-  classifyFailure,
-  createKeyPool,
-};

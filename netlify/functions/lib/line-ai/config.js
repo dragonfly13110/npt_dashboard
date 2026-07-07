@@ -1,5 +1,3 @@
-'use strict';
-
 const inspectSymbol = Symbol.for('nodejs.util.inspect.custom');
 
 function positiveInteger(value, fallback) {
@@ -13,13 +11,31 @@ function csv(value, fallback = []) {
   return [...source].map((item) => String(item).trim()).filter(Boolean);
 }
 
-function loadConfig(env = process.env, netlifyEnv = globalThis.Netlify?.env) {
+function getEnv(name) {
+  if (globalThis.Deno?.env?.get) {
+    return globalThis.Deno.env.get(name);
+  }
+  if (globalThis.Netlify?.env?.get) {
+    return globalThis.Netlify.env.get(name);
+  }
+  if (typeof process !== 'undefined' && process.env) {
+    return process.env[name];
+  }
+  return undefined;
+}
+
+export function loadConfig(env = null, netlifyEnv = null) {
   const get = (name) => {
-    const netlifyValue =
-      typeof netlifyEnv?.get === 'function' ? netlifyEnv.get(name) : undefined;
-    return netlifyValue == null || netlifyValue === ''
-      ? env?.[name]
-      : netlifyValue;
+    if (env || netlifyEnv) {
+      const netlifyValue =
+        typeof netlifyEnv?.get === 'function'
+          ? netlifyEnv.get(name)
+          : undefined;
+      return netlifyValue == null || netlifyValue === ''
+        ? env?.[name]
+        : netlifyValue;
+    }
+    return getEnv(name);
   };
   const geminiApiKeys = new Map();
   for (let slot = 1; slot <= 5; slot += 1) {
@@ -69,4 +85,4 @@ function loadConfig(env = process.env, netlifyEnv = globalThis.Netlify?.env) {
   return config;
 }
 
-module.exports = { loadConfig, getConfig: loadConfig };
+export const getConfig = () => loadConfig();

@@ -1,6 +1,4 @@
-'use strict';
-
-const DISTRICTS = [
+export const DISTRICTS = [
   'เมืองนครปฐม',
   'กำแพงแสน',
   'นครชัยศรี',
@@ -10,7 +8,7 @@ const DISTRICTS = [
   'พุทธมณฑล',
 ];
 
-function normalizePreference({ crop = null, district = null } = {}) {
+export function normalizePreference({ crop = null, district = null } = {}) {
   const normalizedCrop = crop == null ? null : String(crop).trim().slice(0, 50);
   const normalizedDistrict = district == null ? null : String(district).trim();
   if (normalizedDistrict && !DISTRICTS.includes(normalizedDistrict)) {
@@ -24,12 +22,13 @@ function normalizePreference({ crop = null, district = null } = {}) {
     district: normalizedDistrict || null,
   };
 }
+
 function assertOk(result) {
   if (result.error) throw result.error;
   return result.data;
 }
 
-function createLineAiStore(supabase) {
+export function createLineAiStore(supabase) {
   return {
     async getPreference(userId) {
       const result = await supabase
@@ -63,6 +62,7 @@ function createLineAiStore(supabase) {
           .eq('line_user_id', userId)
       );
     },
+
     async getHistory(userId, now = new Date()) {
       const since = new Date(now.getTime() - 86400000).toISOString();
       const query = await supabase
@@ -137,7 +137,7 @@ function createLineAiStore(supabase) {
       );
     },
 
-    async markHealthy(slot, timestamp) {
+    async markHealthy(slot, _timestamp) {
       assertOk(
         await supabase.from('line_ai_key_health').upsert({
           key_slot: slot,
@@ -163,5 +163,3 @@ function createLineAiStore(supabase) {
     },
   };
 }
-
-module.exports = { createLineAiStore, DISTRICTS, normalizePreference };

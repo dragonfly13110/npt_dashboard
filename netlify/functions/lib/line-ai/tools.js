@@ -28,6 +28,9 @@ const PUBLIC_TABLES = [
   'fire_hotspots',
   'budgets',
   'personnel',
+  'assets',
+  'geoplots_parcel_progress',
+  'geoplots_parcel_subdistrict_progress',
 ];
 
 const DASHBOARD_ORIGIN = 'https://npt-dashboard.netlify.app';
@@ -501,4 +504,4 @@ async function executeTools(supabase, names, terms, tables, context) {
   );
 }
 
-module.exports = { executeTools, PUBLIC_TABLES };
+export { executeTools, PUBLIC_TABLES };

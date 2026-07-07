@@ -1,8 +1,6 @@
-'use strict';
-
-const crypto = require('crypto');
-
-const { TABLE_ROUTES } = require('../../../../src/domain/datasetCatalog.json');
+import crypto from 'node:crypto';
+import datasetCatalog from '../../../../src/domain/datasetCatalog.json' with { type: 'json' };
+const { TABLE_ROUTES } = datasetCatalog;
 
 const TABLE_METADATA = {
   personnel: {
@@ -281,6 +279,35 @@ const TABLE_METADATA = {
           : '',
       };
     },
+  },
+  assets: {
+    label: 'ครุภัณฑ์/ทรัพย์สิน',
+    icon: '📦',
+    getDisplay: (row) => ({
+      title: row.name || row.kind || 'ครุภัณฑ์',
+      subtitle: `หมวดหมู่: ${row.category || '-'} • ปีงบ: ${row.fiscal_year || row.fiscalYear || '-'} • หน่วยงาน: ${row.assigned_to || row.assignedTo || '-'}`,
+      info: row.value
+        ? `มูลค่า: ${Number(row.value).toLocaleString('th-TH')} บาท`
+        : '',
+    }),
+  },
+  geoplots_parcel_progress: {
+    label: 'ความก้าวหน้าการวาดแปลงรายอำเภอ',
+    icon: '🗺️',
+    getDisplay: (row) => ({
+      title: `ความก้าวหน้า อ.${row.district}`,
+      subtitle: `วาดแล้ว: ${row.drawn_plots || 0} / เป้าหมาย: ${row.target_plots || 0} แปลง`,
+      info: row.progress_percent ? `ความคืบหน้า: ${row.progress_percent}%` : '',
+    }),
+  },
+  geoplots_parcel_subdistrict_progress: {
+    label: 'ความก้าวหน้าการวาดแปลงรายตำบล',
+    icon: '🗺️',
+    getDisplay: (row) => ({
+      title: `ความก้าวหน้า ต.${row.subdistrict} (อ.${row.district})`,
+      subtitle: `วาดแล้ว: ${row.drawn_plots || 0} / เป้าหมาย: ${row.target_plots || 0} แปลง`,
+      info: row.progress_percent ? `ความคืบหน้า: ${row.progress_percent}%` : '',
+    }),
   },
 };
 
@@ -733,6 +760,4 @@ function createLineAiOrchestrator({
   return { answer };
 }
 
-module.exports = {
-  createLineAiOrchestrator,
-};
+export { createLineAiOrchestrator };

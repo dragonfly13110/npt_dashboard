@@ -40,8 +40,8 @@ vi.mock('@supabase/supabase-js', () => ({
 const mockFetch = vi.fn();
 vi.stubGlobal('fetch', mockFetch);
 
-// Require CommonJS webhook file
-const webhook = require('../../netlify/functions/line-webhook.cjs');
+// Import ESM webhook file
+const webhook = await import('../../netlify/functions/line-webhook.js');
 webhook.setSupabase(mockSupabase);
 
 describe('line-webhook.js', () => {
@@ -391,7 +391,9 @@ describe('line-webhook.js', () => {
     expect(mockFetch).toHaveBeenCalled();
     const [, options] = mockFetch.mock.calls[0];
     const payload = JSON.parse(options.body);
-    expect(payload.messages[0].text).toBe('สวัสดีค่ะ มีอะไรให้ช่วยค้นหาข้อมูลการเกษตรคะ 🌾');
+    expect(payload.messages[0].text).toBe(
+      'สวัสดีค่ะ มีอะไรให้ช่วยค้นหาข้อมูลการเกษตรคะ 🌾'
+    );
   });
 
   it.skip('handles local venting keywords with a detailed response', async () => {

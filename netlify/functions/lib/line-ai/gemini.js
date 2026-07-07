@@ -1,7 +1,5 @@
-'use strict';
-
-const { PUBLIC_TABLES } = require('./tools.cjs');
-const { DISTRICTS } = require('./store.cjs');
+import { PUBLIC_TABLES } from './tools.js';
+import { DISTRICTS } from './store.js';
 
 const PLAN_SCHEMA = {
   type: 'OBJECT',
@@ -191,6 +189,7 @@ Generate JSON complying with the schema.
 - Use area_summary when the user asks for counts, totals, summaries, rankings, or breakdowns by province, district, or subdistrict for farmer groups or institutes (such as community enterprises, housewife farmer groups, young farmer groups, agricultural career groups, or farmer institutes).
 - Use area_search when the user asks what groups exist, which groups, names, lists, or examples in a district/subdistrict. Prefer subdistrict evidence when the user names a subdistrict; if there is no subdistrict evidence, fallback to district and say subdistrict data is insufficient.
 - Questions about large plots (แปลงใหญ่), learning centers (ศพก. / ศูนย์เรียนรู้), crop production (ผลผลิตพืช), production costs (ต้นทุนการผลิต), or certifications (GAP / มาตรฐาน) MUST use global_search, even for counts, totals, or list requests. Never use area_summary or area_search for these tables.
+- Questions about who grows a specific crop, lists of farmers/growers of a crop, or where to buy a crop (e.g. 'ใครปลูกบ้าง', 'หาซื้อได้ที่ไหน') MUST use global_search with 'smart_farmer_sf', 'young_smart_farmer_ysf', 'large_plots', or 'farmer_registry'.
 - farmerGroupType is 'young_farmer' for ยุวเกษตร/young farmer groups, 'housewife' for แม่บ้าน, 'career' for กลุ่มส่งเสริมอาชีพ, 'community_enterprise' for วิสาหกิจชุมชน, otherwise 'all'.
 - areaScope is 'subdistrict' when a tambon/subdistrict is named, 'district' when a district is named, 'province' for whole-province totals, 'district_breakdown' for by-district breakdown, and 'subdistrict_breakdown' for by-subdistrict breakdown within a district.
 - subdistrict contains the explicit tambon/subdistrict from the latest message only. Do not invent it. For subdistrict requests, fallback to district if subdistrict-level data is missing.
@@ -204,7 +203,27 @@ Generate JSON complying with the schema.
 - searchTerms: search terms for global_search. Extract ONLY specific commodities (e.g., 'ข้าว', 'กล้วยไม้'), specific districts (e.g., 'เมืองนครปฐม', 'สามพราน'), specific entity/people names, or specific personnel job titles (e.g., 'เกษตรอำเภอ', 'หัวหน้ากลุ่ม'). Include both district and job title when both are requested.
   CRITICAL: Never output generic category names ('แปลงใหญ่', 'วิสาหกิจชุมชน', 'กลุ่มเกษตรกร', 'ศูนย์เรียนรู้', 'บุคลากร', 'เจ้าหน้าที่', 'บุคคล', 'รายชื่อ', 'ชื่อ', 'คน', 'สมาชิก', 'เกษตรกร') or the province name ('นครปฐม', 'จังหวัดนครปฐม') by themselves, as they return no results or flood the search results. If the user asks generally about a category or list, keep searchTerms empty to browse.
 - needsGrounding: true ONLY if intent is 'current'.
-- answer: direct response if general/clarify.`;
+- answer: direct response if general/clarify.
+
+--- TABLE SELECTION GUIDE ---
+Choose tables for global_search strictly based on these mappings:
+1. Who grows a crop / list of farmers / where to buy crops (ใครปลูก, ปลูกมะพร้าว, ขายที่ไหน, หาซื้อ...): ['smart_farmer_sf', 'young_smart_farmer_ysf', 'large_plots', 'farmer_registry']
+2. Large Plots / Group members (แปลงใหญ่, สมาชิกแปลงใหญ่): ['large_plots']
+3. Certifications / GAP / Organic / Standard (GAP, เกษตรอินทรีย์, มาตรฐาน, ใบรับรอง): ['certifications']
+4. Soil, Fertilizer, Soil management (ดิน, ปุ๋ย, ศดปช., เคมีดิน): ['soil_fertilizer_centers', 'soil_series']
+5. Pests, Diseases, Outbreaks, Center, Doctor (โรคพืช, แมลงศัตรูพืช, ระบาด, ศจช., หมอพืช): ['ai_disease_forecasts', 'pest_centers', 'plant_doctors']
+6. Learning Centers / SFOK (ศพก., ศูนย์เรียนรู้): ['learning_centers']
+7. Agricultural Tourism / Travel (ท่องเที่ยวเกษตร, แหล่งท่องเที่ยว): ['agri_tourism']
+8. Weather, Rainfall, Temperature (สภาพอากาศ, ฝนตก, อุณหภูมิ): ['daily_weather']
+9. Fire hotspots, PM2.5 risk (ไฟป่า, จุดความร้อน, ฝุ่น): ['fire_hotspots']
+10. Budget, Projects, Status (งบประมาณ, โครงการ, แหล่งงบ): ['budgets']
+11. Disasters, Floods, Drought (น้ำท่วม, ภัยแล้ง, ผลกระทบภัยพิบัติ): ['disasters']
+12. Personnel, Officers, Contacts (ข้าราชการ, เจ้าหน้าที่, เบอร์ติดต่อ, หัวหน้า): ['personnel']
+13. Durable Articles, Equipment, Office assets (ครุภัณฑ์, อุปกรณ์สำนักงาน, พัสดุ, ทรัพย์สิน): ['assets']
+14. Geographic Parcel Drawing Progress / GIS Drawing (การวาดแปลง, วาดแผนที่, ความก้าวหน้าการวาดแปลง, พิกัดแปลง): ['geoplots_parcel_progress', 'geoplots_parcel_subdistrict_progress']
+
+--- CROP SYNONYMS ---
+Map common crop synonyms to root crops for searchTerms (e.g., 'มะพร้าวน้ำหอม' -> 'มะพร้าว', 'ข้าวหอมมะลิ' -> 'ข้าว', 'มะนาวแป้น' -> 'มะนาว'). Keep searchTerms generic to match substring prefixes in the database.`;
 
     const contents = history.map((msg) => ({
       role: msg.role === 'assistant' ? 'model' : 'user',
@@ -397,4 +416,4 @@ Disease forecast evidence is province-level. A saved district is user context on
   };
 }
 
-module.exports = { createGeminiClient };
+export { createGeminiClient };

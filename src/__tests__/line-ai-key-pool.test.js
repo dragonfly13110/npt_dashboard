@@ -1,12 +1,8 @@
 import { inspect } from 'node:util';
 import { describe, expect, it, vi } from 'vitest';
 
-const {
-  loadConfig,
-} = require('../../netlify/functions/lib/line-ai/config.cjs');
-const {
-  createKeyPool,
-} = require('../../netlify/functions/lib/line-ai/key-pool.cjs');
+import { loadConfig } from '../../netlify/functions/lib/line-ai/config.js';
+import { createKeyPool } from '../../netlify/functions/lib/line-ai/key-pool.js';
 
 function createStore(records = []) {
   return {

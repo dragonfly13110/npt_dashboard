@@ -1,12 +1,10 @@
 import { describe, expect, it, vi } from 'vitest';
 import { readFileSync } from 'node:fs';
-const {
-  executeTools,
-} = require('../../netlify/functions/lib/line-ai/tools.cjs');
-const {
+import { executeTools } from '../../netlify/functions/lib/line-ai/tools.js';
+import {
   renderAiReply,
   validateLineMessages,
-} = require('../../netlify/functions/lib/line-ai/flex.cjs');
+} from '../../netlify/functions/lib/line-ai/flex.js';
 
 describe('LINE AI tools and rendering', () => {
   it('requires every specific search term to match the same record', () => {

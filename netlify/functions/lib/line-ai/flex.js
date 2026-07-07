@@ -1,5 +1,3 @@
-'use strict';
-
 function isValidDashboardUrl(url) {
   if (!url) return false;
   try {
@@ -10,7 +8,7 @@ function isValidDashboardUrl(url) {
   }
 }
 
-function renderAiReply({ text, records }) {
+export function renderAiReply({ text, records }) {
   const messages = [];
 
   if (text) {
@@ -96,7 +94,7 @@ function renderAiReply({ text, records }) {
   return messages;
 }
 
-function validateLineMessages(messages) {
+export function validateLineMessages(messages) {
   if (!Array.isArray(messages) || messages.length < 1 || messages.length > 5) {
     throw new Error('LINE messages count must be between 1 and 5');
   }
@@ -149,8 +147,3 @@ function validateLineMessages(messages) {
     }
   }
 }
-
-module.exports = {
-  renderAiReply,
-  validateLineMessages,
-};

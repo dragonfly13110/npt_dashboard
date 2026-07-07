@@ -6,7 +6,7 @@ vi.mock('../../netlify/functions/lib/error-alert.js', () => ({
   reportCriticalError: vi.fn(),
 }));
 
-vi.mock('../../netlify/functions/lib/line-ai/key-pool.cjs', () => ({
+vi.mock('../../netlify/functions/lib/line-ai/key-pool.js', () => ({
   createKeyPool: vi.fn().mockImplementation(({ keys }) => ({
     execute: vi.fn().mockImplementation(async (op) => {
       const [firstSlot] = keys.keys();
