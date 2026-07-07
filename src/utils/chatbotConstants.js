@@ -513,6 +513,7 @@ export const TABLE_SEARCH_COLS = {
   farmer_institutes: [],
   agri_tourism: ['spot_name', 'contact_person', 'spot_type'],
   forecast_plots: ['owner_name', 'crop_type', 'variety'],
+  ai_disease_forecasts: ['name', 'description', 'target_crop', 'risk_level'],
   pest_centers: ['center_name', 'chairman', 'main_crop_type'],
   plant_doctors: ['full_name', 'district', 'subdistrict', 'contact_phone'],
   soil_fertilizer_centers: ['center_name', 'chairman', 'main_crop_type'],

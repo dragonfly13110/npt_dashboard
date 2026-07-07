@@ -18,7 +18,7 @@ DECLARE
   table_results JSONB;
   table_count INTEGER;
   cleaned_terms TEXT[];
-  safe_limit INTEGER := LEAST(GREATEST(COALESCE(result_limit, 3), 1), 3);
+  safe_limit INTEGER := GREATEST(COALESCE(result_limit, 3), 1);
 BEGIN
   SELECT array_agg(term)
   INTO cleaned_terms
@@ -62,6 +62,7 @@ BEGIN
         ('pest_centers'::text, ARRAY['center_name','district','subdistrict','chairman','main_crop_type']::text[], ARRAY['id','center_name','district','subdistrict','chairman','main_crop_type','member_count','created_at','updated_at']::text[]),
         ('plant_doctors'::text, ARRAY['district','subdistrict','province']::text[], ARRAY['id','district','subdistrict','province','created_at','updated_at']::text[]),
         ('soil_fertilizer_centers'::text, ARRAY['center_name','district','subdistrict','chairman','main_crop_type']::text[], ARRAY['id','center_name','district','subdistrict','chairman','main_crop_type','member_count','created_at','updated_at']::text[]),
+        ('soil_series'::text, ARRAY['soil_series_name','soil_series_code','soil_group','texture','fertility','ph_top','district']::text[], ARRAY['id','soil_series_name','soil_series_code','soil_group','texture','fertility','ph_top','district','area_rai','created_at','updated_at']::text[]),
         ('fire_hotspots'::text, ARRAY['spot_name','district','risk_level']::text[], ARRAY['id','spot_name','district','risk_level','year','created_at','updated_at']::text[]),
         ('budgets'::text, ARRAY['project_name','budget_source','status']::text[], ARRAY['id','project_name','budget_source','budget_amount','spent_amount','status','fiscal_year','budget_round','created_at','updated_at']::text[]),
         ('personnel'::text, ARRAY['position','department','district','office_type']::text[], ARRAY['id','position','department','district','office_type','created_at','updated_at']::text[])
@@ -215,7 +216,7 @@ AS $$
       'agricultural_career_groups','housewife_farmer_groups',
       'young_farmer_groups_detailed','farmer_institutes','agri_tourism',
       'disasters','forecast_plots','ai_disease_forecasts','pest_centers',
-      'plant_doctors','soil_fertilizer_centers','fire_hotspots','budgets',
+      'plant_doctors','soil_fertilizer_centers','soil_series','fire_hotspots','budgets',
       'personnel'
     ],
     result_limit

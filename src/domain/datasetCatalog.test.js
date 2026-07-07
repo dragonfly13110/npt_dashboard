@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { readFileSync } from 'node:fs';
 import {
   canDistrictEditorWriteTable,
   canGroupAccessTable,
@@ -17,6 +18,17 @@ describe('datasetCatalog', () => {
       '/dashboard/production/large-plots'
     );
     expect(getSearchColumns('large_plots')).toContain('plot_name');
+    expect(getSearchColumns('ai_disease_forecasts')).toContain('target_crop');
+  });
+
+  it('keeps RPC global search aligned with app search metadata', () => {
+    const sql = readFileSync('supabase/global_search.sql', 'utf8');
+
+    expect(sql).toContain("'soil_series'::text");
+    expect(sql).toContain("'soil_series','fire_hotspots'");
+    expect(sql).toContain(
+      'safe_limit INTEGER := GREATEST(COALESCE(result_limit, 3), 1);'
+    );
   });
 
   it('filters private columns for guest and AI reads', () => {

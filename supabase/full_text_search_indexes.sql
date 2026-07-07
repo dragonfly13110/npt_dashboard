@@ -138,6 +138,14 @@ BEGIN
         ('idx_gin_soil_centers_chairman', 'soil_fertilizer_centers', 'chairman'),
         ('idx_gin_soil_centers_main_crop', 'soil_fertilizer_centers', 'main_crop_type'),
 
+        ('idx_gin_soil_series_name', 'soil_series', 'soil_series_name'),
+        ('idx_gin_soil_series_code', 'soil_series', 'soil_series_code'),
+        ('idx_gin_soil_series_group', 'soil_series', 'soil_group'),
+        ('idx_gin_soil_series_texture', 'soil_series', 'texture'),
+        ('idx_gin_soil_series_fertility', 'soil_series', 'fertility'),
+        ('idx_gin_soil_series_ph_top', 'soil_series', 'ph_top'),
+        ('idx_gin_soil_series_district', 'soil_series', 'district'),
+
         ('idx_gin_fire_hotspots_spot_name', 'fire_hotspots', 'spot_name'),
         ('idx_gin_fire_hotspots_district', 'fire_hotspots', 'district'),
         ('idx_gin_fire_hotspots_risk_level', 'fire_hotspots', 'risk_level'),

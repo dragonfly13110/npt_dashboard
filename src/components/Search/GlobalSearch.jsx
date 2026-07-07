@@ -383,7 +383,7 @@ export default function GlobalSearch({ collapsed = false }) {
             </span>
           )
         }
-        placeholder="ค้นหาทุกตาราง..."
+        placeholder="ค้นหาข้อมูลหลัก..."
         value={query}
         onChange={(e) => handleSearch(e.target.value)}
         onFocus={handleFocus}

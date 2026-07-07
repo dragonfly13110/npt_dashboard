@@ -454,7 +454,7 @@ export default function SearchResults() {
         <div style={{ textAlign: 'center', padding: '60px 0' }}>
           <Spin size="large" />
           <div style={{ marginTop: 16, color: '#656d76' }}>
-            กำลังค้นหาจาก 18 ตาราง...
+            กำลังค้นหาจากฐานข้อมูล...
           </div>
         </div>
       ) : results.length === 0 && query ? (
