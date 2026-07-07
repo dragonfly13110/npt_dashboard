@@ -31,6 +31,16 @@ describe('datasetCatalog', () => {
     );
   });
 
+  it('returns search relevance metadata from RPC SQL', () => {
+    const sql = readFileSync('supabase/global_search.sql', 'utf8');
+
+    expect(sql).toContain('score');
+    expect(sql).toContain('match_column');
+    expect(sql).toContain('match_value');
+    expect(sql).toContain('match_type');
+    expect(sql).toContain('similarity(');
+  });
+
   it('filters private columns for guest and AI reads', () => {
     const columns = getDatasetSelectColumns('smart_farmer_sf', {
       purpose: 'ai',

@@ -170,9 +170,41 @@ BEGIN
       'SELECT COALESCE(jsonb_agg(to_jsonb(s) - ''__total_count''), ''[]''::jsonb),
               COALESCE(max(s.__total_count), 0)
        FROM (
-         SELECT %s, count(*) OVER() AS __total_count
-         FROM public.%I
+         SELECT %s,
+                COALESCE(ranked_match.score, 0) AS score,
+                ranked_match.match_column,
+                ranked_match.match_value,
+                ranked_match.match_type,
+                count(*) OVER() AS __total_count
+         FROM public.%I AS src
+         LEFT JOIN LATERAL (
+           SELECT
+             m.key AS match_column,
+             m.value AS match_value,
+             CASE
+               WHEN lower(m.value) = lower(search_term.term_value) THEN ''exact''
+               WHEN lower(m.value) LIKE lower(search_term.term_value) || ''%%'' THEN ''prefix''
+               WHEN lower(m.value) LIKE ''%%'' || lower(search_term.term_value) || ''%%'' THEN ''substring''
+               ELSE ''trigram''
+             END AS match_type,
+             CASE
+               WHEN lower(m.value) = lower(search_term.term_value) THEN 100
+               WHEN lower(m.value) LIKE lower(search_term.term_value) || ''%%'' THEN 80
+               WHEN lower(m.value) LIKE ''%%'' || lower(search_term.term_value) || ''%%'' THEN 60
+               ELSE round((similarity(m.value, search_term.term_value) * 40)::numeric, 2)
+             END AS score
+           FROM jsonb_each_text(to_jsonb(src)) AS m(key, value)
+           CROSS JOIN unnest($1::text[]) AS search_term(term_value)
+           WHERE m.key = ANY($3::text[])
+             AND (
+               m.value ILIKE ''%%'' || search_term.term_value || ''%%''
+               OR similarity(m.value, search_term.term_value) > 0.2
+             )
+           ORDER BY score DESC
+           LIMIT 1
+         ) ranked_match ON TRUE
          WHERE %s
+         ORDER BY COALESCE(ranked_match.score, 0) DESC
          LIMIT $2
        ) s',
       select_sql,
@@ -180,7 +212,7 @@ BEGIN
       where_sql
     )
     INTO table_results, table_count
-    USING cleaned_terms, safe_limit;
+    USING cleaned_terms, safe_limit, existing_search_cols;
 
     IF table_count > 0 THEN
       result := result || jsonb_build_array(
