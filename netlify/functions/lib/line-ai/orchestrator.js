@@ -348,6 +348,8 @@ function formatDeterministicSummary(toolResults, queryText = '') {
             'certifications',
             'forecast_plots',
             'disasters',
+            'geoplots_parcel_progress',
+            'geoplots_parcel_subdistrict_progress',
           ];
         } else if (
           q.includes('วิสาหกิจ') ||

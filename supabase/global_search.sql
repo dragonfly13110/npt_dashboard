@@ -71,7 +71,9 @@ BEGIN
         ('fire_hotspots'::text, ARRAY['spot_name','district','risk_level']::text[], ARRAY['id','spot_name','district','risk_level','year','created_at','updated_at']::text[]),
         ('assets'::text, ARRAY['name','category','serial_number','location','condition','notes']::text[], ARRAY['id','name','category','serial_number','location','condition','value','notes','created_at','updated_at']::text[]),
         ('budgets'::text, ARRAY['project_name','budget_source','status']::text[], ARRAY['id','project_name','budget_source','budget_amount','spent_amount','status','fiscal_year','budget_round','created_at','updated_at']::text[]),
-        ('personnel'::text, ARRAY['position','department','district','office_type']::text[], ARRAY['id','position','department','district','office_type','created_at','updated_at']::text[])
+        ('personnel'::text, ARRAY['position','department','district','office_type']::text[], ARRAY['id','position','department','district','office_type','created_at','updated_at']::text[]),
+        ('geoplots_parcel_progress'::text, ARRAY['district']::text[], ARRAY['district_code','district','target_plots','drawn_plots','remaining_target_plots','progress_percent','snapshot_date','created_at','updated_at']::text[]),
+        ('geoplots_parcel_subdistrict_progress'::text, ARRAY['subdistrict','district']::text[], ARRAY['subdistrict_code','subdistrict','district_code','district','target_plots','drawn_plots','remaining_target_plots','progress_percent','snapshot_date','created_at','updated_at']::text[])
     ) AS t(table_name, search_cols, return_cols)
     WHERE table_name = ANY(table_names)
   LOOP
@@ -255,7 +257,7 @@ AS $$
       'young_farmer_groups','young_farmer_groups_detailed','farmer_institutes','agri_tourism',
       'disasters','forecast_plots','ai_disease_forecasts','pest_outbreaks','pest_centers',
       'plant_doctors','soil_fertilizer_centers','soil_series','biocontrol_stock','fire_hotspots','assets','budgets',
-      'personnel'
+      'personnel','geoplots_parcel_progress','geoplots_parcel_subdistrict_progress'
     ],
     result_limit
   );

@@ -50,7 +50,6 @@ const groupConfig = [
       { table: 'community_enterprises', label: 'วิสาหกิจ' },
       { table: 'smart_farmers', label: 'เกษตรกรรุ่นใหม่' },
       { table: 'farmer_groups', label: 'กลุ่มแม่บ้าน' },
-      { table: 'farmer_institutes', label: 'สถาบันเกษตรกร' },
       { table: 'agri_tourism', label: 'ท่องเที่ยวเกษตร' },
     ],
   },

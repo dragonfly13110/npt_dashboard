@@ -220,7 +220,7 @@ Choose tables for global_search strictly based on these mappings:
 11. Disasters, Floods, Drought (น้ำท่วม, ภัยแล้ง, ผลกระทบภัยพิบัติ): ['disasters']
 12. Personnel, Officers, Contacts (ข้าราชการ, เจ้าหน้าที่, เบอร์ติดต่อ, หัวหน้า): ['personnel']
 13. Durable Articles, Equipment, Office assets (ครุภัณฑ์, อุปกรณ์สำนักงาน, พัสดุ, ทรัพย์สิน): ['assets']
-14. Geographic Parcel Drawing Progress / GIS Drawing (การวาดแปลง, วาดแผนที่, ความก้าวหน้าการวาดแปลง, พิกัดแปลง): ['geoplots_parcel_progress', 'geoplots_parcel_subdistrict_progress']
+14. Geographic Parcel Drawing Progress / GIS Drawing (การวาดแปลง, วาดแผนที่, ความก้าวหน้าการวาดแปลง, พิกัดแปลง, ความคืบหน้าการขึ้นทะเบียน, แปลงเป้าหมาย, เป้าหมายการขึ้นทะเบียน/วาดแปลง): ['geoplots_parcel_progress', 'geoplots_parcel_subdistrict_progress']
 
 --- CROP SYNONYMS ---
 Map common crop synonyms to root crops for searchTerms (e.g., 'มะพร้าวน้ำหอม' -> 'มะพร้าว', 'ข้าวหอมมะลิ' -> 'ข้าว', 'มะนาวแป้น' -> 'มะนาว'). Keep searchTerms generic to match substring prefixes in the database.`;

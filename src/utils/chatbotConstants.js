@@ -482,6 +482,20 @@ export const TABLE_CONFIG = {
     group: 'บริหาร',
     descTh: 'ข้อมูลบุคลากรแบบไม่เปิดเผยข้อมูลส่วนตัวในผลค้นหาสาธารณะ',
   },
+  geoplots_parcel_progress: {
+    label: 'ความก้าวหน้าการวาดแปลงรายอำเภอ',
+    icon: '🗺️',
+    group: 'ยุทธศาสตร์',
+    descTh:
+      'ข้อมูลความก้าวหน้าการวาดแปลงเกษตรกรรมและแผนที่รายอำเภอจังหวัดนครปฐม',
+  },
+  geoplots_parcel_subdistrict_progress: {
+    label: 'ความก้าวหน้าการวาดแปลงรายตำบล',
+    icon: '🗺️',
+    group: 'ยุทธศาสตร์',
+    descTh:
+      'ข้อมูลความก้าวหน้าการวาดแปลงเกษตรกรรมและแผนที่รายตำบลจังหวัดนครปฐม',
+  },
 };
 
 export const QUICK_PROMPTS = [
@@ -622,6 +636,8 @@ export const TABLE_SEARCH_COLS = {
   ],
   budgets: ['project_name', 'budget_source', 'status', 'notes'],
   personnel: ['position', 'department', 'district', 'office_type'],
+  geoplots_parcel_progress: ['district'],
+  geoplots_parcel_subdistrict_progress: ['subdistrict', 'district'],
 };
 
 export const DISTRICT_COLS = {
@@ -654,6 +670,8 @@ export const DISTRICT_COLS = {
   personnel: 'district',
   assets: 'location',
   production_costs: 'crop_name',
+  geoplots_parcel_progress: 'district',
+  geoplots_parcel_subdistrict_progress: 'district',
 };
 
 // Columns that contain numeric data for aggregation
@@ -710,6 +728,18 @@ export const NUMERIC_COLS = {
   fire_hotspots: ['frp', 'bright_ti4', 'bright_ti5'],
   daily_weather: ['tavg', 'tmin', 'tmax', 'prcp', 'wspd', 'pres'],
   budgets: ['budget_amount', 'spent_amount'],
+  geoplots_parcel_progress: [
+    'target_plots',
+    'drawn_plots',
+    'remaining_target_plots',
+    'progress_percent',
+  ],
+  geoplots_parcel_subdistrict_progress: [
+    'target_plots',
+    'drawn_plots',
+    'remaining_target_plots',
+    'progress_percent',
+  ],
 };
 
 // Columns that contain categorical string data for group-by counting
