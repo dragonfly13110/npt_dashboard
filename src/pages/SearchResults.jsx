@@ -145,6 +145,75 @@ function formatCellValue(key, value) {
       return `${amount.toLocaleString('th-TH')} บาท`;
     }
   }
+
+  // Format JSON notes (like in assets or budgets table)
+  if (
+    typeof value === 'string' &&
+    value.trim().startsWith('{') &&
+    value.trim().endsWith('}')
+  ) {
+    try {
+      const parsed = JSON.parse(value);
+      if (parsed && typeof parsed === 'object') {
+        const parts = [];
+
+        // Handle assets fields
+        if (parsed.fiscalYear) parts.push(`ปีงบประมาณ ${parsed.fiscalYear}`);
+        if (parsed.acceptedDateThai)
+          parts.push(`ตรวจรับ: ${parsed.acceptedDateThai}`);
+        if (parsed.assetCode) parts.push(`รหัสสินทรัพย์: ${parsed.assetCode}`);
+        if (parsed.equipmentCode)
+          parts.push(`รหัสครุภัณฑ์: ${parsed.equipmentCode}`);
+        if (parsed.model) parts.push(`รุ่น: ${parsed.model}`);
+
+        // Handle budgets fields
+        if (parsed.project) parts.push(`โครงการ: ${parsed.project}`);
+        if (parsed.activity) parts.push(`กิจกรรม: ${parsed.activity}`);
+        if (parsed.plan) parts.push(`แผน: ${parsed.plan}`);
+        if (parsed.budget) {
+          const bAmt = Number(parsed.budget);
+          parts.push(
+            `งบประมาณ: ${Number.isFinite(bAmt) ? bAmt.toLocaleString('th-TH') + ' บาท' : parsed.budget}`
+          );
+        }
+
+        // Generic key-value format for any other fields
+        Object.entries(parsed).forEach(([k, v]) => {
+          // Skip keys already handled or internal mapping helpers
+          if (
+            [
+              'fiscalYear',
+              'acceptedDateThai',
+              'assetCode',
+              'equipmentCode',
+              'model',
+              'project',
+              'activity',
+              'plan',
+              'budget',
+              'oldEquipmentCode',
+              'kind',
+              'agency',
+              'assignedTo',
+              'status',
+            ].includes(k)
+          ) {
+            return;
+          }
+          if (v !== null && v !== undefined && v !== '') {
+            parts.push(`${k}: ${v}`);
+          }
+        });
+
+        if (parts.length > 0) {
+          return parts.join(' • ');
+        }
+      }
+    } catch {
+      // fallback to original string if not valid JSON
+    }
+  }
+
   return String(value);
 }
 
