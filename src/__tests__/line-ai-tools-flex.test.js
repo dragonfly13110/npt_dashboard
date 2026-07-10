@@ -145,8 +145,19 @@ describe('LINE AI tools and rendering', () => {
       ['personnel'],
       { personnelScope: 'district_breakdown' }
     );
+    const provincialOffice = await executeTools(
+      supabase,
+      ['personnel_summary'],
+      [],
+      ['personnel'],
+      { personnelScope: 'provincial_office' }
+    );
 
-    expect(province[0].data).toEqual({ scope: 'province', total: 1 });
+    expect(province[0].data).toEqual({ scope: 'province', total: 4 });
+    expect(provincialOffice[0].data).toEqual({
+      scope: 'provincial_office',
+      total: 1,
+    });
     expect(district[0].data).toEqual({
       scope: 'district',
       district: 'สามพราน',

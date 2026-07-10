@@ -288,10 +288,18 @@ const TOOL_RUNNERS = {
 
     const people = (data || []).filter((row) => row.position !== 'สำนักงาน');
     const scope = context.personnelScope;
-    if (scope === 'province') {
+    if (scope === 'provincial_office') {
       return {
         scope,
         total: people.filter((row) => row.office_type === 'Provincial').length,
+      };
+    }
+    if (scope === 'province') {
+      return {
+        scope,
+        total: people.filter((row) =>
+          ['Provincial', 'District'].includes(row.office_type)
+        ).length,
       };
     }
     if (scope === 'district') {

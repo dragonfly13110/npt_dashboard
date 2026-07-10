@@ -54,7 +54,14 @@ const PLAN_SCHEMA = {
     },
     personnelScope: {
       type: 'STRING',
-      enum: ['none', 'province', 'district', 'district_breakdown', 'all'],
+      enum: [
+        'none',
+        'provincial_office',
+        'province',
+        'district',
+        'district_breakdown',
+        'all',
+      ],
     },
     preferenceAction: {
       type: 'STRING',
@@ -185,7 +192,7 @@ Generate JSON complying with the schema.
 - intent: 'database' if we need to search databases (community enterprises, farmer info, weather, hotspots, etc.), 'general' for generic questions, 'current' for daily/real-time info (like today's weather/news), 'clarify' if unclear.
 - Every portal-data question must use an allowlisted tool. Never answer it as general knowledge.
 - tools: allowlisted tools ONLY ['global_search', 'personnel_summary', 'latest_weather', 'fire_hotspots', 'disease_forecast', 'area_summary', 'area_search'].
-- Use personnel_summary ONLY when the user asks for a number, count, total, or breakdown: personnelScope 'province' for the provincial office, 'district' with district for one district, 'district_breakdown' for counts by every district, or 'all' for everyone.
+- Use personnel_summary ONLY when the user asks for a number, count, total, or breakdown: personnelScope 'provincial_office' for the provincial office only, 'province' for the whole province including the provincial office and every district office, 'district' with district for one district, 'district_breakdown' for counts by every district, or 'all' for everyone.
 - Questions asking who, names, a list of people, roles, or where a person works MUST use global_search with the personnel table, even if the question also contains 'all' or 'ทั้งหมด'. Never use office rows as people.
 - Use area_summary when the user asks for counts, totals, summaries, rankings, or breakdowns by province, district, or subdistrict for farmer groups or institutes (such as community enterprises, housewife farmer groups, young farmer groups, agricultural career groups, or farmer institutes).
 - Use area_search when the user asks what groups exist, which groups, names, lists, or examples in a district/subdistrict. Prefer subdistrict evidence when the user names a subdistrict; if there is no subdistrict evidence, fallback to district and say subdistrict data is insufficient.
@@ -322,6 +329,7 @@ Map common crop synonyms to root crops for searchTerms (e.g., 'มะพร้�
       ? parsed.farmerGroupType
       : 'all';
     parsed.personnelScope = [
+      'provincial_office',
       'province',
       'district',
       'district_breakdown',
@@ -420,12 +428,20 @@ Disease forecast evidence is province-level. A saved district is user context on
     }));
     contents.push({
       role: 'user',
-      parts: [{ text: `ค้นข้อมูลจากอินเทอร์เน็ตเกี่ยวกับคำถามนี้ ตอบภาษาไทยสั้นกระชับ: ${question}` }],
+      parts: [
+        {
+          text: `ค้นข้อมูลจากอินเทอร์เน็ตเกี่ยวกับคำถามนี้ ตอบภาษาไทยสั้นกระชับ: ${question}`,
+        },
+      ],
     });
     const body = {
       contents,
       systemInstruction: {
-        parts: [{ text: 'ตอบจากผลค้นเว็บเท่านั้น ห้ามแต่งข้อมูล หากไม่มีหลักฐานให้บอกว่าไม่พบข้อมูล' }],
+        parts: [
+          {
+            text: 'ตอบจากผลค้นเว็บเท่านั้น ห้ามแต่งข้อมูล หากไม่มีหลักฐานให้บอกว่าไม่พบข้อมูล',
+          },
+        ],
       },
       generationConfig: { temperature: 0.2, maxOutputTokens: 350 },
       tools: [{ google_search: {} }],
@@ -437,15 +453,24 @@ Disease forecast evidence is province-level. A saved district is user context on
       body
     );
     const candidate = data.candidates?.[0];
-    const sources = [...new Map(
-      (candidate?.groundingMetadata?.groundingChunks || [])
-        .map((chunk) => chunk.web)
-        .filter((web) => /^https?:\/\//i.test(web?.uri || '') && web?.uri)
-        .map((web) => [web.uri, { title: web.title || web.uri, url: web.uri }])
-    ).values()].slice(0, 3);
+    const sources = [
+      ...new Map(
+        (candidate?.groundingMetadata?.groundingChunks || [])
+          .map((chunk) => chunk.web)
+          .filter((web) => /^https?:\/\//i.test(web?.uri || '') && web?.uri)
+          .map((web) => [
+            web.uri,
+            { title: web.title || web.uri, url: web.uri },
+          ])
+      ).values(),
+    ].slice(0, 3);
     if (!candidate || sources.length === 0) return null;
     return {
-      text: candidate.content?.parts?.map((part) => part.text || '').join('').slice(0, 1500) || '',
+      text:
+        candidate.content?.parts
+          ?.map((part) => part.text || '')
+          .join('')
+          .slice(0, 1500) || '',
       sources,
     };
   }
