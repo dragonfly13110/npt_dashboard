@@ -1292,6 +1292,26 @@ export async function handleMessageEvent(event) {
     return;
   }
 
+  const linkMatch = text.match(/^เชื่อม\s+([A-F0-9]{10})$/i);
+  if (linkMatch) {
+    const linked =
+      supabase && event.source?.userId
+        ? await createLineAiStore(supabase).consumeLinkCode(
+            event.source.userId,
+            linkMatch[1]
+          )
+        : null;
+    await sendLineReply(replyToken, [
+      {
+        type: 'text',
+        text: linked
+          ? 'เชื่อมบัญชีสำเร็จแล้วค่ะ สิทธิ์ LINE จะอ้างอิงจากบัญชีระบบปัจจุบัน'
+          : 'รหัสไม่ถูกต้อง หมดอายุ หรือถูกใช้แล้ว กรุณาสร้างรหัสใหม่จากหน้าโปรไฟล์',
+      },
+    ]);
+    return;
+  }
+
   // AI-only for every free-text message; local handlers above are navigation only.
   if (text.length >= 2) {
     const orchestratorInstance = getOrchestrator();

@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import { searchSystemKnowledge } from './knowledge.js';
 import datasetCatalog from '../../../../src/domain/datasetCatalog.json' with { type: 'json' };
 const { TABLE_ROUTES } = datasetCatalog;
 
@@ -538,6 +539,9 @@ function createLineAiOrchestrator({
     }
 
     const processAnswer = async () => {
+      const identity = store.resolveIdentity
+        ? await store.resolveIdentity(userId)
+        : { role: 'guest', profileId: null, department: null };
       let savedPreference = null;
       try {
         savedPreference = await store.getPreference(userId);
@@ -549,6 +553,7 @@ function createLineAiOrchestrator({
       const preferenceKey = [
         savedPreference?.crop || '',
         savedPreference?.district || '',
+        identity.role,
       ].join('|');
       const cacheKey = crypto
         .createHash('sha256')
@@ -606,6 +611,16 @@ function createLineAiOrchestrator({
         crop: plan.crop || savedPreference?.crop || null,
         district: plan.district || savedPreference?.district || null,
       };
+      const catalogIds =
+        plan.catalogIds?.length > 0
+          ? plan.catalogIds
+          : (plan.tables || []).map((table) => `dataset:${table}`);
+      const systemKnowledge = await searchSystemKnowledge({
+        supabase,
+        identity,
+        catalogIds,
+        searchTerms: plan.searchTerms,
+      });
       // 5. Append User message
       await store.appendMessage(userId, 'user', text, plan.intent);
 
@@ -622,7 +637,8 @@ function createLineAiOrchestrator({
       // Handle general / clarify / no database intents with non-empty answers immediately
       if (
         (plan.intent === 'general' || plan.intent === 'clarify') &&
-        (plan.answer || plan.clarification)
+        (plan.answer || plan.clarification) &&
+        !gemini.searchExternal
       ) {
         const replyText = plan.answer || plan.clarification;
         const messages = renderAiReply({ text: replyText });
@@ -674,7 +690,6 @@ function createLineAiOrchestrator({
       }
 
       // 7. Synthesize through key pool
-      const useGrounding = plan.needsGrounding && config.groundingEnabled;
       const trimmedEvidence = (toolResults || []).map((tr) => {
         if (tr.tool === 'global_search') {
           const trimmedData = (tr.data || []).slice(0, 3).map((cat) => ({
@@ -689,19 +704,53 @@ function createLineAiOrchestrator({
         }
         return tr;
       });
+      const evidence = [
+        ...systemKnowledge.evidence.map((item) => ({
+          tool: 'knowledge_search',
+          data: item,
+        })),
+        ...trimmedEvidence,
+      ];
+      const records = [
+        ...systemKnowledge.records,
+        ...formatDeterministicSummary(trimmedEvidence, text),
+      ].slice(0, 3);
+
+      if (evidence.length === 0 && gemini.searchExternal && config.groundingEnabled) {
+        const external = await keyPool.execute(async ({ apiKey }) => {
+          const resolvedModel = await gemini.resolveModel(apiKey);
+          return gemini.searchExternal(apiKey, resolvedModel, {
+            question: text,
+            history,
+          });
+        });
+        if (external) {
+          const finalAnswer = `ไม่พบข้อมูลนี้ในระบบ คำตอบต่อไปนี้ค้นจากอินเทอร์เน็ต\n\n${external.text}`;
+          const messages = renderAiReply({
+            text: finalAnswer,
+            sources: external.sources,
+          });
+          await store.appendMessage(userId, 'assistant', finalAnswer, 'internet');
+          return { messages, sourceType: 'internet' };
+        }
+        const noData =
+          'ไม่พบข้อมูลที่เชื่อถือได้ทั้งในระบบและจากการค้นอินเทอร์เน็ตค่ะ';
+        const messages = renderAiReply({ text: noData });
+        await store.appendMessage(userId, 'assistant', noData, 'no_data');
+        return { messages, sourceType: 'no_data' };
+      }
 
       const answerText = await keyPool.execute(async ({ apiKey }) => {
         const resolvedModel = await gemini.resolveModel(apiKey);
         return gemini.synthesize(apiKey, resolvedModel, {
           question: text,
           history,
-          evidence: trimmedEvidence,
-          grounding: useGrounding,
+          evidence,
+          grounding: false,
           preferences: effectivePreference,
         });
       });
 
-      const records = formatDeterministicSummary(trimmedEvidence, text);
       const areaFallbackNote = buildAreaFallbackNote(trimmedEvidence);
       let finalAnswer = areaFallbackNote
         ? `${areaFallbackNote}\n${answerText}`

@@ -2,6 +2,39 @@ import { describe, expect, it, vi } from 'vitest';
 import { createLineAiStore } from '../../netlify/functions/lib/line-ai/store.js';
 
 describe('LINE AI store', () => {
+  it('returns guest identity when LINE user is not linked', async () => {
+    const maybeSingle = vi.fn().mockResolvedValue({ data: null, error: null });
+    const eq = vi.fn(() => ({ maybeSingle }));
+    const select = vi.fn(() => ({ eq }));
+    const supabase = { from: vi.fn(() => ({ select })) };
+    const store = createLineAiStore(supabase);
+
+    await expect(store.resolveIdentity('U-public')).resolves.toEqual({
+      role: 'guest',
+      profileId: null,
+      department: null,
+    });
+  });
+
+  it('consumes a link code through the atomic RPC', async () => {
+    const rpc = vi.fn().mockResolvedValue({
+      data: [{ profile_id: 'profile-1', role: 'editor', department: 'production' }],
+      error: null,
+    });
+    const store = createLineAiStore({ rpc });
+
+    await expect(store.consumeLinkCode('U-staff', 'ABCDEF1234')).resolves.toEqual({
+      profileId: 'profile-1',
+      role: 'editor',
+      department: 'production',
+    });
+    expect(rpc).toHaveBeenCalledWith(
+      'consume_line_link_code',
+      expect.objectContaining({ p_line_user_id: 'U-staff' })
+    );
+    expect(rpc.mock.calls[0][1].p_code_hash).toMatch(/^[a-f0-9]{64}$/);
+  });
+
   it('loads only latest ten messages inside 24 hours', async () => {
     const range = vi.fn().mockResolvedValue({
       data: [{ role: 'user', content: 'ล่าสุด' }],

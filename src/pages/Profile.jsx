@@ -9,7 +9,7 @@ import {
   Tag,
   Spin,
 } from 'antd';
-import { UserOutlined, SaveOutlined } from '@ant-design/icons';
+import { UserOutlined, SaveOutlined, CopyOutlined } from '@ant-design/icons';
 import { supabase } from '../supabaseClient';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -38,6 +38,8 @@ const ROLE_CONFIG = {
 export default function Profile() {
   const { user, profile, refreshProfile, loading: authLoading } = useAuth();
   const [saving, setSaving] = useState(false);
+  const [lineLink, setLineLink] = useState(null);
+  const [lineLinkLoading, setLineLinkLoading] = useState(false);
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -85,6 +87,35 @@ export default function Profile() {
       });
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleGenerateLineLink = async () => {
+    setLineLinkLoading(true);
+    try {
+      const { data } = await supabase.auth.getSession();
+      const token = data.session?.access_token;
+      if (!token) throw new Error('กรุณาเข้าสู่ระบบใหม่');
+      const response = await fetch('/.netlify/functions/line-link-code', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(payload.error || 'สร้างรหัสไม่สำเร็จ');
+      setLineLink(payload);
+      notification.success({
+        message: 'สร้างรหัสเชื่อม LINE แล้ว',
+        description: 'นำคำสั่งไปส่งในแชท LINE ภายใน 10 นาที',
+        placement: 'topRight',
+      });
+    } catch (err) {
+      notification.error({
+        message: 'สร้างรหัสไม่สำเร็จ',
+        description: err.message,
+        placement: 'topRight',
+      });
+    } finally {
+      setLineLinkLoading(false);
     }
   };
 
@@ -190,6 +221,45 @@ export default function Profile() {
             </Button>
           </Form.Item>
         </Form>
+      </Card>
+
+      <Card
+        title="เชื่อมบัญชี LINE"
+        style={{
+          marginTop: 16,
+          borderRadius: 12,
+          border: '1px solid #e8ecf0',
+          background: '#fff',
+        }}
+      >
+        <p style={{ color: '#64748b', marginTop: 0 }}>
+          สร้างรหัสใช้ครั้งเดียว แล้วส่งคำสั่งใน LINE เพื่อให้บอทรู้สิทธิ์ของบัญชีนี้
+        </p>
+        <Button
+          type="primary"
+          icon={<UserOutlined />}
+          loading={lineLinkLoading}
+          onClick={handleGenerateLineLink}
+        >
+          สร้างรหัสเชื่อม LINE
+        </Button>
+        {lineLink && (
+          <div style={{ marginTop: 16 }}>
+            <Input
+              value={lineLink.command}
+              readOnly
+              addonAfter={
+                <CopyOutlined
+                  onClick={() => navigator.clipboard.writeText(lineLink.command)}
+                  style={{ cursor: 'pointer' }}
+                />
+              }
+            />
+            <div style={{ color: '#64748b', fontSize: 12, marginTop: 6 }}>
+              หมดอายุ {new Date(lineLink.expiresAt).toLocaleString('th-TH')}
+            </div>
+          </div>
+        )}
       </Card>
     </div>
   );

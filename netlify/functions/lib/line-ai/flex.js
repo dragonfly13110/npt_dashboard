@@ -8,7 +8,17 @@ function isValidDashboardUrl(url) {
   }
 }
 
-export function renderAiReply({ text, records }) {
+function isValidExternalUrl(url) {
+  if (!url) return false;
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
+
+export function renderAiReply({ text, records, sources = [] }) {
   const messages = [];
 
   if (text) {
@@ -18,14 +28,29 @@ export function renderAiReply({ text, records }) {
     });
   }
 
-  if (records && Array.isArray(records) && records.length > 0) {
-    const bubbles = records.slice(0, 3).map((record) => {
+  const allRecords = [
+    ...(Array.isArray(records) ? records : []),
+    ...sources.slice(0, 3).map((source) => ({
+      title: source.title || 'แหล่งข้อมูลจากอินเทอร์เน็ต',
+      subtitle: 'แหล่งข้อมูลจากอินเทอร์เน็ต',
+      url: source.url,
+      sourceKind: 'internet',
+    })),
+  ];
+
+  if (allRecords.length > 0) {
+    const bubbles = allRecords.slice(0, 3).map((record) => {
       const title = String(record.title || 'ข้อมูล').slice(0, 40);
       const subtitle = String(record.subtitle || '-').slice(0, 60);
       const rawUrl = record.url;
-      const url = isValidDashboardUrl(rawUrl)
-        ? rawUrl
-        : 'https://npt-dashboard.netlify.app/dashboard';
+      const url =
+        record.sourceKind === 'internet'
+          ? isValidExternalUrl(rawUrl)
+            ? rawUrl
+            : 'https://npt-dashboard.netlify.app/dashboard'
+          : isValidDashboardUrl(rawUrl)
+            ? rawUrl
+            : 'https://npt-dashboard.netlify.app/dashboard';
 
       return {
         type: 'bubble',
@@ -61,7 +86,9 @@ export function renderAiReply({ text, records }) {
               height: 'sm',
               action: {
                 type: 'uri',
-                label: record.totalCount
+                label: record.sourceKind === 'internet'
+                  ? 'เปิดแหล่งข้อมูล'
+                  : record.totalCount
                   ? `ดูทั้งหมด ${record.totalCount} รายการ`
                   : 'เปิดดูรายละเอียด',
                 uri: url,

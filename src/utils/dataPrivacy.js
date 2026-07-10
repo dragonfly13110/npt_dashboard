@@ -3,9 +3,9 @@ const BASE_PRIVATE_PATTERNS = [
   /phone|mobile|tel/i,
   /address|address_no|moo|road|soi|house/i,
   /first_name|last_name|full_name|owner_name|farmer_name|contact_person/i,
+  /chairman|president|leader|manager/i,
+  /email|line_id|facebook/i,
 ];
-
-const PUBLIC_NAME_ALLOW_PATTERNS = [/chairman|president|leader/i];
 
 const TABLE_PRIVATE_COLUMNS = {
   smart_farmer_sf: [
@@ -63,19 +63,12 @@ const TABLE_PRIVATE_COLUMNS = {
 
 export function isPrivateColumn(tableName, column = {}) {
   const dataIndex = String(column.dataIndex || '');
-  const title = String(column.title || '');
   if (!dataIndex) return false;
   if (column.public === true) return false;
   if (column.private === true || column.hideForGuest === true) return true;
 
   const tablePrivate = TABLE_PRIVATE_COLUMNS[tableName] || [];
   if (tablePrivate.includes(dataIndex)) return true;
-  if (
-    PUBLIC_NAME_ALLOW_PATTERNS.some(
-      (pattern) => pattern.test(dataIndex) || pattern.test(title)
-    )
-  )
-    return false;
   return BASE_PRIVATE_PATTERNS.some((pattern) => pattern.test(dataIndex));
 }
 

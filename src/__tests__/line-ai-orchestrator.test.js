@@ -596,7 +596,7 @@ describe('LINE AI Orchestrator', () => {
       records: [],
     });
   });
-  it('uses grounding without application quota', async () => {
+  it('keeps synthesis grounded only by system evidence', async () => {
     gemini.plan.mockResolvedValue({
       intent: 'news',
       answer: '',
@@ -618,9 +618,44 @@ describe('LINE AI Orchestrator', () => {
     expect(gemini.synthesize).toHaveBeenCalledWith(
       expect.any(String),
       expect.any(String),
-      expect.objectContaining({ grounding: true })
+      expect.objectContaining({ grounding: false })
     );
     expect(store.claimQuota).not.toHaveBeenCalled();
+  });
+
+  it('uses disclosed web fallback only after system evidence is empty', async () => {
+    gemini.plan.mockResolvedValue({
+      intent: 'current',
+      tools: [],
+      tables: [],
+      searchTerms: ['ราคาข้าว'],
+      preferenceAction: 'none',
+      needsGrounding: false,
+    });
+    gemini.searchExternal = vi.fn().mockResolvedValue({
+      text: 'ราคาจากแหล่งข้อมูลภายนอก',
+      sources: [{ title: 'แหล่งข้อมูล', url: 'https://example.com/source' }],
+    });
+
+    const orchestrator = createLineAiOrchestrator({
+      supabase,
+      config,
+      store,
+      keyPool,
+      gemini,
+      executeTools,
+      renderAiReply,
+      clock,
+    });
+
+    const result = await orchestrator.answer({ userId: 'U1', text: 'ราคาข้าววันนี้' });
+
+    expect(result.sourceType).toBe('internet');
+    expect(gemini.searchExternal).toHaveBeenCalled();
+    expect(renderAiReply.mock.calls.at(-1)[0].text).toMatch(
+      /^ไม่พบข้อมูลนี้ในระบบ คำตอบต่อไปนี้ค้นจากอินเทอร์เน็ต/
+    );
+    expect(store.putCache).not.toHaveBeenCalled();
   });
   it('falls back when every key fails', async () => {
     keyPool.execute.mockRejectedValue(

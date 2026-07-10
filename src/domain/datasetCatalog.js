@@ -68,6 +68,39 @@ export const DASHBOARD_GROUPS = [
 
 export const TABLE_ROUTES = catalog.TABLE_ROUTES;
 
+const ROLE_RANK = {
+  guest: 0,
+  viewer: 1,
+  editor: 2,
+  district_editor: 2,
+  admin: 3,
+};
+
+export const LINE_DATASET_POLICY = catalog.LINE_DATASETS;
+export const SYSTEM_PAGES = catalog.SYSTEM_PAGES;
+export const MANUALS = catalog.MANUALS;
+
+const LINE_KNOWLEDGE = new Map(
+  [...LINE_DATASET_POLICY, ...SYSTEM_PAGES, ...MANUALS].map((entry) => [
+    entry.id,
+    entry,
+  ])
+);
+
+export function listLineKnowledgeEntries() {
+  return [...LINE_KNOWLEDGE.values()];
+}
+
+export function getLineKnowledgeEntry(id) {
+  return LINE_KNOWLEDGE.get(id) || null;
+}
+
+export function canRoleAccessLineKnowledge(role, id) {
+  const entry = getLineKnowledgeEntry(id);
+  if (!entry) return false;
+  return (ROLE_RANK[role] ?? -1) >= (ROLE_RANK[entry.minRole] ?? 99);
+}
+
 export const DEPARTMENT_GROUP_MAP = {
   ฝ่ายบริหารทั่วไป: 'admin',
   กลุ่มยุทธศาสตร์และสารสนเทศ: 'strategy',
