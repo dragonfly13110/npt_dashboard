@@ -237,6 +237,25 @@ BEGIN
 END;
 $$;
 
+-- Staff gateway keeps the privileged entry point separate from public callers.
+CREATE OR REPLACE FUNCTION public.global_search_staff(
+  search_terms TEXT[],
+  table_names TEXT[],
+  result_limit INTEGER DEFAULT 3
+)
+RETURNS JSONB
+LANGUAGE sql
+SECURITY INVOKER
+SET search_path = public
+AS $$
+  SELECT public.global_search_public(search_terms, table_names, result_limit);
+$$;
+
+REVOKE ALL ON FUNCTION public.global_search_staff(TEXT[], TEXT[], INTEGER)
+  FROM public, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.global_search_staff(TEXT[], TEXT[], INTEGER)
+  TO service_role;
+
 -- Legacy wrapper: existing callers keep working while AI uses one targeted RPC.
 CREATE OR REPLACE FUNCTION public.global_search(
   search_term TEXT,
