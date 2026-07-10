@@ -63,7 +63,6 @@ const TABLE_PRIVATE_COLUMNS = {
 
 export function isPrivateColumn(tableName, column = {}) {
   const dataIndex = String(column.dataIndex || '');
-  const title = String(column.title || '');
   if (!dataIndex) return false;
   if (column.public === true) return false;
   if (column.private === true || column.hideForGuest === true) return true;

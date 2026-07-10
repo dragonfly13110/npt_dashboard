@@ -3886,5 +3886,14 @@
     "heading": "Checklist ส่งมอบงานผู้ดูแลระบบ",
     "chunkIndex": 15,
     "content": "Checklist ส่งมอบงานผู้ดูแลระบบ\n- [ ] มีบัญชี admin อย่างน้อย 1 คน\n- [ ] มีบัญชีสำรองตามนโยบายหน่วยงาน\n- [ ] รู้วิธีเพิ่ม/ปิด/เปลี่ยน role ผู้ใช้\n- [ ] รู้วิธี backup ตารางสำคัญ\n- [ ] รู้วิธีตรวจ Netlify deploy logs\n- [ ] รู้วิธีตรวจ Supabase Auth และ `profiles`\n- [ ] มีช่องทางรับแจ้งปัญหา\n- [ ] มีแบบฟอร์ม incident\n- [ ] มีรอบตรวจรายวัน รายสัปดาห์ รายเดือน"
+  },
+  {
+    "id": "manual:admin-sop",
+    "title": "SOP ผู้ดูแลระบบ",
+    "route": "/manual/admin-sop",
+    "minRole": "admin",
+    "heading": "LINE Bot: knowledge และการเชื่อมบัญชี",
+    "chunkIndex": 16,
+    "content": "LINE Bot: knowledge และการเชื่อมบัญชี\n1. เพิ่ม dataset/page/manual ใหม่ใน `src/domain/datasetCatalog.json` ก่อนให้บอทค้นได้\n2. ถ้าเพิ่มหรือแก้คู่มือ ให้รัน `npm run build:line-knowledge`\n3. Apply `supabase/line_account_linking.sql` และ `supabase/global_search.sql` ตามลำดับ\n4. เจ้าหน้าที่สร้างรหัสจากหน้าโปรไฟล์ แล้วส่งคำสั่ง `เชื่อม <รหัส>` ใน LINE\n5. รหัสมีอายุ 10 นาที ใช้ครั้งเดียว ห้ามบันทึกหรือส่งต่อรหัส\n6. Public ห้ามเห็นชื่อเกษตรกร ประธานศูนย์ ผู้จัดการ เบอร์ ที่อยู่ หรือ PII อื่น\n7. เปิด public consent ได้ต่อเมื่อมี consent schema และข้อมูลยินยอมที่ตรวจสอบได้แล้ว\n8. คำตอบจากอินเทอร์เน็ตต้องมีข้อความแจ้งและลิงก์อ้างอิง ห้ามบันทึกเป็น system cache"
   }
 ]

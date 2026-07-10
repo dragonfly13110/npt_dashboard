@@ -61,6 +61,19 @@ npm run dev
 - `LINE_AI_*`
 - API keys/credentials ของแหล่งข้อมูลภายนอก เช่น DOAE, GISTDA, Meteostat
 
+### LINE knowledge rollout
+
+LINE Bot ค้นข้อมูลในระบบก่อนเสมอ โดยใช้ชุดข้อมูล หน้า และคู่มือที่ลงทะเบียนใน `src/domain/datasetCatalog.json` เท่านั้น ผู้ใช้ทั่วไปเห็นข้อมูลแบบตัด PII; เจ้าหน้าที่เชื่อมบัญชีด้วยรหัสใช้ครั้งเดียวจากหน้าโปรไฟล์
+
+เมื่อไม่มีข้อมูลในระบบและเปิด `LINE_AI_GROUNDING_ENABLED=true` บอทจึงค้นอินเทอร์เน็ต พร้อมแจ้งว่าเป็นคำตอบจากอินเทอร์เน็ตและส่งแหล่งอ้างอิง การ deploy migration ให้ทำตามลำดับ:
+
+1. Apply `supabase/line_account_linking.sql`.
+2. Apply `supabase/global_search.sql`.
+3. ตั้งค่า `LINE_AI_ENABLED=true`, Gemini key slots, LINE secret/token, Supabase service role และ `LINE_AI_GROUNDING_ENABLED=true` บน Netlify
+4. รัน `npm run build:line-knowledge`
+5. รัน focused tests และ build
+6. ทดสอบ staff pilot ก่อนเปิด public
+
 อย่าใส่ service role key หรือ secret ใดๆ ด้วย prefix `VITE_` เพราะค่ากลุ่มนี้จะถูก bundle ไปฝั่ง browser
 
 ## คำสั่งที่ใช้บ่อย

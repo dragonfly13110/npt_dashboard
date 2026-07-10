@@ -8,7 +8,7 @@ import {
   TeamOutlined,
   ToolOutlined,
 } from '@ant-design/icons';
-import catalog from './datasetCatalog.json';
+import catalog from '../domain/datasetCatalog.json';
 
 const ICONS = {
   audit: AuditOutlined,
