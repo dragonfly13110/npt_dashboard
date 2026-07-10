@@ -8,90 +8,35 @@ import {
   TeamOutlined,
   ToolOutlined,
 } from '@ant-design/icons';
+import catalog from './datasetCatalog.json';
 
-export const manualRegistry = [
-  {
-    slug: 'system-overview',
-    title: 'ภาพรวมและความพร้อมของระบบ',
-    file: '00-ภาพรวมและความพร้อมของระบบ.md',
-    audience: 'ผู้ใช้งาน / ผู้บริหาร / หน่วยงานที่ต้องประเมินระบบ',
-    Icon: ReadOutlined,
-  },
-  {
-    slug: 'overview',
-    title: 'ภาพรวมและเป้าหมายระบบ',
-    file: '01-ภาพรวมและเป้าหมายระบบ.md',
-    audience: 'ผู้บริหาร / เจ้าหน้าที่วางแผน',
-    Icon: ReadOutlined,
-  },
-  {
-    slug: 'data-collection',
-    title: 'การรวบรวมข้อมูลจากจังหวัด',
-    file: '02-การรวบรวมข้อมูลจากจังหวัด.md',
-    audience: 'เจ้าหน้าที่ข้อมูล',
-    Icon: DatabaseOutlined,
-  },
-  {
-    slug: 'data-preparation',
-    title: 'การทำความสะอาดและเตรียมข้อมูล',
-    file: '03-การทำความสะอาดและเตรียมข้อมูล.md',
-    audience: 'เจ้าหน้าที่ข้อมูล',
-    Icon: ToolOutlined,
-  },
-  {
-    slug: 'csv-import',
-    title: 'คู่มือนำเข้าข้อมูล CSV สำหรับเจ้าหน้าที่',
-    file: '10-คู่มือนำเข้าข้อมูล-csv-สำหรับเจ้าหน้าที่.md',
-    audience: 'เจ้าหน้าที่ข้อมูล',
-    Icon: DatabaseOutlined,
-  },
-  {
-    slug: 'supabase-design',
-    title: 'การออกแบบฐานข้อมูลและตั้งค่า Supabase',
-    file: '04-การออกแบบฐานข้อมูลและตั้งค่า-supabase.md',
-    audience: 'ผู้ดูแลระบบ / นักพัฒนา',
-    Icon: SettingOutlined,
-  },
-  {
-    slug: 'project-setup',
-    title: 'การติดตั้งและตั้งค่าโปรเจกต์',
-    file: '05-การติดตั้งและตั้งค่าโปรเจกต์.md',
-    audience: 'นักพัฒนา',
-    Icon: DeploymentUnitOutlined,
-  },
-  {
-    slug: 'dashboard-search-ai',
-    title: 'การสร้าง Dashboard, Search และ AI',
-    file: '06-การสร้าง-dashboard-search-ai.md',
-    audience: 'ผู้บริหาร / นักพัฒนา',
-    Icon: AuditOutlined,
-  },
-  {
-    slug: 'ai-prompting',
-    title: 'เทคนิคการสั่ง AI ช่วยทำงานทุกขั้นตอน',
-    file: '09-เทคนิคการสั่ง-ai-ช่วยทำงานทุกขั้นตอน.md',
-    audience: 'เจ้าหน้าที่มือใหม่ / ผู้ดูแลระบบ',
-    Icon: ToolOutlined,
-  },
-  {
-    slug: 'security-deploy',
-    title: 'ความปลอดภัยและการ Deploy',
-    file: '07-ความปลอดภัยและการ-deploy.md',
-    audience: 'ผู้ดูแลระบบ',
-    Icon: SafetyCertificateOutlined,
-  },
-  {
-    slug: 'operations-training',
-    title: 'การดูแลระบบและอบรมผู้ใช้งาน',
-    file: '08-การดูแลระบบและอบรมผู้ใช้งาน.md',
-    audience: 'ผู้ดูแลระบบ / เจ้าหน้าที่',
-    Icon: TeamOutlined,
-  },
-  {
-    slug: 'admin-sop',
-    title: 'SOP ผู้ดูแลระบบ',
-    file: '11-sop-ผู้ดูแลระบบ.md',
-    audience: 'ผู้ดูแลระบบ',
-    Icon: TeamOutlined,
-  },
-];
+const ICONS = {
+  audit: AuditOutlined,
+  database: DatabaseOutlined,
+  deploy: DeploymentUnitOutlined,
+  read: ReadOutlined,
+  safety: SafetyCertificateOutlined,
+  setting: SettingOutlined,
+  team: TeamOutlined,
+  tool: ToolOutlined,
+};
+
+const ICON_KEYS = {
+  'system-overview': 'read',
+  overview: 'read',
+  'data-collection': 'database',
+  'data-preparation': 'tool',
+  'csv-import': 'database',
+  'supabase-design': 'setting',
+  'project-setup': 'deploy',
+  'dashboard-search-ai': 'audit',
+  'ai-prompting': 'tool',
+  'security-deploy': 'safety',
+  'operations-training': 'team',
+  'admin-sop': 'team',
+};
+
+export const manualRegistry = catalog.MANUALS.map((manual) => ({
+  ...manual,
+  Icon: ICONS[ICON_KEYS[manual.slug] || 'read'],
+}));

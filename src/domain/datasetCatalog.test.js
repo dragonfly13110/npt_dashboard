@@ -1,17 +1,21 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import {
+  canRoleAccessLineKnowledge,
   canDistrictEditorWriteTable,
   canGroupAccessTable,
   canGuestAccessGroup,
   canGuestAccessTable,
   getDatasetRoute,
+  getLineKnowledgeEntry,
   getDatasetSelectColumns,
   getDepartmentGroupKey,
   getGroupTables,
   getSearchColumns,
   listDatasetKeys,
+  listLineKnowledgeEntries,
 } from './datasetCatalog';
+import catalogJson from './datasetCatalog.json';
 
 function readGlobalSearchSql() {
   return readFileSync('supabase/global_search.sql', 'utf8');
@@ -123,5 +127,33 @@ describe('datasetCatalog', () => {
       'production'
     );
     expect(getDepartmentGroupKey(null)).toBe(null);
+  });
+
+  it('registers every searchable dataset for LINE', () => {
+    const registered = new Set(
+      catalogJson.LINE_DATASETS.map((entry) => entry.source)
+    );
+    expect(listDatasetKeys().filter((key) => !registered.has(key))).toEqual([]);
+  });
+
+  it('registers every manual file once', () => {
+    const files = catalogJson.MANUALS.map((entry) => entry.file);
+    expect(new Set(files).size).toBe(files.length);
+    expect(files).toHaveLength(12);
+  });
+
+  it('enforces page and dataset roles', () => {
+    expect(canRoleAccessLineKnowledge('guest', 'page:profile')).toBe(false);
+    expect(canRoleAccessLineKnowledge('viewer', 'page:profile')).toBe(true);
+    expect(canRoleAccessLineKnowledge('viewer', 'page:admin-users')).toBe(false);
+    expect(canRoleAccessLineKnowledge('admin', 'page:admin-users')).toBe(true);
+    expect(getLineKnowledgeEntry('dataset:large_plots')?.route).toBe(
+      '/dashboard/production/large-plots'
+    );
+  });
+
+  it('returns unique stable LINE knowledge IDs', () => {
+    const ids = listLineKnowledgeEntries().map((entry) => entry.id);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 });
