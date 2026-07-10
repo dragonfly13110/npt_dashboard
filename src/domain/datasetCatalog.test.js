@@ -87,6 +87,24 @@ describe('datasetCatalog', () => {
     expect(columns).not.toContain('full_name');
   });
 
+  it.each([
+    ['learning_centers', 'manager'],
+    ['farmer_groups', 'chairman'],
+    ['housewife_farmer_groups', 'chairman'],
+    ['young_farmer_groups', 'chairman'],
+    ['pest_centers', 'chairman'],
+    ['soil_fertilizer_centers', 'chairman'],
+    ['plant_doctors', 'full_name'],
+    ['personnel', 'full_name'],
+  ])('hides %s.%s from public AI reads', (table, field) => {
+    expect(
+      getDatasetSelectColumns(table, {
+        purpose: 'ai',
+        columns: [field, 'district'],
+      }).split(',')
+    ).not.toContain(field);
+  });
+
   it('centralizes group table access rules', () => {
     expect(getGroupTables('production')).toContain('large_plots');
     expect(canGroupAccessTable('production', 'large_plots')).toBe(true);
