@@ -40,7 +40,7 @@ function selectedEntries(identity, catalogIds, terms) {
   if (requested.length) return requested;
   const searchText = terms.join(' ').toLowerCase();
   return [...ENTRIES.values()]
-    .filter((entry) => entry.kind === 'dataset' && canAccess(identity, entry))
+    .filter((entry) => canAccess(identity, entry))
     .filter((entry) => !searchText || [entry.title, entry.description, ...(entry.aliases || [])].join(' ').toLowerCase().includes(searchText))
     .slice(0, 5);
 }

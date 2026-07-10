@@ -424,6 +424,20 @@ describe('LINE AI tools and rendering', () => {
       'ดูทั้งหมด 50 รายการ'
     );
   });
+
+  it('renders cited external source cards with safe HTTPS links', () => {
+    const messages = renderAiReply({
+      text: 'ไม่พบข้อมูลนี้ในระบบ คำตอบต่อไปนี้ค้นจากอินเทอร์เน็ต',
+      sources: [{ title: 'แหล่งข้อมูล', url: 'https://example.com/source' }],
+    });
+    const carousel = messages.find((message) => message.type === 'flex');
+    expect(carousel.contents.contents[0].footer.contents[0].action.uri).toBe(
+      'https://example.com/source'
+    );
+    expect(carousel.contents.contents[0].footer.contents[0].action.label).toBe(
+      'เปิดแหล่งข้อมูล'
+    );
+  });
   it('returns text reply when no records are provided', () => {
     const result = renderAiReply({ text: 'ไม่พบข้อมูล' });
     expect(result).toHaveLength(1);

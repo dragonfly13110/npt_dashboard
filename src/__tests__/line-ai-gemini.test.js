@@ -56,6 +56,29 @@ describe('Gemini LINE client', () => {
     expect(body.tools).toEqual([{ google_search: {} }]);
   });
 
+  it('returns only grounded external answers with cited sources', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      status: 200,
+      json: async () => ({
+        candidates: [{
+          content: { parts: [{ text: 'ข้อมูลจากเว็บ' }] },
+          groundingMetadata: {
+            groundingChunks: [{ web: { title: 'แหล่งข้อมูล', uri: 'https://example.com/source' } }],
+          },
+        }],
+      }),
+    });
+    const client = createGeminiClient({ fetch: fetchMock, model: 'gemini-2.5-flash-lite' });
+    await expect(
+      client.searchExternal('key-web', 'gemini-2.5-flash-lite', {
+        question: 'ราคาสินค้าวันนี้',
+      })
+    ).resolves.toEqual({
+      text: 'ข้อมูลจากเว็บ',
+      sources: [{ title: 'แหล่งข้อมูล', url: 'https://example.com/source' }],
+    });
+  });
+
   it('keeps district context province-honest during synthesis', async () => {
     const fetchMock = vi.fn().mockResolvedValue({
       status: 200,
