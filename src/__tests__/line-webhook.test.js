@@ -82,6 +82,42 @@ describe('line-webhook.js', () => {
     expect(response.statusCode).toBe(200);
   });
 
+  it('consumes a LINE link command before invoking AI', async () => {
+    mockSupabase.rpc.mockResolvedValue({
+      data: [{ profile_id: 'profile-1', role: 'editor', department: 'production' }],
+      error: null,
+    });
+    const body = JSON.stringify({
+      events: [
+        {
+          type: 'message',
+          replyToken: 'mockReplyToken',
+          source: { type: 'user', userId: 'U-staff' },
+          message: { type: 'text', text: 'เชื่อม ABCDEF1234' },
+        },
+      ],
+    });
+    const signature = crypto
+      .createHmac('sha256', 'mock-secret')
+      .update(body)
+      .digest('base64');
+
+    const response = await webhook.handler({
+      httpMethod: 'POST',
+      headers: { 'x-line-signature': signature },
+      body,
+    });
+
+    expect(response.statusCode).toBe(200);
+    expect(mockSupabase.rpc).toHaveBeenCalledWith(
+      'consume_line_link_code',
+      expect.objectContaining({ p_line_user_id: 'U-staff' })
+    );
+    expect(mockFetch).toHaveBeenCalled();
+    const payload = JSON.parse(mockFetch.mock.calls[0][1].body);
+    expect(payload.messages[0].text).toContain('เชื่อมบัญชีสำเร็จ');
+  });
+
   it('rejects an invalid signature with 401', async () => {
     const event = {
       httpMethod: 'POST',

@@ -28,8 +28,67 @@ function assertOk(result) {
   return result.data;
 }
 
+async function sha256Hex(value) {
+  const bytes = new TextEncoder().encode(value);
+  const digest = await globalThis.crypto.subtle.digest('SHA-256', bytes);
+  return [...new Uint8Array(digest)]
+    .map((byte) => byte.toString(16).padStart(2, '0'))
+    .join('');
+}
+
 export function createLineAiStore(supabase) {
   return {
+    async resolveIdentity(lineUserId) {
+      if (!lineUserId) {
+        return { role: 'guest', profileId: null, department: null };
+      }
+      const link = assertOk(
+        await supabase
+          .from('line_account_links')
+          .select('profile_id')
+          .eq('line_user_id', lineUserId)
+          .maybeSingle()
+      );
+      if (!link?.profile_id) {
+        return { role: 'guest', profileId: null, department: null };
+      }
+      const profile = assertOk(
+        await supabase
+          .from('profiles')
+          .select('id,role,department')
+          .eq('id', link.profile_id)
+          .maybeSingle()
+      );
+      if (!profile) {
+        return { role: 'guest', profileId: null, department: null };
+      }
+      return {
+        role: ['viewer', 'editor', 'district_editor', 'admin'].includes(profile.role)
+          ? profile.role
+          : 'viewer',
+        profileId: profile.id,
+        department: profile.department || null,
+      };
+    },
+
+    async consumeLinkCode(lineUserId, code) {
+      if (!lineUserId || !/^[A-F0-9]{10}$/i.test(code || '')) return null;
+      const rows = assertOk(
+        await supabase.rpc('consume_line_link_code', {
+          p_code_hash: await sha256Hex(code.toUpperCase()),
+          p_line_user_id: lineUserId,
+        })
+      );
+      const row = Array.isArray(rows) ? rows[0] : rows;
+      return row
+        ? {
+            profileId: row.profile_id,
+            role: row.role,
+            department: row.department || null,
+          }
+        : null;
+    },
+
     async getPreference(userId) {
       const result = await supabase
         .from('line_user_preferences')
