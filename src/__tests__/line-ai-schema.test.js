@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 const sql = readFileSync('supabase/line_ai_chatbot.sql', 'utf8');
+const linkingSql = readFileSync('supabase/line_account_linking.sql', 'utf8');
 const usageTable = sql.match(
   /create table if not exists public\.line_ai_usage\s*\((?<body>[\s\S]*?)\);/i
 );
@@ -13,6 +14,20 @@ const quotaDefinition = quotaFunction?.[0] ?? '';
 const quotaBody = quotaFunction?.groups?.body ?? '';
 
 describe('LINE AI schema', () => {
+  it('defines private atomic LINE account linking', () => {
+    expect(linkingSql).toMatch(
+      /create table if not exists public\.line_link_codes/i
+    );
+    expect(linkingSql).toMatch(/code_hash\s+text\s+not null unique/i);
+    expect(linkingSql).toMatch(/expires_at\s+timestamptz\s+not null/i);
+    expect(linkingSql).toMatch(
+      /create table if not exists public\.line_account_links/i
+    );
+    expect(linkingSql).toMatch(/profile_id\s+uuid\s+not null unique/i);
+    expect(linkingSql).toMatch(/for update/i);
+    expect(linkingSql).toMatch(/revoke all[\s\S]*anon, authenticated/i);
+    expect(linkingSql).toMatch(/grant execute[\s\S]*service_role/i);
+  });
   it.each([
     'line_conversations',
     'line_ai_usage',
