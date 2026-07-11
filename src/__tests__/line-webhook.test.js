@@ -182,12 +182,26 @@ describe('line-webhook.js', () => {
   it('replies to personnel summary postback with total and district counts', async () => {
     mockSupabase.from.mockReturnValue({
       select: vi.fn(() => ({
-        data: [
-          { district: 'กำแพงแสน', office_type: 'District' },
-          { district: 'กำแพงแสน', office_type: 'District' },
-          { district: '-', office_type: 'Provincial' },
-        ],
-        error: null,
+        neq: vi.fn(() => ({
+          data: [
+            {
+              district: 'กำแพงแสน',
+              office_type: 'District',
+              position: 'นักวิชาการ',
+            },
+            {
+              district: 'กำแพงแสน',
+              office_type: 'District',
+              position: 'เจ้าพนักงาน',
+            },
+            {
+              district: '-',
+              office_type: 'Provincial',
+              position: 'นักวิชาการ',
+            },
+          ],
+          error: null,
+        })),
       })),
     });
     const body = JSON.stringify({

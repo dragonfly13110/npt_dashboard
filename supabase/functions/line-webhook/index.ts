@@ -1894,7 +1894,8 @@ async function handlePostbackEvent(event: any) {
   if (params.action === 'personnel_summary') {
     const { data, error } = await supabase
       .from('personnel')
-      .select('district,office_type');
+      .select('district,office_type,position')
+      .neq('position', 'สำนักงาน');
     if (error) {
       console.error(error);
       await sendLineReply(replyToken, [
@@ -1903,7 +1904,7 @@ async function handlePostbackEvent(event: any) {
       return;
     }
 
-    const rows = data || [];
+    const rows = (data || []).filter((row: any) => row.position !== 'สำนักงาน');
     const byDistrict = rows.reduce(
       (counts: Record<string, number>, row: any) => {
         const district =
