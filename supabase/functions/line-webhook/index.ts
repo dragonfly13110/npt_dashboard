@@ -1906,7 +1906,12 @@ async function handlePostbackEvent(event: any) {
     const rows = data || [];
     const byDistrict = rows.reduce(
       (counts: Record<string, number>, row: any) => {
-        const district = row.district || 'สำนักงานเกษตรจังหวัด';
+        const district =
+          row.office_type === 'Provincial' ||
+          !row.district ||
+          row.district === '-'
+            ? 'สำนักงานเกษตรจังหวัด'
+            : row.district;
         counts[district] = (counts[district] || 0) + 1;
         return counts;
       },

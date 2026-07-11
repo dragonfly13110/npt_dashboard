@@ -1980,7 +1980,12 @@ export async function handlePostbackEvent(event) {
 
     const rows = data || [];
     const byDistrict = rows.reduce((counts, row) => {
-      const district = row.district || 'สำนักงานเกษตรจังหวัด';
+      const district =
+        row.office_type === 'Provincial' ||
+        !row.district ||
+        row.district === '-'
+          ? 'สำนักงานเกษตรจังหวัด'
+          : row.district;
       counts[district] = (counts[district] || 0) + 1;
       return counts;
     }, {});

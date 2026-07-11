@@ -185,7 +185,7 @@ describe('line-webhook.js', () => {
         data: [
           { district: 'กำแพงแสน', office_type: 'District' },
           { district: 'กำแพงแสน', office_type: 'District' },
-          { district: null, office_type: 'Provincial' },
+          { district: '-', office_type: 'Provincial' },
         ],
         error: null,
       })),
@@ -213,6 +213,8 @@ describe('line-webhook.js', () => {
     const text = JSON.parse(mockFetch.mock.calls[0][1].body).messages[0].text;
     expect(text).toContain('บุคลากรทั้งหมด 3 คน');
     expect(text).toContain('กำแพงแสน: 2 คน');
+    expect(text).toContain('สำนักงานเกษตรจังหวัด: 1 คน');
+    expect(text).not.toContain('• -:');
   });
 
   it.skip('routes text messages through the global search fallback when no prefixes match', async () => {
