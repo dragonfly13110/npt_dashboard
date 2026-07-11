@@ -39,7 +39,7 @@ BEGIN
     SELECT *
     FROM (
       VALUES
-        ('farmer_registry'::text, ARRAY['district','main_crop']::text[], ARRAY['id','district','main_crop','household_count','farm_area_rai','data_year','created_at','updated_at']::text[]),
+        ('farmer_registry'::text, ARRAY['district','main_crop']::text[], ARRAY['id','district','main_crop','household_count','total_updated_households','target','farm_area_rai','data_year','created_at','updated_at']::text[]),
         ('agricultural_areas'::text, ARRAY['area_name','area_type','district','subdistrict']::text[], ARRAY['id','area_name','area_type','district','subdistrict','total_area_rai','agri_crop_area_rai','farmer_households','created_at','updated_at']::text[]),
         ('gis_areas'::text, ARRAY['area_name','district','area_type','notes']::text[], ARRAY['id','area_name','district','area_type','area_rai','notes','created_at','updated_at']::text[]),
         ('learning_centers'::text, ARRAY['center_name','district','main_crop']::text[], ARRAY['id','center_name','district','main_crop','area_rai','created_at','updated_at']::text[]),
