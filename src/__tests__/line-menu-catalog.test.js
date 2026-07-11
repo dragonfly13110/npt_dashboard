@@ -35,28 +35,31 @@ describe('LINE Menu Catalog Contract', () => {
     }
   });
 
-  it('asserts a handler mapping for every postback in webhook-core', () => {
-    // Read webhook-core.js to verify that every postback action is mapped/handled.
-    const webhookCorePath = path.resolve(
-      __dirname,
-      '../../netlify/functions/lib/line-ai/webhook-core.js'
-    );
-    const webhookCode = fs.readFileSync(webhookCorePath, 'utf8');
-
+  it('asserts a complete handler for every postback in both webhook runtimes', () => {
     const postbackActions = catalog
       .filter((item) => item.responseKind === 'postback')
       .map((item) => item.action);
+    const webhookPaths = [
+      '../../netlify/functions/lib/line-ai/webhook-core.js',
+      '../../supabase/functions/line-webhook/index.ts',
+    ];
 
-    expect(webhookCode).not.toContain('Placeholder handler');
-    for (const action of postbackActions) {
-      const start = webhookCode.indexOf(`params.action === '${action}'`);
-      expect(start).toBeGreaterThan(-1);
-      const nextHandler = webhookCode.indexOf('params.action ===', start + 1);
-      const handler = webhookCode.slice(
-        start,
-        nextHandler === -1 ? webhookCode.indexOf('\n}', start) : nextHandler
+    for (const webhookPath of webhookPaths) {
+      const webhookCode = fs.readFileSync(
+        path.resolve(__dirname, webhookPath),
+        'utf8'
       );
-      expect(handler).toContain('sendLineReply');
+      expect(webhookCode).not.toContain('Placeholder handler');
+      for (const action of postbackActions) {
+        const start = webhookCode.indexOf(`params.action === '${action}'`);
+        expect(start).toBeGreaterThan(-1);
+        const nextHandler = webhookCode.indexOf('params.action ===', start + 1);
+        const handler = webhookCode.slice(
+          start,
+          nextHandler === -1 ? webhookCode.indexOf('\n}', start) : nextHandler
+        );
+        expect(handler).toContain('sendLineReply');
+      }
     }
   });
 });

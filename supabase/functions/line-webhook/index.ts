@@ -1841,6 +1841,92 @@ async function handlePostbackEvent(event: any) {
     return;
   }
 
+  if (params.action === 'registration_summary') {
+    const { data, error } = await supabase
+      .from('farmer_registry')
+      .select(
+        'district,total_updated_households,household_count,target,data_year'
+      )
+      .order('data_year', { ascending: false })
+      .limit(20);
+    if (error) {
+      console.error(error);
+      await sendLineReply(replyToken, [
+        { type: 'text', text: 'ไม่สามารถดึงข้อมูลทะเบียนเกษตรกรได้ในขณะนี้' },
+      ]);
+      return;
+    }
+
+    const rows = data || [];
+    const province = rows.find((row: any) =>
+      ['จังหวัดนครปฐม', 'นครปฐม'].includes(row.district)
+    );
+    const districtActual = rows
+      .filter((row: any) => !['จังหวัดนครปฐม', 'นครปฐม'].includes(row.district))
+      .reduce(
+        (sum: number, row: any) =>
+          sum +
+          Number(row.total_updated_households || row.household_count || 0),
+        0
+      );
+    const actual = Number(
+      province?.total_updated_households ||
+        province?.household_count ||
+        districtActual
+    );
+    const target = Number(province?.target || 0);
+    await sendLineReply(replyToken, [
+      {
+        type: 'text',
+        text: [
+          '📋 สรุปการขึ้นทะเบียนเกษตรกร จังหวัดนครปฐม',
+          `ขึ้นทะเบียนแล้ว: ${actual.toLocaleString('th-TH')} ครัวเรือน`,
+          target
+            ? `เป้าหมายระดับจังหวัด: ${target.toLocaleString('th-TH')} ครัวเรือน`
+            : 'ยังไม่พบข้อมูลเป้าหมายระดับจังหวัด',
+          'หมายเหตุ: ไม่มีการกำหนดเป้าหมายระดับอำเภอ',
+        ].join('\n'),
+      },
+    ]);
+    return;
+  }
+
+  if (params.action === 'personnel_summary') {
+    const { data, error } = await supabase
+      .from('personnel')
+      .select('district,office_type');
+    if (error) {
+      console.error(error);
+      await sendLineReply(replyToken, [
+        { type: 'text', text: 'ไม่สามารถดึงข้อมูลบุคลากรได้ในขณะนี้' },
+      ]);
+      return;
+    }
+
+    const rows = data || [];
+    const byDistrict = rows.reduce(
+      (counts: Record<string, number>, row: any) => {
+        const district = row.district || 'สำนักงานเกษตรจังหวัด';
+        counts[district] = (counts[district] || 0) + 1;
+        return counts;
+      },
+      {}
+    );
+    const breakdown = Object.entries(byDistrict)
+      .sort(([a], [b]) => a.localeCompare(b, 'th'))
+      .map(([district, count]) => `• ${district}: ${count} คน`);
+    await sendLineReply(replyToken, [
+      {
+        type: 'text',
+        text: [
+          `👥 บุคลากรทั้งหมด ${rows.length.toLocaleString('th-TH')} คน`,
+          ...breakdown,
+        ].join('\n'),
+      },
+    ]);
+    return;
+  }
+
   if (params.action === 'weather') {
     const { data } = await supabase
       .from('daily_weather')
