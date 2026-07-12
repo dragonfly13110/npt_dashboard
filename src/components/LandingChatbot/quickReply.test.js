@@ -21,4 +21,17 @@ describe('getLandingQuickReply', () => {
       getLandingQuickReply('เปรียบเทียบพื้นที่เกษตรแต่ละอำเภอ')
     ).toBeNull();
   });
+
+  it.each([
+    ['ขอดูแผนที่', '/smart-map'],
+    ['ไปราคาสินค้าเกษตร', '/public/agricultural-prices'],
+    ['เปิดพยากรณ์โรคพืช', '/public/disease-forecast'],
+    ['ขอคู่มือใช้งาน', '/manual'],
+  ])('answers direct navigation without AI: %s', (query, route) => {
+    expect(getLandingQuickReply(query)).toContain(route);
+  });
+
+  it('does not intercept a factual navigation-shaped question', () => {
+    expect(getLandingQuickReply('แผนที่แปลงเกษตรในสามพรานมีอะไรบ้าง')).toBeNull();
+  });
 });
