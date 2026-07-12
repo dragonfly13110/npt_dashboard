@@ -86,48 +86,6 @@ const AgriAreasCard = lazy(() =>
   }))
 );
 
-const quickNavItems = [
-  {
-    href: '#agri-overview',
-    label: 'แผนที่และภาพรวม',
-    Icon: EnvironmentOutlined,
-  },
-  { href: '#soil-water', label: 'ดินและน้ำ', Icon: ExperimentOutlined },
-  { href: '#agri-news', label: 'ข่าวและประกาศ', Icon: ReadOutlined },
-];
-
-const infoNavItems = [
-  { key: 'audience', label: 'ระบบนี้ช่วยใคร', Icon: TeamOutlined },
-  {
-    key: 'contacts',
-    label: 'ติดต่อสำนักงานเกษตรอำเภอ',
-    Icon: FacebookOutlined,
-  },
-  { key: 'agencyLinks', label: 'ทางลัด', Icon: LinkOutlined },
-];
-
-const externalSystemLinks = [
-  {
-    href: '/smart-map',
-    title: 'แผนที่อัจฉริยะ',
-    subtitle: 'Smart Agri Map',
-    Icon: EnvironmentOutlined,
-    isInternal: true,
-  },
-  {
-    href: 'https://kasetinfo.netlify.app/',
-    title: 'คลังความรู้เกษตร',
-    subtitle: 'Infographic',
-    Icon: BookOutlined,
-  },
-  {
-    href: 'https://agrilabcost-ai.vercel.app/',
-    title: 'Crop Cost Lab',
-    subtitle: 'วิเคราะห์ต้นทุนการผลิต',
-    Icon: CalculatorOutlined,
-  },
-];
-
 const audienceItems = [
   {
     title: 'ผู้บริหารจังหวัดและผู้บริหารสำนักงาน',
@@ -270,8 +228,6 @@ export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [forecastData, setForecastData] = useState(null);
   const [forecastLoading, setForecastLoading] = useState(false);
-  const hasTourismData =
-    loading || tourism.count > 0 || tourism.list.length > 0;
 
   const handleLandingSearchSubmit = useCallback(
     (e) => {

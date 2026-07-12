@@ -45,6 +45,7 @@ import { useApiCache } from '../../hooks/useApiCache';
 import { useAuth } from '../../contexts/AuthContext';
 import districtGeoJSON from '../../data/nakhon_pathom_districts.json';
 
+/*
 const baseColumns = [
   {
     title: 'ชื่อกลุ่ม',
@@ -79,6 +80,7 @@ const formFields = (
     </Form.Item>
   </>
 );
+*/
 
 const money = new Intl.NumberFormat('th-TH', { maximumFractionDigits: 0 });
 const number = new Intl.NumberFormat('th-TH');
