@@ -32,6 +32,7 @@ import NewsAccordion from '../components/widgets/NewsAccordion';
 import WebsiteEvaluationForm from '../components/widgets/WebsiteEvaluationForm';
 import './LandingPage.css';
 import './SaastyTheme.css';
+import './LandingPage.premium.css';
 
 // SEO: Page metadata
 const SEO_TITLE = 'ศูนย์ข้อมูลการเกษตรนครปฐม | สำนักงานเกษตรจังหวัดนครปฐม';
@@ -257,6 +258,7 @@ export default function LandingPage() {
   }, [location]);
   const [moreDrawerOpen, setMoreDrawerOpen] = useState(false);
   const [moreDrawerClosing, setMoreDrawerClosing] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [forecastData, setForecastData] = useState(null);
   const [forecastLoading, setForecastLoading] = useState(false);
   const hasTourismData =
@@ -314,211 +316,66 @@ export default function LandingPage() {
 
   return (
     <div className="landing-page bento-theme">
-      <div
-        className="landing-floating-system-tabs"
-        aria-label="System shortcuts"
-      >
-        <a
-          href="/public/disease-forecast"
-          className="landing-system-tab forecast-warning-tab"
+      <header className="premium-landing-header">
+        <nav
+          className="premium-nav"
+          data-testid="landing-nav"
+          aria-label="เมนูหลัก"
         >
-          <BugOutlined className="forecast-pulse-icon" aria-hidden="true" />
-          <span>
-            <strong>เตือนภัยโรคและแมลง</strong>
-            <small>พยากรณ์ล่วงหน้า 7 วัน</small>
-          </span>
-        </a>
-        {externalSystemLinks.map(
-          ({ href, title, subtitle, Icon, isInternal }) =>
-            isInternal ? (
-              <a key={href} href={href} className="landing-system-tab">
-                <Icon aria-hidden="true" />
-                <span>
-                  <strong>{title}</strong>
-                  <small>{subtitle}</small>
-                </span>
-              </a>
-            ) : (
-              <a
-                key={href}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="landing-system-tab"
-              >
-                <Icon aria-hidden="true" />
-                <span>
-                  <strong>{title}</strong>
-                  <small>{subtitle}</small>
-                </span>
-              </a>
-            )
-        )}
-        <button
-          className="landing-system-tab"
-          onClick={() => setActiveInfoModal('soilMoistureDetail')}
-          style={{ cursor: 'pointer' }}
-        >
-          <ExperimentOutlined aria-hidden="true" />
-          <span>
-            <strong>ความชื้นดิน</strong>
-            <small>ข้อมูลเซ็นเซอร์ดิน</small>
-          </span>
-        </button>
-        <button
-          className="landing-system-tab"
-          onClick={() => setActiveInfoModal('waterDetail')}
-          style={{ cursor: 'pointer' }}
-        >
-          <CloudOutlined aria-hidden="true" />
-          <span>
-            <strong>สถานการณ์น้ำ</strong>
-            <small>ข้อมูลอ่างเก็บน้ำ</small>
-          </span>
-        </button>
-        <a href="/dashboard/community/forum" className="landing-system-tab">
-          <CommentOutlined aria-hidden="true" />
-          <span>
-            <strong>ชุมชนเกษตรกร</strong>
-            <small>Farmer Forum</small>
-          </span>
-        </a>
-        <button
-          className="landing-system-tab evaluation-warning-tab"
-          onClick={() => setActiveInfoModal('websiteEvaluation')}
-          style={{ cursor: 'pointer', borderLeft: '3px solid #16a34a' }}
-        >
-          <LikeOutlined aria-hidden="true" />
-          <span>
-            <strong>ประเมินเว็บไซต์</strong>
-            <small>แบบสำรวจความพึงพอใจ</small>
-          </span>
-        </button>
-        <a href="/manual" className="landing-system-tab">
-          <BookOutlined aria-hidden="true" />
-          <span>
-            <strong>คู่มือระบบ</strong>
-            <small>Manual Portal</small>
-          </span>
-        </a>
-      </div>
-
-      <nav className="landing-quick-nav" aria-label="เมนูลัดข้อมูล">
-        <div className="landing-quick-nav-inner">
-          <span className="quick-nav-label">ไปยังข้อมูลสำคัญ</span>
-          <div className="quick-nav-links">
-            {quickNavItems.map(({ href, label, Icon }) => (
-              <a key={href} href={href} className="quick-nav-link">
-                <Icon aria-hidden="true" />
-                <span>{label}</span>
-              </a>
-            ))}
-            {infoNavItems.map(({ key, label, Icon }) => (
-              <button
-                key={key}
-                type="button"
-                className="quick-nav-link quick-nav-button"
-                onClick={() => setActiveInfoModal(key)}
-              >
-                <Icon aria-hidden="true" />
-                <span>{label}</span>
-              </button>
-            ))}
-            <a
-              href="/login"
-              className="quick-nav-link quick-nav-button login-btn-quick"
-            >
-              <LoginOutlined aria-hidden="true" />
-              <span>เข้าสู่ระบบ</span>
-            </a>
-          </div>
-        </div>
-      </nav>
-
-      <header className="bento-header" role="banner">
-        <div className="bento-header-bg"></div>
-        <div className="bento-header-content">
-          <h1 className="bento-title">
+          <a className="premium-brand" href="/">
             ศูนย์ข้อมูลการเกษตรอัจฉริยะ
-            <span className="bento-title-province">จังหวัดนครปฐม</span>
-          </h1>
-          <p className="bento-subtitle">
-            ฐานข้อมูลกลางและสถานการณ์การเกษตรจังหวัดนครปฐม
-            เพื่อการบริหารจัดการที่แม่นยำและยั่งยืน
-          </p>
-
-          <div className="hero-actions">
-            <a
-              href="https://nakhonpathom.doae.go.th/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hero-primary-link"
-              aria-label="เข้าสู่เว็บไซต์สำนักงานเกษตรจังหวัดนครปฐม"
-            >
-              🏛️ เข้าสู่เว็บไซต์สำนักงานเกษตรจังหวัดนครปฐม
-            </a>
-            <a
-              href="/interactive-dashboard"
-              style={{
-                background: '#16a34a',
-                color: 'white',
-                border: 'none',
-                padding: '14px 28px',
-                borderRadius: '12px',
-                fontSize: '16px',
-                fontWeight: 700,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                textDecoration: 'none',
-                boxShadow: '0 10px 25px -5px rgba(22, 163, 74, 0.4)',
-                transition: 'transform 0.2s, box-shadow 0.2s',
-                fontFamily:
-                  "'Kanit', 'Athiti', 'IBM Plex Sans Thai', -apple-system, sans-serif",
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow =
-                  '0 15px 30px -5px rgba(22, 163, 74, 0.5)';
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow =
-                  '0 10px 25px -5px rgba(22, 163, 74, 0.4)';
-              }}
-            >
-              📊 ดูสรุปข้อมูลแบบ Interactive (ทดลองใช้)
+            <br />
+            จังหวัดนครปฐม
+          </a>
+          <div
+            className={`premium-nav-links ${mobileMenuOpen ? 'is-open' : ''}`}
+          >
+            <a href="#agri-overview">ภาพรวม</a>
+            <a href="/smart-map">แผนที่</a>
+            <a href="#dataset-explorer">ชุดข้อมูล</a>
+            <a href="#agri-news">ข่าว</a>
+            <a href="/manual">คู่มือ</a>
+            <a href="/login" className="premium-login">
+              เข้าสู่ระบบ
             </a>
           </div>
+          <button
+            className="premium-menu-button"
+            aria-label="เปิดเมนู"
+            aria-expanded={mobileMenuOpen}
+            onClick={() => setMobileMenuOpen((open) => !open)}
+          >
+            <AppstoreOutlined />
+          </button>
+        </nav>
 
-          <div className="bento-motto" aria-label="คำขวัญจังหวัดนครปฐม">
-            <span className="bento-motto-text">
-              "ส้มโอหวาน ข้าวสารขาว ลูกสาวงาม ข้าวหลามหวานมัน สนามจันทร์งามล้น
-              พุทธมณฑลคู่ธานี พระปฐมเจดีย์เสียดฟ้า สวยงามตาแม่น้ำท่าจีน"
-            </span>
-          </div>
-
-          {/* Search Box on Landing Page */}
-          <div className="landing-search-container">
+        <div className="premium-hero">
+          <div className="premium-hero-copy">
+            <p className="premium-eyebrow">Nakhon Pathom Agri Intelligence</p>
+            <h1>ศูนย์ข้อมูลการเกษตรอัจฉริยะ จังหวัดนครปฐม</h1>
+            <p>
+              รวมข้อมูลพื้นที่ เกษตรกร ผลผลิต ดิน น้ำ ภัย และมาตรฐาน
+              เพื่อการตัดสินใจจากข้อมูลเดียวกัน
+            </p>
             <form
+              data-testid="landing-search"
               onSubmit={handleLandingSearchSubmit}
-              className="landing-search-form"
+              className="premium-search"
             >
-              <div className="landing-search-input-wrapper">
-                <SearchOutlined className="landing-search-icon" />
-                <input
-                  type="text"
-                  placeholder="ค้นหาข้อมูลการเกษตรในจังหวัดนครปฐม... (เช่น บางเลน, ดินเหนียว, แปลงใหญ่, GAP)"
-                  value={landingQuery}
-                  onChange={(e) => setLandingQuery(e.target.value)}
-                  className="landing-search-input"
-                />
-                <button type="submit" className="landing-search-btn">
-                  ค้นหา
-                </button>
-              </div>
+              <SearchOutlined aria-hidden="true" />
+              <input
+                value={landingQuery}
+                onChange={(e) => setLandingQuery(e.target.value)}
+                placeholder="ค้นหาแปลง เกษตรกร พืช ดิน น้ำ หรือมาตรฐาน…"
+              />
+              <button type="submit">ค้นหา</button>
             </form>
+            <div className="premium-hero-actions">
+              <a href="#dataset-explorer">สำรวจฐานข้อมูล</a>
+              <a href="/smart-map">เปิดแผนที่อัจฉริยะ</a>
+            </div>
           </div>
+          <div className="premium-hero-visual" aria-hidden="true" />
         </div>
       </header>
 
