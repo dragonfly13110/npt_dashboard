@@ -380,28 +380,36 @@ export default function LandingPage() {
       </header>
 
       <main>
-        {/* ===== LIVE WIDGETS ===== */}
+        {/* ===== LIVE SITUATION STRIP ===== */}
         <section
-          id="live-data"
-          aria-label="ข้อมูลสภาพอากาศและราคาสินค้าเกษตรและพลังงาน"
+          className="premium-situation"
+          data-testid="situation-strip"
+          aria-labelledby="situation-title"
         >
-          <div className="top-widgets-container">
-            <div className="top-widgets-col">
-              <Suspense fallback={<WidgetSkeleton />}>
-                <WeatherWidget />
-              </Suspense>
-              <Suspense fallback={<WidgetSkeleton />}>
-                <AirQualityWidget />
-              </Suspense>
+          <div className="premium-section-title">
+            <div>
+              <small>LIVE SITUATION</small>
+              <h2 id="situation-title">สถานการณ์เกษตรวันนี้</h2>
             </div>
+            <span className="premium-live">
+              <i /> ข้อมูลล่าสุด
+            </span>
+          </div>
+          <div className="premium-situation-scroll">
+            <Suspense fallback={<WidgetSkeleton />}>
+              <WeatherWidget />
+            </Suspense>
+            <Suspense fallback={<WidgetSkeleton />}>
+              <AirQualityWidget />
+            </Suspense>
             <Suspense fallback={<WidgetSkeleton />}>
               <AgriPricesWidget />
             </Suspense>
-          </div>
-
-          <div className="widget-section-container">
             <Suspense fallback={<WidgetSkeleton />}>
               <HotspotWidget />
+            </Suspense>
+            <Suspense fallback={<WidgetSkeleton />}>
+              <DamReservoirWidget defaultExpanded={false} />
             </Suspense>
           </div>
         </section>
@@ -473,9 +481,6 @@ export default function LandingPage() {
           <div className="soil-water-grid">
             <Suspense fallback={<WidgetSkeleton />}>
               <SoilMoistureWidget defaultExpanded={false} />
-            </Suspense>
-            <Suspense fallback={<WidgetSkeleton />}>
-              <DamReservoirWidget defaultExpanded={false} />
             </Suspense>
           </div>
         </section>
