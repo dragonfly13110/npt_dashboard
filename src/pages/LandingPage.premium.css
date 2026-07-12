@@ -17,6 +17,7 @@
   overflow: hidden;
   background: #fff;
   border-bottom: 1px solid var(--line);
+  width: 100%;
 }
 
 .premium-nav {
@@ -122,13 +123,12 @@
 
 .premium-hero {
   position: relative;
-  max-width: 1440px;
+  width: 100%;
   min-height: 430px;
-  margin: auto;
   padding: 54px 32px 60px;
-  display: grid;
-  grid-template-columns: minmax(480px, 0.88fr) 1.12fr;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 48px;
 }
 
@@ -155,6 +155,7 @@
   position: relative;
   z-index: 2;
   max-width: 660px;
+  padding-left: 100px;
 }
 
 .premium-eyebrow {
@@ -192,9 +193,11 @@
 }
 
 .premium-hero-visual {
-  position: absolute;
-  inset: 0 0 0 47%;
+  flex: 1;
+  min-width: 0;
+  min-height: 430px;
   overflow: hidden;
+  border-radius: 20px;
   background:
     linear-gradient(
       90deg,
@@ -327,22 +330,16 @@
     font-size: 13px;
   }
   .premium-hero {
-    min-height: 520px;
-    padding: 46px 24px 280px;
-    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 46px 24px 60px;
+    flex-direction: column;
   }
   .premium-hero-copy {
     max-width: 760px;
   }
   .premium-hero-visual {
-    inset: 48% 0 0;
-    background-position: center 58%;
-  }
-  .premium-hero-visual::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(#fff, transparent 38%);
+    min-height: 280px;
+    width: 100%;
   }
 }
 
@@ -393,10 +390,6 @@
   .premium-hero {
     min-height: auto;
     padding: 30px 16px 34px;
-    display: block;
-  }
-  .premium-hero::before {
-    inset: 0;
   }
   .premium-hero-visual {
     display: none;

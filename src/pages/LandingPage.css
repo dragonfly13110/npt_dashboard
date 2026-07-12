@@ -54,7 +54,7 @@ html {
 .landing-floating-system-tabs {
   position: fixed;
   left: 18px;
-  top: 50%;
+  top: 85%;
   z-index: 1100;
   display: flex;
   flex-direction: column;
