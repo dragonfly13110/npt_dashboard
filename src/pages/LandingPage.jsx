@@ -335,6 +335,53 @@ export default function LandingPage() {
               </a>
             )
         )}
+        <button
+          className="landing-system-tab"
+          onClick={() => setActiveInfoModal('soilMoistureDetail')}
+          style={{ cursor: 'pointer' }}
+        >
+          <ExperimentOutlined aria-hidden="true" />
+          <span>
+            <strong>ความชื้นดิน</strong>
+            <small>ข้อมูลเซ็นเซอร์ดิน</small>
+          </span>
+        </button>
+        <button
+          className="landing-system-tab"
+          onClick={() => setActiveInfoModal('waterDetail')}
+          style={{ cursor: 'pointer' }}
+        >
+          <CloudOutlined aria-hidden="true" />
+          <span>
+            <strong>สถานการณ์น้ำ</strong>
+            <small>ข้อมูลอ่างเก็บน้ำ</small>
+          </span>
+        </button>
+        <a href="/dashboard/community/forum" className="landing-system-tab">
+          <CommentOutlined aria-hidden="true" />
+          <span>
+            <strong>ชุมชนเกษตรกร</strong>
+            <small>Farmer Forum</small>
+          </span>
+        </a>
+        <button
+          className="landing-system-tab evaluation-warning-tab"
+          onClick={() => setActiveInfoModal('websiteEvaluation')}
+          style={{ cursor: 'pointer', borderLeft: '3px solid #16a34a' }}
+        >
+          <LikeOutlined aria-hidden="true" />
+          <span>
+            <strong>ประเมินเว็บไซต์</strong>
+            <small>แบบสำรวจความพึงพอใจ</small>
+          </span>
+        </button>
+        <a href="/manual" className="landing-system-tab">
+          <BookOutlined aria-hidden="true" />
+          <span>
+            <strong>คู่มือระบบ</strong>
+            <small>Manual Portal</small>
+          </span>
+        </a>
       </div>
 
       <header className="premium-landing-header">
