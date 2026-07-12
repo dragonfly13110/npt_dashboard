@@ -35,44 +35,45 @@ const isPrivateRequest = (request, url) =>
   url.pathname.startsWith('/api/') ||
   url.pathname.startsWith('/.netlify/functions/');
 
+const cacheResponse = (request, response) => {
+  if (!response.ok) return Promise.resolve();
+  return caches
+    .open(CACHE_VERSION)
+    .then((cache) => cache.put(request, response.clone()));
+};
+
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
   if (isPrivateRequest(request, url)) return;
 
   if (request.mode === 'navigate') {
+    const network = fetch(request);
+    event.waitUntil(
+      network
+        .then((response) => cacheResponse(request, response))
+        .catch(() => undefined)
+    );
     event.respondWith(
-      fetch(request)
-        .then((response) => {
-          if (response.ok) {
-            caches
-              .open(CACHE_VERSION)
-              .then((cache) => cache.put(request, response.clone()));
-          }
-          return response;
-        })
-        .catch(
-          async () =>
-            (await caches.match(request)) ||
-            (await caches.match('/')) ||
-            caches.match('/offline.html')
-        )
+      network.catch(
+        async () =>
+          (await caches.match(request)) ||
+          (await caches.match('/')) ||
+          caches.match('/offline.html')
+      )
     );
     return;
   }
 
   event.respondWith(
     caches.match(request).then((cached) => {
-      const fresh = fetch(request)
-        .then((response) => {
-          if (response.ok) {
-            caches
-              .open(CACHE_VERSION)
-              .then((cache) => cache.put(request, response.clone()));
-          }
-          return response;
-        })
-        .catch(() => cached);
+      const network = fetch(request);
+      event.waitUntil(
+        network
+          .then((response) => cacheResponse(request, response))
+          .catch(() => undefined)
+      );
+      const fresh = network.catch(() => cached);
       return cached || fresh;
     })
   );
