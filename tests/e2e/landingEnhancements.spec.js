@@ -6,13 +6,16 @@ test.describe('Landing page orientation sections', () => {
   }) => {
     await page.goto('/');
 
+    await expect(page.getByTestId('landing-nav')).toBeVisible();
     await expect(
-      page.getByRole('navigation', { name: 'เมนูลัดข้อมูล' })
+      page.getByRole('heading', {
+        name: 'ศูนย์ข้อมูลการเกษตรอัจฉริยะ จังหวัดนครปฐม',
+      })
     ).toBeVisible();
-    await expect(
-      page.getByRole('link', { name: 'แผนที่และภาพรวม' })
-    ).toBeVisible();
-    await expect(page.getByRole('link', { name: 'ดินและน้ำ' })).toBeVisible();
+    await expect(page.getByTestId('landing-search')).toBeVisible();
+    await expect(page.getByTestId('situation-strip')).toBeVisible();
+    await expect(page.getByTestId('landing-map')).toBeVisible();
+    await expect(page.getByTestId('dataset-explorer')).toBeVisible();
     await expect(
       page.getByRole('button', { name: 'ระบบนี้ช่วยใคร' })
     ).toBeVisible();
