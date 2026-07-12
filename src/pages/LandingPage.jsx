@@ -190,6 +190,28 @@ const contactItems = [
   },
 ];
 
+const externalSystemLinks = [
+  {
+    href: '/smart-map',
+    title: 'แผนที่อัจฉริยะ',
+    subtitle: 'Smart Agri Map',
+    Icon: EnvironmentOutlined,
+    isInternal: true,
+  },
+  {
+    href: 'https://kasetinfo.netlify.app/',
+    title: 'คลังความรู้เกษตร',
+    subtitle: 'Infographic',
+    Icon: BookOutlined,
+  },
+  {
+    href: 'https://agrilabcost-ai.vercel.app/',
+    title: 'Crop Cost Lab',
+    subtitle: 'วิเคราะห์ต้นทุนการผลิต',
+    Icon: CalculatorOutlined,
+  },
+];
+
 export default function LandingPage() {
   const {
     loading,
@@ -273,6 +295,48 @@ export default function LandingPage() {
 
   return (
     <div className="landing-page bento-theme">
+      <div
+        className="landing-floating-system-tabs"
+        aria-label="System shortcuts"
+      >
+        <a
+          href="/public/disease-forecast"
+          className="landing-system-tab forecast-warning-tab"
+        >
+          <BugOutlined className="forecast-pulse-icon" aria-hidden="true" />
+          <span>
+            <strong>เตือนภัยโรคและแมลง</strong>
+            <small>พยากรณ์ล่วงหน้า 7 วัน</small>
+          </span>
+        </a>
+        {externalSystemLinks.map(
+          ({ href, title, subtitle, Icon, isInternal }) =>
+            isInternal ? (
+              <a key={href} href={href} className="landing-system-tab">
+                <Icon aria-hidden="true" />
+                <span>
+                  <strong>{title}</strong>
+                  <small>{subtitle}</small>
+                </span>
+              </a>
+            ) : (
+              <a
+                key={href}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="landing-system-tab"
+              >
+                <Icon aria-hidden="true" />
+                <span>
+                  <strong>{title}</strong>
+                  <small>{subtitle}</small>
+                </span>
+              </a>
+            )
+        )}
+      </div>
+
       <header className="premium-landing-header">
         <nav
           className="premium-nav"
