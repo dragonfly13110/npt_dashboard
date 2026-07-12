@@ -243,7 +243,11 @@ function localMocPriceProxyPlugin() {
             const mockRequest = {
               method: req.method,
               url: fullUrl,
-              headers: req.headers,
+              headers: {
+                get(name) {
+                  return req.headers[name.toLowerCase()] || null;
+                },
+              },
             };
             const response = await handler(mockRequest);
             const responseBody = await response.text();
