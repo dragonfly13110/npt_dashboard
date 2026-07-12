@@ -232,6 +232,15 @@ const contactItems = [
   },
 ];
 
+const datasetLinks = [
+  ['พื้นที่และแปลง', '/public/agricultural-areas'],
+  ['เกษตรกรและสถาบัน', '/public/smart-farmers'],
+  ['ดินและน้ำ', '#soil-water'],
+  ['ผลผลิตและราคา', '/public/agricultural-prices'],
+  ['ภัยและโรคพืช', '/public/disease-forecast'],
+  ['มาตรฐานการเกษตร', '/dashboard/production/certifications'],
+];
+
 export default function LandingPage() {
   const {
     loading,
@@ -335,6 +344,12 @@ export default function LandingPage() {
             <a href="#dataset-explorer">ชุดข้อมูล</a>
             <a href="#agri-news">ข่าว</a>
             <a href="/manual">คู่มือ</a>
+            <button
+              onClick={() => setActiveInfoModal('audience')}
+              className="premium-nav-button"
+            >
+              ระบบนี้ช่วยใคร
+            </button>
             <a href="/login" className="premium-login">
               เข้าสู่ระบบ
             </a>
@@ -373,6 +388,23 @@ export default function LandingPage() {
             <div className="premium-hero-actions">
               <a href="#dataset-explorer">สำรวจฐานข้อมูล</a>
               <a href="/smart-map">เปิดแผนที่อัจฉริยะ</a>
+            </div>
+            <div className="premium-hero-links">
+              <span>ลิงก์ด่วน:</span>
+              <a
+                href="https://kasetinfo.netlify.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                คลังความรู้เกษตร
+              </a>
+              <a
+                href="https://agrilabcost-ai.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Crop Cost Lab
+              </a>
             </div>
           </div>
           <div className="premium-hero-visual" aria-hidden="true" />
@@ -414,47 +446,42 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* ===== BENTO GRID LATEST LISTS ===== */}
-        <div id="agri-overview" className="dept-stats-header">
-          <h2>📊 ข้อมูลการเกษตรจังหวัดนครปฐม</h2>
-          <p>สถิติและข้อมูลสารสนเทศการเกษตรในพื้นที่</p>
-        </div>
-        <section
-          className={`bento-container ${hasTourismData ? '' : 'bento-container-no-tourism'}`}
-        >
-          {/* 1. Map Card (Large) */}
-          <div className="bento-card bento-card-map">
-            <div className="bento-card-header">
-              <h3>🗺️ แผนที่ข้อมูลการเกษตร</h3>
-              <span>พิกัดพื้นที่เชิงเกษตร (GIS, ท่องเที่ยว)</span>
-            </div>
-            <div className="bento-card-body p-0">
-              <Suspense fallback={<WidgetSkeleton />}>
-                <LandingMap mapData={mapData} districtStats={districtStats} />
-              </Suspense>
-            </div>
-          </div>
-
-          {/* 4. Agri Tourism */}
-          {hasTourismData && (
+        {/* ===== MAP & SUMMARY GRID ===== */}
+        <section id="agri-overview" className="premium-intelligence">
+          <div className="premium-map" data-testid="landing-map">
             <Suspense fallback={<WidgetSkeleton />}>
-              <AgriTourismCard data={tourism} loading={loading} />
+              <LandingMap mapData={mapData} districtStats={districtStats} />
             </Suspense>
-          )}
+          </div>
+          <div className="premium-kpis" data-testid="kpi-grid">
+            <Suspense fallback={<WidgetSkeleton />}>
+              <AgriAreasCard
+                stats={agriStats}
+                districtStats={districtStats}
+                loading={loading}
+              />
+            </Suspense>
+            <Suspense fallback={<WidgetSkeleton />}>
+              <FarmerInstitutesV2Widget />
+            </Suspense>
+          </div>
+        </section>
 
-          {/* 5. Farmer Groups & Institutes */}
-          <Suspense fallback={<WidgetSkeleton />}>
-            <FarmerInstitutesV2Widget />
-          </Suspense>
-
-          {/* 6. Agri Areas */}
-          <Suspense fallback={<WidgetSkeleton />}>
-            <AgriAreasCard
-              stats={agriStats}
-              districtStats={districtStats}
-              loading={loading}
-            />
-          </Suspense>
+        {/* ===== DATASET EXPLORER ===== */}
+        <section
+          id="dataset-explorer"
+          data-testid="dataset-explorer"
+          className="premium-datasets"
+        >
+          <h2>สำรวจชุดข้อมูลสำคัญ</h2>
+          <div>
+            {datasetLinks.map(([label, href]) => (
+              <a key={label} href={href}>
+                {label}
+                <span>ดูข้อมูล →</span>
+              </a>
+            ))}
+          </div>
         </section>
 
         {/* ===== SOIL & WATER WIDGETS ===== */}

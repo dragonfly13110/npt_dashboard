@@ -178,3 +178,128 @@
     scroll-behavior: auto !important;
   }
 }
+
+.premium-intelligence {
+  max-width: 1440px;
+  margin: auto;
+  padding: 24px 32px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+}
+.premium-map {
+  min-height: 520px;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid #dce3dc;
+  background: #fff;
+}
+.premium-kpis {
+  display: grid;
+  gap: 16px;
+}
+.premium-datasets {
+  max-width: 1440px;
+  margin: auto;
+  padding: 40px 32px;
+}
+.premium-datasets h2 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--agri-green);
+  margin-bottom: 20px;
+}
+.premium-datasets > div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.premium-datasets > div a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: #fff;
+  border: 1px solid #dce3dc;
+  border-radius: 14px;
+  color: #17211b;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+.premium-datasets > div a:hover {
+  border-color: var(--agri-green);
+  box-shadow: 0 4px 12px rgba(23, 74, 53, 0.08);
+  transform: translateY(-2px);
+}
+.premium-datasets > div a span {
+  font-size: 13px;
+  color: var(--rice-gold);
+  font-weight: 600;
+}
+@media (max-width: 1199px) {
+  .premium-intelligence {
+    grid-template-columns: 1fr;
+  }
+  .premium-kpis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .premium-datasets > div {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 767px) {
+  .premium-intelligence {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .premium-kpis {
+    order: 1;
+    grid-template-columns: 1fr;
+  }
+  .premium-map {
+    order: 2;
+    min-height: 320px;
+  }
+  .premium-datasets {
+    padding: 32px 16px;
+  }
+  .premium-datasets > div {
+    grid-template-columns: 1fr;
+  }
+}
+
+.premium-nav-links button.premium-nav-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #17211b;
+  font-weight: 500;
+  padding: 0;
+  font-family: inherit;
+  font-size: 15px;
+  transition: color 0.2s;
+  text-align: left;
+}
+.premium-nav-links button.premium-nav-button:hover {
+  color: var(--agri-green);
+}
+
+.premium-hero-links {
+  margin-top: 16px;
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+}
+.premium-hero-links span {
+  color: #64748b;
+}
+.premium-hero-links a {
+  color: var(--agri-green);
+  font-weight: 600;
+  text-decoration: none;
+}
+.premium-hero-links a:hover {
+  text-decoration: underline;
+}
