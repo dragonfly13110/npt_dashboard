@@ -1285,17 +1285,4 @@ export function HousewifeFarmerGroups() {
   );
 }
 
-export function YoungFarmerGroups() {
-  return (
-    <CrudTable
-      tableName="young_farmer_groups"
-      title="กลุ่มยุวเกษตรกร"
-      columns={baseColumns}
-      formFields={formFields}
-      searchField="group_name"
-      searchFields={['group_name', 'district', 'chairman']}
-    />
-  );
-}
-
 export default HousewifeFarmerGroups;

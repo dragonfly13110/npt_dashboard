@@ -210,7 +210,7 @@ export async function fetchDatabaseContext(
         'ทุนกลุ่ม',
         'รายได้กลุ่ม',
       ],
-      farmer_groups: ['กลุ่มแม่บ้าน', 'ยุวเกษตรกร'],
+      housewife_farmer_groups: ['กลุ่มแม่บ้าน', 'แม่บ้านเกษตรกร', 'แม่บ้าน'],
       young_farmer_groups_detailed: [
         'ยุวเกษตรกร',
         'กยว',
@@ -280,7 +280,11 @@ export async function fetchDatabaseContext(
       agricultural_areas: ['farmer_registry', 'crop_production'],
       farmer_registry: ['agricultural_areas', 'smart_farmers'],
       large_plots: ['certifications', 'crop_production'],
-      smart_farmers: ['learning_centers', 'farmer_groups'],
+      smart_farmers: [
+        'learning_centers',
+        'housewife_farmer_groups',
+        'young_farmer_groups_detailed',
+      ],
       smart_farmer_sf: [
         'learning_centers',
         'farmer_institutes',
