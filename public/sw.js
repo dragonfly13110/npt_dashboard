@@ -65,16 +65,14 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  const network = fetch(request);
+  const cacheWrite = network
+    .then((response) => cacheResponse(request, response))
+    .catch(() => undefined);
+  event.waitUntil(cacheWrite);
   event.respondWith(
-    caches.match(request).then((cached) => {
-      const network = fetch(request);
-      event.waitUntil(
-        network
-          .then((response) => cacheResponse(request, response))
-          .catch(() => undefined)
-      );
-      const fresh = network.catch(() => cached);
-      return cached || fresh;
-    })
+    caches
+      .match(request)
+      .then((cached) => cached || network.catch(() => cached))
   );
 });
