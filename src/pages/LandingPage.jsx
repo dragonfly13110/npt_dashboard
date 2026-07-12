@@ -190,15 +190,6 @@ const contactItems = [
   },
 ];
 
-const datasetLinks = [
-  ['พื้นที่และแปลง', '/public/agricultural-areas'],
-  ['เกษตรกรและสถาบัน', '/public/smart-farmers'],
-  ['ดินและน้ำ', '#soil-water'],
-  ['ผลผลิตและราคา', '/public/agricultural-prices'],
-  ['ภัยและโรคพืช', '/public/disease-forecast'],
-  ['มาตรฐานการเกษตร', '/dashboard/production/certifications'],
-];
-
 export default function LandingPage() {
   const {
     loading,
@@ -228,6 +219,7 @@ export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [forecastData, setForecastData] = useState(null);
   const [forecastLoading, setForecastLoading] = useState(false);
+  const hasTourismData = tourism.count > 0 || tourism.list.length > 0;
 
   const handleLandingSearchSubmit = useCallback(
     (e) => {
@@ -287,10 +279,17 @@ export default function LandingPage() {
           data-testid="landing-nav"
           aria-label="เมนูหลัก"
         >
-          <a className="premium-brand" href="/">
-            ศูนย์ข้อมูลการเกษตรอัจฉริยะ
-            <br />
-            จังหวัดนครปฐม
+          <a
+            className="premium-brand"
+            href="/"
+            aria-label="หน้าแรก ศูนย์ข้อมูลการเกษตรอัจฉริยะ จังหวัดนครปฐม"
+          >
+            <span className="premium-brand-mark">
+              <EnvironmentOutlined />
+            </span>
+            <span>
+              ศูนย์ข้อมูลการเกษตรอัจฉริยะ<small>จังหวัดนครปฐม</small>
+            </span>
           </a>
           <div
             className={`premium-nav-links ${mobileMenuOpen ? 'is-open' : ''}`}
@@ -335,6 +334,7 @@ export default function LandingPage() {
             >
               <SearchOutlined aria-hidden="true" />
               <input
+                aria-label="ค้นหาฐานข้อมูลการเกษตร"
                 value={landingQuery}
                 onChange={(e) => setLandingQuery(e.target.value)}
                 placeholder="ค้นหาแปลง เกษตรกร พืช ดิน น้ำ หรือมาตรฐาน…"
@@ -342,11 +342,11 @@ export default function LandingPage() {
               <button type="submit">ค้นหา</button>
             </form>
             <div className="premium-hero-actions">
-              <a href="#dataset-explorer">สำรวจฐานข้อมูล</a>
+              <a href="#agri-overview">สำรวจฐานข้อมูล</a>
               <a href="/smart-map">เปิดแผนที่อัจฉริยะ</a>
             </div>
             <div className="premium-hero-links">
-              <span>ลิงก์ด่วน:</span>
+              <span>แหล่งข้อมูลภาครัฐและเครือข่ายจังหวัด</span>
               <a
                 href="https://kasetinfo.netlify.app/"
                 target="_blank"
@@ -368,76 +368,74 @@ export default function LandingPage() {
       </header>
 
       <main>
-        {/* ===== LIVE SITUATION STRIP ===== */}
+        {/* ===== LIVE WIDGETS ===== */}
         <section
-          className="premium-situation"
+          id="live-data"
           data-testid="situation-strip"
-          aria-labelledby="situation-title"
+          aria-label="ข้อมูลสภาพอากาศและราคาสินค้าเกษตรและพลังงาน"
         >
-          <div className="premium-section-title">
-            <div>
-              <small>LIVE SITUATION</small>
-              <h2 id="situation-title">สถานการณ์เกษตรวันนี้</h2>
+          <div className="top-widgets-container">
+            <div className="top-widgets-col">
+              <Suspense fallback={<WidgetSkeleton />}>
+                <WeatherWidget />
+              </Suspense>
+              <Suspense fallback={<WidgetSkeleton />}>
+                <AirQualityWidget />
+              </Suspense>
             </div>
-            <span className="premium-live">
-              <i /> ข้อมูลล่าสุด
-            </span>
-          </div>
-          <div className="premium-situation-scroll">
-            <Suspense fallback={<WidgetSkeleton />}>
-              <WeatherWidget />
-            </Suspense>
-            <Suspense fallback={<WidgetSkeleton />}>
-              <AirQualityWidget />
-            </Suspense>
             <Suspense fallback={<WidgetSkeleton />}>
               <AgriPricesWidget />
             </Suspense>
+          </div>
+
+          <div className="widget-section-container">
             <Suspense fallback={<WidgetSkeleton />}>
               <HotspotWidget />
             </Suspense>
-            <Suspense fallback={<WidgetSkeleton />}>
-              <DamReservoirWidget defaultExpanded={false} />
-            </Suspense>
           </div>
         </section>
 
-        {/* ===== MAP & SUMMARY GRID ===== */}
-        <section id="agri-overview" className="premium-intelligence">
-          <div className="premium-map" data-testid="landing-map">
-            <Suspense fallback={<WidgetSkeleton />}>
-              <LandingMap mapData={mapData} districtStats={districtStats} />
-            </Suspense>
-          </div>
-          <div className="premium-kpis" data-testid="kpi-grid">
-            <Suspense fallback={<WidgetSkeleton />}>
-              <AgriAreasCard
-                stats={agriStats}
-                districtStats={districtStats}
-                loading={loading}
-              />
-            </Suspense>
-            <Suspense fallback={<WidgetSkeleton />}>
-              <FarmerInstitutesV2Widget />
-            </Suspense>
-          </div>
-        </section>
-
-        {/* ===== DATASET EXPLORER ===== */}
+        {/* ===== BENTO GRID LATEST LISTS ===== */}
+        <div id="agri-overview" className="dept-stats-header">
+          <h2>📊 ข้อมูลการเกษตรจังหวัดนครปฐม</h2>
+          <p>สถิติและข้อมูลสารสนเทศการเกษตรในพื้นที่</p>
+        </div>
         <section
-          id="dataset-explorer"
-          data-testid="dataset-explorer"
-          className="premium-datasets"
+          className={`bento-container ${hasTourismData ? '' : 'bento-container-no-tourism'}`}
         >
-          <h2>สำรวจชุดข้อมูลสำคัญ</h2>
-          <div>
-            {datasetLinks.map(([label, href]) => (
-              <a key={label} href={href}>
-                {label}
-                <span>ดูข้อมูล →</span>
-              </a>
-            ))}
+          {/* 1. Map Card (Large) */}
+          <div className="bento-card bento-card-map">
+            <div className="bento-card-header">
+              <h3>🗺️ แผนที่ข้อมูลการเกษตร</h3>
+              <span>พิกัดพื้นที่เชิงเกษตร (GIS, ท่องเที่ยว)</span>
+            </div>
+            <div className="bento-card-body p-0" data-testid="landing-map">
+              <Suspense fallback={<WidgetSkeleton />}>
+                <LandingMap mapData={mapData} districtStats={districtStats} />
+              </Suspense>
+            </div>
           </div>
+
+          {/* 4. Agri Tourism */}
+          {hasTourismData && (
+            <Suspense fallback={<WidgetSkeleton />}>
+              <AgriTourismCard data={tourism} loading={loading} />
+            </Suspense>
+          )}
+
+          {/* 5. Farmer Groups & Institutes */}
+          <Suspense fallback={<WidgetSkeleton />}>
+            <FarmerInstitutesV2Widget />
+          </Suspense>
+
+          {/* 6. Agri Areas */}
+          <Suspense fallback={<WidgetSkeleton />}>
+            <AgriAreasCard
+              stats={agriStats}
+              districtStats={districtStats}
+              loading={loading}
+            />
+          </Suspense>
         </section>
 
         {/* ===== SOIL & WATER WIDGETS ===== */}
@@ -464,6 +462,9 @@ export default function LandingPage() {
           <div className="soil-water-grid">
             <Suspense fallback={<WidgetSkeleton />}>
               <SoilMoistureWidget defaultExpanded={false} />
+            </Suspense>
+            <Suspense fallback={<WidgetSkeleton />}>
+              <DamReservoirWidget defaultExpanded={false} />
             </Suspense>
           </div>
         </section>

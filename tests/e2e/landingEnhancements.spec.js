@@ -13,9 +13,14 @@ test.describe('Landing page orientation sections', () => {
       })
     ).toBeVisible();
     await expect(page.getByTestId('landing-search')).toBeVisible();
+    await expect(
+      page.getByRole('textbox', { name: 'ค้นหาฐานข้อมูลการเกษตร' })
+    ).toBeVisible();
+    await expect(
+      page.getByText('แหล่งข้อมูลภาครัฐและเครือข่ายจังหวัด', { exact: true })
+    ).toBeVisible();
     await expect(page.getByTestId('situation-strip')).toBeVisible();
     await expect(page.getByTestId('landing-map')).toBeVisible();
-    await expect(page.getByTestId('dataset-explorer')).toBeVisible();
     await expect(
       page.getByRole('button', { name: 'ระบบนี้ช่วยใคร' })
     ).toBeVisible();
