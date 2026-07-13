@@ -461,8 +461,8 @@ export default function LandingPage() {
               <button type="submit">ค้นหา</button>
             </form>
             <p className="premium-hero-motto">
-              ส้มโอหวาน ข้าวสารขาว ลูกสาวงาม ข้าวหลามหวาน อุดมผลไม้
-              รสชาติยอดเยี่ยม
+              ส้มโอหวาน ข้าวสารขาว ลูกสาวงาม ข้าวหลามหวานมัน สนามจันทร์งามล้น
+              พุทธมณฑลคู่ธานี พระปฐมเจดีย์เสียดฟ้า สวยงามตาแม่น้ำท่าจีน
             </p>
           </div>
           <div className="premium-hero-visual" aria-hidden="true" />

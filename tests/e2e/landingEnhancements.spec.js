@@ -25,7 +25,7 @@ test.describe('Landing page orientation sections', () => {
     await expect(page.getByTestId('landing-search')).toBeVisible();
     await expect(
       page.getByText(
-        'ส้มโอหวาน ข้าวสารขาว ลูกสาวงาม ข้าวหลามหวาน อุดมผลไม้ รสชาติยอดเยี่ยม'
+        'ส้มโอหวาน ข้าวสารขาว ลูกสาวงาม ข้าวหลามหวานมัน สนามจันทร์งามล้น พุทธมณฑลคู่ธานี พระปฐมเจดีย์เสียดฟ้า สวยงามตาแม่น้ำท่าจีน'
       )
     ).toBeVisible();
     await expect(

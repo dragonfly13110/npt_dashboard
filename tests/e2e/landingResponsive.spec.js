@@ -11,6 +11,11 @@ for (const viewport of [
     await page.setViewportSize(viewport);
     await page.goto('/');
     await expect(page.getByTestId('landing-search')).toBeVisible();
+    if (viewport.name !== 'desktop') {
+      await expect(page.locator('.premium-hero-visual')).toBeHidden();
+    } else {
+      await expect(page.locator('.premium-hero-visual')).toBeVisible();
+    }
     const overflow = await page.evaluate(
       () =>
         document.documentElement.scrollWidth >

@@ -124,7 +124,7 @@
 .premium-hero {
   position: relative;
   width: 100%;
-  min-height: 430px;
+  min-height: 520px;
   padding: 54px 32px 60px;
   display: flex;
   align-items: center;
@@ -195,7 +195,7 @@
 .premium-hero-visual {
   flex: 1;
   min-width: 0;
-  min-height: 430px;
+  min-height: 520px;
   overflow: hidden;
   border-radius: 20px;
   background:
@@ -288,16 +288,29 @@
     font-size: 13px;
   }
   .premium-hero {
-    min-height: auto;
+    min-height: 580px;
     padding: 46px 24px 60px;
     flex-direction: column;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(255, 255, 255, 0.82) 52%,
+        rgba(255, 255, 255, 0.16) 100%
+      ),
+      url('/nakhon-pathom-agri-hero.jpg') center/cover no-repeat;
   }
   .premium-hero-copy {
     max-width: 760px;
+    width: 100%;
+    padding-left: 0;
+    text-align: center;
+  }
+  .premium-eyebrow {
+    margin-inline: auto !important;
   }
   .premium-hero-visual {
-    min-height: 280px;
-    width: 100%;
+    display: none;
   }
 }
 
@@ -346,8 +359,16 @@
     justify-content: center;
   }
   .premium-hero {
-    min-height: auto;
+    min-height: 480px;
     padding: 30px 16px 34px;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(255, 255, 255, 0.82) 52%,
+        rgba(255, 255, 255, 0.16) 100%
+      ),
+      url('/nakhon-pathom-agri-hero.jpg') center/cover no-repeat;
   }
   .premium-hero-visual {
     display: none;
@@ -355,6 +376,14 @@
   .premium-hero-copy h1 {
     font-size: 30px;
     line-height: 1.18;
+  }
+  .premium-hero-copy {
+    width: 100%;
+    padding-left: 0;
+    text-align: center;
+  }
+  .premium-eyebrow {
+    margin-inline: auto !important;
   }
   .premium-hero-copy > p:not(.premium-eyebrow) {
     margin: 12px 0 18px;
