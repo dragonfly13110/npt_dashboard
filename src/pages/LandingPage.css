@@ -3268,7 +3268,7 @@ html {
 .weather-ios-card {
   position: relative;
   isolation: isolate;
-  overflow: visible;
+  overflow: hidden;
   min-height: 286px;
   padding: 20px;
   border-radius: 28px;

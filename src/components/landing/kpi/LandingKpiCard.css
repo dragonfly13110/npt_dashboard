@@ -1,0 +1,238 @@
+.landing-kpi-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 140px;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #e1e8e4;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+}
+
+/* Interactive styles */
+.landing-kpi-card.is-interactive {
+  cursor: pointer;
+  outline: none;
+  font-family: inherit;
+}
+
+.landing-kpi-card.is-interactive:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  border-color: #c2d6cc;
+}
+
+.landing-kpi-card.is-interactive:focus-visible {
+  border-color: var(--agri-green, #21694c);
+  box-shadow: 0 0 0 3px rgba(33, 105, 76, 0.15);
+}
+
+/* Card Header */
+.landing-kpi-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.landing-kpi-icon {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  color: var(--agri-green, #21694c);
+}
+
+.landing-kpi-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #4a5568;
+}
+
+/* Card Body */
+.landing-kpi-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.landing-kpi-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.landing-kpi-value {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1a202c;
+  line-height: 1.1;
+  font-family: 'Outfit', 'Kanit', sans-serif;
+}
+
+.landing-kpi-unit {
+  font-size: 14px;
+  font-weight: 600;
+  color: #718096;
+}
+
+/* Status Badges */
+.landing-kpi-status-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-bottom: 4px;
+}
+
+.landing-kpi-status-badge.is-normal {
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.landing-kpi-status-badge.is-success {
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+.landing-kpi-status-badge.is-warning {
+  background: #fffbeb;
+  color: #92400e;
+}
+
+.landing-kpi-status-badge.is-danger {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.landing-kpi-status-badge.is-unavailable {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.landing-kpi-secondary {
+  font-size: 12px;
+  color: #718096;
+  margin: 2px 0 0;
+  line-height: 1.3;
+}
+
+/* Card Footer */
+.landing-kpi-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: #a0aec0;
+  border-top: 1px solid #f7fafc;
+  padding-top: 6px;
+}
+
+.landing-kpi-source {
+  font-weight: 600;
+}
+
+.landing-kpi-time {
+  font-style: normal;
+}
+
+/* Action Hint on Hover */
+.landing-kpi-action-hint {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--agri-green, #21694c);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.landing-kpi-card.is-interactive:hover .landing-kpi-action-hint {
+  opacity: 1;
+}
+
+/* Loading Shimmer State */
+.landing-kpi-card.is-loading {
+  background: #ffffff;
+  pointer-events: none;
+}
+
+.landing-kpi-shimmer {
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: landing-kpi-shimmer-anim 1.5s infinite;
+  border-radius: 4px;
+}
+
+.header-shimmer {
+  height: 16px;
+  width: 60%;
+  margin-bottom: 20px;
+}
+
+.value-shimmer {
+  height: 36px;
+  width: 40%;
+  margin-bottom: 20px;
+}
+
+.footer-shimmer {
+  height: 12px;
+  width: 100%;
+}
+
+@keyframes landing-kpi-shimmer-anim {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Error Body */
+.landing-kpi-error-body {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  color: #e53e3e;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.landing-kpi-card.is-error {
+  border-color: #fed7d7;
+  background: #fff8f8;
+}
+
+.landing-kpi-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 1200px) {
+  .landing-kpi-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 359px) {
+  .landing-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,6 +1,5 @@
 import { useEffect, lazy, Suspense, useState, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useDashboardData } from '../hooks/useDashboardData';
 import { FloatButton, Modal, Spin, Button } from 'antd';
 import {
   AppstoreOutlined,
@@ -48,43 +47,20 @@ const WidgetSkeleton = () => (
   </div>
 );
 
-// ========== WIDGET COMPONENT IMPORTS (Lazy Loading) ==========
-const WeatherWidget = lazy(() => import('../components/widgets/WeatherWidget'));
-const AirQualityWidget = lazy(
-  () => import('../components/widgets/AirQualityWidget')
-);
-const AgriPricesWidget = lazy(
-  () => import('../components/widgets/AgriPricesWidget')
-);
-const HotspotWidget = lazy(() => import('../components/widgets/HotspotWidget'));
-const AgriGovNewsWidget = lazy(
-  () => import('../components/widgets/AgriGovNewsWidget')
-);
-const AgriMediaNewsWidget = lazy(
-  () => import('../components/widgets/AgriMediaNewsWidget')
-);
-const LandingMap = lazy(() => import('../components/widgets/LandingMap'));
-const SoilMoistureWidget = lazy(
-  () => import('../components/widgets/SoilMoistureWidget')
-);
-const DamReservoirWidget = lazy(
-  () => import('../components/widgets/DamReservoirWidget')
-);
-const FarmerInstitutesV2Widget = lazy(
-  () => import('../components/widgets/FarmerInstitutesV2Widget')
-);
+// ========== KPI HUB COMPONENT IMPORTS ==========
+import useLandingWidgetController from '../hooks/landing/useLandingWidgetController';
+import SituationKpiSection from '../components/landing/sections/SituationKpiSection';
+import ProvinceOverviewSection from '../components/landing/sections/ProvinceOverviewSection';
+import ResourceMarketSection from '../components/landing/sections/ResourceMarketSection';
+import LandingToolsSection from '../components/landing/sections/LandingToolsSection';
+import MapPreviewSection from '../components/landing/sections/MapPreviewSection';
+import NewsPreviewSection from '../components/landing/sections/NewsPreviewSection';
+import KnowledgePreviewSection from '../components/landing/sections/KnowledgePreviewSection';
+import ContactSection from '../components/landing/sections/ContactSection';
+import WidgetDetailHost from '../components/landing/details/WidgetDetailHost';
 
-// Bento Cards specific lazy imports
-const AgriTourismCard = lazy(() =>
-  import('../components/widgets/LandingBentoCards').then((module) => ({
-    default: module.AgriTourismCard,
-  }))
-);
-const AgriAreasCard = lazy(() =>
-  import('../components/widgets/LandingBentoCards').then((module) => ({
-    default: module.AgriAreasCard,
-  }))
-);
+import '../components/landing/LandingSections.css';
+import '../components/landing/kpi/LandingKpiCard.css';
 
 const audienceItems = [
   {
@@ -213,17 +189,7 @@ const externalSystemLinks = [
 ];
 
 export default function LandingPage() {
-  const {
-    loading,
-    mapData,
-    districtStats,
-    smartFarmers,
-    tourism,
-    instituteStats,
-    lpStats,
-    agriStats,
-  } = useDashboardData();
-
+  const widgetController = useLandingWidgetController();
   const navigate = useNavigate();
   const location = useLocation();
   const [landingQuery, setLandingQuery] = useState('');
@@ -247,9 +213,6 @@ export default function LandingPage() {
   const [moreDrawerOpen, setMoreDrawerOpen] = useState(false);
   const [moreDrawerClosing, setMoreDrawerClosing] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [forecastData, setForecastData] = useState(null);
-  const [forecastLoading, setForecastLoading] = useState(false);
-  const hasTourismData = tourism.count > 0 || tourism.list.length > 0;
 
   const handleLandingSearchSubmit = useCallback(
     (e) => {
@@ -261,30 +224,6 @@ export default function LandingPage() {
     },
     [landingQuery, navigate]
   );
-
-  useEffect(() => {
-    const fetchForecast = async () => {
-      setForecastLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from('ai_disease_forecasts')
-          .select('*')
-          .order('forecast_date', { ascending: false })
-          .limit(1);
-
-        if (error) throw error;
-        if (data && data.length > 0) {
-          setForecastData(data[0]);
-        }
-      } catch (err) {
-        console.error('Error fetching AI forecast:', err.message);
-      } finally {
-        setForecastLoading(false);
-      }
-    };
-
-    fetchForecast();
-  }, []);
 
   const closeMoreDrawer = useCallback(() => {
     setMoreDrawerClosing(true);
@@ -345,7 +284,7 @@ export default function LandingPage() {
         )}
         <button
           className="landing-system-tab"
-          onClick={() => setActiveInfoModal('soilMoistureDetail')}
+          onClick={() => widgetController.openWidget('soilMoisture')}
           style={{ cursor: 'pointer' }}
         >
           <ExperimentOutlined aria-hidden="true" />
@@ -356,7 +295,7 @@ export default function LandingPage() {
         </button>
         <button
           className="landing-system-tab"
-          onClick={() => setActiveInfoModal('waterDetail')}
+          onClick={() => widgetController.openWidget('reservoir')}
           style={{ cursor: 'pointer' }}
         >
           <CloudOutlined aria-hidden="true" />
@@ -470,140 +409,15 @@ export default function LandingPage() {
         </div>
       </header>
 
-      <main>
-        {/* ===== LIVE WIDGETS ===== */}
-        <section
-          id="live-data"
-          data-testid="situation-strip"
-          aria-label="ข้อมูลสภาพอากาศและราคาสินค้าเกษตรและพลังงาน"
-        >
-          <div className="top-widgets-container">
-            <div className="top-widgets-col">
-              <Suspense fallback={<WidgetSkeleton />}>
-                <WeatherWidget />
-              </Suspense>
-              <Suspense fallback={<WidgetSkeleton />}>
-                <AirQualityWidget />
-              </Suspense>
-            </div>
-            <Suspense fallback={<WidgetSkeleton />}>
-              <AgriPricesWidget />
-            </Suspense>
-          </div>
-
-          <div className="widget-section-container">
-            <Suspense fallback={<WidgetSkeleton />}>
-              <HotspotWidget />
-            </Suspense>
-          </div>
-        </section>
-
-        {/* ===== BENTO GRID LATEST LISTS ===== */}
-        <div id="agri-overview" className="dept-stats-header">
-          <h2>📊 ข้อมูลการเกษตรจังหวัดนครปฐม</h2>
-          <p>สถิติและข้อมูลสารสนเทศการเกษตรในพื้นที่</p>
-        </div>
-        <section
-          className={`bento-container ${hasTourismData ? '' : 'bento-container-no-tourism'}`}
-        >
-          {/* 1. Map Card (Large) */}
-          <div className="bento-card bento-card-map">
-            <div className="bento-card-header">
-              <h3>🗺️ แผนที่ข้อมูลการเกษตร</h3>
-              <span>พิกัดพื้นที่เชิงเกษตร (GIS, ท่องเที่ยว)</span>
-            </div>
-            <div className="bento-card-body p-0" data-testid="landing-map">
-              <Suspense fallback={<WidgetSkeleton />}>
-                <LandingMap mapData={mapData} districtStats={districtStats} />
-              </Suspense>
-            </div>
-          </div>
-
-          {/* 4. Agri Tourism */}
-          {hasTourismData && (
-            <Suspense fallback={<WidgetSkeleton />}>
-              <AgriTourismCard data={tourism} loading={loading} />
-            </Suspense>
-          )}
-
-          {/* 5. Farmer Groups & Institutes */}
-          <Suspense fallback={<WidgetSkeleton />}>
-            <FarmerInstitutesV2Widget />
-          </Suspense>
-
-          {/* 6. Agri Areas */}
-          <Suspense fallback={<WidgetSkeleton />}>
-            <AgriAreasCard
-              stats={agriStats}
-              districtStats={districtStats}
-              loading={loading}
-            />
-          </Suspense>
-        </section>
-
-        {/* ===== SOIL & WATER WIDGETS ===== */}
-        <section id="soil-water" aria-label="ข้อมูลดินและสถานการณ์น้ำ">
-          <div
-            className="dept-stats-header"
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <h2
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                margin: 0,
-              }}
-            >
-              🌍 สถานการณ์ดินและน้ำ
-            </h2>
-          </div>
-          <div className="soil-water-grid">
-            <Suspense fallback={<WidgetSkeleton />}>
-              <SoilMoistureWidget defaultExpanded={false} />
-            </Suspense>
-            <Suspense fallback={<WidgetSkeleton />}>
-              <DamReservoirWidget defaultExpanded={false} />
-            </Suspense>
-          </div>
-        </section>
-
-        {/* ===== AGRI NEWS ACCORDION ===== */}
-        <div id="agri-news" className="widget-section-container">
-          <NewsAccordion
-            ariaLabel="ข่าวและประกาศด้านการเกษตร"
-            sections={[
-              {
-                key: 'gov',
-                title: 'ข่าวจากหน่วยงานภาครัฐ',
-                description:
-                  'กรมส่งเสริมการเกษตร • เกษตรจังหวัด • หน่วยงานวิชาการ',
-                tone: 'gov',
-                defaultOpen: true,
-                renderContent: () => (
-                  <Suspense fallback={<WidgetSkeleton />}>
-                    <AgriGovNewsWidget />
-                  </Suspense>
-                ),
-              },
-              {
-                key: 'media',
-                title: 'ข่าวเกษตรจากสื่อมวลชน',
-                description: 'สำนักข่าวและสื่อเกษตรหลายแหล่ง',
-                tone: 'media',
-                renderContent: () => (
-                  <Suspense fallback={<WidgetSkeleton />}>
-                    <AgriMediaNewsWidget />
-                  </Suspense>
-                ),
-              },
-            ]}
-          />
-        </div>
+      <main style={{ padding: '0 24px', boxSizing: 'border-box' }}>
+        <SituationKpiSection onOpenWidget={widgetController.openWidget} />
+        <ProvinceOverviewSection onOpenWidget={widgetController.openWidget} />
+        <ResourceMarketSection onOpenWidget={widgetController.openWidget} />
+        <LandingToolsSection onOpenModal={setActiveInfoModal} />
+        <MapPreviewSection />
+        <NewsPreviewSection />
+        <KnowledgePreviewSection />
+        <ContactSection />
       </main>
 
       <Modal
@@ -745,38 +559,6 @@ export default function LandingPage() {
       </Modal>
 
       <Modal
-        title="📈 สถานการณ์ความชื้นดินเฉลี่ยทั้งอำเภอ (แบบละเอียด)"
-        open={activeInfoModal === 'soilMoistureDetail'}
-        onCancel={() => setActiveInfoModal(null)}
-        footer={null}
-        width={1120}
-        className="landing-info-modal landing-soil-moisture-modal"
-        destroyOnClose
-      >
-        <div style={{ marginTop: 16 }}>
-          <Suspense fallback={<WidgetSkeleton />}>
-            <SoilMoistureWidget defaultExpanded={true} />
-          </Suspense>
-        </div>
-      </Modal>
-
-      <Modal
-        title="💧 สถานการณ์น้ำและผลกระทบต่อ จ.นครปฐม (แบบละเอียด)"
-        open={activeInfoModal === 'waterDetail'}
-        onCancel={() => setActiveInfoModal(null)}
-        footer={null}
-        width={1120}
-        className="landing-info-modal landing-water-modal"
-        destroyOnClose
-      >
-        <div style={{ marginTop: 16 }}>
-          <Suspense fallback={<WidgetSkeleton />}>
-            <DamReservoirWidget defaultExpanded={true} />
-          </Suspense>
-        </div>
-      </Modal>
-
-      <Modal
         title="💬 กระดานข่าวอัจฉริยะ (Farmer Forum)"
         open={activeInfoModal === 'forumCta'}
         onCancel={() => setActiveInfoModal(null)}
@@ -864,136 +646,6 @@ export default function LandingPage() {
         <WebsiteEvaluationForm onSuccess={() => setActiveInfoModal(null)} />
       </Modal>
 
-      <Modal
-        title={
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingRight: '36px',
-              flexWrap: 'wrap',
-              gap: '12px',
-            }}
-          >
-            <span
-              style={{ fontSize: '18px', fontWeight: 800, color: '#1e293b' }}
-            >
-              🤖 พยากรณ์เตือนภัยโรคและแมลงศัตรูพืชอัจฉริยะ (ล่วงหน้า 7 วัน)
-            </span>
-            <Button
-              type="primary"
-              icon={<BugOutlined />}
-              size="middle"
-              href="/public/disease-forecast"
-              style={{
-                background: '#166534',
-                borderColor: '#166534',
-                borderRadius: '8px',
-                fontWeight: 'bold',
-                fontSize: '13px',
-                boxShadow: '0 2px 8px rgba(22,101,52,0.15)',
-              }}
-            >
-              ดูรายละเอียดและพยากรณ์ย้อนหลัง
-            </Button>
-          </div>
-        }
-        open={activeInfoModal === 'aiForecast'}
-        onCancel={() => setActiveInfoModal(null)}
-        footer={null}
-        width={920}
-        className="landing-info-modal landing-forecast-modal"
-        destroyOnClose
-      >
-        {forecastLoading ? (
-          <div style={{ padding: '40px 0', textAlign: 'center' }}>
-            <Spin size="large" tip="กำลังโหลดคำทำนายจากฐานข้อมูล..." />
-          </div>
-        ) : forecastData ? (
-          <div className="forecast-modal-content">
-            <div className="forecast-meta-info">
-              <span className="forecast-date-badge">
-                📅 คาดการณ์ล่วงหน้า 7 วัน ตั้งแต่วันที่:{' '}
-                {new Date(forecastData.forecast_date).toLocaleDateString(
-                  'th-TH',
-                  { day: 'numeric', month: 'long', year: 'numeric' }
-                )}
-              </span>
-              <span className="forecast-source-badge">
-                ⚡ วิเคราะห์ด้วย AI + Google Grounding + สภาพอากาศนครปฐม
-              </span>
-            </div>
-
-            <div className="forecast-summary-card">
-              <h4>📋 สรุปภาพรวมความเสี่ยงล่วงหน้า 7 วัน</h4>
-              <p>{forecastData.summary}</p>
-            </div>
-
-            <h4 className="forecast-grid-title">
-              🚨 รายการโรคและแมลงศัตรูพืชที่มีความเสี่ยง
-            </h4>
-            <div className="forecast-cards-grid">
-              {forecastData.details &&
-                forecastData.details.map((item, idx) => {
-                  const isHigh = item.risk_level === 'สูง';
-                  const isMedium = item.risk_level === 'ปานกลาง';
-                  const riskClass = isHigh
-                    ? 'risk-high'
-                    : isMedium
-                      ? 'risk-medium'
-                      : 'risk-low';
-                  const typeClass =
-                    item.type === 'โรคพืช' ? 'type-disease' : 'type-pest';
-
-                  return (
-                    <div className={`forecast-card ${riskClass}`} key={idx}>
-                      <div className="forecast-card-header">
-                        <div className="forecast-card-title-area">
-                          <h5>{item.name}</h5>
-                          <span
-                            className={`forecast-badge type-badge ${typeClass}`}
-                          >
-                            {item.type}
-                          </span>
-                        </div>
-                        <span
-                          className={`forecast-badge risk-badge ${riskClass}`}
-                        >
-                          ความเสี่ยง: {item.risk_level}
-                        </span>
-                      </div>
-                      <div className="forecast-card-body">
-                        <div className="forecast-crop-info">
-                          <span>🌱 พืชที่กระทบ:</span>{' '}
-                          <strong>{item.target_crop}</strong>
-                        </div>
-                        <p className="forecast-desc">{item.description}</p>
-                        <div className="forecast-prevention">
-                          <h6>🛡️ คำแนะนำในการป้องกันเฝ้าระวัง:</h6>
-                          <p>{item.prevention}</p>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-            </div>
-          </div>
-        ) : (
-          <div
-            style={{
-              padding: '30px 10px',
-              textAlign: 'center',
-              color: '#64748b',
-            }}
-          >
-            <p>
-              ไม่พบข้อมูลการพยากรณ์สำหรับวันนี้ กรุณาลองใหม่อีกครั้งในภายหลัง
-            </p>
-          </div>
-        )}
-      </Modal>
-
       {/* ===== FOOTER ===== */}
       <LandingFooter onOpenPanel={setActiveInfoModal} />
 
@@ -1012,14 +664,14 @@ export default function LandingPage() {
         </a>
         <button
           className="mobile-bottom-nav-item"
-          onClick={() => setActiveInfoModal('soilMoistureDetail')}
+          onClick={() => widgetController.openWidget('soilMoisture')}
         >
           <ExperimentOutlined />
           <span>ความชื้นดิน</span>
         </button>
         <button
           className="mobile-bottom-nav-item"
-          onClick={() => setActiveInfoModal('waterDetail')}
+          onClick={() => widgetController.openWidget('reservoir')}
         >
           <CloudOutlined />
           <span>สถานการณ์น้ำ</span>
@@ -1120,6 +772,12 @@ export default function LandingPage() {
           </div>
         </div>
       )}
+
+      <WidgetDetailHost
+        activeWidgetKey={widgetController.activeWidgetKey}
+        open={Boolean(widgetController.activeWidgetKey)}
+        onClose={widgetController.closeWidget}
+      />
     </div>
   );
 }
