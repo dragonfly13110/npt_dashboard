@@ -392,52 +392,50 @@ export default function LandingPage() {
         </a>
       </div>
 
-      <header className="premium-landing-header">
-        <nav
-          className="premium-nav"
-          data-testid="landing-nav"
-          aria-label="เมนูหลัก"
+      <nav
+        className="premium-nav"
+        data-testid="landing-nav"
+        aria-label="เมนูหลัก"
+      >
+        <a
+          className="premium-brand"
+          href="/"
+          aria-label="หน้าแรก ศูนย์ข้อมูลการเกษตรอัจฉริยะ จังหวัดนครปฐม"
         >
-          <a
-            className="premium-brand"
-            href="/"
-            aria-label="หน้าแรก ศูนย์ข้อมูลการเกษตรอัจฉริยะ จังหวัดนครปฐม"
-          >
-            <span className="premium-brand-mark">
-              <EnvironmentOutlined />
-            </span>
-            <span>
-              ศูนย์ข้อมูลการเกษตรอัจฉริยะ<small>จังหวัดนครปฐม</small>
-            </span>
-          </a>
-          <div
-            className={`premium-nav-links ${mobileMenuOpen ? 'is-open' : ''}`}
-          >
-            <a href="#agri-overview">ภาพรวม</a>
-            <a href="/smart-map">แผนที่</a>
-            <a href="#dataset-explorer">ชุดข้อมูล</a>
-            <a href="#agri-news">ข่าว</a>
-            <a href="/manual">คู่มือ</a>
-            <button
-              onClick={() => setActiveInfoModal('audience')}
-              className="premium-nav-button"
-            >
-              ระบบนี้ช่วยใคร
-            </button>
-            <a href="/login" className="premium-login">
-              เข้าสู่ระบบ
-            </a>
-          </div>
+          <span className="premium-brand-mark">
+            <EnvironmentOutlined />
+          </span>
+          <span>
+            ศูนย์ข้อมูลการเกษตรอัจฉริยะ<small>จังหวัดนครปฐม</small>
+          </span>
+        </a>
+        <div className={`premium-nav-links ${mobileMenuOpen ? 'is-open' : ''}`}>
+          <a href="#agri-overview">ภาพรวม</a>
+          <a href="/smart-map">แผนที่</a>
+          <a href="#dataset-explorer">ชุดข้อมูล</a>
+          <a href="#agri-news">ข่าว</a>
+          <a href="/manual">คู่มือ</a>
           <button
-            className="premium-menu-button"
-            aria-label="เปิดเมนู"
-            aria-expanded={mobileMenuOpen}
-            onClick={() => setMobileMenuOpen((open) => !open)}
+            onClick={() => setActiveInfoModal('audience')}
+            className="premium-nav-button"
           >
-            <AppstoreOutlined />
+            ระบบนี้ช่วยใคร
           </button>
-        </nav>
+          <a href="/login" className="premium-login">
+            เข้าสู่ระบบ
+          </a>
+        </div>
+        <button
+          className="premium-menu-button"
+          aria-label="เปิดเมนู"
+          aria-expanded={mobileMenuOpen}
+          onClick={() => setMobileMenuOpen((open) => !open)}
+        >
+          <AppstoreOutlined />
+        </button>
+      </nav>
 
+      <header className="premium-landing-header">
         <div className="premium-hero">
           <div className="premium-hero-copy">
             <p className="premium-eyebrow">Nakhon Pathom Agri Intelligence</p>

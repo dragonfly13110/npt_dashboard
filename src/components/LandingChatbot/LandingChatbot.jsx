@@ -127,7 +127,7 @@ const QUICK_PROMPTS = [
 // eslint-disable-next-line react-refresh/only-export-components
 export const parseMarkdownText = (text) => {
   if (!text) return '';
-  const regex = /(\[[^\]]+\]\([^\s)]+\)|\*\*.*?\*\*)/g;
+  const regex = /(\[[^\]]+\]\([^\s)]+\)|\*\*.*?\*\*|\/[a-zA-Z0-9/_-]+)/g;
   const parts = text.split(regex);
 
   return parts.map((part, idx) => {
@@ -162,6 +162,24 @@ export const parseMarkdownText = (text) => {
     }
     if (part.startsWith('**') && part.endsWith('**')) {
       return <strong key={idx}>{parseMarkdownText(part.slice(2, -2))}</strong>;
+    }
+    const safeUrl = normalizeLandingChatbotLink(part);
+    if (safeUrl) {
+      return (
+        <Link
+          key={idx}
+          to={safeUrl}
+          className="chatbot-inline-link"
+          style={{
+            color: '#16a34a',
+            textDecoration: 'underline',
+            fontWeight: 600,
+            cursor: 'pointer',
+          }}
+        >
+          {part}
+        </Link>
+      );
     }
     return <span key={idx}>{part}</span>;
   });

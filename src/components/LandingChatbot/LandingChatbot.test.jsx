@@ -16,4 +16,16 @@ describe('parseMarkdownText', () => {
       '/smart-map'
     );
   });
+
+  it('renders an allowed raw path as a usable internal link', () => {
+    render(
+      <BrowserRouter>
+        {parseMarkdownText('ดูข้อมูลได้ที่ /public/large-plots ค่ะ')}
+      </BrowserRouter>
+    );
+
+    expect(
+      screen.getByRole('link', { name: '/public/large-plots' })
+    ).toHaveAttribute('href', '/public/large-plots');
+  });
 });
