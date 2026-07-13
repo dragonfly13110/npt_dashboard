@@ -54,7 +54,7 @@ html {
 .landing-floating-system-tabs {
   position: fixed;
   left: 18px;
-  top: 85%;
+  top: 50%;
   z-index: 1100;
   display: flex;
   flex-direction: column;
@@ -62,7 +62,10 @@ html {
   justify-content: center;
   gap: 10px;
   width: 206px;
+  max-height: calc(100dvh - 32px);
   padding: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
   border: 1px solid rgba(22, 101, 52, 0.14);
   border-radius: 22px;
   background: rgba(248, 250, 252, 0.78);
@@ -70,6 +73,14 @@ html {
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   transform: translateY(-50%);
+  transition:
+    top 0.25s ease,
+    transform 0.25s ease;
+}
+
+.landing-floating-system-tabs.is-hero-docked {
+  top: calc(100dvh - 20px);
+  transform: translateY(-100%);
 }
 
 .landing-system-tab {
@@ -134,11 +145,14 @@ html {
     padding: 8px;
     gap: 8px;
     border-radius: 18px;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     transition:
       width 0.2s ease,
       box-shadow 0.2s ease,
-      background 0.2s ease;
+      background 0.2s ease,
+      top 0.25s ease,
+      transform 0.25s ease;
   }
 
   .landing-system-tab {

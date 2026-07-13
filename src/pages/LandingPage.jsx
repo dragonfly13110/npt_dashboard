@@ -228,6 +228,7 @@ export default function LandingPage() {
   const location = useLocation();
   const [landingQuery, setLandingQuery] = useState('');
   const [activeInfoModal, setActiveInfoModal] = useState(null);
+  const [isHeroDocked, setIsHeroDocked] = useState(true);
 
   useEffect(() => {
     if (location.state?.openPanel) {
@@ -236,6 +237,13 @@ export default function LandingPage() {
       window.history.replaceState({}, document.title);
     }
   }, [location]);
+
+  useEffect(() => {
+    const updateFloatingNav = () => setIsHeroDocked(window.scrollY < 180);
+    updateFloatingNav();
+    window.addEventListener('scroll', updateFloatingNav, { passive: true });
+    return () => window.removeEventListener('scroll', updateFloatingNav);
+  }, []);
   const [moreDrawerOpen, setMoreDrawerOpen] = useState(false);
   const [moreDrawerClosing, setMoreDrawerClosing] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -296,7 +304,7 @@ export default function LandingPage() {
   return (
     <div className="landing-page bento-theme">
       <div
-        className="landing-floating-system-tabs"
+        className={`landing-floating-system-tabs${isHeroDocked ? ' is-hero-docked' : ''}`}
         aria-label="System shortcuts"
       >
         <a
@@ -452,27 +460,10 @@ export default function LandingPage() {
               />
               <button type="submit">ค้นหา</button>
             </form>
-            <div className="premium-hero-actions">
-              <a href="#agri-overview">สำรวจฐานข้อมูล</a>
-              <a href="/smart-map">เปิดแผนที่อัจฉริยะ</a>
-            </div>
-            <div className="premium-hero-links">
-              <span>แหล่งข้อมูลภาครัฐและเครือข่ายจังหวัด</span>
-              <a
-                href="https://kasetinfo.netlify.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                คลังความรู้เกษตร
-              </a>
-              <a
-                href="https://agrilabcost-ai.vercel.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Crop Cost Lab
-              </a>
-            </div>
+            <p className="premium-hero-motto">
+              ส้มโอหวาน ข้าวสารขาว ลูกสาวงาม ข้าวหลามหวาน อุดมผลไม้
+              รสชาติยอดเยี่ยม
+            </p>
           </div>
           <div className="premium-hero-visual" aria-hidden="true" />
         </div>

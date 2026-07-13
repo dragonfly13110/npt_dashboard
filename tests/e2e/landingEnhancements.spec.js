@@ -4,9 +4,19 @@ test.describe('Landing page orientation sections', () => {
   test('shows quick navigation and opens audience popup from the nav', async ({
     page,
   }) => {
+    await page.setViewportSize({ width: 1440, height: 800 });
     await page.goto('/');
 
     await expect(page.getByTestId('landing-nav')).toBeVisible();
+    const floatingNav = page.locator('.landing-floating-system-tabs');
+    await expect(floatingNav).toHaveClass(/is-hero-docked/);
+    const floatingNavBox = await page
+      .locator('.landing-floating-system-tabs')
+      .boundingBox();
+    expect(floatingNavBox.y).toBeGreaterThanOrEqual(0);
+    expect(floatingNavBox.y + floatingNavBox.height).toBeLessThanOrEqual(800);
+    await page.evaluate(() => window.scrollTo(0, 180));
+    await expect(floatingNav).not.toHaveClass(/is-hero-docked/);
     await expect(
       page.getByRole('heading', {
         name: 'ศูนย์ข้อมูลการเกษตรอัจฉริยะ จังหวัดนครปฐม',
@@ -14,11 +24,20 @@ test.describe('Landing page orientation sections', () => {
     ).toBeVisible();
     await expect(page.getByTestId('landing-search')).toBeVisible();
     await expect(
-      page.getByRole('textbox', { name: 'ค้นหาฐานข้อมูลการเกษตร' })
+      page.getByText(
+        'ส้มโอหวาน ข้าวสารขาว ลูกสาวงาม ข้าวหลามหวาน อุดมผลไม้ รสชาติยอดเยี่ยม'
+      )
     ).toBeVisible();
     await expect(
-      page.getByText('แหล่งข้อมูลภาครัฐและเครือข่ายจังหวัด', { exact: true })
+      page.getByRole('link', { name: 'สำรวจฐานข้อมูล' })
+    ).toHaveCount(0);
+    await expect(
+      page.getByRole('link', { name: 'เปิดแผนที่อัจฉริยะ' })
+    ).toHaveCount(0);
+    await expect(
+      page.getByRole('textbox', { name: 'ค้นหาฐานข้อมูลการเกษตร' })
     ).toBeVisible();
+    await expect(page.locator('.premium-hero-links')).toHaveCount(0);
     await expect(page.getByTestId('situation-strip')).toBeVisible();
     await expect(page.getByTestId('landing-map')).toBeVisible();
     await expect(
