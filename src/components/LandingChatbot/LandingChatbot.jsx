@@ -124,9 +124,10 @@ const QUICK_PROMPTS = [
   { text: 'เช็คสภาพอากาศและสถานการณ์น้ำได้ไหม? 🌧️' },
 ];
 
-const parseMarkdownText = (text) => {
+// eslint-disable-next-line react-refresh/only-export-components
+export const parseMarkdownText = (text) => {
   if (!text) return '';
-  const regex = /(\[.*?\]\(.*?\))|(\*\*.*?\*\*)/g;
+  const regex = /(\[[^\]]+\]\([^\s)]+\)|\*\*.*?\*\*)/g;
   const parts = text.split(regex);
 
   return parts.map((part, idx) => {
@@ -160,7 +161,7 @@ const parseMarkdownText = (text) => {
       }
     }
     if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={idx}>{part.slice(2, -2)}</strong>;
+      return <strong key={idx}>{parseMarkdownText(part.slice(2, -2))}</strong>;
     }
     return <span key={idx}>{part}</span>;
   });
