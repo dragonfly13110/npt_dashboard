@@ -439,7 +439,10 @@ export default function LandingPage() {
         <div className="premium-hero">
           <div className="premium-hero-copy">
             <p className="premium-eyebrow">Nakhon Pathom Agri Intelligence</p>
-            <h1>ศูนย์ข้อมูลการเกษตรอัจฉริยะ จังหวัดนครปฐม</h1>
+            <h1>
+              ศูนย์ข้อมูลการเกษตรอัจฉริยะ{' '}
+              <span style={{ display: 'inline-block' }}>จังหวัดนครปฐม</span>
+            </h1>
             <p>
               รวมข้อมูลพื้นที่ เกษตรกร ผลผลิต ดิน น้ำ ภัย และมาตรฐาน
               เพื่อการตัดสินใจจากข้อมูลเดียวกัน
