@@ -474,31 +474,131 @@ export default function LandingPage() {
           data-testid="situation-strip"
           aria-label="ข้อมูลสภาพอากาศและราคาสินค้าเกษตรและพลังงาน"
         >
-          <div className="top-widgets-container">
-            <div className="top-widgets-col">
+          <div className="live-kpi-section">
+            <header className="live-kpi-heading">
+              <div>
+                <span className="live-kpi-status">
+                  <i aria-hidden="true" /> อัปเดตแบบเรียลไทม์
+                </span>
+                <h2>ข้อมูลสดจากพื้นที่</h2>
+              </div>
+              <p className="live-kpi-hint">คลิกการ์ดเพื่อดูข้อมูลแบบเต็ม</p>
+            </header>
+
+            <div className="live-kpi-grid landing-live-kpis">
               <Suspense fallback={<WidgetSkeleton />}>
-                <WeatherWidget />
+                <WeatherWidget
+                  summary
+                  onOpen={() => setActiveInfoModal('liveWeather')}
+                />
               </Suspense>
               <Suspense fallback={<WidgetSkeleton />}>
-                <AirQualityWidget />
+                <AirQualityWidget
+                  summary
+                  onOpen={() => setActiveInfoModal('liveAir')}
+                />
+              </Suspense>
+              <Suspense fallback={<WidgetSkeleton />}>
+                <AgriPricesWidget
+                  summary
+                  onOpen={() => setActiveInfoModal('livePrices')}
+                />
+              </Suspense>
+              <Suspense fallback={<WidgetSkeleton />}>
+                <SoilMoistureWidget
+                  summary
+                  onOpen={() => setActiveInfoModal('soilMoistureDetail')}
+                />
+              </Suspense>
+              <Suspense fallback={<WidgetSkeleton />}>
+                <DamReservoirWidget
+                  summary
+                  onOpen={() => setActiveInfoModal('waterDetail')}
+                />
               </Suspense>
             </div>
             <Suspense fallback={<WidgetSkeleton />}>
-              <AgriPricesWidget />
+              <HotspotWidget
+                summary
+                onOpen={() => setActiveInfoModal('liveHotspot')}
+              />
             </Suspense>
           </div>
 
-          <div className="widget-section-container">
-            <Suspense fallback={<WidgetSkeleton />}>
-              <HotspotWidget />
-            </Suspense>
-          </div>
+          <Modal
+            className="live-widget-modal"
+            open={['liveWeather', 'liveAir', 'livePrices'].includes(
+              activeInfoModal
+            )}
+            onCancel={() => setActiveInfoModal(null)}
+            footer={null}
+            width={activeInfoModal === 'livePrices' ? 1120 : 800}
+            destroyOnHidden
+            centered
+            title={
+              activeInfoModal === 'liveWeather'
+                ? 'สภาพอากาศนครปฐม'
+                : activeInfoModal === 'liveAir'
+                  ? 'คุณภาพอากาศและ PM 2.5'
+                  : 'ราคาผลผลิตและราคาน้ำมัน'
+            }
+          >
+            <div className="live-widget-modal-body">
+              <Suspense fallback={<WidgetSkeleton />}>
+                {activeInfoModal === 'liveWeather' && <WeatherWidget />}
+                {activeInfoModal === 'liveAir' && <AirQualityWidget />}
+                {activeInfoModal === 'livePrices' && <AgriPricesWidget />}
+              </Suspense>
+            </div>
+          </Modal>
+
+          <Modal
+            className="live-widget-modal live-hotspot-modal"
+            open={activeInfoModal === 'liveHotspot'}
+            onCancel={() => setActiveInfoModal(null)}
+            footer={null}
+            width={1180}
+            destroyOnHidden
+            centered
+            title="จุดความร้อนจังหวัดนครปฐม"
+          >
+            <div className="live-widget-modal-body">
+              <Suspense fallback={<WidgetSkeleton />}>
+                <HotspotWidget showDetailsButton={false} />
+              </Suspense>
+            </div>
+          </Modal>
+
+          <Modal
+            className="live-widget-modal live-farmer-modal"
+            open={activeInfoModal === 'liveFarmerDevelopment'}
+            onCancel={() => setActiveInfoModal(null)}
+            footer={null}
+            width={1180}
+            destroyOnHidden
+            centered
+            title="การพัฒนาเกษตรกรและกลุ่ม/สถาบันเกษตรกร"
+          >
+            <div className="live-widget-modal-body">
+              <Suspense fallback={<WidgetSkeleton />}>
+                <FarmerInstitutesV2Widget />
+              </Suspense>
+            </div>
+          </Modal>
         </section>
 
         {/* ===== BENTO GRID LATEST LISTS ===== */}
         <div id="agri-overview" className="dept-stats-header">
           <h2>📊 ข้อมูลการเกษตรจังหวัดนครปฐม</h2>
           <p>สถิติและข้อมูลสารสนเทศการเกษตรในพื้นที่</p>
+        </div>
+        <div className="agri-kpi-strip">
+          <Suspense fallback={<WidgetSkeleton />}>
+            <FarmerInstitutesV2Widget
+              summary
+              onOpen={() => setActiveInfoModal('liveFarmerDevelopment')}
+            />
+          </Suspense>
         </div>
         <section
           className={`bento-container ${hasTourismData ? '' : 'bento-container-no-tourism'}`}
@@ -523,11 +623,6 @@ export default function LandingPage() {
             </Suspense>
           )}
 
-          {/* 5. Farmer Groups & Institutes */}
-          <Suspense fallback={<WidgetSkeleton />}>
-            <FarmerInstitutesV2Widget />
-          </Suspense>
-
           {/* 6. Agri Areas */}
           <Suspense fallback={<WidgetSkeleton />}>
             <AgriAreasCard
@@ -536,37 +631,6 @@ export default function LandingPage() {
               loading={loading}
             />
           </Suspense>
-        </section>
-
-        {/* ===== SOIL & WATER WIDGETS ===== */}
-        <section id="soil-water" aria-label="ข้อมูลดินและสถานการณ์น้ำ">
-          <div
-            className="dept-stats-header"
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <h2
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                margin: 0,
-              }}
-            >
-              🌍 สถานการณ์ดินและน้ำ
-            </h2>
-          </div>
-          <div className="soil-water-grid">
-            <Suspense fallback={<WidgetSkeleton />}>
-              <SoilMoistureWidget defaultExpanded={false} />
-            </Suspense>
-            <Suspense fallback={<WidgetSkeleton />}>
-              <DamReservoirWidget defaultExpanded={false} />
-            </Suspense>
-          </div>
         </section>
 
         {/* ===== AGRI NEWS ACCORDION ===== */}

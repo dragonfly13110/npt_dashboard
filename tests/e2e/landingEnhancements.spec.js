@@ -1,6 +1,17 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Landing page orientation sections', () => {
+  test('presents live KPIs as clickable detail cards', async ({ page }) => {
+    await page.goto('/');
+
+    await expect(
+      page.getByRole('heading', { name: 'ข้อมูลสดจากพื้นที่' })
+    ).toBeVisible();
+    await expect(page.getByText('คลิกการ์ดเพื่อดูข้อมูลแบบเต็ม')).toBeVisible();
+    await page.locator('.live-kpi-card--sky').click();
+    await expect(page.getByRole('dialog')).toBeVisible();
+  });
+
   test('shows quick navigation and opens audience popup from the nav', async ({
     page,
   }) => {

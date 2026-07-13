@@ -33,12 +33,38 @@ async function fetchWeatherData() {
   return { current: data.current, daily: data.daily };
 }
 
-export default function WeatherWidget({ mini }) {
+export default function WeatherWidget({ mini, summary, onOpen }) {
   const { data, isLoading } = useApiCache(
     'weather-nakhonpathom',
     fetchWeatherData,
     { staleMinutes: 30, cacheMinutes: 120 }
   );
+
+  if (summary) {
+    const weather = data?.current;
+    return (
+      <button
+        className="live-kpi-card live-kpi-card--sky"
+        type="button"
+        onClick={onOpen}
+        aria-haspopup="dialog"
+      >
+        <span className="live-kpi-icon">🌤️</span>
+        <span className="live-kpi-copy">
+          <small>สภาพอากาศนครปฐม</small>
+          <strong>
+            {weather ? `${Math.round(weather.temperature_2m)}°C` : '—'}
+          </strong>
+          <span>
+            {weather
+              ? `ความชื้น ${weather.relative_humidity_2m}% · ลม ${weather.wind_speed_10m} km/h`
+              : 'กำลังอัปเดตข้อมูล'}
+          </span>
+        </span>
+        <span className="live-kpi-open">ดูรายละเอียด →</span>
+      </button>
+    );
+  }
 
   if (mini) {
     if (isLoading) {

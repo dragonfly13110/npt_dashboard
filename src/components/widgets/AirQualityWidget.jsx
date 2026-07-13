@@ -134,7 +134,7 @@ function getGeolocation() {
   });
 }
 
-export default function AirQualityWidget({ mini }) {
+export default function AirQualityWidget({ mini, summary, onOpen }) {
   const [coords, setCoords] = useState(null);
 
   useEffect(() => {
@@ -150,6 +150,33 @@ export default function AirQualityWidget({ mini }) {
       enabled: !!coords,
     }
   );
+
+  if (summary) {
+    const pm25 = aqiData?.pm25;
+    const info = pm25 != null ? getAqiInfo(pm25) : null;
+    return (
+      <button
+        className="live-kpi-card live-kpi-card--mint"
+        type="button"
+        onClick={onOpen}
+        aria-haspopup="dialog"
+      >
+        <span className="live-kpi-icon">💚</span>
+        <span className="live-kpi-copy">
+          <small>คุณภาพอากาศ PM 2.5</small>
+          <strong>
+            {pm25 != null ? Math.round(pm25) : '—'} <em>µg/m³</em>
+          </strong>
+          <span>
+            {info
+              ? `${info.level} · AQI ${Math.round(aqiData.aqi)}`
+              : 'กำลังอัปเดตข้อมูล'}
+          </span>
+        </span>
+        <span className="live-kpi-open">ดูรายละเอียด →</span>
+      </button>
+    );
+  }
 
   if (mini) {
     if (isLoading || !coords) {

@@ -155,7 +155,7 @@ function PriceSkeleton() {
   );
 }
 
-export default function AgriPricesWidget({ mini }) {
+export default function AgriPricesWidget({ mini, summary, onOpen }) {
   const [selectedCategory, setSelectedCategory] = useState('4');
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const { data, isLoading, error } = useApiCache(
@@ -178,6 +178,32 @@ export default function AgriPricesWidget({ mini }) {
   const selectedLabel =
     data?.category ||
     CATEGORIES.find((item) => item.id === selectedCategory)?.label;
+
+  if (summary) {
+    const oil = oilItems[0];
+    return (
+      <button
+        className="live-kpi-card live-kpi-card--violet"
+        type="button"
+        onClick={onOpen}
+        aria-haspopup="dialog"
+      >
+        <span className="live-kpi-icon">📈</span>
+        <span className="live-kpi-copy">
+          <small>ราคาผลผลิตและน้ำมัน</small>
+          <strong>
+            {oil?.today || '—'} <em>บาท/ลิตร</em>
+          </strong>
+          <span>
+            {oil
+              ? `${oil.name} · ผลผลิต ${items.length} รายการ`
+              : 'กำลังอัปเดตข้อมูล'}
+          </span>
+        </span>
+        <span className="live-kpi-open">ดูรายละเอียด →</span>
+      </button>
+    );
+  }
 
   if (mini) {
     if (isLoading || isOilLoading) {

@@ -245,7 +245,11 @@ function getStatCards(summary, activeType) {
   ];
 }
 
-export default function FarmerInstitutesV2Widget() {
+export default function FarmerInstitutesV2Widget({
+  summary: summaryMode = false,
+  onOpen,
+  defaultExpanded = false,
+}) {
   const {
     data: rows = [],
     isLoading,
@@ -263,7 +267,7 @@ export default function FarmerInstitutesV2Widget() {
   const [selectedType, setSelectedType] = useState(DEFAULT_TYPE);
   const [search, setSearch] = useState('');
   const [displayLimit, setDisplayLimit] = useState(12);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 
   useEffect(() => {
     setDisplayLimit(12);
@@ -364,6 +368,43 @@ export default function FarmerInstitutesV2Widget() {
     () => getStatCards(summary, activeType),
     [activeType, summary]
   );
+
+  if (summaryMode) {
+    return (
+      <button
+        className="hotspot-kpi-card farmer-kpi-card"
+        type="button"
+        onClick={onOpen}
+        aria-haspopup="dialog"
+        aria-label="การพัฒนาเกษตรกรและกลุ่มสถาบันเกษตรกร ดูข้อมูลแบบเต็ม"
+      >
+        <span className="hotspot-kpi-icon farmer-kpi-icon" aria-hidden="true">
+          <TeamOutlined />
+        </span>
+        <span className="hotspot-kpi-copy farmer-kpi-copy">
+          <small>ข้อมูลเกษตรกรและสถาบันเกษตรกร</small>
+          <strong>การพัฒนาเกษตรกรและกลุ่ม/สถาบันเกษตรกร</strong>
+          <span>
+            {INSTITUTE_V2_TYPES.length} หมวดข้อมูล · ครอบคลุม{' '}
+            {totalSummary.districtCount} อำเภอ
+          </span>
+        </span>
+        <span className="hotspot-kpi-metric farmer-kpi-metric">
+          <strong>
+            {isLoading ? '—' : number.format(totalSummary.totalRows)}
+          </strong>
+          <span>รายการทั้งหมด</span>
+        </span>
+        <span className="hotspot-kpi-state farmer-kpi-state">
+          <i aria-hidden="true" />
+          {isLoading ? 'กำลังอัปเดต' : error ? 'ข้อมูลบางส่วน' : 'ข้อมูลล่าสุด'}
+        </span>
+        <span className="hotspot-kpi-action farmer-kpi-action">
+          เปิดข้อมูลและสถิติ →
+        </span>
+      </button>
+    );
+  }
 
   return (
     <section

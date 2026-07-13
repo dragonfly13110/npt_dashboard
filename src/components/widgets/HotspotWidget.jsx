@@ -330,6 +330,8 @@ function applySheetLayout(sheet, widths) {
 export default function HotspotWidget({
   showDetailsButton = true,
   detailsUrl = '/public/fire-hotspots',
+  summary = false,
+  onOpen,
 }) {
   const navigate = useNavigate();
   const [dayRange, setDayRange] = useState(7);
@@ -362,6 +364,7 @@ export default function HotspotWidget({
   }, [selectedAmphoe]);
 
   useEffect(() => {
+    if (summary) return;
     import('../../data/nakhon_pathom_districts.json').then((m) =>
       setGeoJSONData(m.default)
     );
@@ -379,7 +382,7 @@ export default function HotspotWidget({
         setMapComponents({ L: L.default, ...RL });
       }
     );
-  }, []);
+  }, [summary]);
 
   const hasCustomDateRange = Boolean(
     customDateRange.start && customDateRange.end && !dateRangeError
@@ -514,6 +517,36 @@ export default function HotspotWidget({
   const activePeriodLabel = hasCustomDateRange
     ? `${customDateRange.start} ถึง ${customDateRange.end}`
     : `ย้อนหลัง ${dayRange} วัน`;
+
+  if (summary) {
+    return (
+      <button
+        className="hotspot-kpi-card"
+        type="button"
+        onClick={onOpen}
+        aria-haspopup="dialog"
+        aria-label="จุดความร้อนจังหวัดนครปฐม ดูข้อมูลแบบเต็ม"
+      >
+        <span className="hotspot-kpi-icon" aria-hidden="true">
+          <FireOutlined />
+        </span>
+        <span className="hotspot-kpi-copy">
+          <small>เฝ้าระวังภัยการเกษตร</small>
+          <strong>จุดความร้อน จ.นครปฐม</strong>
+          <span>VIIRS / GISTDA Satellite · ย้อนหลัง {dayRange} วัน</span>
+        </span>
+        <span className="hotspot-kpi-metric">
+          <strong>{isLoading ? '—' : satelliteHotspots.length}</strong>
+          <span>จุดใน {amphoeStats.length} อำเภอ</span>
+        </span>
+        <span className={`hotspot-kpi-state ${useMock ? 'is-warning' : ''}`}>
+          <i aria-hidden="true" />
+          {isLoading ? 'กำลังอัปเดต' : useMock ? 'ข้อมูลจำลอง' : 'ข้อมูลล่าสุด'}
+        </span>
+        <span className="hotspot-kpi-action">เปิดแผนที่และรายละเอียด →</span>
+      </button>
+    );
+  }
 
   const handleDateRangeChange = (field, value) => {
     const next = { ...customDateRange, [field]: value };
