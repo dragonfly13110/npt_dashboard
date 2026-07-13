@@ -1,0 +1,39 @@
+[
+  {
+    "action": "weather",
+    "label": "สภาพอากาศ",
+    "displayText": "🌤️ เช็คสภาพอากาศล่าสุด",
+    "responseKind": "postback"
+  },
+  {
+    "action": "fire",
+    "label": "จุดความร้อน",
+    "displayText": "🔥 สถิติจุดความร้อนสะสม",
+    "responseKind": "postback"
+  },
+  {
+    "action": "dashboard",
+    "label": "แดชบอร์ด",
+    "displayText": "🌐 เปิดแดชบอร์ด",
+    "responseKind": "uri",
+    "route": "https://npt-dashboard.netlify.app/dashboard"
+  },
+  {
+    "action": "registration_summary",
+    "label": "ทะเบียนเกษตรกร",
+    "displayText": "📋 สรุปการขึ้นทะเบียนเกษตรกร",
+    "responseKind": "postback"
+  },
+  {
+    "action": "farmer_groups_menu",
+    "label": "กลุ่มเกษตรกร",
+    "displayText": "🤝 ข้อมูลกลุ่มเกษตรกร",
+    "responseKind": "postback"
+  },
+  {
+    "action": "personnel_summary",
+    "label": "บุคลากร",
+    "displayText": "👤 รายชื่อบุคลากรเกษตร",
+    "responseKind": "postback"
+  }
+]

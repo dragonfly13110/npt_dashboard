@@ -1,7 +1,7 @@
 export const LANDING_CHATBOT_HISTORY_STORAGE_KEY =
   'npt_landing_chatbot_messages_v1';
 export const LANDING_CHATBOT_MAX_STORED_MESSAGES = 30;
-export const LANDING_CHATBOT_CONTEXT_MESSAGE_LIMIT = 10;
+export const LANDING_CHATBOT_CONTEXT_MESSAGE_LIMIT = 4;
 export const LANDING_CHATBOT_MAX_MESSAGE_LENGTH = 4000;
 
 const VALID_ROLES = new Set(['assistant', 'user']);

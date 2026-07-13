@@ -93,9 +93,7 @@ describe('datasetCatalog', () => {
 
   it.each([
     ['learning_centers', 'manager'],
-    ['farmer_groups', 'chairman'],
     ['housewife_farmer_groups', 'chairman'],
-    ['young_farmer_groups', 'chairman'],
     ['pest_centers', 'chairman'],
     ['soil_fertilizer_centers', 'chairman'],
     ['plant_doctors', 'full_name'],
@@ -145,7 +143,9 @@ describe('datasetCatalog', () => {
   it('enforces page and dataset roles', () => {
     expect(canRoleAccessLineKnowledge('guest', 'page:profile')).toBe(false);
     expect(canRoleAccessLineKnowledge('viewer', 'page:profile')).toBe(true);
-    expect(canRoleAccessLineKnowledge('viewer', 'page:admin-users')).toBe(false);
+    expect(canRoleAccessLineKnowledge('viewer', 'page:admin-users')).toBe(
+      false
+    );
     expect(canRoleAccessLineKnowledge('admin', 'page:admin-users')).toBe(true);
     expect(getLineKnowledgeEntry('dataset:large_plots')?.route).toBe(
       '/dashboard/production/large-plots'

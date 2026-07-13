@@ -2,11 +2,11 @@ import { describe, expect, it } from 'vitest';
 import catalog from '../domain/datasetCatalog.json';
 import { isPrivateColumn } from '../utils/dataPrivacy';
 
-const entries = new Map([
-  ...catalog.LINE_DATASETS,
-  ...catalog.SYSTEM_PAGES,
-  ...catalog.MANUALS,
-].map((entry) => [entry.id, entry]));
+const entries = new Map(
+  [...catalog.LINE_DATASETS, ...catalog.SYSTEM_PAGES, ...catalog.MANUALS].map(
+    (entry) => [entry.id, entry]
+  )
+);
 
 describe('LINE system knowledge acceptance matrix', () => {
   it('covers representative system questions', () => {
@@ -33,6 +33,17 @@ describe('LINE system knowledge acceptance matrix', () => {
     ]) {
       expect(isPrivateColumn(table, { dataIndex: field })).toBe(true);
     }
+  });
+
+  it('allows household count and totals to be public-safe', () => {
+    expect(
+      isPrivateColumn('farmer_registry', { dataIndex: 'household_count' })
+    ).toBe(false);
+    expect(
+      isPrivateColumn('farmer_registry', {
+        dataIndex: 'total_updated_households',
+      })
+    ).toBe(false);
   });
 
   it('has explicit system-first and external disclosure policy in code', async () => {

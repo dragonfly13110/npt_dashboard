@@ -20,8 +20,13 @@ const TABLE_METADATA = {
       title: row.main_crop
         ? `ทะเบียนเกษตรกรผู้ปลูก${row.main_crop}`
         : 'ทะเบียนเกษตรกร',
-      subtitle: `อ.${row.district || '-'} • ${row.household_count || 0} ครัวเรือน`,
-      info: row.farm_area_rai ? `พื้นที่: ${row.farm_area_rai} ไร่` : '',
+      subtitle: `${['จังหวัดนครปฐม', 'นครปฐม'].includes(row.district) ? row.district : `อ.${row.district || '-'}`} • ขึ้นทะเบียนแล้ว: ${row.total_updated_households || row.household_count || 0} ครัวเรือน`,
+      info:
+        ['จังหวัดนครปฐม', 'นครปฐม'].includes(row.district) && row.target
+          ? `เป้าหมายจังหวัด: ${row.target} ครัวเรือน`
+          : row.farm_area_rai
+            ? `พื้นที่: ${row.farm_area_rai} ไร่`
+            : '',
     }),
   },
   agricultural_areas: {
@@ -716,7 +721,11 @@ function createLineAiOrchestrator({
         ...formatDeterministicSummary(trimmedEvidence, text),
       ].slice(0, 3);
 
-      if (evidence.length === 0 && gemini.searchExternal && config.groundingEnabled) {
+      if (
+        evidence.length === 0 &&
+        gemini.searchExternal &&
+        config.groundingEnabled
+      ) {
         const external = await keyPool.execute(async ({ apiKey }) => {
           const resolvedModel = await gemini.resolveModel(apiKey);
           return gemini.searchExternal(apiKey, resolvedModel, {
@@ -730,7 +739,12 @@ function createLineAiOrchestrator({
             text: finalAnswer,
             sources: external.sources,
           });
-          await store.appendMessage(userId, 'assistant', finalAnswer, 'internet');
+          await store.appendMessage(
+            userId,
+            'assistant',
+            finalAnswer,
+            'internet'
+          );
           return { messages, sourceType: 'internet' };
         }
         const noData =

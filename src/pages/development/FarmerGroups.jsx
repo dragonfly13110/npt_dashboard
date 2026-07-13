@@ -45,6 +45,7 @@ import { useApiCache } from '../../hooks/useApiCache';
 import { useAuth } from '../../contexts/AuthContext';
 import districtGeoJSON from '../../data/nakhon_pathom_districts.json';
 
+/*
 const baseColumns = [
   {
     title: 'ชื่อกลุ่ม',
@@ -79,6 +80,7 @@ const formFields = (
     </Form.Item>
   </>
 );
+*/
 
 const money = new Intl.NumberFormat('th-TH', { maximumFractionDigits: 0 });
 const number = new Intl.NumberFormat('th-TH');
@@ -1282,19 +1284,6 @@ export function HousewifeFarmerGroups() {
         </Form>
       </Modal>
     </div>
-  );
-}
-
-export function YoungFarmerGroups() {
-  return (
-    <CrudTable
-      tableName="young_farmer_groups"
-      title="กลุ่มยุวเกษตรกร"
-      columns={baseColumns}
-      formFields={formFields}
-      searchField="group_name"
-      searchFields={['group_name', 'district', 'chairman']}
-    />
   );
 }
 

@@ -38,6 +38,40 @@ if (!LINE_CHANNEL_ACCESS_TOKEN) {
   process.exit(1);
 }
 
+const menuCatalog = require('../src/domain/lineMenuCatalog.json');
+
+const boundsList = [
+  { x: 0, y: 0, width: 833, height: 843 }, // Row 1, Col 1
+  { x: 833, y: 0, width: 833, height: 843 }, // Row 1, Col 2
+  { x: 1666, y: 0, width: 834, height: 843 }, // Row 1, Col 3
+  { x: 0, y: 843, width: 833, height: 843 }, // Row 2, Col 1
+  { x: 833, y: 843, width: 833, height: 843 }, // Row 2, Col 2
+  { x: 1666, y: 843, width: 834, height: 843 }, // Row 2, Col 3
+];
+
+const areas = menuCatalog.map((entry, index) => {
+  const bounds = boundsList[index];
+  let action;
+  if (entry.responseKind === 'postback') {
+    action = {
+      type: 'postback',
+      data: `action=${entry.action}`,
+      displayText: entry.displayText,
+    };
+  } else if (entry.responseKind === 'uri') {
+    action = {
+      type: 'uri',
+      uri: entry.route,
+    };
+  } else if (entry.responseKind === 'message') {
+    action = {
+      type: 'message',
+      text: entry.displayText || entry.label,
+    };
+  }
+  return { bounds, action };
+});
+
 const richMenuPayload = {
   size: {
     width: 2500,
@@ -46,60 +80,7 @@ const richMenuPayload = {
   selected: true,
   name: 'Nong Khaolam Rich Menu',
   chatBarText: 'เมนูหลัก 🌾',
-  areas: [
-    // Area A (Row 1, Col 1): 🌤️ สภาพอากาศ
-    {
-      bounds: { x: 0, y: 0, width: 833, height: 843 },
-      action: {
-        type: 'postback',
-        data: 'action=weather',
-        displayText: '🌤️ เช็คสภาพอากาศล่าสุด',
-      },
-    },
-    // Area B (Row 1, Col 2): 🔥 จุดความร้อน
-    {
-      bounds: { x: 833, y: 0, width: 833, height: 843 },
-      action: {
-        type: 'postback',
-        data: 'action=fire',
-        displayText: '🔥 สถิติจุดความร้อนสะสม',
-      },
-    },
-    // Area C (Row 1, Col 3): 🌐 แดชบอร์ด
-    {
-      bounds: { x: 1666, y: 0, width: 834, height: 843 },
-      action: {
-        type: 'uri',
-        uri: 'https://npt-dashboard.netlify.app/dashboard',
-      },
-    },
-    // Area D (Row 2, Col 1): 🌾 สอบถามพื้นที่ปลูก
-    {
-      bounds: { x: 0, y: 843, width: 833, height: 843 },
-      action: {
-        type: 'postback',
-        data: 'action=list_districts',
-        displayText: '🌾 สอบถามพื้นที่ปลูกการเกษตร',
-      },
-    },
-    // Area E (Row 2, Col 2): 🤝 กลุ่มเกษตรกร
-    {
-      bounds: { x: 833, y: 843, width: 833, height: 843 },
-      action: {
-        type: 'postback',
-        data: 'action=farmer_groups_menu',
-        displayText: '🤝 ข้อมูลกลุ่มเกษตรกร',
-      },
-    },
-    // Area F (Row 2, Col 3): 💬 เมนู/ช่วยเหลือ
-    {
-      bounds: { x: 1666, y: 843, width: 834, height: 843 },
-      action: {
-        type: 'message',
-        text: 'เมนู',
-      },
-    },
-  ],
+  areas,
 };
 
 async function createRichMenu() {

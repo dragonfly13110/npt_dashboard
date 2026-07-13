@@ -1,0 +1,22 @@
+{
+  "name": "ศูนย์ข้อมูลการเกษตรนครปฐม",
+  "short_name": "เกษตรนครปฐม",
+  "description": "ศูนย์ข้อมูลการเกษตรจังหวัดนครปฐม",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#1a7f37",
+  "lang": "th",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/pwa-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

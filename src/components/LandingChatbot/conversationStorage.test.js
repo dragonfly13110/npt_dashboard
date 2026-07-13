@@ -82,6 +82,7 @@ describe('Landing chatbot conversation storage', () => {
   });
 
   it('documents the model context limit separately from saved browser history', () => {
+    expect(LANDING_CHATBOT_CONTEXT_MESSAGE_LIMIT).toBe(4);
     expect(LANDING_CHATBOT_CONTEXT_MESSAGE_LIMIT).toBeLessThan(
       LANDING_CHATBOT_MAX_STORED_MESSAGES
     );

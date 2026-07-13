@@ -84,7 +84,9 @@ describe('line-webhook.js', () => {
 
   it('consumes a LINE link command before invoking AI', async () => {
     mockSupabase.rpc.mockResolvedValue({
-      data: [{ profile_id: 'profile-1', role: 'editor', department: 'production' }],
+      data: [
+        { profile_id: 'profile-1', role: 'editor', department: 'production' },
+      ],
       error: null,
     });
     const body = JSON.stringify({
@@ -127,6 +129,106 @@ describe('line-webhook.js', () => {
 
     const response = await webhook.handler(event);
     expect(response.statusCode).toBe(401);
+  });
+
+  it('replies to registration summary postback with province target only', async () => {
+    mockSupabase.from.mockReturnValue({
+      select: vi.fn(() => ({
+        order: vi.fn(() => ({
+          limit: vi.fn(() => ({
+            data: [
+              {
+                district: 'นครปฐม',
+                total_updated_households: 36000,
+                target: 40000,
+              },
+              {
+                district: 'กำแพงแสน',
+                total_updated_households: 5000,
+                target: 9999,
+              },
+            ],
+            error: null,
+          })),
+        })),
+      })),
+    });
+    const body = JSON.stringify({
+      events: [
+        {
+          type: 'postback',
+          replyToken: 'reply',
+          postback: { data: 'action=registration_summary' },
+        },
+      ],
+    });
+    const signature = crypto
+      .createHmac('sha256', 'mock-secret')
+      .update(body)
+      .digest('base64');
+
+    await webhook.handler({
+      httpMethod: 'POST',
+      headers: { 'x-line-signature': signature },
+      body,
+    });
+
+    const text = JSON.parse(mockFetch.mock.calls[0][1].body).messages[0].text;
+    expect(text).toContain('40,000');
+    expect(text).toContain('ไม่มีการกำหนดเป้าหมายระดับอำเภอ');
+    expect(text).not.toContain('9,999');
+  });
+
+  it('replies to personnel summary postback with total and district counts', async () => {
+    mockSupabase.from.mockReturnValue({
+      select: vi.fn(() => ({
+        neq: vi.fn(() => ({
+          data: [
+            {
+              district: 'กำแพงแสน',
+              office_type: 'District',
+              position: 'นักวิชาการ',
+            },
+            {
+              district: 'กำแพงแสน',
+              office_type: 'District',
+              position: 'เจ้าพนักงาน',
+            },
+            {
+              district: '-',
+              office_type: 'Provincial',
+              position: 'นักวิชาการ',
+            },
+          ],
+          error: null,
+        })),
+      })),
+    });
+    const body = JSON.stringify({
+      events: [
+        {
+          type: 'postback',
+          replyToken: 'reply',
+          postback: { data: 'action=personnel_summary' },
+        },
+      ],
+    });
+    const signature = crypto
+      .createHmac('sha256', 'mock-secret')
+      .update(body)
+      .digest('base64');
+
+    await webhook.handler({
+      httpMethod: 'POST',
+      headers: { 'x-line-signature': signature },
+      body,
+    });
+
+    const text = JSON.parse(mockFetch.mock.calls[0][1].body).messages[0].text;
+    expect(text).toContain('บุคลากรทั้งหมด 3 คน');
+    expect(text).toContain('กำแพงแสน: 2 คน');
+    expect(text).toContain('สำนักงานเกษตรจังหวัด: 1 คน');
+    expect(text).not.toContain('• -:');
   });
 
   it.skip('routes text messages through the global search fallback when no prefixes match', async () => {

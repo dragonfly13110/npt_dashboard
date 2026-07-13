@@ -363,23 +363,11 @@ export const TABLE_CONFIG = {
     descTh:
       'ข้อมูลกลุ่มส่งเสริมอาชีพการเกษตร แยกปี อำเภอ ตำบล สมาชิก ทุน รายได้ กิจกรรม และระดับศักยภาพ',
   },
-  farmer_groups: {
-    label: 'กลุ่มแม่บ้าน/ยุวฯ',
-    icon: '👩‍🌾',
-    group: 'กลุ่มส่งเสริมและพัฒนาเกษตรกร',
-    descTh: 'กลุ่มแม่บ้านเกษตรกร, ยุวเกษตรกร',
-  },
   housewife_farmer_groups: {
     label: 'กลุ่มแม่บ้านเกษตรกร',
     icon: '👩‍🌾',
     group: 'กลุ่มส่งเสริมและพัฒนาเกษตรกร',
     descTh: 'กลุ่มแม่บ้านเกษตรกร รายกลุ่ม รายอำเภอ กิจกรรม และศักยภาพ',
-  },
-  young_farmer_groups: {
-    label: 'กลุ่มยุวเกษตรกร',
-    icon: '🌱',
-    group: 'กลุ่มส่งเสริมและพัฒนาเกษตรกร',
-    descTh: 'กลุ่มยุวเกษตรกร รายกลุ่ม รายอำเภอ ประธาน และสมาชิก',
   },
   young_farmer_groups_detailed: {
     label: 'กลุ่มยุวเกษตรกร',
@@ -561,7 +549,6 @@ export const TABLE_SEARCH_COLS = {
     'main_activity',
     'potential_level',
   ],
-  farmer_groups: ['group_name', 'group_type', 'district', 'chairman', 'notes'],
   housewife_farmer_groups: [
     'group_name',
     'district',
@@ -572,7 +559,6 @@ export const TABLE_SEARCH_COLS = {
     'potential_level',
     'community_enterprise_registration',
   ],
-  young_farmer_groups: ['group_name', 'district', 'chairman', 'notes'],
   young_farmer_groups_detailed: [
     'record_code',
     'group_name',
@@ -655,9 +641,7 @@ export const DISTRICT_COLS = {
   smart_farmer_sf: 'district',
   young_smart_farmer_ysf: 'district',
   agricultural_career_groups: 'district',
-  farmer_groups: 'district',
   housewife_farmer_groups: 'district',
-  young_farmer_groups: 'district',
   young_farmer_groups_detailed: 'district',
   agri_tourism: 'district',
   pest_outbreaks: 'district',
@@ -771,7 +755,6 @@ export const CATEGORY_COLS = {
     'potential_level',
     'main_activity',
   ],
-  farmer_groups: ['group_type'],
   young_farmer_groups_detailed: [
     'data_year',
     'district',

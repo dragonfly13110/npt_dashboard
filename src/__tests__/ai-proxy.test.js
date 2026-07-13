@@ -223,6 +223,99 @@ describe('ai-proxy', () => {
     });
   });
 
+  it('builds a compact server-owned prompt for landing Gemini chat', async () => {
+    process.env.GEMINI_API_KEY = 'test-key';
+    mockAllowedRateClaim();
+    fetch.mockResolvedValueOnce(
+      new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      })
+    );
+
+    const response = await handler(
+      request({
+        provider: 'gemini',
+        landing: true,
+        body: {
+          model: 'gemini-3.1-flash-lite',
+          contents: [
+            { role: 'user', parts: [{ text: 'ปลูกมะเขือเทศอย่างไร' }] },
+          ],
+          stream: true,
+        },
+      })
+    );
+
+    expect(response.status).toBe(200);
+    const [, init] = fetch.mock.calls[1];
+    const body = JSON.parse(init.body);
+    expect(body.generationConfig.maxOutputTokens).toBe(350);
+    expect(body.systemInstruction.parts[0].text.length).toBeLessThan(2500);
+    expect(body.contents).toHaveLength(1);
+    expect(JSON.stringify(body).length).toBeLessThan(16_000);
+  });
+
+  it('rejects landing payloads without a bounded user question', async () => {
+    process.env.GEMINI_API_KEY = 'test-key';
+    const response = await handler(
+      request({
+        provider: 'gemini',
+        landing: true,
+        body: {
+          model: 'gemini-3.1-flash-lite',
+          contents: [{ role: 'model', parts: [{ text: 'not a question' }] }],
+        },
+      })
+    );
+
+    expect(response.status).toBe(400);
+    expect(await response.json()).toEqual({ error: 'Invalid landing question' });
+  });
+
+  it('injects only matching public evidence for a landing data question', async () => {
+    process.env.GEMINI_API_KEY = 'test-key';
+    mockAllowedRateClaim();
+    fetch.mockResolvedValueOnce(
+      new Response(
+        JSON.stringify([
+          {
+            table: 'large_plots',
+            totalCount: 1,
+            results: [{ plot_name: 'สวนมะพร้าวสามพราน' }],
+          },
+        ]),
+        { status: 200, headers: { 'content-type': 'application/json' } }
+      )
+    );
+    fetch.mockResolvedValueOnce(
+      new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      })
+    );
+
+    const response = await handler(
+      request({
+        provider: 'gemini',
+        landing: true,
+        body: {
+          model: 'gemini-3.1-flash-lite',
+          contents: [
+            { role: 'user', parts: [{ text: 'แปลงใหญ่มะพร้าวในสามพราน' }] },
+          ],
+          stream: true,
+        },
+      })
+    );
+
+    expect(response.status).toBe(200);
+    const [, init] = fetch.mock.calls[2];
+    const body = JSON.parse(init.body);
+    expect(body.contents[0].parts[0].text).toContain('สวนมะพร้าวสามพราน');
+    expect(body.contents[0].parts[0].text).toContain('สามพราน');
+  });
+
   it('allows Gemini 3.5 Flash thinking requests', async () => {
     process.env.GEMINI_API_KEY = 'test-key';
     mockAllowedRateClaim();

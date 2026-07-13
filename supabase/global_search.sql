@@ -39,7 +39,7 @@ BEGIN
     SELECT *
     FROM (
       VALUES
-        ('farmer_registry'::text, ARRAY['district','main_crop']::text[], ARRAY['id','district','main_crop','household_count','farm_area_rai','data_year','created_at','updated_at']::text[]),
+        ('farmer_registry'::text, ARRAY['district','main_crop']::text[], ARRAY['id','district','main_crop','household_count','total_updated_households','target','farm_area_rai','data_year','created_at','updated_at']::text[]),
         ('agricultural_areas'::text, ARRAY['area_name','area_type','district','subdistrict']::text[], ARRAY['id','area_name','area_type','district','subdistrict','total_area_rai','agri_crop_area_rai','farmer_households','created_at','updated_at']::text[]),
         ('gis_areas'::text, ARRAY['area_name','district','area_type','notes']::text[], ARRAY['id','area_name','district','area_type','area_rai','notes','created_at','updated_at']::text[]),
         ('learning_centers'::text, ARRAY['center_name','district','main_crop']::text[], ARRAY['id','center_name','district','main_crop','area_rai','created_at','updated_at']::text[]),
@@ -53,9 +53,7 @@ BEGIN
         ('smart_farmer_sf'::text, ARRAY['record_code','district','province','farmer_status','agricultural_activity','production_standard']::text[], ARRAY['id','record_code','district','province','farmer_status','agricultural_activity','production_standard','data_year','created_at','updated_at']::text[]),
         ('young_smart_farmer_ysf'::text, ARRAY['record_code','district','province','farmer_status','agricultural_activity','production_standard']::text[], ARRAY['id','record_code','district','province','farmer_status','agricultural_activity','production_standard','data_year','created_at','updated_at']::text[]),
         ('agricultural_career_groups'::text, ARRAY['record_code','group_name','district','subdistrict','activity','main_activity','production_standard','potential_level','community_enterprise_registration']::text[], ARRAY['id','record_code','group_name','district','subdistrict','activity','main_activity','member_count','production_standard','potential_level','community_enterprise_registration','data_year','created_at','updated_at']::text[]),
-        ('farmer_groups'::text, ARRAY['group_name','group_type','district','notes']::text[], ARRAY['id','group_name','group_type','district','member_count','notes','created_at','updated_at']::text[]),
         ('housewife_farmer_groups'::text, ARRAY['group_name','district','subdistrict','activity','production_standard','potential_level','community_enterprise_registration']::text[], ARRAY['id','group_name','district','subdistrict','activity','member_count','production_standard','potential_level','community_enterprise_registration','year','created_at','updated_at']::text[]),
-        ('young_farmer_groups'::text, ARRAY['group_name','district','notes']::text[], ARRAY['id','group_name','district','member_count','notes','created_at','updated_at']::text[]),
         ('young_farmer_groups_detailed'::text, ARRAY['record_code','group_name','district','subdistrict','activity','potential_level']::text[], ARRAY['id','record_code','group_name','district','subdistrict','activity','member_count','potential_level','data_year','created_at','updated_at']::text[]),
         ('farmer_institutes'::text, ARRAY['name','group_name','district','subdistrict','type']::text[], ARRAY['id','name','group_name','district','subdistrict','type','member_count','created_at','updated_at']::text[]),
         ('agri_tourism'::text, ARRAY['spot_name','spot_type','district','description']::text[], ARRAY['id','spot_name','spot_type','district','description','created_at','updated_at']::text[]),
@@ -272,8 +270,8 @@ AS $$
       'farmer_registry','agricultural_areas','gis_areas','learning_centers','daily_weather',
       'large_plots','certifications','crop_production','production_costs','community_enterprises',
       'smart_farmers','smart_farmer_sf','young_smart_farmer_ysf',
-      'agricultural_career_groups','farmer_groups','housewife_farmer_groups',
-      'young_farmer_groups','young_farmer_groups_detailed','farmer_institutes','agri_tourism',
+      'agricultural_career_groups','housewife_farmer_groups',
+      'young_farmer_groups_detailed','farmer_institutes','agri_tourism',
       'disasters','forecast_plots','ai_disease_forecasts','pest_outbreaks','pest_centers',
       'plant_doctors','soil_fertilizer_centers','soil_series','biocontrol_stock','fire_hotspots','assets','budgets',
       'personnel','geoplots_parcel_progress','geoplots_parcel_subdistrict_progress'

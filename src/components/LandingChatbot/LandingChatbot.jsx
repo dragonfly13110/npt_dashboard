@@ -305,7 +305,6 @@ export default function LandingChatbot() {
 
     let requestPayload;
     if (PROVIDER_NAME === 'gemini') {
-      const systemInstructionContent = `${SYSTEM_PROMPT}\n\n${LANDING_CHATBOT_PUBLIC_KNOWLEDGE_PROMPT}\n\n${CONTEXT_MEMORY_PROMPT}\n\n${LANDING_CHATBOT_LINK_POLICY_PROMPT}`;
       const contents = [
         ...history.map((m) => ({
           role: m.role === 'assistant' ? 'model' : 'user',
@@ -319,16 +318,10 @@ export default function LandingChatbot() {
 
       requestPayload = {
         provider: 'gemini',
+        landing: true,
         body: {
           model: MODEL_NAME,
           contents,
-          systemInstruction: {
-            parts: [{ text: systemInstructionContent }],
-          },
-          generationConfig: {
-            temperature: 0.5,
-            maxOutputTokens: 1000,
-          },
           stream: true,
         },
       };
@@ -348,7 +341,7 @@ export default function LandingChatbot() {
           model: MODEL_NAME,
           messages: apiMessages,
           temperature: 0.5,
-          max_tokens: 1000,
+          max_tokens: 350,
           stream: true,
         },
       };
