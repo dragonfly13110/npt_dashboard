@@ -6,6 +6,7 @@ vi.mock('../components/MapControls', () => ({
   MapFlyTo: () => null,
   MapSizeInvalidator: () => null,
   MapZoomTracker: () => null,
+  MapBoundsTracker: () => null,
 }));
 
 import SmartMapCanvas from '../components/SmartMapCanvas';

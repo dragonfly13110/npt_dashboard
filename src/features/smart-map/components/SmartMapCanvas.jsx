@@ -4,6 +4,7 @@ import {
   MapFlyTo,
   MapSizeInvalidator,
   MapZoomTracker,
+  MapBoundsTracker,
 } from './MapControls';
 import MapLayerErrorBoundary from './MapLayerErrorBoundary';
 import { getNormalizedPlaceValue } from '../../../utils/geojsonBoundaries';
@@ -307,6 +308,7 @@ export default function SmartMapCanvas({
   visibleLayers,
   allCoords,
   layerErrors = {},
+  onBoundsChange,
 }) {
   const {
     L,
@@ -333,6 +335,7 @@ export default function SmartMapCanvas({
         zoom={10}
         zoomSnap={0.25}
         zoomDelta={0.5}
+        preferCanvas
         style={{ height: '100%', width: '100%' }}
         scrollWheelZoom={true}
         zoomControl={false}
@@ -354,6 +357,10 @@ export default function SmartMapCanvas({
           centroids={districtCentroids}
         />
         <MapZoomTracker useMapEvents={useMapEvents} setMapZoom={setMapZoom} />
+        <MapBoundsTracker
+          useMapEvents={useMapEvents}
+          onBoundsChange={onBoundsChange}
+        />
         <TileLayer
           key={basemap}
           attribution={

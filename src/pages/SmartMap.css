@@ -406,6 +406,14 @@
   min-width: 0;
 }
 
+.control-clear-btn {
+  float: right;
+  border: 0;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+}
+
 /* ---------- LEGEND ---------- */
 .smart-map-legend {
   margin-top: 4px;

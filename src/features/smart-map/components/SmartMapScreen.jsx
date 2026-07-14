@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useMemo } from 'react';
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import subdistrictGeoJSON from '../../../data/nakhon_pathom_subdistricts.json';
 import {
@@ -104,6 +104,13 @@ const MARKER_LAYERS = [
     icon: '🚜',
   },
   {
+    key: 'housewife_group',
+    apiLayer: 'housewife_groups',
+    label: 'กลุ่มแม่บ้านเกษตรกร',
+    color: '#14b8a6',
+    icon: '👩‍🌾',
+  },
+  {
     key: 'forecast',
     apiLayer: 'forecast_plots',
     label: 'แปลงพยากรณ์',
@@ -116,6 +123,22 @@ const MARKER_LAYERS = [
     label: 'จุดความร้อน',
     color: '#ef4444',
     icon: '🔥',
+  },
+  {
+    key: 'agri_tourism',
+    apiLayer: 'agri_tourism',
+    label: 'ท่องเที่ยวเกษตร (ข้อมูลพิกัดไม่พร้อม)',
+    color: '#94a3b8',
+    icon: '📍',
+    disabled: true,
+  },
+  {
+    key: 'gis_areas',
+    apiLayer: 'gis_areas',
+    label: 'GIS (ยังไม่มีข้อมูล)',
+    color: '#94a3b8',
+    icon: '📍',
+    disabled: true,
   },
 ];
 
@@ -204,7 +227,11 @@ function markersFromFeatures(key, collection) {
       lon,
       type: key,
     };
-    if (key === 'young_farmer' || key === 'career_group') {
+    if (
+      key === 'young_farmer' ||
+      key === 'career_group' ||
+      key === 'housewife_group'
+    ) {
       return {
         ...base,
         name: properties.group_name,
@@ -248,6 +275,7 @@ export default function SmartMapScreen() {
   const [visibleLayers, setVisibleLayers] = useState({
     young_farmer: false,
     career_group: false,
+    housewife_group: false,
     forecast: false,
     hotspot: false,
   });
@@ -255,6 +283,8 @@ export default function SmartMapScreen() {
   const [areaSelection, setAreaSelection] = useState(EMPTY_AREA_SELECTION);
   const [panelClosing, setPanelClosing] = useState(false);
   const [resetKey, setResetKey] = useState(0);
+  const [bbox, setBbox] = useState(null);
+  const bboxTimer = useRef(null);
 
   // AI Insights states
   const [aiLoading, setAiLoading] = useState(false);
@@ -289,15 +319,23 @@ export default function SmartMapScreen() {
   const soil = useSmartMapSoil({ enabled: isSoilLayerVisible });
   const youngFarmerPoints = useSmartMapPoints('young_farmer_groups', {
     enabled: visibleLayers.young_farmer,
+    bbox,
   });
   const careerGroupPoints = useSmartMapPoints('career_groups', {
     enabled: visibleLayers.career_group,
+    bbox,
+  });
+  const housewifeGroupPoints = useSmartMapPoints('housewife_groups', {
+    enabled: visibleLayers.housewife_group,
+    bbox,
   });
   const forecastPoints = useSmartMapPoints('forecast_plots', {
     enabled: visibleLayers.forecast,
+    bbox,
   });
   const hotspotPoints = useSmartMapPoints('fire_hotspots', {
     enabled: visibleLayers.hotspot,
+    bbox,
   });
 
   const provinceTotals = useMemo(
@@ -347,12 +385,17 @@ export default function SmartMapScreen() {
     () => ({
       young_farmer: markersFromFeatures('young_farmer', youngFarmerPoints.data),
       career_group: markersFromFeatures('career_group', careerGroupPoints.data),
+      housewife_group: markersFromFeatures(
+        'housewife_group',
+        housewifeGroupPoints.data
+      ),
       forecast: markersFromFeatures('forecast', forecastPoints.data),
       hotspot: markersFromFeatures('hotspot', hotspotPoints.data),
     }),
     [
       youngFarmerPoints.data,
       careerGroupPoints.data,
+      housewifeGroupPoints.data,
       forecastPoints.data,
       hotspotPoints.data,
     ]
@@ -360,6 +403,7 @@ export default function SmartMapScreen() {
   const layerErrors = {
     young_farmer: youngFarmerPoints.error,
     career_group: careerGroupPoints.error,
+    housewife_group: housewifeGroupPoints.error,
     forecast: forecastPoints.error,
     hotspot: hotspotPoints.error,
   };
@@ -374,6 +418,15 @@ export default function SmartMapScreen() {
   const soilLayerMeta = soil.data?.meta || null;
   const soilLayerLoading = soil.isLoading;
   const soilLayerError = soil.error?.message || null;
+  const layerMetaByKey = {
+    young_farmer: youngFarmerPoints.data?.meta,
+    career_group: careerGroupPoints.data?.meta,
+    housewife_group: housewifeGroupPoints.data?.meta,
+    forecast: forecastPoints.data?.meta,
+    hotspot: hotspotPoints.data?.meta,
+  };
+
+  useEffect(() => () => window.clearTimeout(bboxTimer.current), []);
 
   // Reset simulation and AI error when district changes
   useEffect(() => {
@@ -440,26 +493,31 @@ export default function SmartMapScreen() {
     setSearchQuery(val);
   }, []);
 
-  // Toggle marker layers (mutually exclusive)
   const toggleLayer = useCallback(
     (key) => {
       const layer = MARKER_LAYERS.find((item) => item.key === key);
       if (
-        layerStatusById[layer?.apiLayer]?.availability &&
-        layerStatusById[layer.apiLayer].availability !== 'active'
+        layer?.disabled ||
+        (layerStatusById[layer?.apiLayer]?.availability &&
+          layerStatusById[layer.apiLayer].availability !== 'active')
       ) {
         return;
       }
-      setVisibleLayers((prev) => {
-        const nextState = {};
-        Object.keys(prev).forEach((k) => {
-          nextState[k] = k === key ? !prev[k] : false;
-        });
-        return nextState;
-      });
+      setVisibleLayers((prev) => ({ ...prev, [key]: !prev[key] }));
     },
     [layerStatusById]
   );
+
+  const clearPointLayers = useCallback(() => {
+    setVisibleLayers((prev) =>
+      Object.fromEntries(Object.keys(prev).map((key) => [key, false]))
+    );
+  }, []);
+
+  const handleBoundsChange = useCallback((nextBbox) => {
+    window.clearTimeout(bboxTimer.current);
+    bboxTimer.current = window.setTimeout(() => setBbox(nextBbox), 300);
+  }, []);
 
   const toggleSoilLayer = useCallback(() => {
     setIsSoilLayerVisible((prev) => !prev);
@@ -697,6 +755,9 @@ ${cropsStr}
         markerLayers={MARKER_LAYERS}
         visibleLayers={visibleLayers}
         onLayerToggle={toggleLayer}
+        onClearPointLayers={clearPointLayers}
+        layerStatusById={layerStatusById}
+        layerMetaByKey={layerMetaByKey}
         isSoilLayerVisible={isSoilLayerVisible}
         soilLayerTitle="Load LDD soil series polygons"
         soilLayerLoading={soilLayerLoading}
@@ -819,6 +880,7 @@ ${cropsStr}
         visibleLayers={visibleLayers}
         allCoords={allCoords}
         layerErrors={layerErrors}
+        onBoundsChange={handleBoundsChange}
       />
     </div>
   );

@@ -7,6 +7,9 @@ export default function SmartMapLayerPanel({
   markerLayers,
   visibleLayers,
   onLayerToggle,
+  onClearPointLayers,
+  layerStatusById,
+  layerMetaByKey,
   isSoilLayerVisible,
   soilLayerTitle,
   soilLayerLoading,
@@ -54,16 +57,34 @@ export default function SmartMapLayerPanel({
 
       <div className="controls-divider" />
       <div className="controls-section-title">ชั้นข้อมูลพิกัดฟาร์ม</div>
+      <button
+        type="button"
+        className="control-clear-btn"
+        onClick={onClearPointLayers}
+      >
+        ปิดทั้งหมด
+      </button>
       {markerLayers.map((layer) => (
         <label
           key={layer.key}
           className={`control-toggle-checkbox-label ${visibleLayers[layer.key] ? 'active' : ''}`}
+          title={
+            layerStatusById?.[layer.apiLayer] &&
+            layerStatusById[layer.apiLayer].availability !== 'active'
+              ? 'ข้อมูลยังไม่พร้อม'
+              : undefined
+          }
         >
           <input
             type="checkbox"
             checked={visibleLayers[layer.key]}
             onChange={() => onLayerToggle(layer.key)}
             className="control-toggle-checkbox-input"
+            disabled={
+              layer.disabled ||
+              (layerStatusById?.[layer.apiLayer] &&
+                layerStatusById[layer.apiLayer].availability !== 'active')
+            }
           />
           <span
             className="control-toggle-checkbox-custom"
@@ -75,6 +96,9 @@ export default function SmartMapLayerPanel({
           />
           <span className="control-toggle-text">
             {layer.icon} {layer.label}
+            {visibleLayers[layer.key] &&
+              layerMetaByKey?.[layer.key] &&
+              ` แสดง ${layerMetaByKey[layer.key].count || 0} จาก ${layerStatusById?.[layer.apiLayer]?.rowCount || 0}`}
           </span>
         </label>
       ))}

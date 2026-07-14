@@ -72,3 +72,18 @@ export function MapZoomTracker({ useMapEvents, setMapZoom }) {
   });
   return null;
 }
+
+export function MapBoundsTracker({ useMapEvents, onBoundsChange }) {
+  const map = useMapEvents({
+    moveend() {
+      const bounds = map.getBounds();
+      onBoundsChange([
+        bounds.getWest(),
+        bounds.getSouth(),
+        bounds.getEast(),
+        bounds.getNorth(),
+      ]);
+    },
+  });
+  return null;
+}
