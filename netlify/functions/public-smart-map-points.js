@@ -73,15 +73,23 @@ export default async (request) => {
     const supabase = createClient(supabaseUrl, supabaseKey, {
       auth: { persistSession: false, autoRefreshToken: false },
     });
+    const queryFields = [
+      ...policy.publicFields,
+      policy.coordinateJsonField,
+    ].filter(Boolean);
     let query = supabase
       .from(policy.sourceTable)
-      .select(policy.publicFields.join(','), { count: 'exact' })
+      .select(queryFields.join(','), { count: 'exact' })
       .limit(limit);
     if (url.searchParams.get('district'))
       query = query.eq('district', url.searchParams.get('district'));
     if (url.searchParams.get('subdistrict'))
       query = query.eq('subdistrict', url.searchParams.get('subdistrict'));
-    if (bbox && policy.coordinateType === 'lat_lon') {
+    if (
+      bbox &&
+      policy.coordinateType === 'lat_lon' &&
+      !policy.coordinateJsonField
+    ) {
       query = query
         .gte(policy.latitudeField, bbox.minLat)
         .lte(policy.latitudeField, bbox.maxLat)

@@ -44,7 +44,9 @@ function latestCreatedAt(rows) {
 async function statusForLayer(supabase, layer) {
   const coordinateFields =
     layer.geometryType === 'point'
-      ? `,${layer.latitudeField},${layer.longitudeField}`
+      ? layer.coordinateJsonField
+        ? `,${layer.coordinateJsonField}`
+        : `,${layer.latitudeField},${layer.longitudeField}`
       : '';
   const rows = await fetchAllRows(
     supabase,

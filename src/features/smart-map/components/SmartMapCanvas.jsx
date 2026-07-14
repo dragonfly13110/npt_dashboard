@@ -108,6 +108,15 @@ const getStableColor = (value) => {
 };
 
 const MARKER_STYLE = {
+  learning_center: {
+    radius: 8,
+    fillColor: '#16a34a',
+    color: 'rgba(255,255,255,0.8)',
+    weight: 2,
+    titleColor: '#15803d',
+    badgeBg: '#dcfce7',
+    badgeColor: '#166534',
+  },
   young_farmer: {
     radius: 7,
     fillColor: '#fbbf24',

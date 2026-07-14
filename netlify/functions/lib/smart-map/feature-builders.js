@@ -20,8 +20,11 @@ function coordinatesFor(policy, row) {
       return { state: 'invalid' };
     }
   }
-  const latitude = row[policy.latitudeField];
-  const longitude = row[policy.longitudeField];
+  const coordinateSource = policy.coordinateJsonField
+    ? row[policy.coordinateJsonField] || {}
+    : row;
+  const latitude = coordinateSource[policy.latitudeField];
+  const longitude = coordinateSource[policy.longitudeField];
   return { state: classifyLatLng(latitude, longitude), latitude, longitude };
 }
 

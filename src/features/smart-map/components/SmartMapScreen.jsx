@@ -70,6 +70,13 @@ const METRICS = [
 
 const MARKER_LAYERS = [
   {
+    key: 'learning_center',
+    apiLayer: 'learning_centers',
+    label: 'ศพก.',
+    color: '#16a34a',
+    icon: '🏫',
+  },
+  {
     key: 'young_farmer',
     apiLayer: 'young_farmer_groups',
     label: 'กลุ่มยุวเกษตรกร',
@@ -214,6 +221,14 @@ function markersFromFeatures(key, collection) {
       lon,
       type: key,
     };
+    if (key === 'learning_center') {
+      return {
+        ...base,
+        name: properties.name || 'ศพก.',
+        activity: properties.knowledge_course || properties.featured_product,
+        typeLabel: 'ศูนย์เรียนรู้ ศพก.',
+      };
+    }
     if (
       key === 'young_farmer' ||
       key === 'career_group' ||
@@ -260,6 +275,7 @@ export default function SmartMapScreen() {
   const [showSubdistrictLayer, setShowSubdistrictLayer] = useState(true);
   const [activeMetric, setActiveMetric] = useState('area');
   const [visibleLayers, setVisibleLayers] = useState({
+    learning_center: false,
     young_farmer: false,
     career_group: false,
     housewife_group: false,
@@ -308,6 +324,10 @@ export default function SmartMapScreen() {
   const layerStatus = useSmartMapLayerStatus();
   const weather = useSmartMapWeather();
   const soil = useSmartMapSoil({ enabled: isSoilLayerVisible });
+  const learningCenterPoints = useSmartMapPoints('learning_centers', {
+    enabled: visibleLayers.learning_center,
+    bbox,
+  });
   const youngFarmerPoints = useSmartMapPoints('young_farmer_groups', {
     enabled: visibleLayers.young_farmer,
     bbox,
@@ -392,6 +412,10 @@ export default function SmartMapScreen() {
   );
   const allCoords = useMemo(
     () => ({
+      learning_center: markersFromFeatures(
+        'learning_center',
+        learningCenterPoints.data
+      ),
       young_farmer: markersFromFeatures('young_farmer', youngFarmerPoints.data),
       career_group: markersFromFeatures('career_group', careerGroupPoints.data),
       housewife_group: markersFromFeatures(
@@ -402,6 +426,7 @@ export default function SmartMapScreen() {
       hotspot: markersFromFeatures('hotspot', hotspotPoints.data),
     }),
     [
+      learningCenterPoints.data,
       youngFarmerPoints.data,
       careerGroupPoints.data,
       housewifeGroupPoints.data,
@@ -410,6 +435,7 @@ export default function SmartMapScreen() {
     ]
   );
   const layerErrors = {
+    learning_center: learningCenterPoints.error,
     young_farmer: youngFarmerPoints.error,
     career_group: careerGroupPoints.error,
     housewife_group: housewifeGroupPoints.error,
@@ -428,6 +454,7 @@ export default function SmartMapScreen() {
   const soilLayerLoading = soil.isLoading;
   const soilLayerError = soil.error?.message || null;
   const layerMetaByKey = {
+    learning_center: learningCenterPoints.data?.meta,
     young_farmer: youngFarmerPoints.data?.meta,
     career_group: careerGroupPoints.data?.meta,
     housewife_group: housewifeGroupPoints.data?.meta,
