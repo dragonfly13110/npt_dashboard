@@ -447,7 +447,7 @@ function AnimatedNumber({ value, duration = 800 }) {
 }
 
 // ===== MAIN COMPONENT =====
-export default function SmartMapPage() {
+export default function SmartMapScreen() {
   const navigate = useNavigate();
   const { loading: dataLoading, districtStats } = useDashboardData();
 

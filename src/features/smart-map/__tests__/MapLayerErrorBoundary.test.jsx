@@ -25,4 +25,19 @@ describe('MapLayerErrorBoundary', () => {
     ).toBeInTheDocument();
     consoleSpy.mockRestore();
   });
+
+  it('keeps a layer error visible when a caller passes a null fallback', () => {
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    render(
+      <MapLayerErrorBoundary layerName="point layer" fallback={null}>
+        <BrokenLayer />
+      </MapLayerErrorBoundary>
+    );
+
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'ไม่สามารถแสดงpoint layerได้'
+    );
+    consoleSpy.mockRestore();
+  });
 });
