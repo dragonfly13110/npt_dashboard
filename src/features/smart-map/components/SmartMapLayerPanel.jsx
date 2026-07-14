@@ -55,6 +55,7 @@ export default function SmartMapLayerPanel({
         </button>
       ))}
 
+      <div className="point-layer-controls">
       <div className="controls-divider" />
       <div className="controls-section-title">ชั้นข้อมูลพิกัดฟาร์ม</div>
       <button
@@ -110,6 +111,7 @@ export default function SmartMapLayerPanel({
         ))}
 
       <div className="controls-divider" />
+      </div>
       <div className="controls-section-title">External GIS layers</div>
       <label
         className={`control-toggle-checkbox-label ${isSoilLayerVisible ? 'active' : ''}`}

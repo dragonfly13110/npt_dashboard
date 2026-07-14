@@ -18,6 +18,7 @@ import SmartMapHeader from './SmartMapHeader';
 import SmartMapCanvas from './SmartMapCanvas';
 import SmartMapKpiBar from './SmartMapKpiBar';
 import SmartMapLayerPanel from './SmartMapLayerPanel';
+import SmartMapPointLayerDropdown from './SmartMapPointLayerDropdown';
 import SmartMapDetailPanel from './SmartMapDetailPanel';
 import SmartMapComparisonDialog from './SmartMapComparisonDialog';
 import {
@@ -846,6 +847,14 @@ ${cropsStr}
       </div>
 
       {/* ===== LAYER CONTROL PANEL ===== */}
+      <SmartMapPointLayerDropdown
+        markerLayers={MARKER_LAYERS}
+        visibleLayers={visibleLayers}
+        onLayerToggle={toggleLayer}
+        onClear={clearPointLayers}
+        layerStatusById={layerStatusById}
+        layerMetaByKey={layerMetaByKey}
+      />
       <SmartMapLayerPanel
         isOpen={isControlsOpen}
         onControlsClose={() => setIsControlsOpen(false)}

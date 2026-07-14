@@ -214,6 +214,30 @@
   animation: controlSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
 }
 
+.smart-map-point-dropdown {
+  position: absolute;
+  top: 110px;
+  right: 252px;
+  z-index: 1001;
+  min-width: 210px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.16);
+  overflow: hidden;
+}
+
+.smart-map-point-dropdown summary {
+  padding: 12px 14px;
+  cursor: pointer;
+  font-weight: 800;
+  list-style: none;
+}
+
+.smart-map-point-dropdown-menu { padding: 0 12px 12px; }
+.smart-map-point-dropdown-menu button { width: 100%; margin-bottom: 8px; }
+.smart-map-point-dropdown-menu label { display: block; padding: 6px 0; font-size: 13px; }
+.point-layer-controls { display: none; }
+
 @keyframes controlSlideIn {
   0% {
     opacity: 0;
