@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import SmartMapDetailPanel from '../components/SmartMapDetailPanel';
 import SmartMapLayerPanel from '../components/SmartMapLayerPanel';
 
 const metrics = [
@@ -17,6 +18,43 @@ const markerLayers = [
 ];
 
 describe('Smart map panels', () => {
+  it('forwards a policy simulation change through its explicit handler', () => {
+    const onRiceConversionChange = vi.fn();
+
+    render(
+      <SmartMapDetailPanel
+        selectedDistrict={{ name: 'เมืองนครปฐม', areaSqkm: 10 }}
+        selectedSubdistrict={null}
+        selectedData={{ ricePrung: 100, ricePi: 20 }}
+        panelClosing={false}
+        onClose={vi.fn()}
+        onCompare={vi.fn()}
+        weather={null}
+        cropChartData={[]}
+        simRiceConversion={0}
+        onRiceConversionChange={onRiceConversionChange}
+        simResidueManagement={0}
+        onResidueManagementChange={vi.fn()}
+        simulationResults={{
+          waterSaved: 0,
+          incomeAdded: 0,
+          co2Reduced: 0,
+          hotspotReduction: 0,
+        }}
+        aiLoading={false}
+        aiError={null}
+        aiInsight={null}
+        onGenerateAIInsight={vi.fn()}
+      />
+    );
+
+    fireEvent.change(screen.getByLabelText('เปลี่ยนนาปรังเป็นพืชสวน/พืชไร่'), {
+      target: { value: '25' },
+    });
+
+    expect(onRiceConversionChange).toHaveBeenCalledWith(25);
+  });
+
   it('keeps layer controls wired to their explicit handlers', () => {
     const onMetricToggle = vi.fn();
     const onLayerToggle = vi.fn();

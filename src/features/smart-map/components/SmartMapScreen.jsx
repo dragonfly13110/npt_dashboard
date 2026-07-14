@@ -11,6 +11,8 @@ import SmartMapHeader from './SmartMapHeader';
 import SmartMapCanvas from './SmartMapCanvas';
 import SmartMapKpiBar from './SmartMapKpiBar';
 import SmartMapLayerPanel from './SmartMapLayerPanel';
+import SmartMapDetailPanel from './SmartMapDetailPanel';
+import SmartMapMiniBarChart from './SmartMapMiniBarChart';
 
 // ===== CHOROPLETH CONFIG =====
 const METRICS = [
@@ -110,65 +112,6 @@ const getPm25LevelLabel = (val) => {
   if (val <= 75) return 'เริ่มมีผลกระทบ';
   return 'อันตรายต่อสุขภาพ';
 };
-
-// ===== MINI BAR CHART (pure CSS) =====
-function MiniBarChart({ data }) {
-  if (!data || data.length === 0) return null;
-  const max = Math.max(...data.map((d) => d.value), 1);
-
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-      {data.map((d) => (
-        <div
-          key={d.label}
-          style={{ display: 'flex', alignItems: 'center', gap: 8 }}
-        >
-          <span
-            style={{
-              fontSize: 11,
-              fontWeight: 600,
-              color: '#475569',
-              minWidth: 72,
-              textAlign: 'right',
-            }}
-          >
-            {d.label}
-          </span>
-          <div
-            style={{
-              flex: 1,
-              height: 14,
-              background: 'rgba(15, 23, 42, 0.06)',
-              borderRadius: 7,
-              overflow: 'hidden',
-            }}
-          >
-            <div
-              style={{
-                width: `${Math.max((d.value / max) * 100, 2)}%`,
-                height: '100%',
-                background: `linear-gradient(90deg, ${d.color}cc, ${d.color})`,
-                borderRadius: 7,
-                transition: 'width 0.6s ease',
-              }}
-            />
-          </div>
-          <span
-            style={{
-              fontSize: 11,
-              fontWeight: 800,
-              color: '#1e293b',
-              minWidth: 50,
-              textAlign: 'right',
-            }}
-          >
-            {d.value.toLocaleString()}
-          </span>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 // ===== MAIN COMPONENT =====
 export default function SmartMapScreen() {
@@ -793,467 +736,36 @@ ${cropsStr}
         maxVal={maxVal}
       />
 
-      {/* ===== DISTRICT DETAIL PANEL ===== */}
-      {selectedDistrict && selectedData && (
-        <div
-          className={`district-panel ${panelClosing ? 'district-panel-closing' : ''}`}
-          onClick={(e) => e.stopPropagation()}
-          onTouchStart={(e) => e.stopPropagation()}
-          onMouseDown={(e) => e.stopPropagation()}
-        >
-          <div className="panel-drag-handle"></div>
-          <div className="panel-header">
-            <div>
-              <div className="panel-district-name">
-                อ.{selectedDistrict.name}
-              </div>
-              <div className="panel-district-area">
-                พื้นที่ {selectedDistrict.areaSqkm?.toFixed(1)} ตร.กม.
-                {selectedSubdistrict ? ` | ต.${selectedSubdistrict.name}` : ''}
-              </div>
-            </div>
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-              <button
-                className="panel-compare-btn"
-                onClick={() => {
-                  setIsCompareOpen(true);
-                  const otherDistricts = Object.keys(DISTRICT_CENTROIDS).filter(
-                    (n) => n !== selectedDistrict.name
-                  );
-                  setCompareWithDistrictName(otherDistricts[0]);
-                }}
-                title="เปรียบเทียบข้อมูลรายอำเภอ"
-              >
-                📊 เปรียบเทียบ
-              </button>
-              <button
-                className="panel-close-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  closePanel();
-                }}
-              >
-                ✕
-              </button>
-            </div>
-          </div>
-
-          {/* ===== WEATHER & PM2.5 CARD ===== */}
-          <div className="panel-section weather-live-card">
-            <div className="panel-section-title">
-              🌤️ สภาพอากาศสดและฝุ่น PM2.5
-            </div>
-            {weatherData[selectedDistrict.name] ? (
-              (() => {
-                const w = weatherData[selectedDistrict.name];
-                if (w.loading) {
-                  return (
-                    <div className="weather-loading">
-                      กำลังโหลดข้อมูลสภาพอากาศ...
-                    </div>
-                  );
-                }
-                if (w.error) {
-                  return (
-                    <div className="weather-error">
-                      ไม่สามารถดึงข้อมูลสภาพอากาศได้
-                    </div>
-                  );
-                }
-                const weatherInfo = getWeatherDetails(w.weatherCode);
-                const pmColor = getPm25Color(w.pm25);
-                const pmLabel = getPm25LevelLabel(w.pm25);
-                return (
-                  <div className="weather-detail-grid">
-                    <div className="weather-main-info">
-                      <span className="weather-icon-large">
-                        {weatherInfo.icon}
-                      </span>
-                      <div>
-                        <div className="weather-temp-val">
-                          {w.temp !== null ? `${w.temp}°C` : '--'}
-                        </div>
-                        <div className="weather-desc">{weatherInfo.label}</div>
-                      </div>
-                    </div>
-                    <div
-                      className="weather-pm25-card"
-                      style={{ borderLeftColor: pmColor }}
-                    >
-                      <div className="pm25-val-wrapper">
-                        <span
-                          className="pm25-number"
-                          style={{ color: pmColor }}
-                        >
-                          {w.pm25 !== null ? w.pm25 : '--'}
-                        </span>
-                        <span className="pm25-unit">µg/m³</span>
-                      </div>
-                      <div
-                        className="pm25-badge"
-                        style={{
-                          backgroundColor: pmColor + '15',
-                          color: pmColor,
-                        }}
-                      >
-                        {pmLabel}
-                      </div>
-                      <div className="pm25-label">ระดับฝุ่น PM2.5</div>
-                    </div>
-                    <div className="weather-sub-details">
-                      <div className="weather-sub-item">
-                        <span className="sub-icon">💧</span>
-                        <div>
-                          <div className="sub-val">
-                            {w.humidity !== null ? `${w.humidity}%` : '--'}
-                          </div>
-                          <div className="sub-lbl">ความชื้น</div>
-                        </div>
-                      </div>
-                      <div className="weather-sub-item">
-                        <span className="sub-icon">💨</span>
-                        <div>
-                          <div className="sub-val">
-                            {w.windSpeed !== null
-                              ? `${w.windSpeed} กม./ชม.`
-                              : '--'}
-                          </div>
-                          <div className="sub-lbl">ความเร็วลม</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })()
-            ) : (
-              <div className="weather-loading">กำลังโหลดข้อมูลสภาพอากาศ...</div>
-            )}
-          </div>
-
-          <div className="panel-section">
-            <div className="panel-section-title">ตัวชี้วัดหลัก</div>
-            <div className="panel-stats-grid">
-              <div className="panel-stat">
-                <div className="panel-stat-icon">🌾</div>
-                <div className="panel-stat-value">
-                  {(selectedData.area || 0).toLocaleString()}
-                </div>
-                <div className="panel-stat-label">พื้นที่เกษตร (ไร่)</div>
-              </div>
-              <div className="panel-stat">
-                <div className="panel-stat-icon">🏠</div>
-                <div className="panel-stat-value">
-                  {(selectedData.house || 0).toLocaleString()}
-                </div>
-                <div className="panel-stat-label">ครัวเรือนเกษตรกร</div>
-              </div>
-              <div className="panel-stat">
-                <div className="panel-stat-icon">🤝</div>
-                <div className="panel-stat-value">
-                  {(selectedData.ce || 0).toLocaleString()}
-                </div>
-                <div className="panel-stat-label">วิสาหกิจชุมชน</div>
-              </div>
-              <div className="panel-stat">
-                <div className="panel-stat-icon">🌱</div>
-                <div className="panel-stat-value">
-                  {(selectedData.lp || 0).toLocaleString()}
-                </div>
-                <div className="panel-stat-label">แปลงใหญ่</div>
-              </div>
-            </div>
-          </div>
-
-          {cropChartData.length > 0 && (
-            <div className="panel-section">
-              <div className="panel-section-title">
-                สัดส่วนพื้นที่เพาะปลูก (ไร่)
-              </div>
-              <MiniBarChart data={cropChartData} />
-            </div>
-          )}
-
-          {/* ===== POLICY SIMULATION SECTION ===== */}
-          <div className="panel-section policy-simulation">
-            <div className="panel-section-title">
-              🎛️ จำลองผลลัพธ์การปรับนโยบาย (What-If)
-            </div>
-
-            {/* Rice conversion slider */}
-            <div className="simulation-slider-group">
-              <div className="slider-header">
-                <span className="slider-label">
-                  เปลี่ยนนาปรังเป็นพืชสวน/พืชไร่
-                </span>
-                <span className="slider-value">{simRiceConversion}%</span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="50"
-                step="5"
-                value={simRiceConversion}
-                onChange={(e) => setSimRiceConversion(parseInt(e.target.value))}
-                disabled={!(selectedData.ricePrung > 0)}
-                className="sim-range-input"
-              />
-              {!(selectedData.ricePrung > 0) && (
-                <div className="slider-hint-disabled">
-                  ไม่มีพื้นที่นาปรังในอำเภอนี้
-                </div>
-              )}
-            </div>
-
-            {/* Residue management slider */}
-            <div className="simulation-slider-group">
-              <div className="slider-header">
-                <span className="slider-label">
-                  ลดการเผาเศษวัสดุทางการเกษตร
-                </span>
-                <span className="slider-value">{simResidueManagement}%</span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                step="10"
-                value={simResidueManagement}
-                onChange={(e) =>
-                  setSimResidueManagement(parseInt(e.target.value))
-                }
-                disabled={
-                  !(
-                    (selectedData.ricePi || 0) + (selectedData.ricePrung || 0) >
-                    0
-                  )
-                }
-                className="sim-range-input"
-              />
-              {!(
-                (selectedData.ricePi || 0) + (selectedData.ricePrung || 0) >
-                0
-              ) && (
-                <div className="slider-hint-disabled">
-                  ไม่มีพื้นที่ปลูกข้าวในอำเภอนี้
-                </div>
-              )}
-            </div>
-
-            {/* Simulation results grid */}
-            <div className="simulation-results-grid">
-              <div className="sim-result-card water-saved">
-                <div className="sim-card-icon">💧</div>
-                <div className="sim-card-value">
-                  {simulationResults.waterSaved.toLocaleString()}
-                </div>
-                <div className="sim-card-label">ประหยัดน้ำสะสม (ลบ.ม.)</div>
-              </div>
-              <div className="sim-result-card income-added">
-                <div className="sim-card-icon">💰</div>
-                <div className="sim-card-value">
-                  +{simulationResults.incomeAdded.toLocaleString()}
-                </div>
-                <div className="sim-card-label">
-                  รายได้เกษตรกรที่เพิ่ม (บาท)
-                </div>
-              </div>
-              <div className="sim-result-card co2-reduced">
-                <div className="sim-card-icon">🍃</div>
-                <div className="sim-card-value">
-                  {simulationResults.co2Reduced.toLocaleString(undefined, {
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1,
-                  })}
-                </div>
-                <div className="sim-card-label">ลดปล่อย CO2e (ตัน)</div>
-              </div>
-              <div className="sim-result-card hotspot-reduction">
-                <div className="sim-card-icon">🔥</div>
-                <div className="sim-card-value">
-                  -
-                  {simulationResults.hotspotReduction.toLocaleString(
-                    undefined,
-                    { minimumFractionDigits: 1, maximumFractionDigits: 1 }
-                  )}
-                  %
-                </div>
-                <div className="sim-card-label">ลดจุดความร้อนเกษตร</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="panel-section">
-            <div className="panel-section-title">ศูนย์เรียนรู้และกลุ่ม</div>
-            <div className="panel-mini-stats">
-              <div className="panel-mini-stat">
-                <div className="panel-mini-stat-value">
-                  {selectedData.lc || 0}
-                </div>
-                <div className="panel-mini-stat-label">ศพก.</div>
-              </div>
-              <div className="panel-mini-stat">
-                <div className="panel-mini-stat-value">
-                  {selectedData.pc || 0}
-                </div>
-                <div className="panel-mini-stat-label">ศจช.</div>
-              </div>
-              <div className="panel-mini-stat">
-                <div className="panel-mini-stat-value">
-                  {selectedData.sfc || 0}
-                </div>
-                <div className="panel-mini-stat-label">ศดปช.</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="panel-section">
-            <div className="panel-section-title">กลุ่มสถาบันเกษตรกร</div>
-            <div className="panel-mini-stats">
-              <div className="panel-mini-stat">
-                <div className="panel-mini-stat-value">
-                  {selectedData.instHousewives || 0}
-                </div>
-                <div className="panel-mini-stat-label">แม่บ้าน</div>
-              </div>
-              <div className="panel-mini-stat">
-                <div className="panel-mini-stat-value">
-                  {selectedData.instYoung || 0}
-                </div>
-                <div className="panel-mini-stat-label">ยุวเกษตร</div>
-              </div>
-              <div className="panel-mini-stat">
-                <div className="panel-mini-stat-value">
-                  {selectedData.instCareer || 0}
-                </div>
-                <div className="panel-mini-stat-label">อาชีพ</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="panel-section">
-            <div className="panel-section-title">เกษตรกรปราดเปรื่อง (ราย)</div>
-            <div
-              className="panel-mini-stats"
-              style={{ gridTemplateColumns: '1fr 1fr' }}
-            >
-              <div className="panel-mini-stat">
-                <div className="panel-mini-stat-value">
-                  {selectedData.sfSfCount || 0}
-                </div>
-                <div className="panel-mini-stat-label">Smart Farmer</div>
-              </div>
-              <div className="panel-mini-stat">
-                <div className="panel-mini-stat-value">
-                  {selectedData.ysfCount || 0}
-                </div>
-                <div className="panel-mini-stat-label">Young Smart</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="panel-section">
-            <div className="panel-section-title">ภัยพิบัติและจุดความร้อน</div>
-            <div className="panel-stats-grid">
-              <div className="panel-stat">
-                <div className="panel-stat-icon">⚠️</div>
-                <div className="panel-stat-value">
-                  {(selectedData.disasterArea || 0).toLocaleString()}
-                </div>
-                <div className="panel-stat-label">พื้นที่ภัยพิบัติ (ไร่)</div>
-              </div>
-              <div className="panel-stat">
-                <div className="panel-stat-icon">🐛</div>
-                <div className="panel-stat-value">
-                  {(selectedData.pestArea || 0).toLocaleString()}
-                </div>
-                <div className="panel-stat-label">ศัตรูพืชระบาด (ไร่)</div>
-              </div>
-              <div
-                className="panel-stat"
-                style={{
-                  gridColumn: 'span 2',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  padding: '10px 14px',
-                }}
-              >
-                <span style={{ fontSize: '20px' }}>🔥</span>
-                <div style={{ textAlign: 'left' }}>
-                  <div className="panel-stat-value">
-                    {selectedData.fireCount || 0}
-                  </div>
-                  <div className="panel-stat-label">จุดความร้อน PM2.5 สะสม</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* ===== AI INSIGHTS SECTION ===== */}
-          <div className="panel-section ai-insights-section">
-            <div className="panel-section-title">
-              🤖 คำแนะนำยุทธศาสตร์เชิงพื้นที่ (AI Insight)
-            </div>
-
-            {aiError && (
-              <div className="ai-error-banner">
-                <span className="ai-error-icon">⚠️</span>
-                <span className="ai-error-text">{aiError}</span>
-                <button
-                  className="ai-retry-btn"
-                  onClick={() => handleGenerateAIInsight(selectedDistrict.name)}
-                >
-                  ลองใหม่
-                </button>
-              </div>
-            )}
-
-            {aiLoading && (
-              <div className="ai-loading-container">
-                <div className="ai-pulse-loader">
-                  <div className="ai-pulse-bar" />
-                  <div className="ai-pulse-bar" />
-                  <div className="ai-pulse-bar" />
-                </div>
-                <div className="ai-loading-text">
-                  Gemini กำลังวิเคราะห์ข้อมูลเชิงลึก...
-                </div>
-              </div>
-            )}
-
-            {!aiLoading && !aiError && !aiInsights[selectedDistrict.name] && (
-              <button
-                className="ai-generate-btn"
-                onClick={() => handleGenerateAIInsight(selectedDistrict.name)}
-              >
-                <span className="ai-btn-sparkle">✨</span>{' '}
-                วิเคราะห์ศักยภาพพื้นที่ด้วย AI
-              </button>
-            )}
-
-            {!aiLoading && !aiError && aiInsights[selectedDistrict.name] && (
-              <div className="ai-insight-card">
-                <div className="ai-insight-header">
-                  <span className="ai-insight-tag">🪄 Gemini Analyst</span>
-                  <button
-                    className="ai-refresh-btn"
-                    onClick={() =>
-                      handleGenerateAIInsight(selectedDistrict.name)
-                    }
-                    title="วิเคราะห์ใหม่"
-                  >
-                    🔄
-                  </button>
-                </div>
-                <div className="ai-insight-content">
-                  {aiInsights[selectedDistrict.name]}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
+      <SmartMapDetailPanel
+        selectedDistrict={selectedDistrict}
+        selectedSubdistrict={selectedSubdistrict}
+        selectedData={selectedData}
+        panelClosing={panelClosing}
+        onClose={closePanel}
+        onCompare={() => {
+          setIsCompareOpen(true);
+          const otherDistricts = Object.keys(DISTRICT_CENTROIDS).filter(
+            (name) => name !== selectedDistrict.name
+          );
+          setCompareWithDistrictName(otherDistricts[0]);
+        }}
+        weather={weatherData[selectedDistrict?.name]}
+        getWeatherDetails={getWeatherDetails}
+        getPm25Color={getPm25Color}
+        getPm25LevelLabel={getPm25LevelLabel}
+        cropChartData={cropChartData}
+        simRiceConversion={simRiceConversion}
+        onRiceConversionChange={setSimRiceConversion}
+        simResidueManagement={simResidueManagement}
+        onResidueManagementChange={setSimResidueManagement}
+        simulationResults={simulationResults}
+        aiLoading={aiLoading}
+        aiError={aiError}
+        aiInsight={aiInsights[selectedDistrict?.name]}
+        onGenerateAIInsight={() =>
+          selectedDistrict && handleGenerateAIInsight(selectedDistrict.name)
+        }
+      />
       {/* ===== KPI STATS BAR ===== */}
       {!selectedDistrict && <SmartMapKpiBar totals={totals} />}
 
@@ -1392,7 +904,7 @@ ${cropsStr}
                 {/* Crops A */}
                 <div className="compare-section">
                   <h3>🚜 สัดส่วนพื้นที่เพาะปลูก</h3>
-                  <MiniBarChart data={cropChartData} />
+                  <SmartMapMiniBarChart data={cropChartData} />
                 </div>
 
                 {/* Disasters & Fire A */}
@@ -1689,7 +1201,7 @@ ${cropsStr}
                       {/* Crops B */}
                       <div className="compare-section">
                         <h3>🚜 สัดส่วนพื้นที่เพาะปลูก</h3>
-                        <MiniBarChart data={compCropChartData} />
+                        <SmartMapMiniBarChart data={compCropChartData} />
                       </div>
 
                       {/* Disasters & Fire B */}
