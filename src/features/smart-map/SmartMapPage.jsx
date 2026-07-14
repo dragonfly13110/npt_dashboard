@@ -12,6 +12,12 @@ import { supabase } from '../../supabaseClient';
 import { utmToLatLng } from '../../utils/geo';
 import subdistrictGeoJSON from '../../data/nakhon_pathom_subdistricts.json';
 import { getSubdistrictsForDistrict } from '../../utils/geojsonBoundaries';
+import {
+  FitBounds,
+  MapFlyTo,
+  MapSizeInvalidator,
+  MapZoomTracker,
+} from './components/MapControls';
 import 'leaflet/dist/leaflet.css';
 import '../../pages/SmartMap.css';
 
@@ -436,87 +442,6 @@ function AnimatedNumber({ value, duration = 800 }) {
   }, [value, duration]);
 
   return <>{display.toLocaleString()}</>;
-}
-
-// ===== FIT BOUNDS COMPONENT =====
-function FitBounds({ useMap, geoJSONData, L, resetKey, selectedDistrict }) {
-  const map = useMap();
-  useEffect(() => {
-    if (!geoJSONData || !L) return;
-    const fitMap = () => {
-      const bounds = L.geoJSON(geoJSONData).getBounds();
-      if (!bounds.isValid()) return;
-      map.invalidateSize();
-      map.fitBounds(bounds, {
-        paddingTopLeft: [selectedDistrict ? 360 : 28, 80],
-        paddingBottomRight: [240, 100],
-        maxZoom: 11,
-        animate: true,
-      });
-    };
-    const frame = requestAnimationFrame(fitMap);
-    const timeout = window.setTimeout(fitMap, 250);
-    return () => {
-      cancelAnimationFrame(frame);
-      window.clearTimeout(timeout);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [geoJSONData, L, map, resetKey]);
-  return null;
-}
-
-// ===== KEEP LEAFLET SIZE IN SYNC WITH FULLSCREEN LAYOUT =====
-function MapSizeInvalidator({ useMap, watchKey }) {
-  const map = useMap();
-
-  useEffect(() => {
-    const container = map.getContainer();
-    const invalidate = () => map.invalidateSize({ animate: false });
-    const frame = requestAnimationFrame(invalidate);
-    const timeout = window.setTimeout(invalidate, 250);
-    const observer =
-      typeof ResizeObserver === 'undefined'
-        ? null
-        : new ResizeObserver(invalidate);
-
-    observer?.observe(container);
-    window.addEventListener('resize', invalidate);
-
-    return () => {
-      cancelAnimationFrame(frame);
-      window.clearTimeout(timeout);
-      observer?.disconnect();
-      window.removeEventListener('resize', invalidate);
-    };
-  }, [map, watchKey]);
-
-  return null;
-}
-
-// ===== FLY TO DISTRICT CENTROID =====
-function MapFlyTo({ useMap, selectedDistrict, L }) {
-  const map = useMap();
-  useEffect(() => {
-    if (!selectedDistrict || !L) return;
-    const coords = DISTRICT_CENTROIDS[selectedDistrict.name];
-    if (coords) {
-      map.flyTo(coords, 11, {
-        animate: true,
-        duration: 1.2,
-      });
-    }
-  }, [selectedDistrict, map, L]);
-  return null;
-}
-
-// ===== MAP ZOOM TRACKER =====
-function MapZoomTracker({ useMapEvents, setMapZoom }) {
-  const map = useMapEvents({
-    zoomend() {
-      setMapZoom(map.getZoom());
-    },
-  });
-  return null;
 }
 
 // ===== MAIN COMPONENT =====
@@ -2409,7 +2334,11 @@ ${cropsStr}
             useMap={useMap}
             watchKey={`${basemap}-${isControlsOpen}-${selectedDistrict?.name || 'none'}`}
           />
-          <MapFlyTo useMap={useMap} selectedDistrict={selectedDistrict} L={L} />
+          <MapFlyTo
+            useMap={useMap}
+            selectedDistrict={selectedDistrict}
+            centroids={DISTRICT_CENTROIDS}
+          />
           <MapZoomTracker useMapEvents={useMapEvents} setMapZoom={setMapZoom} />
           <TileLayer
             key={basemap}
