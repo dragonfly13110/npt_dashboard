@@ -29,6 +29,9 @@ export const SMART_MAP_LAYERS = [
     sourceLabel: 'สำนักงานเกษตรจังหวัดนครปฐม',
     defaultVisible: false,
     availability: 'active',
+    coordinateType: 'lat_lon',
+    latitudeField: 'lat',
+    longitudeField: 'lon',
     publicFields: [
       'id',
       'data_year',
@@ -51,6 +54,9 @@ export const SMART_MAP_LAYERS = [
     sourceLabel: 'สำนักงานเกษตรจังหวัดนครปฐม',
     defaultVisible: false,
     availability: 'active',
+    coordinateType: 'lat_lon',
+    latitudeField: 'lat',
+    longitudeField: 'lon',
     publicFields: [
       'id',
       'data_year',
@@ -74,6 +80,9 @@ export const SMART_MAP_LAYERS = [
     sourceLabel: 'สำนักงานเกษตรจังหวัดนครปฐม',
     defaultVisible: false,
     availability: 'active',
+    coordinateType: 'lat_lon',
+    latitudeField: 'lat',
+    longitudeField: 'lon',
     publicFields: [
       'id',
       'year',
@@ -98,6 +107,9 @@ export const SMART_MAP_LAYERS = [
     sourceLabel: 'สำนักงานเกษตรจังหวัดนครปฐม',
     defaultVisible: false,
     availability: 'active',
+    coordinateType: 'utm_47n',
+    latitudeField: 'coord_x',
+    longitudeField: 'coord_y',
     publicFields: [
       'id',
       'district',
@@ -121,6 +133,9 @@ export const SMART_MAP_LAYERS = [
     sourceLabel: 'GISTDA',
     defaultVisible: false,
     availability: 'active',
+    coordinateType: 'lat_lon',
+    latitudeField: 'latitude',
+    longitudeField: 'longitude',
     publicFields: [
       'id',
       'acq_date',
@@ -166,6 +181,9 @@ export const SMART_MAP_LAYERS = [
     sourceLabel: 'สำนักงานเกษตรจังหวัดนครปฐม',
     defaultVisible: false,
     availability: 'coordinate_incomplete',
+    coordinateType: 'lat_lon',
+    latitudeField: 'latitude',
+    longitudeField: 'longitude',
     publicFields: [
       'id',
       'spot_name',
@@ -185,6 +203,9 @@ export const SMART_MAP_LAYERS = [
     sourceLabel: 'สำนักงานเกษตรจังหวัดนครปฐม',
     defaultVisible: false,
     availability: 'empty',
+    coordinateType: 'lat_lon',
+    latitudeField: 'latitude',
+    longitudeField: 'longitude',
     publicFields: [
       'id',
       'area_name',
