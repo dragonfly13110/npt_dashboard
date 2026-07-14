@@ -52,6 +52,11 @@ output/vite-cache/
 playwright-report/
 test-results/
 supabase/.temp/
+.playwright-cli/
+.codex-hero-split.png
+.superpowers/sdd/progress.md
+.superpowers/sdd/*-brief.md
+.superpowers/sdd/task-5b-report.md
 
 # Python specific
 .mypy_cache/
