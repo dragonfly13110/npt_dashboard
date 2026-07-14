@@ -1,6 +1,9 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { classifyLatLng, classifyUtm47N } from './audit_smart_map_layers.mjs';
+import {
+  classifyLatLng,
+  classifyUtm47N,
+} from '../src/features/smart-map/utils/coordinateValidation.js';
 
 test('classifyLatLng accepts a coordinate inside Nakhon Pathom', () => {
   assert.equal(classifyLatLng(13.82, 100.04), 'valid');
