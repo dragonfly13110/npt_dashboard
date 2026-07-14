@@ -9,6 +9,8 @@ import 'leaflet/dist/leaflet.css';
 import '../../../pages/SmartMap.css';
 import SmartMapHeader from './SmartMapHeader';
 import SmartMapCanvas from './SmartMapCanvas';
+import SmartMapKpiBar from './SmartMapKpiBar';
+import SmartMapLayerPanel from './SmartMapLayerPanel';
 
 // ===== CHOROPLETH CONFIG =====
 const METRICS = [
@@ -166,38 +168,6 @@ function MiniBarChart({ data }) {
       ))}
     </div>
   );
-}
-
-// ===== ANIMATED NUMBER =====
-function AnimatedNumber({ value, duration = 800 }) {
-  const [display, setDisplay] = useState(0);
-
-  useEffect(() => {
-    let active = true;
-    if (!value) {
-      requestAnimationFrame(() => {
-        if (active) setDisplay(0);
-      });
-      return;
-    }
-    let start = 0;
-    const startTime = performance.now();
-    const animate = (now) => {
-      if (!active) return;
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      start = Math.round(value * eased);
-      setDisplay(start);
-      if (progress < 1) requestAnimationFrame(animate);
-    };
-    requestAnimationFrame(animate);
-    return () => {
-      active = false;
-    };
-  }, [value, duration]);
-
-  return <>{display.toLocaleString()}</>;
 }
 
 // ===== MAIN COMPONENT =====
@@ -790,163 +760,38 @@ ${cropsStr}
       />
 
       {/* ===== LAYER CONTROL PANEL ===== */}
-      <div
-        className={`smart-map-controls ${isControlsOpen ? 'open' : ''}`}
-        onClick={(e) => e.stopPropagation()}
-        onTouchStart={(e) => e.stopPropagation()}
-        onMouseDown={(e) => e.stopPropagation()}
-      >
-        <div className="panel-drag-handle"></div>
-        <div className="controls-mobile-header">
-          <span>ตัวเลือกแผนที่</span>
-          <button
-            className="controls-close-btn"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsControlsOpen(false);
-            }}
-          >
-            ✕
-          </button>
-        </div>
-        <div className="controls-section-title">ตัวชี้วัด Choropleth</div>
-        {METRICS.map((m) => (
-          <button
-            key={m.key}
-            className={`control-btn ${activeMetric === m.key ? 'active' : ''}`}
-            onClick={() =>
-              setActiveMetric((current) => (current === m.key ? null : m.key))
-            }
-          >
-            <span className="control-btn-icon">{m.icon}</span>
-            <span className="control-btn-label">{m.label}</span>
-          </button>
-        ))}
-
-        <div className="controls-divider" />
-        <div className="controls-section-title">ชั้นข้อมูลพิกัดฟาร์ม</div>
-        {MARKER_LAYERS.map((ml) => (
-          <label
-            key={ml.key}
-            className={`control-toggle-checkbox-label ${visibleLayers[ml.key] ? 'active' : ''}`}
-          >
-            <input
-              type="checkbox"
-              checked={visibleLayers[ml.key]}
-              onChange={() => toggleLayer(ml.key)}
-              className="control-toggle-checkbox-input"
-            />
-            <span
-              className="control-toggle-checkbox-custom"
-              style={{ '--accent-color': ml.color }}
-            />
-            <span
-              className="control-toggle-dot"
-              style={{ background: ml.color }}
-            />
-            <span className="control-toggle-text">
-              {ml.icon} {ml.label}
-            </span>
-          </label>
-        ))}
-
-        <div className="controls-divider" />
-        <div className="controls-section-title">External GIS layers</div>
-        <label
-          className={`control-toggle-checkbox-label ${isSoilLayerVisible ? 'active' : ''}`}
-          title={
-            SOIL_LAYER_URL || SOIL_LAYER_METADATA_URL
-              ? 'Load LDD soil series polygons from external storage'
-              : 'Set VITE_SOIL_LAYER_URL or VITE_SOIL_LAYER_METADATA_URL'
-          }
-        >
-          <input
-            type="checkbox"
-            checked={isSoilLayerVisible}
-            onChange={toggleSoilLayer}
-            className="control-toggle-checkbox-input"
-          />
-          <span
-            className="control-toggle-checkbox-custom"
-            style={{ '--accent-color': '#8b5cf6' }}
-          />
-          <span
-            className="control-toggle-dot"
-            style={{ background: '#8b5cf6' }}
-          />
-          <span className="control-toggle-text">
-            Soil series {soilLayerLoading ? '(loading...)' : ''}
-          </span>
-        </label>
-        {soilLayerError && (
-          <div className="control-layer-error">{soilLayerError}</div>
-        )}
-        <label
-          className={`control-toggle-checkbox-label ${showSubdistrictLayer ? 'active' : ''}`}
-          title="Show or hide subdistrict boundaries"
-        >
-          <input
-            type="checkbox"
-            checked={showSubdistrictLayer}
-            onChange={() => setShowSubdistrictLayer((current) => !current)}
-            className="control-toggle-checkbox-input"
-          />
-          <span
-            className="control-toggle-checkbox-custom"
-            style={{ '--accent-color': '#7c3aed' }}
-          />
-          <span
-            className="control-toggle-dot"
-            style={{ background: '#7c3aed' }}
-          />
-          <span className="control-toggle-text">ขอบเขตตำบล</span>
-        </label>
-
-        <div className="controls-divider" />
-        <div className="controls-section-title">แผนที่พื้นหลัง</div>
-        <div className="basemap-selector-grid">
-          <button
-            className={`basemap-btn ${basemap === 'osm' ? 'active' : ''}`}
-            onClick={() => setBasemap('osm')}
-            title="OpenStreetMap ภาษาไทย"
-          >
-            🗺️ OSM
-          </button>
-          <button
-            className={`basemap-btn ${basemap === 'google-road' ? 'active' : ''}`}
-            onClick={() => setBasemap('google-road')}
-            title="Google Maps ถนนภาษาไทย"
-          >
-            🛣️ Google
-          </button>
-          <button
-            className={`basemap-btn ${basemap === 'google-hybrid' ? 'active' : ''}`}
-            onClick={() => setBasemap('google-hybrid')}
-            title="Google Satellite ดาวเทียมภาษาไทย"
-          >
-            🛰️ Hybrid
-          </button>
-        </div>
-
-        {/* ===== LEGEND ===== */}
-        {currentMetric && (
-          <div className="smart-map-legend">
-            <div className="legend-title">
-              {currentMetric.icon} {currentMetric.label} ({currentMetric.unit})
-            </div>
-            <div
-              className="legend-bar"
-              style={{
-                background: `linear-gradient(90deg, ${currentMetric.colors.join(', ')})`,
-              }}
-            />
-            <div className="legend-labels">
-              <span>{minVal.toLocaleString()}</span>
-              <span>{maxVal.toLocaleString()}</span>
-            </div>
-          </div>
-        )}
-      </div>
+      <SmartMapLayerPanel
+        isOpen={isControlsOpen}
+        onControlsClose={() => setIsControlsOpen(false)}
+        metrics={METRICS}
+        activeMetric={activeMetric}
+        onMetricToggle={(metricKey) =>
+          setActiveMetric((current) =>
+            current === metricKey ? null : metricKey
+          )
+        }
+        markerLayers={MARKER_LAYERS}
+        visibleLayers={visibleLayers}
+        onLayerToggle={toggleLayer}
+        isSoilLayerVisible={isSoilLayerVisible}
+        soilLayerTitle={
+          SOIL_LAYER_URL || SOIL_LAYER_METADATA_URL
+            ? 'Load LDD soil series polygons from external storage'
+            : 'Set VITE_SOIL_LAYER_URL or VITE_SOIL_LAYER_METADATA_URL'
+        }
+        soilLayerLoading={soilLayerLoading}
+        soilLayerError={soilLayerError}
+        onSoilLayerToggle={toggleSoilLayer}
+        showSubdistrictLayer={showSubdistrictLayer}
+        onSubdistrictLayerToggle={() =>
+          setShowSubdistrictLayer((current) => !current)
+        }
+        basemap={basemap}
+        onBasemapChange={setBasemap}
+        currentMetric={currentMetric}
+        minVal={minVal}
+        maxVal={maxVal}
+      />
 
       {/* ===== DISTRICT DETAIL PANEL ===== */}
       {selectedDistrict && selectedData && (
@@ -1410,38 +1255,7 @@ ${cropsStr}
       )}
 
       {/* ===== KPI STATS BAR ===== */}
-      {!selectedDistrict && (
-        <div className="smart-map-kpi-bar">
-          <div className="kpi-card">
-            <span className="kpi-icon">🏠</span>
-            <span className="kpi-value">
-              <AnimatedNumber value={totals.house} />
-            </span>
-            <span className="kpi-label">ครัวเรือนเกษตรกร</span>
-          </div>
-          <div className="kpi-card">
-            <span className="kpi-icon">🌾</span>
-            <span className="kpi-value">
-              <AnimatedNumber value={totals.area} />
-            </span>
-            <span className="kpi-label">พื้นที่เกษตร (ไร่)</span>
-          </div>
-          <div className="kpi-card">
-            <span className="kpi-icon">🤝</span>
-            <span className="kpi-value">
-              <AnimatedNumber value={totals.ce} />
-            </span>
-            <span className="kpi-label">วิสาหกิจชุมชน</span>
-          </div>
-          <div className="kpi-card">
-            <span className="kpi-icon">🌱</span>
-            <span className="kpi-value">
-              <AnimatedNumber value={totals.lp} />
-            </span>
-            <span className="kpi-label">แปลงใหญ่</span>
-          </div>
-        </div>
-      )}
+      {!selectedDistrict && <SmartMapKpiBar totals={totals} />}
 
       {/* ===== DISTRICT COMPARISON MODAL ===== */}
       {isCompareOpen && selectedDistrict && selectedData && (
