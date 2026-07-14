@@ -231,6 +231,13 @@
   cursor: pointer;
   font-weight: 800;
   list-style: none;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.smart-map-point-dropdown summary:hover,
+.smart-map-point-dropdown summary:focus-visible {
+  color: #be185d;
+  background: rgba(236, 72, 153, 0.08);
 }
 
 .smart-map-point-dropdown-menu { padding: 0 12px 12px; }
