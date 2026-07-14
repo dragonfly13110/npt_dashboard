@@ -218,7 +218,6 @@ export default function LandingPage() {
     districtStats,
     smartFarmers,
     tourism,
-    pestReportCount,
     instituteStats,
     lpStats,
     agriStats,
@@ -249,6 +248,7 @@ export default function LandingPage() {
   const [moreDrawerClosing, setMoreDrawerClosing] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [forecastData, setForecastData] = useState(null);
+  const [forecastReportDays, setForecastReportDays] = useState(null);
   const [forecastLoading, setForecastLoading] = useState(false);
 
   const handleLandingSearchSubmit = useCallback(
@@ -269,12 +269,14 @@ export default function LandingPage() {
         const { data, error } = await supabase
           .from('ai_disease_forecasts')
           .select('*')
-          .order('forecast_date', { ascending: false })
-          .limit(1);
+          .order('forecast_date', { ascending: false });
 
         if (error) throw error;
         if (data && data.length > 0) {
           setForecastData(data[0]);
+          setForecastReportDays(
+            new Set(data.map((item) => item.forecast_date).filter(Boolean)).size
+          );
         }
       } catch (err) {
         console.error('Error fetching AI forecast:', err.message);
@@ -323,8 +325,11 @@ export default function LandingPage() {
     {
       icon: '🐛',
       title: 'สถานการณ์ศัตรูพืช',
-      value: formatKpi(pestReportCount, 'รายงาน'),
-      note: 'รายงานสถานการณ์ที่บันทึกในระบบ',
+      value:
+        forecastReportDays === null
+          ? 'รอข้อมูล'
+          : formatKpi(forecastReportDays, 'วัน'),
+      note: 'รายงานสถานการณ์ศัตรูพืชรายวัน',
       tone: '#dc2626',
       href: '/public/disease-forecast',
     },
