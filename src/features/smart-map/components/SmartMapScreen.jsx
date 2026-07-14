@@ -1,10 +1,14 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDashboardData } from '../../../hooks/useDashboardData';
-import { supabase } from '../../../supabaseClient';
-import { utmToLatLng } from '../../../utils/geo';
 import subdistrictGeoJSON from '../../../data/nakhon_pathom_subdistricts.json';
 import { getSubdistrictsForDistrict } from '../../../utils/geojsonBoundaries';
+import {
+  useSmartMapLayerStatus,
+  useSmartMapPoints,
+  useSmartMapSoil,
+  useSmartMapSummary,
+  useSmartMapWeather,
+} from '../hooks/useSmartMapApi';
 import 'leaflet/dist/leaflet.css';
 import '../../../pages/SmartMap.css';
 import SmartMapHeader from './SmartMapHeader';
@@ -49,25 +53,33 @@ const METRICS = [
 const MARKER_LAYERS = [
   {
     key: 'young_farmer',
+    apiLayer: 'young_farmer_groups',
     label: 'กลุ่มยุวเกษตรกร',
     color: '#fbbf24',
     icon: '🧑‍🌾',
   },
   {
     key: 'career_group',
+    apiLayer: 'career_groups',
     label: 'กลุ่มอาชีพการเกษตร',
     color: '#a855f7',
     icon: '🚜',
   },
-  { key: 'forecast', label: 'แปลงพยากรณ์', color: '#ec4899', icon: '🔬' },
-  { key: 'hotspot', label: 'จุดความร้อน', color: '#ef4444', icon: '🔥' },
+  {
+    key: 'forecast',
+    apiLayer: 'forecast_plots',
+    label: 'แปลงพยากรณ์',
+    color: '#ec4899',
+    icon: '🔬',
+  },
+  {
+    key: 'hotspot',
+    apiLayer: 'fire_hotspots',
+    label: 'จุดความร้อน',
+    color: '#ef4444',
+    icon: '🔥',
+  },
 ];
-
-const SOIL_LAYER_URL =
-  import.meta.env.VITE_SOIL_LAYER_URL ||
-  '/gis/soil/nakhon-pathom-soil-series.geojson';
-const SOIL_LAYER_METADATA_URL =
-  import.meta.env.VITE_SOIL_LAYER_METADATA_URL || '';
 
 const DISTRICT_CENTROIDS = {
   เมืองนครปฐม: [13.82, 100.04],
@@ -113,17 +125,82 @@ const getPm25LevelLabel = (val) => {
   return 'อันตรายต่อสุขภาพ';
 };
 
+function summaryToStats(summary) {
+  const metrics = summary?.metrics || {};
+  return {
+    area: metrics.farmAreaRai || 0,
+    house: metrics.farmerHouseholds || 0,
+    ce: metrics.communityEnterprises || 0,
+    lp: metrics.largePlots || 0,
+    sfSfCount: metrics.smartFarmers || 0,
+    ysfCount: metrics.youngSmartFarmers || 0,
+    fireCount: metrics.hotspotCount || 0,
+  };
+}
+
+function weatherByDistrict(weather) {
+  return Object.fromEntries(
+    (weather?.data || []).map((row) => [
+      row.district,
+      {
+        ...row,
+        loading: false,
+        error: row.weatherStatus !== 'ok' && row.airQualityStatus !== 'ok',
+      },
+    ])
+  );
+}
+
+function markersFromFeatures(key, collection) {
+  return (collection?.data?.features || []).map((feature) => {
+    const properties = feature.properties || {};
+    const [lon, lat] = feature.geometry?.coordinates || [];
+    const base = {
+      id: feature.id,
+      district: properties.district,
+      subdistrict: properties.subdistrict,
+      lat,
+      lon,
+      type: key,
+    };
+    if (key === 'young_farmer' || key === 'career_group') {
+      return {
+        ...base,
+        name: properties.group_name,
+        memberCount: properties.member_count,
+        activity: properties.activity,
+        typeLabel:
+          key === 'young_farmer' ? 'กลุ่มยุวเกษตรกร' : 'กลุ่มอาชีพการเกษตร',
+      };
+    }
+    if (key === 'forecast') {
+      return {
+        ...base,
+        name: properties.crop_type
+          ? `แปลงพยากรณ์ ${properties.crop_type}`
+          : 'แปลงพยากรณ์',
+        typeLabel: 'แปลงพยากรณ์',
+        cropType: properties.crop_type,
+        area: properties.planted_area_rai,
+        status: properties.crop_status,
+      };
+    }
+    return {
+      ...base,
+      name: `จุดความร้อน ${properties.acq_date || ''} ${properties.acq_time ? `${String(properties.acq_time).slice(0, 2)}:${String(properties.acq_time).slice(2)} น.` : ''}`,
+      typeLabel: 'จุดความร้อนสะสม',
+      confidence: properties.confidence,
+      frp: properties.frp,
+    };
+  });
+}
+
 // ===== MAIN COMPONENT =====
 export default function SmartMapScreen() {
   const navigate = useNavigate();
-  const { loading: dataLoading, districtStats } = useDashboardData();
 
   const [MapComponents, setMapComponents] = useState(null);
   const [geoJSONData, setGeoJSONData] = useState(null);
-  const [soilLayerData, setSoilLayerData] = useState(null);
-  const [soilLayerMeta, setSoilLayerMeta] = useState(null);
-  const [soilLayerLoading, setSoilLayerLoading] = useState(false);
-  const [soilLayerError, setSoilLayerError] = useState(null);
   const [isSoilLayerVisible, setIsSoilLayerVisible] = useState(false);
   const [showSubdistrictLayer, setShowSubdistrictLayer] = useState(true);
   const [activeMetric, setActiveMetric] = useState('area');
@@ -148,26 +225,96 @@ export default function SmartMapScreen() {
   const [simRiceConversion, setSimRiceConversion] = useState(0);
   const [simResidueManagement, setSimResidueManagement] = useState(0);
 
-  // Basemap selector & Search & Weather states
+  // Basemap selector & search states
   const [basemap, setBasemap] = useState('osm'); // default to Thai OpenStreetMap
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [weatherData, setWeatherData] = useState({});
   const [isControlsOpen, setIsControlsOpen] = useState(false);
-
-  // All farm coordinates
-  const [allCoords, setAllCoords] = useState({
-    young_farmer: [],
-    career_group: [],
-    forecast: [],
-    hotspot: [],
-  });
 
   // Comparison Mode states
   const [isCompareOpen, setIsCompareOpen] = useState(false);
   const [compareWithDistrictName, setCompareWithDistrictName] = useState(null);
   const [compSimRiceConversion, setCompSimRiceConversion] = useState(0);
   const [compSimResidueManagement, setCompSimResidueManagement] = useState(0);
+
+  const selectedScope = selectedDistrict
+    ? {
+        level: selectedSubdistrict ? 'subdistrict' : 'district',
+        districtName: selectedDistrict.name,
+        subdistrictName: selectedSubdistrict?.name,
+      }
+    : { level: 'province' };
+  const provinceSummary = useSmartMapSummary({ level: 'province' });
+  const selectedSummary = useSmartMapSummary(selectedScope);
+  const layerStatus = useSmartMapLayerStatus();
+  const weather = useSmartMapWeather();
+  const soil = useSmartMapSoil({ enabled: isSoilLayerVisible });
+  const youngFarmerPoints = useSmartMapPoints('young_farmer_groups', {
+    enabled: visibleLayers.young_farmer,
+  });
+  const careerGroupPoints = useSmartMapPoints('career_groups', {
+    enabled: visibleLayers.career_group,
+  });
+  const forecastPoints = useSmartMapPoints('forecast_plots', {
+    enabled: visibleLayers.forecast,
+  });
+  const hotspotPoints = useSmartMapPoints('fire_hotspots', {
+    enabled: visibleLayers.hotspot,
+  });
+
+  const provinceTotals = useMemo(
+    () => summaryToStats(provinceSummary.data),
+    [provinceSummary.data]
+  );
+  const selectedData = useMemo(
+    () =>
+      selectedDistrict && selectedSummary.data
+        ? summaryToStats(selectedSummary.data)
+        : null,
+    [selectedDistrict, selectedSummary.data]
+  );
+  const districtStats = useMemo(
+    () =>
+      selectedDistrict && selectedData
+        ? { [selectedDistrict.name]: selectedData }
+        : {},
+    [selectedDistrict, selectedData]
+  );
+  const weatherData = useMemo(
+    () => weatherByDistrict(weather.data),
+    [weather.data]
+  );
+  const allCoords = useMemo(
+    () => ({
+      young_farmer: markersFromFeatures('young_farmer', youngFarmerPoints.data),
+      career_group: markersFromFeatures('career_group', careerGroupPoints.data),
+      forecast: markersFromFeatures('forecast', forecastPoints.data),
+      hotspot: markersFromFeatures('hotspot', hotspotPoints.data),
+    }),
+    [
+      youngFarmerPoints.data,
+      careerGroupPoints.data,
+      forecastPoints.data,
+      hotspotPoints.data,
+    ]
+  );
+  const layerErrors = {
+    young_farmer: youngFarmerPoints.error,
+    career_group: careerGroupPoints.error,
+    forecast: forecastPoints.error,
+    hotspot: hotspotPoints.error,
+  };
+  const layerStatusById = useMemo(
+    () =>
+      Object.fromEntries(
+        (layerStatus.data?.layers || []).map((layer) => [layer.id, layer])
+      ),
+    [layerStatus.data]
+  );
+  const soilLayerData = soil.data?.data || null;
+  const soilLayerMeta = soil.data?.meta || null;
+  const soilLayerLoading = soil.isLoading;
+  const soilLayerError = soil.error?.message || null;
 
   // Reset simulation and AI error when district changes
   useEffect(() => {
@@ -177,19 +324,7 @@ export default function SmartMapScreen() {
   }, [selectedDistrict]);
 
   // Compute totals for KPI bar
-  const totals = useMemo(() => {
-    if (!districtStats || Object.keys(districtStats).length === 0) {
-      return { area: 0, house: 0, ce: 0, lp: 0, sf: 0 };
-    }
-    const vals = Object.values(districtStats);
-    return {
-      area: vals.reduce((s, d) => s + (d.area || 0), 0),
-      house: vals.reduce((s, d) => s + (d.house || 0), 0),
-      ce: vals.reduce((s, d) => s + (d.ce || 0), 0),
-      lp: vals.reduce((s, d) => s + (d.lp || 0), 0),
-      sf: 0, // SF count is from a different source, placeholder
-    };
-  }, [districtStats]);
+  const totals = provinceTotals;
 
   // Load Leaflet + GeoJSON
   useEffect(() => {
@@ -210,224 +345,6 @@ export default function SmartMapScreen() {
         setMapComponents({ L: L.default, ...RL });
       }
     );
-  }, []);
-
-  // Fetch live weather and PM2.5 for all districts
-  const fetchWeatherAndAirQuality = useCallback(async () => {
-    const results = {};
-    await Promise.all(
-      Object.entries(DISTRICT_CENTROIDS).map(async ([name, [lat, lon]]) => {
-        try {
-          const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m`;
-          const weatherRes = await fetch(weatherUrl);
-          const weatherDataJson = await weatherRes.json();
-
-          const aqUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=pm2_5,european_aqi`;
-          const aqRes = await fetch(aqUrl);
-          const aqDataJson = await aqRes.json();
-
-          results[name] = {
-            temp: weatherDataJson.current?.temperature_2m ?? null,
-            humidity: weatherDataJson.current?.relative_humidity_2m ?? null,
-            windSpeed: weatherDataJson.current?.wind_speed_10m ?? null,
-            weatherCode: weatherDataJson.current?.weather_code ?? null,
-            pm25: aqDataJson.current?.pm2_5 ?? null,
-            aqi: aqDataJson.current?.european_aqi ?? null,
-            loading: false,
-          };
-        } catch (e) {
-          console.error(`Failed to fetch weather for ${name}`, e);
-          results[name] = { loading: false, error: true };
-        }
-      })
-    );
-    setWeatherData(results);
-  }, []);
-
-  useEffect(() => {
-    fetchWeatherAndAirQuality();
-  }, [fetchWeatherAndAirQuality]);
-
-  useEffect(() => {
-    if (!isSoilLayerVisible || soilLayerData) return;
-    if (!SOIL_LAYER_URL && !SOIL_LAYER_METADATA_URL) {
-      setSoilLayerError('Soil layer URL is not configured.');
-      return;
-    }
-
-    const controller = new AbortController();
-    const loadSoilLayer = async () => {
-      setSoilLayerLoading(true);
-      setSoilLayerError(null);
-
-      try {
-        let geojsonUrl = SOIL_LAYER_URL;
-        if (SOIL_LAYER_METADATA_URL) {
-          const metadataRes = await fetch(SOIL_LAYER_METADATA_URL, {
-            signal: controller.signal,
-          });
-          if (!metadataRes.ok) {
-            throw new Error(`Metadata request failed: ${metadataRes.status}`);
-          }
-          const metadata = await metadataRes.json();
-          setSoilLayerMeta(metadata);
-          geojsonUrl =
-            metadata.geojsonUrl ||
-            metadata.geojson_url ||
-            metadata.url ||
-            SOIL_LAYER_URL;
-        }
-
-        if (!geojsonUrl) {
-          throw new Error('Soil layer GeoJSON URL is missing.');
-        }
-
-        const layerRes = await fetch(geojsonUrl, {
-          signal: controller.signal,
-        });
-        if (!layerRes.ok) {
-          throw new Error(`Soil layer request failed: ${layerRes.status}`);
-        }
-        const layerGeoJson = await layerRes.json();
-        setSoilLayerData(layerGeoJson);
-      } catch (error) {
-        if (error.name !== 'AbortError') {
-          console.error('Failed to load soil layer', error);
-          setSoilLayerError(error.message || 'Failed to load soil layer.');
-          setIsSoilLayerVisible(false);
-        }
-      } finally {
-        if (!controller.signal.aborted) {
-          setSoilLayerLoading(false);
-        }
-      }
-    };
-
-    loadSoilLayer();
-    return () => controller.abort();
-  }, [isSoilLayerVisible, soilLayerData]);
-
-  // Fetch coordinates for GIS, Young Farmers, Career Groups, Forecast Plots, and Fire Hotspots from Supabase
-  useEffect(() => {
-    const fetchCoordinates = async () => {
-      try {
-        // Fetch Young Farmers (all that have coordinates)
-        const { data: youngFarmerData } = await supabase
-          .from('young_farmer_groups_detailed')
-          .select(
-            'group_name, district, subdistrict, member_count, activity, lat, lon'
-          )
-          .not('lat', 'is', null)
-          .not('lon', 'is', null);
-
-        // Fetch Agricultural Career Groups (all that have coordinates)
-        const { data: careerGroupData } = await supabase
-          .from('agricultural_career_groups')
-          .select(
-            'group_name, district, subdistrict, member_count, activity, lat, lon'
-          )
-          .not('lat', 'is', null)
-          .not('lon', 'is', null);
-
-        // Fetch Forecast Plots (all that have coord_x, coord_y)
-        const { data: forecastData } = await supabase
-          .from('forecast_plots')
-          .select(
-            'id, district, subdistrict, crop_type, planted_area_rai, crop_status, coord_x, coord_y'
-          );
-
-        // Fetch Fire Hotspots (all that have coordinates)
-        const { data: hotspotData } = await supabase
-          .from('fire_hotspots')
-          .select(
-            'id, acq_date, acq_time, confidence, frp, district, subdistrict, latitude, longitude'
-          )
-          .not('latitude', 'is', null);
-
-        // Parse Young Farmer
-        const youngFarmerPts = (youngFarmerData || [])
-          .map((r) => ({
-            name: r.group_name,
-            district: r.district,
-            subdistrict: r.subdistrict,
-            memberCount: r.member_count,
-            activity: r.activity,
-            lat: parseFloat(r.lat),
-            lon: parseFloat(r.lon),
-            type: 'young_farmer',
-            typeLabel: 'กลุ่มยุวเกษตรกร',
-          }))
-          .filter((p) => !isNaN(p.lat) && !isNaN(p.lon));
-
-        // Parse Career Group
-        const careerGroupPts = (careerGroupData || [])
-          .map((r) => ({
-            name: r.group_name,
-            district: r.district,
-            subdistrict: r.subdistrict,
-            memberCount: r.member_count,
-            activity: r.activity,
-            lat: parseFloat(r.lat),
-            lon: parseFloat(r.lon),
-            type: 'career_group',
-            typeLabel: 'กลุ่มอาชีพการเกษตร',
-          }))
-          .filter((p) => !isNaN(p.lat) && !isNaN(p.lon));
-
-        // Parse Forecast (UTM to Lat/Lng)
-        const forecastPts = (forecastData || [])
-          .map((item) => {
-            const x = parseFloat(item.coord_x);
-            const y = parseFloat(item.coord_y);
-            if (isNaN(x) || isNaN(y) || x === 0 || y === 0) return null;
-            const { lat, lng } = utmToLatLng(x, y, 47, 'N');
-            if (lat === 0 && lng === 0) return null;
-            return {
-              id: item.id,
-              name: item.crop_type
-                ? `แปลงพยากรณ์ ${item.crop_type}`
-                : 'แปลงพยากรณ์',
-              district: item.district,
-              subdistrict: item.subdistrict,
-              lat,
-              lon: lng,
-              type: 'forecast',
-              typeLabel: 'แปลงพยากรณ์',
-              cropType: item.crop_type,
-              area: item.planted_area_rai,
-              status: item.crop_status,
-            };
-          })
-          .filter(Boolean);
-
-        // Parse Hotspots
-        const hotspotPts = (hotspotData || [])
-          .map((r) => ({
-            id: r.id,
-            name: `จุดความร้อน ${r.acq_date} ${r.acq_time ? r.acq_time.substring(0, 2) + ':' + r.acq_time.substring(2) + ' น.' : ''}`,
-            district: r.district,
-            subdistrict: r.subdistrict,
-            lat: parseFloat(r.latitude),
-            lon: parseFloat(r.longitude),
-            confidence: r.confidence,
-            frp: r.frp,
-            type: 'hotspot',
-            typeLabel: 'จุดความร้อนสะสม',
-          }))
-          .filter((p) => !isNaN(p.lat) && !isNaN(p.lon));
-
-        setAllCoords({
-          young_farmer: youngFarmerPts,
-          career_group: careerGroupPts,
-          forecast: forecastPts,
-          hotspot: hotspotPts,
-        });
-      } catch (err) {
-        console.error('Error fetching map coordinates data:', err);
-      }
-    };
-
-    fetchCoordinates();
   }, []);
 
   // Search Suggestions logic
@@ -467,15 +384,25 @@ export default function SmartMapScreen() {
   }, []);
 
   // Toggle marker layers (mutually exclusive)
-  const toggleLayer = useCallback((key) => {
-    setVisibleLayers((prev) => {
-      const nextState = {};
-      Object.keys(prev).forEach((k) => {
-        nextState[k] = k === key ? !prev[k] : false;
+  const toggleLayer = useCallback(
+    (key) => {
+      const layer = MARKER_LAYERS.find((item) => item.key === key);
+      if (
+        layerStatusById[layer?.apiLayer]?.availability &&
+        layerStatusById[layer.apiLayer].availability !== 'active'
+      ) {
+        return;
+      }
+      setVisibleLayers((prev) => {
+        const nextState = {};
+        Object.keys(prev).forEach((k) => {
+          nextState[k] = k === key ? !prev[k] : false;
+        });
+        return nextState;
       });
-      return nextState;
-    });
-  }, []);
+    },
+    [layerStatusById]
+  );
 
   const toggleSoilLayer = useCallback(() => {
     setIsSoilLayerVisible((prev) => !prev);
@@ -520,12 +447,6 @@ export default function SmartMapScreen() {
     },
     [minVal, maxVal, currentMetric]
   );
-
-  // Get selected district data for panel
-  const selectedData = useMemo(() => {
-    if (!selectedDistrict || !districtStats) return null;
-    return districtStats[selectedDistrict.name] || null;
-  }, [selectedDistrict, districtStats]);
 
   const visibleSubdistrictFeatures = useMemo(() => {
     if (!selectedDistrict) return subdistrictGeoJSON.features || [];
@@ -651,7 +572,7 @@ ${cropsStr}
   );
 
   // Loading state
-  if (!MapComponents || !geoJSONData || dataLoading) {
+  if (!MapComponents || !geoJSONData || provinceSummary.isLoading) {
     return (
       <div className="smart-map-page">
         <div className="smart-map-loading">
@@ -717,11 +638,7 @@ ${cropsStr}
         visibleLayers={visibleLayers}
         onLayerToggle={toggleLayer}
         isSoilLayerVisible={isSoilLayerVisible}
-        soilLayerTitle={
-          SOIL_LAYER_URL || SOIL_LAYER_METADATA_URL
-            ? 'Load LDD soil series polygons from external storage'
-            : 'Set VITE_SOIL_LAYER_URL or VITE_SOIL_LAYER_METADATA_URL'
-        }
+        soilLayerTitle="Load LDD soil series polygons"
         soilLayerLoading={soilLayerLoading}
         soilLayerError={soilLayerError}
         onSoilLayerToggle={toggleSoilLayer}
@@ -830,6 +747,7 @@ ${cropsStr}
         markerLayers={MARKER_LAYERS}
         visibleLayers={visibleLayers}
         allCoords={allCoords}
+        layerErrors={layerErrors}
       />
     </div>
   );

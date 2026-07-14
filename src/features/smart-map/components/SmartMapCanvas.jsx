@@ -38,6 +38,7 @@ const getSoilFeatureLabel = (properties) => {
       'SERIES',
       'S_NAME',
       'soil_series',
+      'soil_series_name',
       'soil_name',
       'series',
       'name',
@@ -300,6 +301,7 @@ export default function SmartMapCanvas({
   markerLayers,
   visibleLayers,
   allCoords,
+  layerErrors = {},
 }) {
   const {
     L,
@@ -390,8 +392,8 @@ export default function SmartMapCanvas({
               }}
               onEachFeature={(feature, layer) => {
                 const distName = feature.properties?.amp_th;
-                const stats = districtStats[distName];
-                if (!distName || !stats) return;
+                const stats = districtStats[distName] || {};
+                if (!distName) return;
 
                 // Fetch weather stats for tooltip
                 const w = weatherData[distName];
@@ -687,14 +689,16 @@ export default function SmartMapCanvas({
             fallback={layerFallback(key, key)}
             resetOn={[visibleLayers[key], allCoords[key]]}
           >
-            {visibleLayers[key] && (
-              <MarkerLayer
-                layerKey={key}
-                items={allCoords[key]}
-                circleMarker={CircleMarker}
-                tooltip={Tooltip}
-              />
-            )}
+            {visibleLayers[key] && layerErrors[key]
+              ? layerFallback(key, key)
+              : visibleLayers[key] && (
+                  <MarkerLayer
+                    layerKey={key}
+                    items={allCoords[key]}
+                    circleMarker={CircleMarker}
+                    tooltip={Tooltip}
+                  />
+                )}
           </MapLayerErrorBoundary>
         ))}
       </MapContainer>
