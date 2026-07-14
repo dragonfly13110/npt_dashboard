@@ -17,6 +17,7 @@ const MapComponents = {
   CircleMarker: () => null,
   Marker: () => null,
   Tooltip: () => null,
+  Pane: ({ children }) => <div data-testid="map-error-pane">{children}</div>,
   GeoJSON: ({ onEachFeature }) => {
     if (onEachFeature) throw new Error('choropleth failed');
     return <span data-testid="district-outline" />;
@@ -66,6 +67,9 @@ describe('SmartMapCanvas', () => {
 
     expect(screen.getByTestId('map')).toBeInTheDocument();
     expect(screen.getByTestId('district-outline')).toBeInTheDocument();
+    expect(screen.getByTestId('map-error-pane')).toContainElement(
+      screen.getByRole('status')
+    );
     expect(screen.getByRole('status')).toHaveTextContent(
       'ไม่สามารถแสดงชั้นข้อมูลสีตามตัวชี้วัดได้'
     );

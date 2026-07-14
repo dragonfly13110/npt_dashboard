@@ -240,6 +240,37 @@ function MarkerLayer({
   );
 }
 
+function MapLayerErrorNotice({ Pane, layerId, layerName }) {
+  const ErrorPane = Pane;
+  return (
+    <ErrorPane
+      name={`smart-map-layer-error-${layerId}`}
+      style={{ zIndex: 650 }}
+    >
+      <div
+        className="smart-map-layer-error"
+        role="status"
+        style={{
+          position: 'absolute',
+          top: 12,
+          right: 12,
+          maxWidth: 280,
+          padding: '8px 12px',
+          borderRadius: 6,
+          background: '#fef2f2',
+          border: '1px solid #fecaca',
+          color: '#991b1b',
+          fontSize: 12,
+          fontWeight: 600,
+          boxShadow: '0 2px 8px rgba(15, 23, 42, 0.14)',
+        }}
+      >
+        ไม่สามารถแสดง{layerName}ได้
+      </div>
+    </ErrorPane>
+  );
+}
+
 export default function SmartMapCanvas({
   MapComponents,
   geoJSONData,
@@ -277,12 +308,16 @@ export default function SmartMapCanvas({
     CircleMarker,
     Marker,
     Tooltip,
+    Pane,
     GeoJSON,
     useMap,
     useMapEvents,
     ZoomControl,
     Polyline,
   } = MapComponents;
+  const layerFallback = (layerId, layerName) => (
+    <MapLayerErrorNotice Pane={Pane} layerId={layerId} layerName={layerName} />
+  );
 
   return (
     <div className="smart-map-container">
@@ -330,7 +365,11 @@ export default function SmartMapCanvas({
         <ZoomControl position="topright" />
 
         {/* ===== CHOROPLETH GEOJSON ===== */}
-        <MapLayerErrorBoundary layerName="ชั้นข้อมูลสีตามตัวชี้วัด">
+        <MapLayerErrorBoundary
+          layerName="ชั้นข้อมูลสีตามตัวชี้วัด"
+          fallback={layerFallback('choropleth', 'ชั้นข้อมูลสีตามตัวชี้วัด')}
+          resetOn={[geoJSONData, activeMetric, districtStats, weatherData]}
+        >
           {activeMetric && Object.keys(districtStats).length > 0 && (
             <GeoJSON
               key={`choropleth-${activeMetric}-${selectedDistrict ? selectedDistrict.name : 'none'}-weather-${Object.keys(weatherData).length}`}
@@ -433,7 +472,11 @@ export default function SmartMapCanvas({
           )}
         </MapLayerErrorBoundary>
 
-        <MapLayerErrorBoundary layerName="เส้นขอบเขตอำเภอ">
+        <MapLayerErrorBoundary
+          layerName="เส้นขอบเขตอำเภอ"
+          fallback={layerFallback('district-boundaries', 'เส้นขอบเขตอำเภอ')}
+          resetOn={[geoJSONData, selectedDistrict]}
+        >
           {geoJSONData && (
             <GeoJSON
               key={`district-boundaries-${selectedDistrict ? selectedDistrict.name : 'none'}-${activeMetric || 'off'}`}
@@ -455,7 +498,11 @@ export default function SmartMapCanvas({
           )}
         </MapLayerErrorBoundary>
 
-        <MapLayerErrorBoundary layerName="ชั้นข้อมูลดิน">
+        <MapLayerErrorBoundary
+          layerName="ชั้นข้อมูลดิน"
+          fallback={layerFallback('soil', 'ชั้นข้อมูลดิน')}
+          resetOn={[isSoilLayerVisible, soilLayerData, soilLayerMeta]}
+        >
           {isSoilLayerVisible && soilLayerData && (
             <GeoJSON
               key={`soil-series-${soilLayerData.features?.length || 0}`}
@@ -514,7 +561,16 @@ export default function SmartMapCanvas({
           )}
         </MapLayerErrorBoundary>
 
-        <MapLayerErrorBoundary layerName="เส้นขอบเขตตำบล">
+        <MapLayerErrorBoundary
+          layerName="เส้นขอบเขตตำบล"
+          fallback={layerFallback('subdistricts', 'เส้นขอบเขตตำบล')}
+          resetOn={[
+            showSubdistrictLayer,
+            selectedDistrict,
+            selectedSubdistrict,
+            visibleSubdistrictFeatures,
+          ]}
+        >
           {showSubdistrictLayer &&
             (selectedDistrict || mapZoom >= 11) &&
             visibleSubdistrictFeatures.length > 0 && (
@@ -571,55 +627,66 @@ export default function SmartMapCanvas({
         </MapLayerErrorBoundary>
 
         {/* ===== DISTRICT LABELS ===== */}
-        {mapZoom >= 10 &&
-          L &&
-          Object.entries(districtCentroids).map(([name, coords]) => {
-            const isSelected =
-              selectedDistrict && selectedDistrict.name === name;
-            const labelHtml = `<div class="map-label-name">${name}</div>`;
-            const labelPos = DISTRICT_LABEL_POSITIONS[name] || coords;
+        <MapLayerErrorBoundary
+          layerName="ป้ายชื่ออำเภอ"
+          fallback={layerFallback('district-labels', 'ป้ายชื่ออำเภอ')}
+          resetOn={[mapZoom, L, districtCentroids, selectedDistrict]}
+        >
+          {mapZoom >= 10 &&
+            L &&
+            Object.entries(districtCentroids).map(([name, coords]) => {
+              const isSelected =
+                selectedDistrict && selectedDistrict.name === name;
+              const labelHtml = `<div class="map-label-name">${name}</div>`;
+              const labelPos = DISTRICT_LABEL_POSITIONS[name] || coords;
 
-            return (
-              <Fragment key={`label-group-${name}`}>
-                <Polyline
-                  positions={[coords, labelPos]}
-                  pathOptions={{
-                    color: isSelected ? '#ef4444' : '#64748b',
-                    weight: isSelected ? 2.5 : 1.2,
-                    dashArray: '5, 5',
-                    opacity: isSelected ? 0.9 : 0.4,
-                  }}
-                  interactive={false}
-                />
-                <Marker
-                  key={`label-${name}`}
-                  position={labelPos}
-                  interactive={true}
-                  eventHandlers={{
-                    click: () => {
-                      setPanelClosing(false);
-                      setSelectedSubdistrict(null);
-                      const feat = geoJSONData?.features?.find(
-                        (f) => f.properties?.amp_th === name
-                      );
-                      setSelectedDistrict({
-                        name,
-                        areaSqkm: feat?.properties?.area_sqkm || 0,
-                      });
-                    },
-                  }}
-                  icon={L.divIcon({
-                    className: 'district-map-label-container',
-                    html: `<div class="district-map-label ${isSelected ? 'selected' : ''}">${labelHtml}</div>`,
-                    iconSize: [0, 0],
-                  })}
-                />
-              </Fragment>
-            );
-          })}
+              return (
+                <Fragment key={`label-group-${name}`}>
+                  <Polyline
+                    positions={[coords, labelPos]}
+                    pathOptions={{
+                      color: isSelected ? '#ef4444' : '#64748b',
+                      weight: isSelected ? 2.5 : 1.2,
+                      dashArray: '5, 5',
+                      opacity: isSelected ? 0.9 : 0.4,
+                    }}
+                    interactive={false}
+                  />
+                  <Marker
+                    key={`label-${name}`}
+                    position={labelPos}
+                    interactive={true}
+                    eventHandlers={{
+                      click: () => {
+                        setPanelClosing(false);
+                        setSelectedSubdistrict(null);
+                        const feat = geoJSONData?.features?.find(
+                          (f) => f.properties?.amp_th === name
+                        );
+                        setSelectedDistrict({
+                          name,
+                          areaSqkm: feat?.properties?.area_sqkm || 0,
+                        });
+                      },
+                    }}
+                    icon={L.divIcon({
+                      className: 'district-map-label-container',
+                      html: `<div class="district-map-label ${isSelected ? 'selected' : ''}">${labelHtml}</div>`,
+                      iconSize: [0, 0],
+                    })}
+                  />
+                </Fragment>
+              );
+            })}
+        </MapLayerErrorBoundary>
 
         {markerLayers.map(({ key }) => (
-          <MapLayerErrorBoundary key={key} layerName={key}>
+          <MapLayerErrorBoundary
+            key={key}
+            layerName={key}
+            fallback={layerFallback(key, key)}
+            resetOn={[visibleLayers[key], allCoords[key]]}
+          >
             {visibleLayers[key] && (
               <MarkerLayer
                 layerKey={key}

@@ -7,6 +7,12 @@ export default class MapLayerErrorBoundary extends Component {
     return { failed: true };
   }
 
+  componentDidUpdate(previousProps) {
+    if (this.state.failed && previousProps.resetOn !== this.props.resetOn) {
+      this.setState({ failed: false });
+    }
+  }
+
   render() {
     if (this.state.failed) {
       return (

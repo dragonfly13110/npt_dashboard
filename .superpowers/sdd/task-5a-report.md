@@ -18,3 +18,11 @@ The choropleth, district boundary, soil, subdistrict, and each point layer are i
 - `npm run build`
 
 No remaining extraction blocker.
+
+## Review fixes
+
+- Failed Leaflet layers now render their visible status inside a dedicated React Leaflet `Pane`, so the notice overlays the map instead of becoming an ordinary map child.
+- District label `Polyline` and `Marker` rendering now has its own boundary.
+- `MapLayerErrorBoundary` retries after its `resetOn` identity changes; canvas layers pass their relevant data and visibility inputs.
+
+Focused coverage now verifies both pane-based layer isolation and reset recovery. Full verification: 332 passed, 17 skipped; lint and build pass.

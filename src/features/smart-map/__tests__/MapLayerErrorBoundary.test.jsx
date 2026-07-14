@@ -6,6 +6,10 @@ function BrokenLayer() {
   throw new Error('layer failed');
 }
 
+function HealthyLayer() {
+  return <span>layer recovered</span>;
+}
+
 describe('MapLayerErrorBoundary', () => {
   it('keeps the map available when one layer fails', () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
@@ -38,6 +42,24 @@ describe('MapLayerErrorBoundary', () => {
     expect(screen.getByRole('status')).toHaveTextContent(
       'ไม่สามารถแสดงpoint layerได้'
     );
+    consoleSpy.mockRestore();
+  });
+
+  it('retries the layer when its reset identity changes', () => {
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const { rerender } = render(
+      <MapLayerErrorBoundary layerName="point layer" resetOn="old-data">
+        <BrokenLayer />
+      </MapLayerErrorBoundary>
+    );
+
+    rerender(
+      <MapLayerErrorBoundary layerName="point layer" resetOn="new-data">
+        <HealthyLayer />
+      </MapLayerErrorBoundary>
+    );
+
+    expect(screen.getByText('layer recovered')).toBeInTheDocument();
     consoleSpy.mockRestore();
   });
 });
