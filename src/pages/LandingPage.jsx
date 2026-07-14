@@ -73,13 +73,11 @@ const DamReservoirWidget = lazy(
 const FarmerInstitutesV2Widget = lazy(
   () => import('../components/widgets/FarmerInstitutesV2Widget')
 );
+const AgriTourismWidget = lazy(
+  () => import('../components/widgets/AgriTourismWidget')
+);
 
 // Bento Cards specific lazy imports
-const AgriTourismCard = lazy(() =>
-  import('../components/widgets/LandingBentoCards').then((module) => ({
-    default: module.AgriTourismCard,
-  }))
-);
 const AgriAreasCard = lazy(() =>
   import('../components/widgets/LandingBentoCards').then((module) => ({
     default: module.AgriAreasCard,
@@ -249,7 +247,6 @@ export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [forecastData, setForecastData] = useState(null);
   const [forecastLoading, setForecastLoading] = useState(false);
-  const hasTourismData = tourism.count > 0 || tourism.list.length > 0;
 
   const handleLandingSearchSubmit = useCallback(
     (e) => {
@@ -585,6 +582,22 @@ export default function LandingPage() {
               </Suspense>
             </div>
           </Modal>
+          <Modal
+            className="live-widget-modal live-tourism-modal"
+            open={activeInfoModal === 'liveAgriTourism'}
+            onCancel={() => setActiveInfoModal(null)}
+            footer={null}
+            width={1180}
+            destroyOnHidden
+            centered
+            title="แหล่งท่องเที่ยวเชิงเกษตร"
+          >
+            <div className="live-widget-modal-body">
+              <Suspense fallback={<WidgetSkeleton />}>
+                <AgriTourismWidget data={tourism} loading={loading} />
+              </Suspense>
+            </div>
+          </Modal>
         </section>
 
         {/* ===== BENTO GRID LATEST LISTS ===== */}
@@ -598,11 +611,15 @@ export default function LandingPage() {
               summary
               onOpen={() => setActiveInfoModal('liveFarmerDevelopment')}
             />
+            <AgriTourismWidget
+              data={tourism}
+              loading={loading}
+              summary
+              onOpen={() => setActiveInfoModal('liveAgriTourism')}
+            />
           </Suspense>
         </div>
-        <section
-          className={`bento-container ${hasTourismData ? '' : 'bento-container-no-tourism'}`}
-        >
+        <section className="bento-container bento-container-no-tourism">
           {/* 1. Map Card (Large) */}
           <div className="bento-card bento-card-map">
             <div className="bento-card-header">
@@ -615,13 +632,6 @@ export default function LandingPage() {
               </Suspense>
             </div>
           </div>
-
-          {/* 4. Agri Tourism */}
-          {hasTourismData && (
-            <Suspense fallback={<WidgetSkeleton />}>
-              <AgriTourismCard data={tourism} loading={loading} />
-            </Suspense>
-          )}
 
           {/* 6. Agri Areas */}
           <Suspense fallback={<WidgetSkeleton />}>
