@@ -316,11 +316,11 @@ export default function LandingPage() {
       icon: '🛡️',
       title: 'พื้นที่รับรอง GAP',
       value: tableCount('certifications')
-        ? formatKpi(sumDistrictMetric('certGap'), 'แปลง')
+        ? formatKpi(tableCount('certifications'), 'แปลง')
         : 'รอข้อมูล',
       note: 'มาตรฐานการผลิตที่ปลอดภัย',
       tone: '#2563eb',
-      href: '/interactive-dashboard',
+      href: '/dashboard/production/certifications',
     },
     {
       icon: '🐛',

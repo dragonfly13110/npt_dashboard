@@ -166,7 +166,7 @@ export function useDashboardData() {
     isLoading: loading,
     error,
     refetch,
-  } = useApiCache('dashboard-overall-data-v2', fetchDashboardData);
+  } = useApiCache('dashboard-overall-data-v4', fetchDashboardData);
 
   const {
     stats = [],
