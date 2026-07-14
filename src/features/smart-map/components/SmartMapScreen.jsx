@@ -59,27 +59,6 @@ const METRICS = [
     colors: ['#fdba74', '#fb923c', '#ea580c', '#7c2d12'],
   },
   {
-    key: 'farmerRegistry',
-    label: 'Farmer Registry',
-    unit: 'households',
-    icon: '📋',
-    colors: ['#bfdbfe', '#60a5fa', '#2563eb', '#1e3a8a'],
-  },
-  {
-    key: 'geoplotProgress',
-    label: 'GEOPLOTS',
-    unit: '%',
-    icon: '🗺️',
-    colors: ['#fde68a', '#fbbf24', '#d97706', '#92400e'],
-  },
-  {
-    key: 'groupCount',
-    label: 'Group Count',
-    unit: 'groups',
-    icon: '👥',
-    colors: ['#ddd6fe', '#a78bfa', '#7c3aed', '#4c1d95'],
-  },
-  {
     key: 'fireCount',
     label: 'Hotspot Count',
     unit: 'hotspots',
