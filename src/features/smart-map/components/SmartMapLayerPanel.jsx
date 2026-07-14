@@ -64,7 +64,13 @@ export default function SmartMapLayerPanel({
       >
         ปิดทั้งหมด
       </button>
-      {markerLayers.map((layer) => (
+      {markerLayers
+        .filter(
+          (layer) =>
+            !layerStatusById?.[layer.apiLayer] ||
+            layerStatusById[layer.apiLayer].availability === 'active'
+        )
+        .map((layer) => (
         <label
           key={layer.key}
           className={`control-toggle-checkbox-label ${visibleLayers[layer.key] ? 'active' : ''}`}
@@ -101,7 +107,7 @@ export default function SmartMapLayerPanel({
               ` แสดง ${layerMetaByKey[layer.key].count || 0} จาก ${layerStatusById?.[layer.apiLayer]?.rowCount || 0}`}
           </span>
         </label>
-      ))}
+        ))}
 
       <div className="controls-divider" />
       <div className="controls-section-title">External GIS layers</div>
