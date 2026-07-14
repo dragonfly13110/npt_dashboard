@@ -714,7 +714,8 @@
 /* Override Leaflet zoom controls */
 .smart-map-container .leaflet-top.leaflet-right {
   top: 16px !important;
-  right: 16px !important;
+  right: auto !important;
+  left: 558px !important;
 }
 
 .smart-map-container .leaflet-top.leaflet-right .leaflet-bar {
@@ -882,6 +883,12 @@
 }
 
 @media (max-width: 768px) {
+  /* Keep zoom controls beside the compact search row on small screens. */
+  .smart-map-container .leaflet-top.leaflet-right {
+    top: 68px !important;
+    left: 16px !important;
+  }
+
   .smart-map-status-bar {
     top: 68px;
     left: 12px;
