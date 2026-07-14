@@ -57,6 +57,7 @@ const getSoilFeatureLabel = (properties) => {
   ]);
   const unit = getSoilProperty(properties, [
     'soilseries',
+    'soil_series_code',
     'MAP_UNIT',
     'UNIT',
     'SYMBOL',
@@ -65,10 +66,18 @@ const getSoilFeatureLabel = (properties) => {
     'symbol',
     'code',
   ]);
-  const texture = getSoilProperty(properties, ['texture_to', 'TEXTURE']);
+  const texture = getSoilProperty(properties, [
+    'texture_to',
+    'texture',
+    'TEXTURE',
+  ]);
   const fertility = getSoilProperty(properties, ['fertility', 'FERTILITY']);
-  const ph = getSoilProperty(properties, ['pH_top', 'PH_TOP']);
-  const amphoe = getSoilProperty(properties, ['AMPHOE_T', 'amphoe']);
+  const ph = getSoilProperty(properties, ['pH_top', 'ph_top', 'PH_TOP']);
+  const amphoe = getSoilProperty(properties, [
+    'AMPHOE_T',
+    'amphoe',
+    'district',
+  ]);
   const areaRai = getSoilProperty(properties, ['area_rai', 'AREA_RAI']);
 
   return { series, group, unit, texture, fertility, ph, amphoe, areaRai };
@@ -553,7 +562,11 @@ export default function SmartMapCanvas({
               style={(feature) => {
                 const props = feature.properties || {};
                 const color = getStableColor(
-                  props.soilgroup || props.soilseries || props.soilserien
+                  props.soil_group ||
+                    props.soil_series_code ||
+                    props.soilgroup ||
+                    props.soilseries ||
+                    props.soilserien
                 );
                 return {
                   color,
