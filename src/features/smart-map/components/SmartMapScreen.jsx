@@ -1,7 +1,10 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import subdistrictGeoJSON from '../../../data/nakhon_pathom_subdistricts.json';
-import { getSubdistrictsForDistrict } from '../../../utils/geojsonBoundaries';
+import {
+  getSubdistrictsForDistrict,
+  normalizePlaceName,
+} from '../../../utils/geojsonBoundaries';
 import {
   useSmartMapLayerStatus,
   useSmartMapPoints,
@@ -17,6 +20,13 @@ import SmartMapKpiBar from './SmartMapKpiBar';
 import SmartMapLayerPanel from './SmartMapLayerPanel';
 import SmartMapDetailPanel from './SmartMapDetailPanel';
 import SmartMapComparisonDialog from './SmartMapComparisonDialog';
+import {
+  EMPTY_AREA_SELECTION,
+  areaSummaryScope,
+  choroplethScope,
+  selectDistrict,
+  selectSubdistrict,
+} from '../utils/areaSelection';
 
 // ===== CHOROPLETH CONFIG =====
 const METRICS = [
@@ -47,6 +57,34 @@ const METRICS = [
     unit: 'แปลง',
     icon: '🌱',
     colors: ['#fdba74', '#fb923c', '#ea580c', '#7c2d12'],
+  },
+  {
+    key: 'farmerRegistry',
+    label: 'Farmer Registry',
+    unit: 'households',
+    icon: '📋',
+    colors: ['#bfdbfe', '#60a5fa', '#2563eb', '#1e3a8a'],
+  },
+  {
+    key: 'geoplotProgress',
+    label: 'GEOPLOTS',
+    unit: '%',
+    icon: '🗺️',
+    colors: ['#fde68a', '#fbbf24', '#d97706', '#92400e'],
+  },
+  {
+    key: 'groupCount',
+    label: 'Group Count',
+    unit: 'groups',
+    icon: '👥',
+    colors: ['#ddd6fe', '#a78bfa', '#7c3aed', '#4c1d95'],
+  },
+  {
+    key: 'fireCount',
+    label: 'Hotspot Count',
+    unit: 'hotspots',
+    icon: '🔥',
+    colors: ['#fecaca', '#f87171', '#dc2626', '#7f1d1d'],
   },
 ];
 
@@ -135,6 +173,9 @@ function summaryToStats(summary) {
     sfSfCount: metrics.smartFarmers || 0,
     ysfCount: metrics.youngSmartFarmers || 0,
     fireCount: metrics.hotspotCount || 0,
+    farmerRegistry: metrics.farmerRegistryHouseholds || 0,
+    geoplotProgress: metrics.geoplotProgressPercent || 0,
+    groupCount: metrics.groupCount || 0,
   };
 }
 
@@ -211,8 +252,7 @@ export default function SmartMapScreen() {
     hotspot: false,
   });
   const [mapZoom, setMapZoom] = useState(10);
-  const [selectedDistrict, setSelectedDistrict] = useState(null);
-  const [selectedSubdistrict, setSelectedSubdistrict] = useState(null);
+  const [areaSelection, setAreaSelection] = useState(EMPTY_AREA_SELECTION);
   const [panelClosing, setPanelClosing] = useState(false);
   const [resetKey, setResetKey] = useState(0);
 
@@ -237,15 +277,13 @@ export default function SmartMapScreen() {
   const [compSimRiceConversion, setCompSimRiceConversion] = useState(0);
   const [compSimResidueManagement, setCompSimResidueManagement] = useState(0);
 
-  const selectedScope = selectedDistrict
-    ? {
-        level: selectedSubdistrict ? 'subdistrict' : 'district',
-        districtName: selectedDistrict.name,
-        subdistrictName: selectedSubdistrict?.name,
-      }
-    : { level: 'province' };
+  const selectedDistrict = areaSelection.district || null;
+  const selectedSubdistrict = areaSelection.subdistrict || null;
+  const selectedScope = areaSummaryScope(areaSelection);
+  const mapScope = choroplethScope(areaSelection);
   const provinceSummary = useSmartMapSummary({ level: 'province' });
   const selectedSummary = useSmartMapSummary(selectedScope);
+  const mapSummary = useSmartMapSummary(mapScope);
   const layerStatus = useSmartMapLayerStatus();
   const weather = useSmartMapWeather();
   const soil = useSmartMapSoil({ enabled: isSoilLayerVisible });
@@ -268,17 +306,38 @@ export default function SmartMapScreen() {
   );
   const selectedData = useMemo(
     () =>
-      selectedDistrict && selectedSummary.data
-        ? summaryToStats(selectedSummary.data)
+      selectedDistrict && (selectedSummary.data || mapSummary.data)
+        ? summaryToStats(
+            selectedSummary.data?.availability === 'district_only'
+              ? mapSummary.data
+              : selectedSummary.data
+          )
         : null,
-    [selectedDistrict, selectedSummary.data]
+    [selectedDistrict, selectedSummary.data, mapSummary.data]
   );
   const districtStats = useMemo(
     () =>
-      selectedDistrict && selectedData
-        ? { [selectedDistrict.name]: selectedData }
+      areaSelection.level === 'province'
+        ? Object.fromEntries(
+            (mapSummary.data?.breakdown || []).map((area) => [
+              normalizePlaceName(area.districtName),
+              summaryToStats({ metrics: area.metrics }),
+            ])
+          )
         : {},
-    [selectedDistrict, selectedData]
+    [areaSelection.level, mapSummary.data]
+  );
+  const subdistrictStats = useMemo(
+    () =>
+      areaSelection.level === 'province'
+        ? {}
+        : Object.fromEntries(
+            (mapSummary.data?.breakdown || []).map((area) => [
+              normalizePlaceName(area.subdistrictName),
+              summaryToStats({ metrics: area.metrics }),
+            ])
+          ),
+    [areaSelection.level, mapSummary.data]
   );
   const weatherData = useMemo(
     () => weatherByDistrict(weather.data),
@@ -321,7 +380,7 @@ export default function SmartMapScreen() {
     setSimRiceConversion(0);
     setSimResidueManagement(0);
     setAiError(null);
-  }, [selectedDistrict]);
+  }, [areaSelection]);
 
   // Compute totals for KPI bar
   const totals = provinceTotals;
@@ -370,11 +429,9 @@ export default function SmartMapScreen() {
         }
       }
       setPanelClosing(false);
-      setSelectedSubdistrict(null);
-      setSelectedDistrict({
-        name,
-        areaSqkm,
-      });
+      setAreaSelection((selection) =>
+        selectDistrict(selection, { name, areaSqkm })
+      );
     },
     [geoJSONData]
   );
@@ -412,8 +469,7 @@ export default function SmartMapScreen() {
   const closePanel = useCallback(() => {
     setPanelClosing(true);
     setTimeout(() => {
-      setSelectedDistrict(null);
-      setSelectedSubdistrict(null);
+      setAreaSelection(EMPTY_AREA_SELECTION);
       setPanelClosing(false);
     }, 300);
   }, []);
@@ -427,15 +483,19 @@ export default function SmartMapScreen() {
 
   // Get metric info
   const currentMetric = METRICS.find((m) => m.key === activeMetric) || null;
+  const choroplethStats =
+    areaSelection.level === 'province' ? districtStats : subdistrictStats;
 
   // Compute choropleth min/max
   const { minVal, maxVal } = useMemo(() => {
-    if (!districtStats || Object.keys(districtStats).length === 0)
+    if (!choroplethStats || Object.keys(choroplethStats).length === 0)
       return { minVal: 0, maxVal: 1 };
     if (!activeMetric) return { minVal: 0, maxVal: 1 };
-    const vals = Object.values(districtStats).map((d) => d[activeMetric] || 0);
+    const vals = Object.values(choroplethStats).map(
+      (d) => d[activeMetric] || 0
+    );
     return { minVal: Math.min(...vals), maxVal: Math.max(...vals, 1) };
-  }, [districtStats, activeMetric]);
+  }, [choroplethStats, activeMetric]);
 
   // Color interpolation for choropleth
   const getDistrictColor = useCallback(
@@ -657,6 +717,7 @@ ${cropsStr}
         selectedDistrict={selectedDistrict}
         selectedSubdistrict={selectedSubdistrict}
         selectedData={selectedData}
+        summaryAvailability={selectedSummary.data?.availability}
         panelClosing={panelClosing}
         onClose={closePanel}
         onCompare={() => {
@@ -730,14 +791,24 @@ ${cropsStr}
         districtCentroids={DISTRICT_CENTROIDS}
         activeMetric={activeMetric}
         districtStats={districtStats}
+        subdistrictStats={subdistrictStats}
+        choroplethLevel={
+          areaSelection.level === 'province' ? 'district' : 'subdistrict'
+        }
         weatherData={weatherData}
         getDistrictColor={getDistrictColor}
         getWeatherDetails={getWeatherDetails}
         getPm25Color={getPm25Color}
         getPm25LevelLabel={getPm25LevelLabel}
         setPanelClosing={setPanelClosing}
-        setSelectedDistrict={setSelectedDistrict}
-        setSelectedSubdistrict={setSelectedSubdistrict}
+        onSelectDistrict={(district) =>
+          setAreaSelection((selection) => selectDistrict(selection, district))
+        }
+        onSelectSubdistrict={(district, subdistrict) =>
+          setAreaSelection((selection) =>
+            selectSubdistrict(selectDistrict(selection, district), subdistrict)
+          )
+        }
         isSoilLayerVisible={isSoilLayerVisible}
         soilLayerData={soilLayerData}
         soilLayerMeta={soilLayerMeta}

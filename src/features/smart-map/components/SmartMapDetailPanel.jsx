@@ -4,6 +4,7 @@ export default function SmartMapDetailPanel({
   selectedDistrict,
   selectedSubdistrict,
   selectedData,
+  summaryAvailability,
   panelClosing,
   onClose,
   onCompare,
@@ -61,6 +62,16 @@ export default function SmartMapDetailPanel({
           </button>
         </div>
       </div>
+
+      {summaryAvailability === 'district_only' && (
+        <div
+          role="status"
+          className="panel-section"
+          style={{ color: '#9a3412' }}
+        >
+          ข้อมูลระดับอำเภอ (ไม่มีข้อมูลระดับตำบล)
+        </div>
+      )}
 
       <div className="panel-section weather-live-card">
         <div className="panel-section-title">🌤️ สภาพอากาศสดและฝุ่น PM2.5</div>

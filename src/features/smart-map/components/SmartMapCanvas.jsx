@@ -7,6 +7,8 @@ import {
 } from './MapControls';
 import MapLayerErrorBoundary from './MapLayerErrorBoundary';
 
+const EMPTY_STATS = {};
+
 const DISTRICT_LABEL_POSITIONS = {
   กำแพงแสน: [14.07, 99.85], // Northwest outer edge (inside polygon)
   บางเลน: [14.14, 100.26], // Northeast outer edge (inside polygon)
@@ -284,14 +286,16 @@ export default function SmartMapCanvas({
   districtCentroids,
   activeMetric,
   districtStats,
+  subdistrictStats = EMPTY_STATS,
+  choroplethLevel = 'district',
   weatherData,
   getDistrictColor,
   getWeatherDetails,
   getPm25Color,
   getPm25LevelLabel,
   setPanelClosing,
-  setSelectedDistrict,
-  setSelectedSubdistrict,
+  onSelectDistrict,
+  onSelectSubdistrict,
   isSoilLayerVisible,
   soilLayerData,
   soilLayerMeta,
@@ -370,39 +374,48 @@ export default function SmartMapCanvas({
         <MapLayerErrorBoundary
           layerName="ชั้นข้อมูลสีตามตัวชี้วัด"
           fallback={layerFallback('choropleth', 'ชั้นข้อมูลสีตามตัวชี้วัด')}
-          resetOn={[geoJSONData, activeMetric, districtStats, weatherData]}
+          resetOn={[
+            geoJSONData,
+            activeMetric,
+            districtStats,
+            subdistrictStats,
+            choroplethLevel,
+            weatherData,
+          ]}
         >
-          {activeMetric && Object.keys(districtStats).length > 0 && (
-            <GeoJSON
-              key={`choropleth-${activeMetric}-${selectedDistrict ? selectedDistrict.name : 'none'}-weather-${Object.keys(weatherData).length}`}
-              data={geoJSONData}
-              style={(feature) => {
-                const distName = feature.properties?.amp_th;
-                const stats = districtStats[distName];
-                const value = stats ? stats[activeMetric] || 0 : 0;
-                const fillColor = getDistrictColor(value);
-                const isSelected =
-                  selectedDistrict && selectedDistrict.name === distName;
-                return {
-                  fillColor,
-                  fillOpacity: isSelected ? 0.7 : 0.5,
-                  color: isSelected ? '#ef4444' : 'rgba(15, 23, 42, 0.15)',
-                  weight: isSelected ? 5 : 2,
-                };
-              }}
-              onEachFeature={(feature, layer) => {
-                const distName = feature.properties?.amp_th;
-                const stats = districtStats[distName] || {};
-                if (!distName) return;
+          {choroplethLevel === 'district' &&
+            activeMetric &&
+            Object.keys(districtStats).length > 0 && (
+              <GeoJSON
+                key={`choropleth-${activeMetric}-${selectedDistrict ? selectedDistrict.name : 'none'}-weather-${Object.keys(weatherData).length}`}
+                data={geoJSONData}
+                style={(feature) => {
+                  const distName = feature.properties?.amp_th;
+                  const stats = districtStats[distName];
+                  const value = stats ? stats[activeMetric] || 0 : 0;
+                  const fillColor = getDistrictColor(value);
+                  const isSelected =
+                    selectedDistrict && selectedDistrict.name === distName;
+                  return {
+                    fillColor,
+                    fillOpacity: isSelected ? 0.7 : 0.5,
+                    color: isSelected ? '#ef4444' : 'rgba(15, 23, 42, 0.15)',
+                    weight: isSelected ? 5 : 2,
+                  };
+                }}
+                onEachFeature={(feature, layer) => {
+                  const distName = feature.properties?.amp_th;
+                  const stats = districtStats[distName] || {};
+                  if (!distName) return;
 
-                // Fetch weather stats for tooltip
-                const w = weatherData[distName];
-                let weatherHtml = '';
-                if (w && !w.loading && !w.error) {
-                  const weatherInfo = getWeatherDetails(w.weatherCode);
-                  const pmColor = getPm25Color(w.pm25);
-                  const pmLabel = getPm25LevelLabel(w.pm25);
-                  weatherHtml = `
+                  // Fetch weather stats for tooltip
+                  const w = weatherData[distName];
+                  let weatherHtml = '';
+                  if (w && !w.loading && !w.error) {
+                    const weatherInfo = getWeatherDetails(w.weatherCode);
+                    const pmColor = getPm25Color(w.pm25);
+                    const pmLabel = getPm25LevelLabel(w.pm25);
+                    weatherHtml = `
                                         <div class="tooltip-divider"></div>
                                         <div class="tooltip-weather">
                                             <div class="tooltip-weather-main">
@@ -415,17 +428,17 @@ export default function SmartMapCanvas({
                                             </div>
                                         </div>
                                     `;
-                } else {
-                  weatherHtml = `
+                  } else {
+                    weatherHtml = `
                                         <div class="tooltip-divider"></div>
                                         <div class="tooltip-weather-loading">
                                             ⏳ กำลังโหลดข้อมูลสภาพอากาศ...
                                         </div>
                                     `;
-                }
+                  }
 
-                // Tooltip
-                const html = `
+                  // Tooltip
+                  const html = `
                                     <div class="tooltip-name">🎯 อ.${distName}</div>
                                     <div class="tooltip-row"><span>🌾 พื้นที่เกษตร</span><strong>${(stats.area || 0).toLocaleString()} ไร่</strong></div>
                                     <div class="tooltip-row"><span>🏠 ครัวเรือน</span><strong>${(stats.house || 0).toLocaleString()} ราย</strong></div>
@@ -434,44 +447,45 @@ export default function SmartMapCanvas({
                                     ${weatherHtml}
                                     <div class="tooltip-hint">คลิกเพื่อดูรายละเอียด</div>
                                 `;
-                layer.bindTooltip(html, {
-                  sticky: true,
-                  direction: 'auto',
-                  className: 'smart-map-tooltip',
-                });
+                  layer.bindTooltip(html, {
+                    sticky: true,
+                    direction: 'auto',
+                    className: 'smart-map-tooltip',
+                  });
 
-                // Hover effect
-                layer.on({
-                  mouseover: (e) => {
-                    const isSelected =
-                      selectedDistrict && selectedDistrict.name === distName;
-                    e.target.setStyle({
-                      fillOpacity: 0.7,
-                      weight: isSelected ? 5 : 3,
-                      color: isSelected ? '#ef4444' : 'rgba(15, 23, 42, 0.3)',
-                    });
-                  },
-                  mouseout: (e) => {
-                    const isSelected =
-                      selectedDistrict && selectedDistrict.name === distName;
-                    e.target.setStyle({
-                      fillOpacity: isSelected ? 0.7 : 0.5,
-                      weight: isSelected ? 5 : 2,
-                      color: isSelected ? '#ef4444' : 'rgba(15, 23, 42, 0.15)',
-                    });
-                  },
-                  click: () => {
-                    setPanelClosing(false);
-                    setSelectedSubdistrict(null);
-                    setSelectedDistrict({
-                      name: distName,
-                      areaSqkm: feature.properties?.area_sqkm || 0,
-                    });
-                  },
-                });
-              }}
-            />
-          )}
+                  // Hover effect
+                  layer.on({
+                    mouseover: (e) => {
+                      const isSelected =
+                        selectedDistrict && selectedDistrict.name === distName;
+                      e.target.setStyle({
+                        fillOpacity: 0.7,
+                        weight: isSelected ? 5 : 3,
+                        color: isSelected ? '#ef4444' : 'rgba(15, 23, 42, 0.3)',
+                      });
+                    },
+                    mouseout: (e) => {
+                      const isSelected =
+                        selectedDistrict && selectedDistrict.name === distName;
+                      e.target.setStyle({
+                        fillOpacity: isSelected ? 0.7 : 0.5,
+                        weight: isSelected ? 5 : 2,
+                        color: isSelected
+                          ? '#ef4444'
+                          : 'rgba(15, 23, 42, 0.15)',
+                      });
+                    },
+                    click: () => {
+                      setPanelClosing(false);
+                      onSelectDistrict({
+                        name: distName,
+                        areaSqkm: feature.properties?.area_sqkm || 0,
+                      });
+                    },
+                  });
+                }}
+              />
+            )}
         </MapLayerErrorBoundary>
 
         <MapLayerErrorBoundary
@@ -571,6 +585,9 @@ export default function SmartMapCanvas({
             selectedDistrict,
             selectedSubdistrict,
             visibleSubdistrictFeatures,
+            activeMetric,
+            subdistrictStats,
+            choroplethLevel,
           ]}
         >
           {showSubdistrictLayer &&
@@ -583,14 +600,31 @@ export default function SmartMapCanvas({
                   features: visibleSubdistrictFeatures,
                 }}
                 style={(feature) => {
+                  const name =
+                    feature.properties?.tam_th ||
+                    feature.properties?.tam_en ||
+                    feature.properties?.tam_code;
+                  const value = subdistrictStats[name]?.[activeMetric] || 0;
                   const isSelected =
                     selectedSubdistrict?.code === feature.properties?.tam_code;
                   return {
                     color: isSelected ? '#7c2d12' : '#7c3aed',
                     weight: isSelected ? 3 : 1,
                     opacity: isSelected ? 0.95 : 0.45,
-                    fillColor: isSelected ? '#fed7aa' : '#ede9fe',
-                    fillOpacity: isSelected ? 0.35 : 0.08,
+                    fillColor:
+                      choroplethLevel === 'subdistrict' && activeMetric
+                        ? getDistrictColor(value)
+                        : isSelected
+                          ? '#fed7aa'
+                          : '#ede9fe',
+                    fillOpacity:
+                      choroplethLevel === 'subdistrict' && activeMetric
+                        ? isSelected
+                          ? 0.7
+                          : 0.5
+                        : isSelected
+                          ? 0.35
+                          : 0.08,
                     dashArray: isSelected ? '' : '2,4',
                   };
                 }}
@@ -609,14 +643,14 @@ export default function SmartMapCanvas({
                   layer.on({
                     click: () => {
                       setPanelClosing(false);
-                      setSelectedDistrict({
+                      const selectedDistrict = {
                         name: district,
                         areaSqkm:
                           geoJSONData.features?.find(
                             (f) => f.properties?.amp_th === district
                           )?.properties?.area_sqkm || 0,
-                      });
-                      setSelectedSubdistrict({
+                      };
+                      onSelectSubdistrict(selectedDistrict, {
                         code: props.tam_code,
                         name,
                         areaSqkm: props.area_sqkm || 0,
@@ -661,11 +695,10 @@ export default function SmartMapCanvas({
                     eventHandlers={{
                       click: () => {
                         setPanelClosing(false);
-                        setSelectedSubdistrict(null);
                         const feat = geoJSONData?.features?.find(
                           (f) => f.properties?.amp_th === name
                         );
-                        setSelectedDistrict({
+                        onSelectDistrict({
                           name,
                           areaSqkm: feat?.properties?.area_sqkm || 0,
                         });

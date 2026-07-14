@@ -49,6 +49,11 @@ async function loadSummaryData(supabase, searchParams) {
     largePlots,
     smartFarmers,
     youngSmartFarmers,
+    geoplotsDistrict,
+    geoplotsSubdistrict,
+    youngFarmerGroups,
+    careerGroups,
+    housewifeGroups,
     fireHotspots,
   ] = await Promise.all([
     fetchRows(
@@ -77,6 +82,33 @@ async function loadSummaryData(supabase, searchParams) {
         .from('young_smart_farmer_ysf')
         .select('district,subdistrict,created_at')
     ),
+    fetchRows(
+      supabase
+        .from('geoplots_parcel_progress')
+        .select('district,drawn_plots,target_plots,snapshot_date,updated_at')
+    ),
+    fetchRows(
+      supabase
+        .from('geoplots_parcel_subdistrict_progress')
+        .select(
+          'district,subdistrict,drawn_plots,target_plots,snapshot_date,updated_at'
+        )
+    ),
+    fetchRows(
+      supabase
+        .from('young_farmer_groups_detailed')
+        .select('district,subdistrict,updated_at')
+    ),
+    fetchRows(
+      supabase
+        .from('agricultural_career_groups')
+        .select('district,subdistrict,updated_at')
+    ),
+    fetchRows(
+      supabase
+        .from('housewife_farmer_groups')
+        .select('district,subdistrict,updated_at')
+    ),
     fetchRows(hotspots),
   ]);
   return {
@@ -86,6 +118,11 @@ async function loadSummaryData(supabase, searchParams) {
     largePlots,
     smartFarmers,
     youngSmartFarmers,
+    geoplotsDistrict,
+    geoplotsSubdistrict,
+    youngFarmerGroups,
+    careerGroups,
+    housewifeGroups,
     fireHotspots,
   };
 }

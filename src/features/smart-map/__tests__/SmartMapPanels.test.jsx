@@ -98,6 +98,38 @@ describe('Smart map panels', () => {
     expect(onRiceConversionChange).toHaveBeenCalledWith(25);
   });
 
+  it('labels district fallback data explicitly', () => {
+    render(
+      <SmartMapDetailPanel
+        selectedDistrict={{ name: 'Mueang', areaSqkm: 10 }}
+        selectedSubdistrict={{ name: 'Phra Pathom Chedi' }}
+        selectedData={{ ricePrung: 0, ricePi: 0 }}
+        summaryAvailability="district_only"
+        panelClosing={false}
+        onClose={vi.fn()}
+        onCompare={vi.fn()}
+        weather={null}
+        cropChartData={[]}
+        simRiceConversion={0}
+        onRiceConversionChange={vi.fn()}
+        simResidueManagement={0}
+        onResidueManagementChange={vi.fn()}
+        simulationResults={{
+          waterSaved: 0,
+          incomeAdded: 0,
+          co2Reduced: 0,
+          hotspotReduction: 0,
+        }}
+        aiLoading={false}
+        aiError={null}
+        aiInsight={null}
+        onGenerateAIInsight={vi.fn()}
+      />
+    );
+
+    expect(screen.getByRole('status')).toHaveTextContent('ข้อมูลระดับอำเภอ');
+  });
+
   it('keeps layer controls wired to their explicit handlers', () => {
     const onMetricToggle = vi.fn();
     const onLayerToggle = vi.fn();

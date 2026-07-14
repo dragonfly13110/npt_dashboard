@@ -74,6 +74,42 @@ describe('buildSmartMapSummary', () => {
     expect(summary.metrics.farmAreaRai).toBe(0);
     expect(summary.metrics.farmerHouseholds).toBe(0);
   });
+
+  test('returns metric-ready district breakdowns including registry, GEOPLOTS, groups, and hotspots', () => {
+    const summary = buildSmartMapSummary(
+      { level: 'province' },
+      {
+        agriculturalAreas: [
+          { district: 'Mueang', total_area_rai: 10, farmer_households: 2 },
+        ],
+        farmerRegistry: [
+          {
+            district: 'Mueang',
+            subdistrict: 'Phra Pathom',
+            net_total_households: 3,
+          },
+        ],
+        geoplotsDistrict: [
+          { district: 'Mueang', drawn_plots: 6, target_plots: 10 },
+        ],
+        youngFarmerGroups: [{ district: 'Mueang' }],
+        careerGroups: [{ district: 'Mueang' }],
+        fireHotspots: [{ district: 'Mueang' }],
+      }
+    );
+
+    expect(summary.breakdown).toEqual([
+      expect.objectContaining({
+        districtName: 'Mueang',
+        metrics: expect.objectContaining({
+          farmerRegistryHouseholds: 3,
+          geoplotProgressPercent: 60,
+          groupCount: 2,
+          hotspotCount: 1,
+        }),
+      }),
+    ]);
+  });
 });
 
 test('parseSummaryScope requires the name needed for the requested level', () => {

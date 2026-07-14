@@ -50,6 +50,11 @@ const SOURCE_TABLES = {
   largePlots: 'large_plots',
   smartFarmers: 'smart_farmer_sf',
   youngSmartFarmers: 'young_smart_farmer_ysf',
+  geoplotsDistrict: 'geoplots_parcel_progress',
+  geoplotsSubdistrict: 'geoplots_parcel_subdistrict_progress',
+  youngFarmerGroups: 'young_farmer_groups_detailed',
+  careerGroups: 'agricultural_career_groups',
+  housewifeGroups: 'housewife_farmer_groups',
   fireHotspots: 'fire_hotspots',
 };
 
@@ -76,7 +81,22 @@ function freshness(rowsByDataset) {
   };
 }
 
-export function buildSmartMapSummary(scope, datasets = {}) {
+function geoplotMetrics(scope, rows) {
+  const geoplots =
+    rows[
+      scope.level === 'subdistrict' ? 'geoplotsSubdistrict' : 'geoplotsDistrict'
+    ];
+  const drawnPlots = sum(geoplots, 'drawn_plots');
+  const targetPlots = sum(geoplots, 'target_plots');
+  return {
+    geoplotDrawnPlots: drawnPlots,
+    geoplotTargetPlots: targetPlots,
+    geoplotProgressPercent:
+      targetPlots > 0 ? Math.round((drawnPlots / targetPlots) * 100) : 0,
+  };
+}
+
+function summaryForScope(scope, datasets = {}) {
   const rows = Object.fromEntries(
     Object.keys(SOURCE_TABLES).map((key) => [
       key,
@@ -84,6 +104,10 @@ export function buildSmartMapSummary(scope, datasets = {}) {
     ])
   );
   const { agriculturalAreas, farmerRegistry } = rows;
+  const groups =
+    rows.youngFarmerGroups.length +
+    rows.careerGroups.length +
+    rows.housewifeGroups.length;
   const useSubdistrictMetrics = scope.level === 'subdistrict';
   const hasSubdistrictData = farmerRegistry.length > 0;
   const { sources, updatedAt } = freshness(rows);
@@ -99,16 +123,65 @@ export function buildSmartMapSummary(scope, datasets = {}) {
       farmerHouseholds: useSubdistrictMetrics
         ? sum(farmerRegistry, 'net_total_households')
         : sum(agriculturalAreas, 'farmer_households'),
+      farmerRegistryHouseholds: sum(farmerRegistry, 'net_total_households'),
       communityEnterprises: rows.communityEnterprises.length,
       largePlots: rows.largePlots.length,
       smartFarmers: rows.smartFarmers.length,
       youngSmartFarmers: rows.youngSmartFarmers.length,
+      groupCount: groups,
       hotspotCount: rows.fireHotspots.length,
+      ...geoplotMetrics(scope, rows),
     },
     cropAreas: [],
     networkCounts: {},
     riskMetrics: {},
     sources,
     updatedAt,
+  };
+}
+
+function breakdownScopes(scope, datasets) {
+  if (scope.level === 'subdistrict') return [];
+  const breakdownLevel =
+    scope.level === 'province' ? 'district' : 'subdistrict';
+  const scopes = new Map();
+
+  Object.values(datasets).forEach((rows) => {
+    rowsForScope(rows, scope).forEach((row) => {
+      if (!row.district) return;
+      const districtName = row.district;
+      const subdistrictName = row.subdistrict;
+      if (breakdownLevel === 'subdistrict' && !subdistrictName) return;
+      const key =
+        breakdownLevel === 'district'
+          ? normalizePlaceName(districtName)
+          : `${normalizePlaceName(districtName)}:${normalizePlaceName(subdistrictName)}`;
+      if (!scopes.has(key)) {
+        scopes.set(key, {
+          level: breakdownLevel,
+          districtName,
+          ...(breakdownLevel === 'subdistrict' ? { subdistrictName } : {}),
+        });
+      }
+    });
+  });
+  return [...scopes.values()];
+}
+
+export function buildSmartMapSummary(scope, datasets = {}) {
+  const summary = summaryForScope(scope, datasets);
+  // ponytail: source tables are small; pre-aggregate by scope if they grow.
+  return {
+    ...summary,
+    breakdown: breakdownScopes(scope, datasets).map((areaScope) => {
+      const areaSummary = summaryForScope(areaScope, datasets);
+      return {
+        districtName: areaScope.districtName,
+        subdistrictName: areaScope.subdistrictName || null,
+        availability: areaSummary.availability,
+        metrics: areaSummary.metrics,
+        updatedAt: areaSummary.updatedAt,
+      };
+    }),
   };
 }
