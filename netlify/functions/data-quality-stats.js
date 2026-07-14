@@ -1,5 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
+import { SMART_MAP_LAYERS } from '../../src/features/smart-map/config/layerCatalog.js';
+import { summarizeSpatialQuality } from './lib/smart-map/feature-builders.js';
+import { summarizeLayerStatus } from './lib/smart-map/layer-status.js';
 
 function jsonResponse(origin, status, payload) {
   return new Response(JSON.stringify(payload), {
@@ -40,6 +43,46 @@ const TARGET_TABLES = [
   'budgets',
   'personnel',
 ];
+
+async function fetchSpatialRows(supabase, layer) {
+  const rows = [];
+  const fields = `id,${layer.latitudeField},${layer.longitudeField}`;
+  for (let from = 0; ; from += 1000) {
+    const { data, error } = await supabase
+      .from(layer.sourceTable)
+      .select(fields)
+      .range(from, from + 999);
+    if (error) throw error;
+    rows.push(...(data || []));
+    if (!data || data.length < 1000) return rows;
+  }
+}
+
+async function getSpatialStats(supabase) {
+  return Promise.all(
+    SMART_MAP_LAYERS.filter((layer) => layer.geometryType === 'point').map(
+      async (layer) => {
+        const quality = summarizeSpatialQuality(
+          layer,
+          await fetchSpatialRows(supabase, layer)
+        );
+        return {
+          ...summarizeLayerStatus(layer, quality),
+          ...quality,
+          usablePercent:
+            quality.totalRows === 0
+              ? 0
+              : Number(
+                  (
+                    (quality.validCoordinateCount / quality.totalRows) *
+                    100
+                  ).toFixed(1)
+                ),
+        };
+      }
+    )
+  );
+}
 
 export default async (request) => {
   const origin = request.headers.get('origin');
@@ -249,7 +292,10 @@ export default async (request) => {
       }
     }
 
-    return jsonResponse(origin, 200, { stats });
+    return jsonResponse(origin, 200, {
+      stats,
+      spatialStats: await getSpatialStats(supabase),
+    });
   } catch (err) {
     console.error('Data quality stats error:', err);
     return jsonResponse(origin, 500, {

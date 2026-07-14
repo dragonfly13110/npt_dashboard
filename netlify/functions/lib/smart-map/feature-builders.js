@@ -35,6 +35,36 @@ function inBbox(latitude, longitude, bbox) {
   );
 }
 
+export function summarizeSpatialQuality(policy, rows = []) {
+  const quality = {
+    totalRows: rows.length,
+    validCoordinateCount: 0,
+    invalidCoordinateCount: 0,
+    outsideProvinceCount: 0,
+    duplicateCoordinateCount: 0,
+    invalidExamples: [],
+  };
+  const coordinates = new Set();
+
+  for (const row of rows) {
+    const { state, latitude, longitude } = coordinatesFor(policy, row);
+    if (state === 'valid') {
+      quality.validCoordinateCount += 1;
+      const coordinate = `${Number(latitude).toFixed(6)},${Number(longitude).toFixed(6)}`;
+      if (coordinates.has(coordinate)) quality.duplicateCoordinateCount += 1;
+      coordinates.add(coordinate);
+      continue;
+    }
+
+    if (state === 'outside_province') quality.outsideProvinceCount += 1;
+    else quality.invalidCoordinateCount += 1;
+    if (quality.invalidExamples.length < 5)
+      quality.invalidExamples.push({ id: row.id, state });
+  }
+
+  return quality;
+}
+
 export function toPointFeatureCollection(policy, rows = [], bbox) {
   const meta = {
     layerId: policy.id,

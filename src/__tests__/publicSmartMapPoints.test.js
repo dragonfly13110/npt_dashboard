@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest';
 import { getPointLayerPolicy } from '../../netlify/functions/lib/smart-map/layer-policy';
 import { toPointFeatureCollection } from '../../netlify/functions/lib/smart-map/feature-builders';
 import { summarizeLayerStatus } from '../../netlify/functions/lib/smart-map/layer-status';
+import { summarizeSpatialQuality } from '../../netlify/functions/lib/smart-map/feature-builders';
 import handler from '../../netlify/functions/public-smart-map-points';
 
 describe('public smart map point policy', () => {
@@ -67,4 +68,33 @@ test('summarizeLayerStatus marks sparse coordinates as incomplete', () => {
       }
     )
   ).toMatchObject({ availability: 'coordinate_incomplete', rowCount: 23 });
+});
+
+test('summarizeSpatialQuality reports invalid, outside, and duplicate coordinates', () => {
+  expect(
+    summarizeSpatialQuality(
+      {
+        id: 'fire_hotspots',
+        coordinateType: 'lat_lon',
+        latitudeField: 'latitude',
+        longitudeField: 'longitude',
+      },
+      [
+        { id: 'valid-a', latitude: 13.82, longitude: 100.04 },
+        { id: 'valid-b', latitude: 13.82, longitude: 100.04 },
+        { id: 'outside', latitude: 13.82, longitude: 101.04 },
+        { id: 'invalid', latitude: 0, longitude: 0 },
+      ]
+    )
+  ).toMatchObject({
+    totalRows: 4,
+    validCoordinateCount: 2,
+    outsideProvinceCount: 1,
+    invalidCoordinateCount: 1,
+    duplicateCoordinateCount: 1,
+    invalidExamples: [
+      { id: 'outside', state: 'outside_province' },
+      { id: 'invalid', state: 'invalid' },
+    ],
+  });
 });

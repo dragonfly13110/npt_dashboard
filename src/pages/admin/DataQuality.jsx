@@ -18,6 +18,7 @@ import {
   CheckCircleOutlined,
   WarningOutlined,
   PieChartOutlined,
+  DownloadOutlined,
 } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
 import EChart from '../../components/widgets/EChart';
@@ -57,6 +58,7 @@ const TABLE_LABELS = {
 
 export default function DataQuality() {
   const [stats, setStats] = useState([]);
+  const [spatialStats, setSpatialStats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchText, setSearchText] = useState('');
@@ -89,6 +91,7 @@ export default function DataQuality() {
         throw new Error(data.error);
       }
       setStats(data.stats || []);
+      setSpatialStats(data.spatialStats || []);
     } catch (err) {
       console.error(err);
       setError(err.message || 'เกิดข้อผิดพลาดในการดึงข้อมูล');
@@ -266,6 +269,85 @@ export default function DataQuality() {
     },
   ];
 
+  const spatialColumns = [
+    { title: 'Layer', dataIndex: 'id', key: 'id' },
+    {
+      title: 'Usable',
+      dataIndex: 'usablePercent',
+      key: 'usablePercent',
+      render: (value) => <Progress percent={value} size="small" />,
+    },
+    {
+      title: 'Outside province',
+      dataIndex: 'outsideProvinceCount',
+      key: 'outsideProvinceCount',
+    },
+    {
+      title: 'Duplicate coordinates',
+      dataIndex: 'duplicateCoordinateCount',
+      key: 'duplicateCoordinateCount',
+    },
+    {
+      title: 'Invalid examples',
+      dataIndex: 'invalidExamples',
+      key: 'invalidExamples',
+      render: (examples) =>
+        examples?.length
+          ? examples.map((item) => (
+              <Tag key={item.id}>
+                {item.id}: {item.state}
+              </Tag>
+            ))
+          : '-',
+    },
+    {
+      title: 'Layer status',
+      dataIndex: 'availability',
+      key: 'availability',
+      render: (value) => (
+        <Tag color={value === 'active' ? 'success' : 'warning'}>{value}</Tag>
+      ),
+    },
+  ];
+
+  const exportSpatialCsv = () => {
+    const rows = [
+      [
+        'layer',
+        'usable_percent',
+        'outside_province',
+        'duplicate_coordinates',
+        'invalid_coordinates',
+        'invalid_examples',
+        'status',
+      ],
+      ...spatialStats.map((item) => [
+        item.id,
+        item.usablePercent,
+        item.outsideProvinceCount,
+        item.duplicateCoordinateCount,
+        item.invalidCoordinateCount,
+        item.invalidExamples
+          ?.map(({ id, state }) => `${id}:${state}`)
+          .join(';') || '',
+        item.availability,
+      ]),
+    ];
+    const csv = rows
+      .map((row) =>
+        row.map((value) => `"${String(value).replaceAll('"', '""')}"`).join(',')
+      )
+      .join('\n');
+    const url = URL.createObjectURL(
+      new Blob([csv], { type: 'text/csv;charset=utf-8' })
+    );
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'smart-map-spatial-quality.csv';
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="crud-container">
       <div className="crud-header">
@@ -371,6 +453,25 @@ export default function DataQuality() {
           )}
 
           {/* Charts & Graphs */}
+          <Card
+            title="Smart Map coordinate quality"
+            extra={
+              <Button icon={<DownloadOutlined />} onClick={exportSpatialCsv}>
+                Export CSV
+              </Button>
+            }
+            bordered={false}
+            style={{ marginBottom: 20, borderRadius: 8 }}
+          >
+            <Table
+              dataSource={spatialStats}
+              columns={spatialColumns}
+              rowKey="id"
+              pagination={false}
+              size="small"
+            />
+          </Card>
+
           {validStats.length > 0 && (
             <Card
               title="ภาพรวมความสมบูรณ์ของข้อมูล 10 ตารางแรก"
