@@ -1,27 +1,14 @@
-import {
-  createElement,
-  useEffect,
-  useState,
-  useCallback,
-  useMemo,
-  Fragment,
-} from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDashboardData } from '../../../hooks/useDashboardData';
 import { supabase } from '../../../supabaseClient';
 import { utmToLatLng } from '../../../utils/geo';
 import subdistrictGeoJSON from '../../../data/nakhon_pathom_subdistricts.json';
 import { getSubdistrictsForDistrict } from '../../../utils/geojsonBoundaries';
-import {
-  FitBounds,
-  MapFlyTo,
-  MapSizeInvalidator,
-  MapZoomTracker,
-} from './MapControls';
 import 'leaflet/dist/leaflet.css';
 import '../../../pages/SmartMap.css';
-import MapLayerErrorBoundary from './MapLayerErrorBoundary';
 import SmartMapHeader from './SmartMapHeader';
+import SmartMapCanvas from './SmartMapCanvas';
 
 // ===== CHOROPLETH CONFIG =====
 const METRICS = [
@@ -88,16 +75,6 @@ const DISTRICT_CENTROIDS = {
   พุทธมณฑล: [13.78, 100.32],
 };
 
-const DISTRICT_LABEL_POSITIONS = {
-  กำแพงแสน: [14.07, 99.85], // Northwest outer edge (inside polygon)
-  บางเลน: [14.14, 100.26], // Northeast outer edge (inside polygon)
-  ดอนตูม: [14.03, 100.08], // Northern edge (inside polygon)
-  เมืองนครปฐม: [13.75, 99.95], // Southwest outer edge (inside polygon)
-  นครชัยศรี: [13.9, 100.25], // Northeast/East outer edge (inside polygon)
-  สามพราน: [13.66, 100.09], // Southern/Southwest outer edge (inside polygon)
-  พุทธมณฑล: [13.82, 100.32], // Northern/Northeast tip (inside polygon)
-};
-
 // ===== WEATHER & PM2.5 HELPERS =====
 const getWeatherDetails = (code) => {
   if (code === null || code === undefined)
@@ -131,229 +108,6 @@ const getPm25LevelLabel = (val) => {
   if (val <= 75) return 'เริ่มมีผลกระทบ';
   return 'อันตรายต่อสุขภาพ';
 };
-
-const getSoilProperty = (properties, keys) => {
-  if (!properties) return null;
-  for (const key of keys) {
-    const value = properties[key];
-    if (value !== undefined && value !== null && value !== '') {
-      return value;
-    }
-  }
-  return null;
-};
-
-const getSoilFeatureLabel = (properties) => {
-  const series =
-    getSoilProperty(properties, [
-      'soilserien',
-      'SOIL_SERIE',
-      'SOIL_SERIES',
-      'SOIL_NAME',
-      'SERIES',
-      'S_NAME',
-      'soil_series',
-      'soil_name',
-      'series',
-      'name',
-    ]) || 'Soil series';
-  const group = getSoilProperty(properties, [
-    'soilgroup',
-    'SOIL_GROUP',
-    'GROUP',
-    'SGROUP',
-    'soil_group',
-    'group',
-  ]);
-  const unit = getSoilProperty(properties, [
-    'soilseries',
-    'MAP_UNIT',
-    'UNIT',
-    'SYMBOL',
-    'CODE',
-    'map_unit',
-    'symbol',
-    'code',
-  ]);
-  const texture = getSoilProperty(properties, ['texture_to', 'TEXTURE']);
-  const fertility = getSoilProperty(properties, ['fertility', 'FERTILITY']);
-  const ph = getSoilProperty(properties, ['pH_top', 'PH_TOP']);
-  const amphoe = getSoilProperty(properties, ['AMPHOE_T', 'amphoe']);
-  const areaRai = getSoilProperty(properties, ['area_rai', 'AREA_RAI']);
-
-  return { series, group, unit, texture, fertility, ph, amphoe, areaRai };
-};
-
-const SOIL_LAYER_COLORS = [
-  '#7c3aed',
-  '#0f766e',
-  '#d97706',
-  '#dc2626',
-  '#2563eb',
-  '#16a34a',
-  '#c026d3',
-  '#ea580c',
-  '#0891b2',
-  '#65a30d',
-  '#be123c',
-  '#4f46e5',
-];
-
-const getStableColor = (value) => {
-  const text = String(value || '');
-  let hash = 0;
-  for (let i = 0; i < text.length; i += 1) {
-    hash = (hash * 31 + text.charCodeAt(i)) >>> 0;
-  }
-  return SOIL_LAYER_COLORS[hash % SOIL_LAYER_COLORS.length];
-};
-
-const MARKER_STYLE = {
-  young_farmer: {
-    radius: 7,
-    fillColor: '#fbbf24',
-    color: 'rgba(255,255,255,0.6)',
-    weight: 1.5,
-    titleColor: '#b45309',
-    badgeBg: '#fef3c7',
-    badgeColor: '#b45309',
-  },
-  career_group: {
-    radius: 7,
-    fillColor: '#a855f7',
-    color: 'rgba(255,255,255,0.6)',
-    weight: 1.5,
-    titleColor: '#6b21a8',
-    badgeBg: '#f3e8ff',
-    badgeColor: '#6b21a8',
-  },
-  forecast: {
-    radius: 7,
-    fillColor: '#ec4899',
-    color: 'rgba(255,255,255,0.6)',
-    weight: 1.5,
-    titleColor: '#1e293b',
-    badgeBg: '#f3e8ff',
-    badgeColor: '#6b21a8',
-  },
-  hotspot: {
-    radius: 8,
-    fillColor: '#ef4444',
-    color: 'rgba(255,255,255,0.8)',
-    weight: 2,
-    titleColor: '#dc2626',
-    badgeBg: '#fee2e2',
-    badgeColor: '#991b1b',
-  },
-};
-
-const markerDetailStyle = {
-  fontSize: 12,
-  color: '#475569',
-  marginBottom: 4,
-};
-
-function MarkerTooltipContent({ item, style }) {
-  return (
-    <div style={{ minWidth: 180 }}>
-      <div
-        style={{
-          fontWeight: 700,
-          fontSize: 14,
-          marginBottom: 4,
-          color: style.titleColor,
-        }}
-      >
-        {item.type === 'hotspot' ? `🔥 ${item.name}` : item.name}
-      </div>
-      {item.memberCount > 0 && (
-        <div style={markerDetailStyle}>
-          👥 <strong>สมาชิก:</strong> {item.memberCount.toLocaleString()} ราย
-        </div>
-      )}
-      {item.activity && (
-        <div style={{ ...markerDetailStyle, marginBottom: 6 }}>
-          🌾 <strong>กิจกรรมหลัก:</strong> {item.activity}
-        </div>
-      )}
-      {item.type === 'forecast' && (
-        <>
-          <div style={markerDetailStyle}>
-            🌾 <strong>ชนิดพืช:</strong> {item.cropType || 'ไม่ระบุ'}
-          </div>
-          <div style={markerDetailStyle}>
-            📐 <strong>ขนาดพื้นที่:</strong>{' '}
-            {item.area ? `${item.area.toLocaleString()} ไร่` : 'ไม่ระบุ'}
-          </div>
-          <div style={{ ...markerDetailStyle, marginBottom: 6 }}>
-            📈 <strong>สถานะแปลง:</strong> {item.status || 'ไม่ระบุ'}
-          </div>
-        </>
-      )}
-      {item.type === 'hotspot' && (
-        <>
-          <div style={markerDetailStyle}>
-            🎯 <strong>ความมั่นใจ:</strong> {item.confidence}%
-          </div>
-          <div style={{ ...markerDetailStyle, marginBottom: 6 }}>
-            ⚡ <strong>กำลังความร้อน (FRP):</strong> {item.frp} MW
-          </div>
-        </>
-      )}
-      <div style={{ fontSize: 11, color: '#64748b' }}>
-        <span
-          style={{
-            background: style.badgeBg,
-            color: style.badgeColor,
-            padding: '2px 6px',
-            borderRadius: 4,
-            fontWeight: 600,
-          }}
-        >
-          {item.typeLabel}
-        </span>{' '}
-        {item.subdistrict ? `ต.${item.subdistrict} ` : ''}อ.
-        {item.district || '-'}
-      </div>
-    </div>
-  );
-}
-
-function MarkerLayer({
-  layerKey,
-  items,
-  circleMarker: CircleMarker,
-  tooltip: Tooltip,
-}) {
-  const style = MARKER_STYLE[layerKey];
-
-  return items.map((item, idx) =>
-    createElement(
-      CircleMarker,
-      {
-        key: `${layerKey}-${idx}`,
-        center: [item.lat, item.lon],
-        radius: style.radius,
-        fillColor: style.fillColor,
-        fillOpacity: 0.9,
-        color: style.color,
-        weight: style.weight,
-        className: `pulse-marker-${layerKey}`,
-        pane: 'markerPane',
-      },
-      createElement(
-        Tooltip,
-        {
-          className: 'smart-map-marker-tooltip',
-          direction: 'top',
-          offset: [0, -5],
-          opacity: 1,
-        },
-        <MarkerTooltipContent item={item} style={style} />
-      )
-    )
-  );
-}
 
 // ===== MINI BAR CHART (pure CSS) =====
 function MiniBarChart({ data }) {
@@ -994,21 +748,6 @@ ${cropsStr}
       </div>
     );
   }
-
-  const {
-    L,
-    MapContainer,
-    TileLayer,
-    CircleMarker,
-    Marker,
-    Popup,
-    Tooltip,
-    GeoJSON,
-    useMap,
-    useMapEvents,
-    ZoomControl,
-    Polyline,
-  } = MapComponents;
 
   // ===== CROP DATA FOR SELECTED DISTRICT =====
   const cropChartData = selectedData
@@ -2244,348 +1983,36 @@ ${cropsStr}
         </div>
       )}
 
-      {/* ===== MAP ===== */}
-      <div className="smart-map-container">
-        <MapContainer
-          center={[13.82, 100.05]}
-          zoom={10}
-          zoomSnap={0.25}
-          zoomDelta={0.5}
-          style={{ height: '100%', width: '100%' }}
-          scrollWheelZoom={true}
-          zoomControl={false}
-        >
-          <FitBounds
-            useMap={useMap}
-            geoJSONData={geoJSONData}
-            L={L}
-            resetKey={resetKey}
-            selectedDistrict={selectedDistrict}
-          />
-          <MapSizeInvalidator
-            useMap={useMap}
-            watchKey={`${basemap}-${isControlsOpen}-${selectedDistrict?.name || 'none'}`}
-          />
-          <MapFlyTo
-            useMap={useMap}
-            selectedDistrict={selectedDistrict}
-            centroids={DISTRICT_CENTROIDS}
-          />
-          <MapZoomTracker useMapEvents={useMapEvents} setMapZoom={setMapZoom} />
-          <TileLayer
-            key={basemap}
-            attribution={
-              basemap === 'osm'
-                ? '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                : '&copy; Google Maps'
-            }
-            url={
-              basemap === 'osm'
-                ? 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-                : basemap === 'google-road'
-                  ? 'https://mt1.google.com/vt/lyrs=m&hl=th&x={x}&y={y}&z={z}'
-                  : 'https://mt1.google.com/vt/lyrs=y&hl=th&x={x}&y={y}&z={z}'
-            }
-          />
-          <ZoomControl position="topright" />
-
-          {/* ===== CHOROPLETH GEOJSON ===== */}
-          {activeMetric && Object.keys(districtStats).length > 0 && (
-            <GeoJSON
-              key={`choropleth-${activeMetric}-${selectedDistrict ? selectedDistrict.name : 'none'}-weather-${Object.keys(weatherData).length}`}
-              data={geoJSONData}
-              style={(feature) => {
-                const distName = feature.properties?.amp_th;
-                const stats = districtStats[distName];
-                const value = stats ? stats[activeMetric] || 0 : 0;
-                const fillColor = getDistrictColor(value);
-                const isSelected =
-                  selectedDistrict && selectedDistrict.name === distName;
-                return {
-                  fillColor,
-                  fillOpacity: isSelected ? 0.7 : 0.5,
-                  color: isSelected ? '#ef4444' : 'rgba(15, 23, 42, 0.15)',
-                  weight: isSelected ? 5 : 2,
-                };
-              }}
-              onEachFeature={(feature, layer) => {
-                const distName = feature.properties?.amp_th;
-                const stats = districtStats[distName];
-                if (!distName || !stats) return;
-
-                // Fetch weather stats for tooltip
-                const w = weatherData[distName];
-                let weatherHtml = '';
-                if (w && !w.loading && !w.error) {
-                  const weatherInfo = getWeatherDetails(w.weatherCode);
-                  const pmColor = getPm25Color(w.pm25);
-                  const pmLabel = getPm25LevelLabel(w.pm25);
-                  weatherHtml = `
-                                        <div class="tooltip-divider"></div>
-                                        <div class="tooltip-weather">
-                                            <div class="tooltip-weather-main">
-                                                <span class="tooltip-weather-icon">${weatherInfo.icon}</span>
-                                                <span class="tooltip-weather-temp">${w.temp !== null ? `${w.temp}°C` : '--'}</span>
-                                                <span class="tooltip-weather-desc">${weatherInfo.label}</span>
-                                            </div>
-                                            <div class="tooltip-pm-badge" style="background-color: ${pmColor}15; color: ${pmColor}; border-color: ${pmColor}">
-                                                ฝุ่น PM2.5: ${w.pm25 !== null ? w.pm25 : '--'} µg/m³ (${pmLabel})
-                                            </div>
-                                        </div>
-                                    `;
-                } else {
-                  weatherHtml = `
-                                        <div class="tooltip-divider"></div>
-                                        <div class="tooltip-weather-loading">
-                                            ⏳ กำลังโหลดข้อมูลสภาพอากาศ...
-                                        </div>
-                                    `;
-                }
-
-                // Tooltip
-                const html = `
-                                    <div class="tooltip-name">🎯 อ.${distName}</div>
-                                    <div class="tooltip-row"><span>🌾 พื้นที่เกษตร</span><strong>${(stats.area || 0).toLocaleString()} ไร่</strong></div>
-                                    <div class="tooltip-row"><span>🏠 ครัวเรือน</span><strong>${(stats.house || 0).toLocaleString()} ราย</strong></div>
-                                    <div class="tooltip-row"><span>🤝 วิสาหกิจ</span><strong>${(stats.ce || 0).toLocaleString()} แห่ง</strong></div>
-                                    <div class="tooltip-row"><span>🌱 แปลงใหญ่</span><strong>${(stats.lp || 0).toLocaleString()} แปลง</strong></div>
-                                    ${weatherHtml}
-                                    <div class="tooltip-hint">คลิกเพื่อดูรายละเอียด</div>
-                                `;
-                layer.bindTooltip(html, {
-                  sticky: true,
-                  direction: 'auto',
-                  className: 'smart-map-tooltip',
-                });
-
-                // Hover effect
-                layer.on({
-                  mouseover: (e) => {
-                    const isSelected =
-                      selectedDistrict && selectedDistrict.name === distName;
-                    e.target.setStyle({
-                      fillOpacity: 0.7,
-                      weight: isSelected ? 5 : 3,
-                      color: isSelected ? '#ef4444' : 'rgba(15, 23, 42, 0.3)',
-                    });
-                  },
-                  mouseout: (e) => {
-                    const isSelected =
-                      selectedDistrict && selectedDistrict.name === distName;
-                    e.target.setStyle({
-                      fillOpacity: isSelected ? 0.7 : 0.5,
-                      weight: isSelected ? 5 : 2,
-                      color: isSelected ? '#ef4444' : 'rgba(15, 23, 42, 0.15)',
-                    });
-                  },
-                  click: () => {
-                    setPanelClosing(false);
-                    setSelectedSubdistrict(null);
-                    setSelectedDistrict({
-                      name: distName,
-                      areaSqkm: feature.properties?.area_sqkm || 0,
-                    });
-                  },
-                });
-              }}
-            />
-          )}
-
-          {geoJSONData && (
-            <GeoJSON
-              key={`district-boundaries-${selectedDistrict ? selectedDistrict.name : 'none'}-${activeMetric || 'off'}`}
-              data={geoJSONData}
-              style={(feature) => {
-                const distName = feature.properties?.amp_th;
-                const isSelected =
-                  selectedDistrict && selectedDistrict.name === distName;
-                return {
-                  fillOpacity: 0,
-                  color: isSelected ? '#dc2626' : '#334155',
-                  weight: isSelected ? 4.5 : 2.5,
-                  opacity: isSelected ? 0.95 : 0.65,
-                  dashArray: '',
-                };
-              }}
-              interactive={false}
-            />
-          )}
-
-          <MapLayerErrorBoundary layerName="ชั้นข้อมูลดิน" fallback={null}>
-            {isSoilLayerVisible && soilLayerData && (
-              <GeoJSON
-                key={`soil-series-${soilLayerData.features?.length || 0}`}
-                data={soilLayerData}
-                style={(feature) => {
-                  const props = feature.properties || {};
-                  const color = getStableColor(
-                    props.soilgroup || props.soilseries || props.soilserien
-                  );
-                  return {
-                    color,
-                    weight: 1.8,
-                    opacity: 0.9,
-                    fillColor: color,
-                    fillOpacity: 0.16,
-                  };
-                }}
-                onEachFeature={(feature, layer) => {
-                  const props = feature.properties || {};
-                  const {
-                    series,
-                    group,
-                    unit,
-                    texture,
-                    fertility,
-                    ph,
-                    amphoe,
-                    areaRai,
-                  } = getSoilFeatureLabel(props);
-                  const metaName =
-                    soilLayerMeta?.name ||
-                    soilLayerMeta?.title ||
-                    'LDD soil series';
-                  const displaySeries = String(series).startsWith('ชุดดิน')
-                    ? series
-                    : `ชุดดิน${series}`;
-                  layer.bindTooltip(
-                    `<div class="tooltip-name">${displaySeries}</div>
-                   <div class="tooltip-row"><span>ชื่อชุดดิน</span><strong>${displaySeries}</strong></div>
-                   ${unit ? `<div class="tooltip-row"><span>รหัสชุดดิน</span><strong>${unit}</strong></div>` : ''}
-                   ${group ? `<div class="tooltip-row"><span>กลุ่มชุดดิน</span><strong>${group}</strong></div>` : ''}
-                   ${texture ? `<div class="tooltip-row"><span>เนื้อดิน</span><strong>${texture}</strong></div>` : ''}
-                   ${fertility ? `<div class="tooltip-row"><span>ความอุดมสมบูรณ์</span><strong>${fertility}</strong></div>` : ''}
-                   ${ph ? `<div class="tooltip-row"><span>pH ดินบน</span><strong>${ph}</strong></div>` : ''}
-                   ${areaRai ? `<div class="tooltip-row"><span>พื้นที่</span><strong>${Number(areaRai).toLocaleString('th-TH', { maximumFractionDigits: 2 })} ไร่</strong></div>` : ''}
-                   ${amphoe ? `<div class="tooltip-row"><span>อำเภอ</span><strong>${amphoe}</strong></div>` : ''}
-                   <div class="tooltip-hint">${metaName}</div>`,
-                    {
-                      sticky: true,
-                      direction: 'auto',
-                      className: 'smart-map-tooltip',
-                    }
-                  );
-                }}
-              />
-            )}
-          </MapLayerErrorBoundary>
-
-          {showSubdistrictLayer &&
-            (selectedDistrict || mapZoom >= 11) &&
-            visibleSubdistrictFeatures.length > 0 && (
-              <GeoJSON
-                key={`subdistrict-${selectedDistrict?.name || 'all'}-${selectedSubdistrict?.code || 'none'}-${mapZoom}`}
-                data={{
-                  type: 'FeatureCollection',
-                  features: visibleSubdistrictFeatures,
-                }}
-                style={(feature) => {
-                  const isSelected =
-                    selectedSubdistrict?.code === feature.properties?.tam_code;
-                  return {
-                    color: isSelected ? '#7c2d12' : '#7c3aed',
-                    weight: isSelected ? 3 : 1,
-                    opacity: isSelected ? 0.95 : 0.45,
-                    fillColor: isSelected ? '#fed7aa' : '#ede9fe',
-                    fillOpacity: isSelected ? 0.35 : 0.08,
-                    dashArray: isSelected ? '' : '2,4',
-                  };
-                }}
-                onEachFeature={(feature, layer) => {
-                  const props = feature.properties || {};
-                  const name = props.tam_th || props.tam_en || props.tam_code;
-                  const district = props.amp_th || props.amp_en;
-                  layer.bindTooltip(
-                    `ต.${name}${district ? ` / อ.${district}` : ''}`,
-                    {
-                      sticky: true,
-                      direction: 'auto',
-                      className: 'smart-map-tooltip',
-                    }
-                  );
-                  layer.on({
-                    click: () => {
-                      setPanelClosing(false);
-                      setSelectedDistrict({
-                        name: district,
-                        areaSqkm:
-                          geoJSONData.features?.find(
-                            (f) => f.properties?.amp_th === district
-                          )?.properties?.area_sqkm || 0,
-                      });
-                      setSelectedSubdistrict({
-                        code: props.tam_code,
-                        name,
-                        areaSqkm: props.area_sqkm || 0,
-                      });
-                    },
-                  });
-                }}
-              />
-            )}
-
-          {/* ===== DISTRICT LABELS ===== */}
-          {mapZoom >= 10 &&
-            L &&
-            Object.entries(DISTRICT_CENTROIDS).map(([name, coords]) => {
-              const isSelected =
-                selectedDistrict && selectedDistrict.name === name;
-              const labelHtml = `<div class="map-label-name">${name}</div>`;
-              const labelPos = DISTRICT_LABEL_POSITIONS[name] || coords;
-
-              return (
-                <Fragment key={`label-group-${name}`}>
-                  <Polyline
-                    positions={[coords, labelPos]}
-                    pathOptions={{
-                      color: isSelected ? '#ef4444' : '#64748b',
-                      weight: isSelected ? 2.5 : 1.2,
-                      dashArray: '5, 5',
-                      opacity: isSelected ? 0.9 : 0.4,
-                    }}
-                    interactive={false}
-                  />
-                  <Marker
-                    key={`label-${name}`}
-                    position={labelPos}
-                    interactive={true}
-                    eventHandlers={{
-                      click: () => {
-                        setPanelClosing(false);
-                        setSelectedSubdistrict(null);
-                        const feat = geoJSONData?.features?.find(
-                          (f) => f.properties?.amp_th === name
-                        );
-                        setSelectedDistrict({
-                          name,
-                          areaSqkm: feat?.properties?.area_sqkm || 0,
-                        });
-                      },
-                    }}
-                    icon={L.divIcon({
-                      className: 'district-map-label-container',
-                      html: `<div class="district-map-label ${isSelected ? 'selected' : ''}">${labelHtml}</div>`,
-                      iconSize: [0, 0],
-                    })}
-                  />
-                </Fragment>
-              );
-            })}
-
-          {MARKER_LAYERS.map(({ key }) => (
-            <MapLayerErrorBoundary key={key} layerName={key} fallback={null}>
-              {visibleLayers[key] && (
-                <MarkerLayer
-                  layerKey={key}
-                  items={allCoords[key]}
-                  circleMarker={CircleMarker}
-                  tooltip={Tooltip}
-                />
-              )}
-            </MapLayerErrorBoundary>
-          ))}
-        </MapContainer>
-      </div>
+      <SmartMapCanvas
+        MapComponents={MapComponents}
+        geoJSONData={geoJSONData}
+        resetKey={resetKey}
+        selectedDistrict={selectedDistrict}
+        selectedSubdistrict={selectedSubdistrict}
+        basemap={basemap}
+        isControlsOpen={isControlsOpen}
+        setMapZoom={setMapZoom}
+        districtCentroids={DISTRICT_CENTROIDS}
+        activeMetric={activeMetric}
+        districtStats={districtStats}
+        weatherData={weatherData}
+        getDistrictColor={getDistrictColor}
+        getWeatherDetails={getWeatherDetails}
+        getPm25Color={getPm25Color}
+        getPm25LevelLabel={getPm25LevelLabel}
+        setPanelClosing={setPanelClosing}
+        setSelectedDistrict={setSelectedDistrict}
+        setSelectedSubdistrict={setSelectedSubdistrict}
+        isSoilLayerVisible={isSoilLayerVisible}
+        soilLayerData={soilLayerData}
+        soilLayerMeta={soilLayerMeta}
+        showSubdistrictLayer={showSubdistrictLayer}
+        mapZoom={mapZoom}
+        visibleSubdistrictFeatures={visibleSubdistrictFeatures}
+        markerLayers={MARKER_LAYERS}
+        visibleLayers={visibleLayers}
+        allCoords={allCoords}
+      />
     </div>
   );
 }

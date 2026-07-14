@@ -2,7 +2,13 @@
 
 ## Status
 
-Partial safety slice committed. `SmartMapPage` is now named `SmartMapScreen`, matching its file and role. The layer boundary has a regression test confirming a `null` fallback still renders the visible status message.
+Complete. `SmartMapPage` is now named `SmartMapScreen`, matching its file and role. The layer boundary has a regression test confirming a `null` fallback still renders the visible status message.
+
+## Extraction update
+
+`SmartMapCanvas.jsx` now owns the Leaflet canvas only: map controls, base tiles, district layers, soil, subdistricts, labels, and point markers. `SmartMapScreen` passes its state and handlers explicitly and retains all fetches and panels.
+
+The choropleth, district boundary, soil, subdistrict, and each point layer are independently wrapped in `MapLayerErrorBoundary`. A focused canvas test makes the choropleth throw and verifies the district outline remains rendered with a visible error status.
 
 ## Verification
 
@@ -11,6 +17,4 @@ Partial safety slice committed. `SmartMapPage` is now named `SmartMapScreen`, ma
 - `npm test` (330 passed, 17 skipped)
 - `npm run build`
 
-## Concern
-
-The canvas JSX remains in `SmartMapScreen`. Its 340-line Leaflet subtree closes over screen state and event callbacks; a direct move would change behavior without a focused render harness. Complete the extraction only after first introducing a small tested canvas contract, then move each isolated layer to it.
+No remaining extraction blocker.
