@@ -238,15 +238,18 @@
 .smart-map-point-dropdown-menu label { display: block; padding: 6px 0; font-size: 13px; }
 .point-layer-controls { display: none; }
 
-.smart-map-controls > .metric-control-btn {
-  width: calc(50% - 4px);
-  display: inline-flex;
-  vertical-align: top;
-  margin-right: 8px;
+.metric-controls-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
 }
 
-.smart-map-controls > .metric-control-btn:nth-of-type(2n) {
-  margin-right: 0;
+.metric-controls-grid .metric-control-btn {
+  width: 100%;
+}
+
+.metric-controls-grid .control-btn-label {
+  white-space: nowrap;
 }
 
 @keyframes controlSlideIn {

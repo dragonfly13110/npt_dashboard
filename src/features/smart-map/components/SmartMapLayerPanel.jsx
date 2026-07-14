@@ -44,16 +44,18 @@ export default function SmartMapLayerPanel({
         </button>
       </div>
       <div className="controls-section-title">ตัวชี้วัด Choropleth</div>
-      {metrics.map((metric) => (
-        <button
-          key={metric.key}
-          className={`control-btn metric-control-btn ${activeMetric === metric.key ? 'active' : ''}`}
-          onClick={() => onMetricToggle(metric.key)}
-        >
-          <span className="control-btn-icon">{metric.icon}</span>
-          <span className="control-btn-label">{metric.label}</span>
-        </button>
-      ))}
+      <div className="metric-controls-grid">
+        {metrics.map((metric) => (
+          <button
+            key={metric.key}
+            className={`control-btn metric-control-btn ${activeMetric === metric.key ? 'active' : ''}`}
+            onClick={() => onMetricToggle(metric.key)}
+          >
+            <span className="control-btn-icon">{metric.icon}</span>
+            <span className="control-btn-label">{metric.label}</span>
+          </button>
+        ))}
+      </div>
 
       <div className="point-layer-controls">
       <div className="controls-divider" />
