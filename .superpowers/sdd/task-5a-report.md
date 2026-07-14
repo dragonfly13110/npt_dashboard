@@ -26,3 +26,7 @@ No remaining extraction blocker.
 - `MapLayerErrorBoundary` retries after its `resetOn` identity changes; canvas layers pass their relevant data and visibility inputs.
 
 Focused coverage now verifies both pane-based layer isolation and reset recovery. Full verification: 332 passed, 17 skipped; lint and build pass.
+
+## Reset stability
+
+`resetOn` arrays now compare their members with `Object.is`, so a parent rerender that allocates an equivalent array does not retry a failed layer. The canvas test rerenders with a changed basemap and verifies the failed choropleth is not retried.
