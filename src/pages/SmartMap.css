@@ -19,6 +19,27 @@
   color: #1e293b;
 }
 
+.smart-map-page button:focus-visible,
+.smart-map-page input:focus-visible {
+  outline: 3px solid #0ea5e9;
+  outline-offset: 2px;
+}
+
+.smart-map-status-bar {
+  position: absolute;
+  z-index: 1000;
+  top: 72px;
+  left: 16px;
+  max-width: calc(100vw - 32px);
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #334155;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.08);
+}
+
 /* ---------- ACTION BUTTONS GROUP ---------- */
 .smart-map-action-group {
   position: absolute;
@@ -835,6 +856,12 @@
 }
 
 @media (max-width: 768px) {
+  .smart-map-status-bar {
+    top: 68px;
+    left: 12px;
+    font-size: 11px;
+  }
+
   .smart-map-title {
     display: none;
   }
@@ -1577,6 +1604,22 @@
   background: rgba(16, 185, 129, 0.08);
   color: #065f46;
   padding-left: 18px;
+}
+
+.search-suggestion-item.active {
+  background: rgba(16, 185, 129, 0.12);
+  color: #065f46;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ========================================================= */

@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 export default function SmartMapHeader({
   navigate,
   onReset,
@@ -6,18 +8,48 @@ export default function SmartMapHeader({
   searchFocused,
   setSearchFocused,
   suggestions,
-  onSelectDistrict,
+  onSelectSuggestion,
   onClearSearch,
   controlsOpen,
   setControlsOpen,
 }) {
+  const [activeSuggestion, setActiveSuggestion] = useState(-1);
+  const selectSuggestion = (suggestion) => {
+    if (suggestion) onSelectSuggestion(suggestion);
+    setActiveSuggestion(-1);
+  };
+  const handleKeyDown = (event) => {
+    if (!suggestions.length) return;
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      setActiveSuggestion((current) =>
+        event.key === 'ArrowDown'
+          ? (current + 1) % suggestions.length
+          : (current - 1 + suggestions.length) % suggestions.length
+      );
+    } else if (event.key === 'Enter') {
+      event.preventDefault();
+      selectSuggestion(suggestions[activeSuggestion] || suggestions[0]);
+    } else if (event.key === 'Escape') {
+      setActiveSuggestion(-1);
+      setSearchFocused(false);
+    }
+  };
   return (
     <>
       <div className="smart-map-action-group">
-        <button className="smart-map-back" onClick={() => navigate('/')}>
+        <button
+          className="smart-map-back"
+          onClick={() => navigate('/')}
+          aria-label="กลับหน้าหลัก"
+        >
           ← กลับหน้าหลัก
         </button>
-        <button className="smart-map-reset" onClick={onReset}>
+        <button
+          className="smart-map-reset"
+          onClick={onReset}
+          aria-label="รีเซ็ตมุมมองแผนที่"
+        >
           🔄 รีเซ็ตมุมมอง
         </button>
         <div
@@ -35,28 +67,45 @@ export default function SmartMapHeader({
               onChange={(e) => onSearchChange(e.target.value)}
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setTimeout(() => setSearchFocused(false), 250)}
+              onKeyDown={handleKeyDown}
+              aria-label="ค้นหาอำเภอ ตำบล หรือจุดข้อมูล"
+              aria-autocomplete="list"
+              aria-controls="smart-map-search-results"
               className="smart-map-search-input"
             />
             {searchQuery && (
-              <button className="search-clear-btn" onClick={onClearSearch}>
+              <button
+                className="search-clear-btn"
+                onClick={onClearSearch}
+                aria-label="ล้างคำค้นหา"
+              >
                 ✕
               </button>
             )}
           </div>
           {searchFocused && suggestions.length > 0 && (
-            <ul className="search-suggestions-list">
-              {suggestions.map((name) => (
-                <li
-                  key={name}
-                  onMouseDown={(e) => {
-                    e.stopPropagation();
-                    onSelectDistrict(name);
-                  }}
-                  className="search-suggestion-item"
-                >
-                  📍 อ.{name}
-                </li>
-              ))}
+            <ul
+              id="smart-map-search-results"
+              className="search-suggestions-list"
+              role="listbox"
+            >
+              {suggestions.map((suggestion, index) => {
+                const name = suggestion.label;
+                return (
+                  <li
+                    key={suggestion.id}
+                    role="option"
+                    aria-selected={activeSuggestion === index}
+                    onMouseDown={(e) => {
+                      e.stopPropagation();
+                      selectSuggestion(suggestion);
+                    }}
+                    className={`search-suggestion-item ${activeSuggestion === index ? 'active' : ''}`}
+                  >
+                    📍 อ.{name}
+                  </li>
+                );
+              })}
             </ul>
           )}
         </div>

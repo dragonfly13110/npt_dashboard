@@ -464,10 +464,38 @@ export default function SmartMapScreen() {
     if (!searchQuery) return [];
     const cleanQuery = searchQuery.replace(/^อ\./, '').trim();
     if (!cleanQuery) return [];
-    return Object.keys(DISTRICT_CENTROIDS).filter((name) =>
-      name.includes(cleanQuery)
-    );
-  }, [searchQuery]);
+    const matches = (value) => value?.includes(cleanQuery);
+    const districts = Object.keys(DISTRICT_CENTROIDS)
+      .filter(matches)
+      .map((name) => ({
+        id: `district-${name}`,
+        kind: 'district',
+        name,
+        label: `อ.${name}`,
+      }));
+    const subdistricts = (subdistrictGeoJSON.features || [])
+      .filter((feature) => matches(feature.properties?.tam_th))
+      .map((feature) => ({
+        id: `subdistrict-${feature.properties.tam_code}`,
+        kind: 'subdistrict',
+        name: feature.properties.tam_th,
+        districtName: feature.properties.amp_th,
+        areaSqkm: feature.properties.area_sqkm || 0,
+        label: `ต.${feature.properties.tam_th} · อ.${feature.properties.amp_th}`,
+      }));
+    const loadedPoints = Object.values(allCoords)
+      .flat()
+      .filter((point) => matches(point.name))
+      .slice(0, 8)
+      .map((point) => ({
+        id: `point-${point.type}-${point.id}`,
+        kind: 'point',
+        districtName: point.district,
+        subdistrictName: point.subdistrict,
+        label: point.name,
+      }));
+    return [...districts, ...subdistricts, ...loadedPoints].slice(0, 12);
+  }, [allCoords, searchQuery]);
 
   const handleSelectDistrictByName = useCallback(
     (name) => {
@@ -487,6 +515,33 @@ export default function SmartMapScreen() {
       );
     },
     [geoJSONData]
+  );
+
+  const handleSelectSearchSuggestion = useCallback(
+    (suggestion) => {
+      if (suggestion.kind === 'district') {
+        handleSelectDistrictByName(suggestion.name);
+        return;
+      }
+      const feature = geoJSONData?.features?.find(
+        (item) => item.properties?.amp_th === suggestion.districtName
+      );
+      const district = {
+        name: suggestion.districtName,
+        areaSqkm: feature?.properties?.area_sqkm || 0,
+      };
+      setPanelClosing(false);
+      setAreaSelection((selection) => {
+        const next = selectDistrict(selection, district);
+        return suggestion.kind === 'subdistrict' || suggestion.subdistrictName
+          ? selectSubdistrict(next, {
+              name: suggestion.name || suggestion.subdistrictName,
+              areaSqkm: suggestion.areaSqkm || 0,
+            })
+          : next;
+      });
+    },
+    [geoJSONData, handleSelectDistrictByName]
   );
 
   const handleSearchChange = useCallback((val) => {
@@ -731,7 +786,7 @@ ${cropsStr}
         searchFocused={isSearchFocused}
         setSearchFocused={setIsSearchFocused}
         suggestions={suggestions}
-        onSelectDistrict={handleSelectDistrictByName}
+        onSelectSuggestion={handleSelectSearchSuggestion}
         onClearSearch={(e) => {
           e.stopPropagation();
           setSearchQuery('');
@@ -740,6 +795,14 @@ ${cropsStr}
         controlsOpen={isControlsOpen}
         setControlsOpen={setIsControlsOpen}
       />
+      <div className="smart-map-status-bar" role="status" aria-live="polite">
+        {selectedSubdistrict
+          ? `ตำบล${selectedSubdistrict.name} · อำเภอ${selectedDistrict.name}`
+          : selectedDistrict
+            ? `อำเภอ${selectedDistrict.name}`
+            : 'จังหวัดนครปฐม'}
+        {activeMetric ? ` · ${currentMetric?.label}` : ''}
+      </div>
 
       {/* ===== LAYER CONTROL PANEL ===== */}
       <SmartMapLayerPanel
