@@ -1,7 +1,7 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { createClient } from '@supabase/supabase-js';
-import { fileURLToPath, URL } from 'node:url';
+import { fileURLToPath, pathToFileURL, URL } from 'node:url';
 import { syncGeoplotsProgress } from './scripts/sync_geoplots_progress.js';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -317,7 +317,9 @@ function localNetlifyFunctionsPlugin() {
         }
 
         try {
-          const { default: handler } = await import(fileToImport);
+          const { default: handler } = await import(
+            pathToFileURL(fileToImport).href
+          );
 
           let body = '';
           if (

@@ -6,6 +6,7 @@ import {
   findSubdistrictFeature,
   getSubdistrictsForDistrict,
   isFeatureInProvince,
+  normalizePlaceName,
   normalizeProvinceCode,
 } from './geojsonBoundaries';
 
@@ -14,6 +15,11 @@ describe('geojson boundary helpers', () => {
     expect(normalizeProvinceCode(73)).toBe('73');
     expect(normalizeProvinceCode('7')).toBe('07');
     expect(normalizeProvinceCode(null)).toBe('');
+  });
+
+  test('normalizes Nakhon Pathom city district aliases consistently', () => {
+    expect(normalizePlaceName('เมืองนครปฐม')).toBe('เมือง');
+    expect(normalizePlaceName('อำเภอเมืองนครปฐม')).toBe('เมือง');
   });
 
   test('detects matching province code from GeoJSON feature properties', () => {
