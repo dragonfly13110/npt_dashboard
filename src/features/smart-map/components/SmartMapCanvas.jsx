@@ -6,6 +6,7 @@ import {
   MapZoomTracker,
 } from './MapControls';
 import MapLayerErrorBoundary from './MapLayerErrorBoundary';
+import { getNormalizedPlaceValue } from '../../../utils/geojsonBoundaries';
 
 const EMPTY_STATS = {};
 
@@ -391,7 +392,10 @@ export default function SmartMapCanvas({
                 data={geoJSONData}
                 style={(feature) => {
                   const distName = feature.properties?.amp_th;
-                  const stats = districtStats[distName];
+                  const stats = getNormalizedPlaceValue(
+                    districtStats,
+                    distName
+                  );
                   const value = stats ? stats[activeMetric] || 0 : 0;
                   const fillColor = getDistrictColor(value);
                   const isSelected =
@@ -405,7 +409,10 @@ export default function SmartMapCanvas({
                 }}
                 onEachFeature={(feature, layer) => {
                   const distName = feature.properties?.amp_th;
-                  const stats = districtStats[distName] || {};
+                  const stats = getNormalizedPlaceValue(
+                    districtStats,
+                    distName
+                  );
                   if (!distName) return;
 
                   // Fetch weather stats for tooltip
@@ -604,7 +611,10 @@ export default function SmartMapCanvas({
                     feature.properties?.tam_th ||
                     feature.properties?.tam_en ||
                     feature.properties?.tam_code;
-                  const value = subdistrictStats[name]?.[activeMetric] || 0;
+                  const value =
+                    getNormalizedPlaceValue(subdistrictStats, name)[
+                      activeMetric
+                    ] || 0;
                   const isSelected =
                     selectedSubdistrict?.code === feature.properties?.tam_code;
                   return {

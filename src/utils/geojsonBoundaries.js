@@ -65,6 +65,10 @@ export function normalizePlaceName(value) {
   return normalized === 'เมืองนครปฐม' ? 'เมือง' : normalized;
 }
 
+export function getNormalizedPlaceValue(values, placeName) {
+  return values?.[normalizePlaceName(placeName)] || {};
+}
+
 export function getSubdistrictsForDistrict(geojson, districtName) {
   const normalizedDistrict = normalizePlaceName(districtName);
   return [...(geojson?.features || [])]
