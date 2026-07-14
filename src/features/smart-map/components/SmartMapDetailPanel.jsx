@@ -6,6 +6,7 @@ export default function SmartMapDetailPanel({
   selectedSubdistrict,
   selectedData,
   summaryAvailability,
+  analysisAvailable = false,
   panelClosing,
   onClose,
   onCompare,
@@ -27,7 +28,7 @@ export default function SmartMapDetailPanel({
   const [activeTab, setActiveTab] = useState('overview');
   if (!selectedDistrict || !selectedData) return null;
   const riceArea = (selectedData.ricePi || 0) + (selectedData.ricePrung || 0);
-  const analysisReady = selectedData.area > 0;
+  const analysisReady = analysisAvailable && selectedData.area > 0;
 
   return (
     <div
@@ -223,7 +224,12 @@ export default function SmartMapDetailPanel({
             ผลลัพธ์ What-If เป็นการจำลองเพื่อประกอบการตัดสินใจ
             ไม่ใช่ค่าคาดการณ์จริง
           </div>
-          {!analysisReady ? (
+          {!analysisAvailable ? (
+            <div className="panel-section" role="status">
+              ข้อมูลโครงสร้างพืชยังไม่พร้อมใน Smart Map API จึงปิด What-If และ
+              AI เพื่อไม่แสดงค่าจำลองจากข้อมูลที่ไม่มี
+            </div>
+          ) : !analysisReady ? (
             <div className="panel-section" role="status">
               ยังไม่มีพื้นที่เกษตรเพียงพอสำหรับการวิเคราะห์
             </div>

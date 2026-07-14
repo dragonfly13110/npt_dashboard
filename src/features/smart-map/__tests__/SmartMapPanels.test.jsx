@@ -94,6 +94,7 @@ describe('Smart map panels', () => {
         selectedDistrict={{ name: 'เมืองนครปฐม', areaSqkm: 10 }}
         selectedSubdistrict={null}
         selectedData={{ area: 1, ricePrung: 100, ricePi: 20 }}
+        analysisAvailable
         panelClosing={false}
         onClose={vi.fn()}
         onCompare={vi.fn()}

@@ -202,6 +202,13 @@ function summaryToStats(summary) {
   };
 }
 
+function hasCropMetrics(summary) {
+  const metrics = summary?.metrics || {};
+  return ['ricePi', 'ricePrung', 'field', 'fruit', 'veg', 'herb', 'flow'].some(
+    (key) => Object.hasOwn(metrics, key)
+  );
+}
+
 function weatherByDistrict(weather) {
   return Object.fromEntries(
     (weather?.data || []).map((row) => [
@@ -348,14 +355,28 @@ export default function SmartMapScreen() {
   );
   const selectedData = useMemo(
     () =>
-      selectedDistrict && (selectedSummary.data || mapSummary.data)
+      selectedDistrict &&
+      !selectedSummary.isError &&
+      !mapSummary.isError &&
+      (selectedSummary.data || mapSummary.data)
         ? summaryToStats(
             selectedSummary.data?.availability === 'district_only'
               ? mapSummary.data
               : selectedSummary.data
           )
         : null,
-    [selectedDistrict, selectedSummary.data, mapSummary.data]
+    [
+      selectedDistrict,
+      selectedSummary.data,
+      selectedSummary.isError,
+      mapSummary.data,
+      mapSummary.isError,
+    ]
+  );
+  const cropDataAvailable = hasCropMetrics(
+    selectedSummary.data?.availability === 'district_only'
+      ? mapSummary.data
+      : selectedSummary.data
   );
   const comparedData = useMemo(
     () => (comparedSummary.data ? summaryToStats(comparedSummary.data) : null),
@@ -363,7 +384,7 @@ export default function SmartMapScreen() {
   );
   const districtStats = useMemo(
     () =>
-      areaSelection.level === 'province'
+      !mapSummary.isError && areaSelection.level === 'province'
         ? Object.fromEntries(
             (mapSummary.data?.breakdown || []).map((area) => [
               normalizePlaceName(area.districtName),
@@ -371,11 +392,11 @@ export default function SmartMapScreen() {
             ])
           )
         : {},
-    [areaSelection.level, mapSummary.data]
+    [areaSelection.level, mapSummary.data, mapSummary.isError]
   );
   const subdistrictStats = useMemo(
     () =>
-      areaSelection.level === 'province'
+      mapSummary.isError || areaSelection.level === 'province'
         ? {}
         : Object.fromEntries(
             (mapSummary.data?.breakdown || []).map((area) => [
@@ -383,7 +404,7 @@ export default function SmartMapScreen() {
               summaryToStats({ metrics: area.metrics }),
             ])
           ),
-    [areaSelection.level, mapSummary.data]
+    [areaSelection.level, mapSummary.data, mapSummary.isError]
   );
   const weatherData = useMemo(
     () => weatherByDistrict(weather.data),
@@ -772,6 +793,17 @@ ${cropsStr}
     );
   }
 
+  if (provinceSummary.isError) {
+    return (
+      <div className="smart-map-page">
+        <div className="smart-map-loading" role="alert">
+          <div className="loading-text">โหลดข้อมูลสรุปแผนที่ไม่สำเร็จ</div>
+          <button onClick={() => provinceSummary.refetch()}>ลองใหม่</button>
+        </div>
+      </div>
+    );
+  }
+
   // ===== CROP DATA FOR SELECTED DISTRICT =====
   const cropChartData = selectedData
     ? [
@@ -818,6 +850,20 @@ ${cropsStr}
             ? `อำเภอ${selectedDistrict.name}`
             : 'จังหวัดนครปฐม'}
         {activeMetric ? ` · ${currentMetric?.label}` : ''}
+        {(selectedSummary.isError || mapSummary.isError) && (
+          <span>
+            {' '}
+            • โหลดข้อมูลพื้นที่ไม่สำเร็จ{' '}
+            <button
+              onClick={() => {
+                selectedSummary.refetch();
+                mapSummary.refetch();
+              }}
+            >
+              ลองใหม่
+            </button>
+          </span>
+        )}
       </div>
 
       {/* ===== LAYER CONTROL PANEL ===== */}
@@ -858,6 +904,7 @@ ${cropsStr}
         selectedSubdistrict={selectedSubdistrict}
         selectedData={selectedData}
         summaryAvailability={selectedSummary.data?.availability}
+        analysisAvailable={cropDataAvailable}
         panelClosing={panelClosing}
         onClose={closePanel}
         onCompare={() => {
@@ -900,6 +947,7 @@ ${cropsStr}
           getPm25Color={getPm25Color}
           getPm25LevelLabel={getPm25LevelLabel}
           cropChartData={cropChartData}
+          cropDataAvailable={cropDataAvailable}
           compareAreaSqkm={
             geoJSONData.features?.find(
               (feature) =>

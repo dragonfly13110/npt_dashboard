@@ -1,9 +1,19 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import { getPointLayerPolicy } from '../../netlify/functions/lib/smart-map/layer-policy';
 import { toPointFeatureCollection } from '../../netlify/functions/lib/smart-map/feature-builders';
 import { summarizeLayerStatus } from '../../netlify/functions/lib/smart-map/layer-status';
 import { summarizeSpatialQuality } from '../../netlify/functions/lib/smart-map/feature-builders';
 import handler from '../../netlify/functions/public-smart-map-points';
+
+const pointQuery = {
+  select: vi.fn(),
+  limit: vi.fn(),
+};
+const pointSupabase = { from: vi.fn(() => pointQuery) };
+
+vi.mock('@supabase/supabase-js', () => ({
+  createClient: vi.fn(() => pointSupabase),
+}));
 
 describe('public smart map point policy', () => {
   test('allows only catalogued public point layers', () => {
@@ -54,6 +64,47 @@ test('point endpoint rejects an unknown layer before querying data', async () =>
   await expect(response.json()).resolves.toEqual({
     error: 'Unknown point layer',
   });
+});
+
+test('point endpoint never returns private row fields', async () => {
+  const previousUrl = process.env.VITE_SUPABASE_URL;
+  const previousKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  process.env.VITE_SUPABASE_URL = 'https://example.test';
+  process.env.SUPABASE_SERVICE_ROLE_KEY = 'service-role';
+  pointQuery.select.mockReturnValue(pointQuery);
+  pointQuery.limit.mockResolvedValue({
+    data: [
+      {
+        id: 'plot-1',
+        district: 'เมืองนครปฐม',
+        subdistrict: 'พระปฐมเจดีย์',
+        crop_type: 'ข้าว',
+        coord_x: 617356,
+        coord_y: 1522123,
+        owner_name: 'private person',
+      },
+    ],
+    count: 1,
+    error: null,
+  });
+
+  const response = await handler(
+    new Request(
+      'https://example.test/api/public-smart-map-points?layer=forecast_plots'
+    )
+  );
+  const payload = await response.json();
+
+  expect(response.status).toBe(200);
+  expect(pointQuery.select).toHaveBeenCalledWith(
+    expect.not.stringContaining('owner_name'),
+    { count: 'exact' }
+  );
+  expect(JSON.stringify(payload)).not.toContain('private person');
+  expect(payload.data.features[0].properties).not.toHaveProperty('owner_name');
+
+  process.env.VITE_SUPABASE_URL = previousUrl;
+  process.env.SUPABASE_SERVICE_ROLE_KEY = previousKey;
 });
 
 test('summarizeLayerStatus marks sparse coordinates as incomplete', () => {

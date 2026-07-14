@@ -88,6 +88,7 @@ function DistrictContent({
   getPm25Color,
   getPm25LevelLabel,
   cropChartData,
+  cropDataAvailable,
 }) {
   if (!data)
     return <div className="compare-no-data">ไม่มีข้อมูลสำหรับอำเภอนี้</div>;
@@ -102,7 +103,13 @@ function DistrictContent({
       </div>
       <div className="compare-section">
         <h3>🚜 สัดส่วนพื้นที่เพาะปลูก</h3>
-        <SmartMapMiniBarChart data={cropChartData} />
+        {cropDataAvailable ? (
+          <SmartMapMiniBarChart data={cropChartData} />
+        ) : (
+          <div className="compare-no-data" role="status">
+            ข้อมูลโครงสร้างพืชยังไม่พร้อมใน Smart Map API
+          </div>
+        )}
       </div>
       <div className="compare-section">
         <h3>⚠️ ภัยพิบัติ & จุดความร้อน</h3>
@@ -137,6 +144,7 @@ export default function SmartMapComparisonDialog({
   getPm25Color,
   getPm25LevelLabel,
   cropChartData,
+  cropDataAvailable = false,
   compareAreaSqkm,
 }) {
   return (
@@ -180,6 +188,7 @@ export default function SmartMapComparisonDialog({
               getPm25Color={getPm25Color}
               getPm25LevelLabel={getPm25LevelLabel}
               cropChartData={cropChartData}
+              cropDataAvailable={cropDataAvailable}
             />
           </div>
           <div className="compare-column compare-column-b">
@@ -214,6 +223,7 @@ export default function SmartMapComparisonDialog({
               getPm25Color={getPm25Color}
               getPm25LevelLabel={getPm25LevelLabel}
               cropChartData={comparedData ? cropChartDataFor(comparedData) : []}
+              cropDataAvailable={cropDataAvailable}
             />
           </div>
         </div>
