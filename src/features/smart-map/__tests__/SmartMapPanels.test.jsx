@@ -93,7 +93,7 @@ describe('Smart map panels', () => {
       <SmartMapDetailPanel
         selectedDistrict={{ name: 'เมืองนครปฐม', areaSqkm: 10 }}
         selectedSubdistrict={null}
-        selectedData={{ ricePrung: 100, ricePi: 20 }}
+        selectedData={{ area: 1, ricePrung: 100, ricePi: 20 }}
         panelClosing={false}
         onClose={vi.fn()}
         onCompare={vi.fn()}
@@ -116,6 +116,7 @@ describe('Smart map panels', () => {
       />
     );
 
+    fireEvent.click(screen.getByRole('tab', { name: 'วิเคราะห์' }));
     fireEvent.change(screen.getByLabelText('เปลี่ยนนาปรังเป็นพืชสวน/พืชไร่'), {
       target: { value: '25' },
     });

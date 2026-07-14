@@ -10,10 +10,11 @@ import {
 
 const QUERY_OPTIONS = { staleTime: 2 * 60 * 1000, refetchOnWindowFocus: false };
 
-export function useSmartMapSummary(scope) {
+export function useSmartMapSummary(scope, { enabled = true } = {}) {
   return useQuery({
     queryKey: smartMapQueryKeys.summary(scope),
     queryFn: ({ signal }) => fetchSmartMapSummary(scope, { signal }),
+    enabled,
     ...QUERY_OPTIONS,
   });
 }

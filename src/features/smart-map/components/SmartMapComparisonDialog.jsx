@@ -81,71 +81,6 @@ function Weather({
   );
 }
 
-function WhatIf({
-  data,
-  riceConversion,
-  onRiceConversionChange,
-  residueManagement,
-  onResidueManagementChange,
-  results,
-}) {
-  return (
-    <div className="compare-section compare-policy-box">
-      <h3>🎛️ จำลองผลลัพธ์ยุทธศาสตร์ (What-If)</h3>
-      <div className="simulation-slider-group">
-        <div className="slider-header">
-          <span className="slider-label">เปลี่ยนนาปรัง: {riceConversion}%</span>
-        </div>
-        <input
-          type="range"
-          min="0"
-          max="50"
-          step="5"
-          value={riceConversion}
-          onChange={(event) =>
-            onRiceConversionChange(parseInt(event.target.value))
-          }
-          disabled={!(data.ricePrung > 0)}
-          className="sim-range-input"
-        />
-      </div>
-      <div className="simulation-slider-group">
-        <div className="slider-header">
-          <span className="slider-label">ลดการเผา: {residueManagement}%</span>
-        </div>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          step="10"
-          value={residueManagement}
-          onChange={(event) =>
-            onResidueManagementChange(parseInt(event.target.value))
-          }
-          disabled={!((data.ricePi || 0) + (data.ricePrung || 0) > 0)}
-          className="sim-range-input"
-        />
-      </div>
-      <div className="compare-sim-results">
-        <div className="sim-res-item">
-          💧 ประหยัดน้ำ: <strong>{results.waterSaved.toLocaleString()}</strong>{' '}
-          ลบ.ม.
-        </div>
-        <div className="sim-res-item">
-          💰 รายได้เพิ่ม:{' '}
-          <strong>+{results.incomeAdded.toLocaleString()}</strong> บาท
-        </div>
-        <div className="sim-res-item">
-          🍃 ลด CO2e: <strong>{results.co2Reduced.toFixed(1)}</strong> ตัน
-        </div>
-        <div className="sim-res-item">
-          🔥 ลดจุดร้อน: <strong>-{results.hotspotReduction.toFixed(1)}%</strong>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function DistrictContent({
   data,
   weather,
@@ -153,11 +88,6 @@ function DistrictContent({
   getPm25Color,
   getPm25LevelLabel,
   cropChartData,
-  riceConversion,
-  onRiceConversionChange,
-  residueManagement,
-  onResidueManagementChange,
-  simulationResults,
 }) {
   if (!data)
     return <div className="compare-no-data">ไม่มีข้อมูลสำหรับอำเภอนี้</div>;
@@ -189,14 +119,6 @@ function DistrictContent({
           </div>
         ))}
       </div>
-      <WhatIf
-        data={data}
-        riceConversion={riceConversion}
-        onRiceConversionChange={onRiceConversionChange}
-        residueManagement={residueManagement}
-        onResidueManagementChange={onResidueManagementChange}
-        results={simulationResults}
-      />
     </>
   );
 }
@@ -204,7 +126,8 @@ function DistrictContent({
 export default function SmartMapComparisonDialog({
   selectedDistrict,
   selectedData,
-  districtStats,
+  comparedData,
+  comparedLoading,
   districtNames,
   compareWithDistrictName,
   onCompareDistrictChange,
@@ -214,29 +137,8 @@ export default function SmartMapComparisonDialog({
   getPm25Color,
   getPm25LevelLabel,
   cropChartData,
-  simRiceConversion,
-  onSimRiceConversionChange,
-  simResidueManagement,
-  onSimResidueManagementChange,
-  simulationResults,
   compareAreaSqkm,
-  compSimRiceConversion,
-  onCompSimRiceConversionChange,
-  compSimResidueManagement,
-  onCompSimResidueManagementChange,
 }) {
-  const comparedData = districtStats[compareWithDistrictName];
-  const compRicePrung = comparedData?.ricePrung || 0;
-  const compTotalRice = compRicePrung + (comparedData?.ricePi || 0);
-  const comparedResults = {
-    waterSaved: Math.round(compRicePrung * (compSimRiceConversion / 100) * 600),
-    incomeAdded: Math.round(
-      compRicePrung * (compSimRiceConversion / 100) * 12000
-    ),
-    hotspotReduction: compSimResidueManagement * 0.8,
-    co2Reduced: compTotalRice * (compSimResidueManagement / 100) * 0.35,
-  };
-
   return (
     <div className="district-compare-modal-overlay" onClick={onClose}>
       <div
@@ -278,11 +180,6 @@ export default function SmartMapComparisonDialog({
               getPm25Color={getPm25Color}
               getPm25LevelLabel={getPm25LevelLabel}
               cropChartData={cropChartData}
-              riceConversion={simRiceConversion}
-              onRiceConversionChange={onSimRiceConversionChange}
-              residueManagement={simResidueManagement}
-              onResidueManagementChange={onSimResidueManagementChange}
-              simulationResults={simulationResults}
             />
           </div>
           <div className="compare-column compare-column-b">
@@ -311,17 +208,12 @@ export default function SmartMapComparisonDialog({
               </div>
             </div>
             <DistrictContent
-              data={comparedData}
+              data={comparedLoading ? null : comparedData}
               weather={weatherData[compareWithDistrictName]}
               getWeatherDetails={getWeatherDetails}
               getPm25Color={getPm25Color}
               getPm25LevelLabel={getPm25LevelLabel}
               cropChartData={comparedData ? cropChartDataFor(comparedData) : []}
-              riceConversion={compSimRiceConversion}
-              onRiceConversionChange={onCompSimRiceConversionChange}
-              residueManagement={compSimResidueManagement}
-              onResidueManagementChange={onCompSimResidueManagementChange}
-              simulationResults={comparedResults}
             />
           </div>
         </div>

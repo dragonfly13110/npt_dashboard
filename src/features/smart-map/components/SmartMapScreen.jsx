@@ -304,8 +304,6 @@ export default function SmartMapScreen() {
   // Comparison Mode states
   const [isCompareOpen, setIsCompareOpen] = useState(false);
   const [compareWithDistrictName, setCompareWithDistrictName] = useState(null);
-  const [compSimRiceConversion, setCompSimRiceConversion] = useState(0);
-  const [compSimResidueManagement, setCompSimResidueManagement] = useState(0);
 
   const selectedDistrict = areaSelection.district || null;
   const selectedSubdistrict = areaSelection.subdistrict || null;
@@ -314,6 +312,12 @@ export default function SmartMapScreen() {
   const provinceSummary = useSmartMapSummary({ level: 'province' });
   const selectedSummary = useSmartMapSummary(selectedScope);
   const mapSummary = useSmartMapSummary(mapScope);
+  const compareScope = compareWithDistrictName
+    ? { level: 'district', districtName: compareWithDistrictName }
+    : undefined;
+  const comparedSummary = useSmartMapSummary(compareScope, {
+    enabled: isCompareOpen && Boolean(compareWithDistrictName),
+  });
   const layerStatus = useSmartMapLayerStatus();
   const weather = useSmartMapWeather();
   const soil = useSmartMapSoil({ enabled: isSoilLayerVisible });
@@ -352,6 +356,10 @@ export default function SmartMapScreen() {
           )
         : null,
     [selectedDistrict, selectedSummary.data, mapSummary.data]
+  );
+  const comparedData = useMemo(
+    () => (comparedSummary.data ? summaryToStats(comparedSummary.data) : null),
+    [comparedSummary.data]
   );
   const districtStats = useMemo(
     () =>
@@ -428,12 +436,16 @@ export default function SmartMapScreen() {
 
   useEffect(() => () => window.clearTimeout(bboxTimer.current), []);
 
-  // Reset simulation and AI error when district changes
+  // Reset simulation and AI error when the selected scope changes.
   useEffect(() => {
     setSimRiceConversion(0);
     setSimResidueManagement(0);
     setAiError(null);
-  }, [areaSelection]);
+  }, [
+    selectedScope.level,
+    selectedScope.districtName,
+    selectedScope.subdistrictName,
+  ]);
 
   // Compute totals for KPI bar
   const totals = provinceTotals;
@@ -660,46 +672,49 @@ export default function SmartMapScreen() {
     return { waterSaved, incomeAdded, hotspotReduction, co2Reduced };
   }, [selectedData, simRiceConversion, simResidueManagement]);
 
-  // Async handler to call Gemini API for district-specific agricultural insights
-  const handleGenerateAIInsight = useCallback(
-    async (districtName) => {
-      if (!districtName || !selectedData) return;
+  const aiScopeKey = `${selectedScope.level}:${selectedScope.districtName || ''}:${selectedScope.subdistrictName || ''}:${new Date().toISOString().slice(0, 10)}`;
 
-      setAiLoading(true);
-      setAiError(null);
+  // Async handler to call Gemini API for the selected area and data date.
+  const handleGenerateAIInsight = useCallback(async () => {
+    if (!selectedDistrict || !selectedData?.area) return;
+    if (aiInsights[aiScopeKey]) return;
+    const districtName = selectedSubdistrict?.name || selectedDistrict.name;
 
-      try {
-        const { callAI } = await import('../../../services/aiService');
+    setAiLoading(true);
+    setAiError(null);
 
-        // Format agricultural land usage distribution for the AI prompt
-        const cropsStr = [
-          selectedData.ricePi > 0
-            ? `- นาปี: ${selectedData.ricePi.toLocaleString()} ไร่`
-            : '',
-          selectedData.ricePrung > 0
-            ? `- นาปรัง: ${selectedData.ricePrung.toLocaleString()} ไร่`
-            : '',
-          selectedData.field > 0
-            ? `- พืชไร่: ${selectedData.field.toLocaleString()} ไร่`
-            : '',
-          selectedData.fruit > 0
-            ? `- ไม้ผล: ${selectedData.fruit.toLocaleString()} ไร่`
-            : '',
-          (selectedData.veg || 0) + (selectedData.herb || 0) > 0
-            ? `- ผักและสมุนไพร: ${((selectedData.veg || 0) + (selectedData.herb || 0)).toLocaleString()} ไร่`
-            : '',
-          selectedData.flow > 0
-            ? `- ไม้ดอก: ${selectedData.flow.toLocaleString()} ไร่`
-            : '',
-        ]
-          .filter(Boolean)
-          .join('\n');
+    try {
+      const { callAI } = await import('../../../services/aiService');
 
-        const systemPrompt = `คุณคือผู้เชี่ยวชาญด้านข้อมูลเกษตรอัจฉริยะ (Smart Agriculture Analyst) ของจังหวัดนครปฐม
+      // Format agricultural land usage distribution for the AI prompt
+      const cropsStr = [
+        selectedData.ricePi > 0
+          ? `- นาปี: ${selectedData.ricePi.toLocaleString()} ไร่`
+          : '',
+        selectedData.ricePrung > 0
+          ? `- นาปรัง: ${selectedData.ricePrung.toLocaleString()} ไร่`
+          : '',
+        selectedData.field > 0
+          ? `- พืชไร่: ${selectedData.field.toLocaleString()} ไร่`
+          : '',
+        selectedData.fruit > 0
+          ? `- ไม้ผล: ${selectedData.fruit.toLocaleString()} ไร่`
+          : '',
+        (selectedData.veg || 0) + (selectedData.herb || 0) > 0
+          ? `- ผักและสมุนไพร: ${((selectedData.veg || 0) + (selectedData.herb || 0)).toLocaleString()} ไร่`
+          : '',
+        selectedData.flow > 0
+          ? `- ไม้ดอก: ${selectedData.flow.toLocaleString()} ไร่`
+          : '',
+      ]
+        .filter(Boolean)
+        .join('\n');
+
+      const systemPrompt = `คุณคือผู้เชี่ยวชาญด้านข้อมูลเกษตรอัจฉริยะ (Smart Agriculture Analyst) ของจังหวัดนครปฐม
 หน้าที่ของคุณคือวิเคราะห์ข้อมูลสถิติเกษตรระดับอำเภอ และให้คำแนะนำเชิงยุทธศาสตร์ที่เฉียบคม ตรงจุด ปฏิบัติได้จริง
 เขียนคำตอบเป็นภาษาไทยที่เป็นทางการ กระชับ และสร้างสรรค์`;
 
-        const userPrompt = `โปรดวิเคราะห์ข้อมูลสถิติการเกษตรของ อำเภอ${districtName} จังหวัดนครปฐม ดังนี้:
+      const userPrompt = `โปรดวิเคราะห์ข้อมูลสถิติการเกษตรของ ${selectedScope.level === 'subdistrict' ? 'ตำบล' : 'อำเภอ'}${districtName} จังหวัดนครปฐม (ขอบเขต ${selectedScope.level}, ข้อมูล ณ ${selectedSummary.data?.updatedAt || 'ไม่ระบุ'}) ดังนี้:
 - พื้นที่เกษตรกรรมทั้งหมด: ${(selectedData.area || 0).toLocaleString()} ไร่ (${selectedDistrict.areaSqkm?.toFixed(1)} ตร.กม.)
 - จำนวนครัวเรือนเกษตรกร: ${(selectedData.house || 0).toLocaleString()} ครัวเรือน
 - เครือข่ายเกษตรกร: วิสาหกิจชุมชน ${selectedData.ce || 0} แห่ง, แปลงใหญ่ ${selectedData.lp || 0} แปลง, ศพก. ${selectedData.lc || 0} แห่ง, ศจช. ${selectedData.pc || 0} แห่ง, ศดปช. ${selectedData.sfc || 0} แห่ง
@@ -720,29 +735,30 @@ ${cropsStr}
 - ความยาวรวมไม่เกิน 4-5 ประโยค
 - ห้ามใช้ markdown หนาบางซ้อนกันยุ่งเหยิง เอาแบบอ่านง่ายสบายตาที่สุด`;
 
-        const response = await callAI('gemini', systemPrompt, userPrompt, {
-          deepThinking: false,
-        });
+      const response = await callAI('gemini', systemPrompt, userPrompt, {
+        deepThinking: false,
+      });
 
-        if (response) {
-          setAiInsights((prev) => ({
-            ...prev,
-            [districtName]: response,
-          }));
-        } else {
-          throw new Error(
-            'ไม่ได้รับข้อมูลวิเคราะห์จาก AI กรุณาลองใหม่อีกครั้ง'
-          );
-        }
-      } catch (err) {
-        console.error('AI Insight Error: ', err);
-        setAiError(err.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อกับ AI');
-      } finally {
-        setAiLoading(false);
+      if (response) {
+        setAiInsights((prev) => ({ ...prev, [aiScopeKey]: response }));
+      } else {
+        throw new Error('ไม่ได้รับข้อมูลวิเคราะห์จาก AI กรุณาลองใหม่อีกครั้ง');
       }
-    },
-    [selectedData, selectedDistrict]
-  );
+    } catch (err) {
+      console.error('AI Insight Error: ', err);
+      setAiError(err.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อกับ AI');
+    } finally {
+      setAiLoading(false);
+    }
+  }, [
+    aiInsights,
+    aiScopeKey,
+    selectedData,
+    selectedDistrict,
+    selectedSubdistrict,
+    selectedScope,
+    selectedSummary.data,
+  ]);
 
   // Loading state
   if (!MapComponents || !geoJSONData || provinceSummary.isLoading) {
@@ -863,10 +879,8 @@ ${cropsStr}
         simulationResults={simulationResults}
         aiLoading={aiLoading}
         aiError={aiError}
-        aiInsight={aiInsights[selectedDistrict?.name]}
-        onGenerateAIInsight={() =>
-          selectedDistrict && handleGenerateAIInsight(selectedDistrict.name)
-        }
+        aiInsight={aiInsights[aiScopeKey]}
+        onGenerateAIInsight={handleGenerateAIInsight}
       />
       {/* ===== KPI STATS BAR ===== */}
       {!selectedDistrict && <SmartMapKpiBar totals={totals} />}
@@ -875,7 +889,8 @@ ${cropsStr}
         <SmartMapComparisonDialog
           selectedDistrict={selectedDistrict}
           selectedData={selectedData}
-          districtStats={districtStats}
+          comparedData={comparedData}
+          comparedLoading={comparedSummary.isLoading}
           districtNames={Object.keys(DISTRICT_CENTROIDS)}
           compareWithDistrictName={compareWithDistrictName}
           onCompareDistrictChange={setCompareWithDistrictName}
@@ -885,21 +900,12 @@ ${cropsStr}
           getPm25Color={getPm25Color}
           getPm25LevelLabel={getPm25LevelLabel}
           cropChartData={cropChartData}
-          simRiceConversion={simRiceConversion}
-          onSimRiceConversionChange={setSimRiceConversion}
-          simResidueManagement={simResidueManagement}
-          onSimResidueManagementChange={setSimResidueManagement}
-          simulationResults={simulationResults}
           compareAreaSqkm={
             geoJSONData.features?.find(
               (feature) =>
                 feature.properties?.amp_th === compareWithDistrictName
             )?.properties?.area_sqkm
           }
-          compSimRiceConversion={compSimRiceConversion}
-          onCompSimRiceConversionChange={setCompSimRiceConversion}
-          compSimResidueManagement={compSimResidueManagement}
-          onCompSimResidueManagementChange={setCompSimResidueManagement}
         />
       )}
 
