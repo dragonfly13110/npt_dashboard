@@ -875,14 +875,22 @@
 }
 
 @media (max-width: 1024px) {
+  .smart-map-point-dropdown {
+    right: 332px;
+  }
+
   .smart-map-controls {
-    width: 180px;
+    width: 300px;
     padding: 10px;
   }
 
   .control-btn {
     padding: 8px 10px;
     font-size: 12px;
+  }
+
+  .smart-map-controls .control-btn-label {
+    white-space: nowrap;
   }
 
   .district-panel {
