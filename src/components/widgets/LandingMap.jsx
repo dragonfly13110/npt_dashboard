@@ -68,7 +68,6 @@ export default function LandingMap({ mapData, districtStats }) {
   } = MapComponents;
 
   const gisMarkers = mapData.filter((d) => d.type === 'gis');
-  const tourMarkers = mapData.filter((d) => d.type === 'tourism');
 
   return (
     <div className="bento-map-wrapper">
@@ -217,59 +216,6 @@ export default function LandingMap({ mapData, districtStats }) {
                           style={{
                             background: '#e0f2fe',
                             color: '#0369a1',
-                            padding: '2px 6px',
-                            borderRadius: 4,
-                          }}
-                        >
-                          {item.typeLabel}
-                        </span>
-                        <span>อ.{item.district}</span>
-                      </div>
-                    </div>
-                  </Popup>
-                </CircleMarker>
-              ))}
-            </LayerGroup>
-          </LayersControl.Overlay>
-          <LayersControl.Overlay
-            checked
-            name="🏕️ ท่องเที่ยวเชิงเกษตร (หมุดสีเขียว)"
-          >
-            <LayerGroup>
-              {tourMarkers.map((item, idx) => (
-                <CircleMarker
-                  key={`tour-${idx}`}
-                  center={[item.lat, item.lon]}
-                  radius={8}
-                  fillColor="#16a34a"
-                  fillOpacity={0.85}
-                  color="#fff"
-                  weight={2}
-                >
-                  <Popup>
-                    <div style={{ fontFamily: 'inherit', minWidth: 160 }}>
-                      <div
-                        style={{
-                          fontWeight: 700,
-                          fontSize: 15,
-                          marginBottom: 4,
-                          color: '#1e293b',
-                        }}
-                      >
-                        {item.name}
-                      </div>
-                      <div
-                        style={{
-                          fontSize: 13,
-                          color: '#64748b',
-                          display: 'flex',
-                          gap: 6,
-                        }}
-                      >
-                        <span
-                          style={{
-                            background: '#dcfce3',
-                            color: '#166534',
                             padding: '2px 6px',
                             borderRadius: 4,
                           }}

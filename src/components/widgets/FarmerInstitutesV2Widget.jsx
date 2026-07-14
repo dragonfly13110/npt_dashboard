@@ -248,6 +248,7 @@ function getStatCards(summary, activeType) {
 export default function FarmerInstitutesV2Widget({
   summary: summaryMode = false,
   onOpen,
+  initialType = DEFAULT_TYPE,
   defaultExpanded = false,
 }) {
   const {
@@ -264,7 +265,7 @@ export default function FarmerInstitutesV2Widget({
     getDefaultYearFilter(DEFAULT_TYPE)
   );
   const [selectedDistrict, setSelectedDistrict] = useState('all');
-  const [selectedType, setSelectedType] = useState(DEFAULT_TYPE);
+  const [selectedType, setSelectedType] = useState(initialType);
   const [search, setSearch] = useState('');
   const [displayLimit, setDisplayLimit] = useState(12);
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
@@ -371,38 +372,40 @@ export default function FarmerInstitutesV2Widget({
 
   if (summaryMode) {
     return (
-      <button
-        className="hotspot-kpi-card farmer-kpi-card"
-        type="button"
-        onClick={onOpen}
-        aria-haspopup="dialog"
-        aria-label="การพัฒนาเกษตรกรและกลุ่มสถาบันเกษตรกร ดูข้อมูลแบบเต็ม"
-      >
-        <span className="hotspot-kpi-icon farmer-kpi-icon" aria-hidden="true">
-          <TeamOutlined />
-        </span>
-        <span className="hotspot-kpi-copy farmer-kpi-copy">
-          <small>ข้อมูลเกษตรกรและสถาบันเกษตรกร</small>
-          <strong>การพัฒนาเกษตรกรและกลุ่ม/สถาบันเกษตรกร</strong>
-          <span>
-            {INSTITUTE_V2_TYPES.length} หมวดข้อมูล · ครอบคลุม{' '}
-            {totalSummary.districtCount} อำเภอ
-          </span>
-        </span>
-        <span className="hotspot-kpi-metric farmer-kpi-metric">
-          <strong>
-            {isLoading ? '—' : number.format(totalSummary.totalRows)}
-          </strong>
-          <span>รายการทั้งหมด</span>
-        </span>
-        <span className="hotspot-kpi-state farmer-kpi-state">
-          <i aria-hidden="true" />
-          {isLoading ? 'กำลังอัปเดต' : error ? 'ข้อมูลบางส่วน' : 'ข้อมูลล่าสุด'}
-        </span>
-        <span className="hotspot-kpi-action farmer-kpi-action">
-          เปิดข้อมูลและสถิติ →
-        </span>
-      </button>
+      <>
+        {INSTITUTE_V2_TYPES.map((type) => {
+          const typeSummary = summarizeInstituteV2Rows(
+            rows.filter((row) => row.typeKey === type.key)
+          );
+          return (
+            <button
+              key={type.key}
+              className="farmer-category-kpi"
+              style={{ '--tone': type.color }}
+              type="button"
+              onClick={() => onOpen(type.key)}
+              aria-haspopup="dialog"
+              aria-label={`${type.label} ดูรายละเอียด`}
+            >
+              <span className="farmer-category-kpi-icon" aria-hidden="true">
+                <TeamOutlined />
+              </span>
+              <span className="farmer-category-kpi-copy">
+                <small>ข้อมูลเกษตรกรและสถาบันเกษตรกร</small>
+                <strong>{type.label}</strong>
+                <span>{typeSummary.districtCount} อำเภอ</span>
+              </span>
+              <span className="farmer-category-kpi-value">
+                <strong>
+                  {isLoading ? '—' : number.format(typeSummary.totalRows)}
+                </strong>
+                <small>{type.unit}</small>
+              </span>
+              <span className="farmer-category-kpi-open">ดูรายละเอียด →</span>
+            </button>
+          );
+        })}
+      </>
     );
   }
 

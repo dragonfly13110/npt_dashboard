@@ -226,6 +226,7 @@ export default function LandingPage() {
   const location = useLocation();
   const [landingQuery, setLandingQuery] = useState('');
   const [activeInfoModal, setActiveInfoModal] = useState(null);
+  const [selectedFarmerType, setSelectedFarmerType] = useState('large_plots');
   const [isHeroDocked, setIsHeroDocked] = useState(true);
 
   useEffect(() => {
@@ -578,7 +579,7 @@ export default function LandingPage() {
           >
             <div className="live-widget-modal-body">
               <Suspense fallback={<WidgetSkeleton />}>
-                <FarmerInstitutesV2Widget />
+                <FarmerInstitutesV2Widget initialType={selectedFarmerType} />
               </Suspense>
             </div>
           </Modal>
@@ -609,7 +610,10 @@ export default function LandingPage() {
           <Suspense fallback={<WidgetSkeleton />}>
             <FarmerInstitutesV2Widget
               summary
-              onOpen={() => setActiveInfoModal('liveFarmerDevelopment')}
+              onOpen={(typeKey) => {
+                setSelectedFarmerType(typeKey);
+                setActiveInfoModal('liveFarmerDevelopment');
+              }}
             />
             <AgriTourismWidget
               data={tourism}
@@ -624,7 +628,7 @@ export default function LandingPage() {
           <div className="bento-card bento-card-map">
             <div className="bento-card-header">
               <h3>🗺️ แผนที่ข้อมูลการเกษตร</h3>
-              <span>พิกัดพื้นที่เชิงเกษตร (GIS, ท่องเที่ยว)</span>
+              <span>พิกัดพื้นที่เชิงเกษตร (GIS)</span>
             </div>
             <div className="bento-card-body p-0" data-testid="landing-map">
               <Suspense fallback={<WidgetSkeleton />}>

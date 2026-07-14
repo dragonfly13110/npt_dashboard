@@ -141,8 +141,7 @@ export async function fetchCommunityData(supabase) {
     supabase
       .from('agri_tourism')
       .select('district, spot_name, spot_type')
-      .order('id', { ascending: false })
-      .limit(3),
+      .order('id', { ascending: false }),
     supabase
       .from('large_plots')
       .select(

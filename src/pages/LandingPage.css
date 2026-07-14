@@ -5664,15 +5664,123 @@ html {
   max-width: 1200px;
   margin: -16px auto 24px;
   padding: 0 24px;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
 }
 
-.agri-kpi-strip .farmer-kpi-card {
-  margin-top: 0;
+.farmer-category-kpi {
+  grid-column: span 2;
+}
+
+.farmer-category-kpi:nth-child(7),
+.agri-kpi-strip > .tourism-kpi-widget {
+  grid-column: span 3;
+}
+
+.farmer-category-kpi {
+  min-width: 0;
+  min-height: 132px;
+  padding: 16px;
+  border: 1px solid color-mix(in srgb, var(--tone) 22%, white);
+  border-radius: 20px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--tone) 10%, white),
+    #fff 72%
+  );
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--tone) 10%, transparent);
+  color: #17352f;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) auto;
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  gap: 8px 12px;
+  font: inherit;
+  text-align: left;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.farmer-category-kpi:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px color-mix(in srgb, var(--tone) 16%, transparent);
+}
+
+.farmer-category-kpi:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--tone) 30%, transparent);
+  outline-offset: 3px;
+}
+
+.farmer-category-kpi-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--tone) 14%, white);
+  color: var(--tone);
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+}
+
+.farmer-category-kpi-copy {
+  min-width: 0;
+}
+
+.farmer-category-kpi-copy small,
+.farmer-category-kpi-copy strong,
+.farmer-category-kpi-copy span,
+.farmer-category-kpi-value small,
+.farmer-category-kpi-value strong {
+  display: block;
+}
+
+.farmer-category-kpi-copy small {
+  color: var(--tone);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.farmer-category-kpi-copy strong {
+  margin: 2px 0;
+  overflow: hidden;
+  color: #17352f;
+  font-size: 15px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.farmer-category-kpi-copy span,
+.farmer-category-kpi-value small {
+  color: #64748b;
+  font-size: 11px;
+}
+
+.farmer-category-kpi-value {
+  text-align: right;
+}
+
+.farmer-category-kpi-value strong {
+  color: var(--tone);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.farmer-category-kpi-open {
+  grid-column: 2 / -1;
+  padding-top: 8px;
+  border-top: 1px solid color-mix(in srgb, var(--tone) 12%, white);
+  color: var(--tone);
+  font-size: 11px;
+  font-weight: 700;
+  text-align: right;
 }
 
 .tourism-kpi-widget {
   width: 100%;
-  margin-top: 12px;
+  margin-top: 0;
   padding: 16px 20px;
   border: 1px solid #d8efe8;
   border-radius: 22px;
@@ -6086,6 +6194,12 @@ html {
   .agri-kpi-strip {
     margin-top: -6px;
     padding: 0 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .farmer-category-kpi,
+  .farmer-category-kpi:nth-child(7),
+  .agri-kpi-strip > .tourism-kpi-widget {
+    grid-column: auto;
   }
   .tourism-kpi-widget {
     grid-template-columns: 1fr auto;
@@ -6125,6 +6239,9 @@ html {
     align-items: baseline;
     gap: 8px;
     text-align: left;
+  }
+  .agri-kpi-strip {
+    grid-template-columns: 1fr;
   }
   .tourism-kpi-widget {
     padding: 15px;
