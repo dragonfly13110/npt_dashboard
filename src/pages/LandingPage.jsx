@@ -322,9 +322,7 @@ export default function LandingPage() {
     {
       icon: '🐛',
       title: 'สถานการณ์ศัตรูพืช',
-      value: tableCount('pest_outbreaks')
-        ? formatKpi(sumDistrictMetric('pestArea'), 'ไร่')
-        : 'รอข้อมูล',
+      value: formatKpi(sumDistrictMetric('pestArea'), 'ไร่'),
       note: 'พื้นที่ระบาดที่บันทึกในระบบ',
       tone: '#dc2626',
       href: '/public/disease-forecast',
