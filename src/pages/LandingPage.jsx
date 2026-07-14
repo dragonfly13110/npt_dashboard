@@ -218,6 +218,7 @@ export default function LandingPage() {
     districtStats,
     smartFarmers,
     tourism,
+    pestReportCount,
     instituteStats,
     lpStats,
     agriStats,
@@ -322,8 +323,8 @@ export default function LandingPage() {
     {
       icon: '🐛',
       title: 'สถานการณ์ศัตรูพืช',
-      value: formatKpi(sumDistrictMetric('pestArea'), 'ไร่'),
-      note: 'พื้นที่ระบาดที่บันทึกในระบบ',
+      value: formatKpi(pestReportCount, 'รายงาน'),
+      note: 'รายงานสถานการณ์ที่บันทึกในระบบ',
       tone: '#dc2626',
       href: '/public/disease-forecast',
     },

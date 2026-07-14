@@ -154,6 +154,7 @@ export function useDashboardData() {
       },
       ceDistrictStats: distCounts,
       tourism: { list: atData || [], count: atData ? atData.length : 0 },
+      pestReportCount: pestData?.length || 0,
       instituteStats,
       lpStats,
       largePlotsList: rawLpData || [],
@@ -166,7 +167,7 @@ export function useDashboardData() {
     isLoading: loading,
     error,
     refetch,
-  } = useApiCache('dashboard-overall-data-v2', fetchDashboardData);
+  } = useApiCache('dashboard-overall-data-v3', fetchDashboardData);
 
   const {
     stats = [],
@@ -179,6 +180,7 @@ export function useDashboardData() {
     enterprises = { list: [], count: 0 },
     ceDistrictStats = {},
     tourism = { list: [], count: 0 },
+    pestReportCount = 0,
     instituteStats = {},
     lpStats = {},
     largePlotsList = [],
@@ -202,6 +204,7 @@ export function useDashboardData() {
     enterprises,
     ceDistrictStats,
     tourism,
+    pestReportCount,
     instituteStats,
     lpStats,
     agriStats,
