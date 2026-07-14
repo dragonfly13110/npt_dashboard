@@ -612,6 +612,7 @@ export default function SmartMapCanvas({
                     className: 'smart-map-tooltip',
                   }
                 );
+                layer.on('click', () => layer.openTooltip());
               }}
             />
           )}
