@@ -14,8 +14,33 @@ const metrics = [
   },
 ];
 
-const markerLayers = [
+const oneMarkerLayer = [
   { key: 'hotspot', label: 'Hotspots', color: '#ef4444', icon: '🔥' },
+];
+
+const markerLayers = [
+  {
+    key: 'hotspot',
+    apiLayer: 'fire_hotspots',
+    label: 'Hotspots',
+    color: '#ef4444',
+    icon: 'fire',
+  },
+  {
+    key: 'forecast',
+    apiLayer: 'forecast_plots',
+    label: 'Forecast plots',
+    color: '#ec4899',
+    icon: 'forecast',
+  },
+  {
+    key: 'tourism',
+    apiLayer: 'agri_tourism',
+    label: 'Tourism',
+    color: '#94a3b8',
+    icon: 'tourism',
+    disabled: true,
+  },
 ];
 
 describe('Smart map panels', () => {
@@ -142,9 +167,10 @@ describe('Smart map panels', () => {
         metrics={metrics}
         activeMetric="area"
         onMetricToggle={onMetricToggle}
-        markerLayers={markerLayers}
+        markerLayers={oneMarkerLayer}
         visibleLayers={{ hotspot: false }}
         onLayerToggle={onLayerToggle}
+        onClearPointLayers={vi.fn()}
         isSoilLayerVisible={false}
         soilLayerTitle="Load soil"
         soilLayerLoading={false}
@@ -167,5 +193,54 @@ describe('Smart map panels', () => {
     expect(onMetricToggle).toHaveBeenCalledWith('area');
     expect(onLayerToggle).toHaveBeenCalledWith('hotspot');
     expect(onBasemapChange).toHaveBeenCalledWith('google-road');
+  });
+
+  it('allows independent point layers, clears them all, and exposes counts', () => {
+    const onLayerToggle = vi.fn();
+    const onClearPointLayers = vi.fn();
+
+    render(
+      <SmartMapLayerPanel
+        isOpen
+        onControlsClose={vi.fn()}
+        metrics={metrics}
+        activeMetric={null}
+        onMetricToggle={vi.fn()}
+        markerLayers={markerLayers}
+        visibleLayers={{ hotspot: true, forecast: true, tourism: false }}
+        onLayerToggle={onLayerToggle}
+        onClearPointLayers={onClearPointLayers}
+        layerStatusById={{
+          fire_hotspots: { availability: 'active', rowCount: 8 },
+          forecast_plots: { availability: 'active', rowCount: 10 },
+          agri_tourism: { availability: 'coordinate_incomplete', rowCount: 3 },
+        }}
+        layerMetaByKey={{ hotspot: { count: 2 }, forecast: { count: 5 } }}
+        isSoilLayerVisible={false}
+        soilLayerTitle="Load soil"
+        soilLayerLoading={false}
+        soilLayerError={null}
+        onSoilLayerToggle={vi.fn()}
+        showSubdistrictLayer={false}
+        onSubdistrictLayerToggle={vi.fn()}
+        basemap="osm"
+        onBasemapChange={vi.fn()}
+        currentMetric={null}
+        minVal={0}
+        maxVal={0}
+      />
+    );
+
+    expect(screen.getByText(/Hotspots.*2.*8/)).toBeInTheDocument();
+    expect(screen.getByText(/Forecast plots.*5.*10/)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Tourism/)).toBeDisabled();
+
+    fireEvent.click(screen.getByLabelText(/Hotspots/));
+    fireEvent.click(screen.getByLabelText(/Forecast plots/));
+    fireEvent.click(document.querySelector('.control-clear-btn'));
+
+    expect(onLayerToggle).toHaveBeenNthCalledWith(1, 'hotspot');
+    expect(onLayerToggle).toHaveBeenNthCalledWith(2, 'forecast');
+    expect(onClearPointLayers).toHaveBeenCalledOnce();
   });
 });

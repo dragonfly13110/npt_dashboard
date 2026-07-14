@@ -117,6 +117,15 @@ const MARKER_STYLE = {
     badgeBg: '#f3e8ff',
     badgeColor: '#6b21a8',
   },
+  housewife_group: {
+    radius: 7,
+    fillColor: '#14b8a6',
+    color: 'rgba(255,255,255,0.6)',
+    weight: 1.5,
+    titleColor: '#0f766e',
+    badgeBg: '#ccfbf1',
+    badgeColor: '#0f766e',
+  },
   forecast: {
     radius: 7,
     fillColor: '#ec4899',
@@ -209,6 +218,10 @@ function MarkerTooltipContent({ item, style }) {
   );
 }
 
+function markerKey(layerKey, item, index) {
+  return `${layerKey}-${item.id || index}`;
+}
+
 function MarkerLayer({
   layerKey,
   items,
@@ -221,7 +234,7 @@ function MarkerLayer({
     createElement(
       CircleMarker,
       {
-        key: `${layerKey}-${idx}`,
+        key: markerKey(layerKey, item, idx),
         center: [item.lat, item.lon],
         radius: style.radius,
         fillColor: style.fillColor,
