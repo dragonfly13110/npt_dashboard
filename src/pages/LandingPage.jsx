@@ -212,6 +212,7 @@ const externalSystemLinks = [
 
 export default function LandingPage() {
   const {
+    stats,
     loading,
     mapData,
     districtStats,
@@ -283,6 +284,96 @@ export default function LandingPage() {
 
     fetchForecast();
   }, []);
+
+  const districtValues = Object.values(districtStats);
+  const sumDistrictMetric = (key) =>
+    districtValues.reduce(
+      (sum, district) => sum + (Number(district[key]) || 0),
+      0
+    );
+  const tableCount = (table) =>
+    stats.find((item) => item.table === table)?.count;
+  const formatKpi = (value, unit) =>
+    Number.isFinite(value)
+      ? `${value.toLocaleString('th-TH')} ${unit}`
+      : 'รอข้อมูล';
+  const cropAreas = [
+    ['ข้าวนาปี', agriStats.rice_pi],
+    ['ข้าวนาปรัง', agriStats.rice_prung],
+    ['พืชไร่', agriStats.field_crops],
+    ['พืชสวน', agriStats.hort],
+    ['ไม้ผล', agriStats.fruit],
+  ].sort((a, b) => (Number(b[1]) || 0) - (Number(a[1]) || 0));
+  const leadingCrop = cropAreas[0];
+  const highRiskCount = Array.isArray(forecastData?.details)
+    ? forecastData.details.filter((item) => item.risk_level === 'สูง').length
+    : null;
+  const publicKpis = [
+    {
+      icon: '🛡️',
+      title: 'พื้นที่รับรอง GAP',
+      value: tableCount('certifications')
+        ? formatKpi(sumDistrictMetric('certGap'), 'แปลง')
+        : 'รอข้อมูล',
+      note: 'มาตรฐานการผลิตที่ปลอดภัย',
+      tone: '#2563eb',
+      href: '/interactive-dashboard',
+    },
+    {
+      icon: '🐛',
+      title: 'สถานการณ์ศัตรูพืช',
+      value: tableCount('pest_outbreaks')
+        ? formatKpi(sumDistrictMetric('pestArea'), 'ไร่')
+        : 'รอข้อมูล',
+      note: 'พื้นที่ระบาดที่บันทึกในระบบ',
+      tone: '#dc2626',
+      href: '/public/disease-forecast',
+    },
+    {
+      icon: '🤖',
+      title: 'ความเสี่ยง 7 วัน',
+      value:
+        highRiskCount === null
+          ? 'รอข้อมูล'
+          : formatKpi(highRiskCount, 'จุดเสี่ยงสูง'),
+      note: 'AI พยากรณ์โรคและแมลง',
+      tone: '#7c3aed',
+      modal: 'aiForecast',
+    },
+    {
+      icon: '🌊',
+      title: 'ภัยพิบัติการเกษตร',
+      value: tableCount('disasters')
+        ? formatKpi(sumDistrictMetric('disasterArea'), 'ไร่')
+        : 'รอข้อมูล',
+      note: `${sumDistrictMetric('disasterFarmers').toLocaleString('th-TH')} เกษตรกรได้รับผลกระทบ`,
+      tone: '#ea580c',
+      href: '/interactive-dashboard',
+    },
+    {
+      icon: '🏫',
+      title: 'ศูนย์บริการใกล้บ้าน',
+      value: formatKpi(
+        sumDistrictMetric('lc') +
+          sumDistrictMetric('pc') +
+          sumDistrictMetric('sfc'),
+        'แห่ง'
+      ),
+      note: 'ศพก. · ศจช. · ศดปช.',
+      tone: '#0f766e',
+      href: '/smart-map',
+    },
+    {
+      icon: '🌾',
+      title: 'พืชเด่นตามพื้นที่',
+      value: leadingCrop?.[1]
+        ? formatKpi(Number(leadingCrop[1]), 'ไร่')
+        : 'รอข้อมูล',
+      note: leadingCrop?.[1] ? leadingCrop[0] : 'รอข้อมูลพื้นที่เพาะปลูก',
+      tone: '#65a30d',
+      href: '/public/agricultural-areas',
+    },
+  ];
 
   const closeMoreDrawer = useCallback(() => {
     setMoreDrawerClosing(true);
@@ -645,6 +736,44 @@ export default function LandingPage() {
               loading={loading}
             />
           </Suspense>
+        </section>
+
+        <section
+          className="public-kpi-section"
+          aria-labelledby="public-kpi-title"
+        >
+          <div className="public-kpi-heading">
+            <div>
+              <span>ข้อมูลที่ประชาชนใช้ได้ทันที</span>
+              <h2 id="public-kpi-title">ข้อมูลสำคัญสำหรับเกษตรกร</h2>
+            </div>
+            <small>แตะการ์ดเพื่อดูรายละเอียด</small>
+          </div>
+          <div className="public-kpi-grid">
+            {publicKpis.map((card) => (
+              <button
+                key={card.title}
+                type="button"
+                className="public-kpi-card"
+                style={{ '--tone': card.tone }}
+                onClick={() =>
+                  card.modal
+                    ? setActiveInfoModal(card.modal)
+                    : navigate(card.href)
+                }
+              >
+                <span className="public-kpi-icon" aria-hidden="true">
+                  {card.icon}
+                </span>
+                <span className="public-kpi-copy">
+                  <small>{card.title}</small>
+                  <strong>{loading ? '—' : card.value}</strong>
+                  <span>{card.note}</span>
+                </span>
+                <span className="public-kpi-arrow">ดูข้อมูล →</span>
+              </button>
+            ))}
+          </div>
         </section>
 
         {/* ===== AGRI NEWS ACCORDION ===== */}
