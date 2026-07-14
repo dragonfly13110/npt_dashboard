@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import SmartMapDetailPanel from '../components/SmartMapDetailPanel';
+import SmartMapComparisonDialog from '../components/SmartMapComparisonDialog';
 import SmartMapLayerPanel from '../components/SmartMapLayerPanel';
 
 const metrics = [
@@ -18,6 +19,48 @@ const markerLayers = [
 ];
 
 describe('Smart map panels', () => {
+  it('forwards comparison district selection through its explicit handler', () => {
+    const onCompareDistrictChange = vi.fn();
+
+    render(
+      <SmartMapComparisonDialog
+        selectedDistrict={{ name: 'เมืองนครปฐม', areaSqkm: 10 }}
+        selectedData={{}}
+        districtStats={{ กำแพงแสน: {} }}
+        districtNames={['กำแพงแสน']}
+        compareWithDistrictName="กำแพงแสน"
+        onCompareDistrictChange={onCompareDistrictChange}
+        onClose={vi.fn()}
+        weatherData={{}}
+        getWeatherDetails={vi.fn()}
+        getPm25Color={vi.fn()}
+        getPm25LevelLabel={vi.fn()}
+        cropChartData={[]}
+        simRiceConversion={0}
+        onSimRiceConversionChange={vi.fn()}
+        simResidueManagement={0}
+        onSimResidueManagementChange={vi.fn()}
+        simulationResults={{
+          waterSaved: 0,
+          incomeAdded: 0,
+          co2Reduced: 0,
+          hotspotReduction: 0,
+        }}
+        compareAreaSqkm={10}
+        compSimRiceConversion={0}
+        onCompSimRiceConversionChange={vi.fn()}
+        compSimResidueManagement={0}
+        onCompSimResidueManagementChange={vi.fn()}
+      />
+    );
+
+    fireEvent.change(screen.getByLabelText('เปรียบเทียบกับ:'), {
+      target: { value: 'กำแพงแสน' },
+    });
+
+    expect(onCompareDistrictChange).toHaveBeenCalledWith('กำแพงแสน');
+  });
+
   it('forwards a policy simulation change through its explicit handler', () => {
     const onRiceConversionChange = vi.fn();
 
