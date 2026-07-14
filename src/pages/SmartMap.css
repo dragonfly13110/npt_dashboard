@@ -195,7 +195,7 @@
 /* ---------- LAYER CONTROL PANEL ---------- */
 .smart-map-controls {
   position: absolute;
-  top: 110px;
+  top: 16px;
   right: 16px;
   z-index: 1000;
   display: flex;
@@ -216,7 +216,7 @@
 
 .smart-map-point-dropdown {
   position: absolute;
-  top: 110px;
+  top: 16px;
   right: 252px;
   z-index: 1001;
   min-width: 210px;
@@ -237,6 +237,17 @@
 .smart-map-point-dropdown-menu button { width: 100%; margin-bottom: 8px; }
 .smart-map-point-dropdown-menu label { display: block; padding: 6px 0; font-size: 13px; }
 .point-layer-controls { display: none; }
+
+.smart-map-controls > .metric-control-btn {
+  width: calc(50% - 4px);
+  display: inline-flex;
+  vertical-align: top;
+  margin-right: 8px;
+}
+
+.smart-map-controls > .metric-control-btn:nth-of-type(2n + 1) {
+  margin-right: 0;
+}
 
 @keyframes controlSlideIn {
   0% {
@@ -883,6 +894,15 @@
 }
 
 @media (max-width: 768px) {
+  .smart-map-controls {
+    top: 68px;
+  }
+
+  .smart-map-point-dropdown {
+    top: 68px;
+    right: 16px;
+  }
+
   /* Keep zoom controls beside the compact search row on small screens. */
   .smart-map-container .leaflet-top.leaflet-right {
     top: 68px !important;

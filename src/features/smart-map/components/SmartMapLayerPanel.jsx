@@ -47,7 +47,7 @@ export default function SmartMapLayerPanel({
       {metrics.map((metric) => (
         <button
           key={metric.key}
-          className={`control-btn ${activeMetric === metric.key ? 'active' : ''}`}
+          className={`control-btn metric-control-btn ${activeMetric === metric.key ? 'active' : ''}`}
           onClick={() => onMetricToggle(metric.key)}
         >
           <span className="control-btn-icon">{metric.icon}</span>
