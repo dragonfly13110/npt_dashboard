@@ -734,6 +734,7 @@
 }
 
 .smart-map-container .leaflet-control-zoom {
+  display: flex;
   border: 1px solid rgba(15, 23, 42, 0.06) !important;
   border-radius: 12px !important;
   overflow: hidden;
@@ -749,6 +750,11 @@
   height: 36px !important;
   line-height: 36px !important;
   font-size: 16px !important;
+}
+
+.smart-map-container .leaflet-control-zoom a:first-child {
+  border-bottom: 0 !important;
+  border-right: 1px solid rgba(15, 23, 42, 0.06) !important;
 }
 
 .smart-map-container .leaflet-control-zoom a:hover {
