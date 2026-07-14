@@ -45,6 +45,11 @@
 | `learning_centers` / `pest_centers` / `soil_fertilizer_centers` / `plant_doctors` | 7 / 46 / 20 / 34 |
 | `disasters` / `pest_outbreaks` / `crop_production` / `ai_disease_forecasts`       | 626 / 0 / 0 / 48 |
 
+## Schema drift ที่พบ
+
+- ฐานข้อมูลจริงของ `agricultural_areas` ไม่มี `updated_at` แม้เอกสาร schema ใน repo บางส่วนคาดไว้; API Smart Map จึงใช้ `created_at` เป็น freshness fallback และต้องไม่ query `updated_at` จากตารางนี้
+- ฐานข้อมูลใช้ชื่ออำเภอ `เมือง` แต่ GeoJSON/UI ใช้ `เมืองนครปฐม`; `normalizePlaceName()` จัดให้เป็นค่าเดียวก่อนรวมข้อมูล
+
 ## ข้อสรุปสำหรับงานถัดไป
 
 1. แก้ data flow ก่อน: Summary และ Layer Status API ต้องแทน `useDashboardData()` บน Smart Map

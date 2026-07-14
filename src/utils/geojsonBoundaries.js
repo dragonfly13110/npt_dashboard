@@ -59,9 +59,10 @@ export function filterSubdistrictGeojsonByProvince(
 }
 
 export function normalizePlaceName(value) {
-  return String(value || '')
+  const normalized = String(value || '')
     .trim()
     .replace(/^(อำเภอ|อ\.|ตำบล|ต\.)\s*/u, '');
+  return normalized === 'เมืองนครปฐม' ? 'เมือง' : normalized;
 }
 
 export function getSubdistrictsForDistrict(geojson, districtName) {
