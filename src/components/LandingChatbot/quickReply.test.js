@@ -3,7 +3,7 @@ import { getLandingQuickReply } from './quickReply';
 
 describe('getLandingQuickReply', () => {
   it('answers greetings directly', () => {
-    expect(getLandingQuickReply('สวัสดี')).toContain('น้องข้าวหลาม AI');
+    expect(getLandingQuickReply('สวัสดี')).toContain('น้องข้าวหลาม');
   });
 
   it('answers help directly', () => {
@@ -32,6 +32,8 @@ describe('getLandingQuickReply', () => {
   });
 
   it('does not intercept a factual navigation-shaped question', () => {
-    expect(getLandingQuickReply('แผนที่แปลงเกษตรในสามพรานมีอะไรบ้าง')).toBeNull();
+    expect(
+      getLandingQuickReply('แผนที่แปลงเกษตรในสามพรานมีอะไรบ้าง')
+    ).toBeNull();
   });
 });

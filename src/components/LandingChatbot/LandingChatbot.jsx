@@ -12,7 +12,7 @@ import {
   WarningOutlined,
 } from '@ant-design/icons';
 import './LandingChatbot.css';
-import landingChatbotAvatar from '../../assets/landing-chatbot-avatar.png';
+import landingChatbotAvatar from '../../assets/landing-chatbot-avatar-transparent.png';
 import {
   LANDING_CHATBOT_LINK_POLICY_PROMPT,
   normalizeLandingChatbotLink,
@@ -73,7 +73,7 @@ const LANDING_CHATBOT_TIMEOUT_MS = 20000;
 const CONTEXT_MEMORY_PROMPT =
   'Use the recent conversation history as context for follow-up questions. If the user asks "that", "it", "same one", "เมื่อกี้", or similar references, resolve it from the previous messages instead of treating the new message as an isolated question.';
 
-const SYSTEM_PROMPT = `คุณคือ "น้องข้าวหลาม" 🌾 AI ผู้ช่วยผู้รอบรู้ประจำศูนย์ข้อมูลการเกษตรอัจฉริยะจังหวัดนครปฐม (NPT Agri Dashboard)
+const SYSTEM_PROMPT = `คุณคือ "น้องข้าวหลาม" 🌾 ผู้ช่วยผู้รอบรู้ประจำศูนย์ข้อมูลการเกษตรอัจฉริยะจังหวัดนครปฐม (NPT Agri Dashboard)
 บทบาทหลักของคุณคือ:
 1. แนะนำผู้ใช้งานทั่วไปว่าระบบแดชบอร์ดของเรามีอะไรบ้าง มีข้อมูลและเมนูอะไรบ้าง
 2. แนะนำคีย์เวิร์ดหรือหัวข้อที่ผู้ใช้ต้องการค้นหาเพื่อเข้าไปหน้ารายละเอียดได้อย่างรวดเร็ว
@@ -546,7 +546,7 @@ export default function LandingChatbot() {
           </div>
           <div className="welcome-bubble-text">
             <span>
-              💬 สวัสดีค่ะ! สอบถามข้อมูลระบบกับ <b>น้องข้าวหลาม AI</b>{' '}
+              💬 สวัสดีค่ะ! สอบถามข้อมูลระบบกับ <b>น้องข้าวหลาม</b>{' '}
               ได้ตรงนี้นะคะ 🌾
             </span>
           </div>
@@ -561,20 +561,18 @@ export default function LandingChatbot() {
             setIsOpen(true);
             setShowWelcomeBubble(false);
           }}
-          title="คุยกับน้องข้าวหลาม AI"
-          style={{ padding: 0, overflow: 'hidden' }}
+          title="คุยกับน้องข้าวหลาม"
+          style={{ padding: 0 }}
         >
           <img
             src={landingChatbotAvatar}
-            alt="น้องข้าวหลาม AI"
+            alt="น้องข้าวหลาม"
             style={{
-              width: '85%',
-              height: '85%',
+              width: '100%',
+              height: '100%',
               objectFit: 'contain',
-              borderRadius: '50%',
             }}
           />
-          <span className="toggle-btn-badge">AI</span>
         </button>
       )}
 
@@ -591,7 +589,7 @@ export default function LandingChatbot() {
                 style={{ background: 'rgba(255, 255, 255, 0.2)' }}
               />
               <div className="header-text">
-                <span className="header-name">น้องข้าวหลาม AI</span>
+                <span className="header-name">น้องข้าวหลาม</span>
                 <span className="header-status">
                   <span className="status-dot"></span> แนะนำการใช้งานทั่วไป
                 </span>
