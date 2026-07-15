@@ -11,41 +11,51 @@ import {
   Space,
   Table,
   Tag,
-  Tooltip,
 } from 'antd';
 import {
   DownloadOutlined,
-  ReloadOutlined,
   SearchOutlined,
   SettingOutlined,
   ThunderboltOutlined,
 } from '@ant-design/icons';
 import EChart from '../../components/widgets/EChart';
+import FloodMap from '../../components/Map/FloodMap';
 import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { PageHeader } from '../../components/widgets/SharedDashboardUI';
-import { supabase } from '../../supabaseClient';
-import seedRows from '../../data/disasters_by_village_seed.json';
+import rows from '../../data/disasters_by_village_seed.json';
+import { groupSum, sumField, toFloodMapPoint } from '../../utils/floodData';
 import { downloadCsv, rowsToCsv } from '../../utils/csv';
 
-const formatNumber = (value) =>
-  Number(value || 0).toLocaleString('th-TH', { maximumFractionDigits: 0 });
+const formatNumber = (value, maximumFractionDigits = 2) =>
+  Number(value || 0).toLocaleString('th-TH', { maximumFractionDigits });
 
 const compareText = (a, b, key) =>
   String(a[key] || '').localeCompare(String(b[key] || ''), 'th');
 
+const numberColumn = (title, dataIndex, width = 130) => ({
+  title,
+  dataIndex,
+  width,
+  align: 'right',
+  render: (value) =>
+    value === '' || value == null ? '-' : formatNumber(value, 4),
+  sorter: (a, b) => Number(a[dataIndex] || 0) - Number(b[dataIndex] || 0),
+});
+
 const columns = [
+  {
+    title: 'ลำดับ',
+    dataIndex: 'id',
+    width: 85,
+    align: 'center',
+    sorter: (a, b) => a.id - b.id,
+  },
   {
     title: 'ปี',
     dataIndex: 'year',
-    width: 80,
+    width: 85,
     align: 'center',
     sorter: (a, b) => a.year - b.year,
-  },
-  {
-    title: 'ประเภทภัย',
-    dataIndex: 'disaster_type',
-    width: 130,
-    sorter: (a, b) => compareText(a, b, 'disaster_type'),
   },
   {
     title: 'อำเภอ',
@@ -60,94 +70,62 @@ const columns = [
     sorter: (a, b) => compareText(a, b, 'subdistrict'),
   },
   {
-    title: 'หมู่ที่',
+    title: 'หมู่',
     dataIndex: 'village_no',
-    width: 90,
+    width: 80,
     align: 'center',
-    sorter: (a, b) => Number(a.village_no || 0) - Number(b.village_no || 0),
+    sorter: (a, b) => a.village_no - b.village_no,
+  },
+  { title: 'UTM Zone', dataIndex: 'utm_zone', width: 100, align: 'center' },
+  numberColumn('พิกัด UTM (X)', 'utm_x', 140),
+  numberColumn('พิกัด UTM (Y)', 'utm_y', 145),
+  {
+    title: 'กลุ่มกิจกรรม',
+    dataIndex: 'activity_group',
+    width: 190,
+    sorter: (a, b) => compareText(a, b, 'activity_group'),
   },
   {
-    title: 'พื้นที่เสียหาย (ไร่)',
-    dataIndex: 'affected_area_rai',
-    width: 150,
-    align: 'right',
-    render: (value) => (value ? formatNumber(value) : ''),
-    sorter: (a, b) =>
-      Number(a.affected_area_rai || 0) - Number(b.affected_area_rai || 0),
-  },
-  {
-    title: 'เกษตรกรได้รับผลกระทบ',
-    dataIndex: 'affected_farmers',
-    width: 170,
-    align: 'right',
-    render: (value) => (value ? formatNumber(value) : ''),
-    sorter: (a, b) =>
-      Number(a.affected_farmers || 0) - Number(b.affected_farmers || 0),
-  },
-  {
-    title: 'หมายเหตุ',
-    dataIndex: 'notes',
+    title: 'ชนิดพืช',
+    dataIndex: 'crop_type',
     width: 220,
-    ellipsis: true,
-    sorter: (a, b) => compareText(a, b, 'notes'),
+    sorter: (a, b) => compareText(a, b, 'crop_type'),
   },
+  {
+    title: 'พันธุ์',
+    dataIndex: 'variety',
+    width: 240,
+    render: (value) => value || '-',
+    sorter: (a, b) => compareText(a, b, 'variety'),
+  },
+  numberColumn('เนื้อที่ปลูก (ไร่)', 'planted_area_rai', 145),
+  numberColumn('เนื้อที่ประสบภัย (ไร่)', 'affected_area_rai', 175),
 ];
 
 const defaultColumnKeys = columns.map((column) => column.dataIndex);
-
-const countBy = (rows, key) =>
-  Object.entries(
-    rows.reduce((acc, row) => {
-      const name = row[key] || 'ไม่ระบุ';
-      acc[name] = (acc[name] || 0) + 1;
-      return acc;
-    }, {})
-  )
-    .map(([name, value]) => ({ name, value }))
-    .sort((a, b) => b.value - a.value);
-
-const unique = (rows, key) =>
-  [...new Set(rows.map((row) => row[key]).filter(Boolean))].sort((a, b) =>
-    String(a).localeCompare(String(b), 'th')
+const unique = (items, key) =>
+  [
+    ...new Set(
+      items
+        .map((row) => row[key])
+        .filter((value) => value !== '' && value != null)
+    ),
+  ].sort((a, b) =>
+    typeof a === 'number' ? a - b : String(a).localeCompare(String(b), 'th')
   );
 
-function normalizeDbRows(rows) {
-  return rows.map((row, index) => ({
-    id: row.id || `db-${index}`,
-    year: Number(row.year) || null,
-    disaster_type: row.disaster_type || '',
-    district: row.district || '',
-    subdistrict: row.subdistrict || '',
-    village_no: row.village_no || '',
-    affected_area_rai: row.affected_area_rai ?? row.damaged_area ?? null,
-    affected_farmers: row.affected_farmers ?? null,
-    notes: row.notes || '',
-  }));
-}
-
-async function getRows() {
-  const { data, error } = await supabase
-    .from('disasters')
-    .select('*')
-    .order('year', { ascending: false });
-
-  if (!error && data?.length) return normalizeDbRows(data);
-  return seedRows;
-}
-
 export default function Disasters() {
-  const [rows, setRows] = useState(seedRows);
   const [year, setYear] = useState(null);
   const [district, setDistrict] = useState(null);
   const [subdistrict, setSubdistrict] = useState(null);
-  const [disasterType, setDisasterType] = useState(null);
+  const [activityGroup, setActivityGroup] = useState(null);
+  const [cropType, setCropType] = useState(null);
   const [search, setSearch] = useState('');
   const [searchText, setSearchText] = useState('');
   const [visibleColumnKeys, setVisibleColumnKeys] = useState(defaultColumnKeys);
 
   useEffect(() => {
-    document.title = 'ภัยพิบัติทางการเกษตรนครปฐม | ศูนย์ข้อมูลการเกษตรนครปฐม';
-    getRows().then(setRows);
+    document.title = 'ข้อมูลอุทกภัยจังหวัดนครปฐม | ศูนย์ข้อมูลการเกษตรนครปฐม';
   }, []);
 
   const filteredRows = useMemo(
@@ -157,9 +135,10 @@ export default function Disasters() {
           (!year || row.year === year) &&
           (!district || row.district === district) &&
           (!subdistrict || row.subdistrict === subdistrict) &&
-          (!disasterType || row.disaster_type === disasterType)
+          (!activityGroup || row.activity_group === activityGroup) &&
+          (!cropType || row.crop_type === cropType)
       ),
-    [rows, year, district, subdistrict, disasterType]
+    [year, district, subdistrict, activityGroup, cropType]
   );
 
   const tableRows = useMemo(() => {
@@ -168,11 +147,12 @@ export default function Disasters() {
     return filteredRows.filter((row) =>
       [
         'year',
-        'disaster_type',
         'district',
         'subdistrict',
         'village_no',
-        'notes',
+        'activity_group',
+        'crop_type',
+        'variety',
       ].some((key) =>
         String(row[key] || '')
           .toLowerCase()
@@ -181,15 +161,30 @@ export default function Disasters() {
     );
   }, [filteredRows, search]);
 
-  const visibleColumns = useMemo(
-    () =>
-      columns.filter((column) => visibleColumnKeys.includes(column.dataIndex)),
-    [visibleColumnKeys]
+  const districtRows = district
+    ? rows.filter((row) => row.district === district)
+    : rows;
+  const activityRows = activityGroup
+    ? districtRows.filter((row) => row.activity_group === activityGroup)
+    : districtRows;
+  const byYear = useMemo(
+    () => groupSum(filteredRows, 'year', 'affected_area_rai'),
+    [filteredRows]
   );
-
-  const reloadRows = async () => {
-    setRows(await getRows());
-  };
+  const byDistrict = useMemo(
+    () =>
+      groupSum(filteredRows, 'district', 'affected_area_rai').sort(
+        (a, b) => b.value - a.value
+      ),
+    [filteredRows]
+  );
+  const mapPoints = useMemo(
+    () => filteredRows.map(toFloodMapPoint).filter(Boolean),
+    [filteredRows]
+  );
+  const visibleColumns = columns.filter((column) =>
+    visibleColumnKeys.includes(column.dataIndex)
+  );
 
   const exportRows = (targetRows, filename) => {
     const exportColumns = columns.filter((column) =>
@@ -206,93 +201,64 @@ export default function Disasters() {
     );
   };
 
-  const districtOptions = useMemo(() => unique(rows, 'district'), [rows]);
-  const subdistrictOptions = useMemo(
-    () =>
-      unique(
-        district ? rows.filter((row) => row.district === district) : rows,
-        'subdistrict'
-      ),
-    [rows, district]
-  );
-
-  const byYear = useMemo(
-    () =>
-      countBy(filteredRows, 'year').sort(
-        (a, b) => Number(a.name) - Number(b.name)
-      ),
-    [filteredRows]
-  );
-  const byDistrict = useMemo(
-    () => countBy(filteredRows, 'district'),
-    [filteredRows]
-  );
-
-  const totalVillages = useMemo(
-    () =>
-      new Set(
-        filteredRows.map(
-          (row) =>
-            `${row.year}-${row.district}-${row.subdistrict}-${row.village_no}`
-        )
-      ).size,
-    [filteredRows]
-  );
-  const latestYear = Math.max(...rows.map((row) => row.year).filter(Boolean));
-  const topDistrict = byDistrict[0];
+  const filters = [
+    {
+      label: 'ปี',
+      value: year,
+      onChange: setYear,
+      options: unique(rows, 'year'),
+    },
+    {
+      label: 'อำเภอ',
+      value: district,
+      options: unique(rows, 'district'),
+      onChange: (value) => {
+        setDistrict(value);
+        setSubdistrict(null);
+        setCropType(null);
+      },
+    },
+    {
+      label: 'ตำบล',
+      value: subdistrict,
+      onChange: setSubdistrict,
+      options: unique(districtRows, 'subdistrict'),
+    },
+    {
+      label: 'กลุ่มกิจกรรม',
+      value: activityGroup,
+      options: unique(districtRows, 'activity_group'),
+      onChange: (value) => {
+        setActivityGroup(value);
+        setCropType(null);
+      },
+    },
+    {
+      label: 'ชนิดพืช',
+      value: cropType,
+      onChange: setCropType,
+      options: unique(activityRows, 'crop_type'),
+    },
+  ];
 
   return (
     <div>
       <PageHeader
-        title="ข้อมูลภัยพิบัติทางการเกษตร"
-        subtitle="สรุปข้อมูลภัยพิบัติรายปี รายอำเภอ รายตำบล และรายหมู่บ้านจากไฟล์รวมข้อมูลภัยแยกหมู่"
+        title="ข้อมูลอุทกภัยจังหวัดนครปฐม ปี 2563–2568"
+        subtitle="สรุปพื้นที่เพาะปลูกและพื้นที่ประสบภัยจากข้อมูลรายแปลง พร้อมกราฟและพิกัด UTM บนแผนที่"
         icon={ThunderboltOutlined}
       />
 
       <Card size="small" style={{ borderRadius: 8, marginBottom: 16 }}>
         <Row gutter={[12, 12]}>
-          {[
-            {
-              label: 'ปี',
-              value: year,
-              onChange: setYear,
-              options: unique(rows, 'year').map((item) => ({
-                label: item,
-                value: item,
-              })),
-            },
-            {
-              label: 'อำเภอ',
-              value: district,
-              onChange: (value) => {
-                setDistrict(value);
-                setSubdistrict(null);
-              },
-              options: districtOptions.map((item) => ({
-                label: item,
-                value: item,
-              })),
-            },
-            {
-              label: 'ตำบล',
-              value: subdistrict,
-              onChange: setSubdistrict,
-              options: subdistrictOptions.map((item) => ({
-                label: item,
-                value: item,
-              })),
-            },
-            {
-              label: 'ประเภทภัย',
-              value: disasterType,
-              onChange: setDisasterType,
-              options: unique(rows, 'disaster_type').map((item) => ({
-                label: item,
-                value: item,
-              })),
-            },
-          ].map((filter) => (
-            <Col xs={24} sm={12} lg={6} key={filter.label}>
+          {filters.map((filter) => (
+            <Col
+              xs={24}
+              sm={12}
+              lg={8}
+              xl={Math.floor(24 / filters.length)}
+              key={filter.label}
+            >
               <div
                 style={{ fontWeight: 700, color: '#475569', marginBottom: 6 }}
               >
@@ -303,7 +269,10 @@ export default function Disasters() {
                 showSearch
                 value={filter.value}
                 onChange={filter.onChange}
-                options={filter.options}
+                options={filter.options.map((item) => ({
+                  label: item,
+                  value: item,
+                }))}
                 placeholder={`เลือก${filter.label}`}
                 style={{ width: '100%' }}
               />
@@ -315,22 +284,20 @@ export default function Disasters() {
       <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
         {[
           {
-            label: 'รายการทั้งหมด',
-            value: `${formatNumber(filteredRows.length)} รายการ`,
+            label: 'รายการข้อมูล',
+            value: `${formatNumber(filteredRows.length, 0)} รายการ`,
           },
           {
-            label: 'หมู่บ้าน/เหตุการณ์',
-            value: `${formatNumber(totalVillages)} รายการ`,
+            label: 'เนื้อที่ปลูก',
+            value: `${formatNumber(sumField(filteredRows, 'planted_area_rai'))} ไร่`,
           },
           {
-            label: 'ปีล่าสุดในชุดข้อมูล',
-            value: latestYear || '-',
+            label: 'เนื้อที่ประสบภัย',
+            value: `${formatNumber(sumField(filteredRows, 'affected_area_rai'))} ไร่`,
           },
           {
-            label: 'อำเภอพบมากสุด',
-            value: topDistrict
-              ? `${topDistrict.name} ${formatNumber(topDistrict.value)}`
-              : '-',
+            label: 'พิกัดที่แสดงบนแผนที่',
+            value: `${formatNumber(mapPoints.length, 0)} จุด`,
           },
         ].map((item) => (
           <Col xs={24} sm={12} lg={6} key={item.label}>
@@ -355,20 +322,14 @@ export default function Disasters() {
 
       <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
         <Col xs={24} lg={14}>
-          <Card title="จำนวนเหตุภัยพิบัติแยกตามปี" style={{ borderRadius: 8 }}>
+          <Card title="พื้นที่ประสบภัยแยกตามปี" style={{ borderRadius: 8 }}>
             <div style={{ height: 340 }}>
               <EChart
                 option={barOption(
                   byYear,
-                  [
-                    {
-                      key: 'value',
-                      name: 'จำนวนรายการ',
-                      color: '#2563eb',
-                    },
-                  ],
+                  [{ key: 'value', name: 'พื้นที่ประสบภัย', color: '#2563eb' }],
                   {
-                    unit: 'รายการ',
+                    unit: 'ไร่',
                     layout: 'horizontal',
                     compact: true,
                     rotate: 0,
@@ -380,13 +341,13 @@ export default function Disasters() {
           </Card>
         </Col>
         <Col xs={24} lg={10}>
-          <Card title="สัดส่วนภัยพิบัติแยกตามอำเภอ" style={{ borderRadius: 8 }}>
+          <Card
+            title="สัดส่วนพื้นที่ประสบภัยแยกตามอำเภอ"
+            style={{ borderRadius: 8 }}
+          >
             <div style={{ height: 340 }}>
               <EChart
-                option={pieOption(byDistrict.slice(0, 8), {
-                  unit: 'รายการ',
-                  legend: 'right',
-                })}
+                option={pieOption(byDistrict, { unit: 'ไร่', legend: 'right' })}
               />
             </div>
           </Card>
@@ -396,10 +357,20 @@ export default function Disasters() {
       <Card
         title={
           <span>
-            ตารางข้อมูลภัยพิบัติ{' '}
-            <Tag color="green">
-              ทั้งหมด {formatNumber(tableRows.length)} รายการ
-            </Tag>
+            แผนที่พื้นที่ประสบอุทกภัย{' '}
+            <Tag color="blue">{formatNumber(mapPoints.length, 0)} จุด</Tag>
+          </span>
+        }
+        style={{ borderRadius: 8, marginBottom: 16 }}
+      >
+        <FloodMap points={mapPoints} />
+      </Card>
+
+      <Card
+        title={
+          <span>
+            ตารางข้อมูลอุทกภัย{' '}
+            <Tag color="green">{formatNumber(tableRows.length, 0)} รายการ</Tag>
           </span>
         }
         style={{ borderRadius: 8 }}
@@ -421,23 +392,22 @@ export default function Disasters() {
               if (!event.target.value) setSearch('');
             }}
             onSearch={setSearch}
-            placeholder="ค้นหา..."
+            placeholder="ค้นหาอำเภอ ตำบล พืช หรือพันธุ์..."
             prefix={<SearchOutlined />}
-            style={{ width: 260 }}
+            style={{ width: 320 }}
           />
           <Space wrap>
-            <Tooltip title="รีเฟรช">
-              <Button icon={<ReloadOutlined />} onClick={reloadRows} />
-            </Tooltip>
             <Button
               icon={<DownloadOutlined />}
-              onClick={() => exportRows(tableRows, 'disasters-filtered.csv')}
+              onClick={() =>
+                exportRows(tableRows, 'nakhon-pathom-flood-filtered.csv')
+              }
             >
               Export CSV
             </Button>
             <Button
               icon={<DownloadOutlined />}
-              onClick={() => exportRows(rows, 'disasters-all.csv')}
+              onClick={() => exportRows(rows, 'nakhon-pathom-flood-all.csv')}
             >
               Export All CSV
             </Button>
@@ -445,7 +415,7 @@ export default function Disasters() {
               trigger="click"
               placement="bottomRight"
               content={
-                <div style={{ width: 240 }}>
+                <div style={{ width: 250 }}>
                   <div style={{ fontWeight: 700, marginBottom: 8 }}>
                     เลือกคอลัมน์ที่แสดง
                   </div>
@@ -468,20 +438,13 @@ export default function Disasters() {
                       </Checkbox>
                     ))}
                   </Space>
-                  <Space style={{ marginTop: 12 }}>
-                    <Button
-                      size="small"
-                      onClick={() => setVisibleColumnKeys(defaultColumnKeys)}
-                    >
-                      เลือกทั้งหมด
-                    </Button>
-                    <Button
-                      size="small"
-                      onClick={() => setVisibleColumnKeys(defaultColumnKeys)}
-                    >
-                      ค่าเริ่มต้น
-                    </Button>
-                  </Space>
+                  <Button
+                    size="small"
+                    style={{ marginTop: 12 }}
+                    onClick={() => setVisibleColumnKeys(defaultColumnKeys)}
+                  >
+                    เลือกทั้งหมด
+                  </Button>
                 </div>
               }
             >
@@ -496,7 +459,7 @@ export default function Disasters() {
           columns={visibleColumns}
           dataSource={tableRows}
           size="middle"
-          scroll={{ x: 1230 }}
+          scroll={{ x: 1800 }}
           pagination={{ pageSize: 20, showSizeChanger: true }}
         />
       </Card>
