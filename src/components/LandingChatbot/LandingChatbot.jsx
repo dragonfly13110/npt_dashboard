@@ -12,7 +12,7 @@ import {
   WarningOutlined,
 } from '@ant-design/icons';
 import './LandingChatbot.css';
-import khaolamAvatar from '../../assets/khaolam-avatar.png';
+import landingChatbotAvatar from '../../assets/landing-chatbot-avatar.png';
 import {
   LANDING_CHATBOT_LINK_POLICY_PROMPT,
   normalizeLandingChatbotLink,
@@ -565,7 +565,7 @@ export default function LandingChatbot() {
           style={{ padding: 0, overflow: 'hidden' }}
         >
           <img
-            src={khaolamAvatar}
+            src={landingChatbotAvatar}
             alt="น้องข้าวหลาม AI"
             style={{
               width: '85%',
@@ -586,7 +586,7 @@ export default function LandingChatbot() {
             <div className="header-info">
               <Avatar
                 size={36}
-                src={khaolamAvatar}
+                src={landingChatbotAvatar}
                 className="header-avatar"
                 style={{ background: 'rgba(255, 255, 255, 0.2)' }}
               />
@@ -624,7 +624,7 @@ export default function LandingChatbot() {
                   {msg.role === 'assistant' && (
                     <Avatar
                       size={28}
-                      src={khaolamAvatar}
+                      src={landingChatbotAvatar}
                       className="message-avatar"
                     />
                   )}
@@ -649,7 +649,7 @@ export default function LandingChatbot() {
                 <div className="message-row assistant loading">
                   <Avatar
                     size={28}
-                    src={khaolamAvatar}
+                    src={landingChatbotAvatar}
                     className="message-avatar"
                   />
                   <div className="message-bubble loading-bubble">
