@@ -320,7 +320,7 @@ export default function LandingPage() {
         : 'รอข้อมูล',
       note: 'มาตรฐานการผลิตที่ปลอดภัย',
       tone: '#2563eb',
-      href: '/dashboard/production/certifications',
+      href: '/public/certifications',
     },
     {
       icon: '🐛',

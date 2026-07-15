@@ -252,15 +252,15 @@ const thaiYearsFrom = (rows, key) => {
     .map((year) => ({ label: year, value: year }));
 };
 
-export default function Certifications() {
+export default function Certifications({ publicMode = false }) {
   const { role } = useAuth();
-  const isGuest = role === 'guest';
+  const isPublic = publicMode || role === 'guest';
   const tableColumns = useMemo(
     () =>
-      isGuest
+      isPublic
         ? columns.filter((col) => !guestHiddenColumns.has(col.dataIndex))
         : columns,
-    [isGuest]
+    [isPublic]
   );
 
   useEffect(() => {
@@ -276,7 +276,7 @@ export default function Certifications() {
   const [pageFilters, setPageFilters] = useState({});
 
   const fetchCertifications = async () => {
-    if (isGuest) {
+    if (isPublic) {
       const res = await fetch('/api/public-certifications');
       const payload = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(payload.error || `HTTP ${res.status}`);
@@ -289,7 +289,7 @@ export default function Certifications() {
   };
 
   const { data: dashboardData = [], isLoading: loading } = useApiCache(
-    ['all-certifications-v2', role],
+    ['all-certifications-v2', isPublic ? 'public' : role],
     fetchCertifications,
     { staleMinutes: 10 }
   );
@@ -449,10 +449,12 @@ export default function Certifications() {
   // 2. Pie Chart: Number of unique farmers ONLY for the Top 10 Crops
   const pieData = useMemo(() => {
     const cropFarmers = {};
+    const cropPlots = {};
     filteredData.forEach((item) => {
       const crop = item.crop_name || 'ไม่ระบุพืช';
       if (!top10Crops.includes(crop)) return; // Only process Top 10 crops
 
+      cropPlots[crop] = (cropPlots[crop] || 0) + 1;
       if (!cropFarmers[crop]) cropFarmers[crop] = new Set();
       const farmerKey = item.farmer_name || item.farmer_key;
       if (farmerKey) cropFarmers[crop].add(farmerKey);
@@ -462,10 +464,14 @@ export default function Certifications() {
     return top10Crops
       .map((name) => ({
         name,
-        value: cropFarmers[name] ? cropFarmers[name].size : 0,
+        value: isPublic
+          ? cropPlots[name] || 0
+          : cropFarmers[name]
+            ? cropFarmers[name].size
+            : 0,
       }))
       .filter((d) => d.value > 0);
-  }, [filteredData, top10Crops]);
+  }, [filteredData, isPublic, top10Crops]);
 
   // 3. Bar Chart: Number of unique farmers by district (stacked by the Top 10 Crops)
   const { barData, barGroups } = useMemo(() => {
@@ -479,13 +485,16 @@ export default function Certifications() {
       if (!top10Crops.includes(crop)) return; // Only process Top 10 crops
 
       if (!districtCropFarmers[dist]) {
-        districtCropFarmers[dist] = { _totalSet: new Set() };
+        districtCropFarmers[dist] = { _totalSet: new Set(), _totalPlots: 0 };
       }
       if (!districtCropFarmers[dist][crop]) {
-        districtCropFarmers[dist][crop] = new Set();
+        districtCropFarmers[dist][crop] = isPublic ? 0 : new Set();
       }
 
-      if (farmer) {
+      if (isPublic) {
+        districtCropFarmers[dist][crop] += 1;
+        districtCropFarmers[dist]._totalPlots += 1;
+      } else if (farmer) {
         districtCropFarmers[dist][crop].add(farmer);
         districtCropFarmers[dist]._totalSet.add(farmer);
       }
@@ -495,19 +504,23 @@ export default function Certifications() {
       .map((dist) => {
         const obj = {
           name: dist,
-          total: districtCropFarmers[dist]._totalSet.size,
+          total: isPublic
+            ? districtCropFarmers[dist]._totalPlots
+            : districtCropFarmers[dist]._totalSet.size,
         };
         top10Crops.forEach((crop) => {
-          obj[crop] = districtCropFarmers[dist][crop]
-            ? districtCropFarmers[dist][crop].size
-            : 0;
+          obj[crop] = isPublic
+            ? districtCropFarmers[dist][crop] || 0
+            : districtCropFarmers[dist][crop]
+              ? districtCropFarmers[dist][crop].size
+              : 0;
         });
         return obj;
       })
       .sort((a, b) => b.total - a.total); // Sort districts by total farmers descending
 
     return { barData: barDataArray, barGroups: top10Crops };
-  }, [filteredData, top10Crops]);
+  }, [filteredData, isPublic, top10Crops]);
 
   // 4. Horizontal Bar Chart: Total Production Volume (Kg) by Crop (Top 10 by Volume)
   const volumeData = useMemo(() => {
@@ -635,7 +648,11 @@ export default function Certifications() {
           <Row gutter={[24, 24]}>
             <Col xs={24} lg={12}>
               <Card
-                title="จำนวนเกษตรกร (ราย) แยกตามชนิดพืช (Top 10)"
+                title={
+                  isPublic
+                    ? 'จำนวนแปลง แยกตามชนิดพืช (Top 10)'
+                    : 'จำนวนเกษตรกร (ราย) แยกตามชนิดพืช (Top 10)'
+                }
                 size="small"
                 bordered={false}
                 style={{ background: '#fafbfc' }}
@@ -645,7 +662,7 @@ export default function Certifications() {
                     <EChart
                       option={pieOption(pieData, {
                         colors: COLORS,
-                        unit: 'ราย',
+                        unit: isPublic ? 'แปลง' : 'ราย',
                       })}
                     />
                   ) : (
@@ -666,7 +683,11 @@ export default function Certifications() {
             </Col>
             <Col xs={24} lg={12}>
               <Card
-                title="ภาพรวมจำนวนเกษตรกร (ราย) แยกตามอำเภอ (เฉพาะพืชที่มีพื้นที่ปลูก 10 อันดับแรก)"
+                title={
+                  isPublic
+                    ? 'ภาพรวมจำนวนแปลง แยกตามอำเภอ (เฉพาะพืชที่มีพื้นที่ปลูก 10 อันดับแรก)'
+                    : 'ภาพรวมจำนวนเกษตรกร (ราย) แยกตามอำเภอ (เฉพาะพืชที่มีพื้นที่ปลูก 10 อันดับแรก)'
+                }
                 size="small"
                 bordered={false}
                 style={{ background: '#fafbfc' }}
@@ -684,7 +705,7 @@ export default function Certifications() {
                         })),
                         {
                           colors: COLORS,
-                          unit: 'ราย',
+                          unit: isPublic ? 'แปลง' : 'ราย',
                           stacked: true,
                           totalKey: 'total',
                         }
@@ -816,8 +837,9 @@ export default function Certifications() {
         controlledFilters={pageFilters}
         onFiltersChange={setPageFilters}
         hideFilterBar
-        fetchDataOverride={isGuest ? fetchPublicTableData : null}
-        fetchAllOverride={isGuest ? async () => dashboardData : null}
+        readOnly={isPublic}
+        fetchDataOverride={isPublic ? fetchPublicTableData : null}
+        fetchAllOverride={isPublic ? async () => dashboardData : null}
       />
     </div>
   );

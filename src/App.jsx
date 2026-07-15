@@ -240,13 +240,18 @@ function AppRoutes() {
 
           { path: '/public/agricultural-areas', Component: AgriculturalAreas },
           {
+            path: '/public/certifications',
+            Component: Certifications,
+            publicMode: true,
+          },
+          {
             path: '/public/agricultural-prices',
             Component: AgriculturalPrices,
           },
           { path: '/public/disease-forecast', Component: AiDiseaseForecast },
           { path: '/public/fire-hotspots', Component: FireHotspots },
           // eslint-disable-next-line no-unused-vars
-        ].map(({ path, Component }) => (
+        ].map(({ path, Component, publicMode = false }) => (
           <Route
             key={path}
             path={path}
@@ -273,7 +278,7 @@ function AppRoutes() {
                     ← กลับหน้าหลัก
                   </a>
                 </div>
-                <Component />
+                <Component publicMode={publicMode} />
               </div>
             }
           />
