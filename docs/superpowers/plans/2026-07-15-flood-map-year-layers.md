@@ -11,7 +11,7 @@
 ## Global Constraints
 
 - Every available year is visible when the map opens.
-- Initial zoom is `10.5`.
+- Initial view fits the province bounds with `20px` padding and maximum zoom `10.5`.
 - `+` and `-` zoom by `0.5` levels.
 - District boundaries remain always visible.
 - Existing filters, marker styling, popups, counts, and map height remain unchanged.
@@ -143,4 +143,50 @@ Open `http://127.0.0.1:5173/dashboard/development/disasters`. Verify the initial
 ```powershell
 git add src/components/Map/FloodMap.jsx docs/superpowers/plans/2026-07-15-flood-map-year-layers.md
 git commit -m "Increase initial flood map zoom"
+```
+
+### Task 3: Fit the initial view to the province
+
+**Files:**
+
+- Modify: `src/utils/floodData.js`
+- Modify: `src/components/Map/FloodMap.jsx`
+
+**Interfaces:**
+
+- Consumes: `NAKHON_PATHOM_BOUNDS` with `minLat`, `maxLat`, `minLng`, and `maxLng`.
+- Produces: a Leaflet bounds array that keeps the complete province visible initially.
+
+- [x] **Step 1: Export and reuse the existing bounds**
+
+Export `NAKHON_PATHOM_BOUNDS` from `src/utils/floodData.js`. Import it in `FloodMap.jsx`, then replace `center` and `zoom` with:
+
+```jsx
+bounds={[
+  [NAKHON_PATHOM_BOUNDS.minLat, NAKHON_PATHOM_BOUNDS.minLng],
+  [NAKHON_PATHOM_BOUNDS.maxLat, NAKHON_PATHOM_BOUNDS.maxLng],
+]}
+boundsOptions={{ padding: [20, 20], maxZoom: 10.5 }}
+```
+
+- [x] **Step 2: Format and verify**
+
+```powershell
+npx.cmd prettier --write src/utils/floodData.js src/components/Map/FloodMap.jsx docs/superpowers/plans/2026-07-15-flood-map-year-layers.md
+npx.cmd eslint src/utils/floodData.js src/components/Map/FloodMap.jsx
+npm.cmd test -- --run src/__tests__/flood-data.test.js
+npm.cmd run build
+```
+
+Expected: lint and build exit `0`; 4 flood-data tests pass.
+
+- [x] **Step 3: Inspect the running dashboard**
+
+Open `http://127.0.0.1:5173/dashboard/development/disasters` and verify all province boundaries are visible with padding.
+
+- [x] **Step 4: Commit**
+
+```powershell
+git add src/utils/floodData.js src/components/Map/FloodMap.jsx docs/superpowers/plans/2026-07-15-flood-map-year-layers.md
+git commit -m "Fit flood map to province bounds"
 ```

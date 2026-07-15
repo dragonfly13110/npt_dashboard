@@ -32,7 +32,7 @@ export function toFloodMapPoint(row) {
 }
 import { utmToLatLng } from './geo';
 
-const NAKHON_PATHOM_BOUNDS = {
+export const NAKHON_PATHOM_BOUNDS = {
   minLat: 13.649,
   maxLat: 14.179,
   minLng: 99.818,

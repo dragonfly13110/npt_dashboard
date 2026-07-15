@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Empty, Spin } from 'antd';
 import districtGeoJSON from '../../data/nakhon_pathom_districts.json';
-import { groupPointsByYear } from '../../utils/floodData';
+import { groupPointsByYear, NAKHON_PATHOM_BOUNDS } from '../../utils/floodData';
 
 const MAP_HEIGHT = 680;
 
@@ -60,8 +60,11 @@ export default function FloodMap({ points }) {
   } = map;
   return (
     <MapContainer
-      center={[13.82, 100.04]}
-      zoom={10.5}
+      bounds={[
+        [NAKHON_PATHOM_BOUNDS.minLat, NAKHON_PATHOM_BOUNDS.minLng],
+        [NAKHON_PATHOM_BOUNDS.maxLat, NAKHON_PATHOM_BOUNDS.maxLng],
+      ]}
+      boundsOptions={{ padding: [20, 20], maxZoom: 10.5 }}
       zoomDelta={0.5}
       zoomSnap={0.5}
       preferCanvas
