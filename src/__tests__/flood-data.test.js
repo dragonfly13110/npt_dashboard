@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import rows from '../data/disasters_by_village_seed.json';
-import { groupSum, sumField, toFloodMapPoint } from '../utils/floodData';
+import {
+  groupPointsByYear,
+  groupSum,
+  sumField,
+  toFloodMapPoint,
+} from '../utils/floodData';
 
 describe('flood workbook data', () => {
   it('ships every workbook row without personal identifiers', () => {
@@ -35,5 +40,16 @@ describe('flood workbook data', () => {
     expect(points[0]).toMatchObject({ id: 1, district: 'บางเลน' });
     expect(points[0].lat).toBeGreaterThan(13.64);
     expect(points[0].lng).toBeLessThan(100.34);
+  });
+
+  it('groups map points into ascending year layers', () => {
+    const grouped = groupPointsByYear([
+      { id: 3, year: 2568 },
+      { id: 1, year: 2563 },
+      { id: 2, year: 2568 },
+    ]);
+
+    expect(grouped.map(([year]) => year)).toEqual([2563, 2568]);
+    expect(grouped[1][1].map(({ id }) => id)).toEqual([3, 2]);
   });
 });

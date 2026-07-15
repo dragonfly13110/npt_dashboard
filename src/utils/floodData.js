@@ -16,6 +16,9 @@ export const groupSum = (rows, groupKey, valueKey) =>
         : String(a.name).localeCompare(String(b.name), 'th')
     );
 
+export const groupPointsByYear = (points) =>
+  [...Map.groupBy(points, ({ year }) => year)].sort(([a], [b]) => a - b);
+
 export function toFloodMapPoint(row) {
   const x = Number(row.utm_x);
   const y = Number(row.utm_y);

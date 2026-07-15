@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Empty, Spin } from 'antd';
 import districtGeoJSON from '../../data/nakhon_pathom_districts.json';
+import { groupPointsByYear } from '../../utils/floodData';
 
 const MAP_HEIGHT = 680;
 
@@ -48,11 +49,21 @@ export default function FloodMap({ points }) {
     );
   }
 
-  const { MapContainer, TileLayer, CircleMarker, Popup, GeoJSON } = map;
+  const {
+    MapContainer,
+    TileLayer,
+    CircleMarker,
+    Popup,
+    GeoJSON,
+    LayersControl,
+    LayerGroup,
+  } = map;
   return (
     <MapContainer
       center={[13.82, 100.04]}
       zoom={10}
+      zoomDelta={0.5}
+      zoomSnap={0.5}
       preferCanvas
       style={{ height: MAP_HEIGHT, borderRadius: 8 }}
     >
@@ -64,33 +75,44 @@ export default function FloodMap({ points }) {
         data={districtGeoJSON}
         style={{ color: '#166534', weight: 2, fillOpacity: 0.02 }}
       />
-      {points.map((point) => (
-        <CircleMarker
-          key={point.id}
-          center={[point.lat, point.lng]}
-          radius={Math.min(8, 2 + Math.sqrt(point.affected_area_rai || 0))}
-          color="#fff"
-          weight={1}
-          fillColor={GROUP_COLORS[point.activity_group] || '#64748b'}
-          fillOpacity={0.75}
-        >
-          <Popup>
-            <strong>{point.crop_type}</strong>
-            <div>
-              ปี {point.year} · อ.{point.district} ต.{point.subdistrict} หมู่{' '}
-              {point.village_no}
-            </div>
-            <div>
-              กลุ่ม {point.activity_group}
-              {point.variety ? ` · พันธุ์ ${point.variety}` : ''}
-            </div>
-            <div>
-              พื้นที่ประสบภัย {point.affected_area_rai.toLocaleString('th-TH')}{' '}
-              ไร่
-            </div>
-          </Popup>
-        </CircleMarker>
-      ))}
+      <LayersControl position="topright">
+        {groupPointsByYear(points).map(([year, yearPoints]) => (
+          <LayersControl.Overlay checked key={year} name={`ปี ${year}`}>
+            <LayerGroup>
+              {yearPoints.map((point) => (
+                <CircleMarker
+                  key={point.id}
+                  center={[point.lat, point.lng]}
+                  radius={Math.min(
+                    8,
+                    2 + Math.sqrt(point.affected_area_rai || 0)
+                  )}
+                  color="#fff"
+                  weight={1}
+                  fillColor={GROUP_COLORS[point.activity_group] || '#64748b'}
+                  fillOpacity={0.75}
+                >
+                  <Popup>
+                    <strong>{point.crop_type}</strong>
+                    <div>
+                      ปี {point.year} · อ.{point.district} ต.
+                      {point.subdistrict} หมู่ {point.village_no}
+                    </div>
+                    <div>
+                      กลุ่ม {point.activity_group}
+                      {point.variety ? ` · พันธุ์ ${point.variety}` : ''}
+                    </div>
+                    <div>
+                      พื้นที่ประสบภัย{' '}
+                      {point.affected_area_rai.toLocaleString('th-TH')} ไร่
+                    </div>
+                  </Popup>
+                </CircleMarker>
+              ))}
+            </LayerGroup>
+          </LayersControl.Overlay>
+        ))}
+      </LayersControl>
     </MapContainer>
   );
 }
