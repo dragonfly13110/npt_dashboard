@@ -506,19 +506,11 @@ export default function LandingPage() {
           </span>
         </a>
         <div className={`premium-nav-links ${mobileMenuOpen ? 'is-open' : ''}`}>
-          <a href="#agri-overview">ภาพรวม</a>
-          <a href="/smart-map">แผนที่</a>
-          <a href="#dataset-explorer">ชุดข้อมูล</a>
-          <a href="#agri-news">ข่าว</a>
-          <a href="/manual">คู่มือ</a>
-          <button
-            onClick={() => setActiveInfoModal('audience')}
-            className="premium-nav-button"
-          >
-            ระบบนี้ช่วยใคร
-          </button>
+          <a href="#live-data">สถานการณ์วันนี้</a>
+          <a href="#agri-overview">ข้อมูลการเกษตร</a>
+          <a href="#agri-news">ข่าวและประกาศ</a>
           <a href="/login" className="premium-login">
-            เข้าสู่ระบบ
+            สำหรับเจ้าหน้าที่
           </a>
         </div>
         <button
