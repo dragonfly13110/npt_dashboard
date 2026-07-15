@@ -7,7 +7,8 @@ Make map zoom controls move in smaller increments and let users independently sh
 ## Design
 
 - Keep all available years visible when the map first opens.
-- Start the map at zoom `10.5` so Nakhon Pathom fills more of the viewport.
+- Fit the initial map view to the Nakhon Pathom boundary bounds with `20px` padding so the entire province remains visible at different viewport sizes.
+- Limit automatic fitting to a maximum zoom of `10.5`.
 - Set Leaflet `zoomDelta` and `zoomSnap` to `0.5`, so the `+` and `-` controls zoom half a level per click.
 - Group the existing point markers by `point.year`.
 - Render each year as a checked `LayersControl.Overlay`, ordered ascending by year.
