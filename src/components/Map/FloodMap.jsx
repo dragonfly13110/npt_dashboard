@@ -61,7 +61,7 @@ export default function FloodMap({ points }) {
   return (
     <MapContainer
       center={[13.82, 100.04]}
-      zoom={10}
+      zoom={10.5}
       zoomDelta={0.5}
       zoomSnap={0.5}
       preferCanvas

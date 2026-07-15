@@ -11,6 +11,7 @@
 ## Global Constraints
 
 - Every available year is visible when the map opens.
+- Initial zoom is `10.5`.
 - `+` and `-` zoom by `0.5` levels.
 - District boundaries remain always visible.
 - Existing filters, marker styling, popups, counts, and map height remain unchanged.
@@ -102,4 +103,44 @@ Open `http://127.0.0.1:5173/dashboard/development/disasters`. Verify every year 
 ```powershell
 git add src/utils/floodData.js src/__tests__/flood-data.test.js src/components/Map/FloodMap.jsx docs/superpowers/plans/2026-07-15-flood-map-year-layers.md
 git commit -m "Add flood map year layers"
+```
+
+### Task 2: Increase the initial zoom
+
+**Files:**
+
+- Modify: `src/components/Map/FloodMap.jsx`
+
+**Interfaces:**
+
+- Consumes: Leaflet `MapContainer` zoom configuration.
+- Produces: an initial map zoom of `10.5` while preserving `0.5` zoom increments.
+
+- [x] **Step 1: Change the initial zoom**
+
+```jsx
+<MapContainer zoom={10.5} zoomDelta={0.5} zoomSnap={0.5}>
+```
+
+- [x] **Step 2: Verify**
+
+Run:
+
+```powershell
+npx.cmd prettier --write src/components/Map/FloodMap.jsx docs/superpowers/plans/2026-07-15-flood-map-year-layers.md
+npx.cmd eslint src/components/Map/FloodMap.jsx
+npm.cmd run build
+```
+
+Expected: formatting, lint, and Vite build exit `0`.
+
+- [x] **Step 3: Inspect the running dashboard**
+
+Open `http://127.0.0.1:5173/dashboard/development/disasters`. Verify the initial view starts half a level closer and still shows Nakhon Pathom.
+
+- [x] **Step 4: Commit**
+
+```powershell
+git add src/components/Map/FloodMap.jsx docs/superpowers/plans/2026-07-15-flood-map-year-layers.md
+git commit -m "Increase initial flood map zoom"
 ```
