@@ -73,6 +73,9 @@ const DamReservoirWidget = lazy(
 const FarmerInstitutesV2Widget = lazy(
   () => import('../components/widgets/FarmerInstitutesV2Widget')
 );
+const NearbyServiceCentersWidget = lazy(
+  () => import('../components/widgets/NearbyServiceCentersWidget')
+);
 const AgriTourismWidget = lazy(
   () => import('../components/widgets/AgriTourismWidget')
 );
@@ -365,7 +368,7 @@ export default function LandingPage() {
       ),
       note: 'ศพก. · ศจช. · ศดปช.',
       tone: '#0f766e',
-      href: '/smart-map',
+      modal: 'nearbyCenters',
     },
     {
       icon: '🌾',
@@ -823,6 +826,20 @@ export default function LandingPage() {
         className="landing-info-modal landing-agency-links-modal"
       >
         <AgencyLinksPanel />
+      </Modal>
+
+      <Modal
+        title={null}
+        open={activeInfoModal === 'nearbyCenters'}
+        onCancel={() => setActiveInfoModal(null)}
+        footer={null}
+        width={1180}
+        className="landing-info-modal landing-nearby-centers-modal"
+        destroyOnHidden
+      >
+        <Suspense fallback={<WidgetSkeleton />}>
+          <NearbyServiceCentersWidget />
+        </Suspense>
       </Modal>
 
       <Modal
