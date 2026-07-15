@@ -296,8 +296,9 @@ export default function Disasters() {
             value: `${formatNumber(sumField(filteredRows, 'affected_area_rai'))} ไร่`,
           },
           {
-            label: 'พิกัดที่แสดงบนแผนที่',
-            value: `${formatNumber(mapPoints.length, 0)} จุด`,
+            label: 'พิกัดใช้งานได้',
+            value: `${formatNumber(mapPoints.length, 0)} จุด / ${formatNumber(filteredRows.length, 0)} รายการ`,
+            note: `${formatNumber(filteredRows.length - mapPoints.length, 0)} รายการไม่มีพิกัดที่ใช้แสดงได้`,
           },
         ].map((item) => (
           <Col xs={24} sm={12} lg={6} key={item.label}>
@@ -315,56 +316,80 @@ export default function Disasters() {
               >
                 {item.value}
               </div>
+              {item.note && (
+                <div style={{ color: '#b45309', fontSize: 12, marginTop: 2 }}>
+                  {item.note}
+                </div>
+              )}
             </Card>
           </Col>
         ))}
       </Row>
 
       <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
-        <Col xs={24} lg={14}>
-          <Card title="พื้นที่ประสบภัยแยกตามปี" style={{ borderRadius: 8 }}>
-            <div style={{ height: 340 }}>
-              <EChart
-                option={barOption(
-                  byYear,
-                  [{ key: 'value', name: 'พื้นที่ประสบภัย', color: '#2563eb' }],
-                  {
-                    unit: 'ไร่',
-                    layout: 'horizontal',
-                    compact: true,
-                    rotate: 0,
-                    grid: { bottom: 48 },
-                  }
-                )}
-              />
-            </div>
-          </Card>
-        </Col>
-        <Col xs={24} lg={10}>
+        <Col xs={24} xl={12}>
           <Card
-            title="สัดส่วนพื้นที่ประสบภัยแยกตามอำเภอ"
+            title={
+              <span>
+                แผนที่พื้นที่ประสบอุทกภัย{' '}
+                <Tag color="blue">{formatNumber(mapPoints.length, 0)} จุด</Tag>
+                <Tag color="orange">
+                  ไม่แสดง{' '}
+                  {formatNumber(filteredRows.length - mapPoints.length, 0)}{' '}
+                  รายการ
+                </Tag>
+              </span>
+            }
             style={{ borderRadius: 8 }}
           >
-            <div style={{ height: 340 }}>
-              <EChart
-                option={pieOption(byDistrict, { unit: 'ไร่', legend: 'right' })}
-              />
-            </div>
+            <FloodMap points={mapPoints} />
           </Card>
         </Col>
+        <Col xs={24} xl={12}>
+          <Row gutter={[16, 16]}>
+            <Col span={24}>
+              <Card title="พื้นที่ประสบภัยแยกตามปี" style={{ borderRadius: 8 }}>
+                <div style={{ height: 280 }}>
+                  <EChart
+                    option={barOption(
+                      byYear,
+                      [
+                        {
+                          key: 'value',
+                          name: 'พื้นที่ประสบภัย',
+                          color: '#2563eb',
+                        },
+                      ],
+                      {
+                        unit: 'ไร่',
+                        layout: 'horizontal',
+                        compact: true,
+                        rotate: 0,
+                        grid: { bottom: 48 },
+                      }
+                    )}
+                  />
+                </div>
+              </Card>
+            </Col>
+            <Col span={24}>
+              <Card
+                title="สัดส่วนพื้นที่ประสบภัยแยกตามอำเภอ"
+                style={{ borderRadius: 8 }}
+              >
+                <div style={{ height: 280 }}>
+                  <EChart
+                    option={pieOption(byDistrict, {
+                      unit: 'ไร่',
+                      legend: 'right',
+                    })}
+                  />
+                </div>
+              </Card>
+            </Col>
+          </Row>
+        </Col>
       </Row>
-
-      <Card
-        title={
-          <span>
-            แผนที่พื้นที่ประสบอุทกภัย{' '}
-            <Tag color="blue">{formatNumber(mapPoints.length, 0)} จุด</Tag>
-          </span>
-        }
-        style={{ borderRadius: 8, marginBottom: 16 }}
-      >
-        <FloodMap points={mapPoints} />
-      </Card>
 
       <Card
         title={

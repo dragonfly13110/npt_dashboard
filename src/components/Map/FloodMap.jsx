@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Empty, Spin } from 'antd';
 import districtGeoJSON from '../../data/nakhon_pathom_districts.json';
 
+const MAP_HEIGHT = 680;
+
 const GROUP_COLORS = {
   ข้าว: '#2563eb',
   พืชผัก: '#16a34a',
@@ -29,14 +31,18 @@ export default function FloodMap({ points }) {
 
   if (!map) {
     return (
-      <div style={{ height: 480, display: 'grid', placeItems: 'center' }}>
+      <div
+        style={{ height: MAP_HEIGHT, display: 'grid', placeItems: 'center' }}
+      >
         <Spin />
       </div>
     );
   }
   if (!points.length) {
     return (
-      <div style={{ height: 480, display: 'grid', placeItems: 'center' }}>
+      <div
+        style={{ height: MAP_HEIGHT, display: 'grid', placeItems: 'center' }}
+      >
         <Empty description="ไม่มีพิกัดในตัวกรองนี้" />
       </div>
     );
@@ -48,7 +54,7 @@ export default function FloodMap({ points }) {
       center={[13.82, 100.04]}
       zoom={10}
       preferCanvas
-      style={{ height: 480, borderRadius: 8 }}
+      style={{ height: MAP_HEIGHT, borderRadius: 8 }}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
