@@ -26,4 +26,13 @@ describe('public privacy surfaces', () => {
 
     expect(fn).not.toContain('annual_agri_income');
   });
+
+  it('keeps personal data and plot codes out of the public GAP API', () => {
+    const fn = fs.readFileSync(
+      path.join(root, 'netlify/functions/public-certifications.js'),
+      'utf8'
+    );
+
+    expect(fn).not.toMatch(/farmer_name|phone|telephone|plot_code/);
+  });
 });

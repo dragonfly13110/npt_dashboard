@@ -51,14 +51,7 @@ export default async (request) => {
 
     const data = await fetchAllCertifications();
 
-    const rows = (data || []).map((row) => ({
-      ...row,
-      farmer_name: null,
-      plot_code: null,
-      farmer_key: row.id ? `cert-${row.id}` : null,
-    }));
-
-    return new Response(JSON.stringify({ data: rows, count: count || 0 }), {
+    return new Response(JSON.stringify({ data, count: count || 0 }), {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
