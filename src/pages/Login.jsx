@@ -161,7 +161,10 @@ export default function Login() {
               onClick={handleGuestLogin}
               block
             >
-              บุคคลทั่วไป (เข้าชมข้อมูล)
+              <span className="guest-btn-content">
+                <strong>บุคคลทั่วไป</strong>
+                <small> (เข้าชมข้อมูล)</small>
+              </span>
             </Button>
           </Space>
 
