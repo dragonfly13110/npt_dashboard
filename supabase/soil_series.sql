@@ -29,7 +29,6 @@ ALTER TABLE soil_series ADD COLUMN IF NOT EXISTS ldd_wgs84_id INTEGER;
 CREATE INDEX IF NOT EXISTS soil_series_district_idx ON soil_series (district);
 CREATE INDEX IF NOT EXISTS soil_series_name_idx ON soil_series (soil_series_name);
 CREATE INDEX IF NOT EXISTS soil_series_group_idx ON soil_series (soil_group);
-CREATE INDEX IF NOT EXISTS soil_series_geometry_gin_idx ON soil_series USING GIN (geometry);
 
 ALTER TABLE soil_series ENABLE ROW LEVEL SECURITY;
 
