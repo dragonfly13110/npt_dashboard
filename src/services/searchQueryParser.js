@@ -26,6 +26,7 @@ const TABLE_HINTS = [
   { terms: ['แม่บ้าน'], tables: ['housewife_farmer_groups'] },
   { terms: ['ยุวเกษตรกร'], tables: ['young_farmer_groups_detailed'] },
   { terms: ['ระบาด', 'ศัตรูพืช'], tables: ['pest_outbreaks'] },
+  { terms: ['อุทกภัย', 'น้ำท่วม', 'ภัยพิบัติ'], tables: ['disasters'] },
   { terms: ['ชีวภัณฑ์'], tables: ['biocontrol_stock'] },
 ];
 

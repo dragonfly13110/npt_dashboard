@@ -288,10 +288,10 @@ export const TABLE_CONFIG = {
     descTh: 'ศูนย์เรียนรู้การเพิ่มประสิทธิภาพการผลิตสินค้าเกษตร',
   },
   disasters: {
-    label: 'ภัยพิบัติ',
+    label: 'ข้อมูลอุทกภัย 2563–2568',
     icon: '⛈️',
     group: 'กลุ่มส่งเสริมและพัฒนาเกษตรกร',
-    descTh: 'ข้อมูลภัยพิบัติด้านการเกษตร',
+    descTh: 'ข้อมูลอุทกภัยรายแปลง: ปี พื้นที่ พืช และพิกัด UTM',
   },
   farmer_registry: {
     label: 'ทะเบียนเกษตรกร',
@@ -501,7 +501,14 @@ export const QUICK_PROMPTS = [
 export const TABLE_SEARCH_COLS = {
   agricultural_areas: ['area_name', 'area_type', 'district', 'subdistrict'],
   learning_centers: ['center_name', 'district', 'manager', 'main_crop'],
-  disasters: ['disaster_type', 'district', 'subdistrict'],
+  disasters: [
+    'disaster_type',
+    'district',
+    'subdistrict',
+    'activity_group',
+    'crop_type',
+    'variety',
+  ],
   farmer_registry: ['district', 'main_crop'],
   gis_areas: ['area_name', 'district', 'area_type', 'notes'],
   large_plots: [
@@ -707,7 +714,12 @@ export const NUMERIC_COLS = {
     'activity_count',
   ],
   farmer_institutes: ['group_count', 'sf_count', 'ysf_count'],
-  disasters: ['affected_area_rai', 'affected_households', 'damage_baht'],
+  disasters: [
+    'planted_area_rai',
+    'affected_area_rai',
+    'affected_households',
+    'damage_baht',
+  ],
   soil_series: ['area_rai'],
   fire_hotspots: ['frp', 'bright_ti4', 'bright_ti5'],
   daily_weather: ['tavg', 'tmin', 'tmax', 'prcp', 'wspd', 'pres'],
@@ -764,7 +776,7 @@ export const CATEGORY_COLS = {
   ],
   certifications: ['crop_name'],
   agri_tourism: ['spot_type'],
-  disasters: ['disaster_type'],
+  disasters: ['year', 'district', 'activity_group', 'crop_type'],
   soil_series: ['soil_series_name', 'soil_group', 'texture', 'fertility'],
   fire_hotspots: ['land_use', 'confidence', 'satellite'],
   budgets: ['budget_source', 'status'],

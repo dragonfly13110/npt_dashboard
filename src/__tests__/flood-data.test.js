@@ -52,4 +52,21 @@ describe('flood workbook data', () => {
     expect(grouped.map(([year]) => year)).toEqual([2563, 2568]);
     expect(grouped[1][1].map(({ id }) => id)).toEqual([3, 2]);
   });
+
+  it('maps workbook rows into searchable flood disaster records', async () => {
+    const { toFloodDisasterRecord } = await import('../utils/floodData');
+
+    expect(toFloodDisasterRecord(rows[0])).toMatchObject({
+      source_row_id: 1,
+      year: 2563,
+      district: 'บางเลน',
+      subdistrict: 'บางปลา',
+      village_no: '3',
+      disaster_type: 'อุทกภัย',
+      activity_group: 'พืชผัก',
+      crop_type: 'แค',
+      planted_area_rai: 1,
+      affected_area_rai: 1,
+    });
+  });
 });

@@ -19,6 +19,24 @@ export const groupSum = (rows, groupKey, valueKey) =>
 export const groupPointsByYear = (points) =>
   [...Map.groupBy(points, ({ year }) => year)].sort(([a], [b]) => a - b);
 
+export const toFloodDisasterRecord = (row) => ({
+  source_row_id: Number(row.id) || null,
+  year: Number(row.year) || null,
+  district: row.district || null,
+  subdistrict: row.subdistrict || null,
+  village_no: row.village_no == null ? null : String(row.village_no),
+  disaster_type: 'อุทกภัย',
+  utm_zone: Number(row.utm_zone) || null,
+  utm_x: Number(row.utm_x) || null,
+  utm_y: Number(row.utm_y) || null,
+  activity_group: row.activity_group || null,
+  crop_type: row.crop_type || null,
+  variety: row.variety || null,
+  planted_area_rai: row.planted_area_rai ?? null,
+  affected_area_rai: row.affected_area_rai ?? null,
+  damaged_area: row.affected_area_rai ?? null,
+});
+
 export function toFloodMapPoint(row) {
   const x = Number(row.utm_x);
   const y = Number(row.utm_y);
@@ -30,7 +48,7 @@ export function toFloodMapPoint(row) {
   if (lat < minLat || lat > maxLat || lng < minLng || lng > maxLng) return null;
   return { ...row, lat, lng };
 }
-import { utmToLatLng } from './geo';
+import { utmToLatLng } from './geo.js';
 
 export const NAKHON_PATHOM_BOUNDS = {
   minLat: 13.649,
