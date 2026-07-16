@@ -9,6 +9,7 @@ import {
   listDatasetKeys,
 } from '../domain/datasetCatalog';
 import productionCostSeed from '../data/production_costs_2567.json';
+import disasterSeed from '../data/disasters_by_village_seed.json';
 import {
   BUDGET_SEED_ROUND,
   BUDGET_SEED_YEAR,
@@ -329,6 +330,29 @@ export async function fetchDatabaseContext(
       const aiSelectColumns = getDatasetSelectColumns(table, { purpose: 'ai' });
       let usedKeyword = false;
 
+      if (table === 'disasters') {
+        const year = Number(query.match(/25\d{2}/)?.[0]);
+        const sampleData = disasterSeed.filter(
+          (row) =>
+            (!year || row.year === year) &&
+            (!matchedDistrict || row.district.includes(matchedDistrict))
+        );
+
+        return {
+          table,
+          label: TABLE_CONFIG[table].label,
+          icon: TABLE_CONFIG[table].icon,
+          group: TABLE_CONFIG[table].group,
+          count: sampleData.length,
+          seedFallback: true,
+          districtSummary: null,
+          categorySummary: null,
+          aggregatedStats: summarizeLocalRows(table, sampleData, distCol),
+          sample: sampleData,
+          filteredBy: matchedDistrict || (year ? `ปี ${year}` : null),
+        };
+      }
+
       let countQuery = supabase
         .from(table)
         .select('*', { count: 'exact', head: true });
@@ -573,6 +597,10 @@ export function buildContextForAI(analysis) {
         entry._source_note = `ใช้ชุดข้อมูลงบประมาณ seed ที่ระบบ Dashboard ใช้อยู่: รอบ ${BUDGET_SEED_ROUND} ปีงบประมาณ ${BUDGET_SEED_YEAR}, ${budgetSeedMeta.totalRows} รายการ, ${budgetSeedMeta.totalProjects} โครงการ, งบรวม ${budgetSeedMeta.totalBudget} บาท`;
         entry.fiscal_year = BUDGET_SEED_YEAR;
         entry.budget_round = BUDGET_SEED_ROUND;
+      }
+
+      if (r.seedFallback && r.table === 'disasters') {
+        entry._source_note = 'ใช้ชุดข้อมูลอุทกภัยเดียวกับหน้า Dashboard';
       }
 
       // Include aggregated stats (SUM, AVG, rankings, percentages by district)

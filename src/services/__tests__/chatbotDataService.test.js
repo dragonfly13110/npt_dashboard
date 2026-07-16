@@ -71,6 +71,16 @@ vi.mock('../aiService', () => ({
       });
     }
 
+    if (prompt.includes('force-disaster-intent')) {
+      return JSON.stringify({
+        district: null,
+        tables: ['disasters'],
+        keyword: null,
+        analysis_type: 'overview',
+        is_general_question: false,
+      });
+    }
+
     if (prompt.includes('force-wrong-budget-table')) {
       return JSON.stringify({
         district: null,
@@ -202,6 +212,24 @@ describe('chatbotDataService aggregation', () => {
     expect(context).toContain('ปีงบประมาณ 2569');
     expect(context).toContain('"total_records": 123');
     expect(context).toContain('"budget_amount": 767495');
+  });
+
+  it('uses dashboard flood data for 2568 when the disasters table is stale', async () => {
+    const result = await fetchDatabaseContext(
+      'force-disaster-intent 2568',
+      'gemini'
+    );
+    const disasters = result.results.find((item) => item.table === 'disasters');
+
+    expect(disasters.count).toBe(560);
+    expect(disasters.aggregatedStats.totals.planted_area_rai).toBeCloseTo(
+      1173.47,
+      2
+    );
+    expect(disasters.aggregatedStats.totals.affected_area_rai).toBeCloseTo(
+      990.33,
+      2
+    );
   });
 
   it('returns a deterministic direct answer for the known round 2 fiscal year 2569 budget summary', async () => {
