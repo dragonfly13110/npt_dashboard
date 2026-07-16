@@ -1,5 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="เกษตรนครปฐม">
-  <rect width="512" height="512" fill="#1a7f37"/>
-  <circle cx="256" cy="256" r="196" fill="#ffffff"/>
-  <path d="M256 368V206M256 276c-76 0-120-42-120-112 76 0 120 42 120 112Zm0 0c76 0 120-42 120-112-76 0-120 42-120 112Z" fill="none" stroke="#1a7f37" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="NPT เกษตรนครปฐม">
+  <rect width="512" height="512" rx="104" fill="#14532d"/>
+  <path d="M350 102c-86 8-145 54-155 139 79 6 145-40 155-139Z" fill="#fff"/>
+  <path d="M193 272c27-67 77-107 151-151" fill="none" stroke="#c9a227" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="336" cy="120" r="11" fill="#c9a227"/>
+  <circle cx="308" cy="142" r="8" fill="#c9a227"/>
+  <text x="256" y="390" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="126" font-weight="800" letter-spacing="6">NPT</text>
 </svg>

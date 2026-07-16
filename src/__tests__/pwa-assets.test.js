@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 const read = (path) => readFileSync(path, 'utf8');
@@ -17,8 +17,13 @@ describe('PWA public assets', () => {
       lang: 'th',
     });
     expect(manifest.icons).toContainEqual(
-      expect.objectContaining({ src: '/pwa-icon.svg', purpose: 'any maskable' })
+      expect.objectContaining({ src: '/pwa-icon-192.png', sizes: '192x192' })
     );
+    expect(manifest.icons).toContainEqual(
+      expect.objectContaining({ src: '/pwa-icon-512.png', sizes: '512x512' })
+    );
+    expect(existsSync('public/pwa-icon-192.png')).toBe(true);
+    expect(existsSync('public/pwa-icon-512.png')).toBe(true);
   });
 
   it('links the manifest from the document', () => {
@@ -39,5 +44,15 @@ describe('PWA public assets', () => {
     expect(read('public/offline.html')).toContain(
       'ไม่พบการเชื่อมต่ออินเทอร์เน็ต'
     );
+  });
+
+  it('ships the approved NPT leaf mark and push handlers', () => {
+    const logo = read('public/pwa-icon.svg');
+    const worker = read('public/sw.js');
+    expect(logo).toContain('NPT');
+    expect(logo).toContain('#14532d');
+    expect(logo).toContain('#c9a227');
+    expect(worker).toContain("self.addEventListener('push'");
+    expect(worker).toContain("self.addEventListener('notificationclick'");
   });
 });

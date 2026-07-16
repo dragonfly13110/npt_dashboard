@@ -5,6 +5,8 @@ const APP_SHELL = [
   '/favicon.svg',
   '/manifest.webmanifest',
   '/pwa-icon.svg',
+  '/pwa-icon-192.png',
+  '/pwa-icon-512.png',
 ];
 
 self.addEventListener('install', (event) => {
@@ -75,4 +77,22 @@ self.addEventListener('fetch', (event) => {
       .match(request)
       .then((cached) => cached || network.catch(() => cached))
   );
+});
+
+self.addEventListener('push', (event) => {
+  const data = event.data?.json() || {};
+  event.waitUntil(
+    self.registration.showNotification(data.title || 'NPT เกษตรนครปฐม', {
+      body: data.body || 'มีข้อมูลแจ้งเตือนใหม่',
+      icon: '/pwa-icon-192.png',
+      badge: '/pwa-icon-192.png',
+      tag: data.eventKey,
+      data: { url: data.url || '/' },
+    })
+  );
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(self.clients.openWindow(event.notification.data?.url || '/'));
 });

@@ -19,7 +19,7 @@ export default defineConfig({
   ],
   webServer: {
     command:
-      process.env.PLAYWRIGHT_SERVER_COMMAND || 'npm run dev -- --port 5174',
+      process.env.PLAYWRIGHT_SERVER_COMMAND || 'node scripts/serve-pwa-e2e.mjs',
     url: 'http://localhost:5174',
     reuseExistingServer: !process.env.CI,
     timeout: 120000,

@@ -12,6 +12,7 @@ import {
 import { UserOutlined, SaveOutlined, CopyOutlined } from '@ant-design/icons';
 import { supabase } from '../supabaseClient';
 import { useAuth } from '../contexts/AuthContext';
+import NotificationSettings from '../components/NotificationSettings/NotificationSettings';
 
 const departments = [
   'ฝ่ายบริหารทั่วไป',
@@ -233,7 +234,8 @@ export default function Profile() {
         }}
       >
         <p style={{ color: '#64748b', marginTop: 0 }}>
-          สร้างรหัสใช้ครั้งเดียว แล้วส่งคำสั่งใน LINE เพื่อให้บอทรู้สิทธิ์ของบัญชีนี้
+          สร้างรหัสใช้ครั้งเดียว แล้วส่งคำสั่งใน LINE
+          เพื่อให้บอทรู้สิทธิ์ของบัญชีนี้
         </p>
         <Button
           type="primary"
@@ -250,7 +252,9 @@ export default function Profile() {
               readOnly
               addonAfter={
                 <CopyOutlined
-                  onClick={() => navigator.clipboard.writeText(lineLink.command)}
+                  onClick={() =>
+                    navigator.clipboard.writeText(lineLink.command)
+                  }
                   style={{ cursor: 'pointer' }}
                 />
               }
@@ -261,6 +265,7 @@ export default function Profile() {
           </div>
         )}
       </Card>
+      <NotificationSettings />
     </div>
   );
 }
