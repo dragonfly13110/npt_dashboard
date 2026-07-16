@@ -518,7 +518,7 @@ export default function LandingPage() {
           <a href="/public/data-dictionary">คำอธิบายข้อมูล</a>
           <a href="#agri-news">ข่าวและประกาศ</a>
           <a href="/login" className="premium-login">
-            สำหรับเจ้าหน้าที่
+            เข้าสู่ระบบ
           </a>
         </div>
         <button
