@@ -374,6 +374,7 @@ function getFilteredMenuItems(role, department) {
         '/dashboard/data-requests',
         '/manual',
         '/dashboard/community/forum',
+        '/dashboard/data-dictionary',
       ].includes(item.key)
     )
       return true;

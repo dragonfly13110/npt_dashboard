@@ -74,22 +74,13 @@ export default async (request) => {
   });
 
   try {
+    // Auth token is optional since Data Dictionary metadata is a public resource.
     const authHeader = request.headers.get('authorization') || '';
     const token = authHeader.replace(/^Bearer\s+/i, '').trim();
-    if (!token) {
-      return jsonResponse(origin, 401, {
-        error: 'Missing authorization token',
-      });
-    }
-
-    const {
-      data: { user: requester },
-      error: requesterError,
-    } = await supabase.auth.getUser(token);
-
-    if (requesterError || !requester) {
-      return jsonResponse(origin, 401, {
-        error: 'Invalid authorization token',
+    if (token) {
+      // Validate token if provided, but do not block the request if it is invalid or absent.
+      await supabase.auth.getUser(token).catch((err) => {
+        console.error('Optional auth token check failed:', err);
       });
     }
 

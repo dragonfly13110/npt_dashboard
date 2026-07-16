@@ -250,6 +250,7 @@ function AppRoutes() {
           },
           { path: '/public/disease-forecast', Component: AiDiseaseForecast },
           { path: '/public/fire-hotspots', Component: FireHotspots },
+          { path: '/public/data-dictionary', Component: DataDictionary },
           // eslint-disable-next-line no-unused-vars
         ].map(({ path, Component, publicMode = false }) => (
           <Route
@@ -317,14 +318,7 @@ function AppRoutes() {
               </NonGuestRoute>
             }
           />
-          <Route
-            path="data-dictionary"
-            element={
-              <NonGuestRoute>
-                <DataDictionary />
-              </NonGuestRoute>
-            }
-          />
+          <Route path="data-dictionary" element={<DataDictionary />} />
           <Route path="search" element={<SearchResults />} />
           <Route
             path="data-requests"

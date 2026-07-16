@@ -144,15 +144,15 @@ export default function DataDictionary() {
         data: { session },
       } = await supabase.auth.getSession();
       const accessToken = session?.access_token;
-      if (!accessToken) {
-        throw new Error('ไม่พบ session ของผู้ใช้ กรุณาเข้าสู่ระบบใหม่อีกครั้ง');
+
+      const headers = {};
+      if (accessToken) {
+        headers['Authorization'] = `Bearer ${accessToken}`;
       }
 
       const response = await fetch('/api/data-dictionary', {
         method: 'GET',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+        headers,
       });
 
       if (!response.ok) {
