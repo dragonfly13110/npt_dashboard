@@ -327,7 +327,7 @@ export default function LearningCenters() {
       return (
         <div
           style={{
-            height: 380,
+            height: 648,
             display: 'grid',
             placeItems: 'center',
             color: '#656d76',
@@ -342,7 +342,7 @@ export default function LearningCenters() {
       return (
         <div
           style={{
-            height: 380,
+            height: 648,
             display: 'grid',
             placeItems: 'center',
             color: '#656d76',
@@ -365,7 +365,7 @@ export default function LearningCenters() {
         zoomSnap={0.25}
         zoomDelta={0.5}
         style={{
-          height: 420,
+          height: 648,
           width: '100%',
           borderRadius: 8,
           border: '1px solid #e8ecf0',
@@ -561,91 +561,97 @@ export default function LearningCenters() {
           </div>
         ) : (
           <>
-            <Card
-              title={
-                <span>
-                  <EnvironmentOutlined
-                    style={{ color: '#0969da', marginRight: 8 }}
-                  />
-                  แผนที่จุดที่ตั้ง ศพก.
-                </span>
-              }
-              extra={`${mapPoints.length.toLocaleString()} จุดพิกัด`}
-              size="small"
-              bordered={false}
-              style={{ background: '#fafbfc', marginBottom: 24 }}
-            >
-              {renderMap()}
-            </Card>
             <Row gutter={[24, 24]}>
-              <Col xs={24} lg={12}>
+              <Col xs={24} lg={14}>
                 <Card
-                  title="สัดส่วน ศพก. แยกตามสินค้าเด่น"
+                  title={
+                    <span>
+                      <EnvironmentOutlined
+                        style={{ color: '#0969da', marginRight: 8 }}
+                      />
+                      แผนที่จุดที่ตั้ง ศพก.
+                    </span>
+                  }
+                  extra={`${mapPoints.length.toLocaleString()} จุดพิกัด`}
                   size="small"
                   bordered={false}
                   style={{ background: '#fafbfc' }}
                 >
-                  <div style={{ height: 300 }}>
-                    {pieData.length > 0 ? (
-                      <EChart
-                        option={pieOption(pieData, {
-                          colors: PIE_COLORS,
-                          unit: 'ศูนย์',
-                        })}
-                      />
-                    ) : (
-                      <div
-                        style={{
-                          display: 'flex',
-                          height: '100%',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#656d76',
-                        }}
-                      >
-                        ไม่พบข้อมูล
-                      </div>
-                    )}
-                  </div>
+                  {renderMap()}
                 </Card>
               </Col>
-              <Col xs={24} lg={12}>
-                <Card
-                  title="จำนวนศูนย์เครือข่ายแยกตามอำเภอ"
-                  size="small"
-                  bordered={false}
-                  style={{ background: '#fafbfc' }}
-                >
-                  <div style={{ height: 300 }}>
-                    {barData.length > 0 ? (
-                      <EChart
-                        option={barOption(
-                          barData,
-                          [
-                            {
-                              key: 'network_centers',
-                              name: 'ศูนย์เครือข่าย',
-                              color: BAR_COLOR,
-                            },
-                          ],
-                          { unit: 'ศูนย์' }
+              <Col xs={24} lg={10}>
+                <Row gutter={[0, 24]}>
+                  <Col span={24}>
+                    <Card
+                      title="สัดส่วน ศพก. แยกตามสินค้าเด่น"
+                      size="small"
+                      bordered={false}
+                      style={{ background: '#fafbfc' }}
+                    >
+                      <div style={{ height: 300 }}>
+                        {pieData.length > 0 ? (
+                          <EChart
+                            option={pieOption(pieData, {
+                              colors: PIE_COLORS,
+                              unit: 'ศูนย์',
+                            })}
+                          />
+                        ) : (
+                          <div
+                            style={{
+                              display: 'flex',
+                              height: '100%',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: '#656d76',
+                            }}
+                          >
+                            ไม่พบข้อมูล
+                          </div>
                         )}
-                      />
-                    ) : (
-                      <div
-                        style={{
-                          display: 'flex',
-                          height: '100%',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#656d76',
-                        }}
-                      >
-                        ไม่พบข้อมูล
                       </div>
-                    )}
-                  </div>
-                </Card>
+                    </Card>
+                  </Col>
+                  <Col span={24}>
+                    <Card
+                      title="จำนวนศูนย์เครือข่ายแยกตามอำเภอ"
+                      size="small"
+                      bordered={false}
+                      style={{ background: '#fafbfc' }}
+                    >
+                      <div style={{ height: 300 }}>
+                        {barData.length > 0 ? (
+                          <EChart
+                            option={barOption(
+                              barData,
+                              [
+                                {
+                                  key: 'network_centers',
+                                  name: 'ศูนย์เครือข่าย',
+                                  color: BAR_COLOR,
+                                },
+                              ],
+                              { unit: 'ศูนย์' }
+                            )}
+                          />
+                        ) : (
+                          <div
+                            style={{
+                              display: 'flex',
+                              height: '100%',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: '#656d76',
+                            }}
+                          >
+                            ไม่พบข้อมูล
+                          </div>
+                        )}
+                      </div>
+                    </Card>
+                  </Col>
+                </Row>
               </Col>
             </Row>
           </>

@@ -51,4 +51,13 @@ describe('guest public tables', () => {
     expect(hook).toContain("select('district, data_year')");
     expect(hook).toContain("select('spot_type, district')");
   });
+
+  it('loads Leaflet styles with the housewife group map', () => {
+    const page = fs.readFileSync(
+      path.join(root, 'src/pages/development/FarmerGroups.jsx'),
+      'utf8'
+    );
+
+    expect(page).toContain("import('leaflet/dist/leaflet.css')");
+  });
 });
