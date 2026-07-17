@@ -58,6 +58,13 @@ const NAKHON_PATHOM_DISTRICTS = [
 const PROJECT_REF = process.env.SUPABASE_PROJECT_REF;
 const ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN;
 
+export function getReportDataYear(reportUrl, reportHtml) {
+  const routeYear = reportUrl.match(/_(?:pv|ap)(\d{2})\//)?.[1];
+  if (routeYear) return 2500 + Number(routeYear);
+  const pageYear = reportHtml.match(/ปี\s*(\d{4})/)?.[1];
+  return pageYear ? Number(pageYear) : null;
+}
+
 function validateRequiredEnv() {
   const missing = [];
   if (!process.env.DOAE_USERNAME) missing.push('DOAE_USERNAME');
@@ -340,8 +347,7 @@ export async function scrapeFarmerRegistry() {
     }
 
     // === Step 5: Extract data year ===
-    const yearMatch = reportHtml.match(/ปี\s*(\d{4})/);
-    const dataYear = yearMatch ? parseInt(yearMatch[1]) : null;
+    const dataYear = getReportDataYear(REPORT_URL, reportHtml);
     console.log(`📅 Data year (พ.ศ.): ${dataYear}`);
 
     // === Step 6: Extract district table data ===

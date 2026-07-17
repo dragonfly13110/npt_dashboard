@@ -5,6 +5,7 @@ const BASE_PRIVATE_PATTERNS = [
   /first_name|last_name|full_name|owner_name|farmer_name|contact_person/i,
   /chairman|president|leader|manager/i,
   /email|line_id|facebook/i,
+  /^custom_fields$/i,
 ];
 
 const TABLE_PRIVATE_COLUMNS = {
@@ -85,7 +86,12 @@ export function getPublicSelectColumns(
   extraColumns = []
 ) {
   if (role !== 'guest') return '*';
-  const baseColumns = ['id', 'created_at', ...extraColumns];
+  const publicExtraColumns = getPublicColumns(
+    tableName,
+    extraColumns.map((dataIndex) => ({ dataIndex })),
+    role
+  ).map((column) => column.dataIndex);
+  const baseColumns = ['id', 'created_at', ...publicExtraColumns];
   const publicColumns = getPublicColumns(tableName, columns, role)
     .map((column) => column.dataIndex)
     .filter(Boolean);

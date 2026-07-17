@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import catalog from '../domain/datasetCatalog.json';
-import { isPrivateColumn } from '../utils/dataPrivacy';
+import { getPublicSelectColumns, isPrivateColumn } from '../utils/dataPrivacy';
 
 const entries = new Map(
   [...catalog.LINE_DATASETS, ...catalog.SYSTEM_PAGES, ...catalog.MANUALS].map(
@@ -44,6 +44,19 @@ describe('LINE system knowledge acceptance matrix', () => {
         dataIndex: 'total_updated_households',
       })
     ).toBe(false);
+  });
+
+  it('keeps unreviewed custom fields out of guest selects', () => {
+    const select = getPublicSelectColumns(
+      'farmer_registry',
+      [{ dataIndex: 'district' }],
+      'guest',
+      ['custom_fields', 'updated_at']
+    );
+
+    expect(select).toContain('district');
+    expect(select).toContain('updated_at');
+    expect(select).not.toContain('custom_fields');
   });
 
   it('has explicit system-first and external disclosure policy in code', async () => {

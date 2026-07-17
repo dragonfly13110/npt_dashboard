@@ -128,7 +128,7 @@ const subdistrictColumns = [
     width: 120,
     fixed: 'left',
   },
-  ...columns.slice(1),
+  ...columns.slice(1).filter((column) => column.dataIndex !== 'main_crop'),
 ];
 
 const formFields = (
@@ -508,7 +508,9 @@ export default function FarmerRegistry() {
 
     const { data } = await supabase
       .from('farmer_registry')
-      .select('*')
+      .select(
+        'district, data_year, target, total_updated_households, update_tbk_households, update_farmbook_households, update_eform_households, cutoff_date, updated_at'
+      )
       .eq('data_year', activeYear)
       .order('district');
 
