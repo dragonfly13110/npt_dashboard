@@ -23,20 +23,22 @@ export default function ForecastMap({ data = [] }) {
   const [MapComponents, setMapComponents] = useState(null);
 
   useEffect(() => {
-    Promise.all([import('leaflet'), import('react-leaflet')]).then(
-      ([L, RL]) => {
-        delete L.default.Icon.Default.prototype._getIconUrl;
-        L.default.Icon.Default.mergeOptions({
-          iconRetinaUrl:
-            'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
-          iconUrl:
-            'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
-          shadowUrl:
-            'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
-        });
-        setMapComponents({ L: L.default, ...RL });
-      }
-    );
+    Promise.all([
+      import('leaflet'),
+      import('react-leaflet'),
+      import('leaflet/dist/leaflet.css'),
+    ]).then(([L, RL]) => {
+      delete L.default.Icon.Default.prototype._getIconUrl;
+      L.default.Icon.Default.mergeOptions({
+        iconRetinaUrl:
+          'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+        iconUrl:
+          'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+        shadowUrl:
+          'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+      });
+      setMapComponents({ L: L.default, ...RL });
+    });
   }, []);
 
   // Convert UTM coordinates to lat/lng
