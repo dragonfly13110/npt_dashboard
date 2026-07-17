@@ -17,7 +17,7 @@
 | ใช้ public routes / public API | ✓ | ✓ | ✓ | ✓ | ✓ |
 | เข้า internal shell | – | ✓ | ✓ | ✓ | ✓ |
 | อ่านข้อมูลภายใน | – | ✓ | ✓ | ตาม assignment | ✓ |
-| แก้ข้อมูลกลุ่มงาน | – | – | เฉพาะ department | – | ✓ |
+| แก้ข้อมูลกลุ่มงาน | – | – | เฉพาะ department | `personnel` และ `budgets` ของขอบเขตที่กำหนด | ✓ |
 | อ่าน Data Request ที่ได้รับมอบหมาย | – | – | ตามนโยบายจังหวัด | เฉพาะอำเภอตน | ✓ |
 | บันทึกร่าง/ส่ง Data Request response | – | – | ตามนโยบายจังหวัด | เฉพาะอำเภอตน | ✓ |
 | ตรวจรับ/ปิด Data Request | – | – | – | – | ✓ |
@@ -32,7 +32,7 @@
 | Guest | public views และ endpoint ที่ allow-list แล้ว | ไม่มี |
 | Viewer | datasets ภายในที่องค์กรอนุมัติ | ไม่มี |
 | Editor | datasets ภายในตาม policy | เฉพาะ datasets ของ department ตน |
-| District Editor | assignment และข้อมูล district-scoped ที่จังหวัดเปิดให้ | response ของ assignment ใน district ตน |
+| District Editor | assignment และข้อมูล district-scoped ที่จังหวัดเปิดให้ | response ของ assignment ใน district ตน รวมถึง `personnel` และ `budgets` ตามขอบเขตที่กำหนด |
 | Admin | ทุก dataset | ทุก dataset รวม delete/restore |
 
 ## ความขัดกันที่พบในโค้ดปัจจุบัน
@@ -48,7 +48,7 @@
 
 ## ข้อตัดสินใจที่ต้องอนุมัติ
 
-1. `district_editor` เขียนได้เฉพาะ Data Request response หรือยังแก้ `personnel`/`budgets` ได้ตาม policy เก่า
+1. `district_editor` เขียน Data Request response เฉพาะอำเภอตน และแก้ `personnel`/`budgets` ได้ตาม policy เก่า **(อนุมัติ 18 กรกฎาคม 2569)**
 2. `editor` ที่อยู่สำนักงานจังหวัดควรตอบ Data Request แทนอำเภอได้หรือไม่
 3. Viewer อ่านข้อมูลทุกกลุ่มงานหรือเฉพาะกลุ่มที่องค์กรระบุ
 4. Dataset ใดอนุญาตให้ export สำหรับแต่ละ role
@@ -61,4 +61,3 @@
 - มีรายชื่อ test users ครบทุก role รวมอย่างน้อยสองอำเภอ
 - Staging schema/policies ถูก export และเทียบกับ repository แล้ว
 - มี test case สำหรับ allow และ deny ของทุก capability สำคัญ
-
