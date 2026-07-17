@@ -150,7 +150,7 @@ Internal หลัง login:
 - `sync_geoplots_progress.js`
 - `import_*.mjs`
 
-อ่านรายละเอียด field/table เพิ่มที่ `DATA_DICTIONARY.md` และ `docs/reference/DATABASE_AND_WIDGET_TABLES.md`
+อ่านรายละเอียด field/table เพิ่มที่ `docs/DATA_DICTIONARY.md` และ `docs/reference/DATABASE_AND_WIDGET_TABLES.md`
 
 ## Netlify Deploy
 

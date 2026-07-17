@@ -1,3 +1,0 @@
-@keyframes loginFloat { 0%, 100% { transform: translateY(0) rotate(0deg); } 33% { transform: translateY(-8px) rotate(1deg); } 66% { transform: translateY(4px) rotate(-1deg); } }
-@keyframes loginGlow { 0%, 100% { box-shadow: 0 4px 15px rgba(26,127,55,0.35); } 50% { box-shadow: 0 4px 30px rgba(26,127,55,0.55), 0 0 50px rgba(26,127,55,0.12); } }
-@keyframes loginShimmer { 0% { left: -100%; } 100% { left: 200%; } }
