@@ -9,11 +9,8 @@ function getEnv(name) {
 }
 
 function getSecret() {
-  return (
-    getEnv('GUEST_SESSION_SECRET') ||
-    getEnv('SUPABASE_SERVICE_ROLE_KEY') ||
-    getEnv('VITE_SUPABASE_ANON_KEY')
-  );
+  const secret = getEnv('GUEST_SESSION_SECRET');
+  return Buffer.byteLength(secret, 'utf8') >= 32 ? secret : '';
 }
 
 function base64url(value) {
@@ -101,7 +98,7 @@ export default async (request) => {
 
   const secret = getSecret();
   if (!secret)
-    return jsonResponse(origin, 500, { error: 'Missing guest secret' });
+    return jsonResponse(origin, 503, { error: 'Guest session is unavailable' });
 
   if (request.method === 'POST') {
     const token = makeToken(secret);
