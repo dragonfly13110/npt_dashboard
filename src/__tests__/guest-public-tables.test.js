@@ -40,4 +40,15 @@ describe('guest public tables', () => {
       'crop_name, area_rai, production_volume_kg, exp_date, plot_district'
     );
   });
+
+  it('builds the development dashboard from public columns only', () => {
+    const hook = fs.readFileSync(
+      path.join(root, 'src/hooks/useDevelopmentData.js'),
+      'utf8'
+    );
+
+    expect(hook).not.toContain("select('*')");
+    expect(hook).toContain("select('district, data_year')");
+    expect(hook).toContain("select('spot_type, district')");
+  });
 });
