@@ -14,6 +14,7 @@ import PageSkeleton from './components/PageSkeleton';
 import AppLayout from './components/Layout/AppLayout';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import LandingChatbot from './components/LandingChatbot/LandingChatbot';
+import { canAccessDataRequests } from './domain/datasetCatalog';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -159,7 +160,7 @@ function PublicAdminReadRoute({ children }) {
 function DataRequestRoute({ children }) {
   const { role, loading } = useAuth();
   if (loading) return <PageSkeleton />;
-  if (!['admin', 'editor'].includes(role))
+  if (!canAccessDataRequests(role))
     return <Navigate to="/dashboard" replace />;
   return children;
 }

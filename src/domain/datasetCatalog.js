@@ -205,6 +205,10 @@ export function canDistrictEditorWriteTable(tableName) {
   return DISTRICT_WRITE_TABLES.includes(tableName);
 }
 
+export function canAccessDataRequests(role) {
+  return ['admin', 'editor', 'district_editor'].includes(role);
+}
+
 const DASHBOARD_GROUP_BY_TABLE = DASHBOARD_GROUPS.reduce((acc, group) => {
   group.tables.forEach((table) => {
     acc[table.table] = {

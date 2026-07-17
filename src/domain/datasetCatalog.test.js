@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import {
   canRoleAccessLineKnowledge,
   canDistrictEditorWriteTable,
+  canAccessDataRequests,
   canGroupAccessTable,
   canGuestAccessGroup,
   canGuestAccessTable,
@@ -118,6 +119,12 @@ describe('datasetCatalog', () => {
     expect(canGuestAccessTable('daily_weather')).toBe(true);
     expect(canDistrictEditorWriteTable('personnel')).toBe(true);
     expect(canDistrictEditorWriteTable('large_plots')).toBe(false);
+  });
+
+  it('allows district editors to access data requests', () => {
+    expect(canAccessDataRequests('district_editor')).toBe(true);
+    expect(canAccessDataRequests('editor')).toBe(true);
+    expect(canAccessDataRequests('viewer')).toBe(false);
   });
 
   it('maps department names to group keys', () => {
