@@ -17,13 +17,13 @@ describe('PWA public assets', () => {
       lang: 'th',
     });
     expect(manifest.icons).toContainEqual(
-      expect.objectContaining({ src: '/pwa-icon-192.png', sizes: '192x192' })
+      expect.objectContaining({ src: '/pwa-icon-192-v2.png', sizes: '192x192' })
     );
     expect(manifest.icons).toContainEqual(
-      expect.objectContaining({ src: '/pwa-icon-512.png', sizes: '512x512' })
+      expect.objectContaining({ src: '/pwa-icon-512-v2.png', sizes: '512x512' })
     );
-    expect(existsSync('public/pwa-icon-192.png')).toBe(true);
-    expect(existsSync('public/pwa-icon-512.png')).toBe(true);
+    expect(existsSync('public/pwa-icon-192-v2.png')).toBe(true);
+    expect(existsSync('public/pwa-icon-512-v2.png')).toBe(true);
   });
 
   it('links the manifest from the document', () => {

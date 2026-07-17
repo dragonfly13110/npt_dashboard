@@ -1,11 +1,11 @@
-const CACHE_VERSION = 'npt-dashboard-v2';
+const CACHE_VERSION = 'npt-dashboard-v3';
 const APP_SHELL = [
   '/',
   '/offline.html',
   '/favicon.svg',
   '/manifest.webmanifest',
-  '/pwa-icon-192.png',
-  '/pwa-icon-512.png',
+  '/pwa-icon-192-v2.png',
+  '/pwa-icon-512-v2.png',
 ];
 
 self.addEventListener('install', (event) => {
@@ -83,8 +83,8 @@ self.addEventListener('push', (event) => {
   event.waitUntil(
     self.registration.showNotification(data.title || 'NPT เกษตรนครปฐม', {
       body: data.body || 'มีข้อมูลแจ้งเตือนใหม่',
-      icon: '/pwa-icon-192.png',
-      badge: '/pwa-icon-192.png',
+      icon: '/pwa-icon-192-v2.png',
+      badge: '/pwa-icon-192-v2.png',
       tag: data.eventKey,
       data: { url: data.url || '/' },
     })
