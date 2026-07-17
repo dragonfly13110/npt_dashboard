@@ -6,6 +6,10 @@
   padding: 12px 18px;
   background: linear-gradient(135deg, #ecfeff, #fff 55%, #f0fdf4);
 }
+.nearby-centers-widget .inst-v2-eyebrow {
+  font-size: 16px;
+  letter-spacing: 0;
+}
 .nearby-centers-widget .inst-v2-head p {
   margin-top: 2px;
 }

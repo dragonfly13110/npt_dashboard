@@ -355,7 +355,7 @@ export default function LandingPage() {
         : 'รอข้อมูล',
       note: `${sumDistrictMetric('disasterFarmers').toLocaleString('th-TH')} เกษตรกรได้รับผลกระทบ`,
       tone: '#ea580c',
-      href: '/interactive-dashboard',
+      href: '/public/disasters',
     },
     {
       icon: '🏫',
