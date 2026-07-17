@@ -623,6 +623,11 @@ export default defineConfig(({ mode }) => {
     test: {
       globals: true,
       environment: 'jsdom',
+      // ponytail: test-only placeholders let pure helpers import the client without real credentials.
+      env: {
+        VITE_SUPABASE_URL: 'https://example.test',
+        VITE_SUPABASE_ANON_KEY: 'test-anon-key',
+      },
       setupFiles: './src/setupTests.js',
       include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
       exclude: ['tests/e2e/**/*', 'node_modules/**/*'],
