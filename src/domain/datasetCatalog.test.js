@@ -4,6 +4,7 @@ import {
   canRoleAccessLineKnowledge,
   canDistrictEditorWriteTable,
   canAccessDataRequests,
+  canAccessInternalShell,
   canGroupAccessTable,
   canGuestAccessGroup,
   canGuestAccessTable,
@@ -125,6 +126,12 @@ describe('datasetCatalog', () => {
     expect(canAccessDataRequests('district_editor')).toBe(true);
     expect(canAccessDataRequests('editor')).toBe(true);
     expect(canAccessDataRequests('viewer')).toBe(false);
+  });
+
+  it('keeps guest identities out of the internal shell', () => {
+    expect(canAccessInternalShell(null)).toBe(false);
+    expect(canAccessInternalShell({ id: 'guest' })).toBe(false);
+    expect(canAccessInternalShell({ id: 'user-1' })).toBe(true);
   });
 
   it('maps department names to group keys', () => {

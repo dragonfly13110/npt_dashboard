@@ -10,7 +10,6 @@ import {
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
-import { useAuth } from '../contexts/AuthContext';
 import '../styles/login.css';
 
 const { Text, Title } = Typography;
@@ -19,7 +18,6 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const navigate = useNavigate();
-  const { loginAsGuest } = useAuth();
 
   useEffect(() => {
     document.title = 'เข้าสู่ระบบ | ศูนย์ข้อมูลการเกษตรนครปฐม';
@@ -35,14 +33,7 @@ export default function Login() {
     };
   }, []);
 
-  const handleGuestLogin = async () => {
-    try {
-      await loginAsGuest();
-      navigate('/dashboard');
-    } catch (err) {
-      message.error(`Guest mode failed: ${err.message}`);
-    }
-  };
+  const handleGuestLogin = () => navigate('/');
 
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);

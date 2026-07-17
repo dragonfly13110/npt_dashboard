@@ -14,7 +14,10 @@ import PageSkeleton from './components/PageSkeleton';
 import AppLayout from './components/Layout/AppLayout';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import LandingChatbot from './components/LandingChatbot/LandingChatbot';
-import { canAccessDataRequests } from './domain/datasetCatalog';
+import {
+  canAccessDataRequests,
+  canAccessInternalShell,
+} from './domain/datasetCatalog';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -133,7 +136,7 @@ const ProtectionDashboard = lazy(
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
   if (loading) return <PageSkeleton />;
-  if (!user) return <Navigate to="/login" replace />;
+  if (!canAccessInternalShell(user)) return <Navigate to="/login" replace />;
   return children;
 }
 

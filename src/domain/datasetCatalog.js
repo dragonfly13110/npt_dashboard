@@ -209,6 +209,10 @@ export function canAccessDataRequests(role) {
   return ['admin', 'editor', 'district_editor'].includes(role);
 }
 
+export function canAccessInternalShell(user) {
+  return Boolean(user?.id && user.id !== 'guest');
+}
+
 const DASHBOARD_GROUP_BY_TABLE = DASHBOARD_GROUPS.reduce((acc, group) => {
   group.tables.forEach((table) => {
     acc[table.table] = {
