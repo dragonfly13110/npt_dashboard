@@ -12,7 +12,6 @@ __pycache__/
 
 # Dependencies
 node_modules/
-.pnpm-store/
 venv/
 .venv/
 .env
@@ -25,6 +24,13 @@ venv/
 *.swp
 *.swo
 scratch/
+
+# Lock files (npm only — not pnpm)
+pnpm-lock.yaml
+pnpm-workspace.yaml
+
+# Agent generated
+skills-lock.json
 
 # Editors
 .vscode/
@@ -85,4 +91,3 @@ supabase/.temp/
 *.tar.bz2
 *.tar.xz
 *.tar.zst
-.worktrees/
