@@ -1,10 +1,9 @@
-const CACHE_VERSION = 'npt-dashboard-v1';
+const CACHE_VERSION = 'npt-dashboard-v2';
 const APP_SHELL = [
   '/',
   '/offline.html',
   '/favicon.svg',
   '/manifest.webmanifest',
-  '/pwa-icon.svg',
   '/pwa-icon-192.png',
   '/pwa-icon-512.png',
 ];
