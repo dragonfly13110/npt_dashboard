@@ -287,7 +287,7 @@ export default async (request) => {
         console.error(`Error querying stats for ${tableName}:`, err.message);
         stats.push({
           tableName,
-          error: err.message,
+          error: 'Statistics unavailable',
         });
       }
     }
@@ -299,7 +299,7 @@ export default async (request) => {
   } catch (err) {
     console.error('Data quality stats error:', err);
     return jsonResponse(origin, 500, {
-      error: err.message || 'Internal Server Error',
+      error: 'Data quality statistics are unavailable',
     });
   }
 };

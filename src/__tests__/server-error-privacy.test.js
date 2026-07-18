@@ -18,11 +18,17 @@ describe('public server errors', () => {
       path.join(root, 'netlify/functions/data-dictionary.js'),
       'utf8'
     );
+    const dataQualityStats = fs.readFileSync(
+      path.join(root, 'netlify/functions/data-quality-stats.js'),
+      'utf8'
+    );
 
     expect(webhook).not.toContain("JSON.stringify({ error: err.message })");
     expect(webhook).not.toContain("event.httpMethod === 'GET'");
     expect(forecast).not.toContain("JSON.stringify({ error: err.message })");
     expect(dictionary).not.toContain('err.message ||');
     expect(dictionary).not.toContain('Missing Supabase service configuration.');
+    expect(dataQualityStats).not.toContain('error: err.message');
+    expect(dataQualityStats).not.toContain('err.message ||');
   });
 });
