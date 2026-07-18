@@ -11,11 +11,14 @@ Verified on 18 July 2026 with read-only Supabase Management API queries.
   `20260401055629_add_missing_authenticated_policies` through
   `20260716173133_drop_soil_series_geometry_gin_idx`
 
-## Why a baseline is not committed yet
+## Baseline adoption status
 
 The migration ledger stores only migration names, not their SQL text. The
-repository also has no `supabase/migrations/` chain. Reconstructing a baseline
-from loose SQL files would risk replacing the current Staging policy state.
+repository now has a baseline migration created from this snapshot, plus the
+next RLS migration. The baseline must be recorded as already applied on the
+existing Staging database; it must not be pushed as SQL because Staging already
+has this schema. The remaining remote rollout steps and rollback owner are
+documented in `docs/staging-migration-adoption.md`.
 
 ## Exported baseline snapshot
 
@@ -31,7 +34,7 @@ the source of truth for rebuilding a migration chain; do not apply it to the
 existing Staging database or repair Staging migration history without a
 separate rollout decision.
 
-## Exact next command
+## Refresh command
 
 To refresh the snapshot:
 
@@ -41,4 +44,5 @@ npx supabase@latest db dump --linked --schema public --file supabase/staging_pub
 ```
 
 Review the snapshot before committing it. A future migration adoption step must
-be planned separately because Staging already has 23 migration ledger entries.
+preserve Staging's 23 existing ledger entries before any new migration is
+applied.

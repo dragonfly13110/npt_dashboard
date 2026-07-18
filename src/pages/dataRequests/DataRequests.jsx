@@ -136,7 +136,7 @@ export default function DataRequests() {
   const [aiSuggestionInfo, setAiSuggestionInfo] = useState(null);
   const [aiSourceMeta, setAiSourceMeta] = useState(null);
   const isAdmin = role === 'admin';
-  const isEditor = role === 'editor';
+  const isEditor = ['editor', 'district_editor'].includes(role);
   const profileDistrict = DISTRICTS.includes(profile?.department) ? profile.department : null;
 
   const requestAssignments = useMemo(() => {
