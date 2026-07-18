@@ -33,6 +33,7 @@ import {
   UploadOutlined,
 } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
+import { rowsToCsv } from '../../utils/csv';
 import { barOption } from '../../components/charts/echartOptions';
 import { useApiCache } from '../../hooks/useApiCache';
 import EChart from '../../components/widgets/EChart';
@@ -845,14 +846,10 @@ export default function YoungSmartFarmerYsf() {
       return record;
     });
 
-    const csv = [
-      headers.join(','),
-      ...exportData.map((row) =>
-        headers
-          .map((header) => `"${String(row[header] ?? '').replace(/"/g, '""')}"`)
-          .join(',')
-      ),
-    ].join('\n');
+    const csv = rowsToCsv([
+      headers,
+      ...exportData.map((row) => headers.map((header) => row[header])),
+    ]);
     const blob = new Blob(['\uFEFF' + csv], {
       type: 'text/csv;charset=utf-8;',
     });

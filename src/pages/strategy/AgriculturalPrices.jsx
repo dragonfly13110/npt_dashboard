@@ -24,6 +24,7 @@ import {
   EnvironmentOutlined,
 } from '@ant-design/icons';
 import { useApiCache } from '../../hooks/useApiCache';
+import { rowsToCsv } from '../../utils/csv';
 import './AgriculturalPrices.css';
 
 const SOURCE_URL = 'https://mex.moc.go.th/page/dit/checkprice/type/W/catid/4';
@@ -668,20 +669,20 @@ export default function AgriculturalPrices() {
       'วันที่อัปเดต',
     ];
     const csvRows = [
-      headers.join(','),
+      headers,
       ...filteredCropItems.map((item) =>
         [
-          `"${item.product_name || ''}"`,
-          `"${item.market_name || 'กรมการค้าภายใน'}"`,
-          `"${item.price_range || ''}"`,
-          `"${item.avg_price || ''}"`,
-          `"${item.unit || ''}"`,
-          `"${dataDateText || ''}"`,
-        ].join(',')
+          item.product_name || '',
+          item.market_name || 'กรมการค้าภายใน',
+          item.price_range || '',
+          item.avg_price || '',
+          item.unit || '',
+          dataDateText || '',
+        ]
       ),
     ];
 
-    const csvContent = '\uFEFF' + csvRows.join('\n');
+    const csvContent = '\uFEFF' + rowsToCsv(csvRows);
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');

@@ -20,6 +20,7 @@ import {
 import { supabase } from '../../supabaseClient';
 import { useApiCache } from '../../hooks/useApiCache';
 import { useAuth } from '../../contexts/AuthContext';
+import { rowsToCsv } from '../../utils/csv';
 
 const ROLE_CONFIG = {
   admin: { label: 'ผู้ดูแลระบบ', color: 'red', icon: '👑' },
@@ -200,11 +201,10 @@ export default function UserManagement() {
       'department',
       'status',
     ];
-    const escape = (value) => `"${String(value ?? '').replace(/"/g, '""')}"`;
-    const csv = [
-      header.join(','),
-      ...accounts.map((row) => header.map((key) => escape(row[key])).join(',')),
-    ].join('\n');
+    const csv = rowsToCsv([
+      header,
+      ...accounts.map((row) => header.map((key) => row[key])),
+    ]);
     const blob = new Blob([`\ufeff${csv}`], {
       type: 'text/csv;charset=utf-8;',
     });

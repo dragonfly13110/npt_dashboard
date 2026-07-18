@@ -21,6 +21,7 @@ import {
   DownloadOutlined,
 } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
+import { rowsToCsv } from '../../utils/csv';
 import EChart from '../../components/widgets/EChart';
 import '../../styles/dashboard.css';
 
@@ -333,11 +334,7 @@ export default function DataQuality() {
         item.availability,
       ]),
     ];
-    const csv = rows
-      .map((row) =>
-        row.map((value) => `"${String(value).replaceAll('"', '""')}"`).join(',')
-      )
-      .join('\n');
+    const csv = rowsToCsv(rows);
     const url = URL.createObjectURL(
       new Blob([csv], { type: 'text/csv;charset=utf-8' })
     );

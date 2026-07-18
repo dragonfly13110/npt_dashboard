@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { rowsToCsv } from '../../utils/csv';
 import {
   Button,
   Card,
@@ -978,12 +979,10 @@ export function HousewifeFarmerGroups() {
     const visibleCols = housewifeColumns.filter((c) => visibleKeys.has(c.key));
     const headers = visibleCols.map((c) => c.title);
     const keys = visibleCols.map((c) => c.dataIndex);
-    const csvContent = [
-      headers.join(','),
-      ...filteredRows.map((row) =>
-        keys.map((k) => `"${row[k] ?? ''}"`).join(',')
-      ),
-    ].join('\n');
+    const csvContent = rowsToCsv([
+      headers,
+      ...filteredRows.map((row) => keys.map((key) => row[key])),
+    ]);
     const blob = new Blob(['\uFEFF' + csvContent], {
       type: 'text/csv;charset=utf-8;',
     });
