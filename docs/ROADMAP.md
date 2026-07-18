@@ -1,5 +1,25 @@
 # 🚀 NPT Smart Agri Dashboard - Development Roadmap
 
+## Progress checkpoint — 2026-07-18
+
+The following high-risk work is now complete on the migration-foundation branch:
+
+- Public search uses the same search experience but remains constrained to the approved public dataset fields.
+- Guest sessions cannot access internal routes; public data endpoints remain protected by RLS or a fixed safe field list.
+- CSV downloads neutralize spreadsheet formulas, and browser security headers are tightened.
+- Public and admin-facing server failures no longer return raw upstream or database error details.
+- Dashboard counts now distinguish a real zero from a table that failed to load, with a retry action for the user.
+- A Staging schema snapshot exists at `supabase/staging_public_schema.sql`; it contains schema only, never table data.
+
+**Do not apply database changes yet.** The remote Staging database has an existing migration ledger, while this repository does not contain the matching historical migration chain. The next database step needs an explicit adoption decision: establish the snapshot as the approved baseline, then create new migrations only after that point.
+
+**Next heavy work, in order:**
+
+1. Approve and execute the Staging migration-history adoption runbook (with backup and rollback owner).
+2. Reconcile RLS policies with the approved authorization matrix, especially district-editor handling of data requests.
+3. Add production verification: role-by-role access tests and public endpoint response snapshots.
+4. Reduce large production bundles with targeted lazy loading/code splitting.
+
 ## 📋 Executive Summary
 
 **ระบบ:** NPT Smart Agri Dashboard (ระบบสารสนเทศเพื่อการบริหารจัดการการเกษตรจังหวัดนครปฐม)  
