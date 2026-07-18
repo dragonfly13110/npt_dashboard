@@ -54,10 +54,7 @@ export async function handler(event) {
   console.log(JSON.stringify({ requestId, httpMethod: event.httpMethod }));
 
   // Validate LINE Signature
-  if (
-    LINE_CHANNEL_SECRET &&
-    !verifySignature(rawBody, signature, LINE_CHANNEL_SECRET)
-  ) {
+  if (!verifySignature(rawBody, signature, LINE_CHANNEL_SECRET)) {
     console.error(
       JSON.stringify({ requestId, error: 'Signature verification failed' })
     );
