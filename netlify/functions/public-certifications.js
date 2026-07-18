@@ -59,7 +59,8 @@ export default async (request) => {
       },
     });
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), {
+    console.error('public-certifications failed', err);
+    return new Response(JSON.stringify({ error: 'Public data is unavailable' }), {
       status: 500,
       headers: { ...baseHeaders, 'Content-Type': 'application/json' },
     });

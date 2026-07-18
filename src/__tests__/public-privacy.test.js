@@ -55,4 +55,15 @@ describe('public privacy surfaces', () => {
 
     expect(fn).not.toContain(".select('*', { count: 'exact', head: true })");
   });
+
+  it('does not expose database errors from public data endpoints', () => {
+    const endpoints = [
+      'public-certifications.js',
+      'public-farmer-institutes-v2.js',
+    ].map((file) =>
+      fs.readFileSync(path.join(root, 'netlify/functions', file), 'utf8')
+    );
+
+    expect(endpoints.join('\n')).not.toContain('JSON.stringify({ error: err.message })');
+  });
 });
