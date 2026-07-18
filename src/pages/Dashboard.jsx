@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Skeleton, Button, Row, Col, Card, message as antMessage } from 'antd';
+import {
+  Alert,
+  Skeleton,
+  Button,
+  Row,
+  Col,
+  Card,
+  message as antMessage,
+} from 'antd';
 import {
   FilePdfOutlined,
   AimOutlined,
@@ -40,6 +48,8 @@ export default function Dashboard() {
   const {
     stats,
     loading,
+    failedTables,
+    refetch,
     districtStats,
     tourism,
     instituteStats,
@@ -307,6 +317,21 @@ export default function Dashboard() {
         <span>ฐานข้อมูลและจำนวนรายการรายระบบงานหลัก</span>
       </div>
 
+      {failedTables.length > 0 && !loading && (
+        <Alert
+          type="warning"
+          showIcon
+          message="ข้อมูลบางส่วนโหลดไม่สำเร็จ"
+          description="ตัวเลข 0 ในตารางที่มีปัญหาอาจไม่ใช่ข้อมูลจริง กรุณาลองโหลดใหม่"
+          action={
+            <Button size="small" onClick={() => refetch()}>
+              ลองใหม่
+            </Button>
+          }
+          style={{ marginBottom: 16 }}
+        />
+      )}
+
       <div
         className="system-overview-grid"
         style={{
@@ -512,7 +537,7 @@ export default function Dashboard() {
       </Row>
 
       {/* Empty state */}
-      {totalRecords === 0 && !loading && (
+      {totalRecords === 0 && !loading && failedTables.length === 0 && (
         <div className="md-empty-state">
           <div className="md-empty-icon">📭</div>
           <h3>ยังไม่มีข้อมูลในระบบ</h3>

@@ -52,6 +52,7 @@ export function useDashboardData() {
     // 1. Load Stats Counts
     const publicCertificationsCount = await fetchPublicCertificationsCount();
     const statsResults = [];
+    const failedTables = [];
     for (const tbl of allTables) {
       try {
         if (
@@ -69,8 +70,12 @@ export function useDashboardData() {
           query = query.neq('status', 'สำนักงาน');
         }
         const { count, error } = await query;
+        if (error) {
+          failedTables.push(tbl.table);
+        }
         statsResults.push({ ...tbl, count: error ? 0 : (count ?? 0) });
       } catch {
+        failedTables.push(tbl.table);
         statsResults.push({ ...tbl, count: 0 });
       }
     }
@@ -140,6 +145,7 @@ export function useDashboardData() {
 
     return {
       stats: statsResults,
+      failedTables,
       agriData: agriData || [],
       largePlots: lpData || [],
       fiData: fiData || [],
@@ -170,6 +176,7 @@ export function useDashboardData() {
 
   const {
     stats = [],
+    failedTables = [],
     agriData = [],
     largePlots = [],
     fiData = [],
@@ -190,6 +197,7 @@ export function useDashboardData() {
 
   return {
     stats,
+    failedTables,
     loading,
     error,
     refetch,
