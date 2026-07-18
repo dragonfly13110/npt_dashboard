@@ -5,12 +5,14 @@ import { describe, expect, it } from 'vitest';
 const root = process.cwd();
 const proxies = [
   'agritec-proxy.js',
+  'bangchak-oil-price-proxy.js',
   'doae-esc-proxy.js',
   'doae-hq-proxy.js',
   'doae-npt-proxy.js',
   'gistda-proxy.js',
   'ictc-proxy.js',
   'kku-proxy.js',
+  'moc-price-proxy.js',
   'rss-proxy.js',
   'wp-proxy.js',
 ];

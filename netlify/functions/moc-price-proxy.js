@@ -312,7 +312,6 @@ export default async (request) => {
       JSON.stringify({
         success: false,
         error: 'MOC proxy error',
-        message: err.message,
       }),
       {
         status: 502,

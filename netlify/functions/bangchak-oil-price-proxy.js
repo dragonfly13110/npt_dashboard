@@ -115,8 +115,6 @@ export default async (request) => {
       JSON.stringify({
         success: false,
         error: 'Bangchak oil price proxy error',
-        message: err.message,
-        sourceUrl: SOURCE_URL,
       }),
       {
         status: 502,
