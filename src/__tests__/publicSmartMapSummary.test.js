@@ -1,9 +1,11 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import {
   buildSmartMapSummary,
   parseSummaryScope,
 } from '../../netlify/functions/lib/smart-map/summary-builders';
-import handler from '../../netlify/functions/public-smart-map-summary';
+import handler, {
+  applySummaryScope,
+} from '../../netlify/functions/public-smart-map-summary';
 
 describe('buildSmartMapSummary', () => {
   test('returns metrics from the selected district only', () => {
@@ -129,6 +131,38 @@ test('parseSummaryScope requires the name needed for the requested level', () =>
   expect(() =>
     parseSummaryScope(new URLSearchParams({ level: 'district' }))
   ).toThrow('districtName is required');
+});
+
+test('summary queries only the selected district and subdistrict', () => {
+  const query = { eq: vi.fn(() => query) };
+
+  expect(
+    applySummaryScope(query, {
+      level: 'subdistrict',
+      districtName: 'Mueang',
+      subdistrictName: 'Phra Pathom',
+    })
+  ).toBe(query);
+
+  expect(query.eq).toHaveBeenNthCalledWith(1, 'district', 'Mueang');
+  expect(query.eq).toHaveBeenNthCalledWith(2, 'subdistrict', 'Phra Pathom');
+});
+
+test('district-only source queries keep the district fallback', () => {
+  const query = { eq: vi.fn(() => query) };
+
+  applySummaryScope(
+    query,
+    {
+      level: 'subdistrict',
+      districtName: 'Mueang',
+      subdistrictName: 'Phra Pathom',
+    },
+    false
+  );
+
+  expect(query.eq).toHaveBeenCalledTimes(1);
+  expect(query.eq).toHaveBeenCalledWith('district', 'Mueang');
 });
 
 test('summary endpoint rejects incomplete scopes before querying data', async () => {

@@ -33,12 +33,27 @@ async function fetchRows(query) {
   return data || [];
 }
 
-async function loadSummaryData(supabase, searchParams) {
+export function applySummaryScope(query, scope, hasSubdistrict = true) {
+  if (scope.level === 'province') return query;
+  query = query.eq('district', scope.districtName);
+  return scope.level === 'subdistrict' && hasSubdistrict
+    ? query.eq('subdistrict', scope.subdistrictName)
+    : query;
+}
+
+async function loadSummaryData(supabase, searchParams, scope) {
   const hotspotFrom = dateParam(searchParams.get('hotspotFrom'), 'hotspotFrom');
   const hotspotTo = dateParam(searchParams.get('hotspotTo'), 'hotspotTo');
-  let hotspots = supabase
-    .from('fire_hotspots')
-    .select('district,subdistrict,acq_date,created_at');
+  const scoped = (table, columns, hasSubdistrict = true) =>
+    applySummaryScope(
+      supabase.from(table).select(columns),
+      scope,
+      hasSubdistrict
+    );
+  let hotspots = scoped(
+    'fire_hotspots',
+    'district,subdistrict,acq_date,created_at'
+  );
   if (hotspotFrom) hotspots = hotspots.gte('acq_date', hotspotFrom);
   if (hotspotTo) hotspots = hotspots.lte('acq_date', hotspotTo);
 
@@ -57,57 +72,51 @@ async function loadSummaryData(supabase, searchParams) {
     fireHotspots,
   ] = await Promise.all([
     fetchRows(
-      supabase
-        .from('agricultural_areas')
-        .select('district,total_area_rai,farmer_households,created_at')
+      scoped(
+        'agricultural_areas',
+        'district,total_area_rai,farmer_households,created_at',
+        false
+      )
     ),
     fetchRows(
-      supabase
-        .from('farmer_registry_subdistricts')
-        .select(
-          'district,subdistrict,farm_area_rai,net_total_households,cutoff_date,created_at'
-        )
+      scoped(
+        'farmer_registry_subdistricts',
+        'district,subdistrict,farm_area_rai,net_total_households,cutoff_date,created_at'
+      )
     ),
     fetchRows(
-      supabase
-        .from('community_enterprises')
-        .select('district,subdistrict,created_at')
+      scoped('community_enterprises', 'district,subdistrict,created_at')
     ),
     fetchRows(
-      supabase.from('large_plots').select('district,subdistrict,created_at')
-    ),
-    fetchRows(supabase.from('smart_farmer_sf').select('district,created_at')),
-    fetchRows(
-      supabase
-        .from('young_smart_farmer_ysf')
-        .select('district,subdistrict,created_at')
+      scoped('large_plots', 'district,subdistrict,created_at')
     ),
     fetchRows(
-      supabase
-        .from('geoplots_parcel_progress')
-        .select('district,drawn_plots,target_plots,snapshot_date,updated_at')
+      scoped('smart_farmer_sf', 'district,created_at', false)
     ),
     fetchRows(
-      supabase
-        .from('geoplots_parcel_subdistrict_progress')
-        .select(
-          'district,subdistrict,drawn_plots,target_plots,snapshot_date,updated_at'
-        )
+      scoped('young_smart_farmer_ysf', 'district,subdistrict,created_at')
     ),
     fetchRows(
-      supabase
-        .from('young_farmer_groups_detailed')
-        .select('district,subdistrict,updated_at')
+      scoped(
+        'geoplots_parcel_progress',
+        'district,drawn_plots,target_plots,snapshot_date,updated_at',
+        false
+      )
     ),
     fetchRows(
-      supabase
-        .from('agricultural_career_groups')
-        .select('district,subdistrict,updated_at')
+      scoped(
+        'geoplots_parcel_subdistrict_progress',
+        'district,subdistrict,drawn_plots,target_plots,snapshot_date,updated_at'
+      )
     ),
     fetchRows(
-      supabase
-        .from('housewife_farmer_groups')
-        .select('district,subdistrict,updated_at')
+      scoped('young_farmer_groups_detailed', 'district,subdistrict,updated_at')
+    ),
+    fetchRows(
+      scoped('agricultural_career_groups', 'district,subdistrict,updated_at')
+    ),
+    fetchRows(
+      scoped('housewife_farmer_groups', 'district,subdistrict,updated_at')
     ),
     fetchRows(hotspots),
   ]);
@@ -162,7 +171,7 @@ export default async (request) => {
     });
     const summary = buildSmartMapSummary(
       scope,
-      await loadSummaryData(supabase, url.searchParams)
+      await loadSummaryData(supabase, url.searchParams, scope)
     );
     return new Response(JSON.stringify(summary), {
       status: 200,
