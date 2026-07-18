@@ -74,8 +74,7 @@ function localGeoplotsSyncPlugin(env) {
 
 function publicFarmerInstitutesV2Plugin(env) {
   const supabaseUrl = env.VITE_SUPABASE_URL;
-  const supabaseKey =
-    env.SUPABASE_SERVICE_ROLE_KEY || env.VITE_SUPABASE_ANON_KEY;
+  const supabaseKey = env.VITE_SUPABASE_ANON_KEY;
   let supabase = null;
 
   return {
@@ -168,8 +167,7 @@ function publicFarmerInstitutesV2Plugin(env) {
 
 function publicCertificationsPlugin(env) {
   const supabaseUrl = env.VITE_SUPABASE_URL;
-  const supabaseKey =
-    env.SUPABASE_SERVICE_ROLE_KEY || env.VITE_SUPABASE_ANON_KEY;
+  const supabaseKey = env.VITE_SUPABASE_ANON_KEY;
   let supabase = null;
 
   const fetchAllCertifications = async () => {

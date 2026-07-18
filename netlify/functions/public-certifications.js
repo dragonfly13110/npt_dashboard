@@ -2,8 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
-const SUPABASE_KEY =
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+const SUPABASE_KEY = process.env.VITE_SUPABASE_ANON_KEY;
 
 if (!SUPABASE_URL || !SUPABASE_KEY) {
   throw new Error('Missing Supabase env for public-certifications.');
@@ -45,7 +44,7 @@ export default async (request) => {
   try {
     const { count, error: countError } = await supabase
       .from('certifications')
-      .select('*', { count: 'exact', head: true });
+      .select('id', { count: 'exact', head: true });
 
     if (countError) throw countError;
 

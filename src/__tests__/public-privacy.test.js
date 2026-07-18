@@ -35,4 +35,24 @@ describe('public privacy surfaces', () => {
 
     expect(fn).not.toMatch(/farmer_name|phone|telephone|plot_code/);
   });
+
+  it('does not let public endpoints bypass RLS with the service role', () => {
+    const endpoints = [
+      'public-certifications.js',
+      'public-farmer-institutes-v2.js',
+    ].map((file) =>
+      fs.readFileSync(path.join(root, 'netlify/functions', file), 'utf8')
+    );
+
+    expect(endpoints.join('\n')).not.toContain('SUPABASE_SERVICE_ROLE_KEY');
+  });
+
+  it('does not select every GAP column to count public results', () => {
+    const fn = fs.readFileSync(
+      path.join(root, 'netlify/functions/public-certifications.js'),
+      'utf8'
+    );
+
+    expect(fn).not.toContain(".select('*', { count: 'exact', head: true })");
+  });
 });
