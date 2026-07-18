@@ -3,6 +3,7 @@ import { Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import { barOption, comboOption, pieOption } from '../charts/echartOptions';
 import EChart from '../widgets/EChart';
+import { rowsToCsv } from '../../utils/csv';
 
 /**
  * Validates and normalizes chart config from parsed JSON.
@@ -122,22 +123,13 @@ export default function SmartChart({ rawContent }) {
           );
 
   const exportCSV = () => {
-    const headers = [xAxisKey, ...series.map((s) => s.name)].join(',');
-    const rows = data.map((item) => {
-      const keyVal = String(item[xAxisKey] ?? '').replace(/"/g, '""');
-      const seriesVals = series.map((s) => {
-        let v = String(item[s.key] ?? '').replace(/"/g, '""');
-        if (v.includes(',') || v.includes('\n') || v.includes('"')) {
-          v = `"${v}"`;
-        }
-        return v;
-      });
-      return [
-        keyVal.includes(',') ? `"${keyVal}"` : keyVal,
-        ...seriesVals,
-      ].join(',');
-    });
-    const csvContent = '\uFEFF' + [headers, ...rows].join('\n');
+    const csvContent = '\uFEFF' + rowsToCsv([
+      [xAxisKey, ...series.map((item) => item.name)],
+      ...data.map((item) => [
+        item[xAxisKey],
+        ...series.map((seriesItem) => item[seriesItem.key]),
+      ]),
+    ]);
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');

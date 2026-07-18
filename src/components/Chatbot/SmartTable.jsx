@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons';
 import { barOption, pieOption } from '../charts/echartOptions';
 import EChart from '../widgets/EChart';
+import { rowsToCsv } from '../../utils/csv';
 
 const COLORS = [
   '#1890ff',
@@ -102,19 +103,7 @@ export default function SmartTable({ rawLines }) {
   });
 
   const exportCSV = () => {
-    const headers = headerRow.join(',');
-    const rows = dataRows.map((row) =>
-      row
-        .map((cell) => {
-          let val = String(cell ?? '').replace(/"/g, '""');
-          if (val.includes(',') || val.includes('\n') || val.includes('"')) {
-            val = `"${val}"`;
-          }
-          return val;
-        })
-        .join(',')
-    );
-    const csvContent = '\uFEFF' + [headers, ...rows].join('\n');
+    const csvContent = '\uFEFF' + rowsToCsv([headerRow, ...dataRows]);
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');

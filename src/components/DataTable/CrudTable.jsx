@@ -43,7 +43,7 @@ import {
   getPublicColumns,
   getPublicSelectColumns,
 } from '../../utils/dataPrivacy';
-import { downloadCsv, objectsToCsv } from '../../utils/csv';
+import { downloadCsv, objectsToCsv, rowsToCsv } from '../../utils/csv';
 import {
   archiveCustomFieldDefinition,
   canUseCustomFields,
@@ -683,12 +683,10 @@ export default function CrudTable({
     const keys = visibleColumns
       .filter((c) => c.dataIndex)
       .map((c) => c.dataIndex);
-    const csvContent = [
-      headers.join(','),
-      ...data.map((row) =>
-        keys.map((k) => `"${getExportValue(row, k)}"`).join(',')
-      ),
-    ].join('\n');
+    const csvContent = rowsToCsv([
+      headers,
+      ...data.map((row) => keys.map((key) => getExportValue(row, key))),
+    ]);
     const blob = new Blob(['\uFEFF' + csvContent], {
       type: 'text/csv;charset=utf-8;',
     });
