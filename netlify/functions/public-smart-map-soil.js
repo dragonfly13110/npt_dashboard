@@ -99,7 +99,8 @@ export default async (request) => {
       },
     });
   } catch (error) {
-    return response(origin, 500, { error: error.message });
+    console.error('public-smart-map-soil failed', error);
+    return response(origin, 500, { error: 'Public map data is unavailable' });
   }
 };
 

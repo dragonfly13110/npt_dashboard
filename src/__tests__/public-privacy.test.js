@@ -66,4 +66,19 @@ describe('public privacy surfaces', () => {
 
     expect(endpoints.join('\n')).not.toContain('JSON.stringify({ error: err.message })');
   });
+
+  it('does not expose server errors from public smart map endpoints', () => {
+    const endpoints = [
+      'public-smart-map-layer-status.js',
+      'public-smart-map-points.js',
+      'public-smart-map-soil.js',
+      'public-smart-map-summary.js',
+    ].map((file) =>
+      fs.readFileSync(path.join(root, 'netlify/functions', file), 'utf8')
+    );
+
+    expect(endpoints.join('\n')).not.toContain(
+      'return response(origin, 500, { error: error.message });'
+    );
+  });
 });
