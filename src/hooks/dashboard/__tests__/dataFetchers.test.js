@@ -56,7 +56,7 @@ describe('dataFetchers', () => {
 
             const result = await dataFetchers.fetchPublicCertificationsCount();
             expect(result).toBe(42);
-            expect(mockFetch).toHaveBeenCalledWith('/api/public-certifications');
+            expect(mockFetch).toHaveBeenCalledWith('/api/public-certifications?count=1');
         });
 
         it('returns null on error', async () => {

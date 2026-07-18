@@ -42,11 +42,23 @@ export default async (request) => {
   }
 
   try {
+    const countOnly = new URL(request.url).searchParams.get('count') === '1';
     const { count, error: countError } = await supabase
       .from('certifications')
       .select('id', { count: 'exact', head: true });
 
     if (countError) throw countError;
+
+    if (countOnly) {
+      return new Response(JSON.stringify({ count: count || 0 }), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          ...baseHeaders,
+          'Cache-Control': 'public, max-age=300',
+        },
+      });
+    }
 
     const data = await fetchAllCertifications();
 

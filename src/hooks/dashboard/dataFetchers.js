@@ -5,7 +5,7 @@ import { allTables, normalizeDistrict } from './config';
  */
 export async function fetchPublicCertificationsCount() {
   try {
-    const response = await fetch('/api/public-certifications');
+    const response = await fetch('/api/public-certifications?count=1');
     const contentType = response.headers.get('content-type') || '';
     if (!response.ok || !contentType.includes('application/json')) return null;
 
