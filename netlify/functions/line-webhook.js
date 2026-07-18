@@ -33,23 +33,6 @@ export async function handler(event) {
     event.headers?.['x-nf-request-id'] ||
     Math.random().toString(36).substring(7);
 
-  // Debug endpoint: GET /.netlify/functions/line-webhook?debug=1
-  if (event.httpMethod === 'GET') {
-    return {
-      statusCode: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        status: 'ok',
-        supabase: !!supabase,
-        hasChannelSecret: !!LINE_CHANNEL_SECRET,
-        supabaseUrl: SUPABASE_URL
-          ? SUPABASE_URL.substring(0, 30) + '...'
-          : null,
-        timestamp: new Date().toISOString(),
-      }),
-    };
-  }
-
   // Only accept POST requests
   if (event.httpMethod !== 'POST') {
     return {
@@ -100,7 +83,7 @@ export async function handler(event) {
     console.error('Webhook processing error:', err);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: err.message }),
+      body: JSON.stringify({ error: 'Webhook unavailable' }),
     };
   }
 }

@@ -502,7 +502,7 @@ ${outbreakSummary}`;
     return {
       statusCode: 500,
       headers: responseHeaders,
-      body: JSON.stringify({ error: err.message }),
+      body: JSON.stringify({ error: 'Forecast generation failed' }),
     };
   }
 };
