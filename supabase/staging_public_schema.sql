@@ -735,11 +735,11 @@ CREATE OR REPLACE FUNCTION "public"."increment_site_visit"() RETURNS integer
 DECLARE
     current_visits INTEGER;
 BEGIN
-    UPDATE public.site_statistics 
+    UPDATE public.site_statistics
     SET value = value + 1, updated_at = timezone('utc'::text, now())
     WHERE key = 'total_visits'
     RETURNING value INTO current_visits;
-    
+
     RETURN current_visits;
 END;
 $$;
@@ -6695,10 +6695,3 @@ ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TAB
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "anon";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "authenticated";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "service_role";
-
-
-
-
-
-
-
