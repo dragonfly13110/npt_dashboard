@@ -12,5 +12,6 @@ describe('security headers', () => {
     expect(netlify).toContain("form-action 'self'");
     expect(netlify).toContain("frame-ancestors 'none'");
     expect(netlify).toContain("object-src 'none'");
+    expect(netlify).toContain('Strict-Transport-Security = "max-age=31536000"');
   });
 });
