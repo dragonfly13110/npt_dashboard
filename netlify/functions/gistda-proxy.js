@@ -52,7 +52,7 @@ export default async (request) => {
     });
   } catch (err) {
     return new Response(
-      JSON.stringify({ error: 'Proxy error', message: err.message }),
+      JSON.stringify({ error: 'Proxy error' }),
       {
         status: 502,
         headers: { ...baseHeaders, 'Content-Type': 'application/json' },

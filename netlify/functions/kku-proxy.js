@@ -75,7 +75,7 @@ export default async (request) => {
   } catch (err) {
     console.error(`[kku-proxy] Error:`, err.message);
     return new Response(
-      JSON.stringify({ error: 'Proxy error', message: err.message }),
+      JSON.stringify({ error: 'Proxy error' }),
       {
         status: 502,
         headers: {

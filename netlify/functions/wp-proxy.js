@@ -79,7 +79,7 @@ export default async (request) => {
   } catch (err) {
     console.error(`[wp-proxy] Error for ${domain}:`, err.message);
     return new Response(
-      JSON.stringify({ error: 'Proxy error', message: err.message }),
+      JSON.stringify({ error: 'Proxy error' }),
       {
         status: 502,
         headers: { ...baseHeaders, 'Content-Type': 'application/json' },
