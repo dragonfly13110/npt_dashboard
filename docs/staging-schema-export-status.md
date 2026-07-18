@@ -17,18 +17,28 @@ The migration ledger stores only migration names, not their SQL text. The
 repository also has no `supabase/migrations/` chain. Reconstructing a baseline
 from loose SQL files would risk replacing the current Staging policy state.
 
-The database password is now configured and the CLI links to Staging. The CLI
-still needs Docker Desktop to run the schema-diff or dump container. Docker is
-not running on this machine, so no schema snapshot has been generated yet.
+## Exported baseline snapshot
+
+`supabase/staging_public_schema.sql` was exported from Staging with
+`supabase db dump --linked --schema public`. It contains 59 tables and 303 RLS
+policies, matching the catalog inventory. It also contains all 20
+user-defined public functions; the other 31 public functions belong to
+extensions and are intentionally not redefined. The dump contains no `COPY`
+or `INSERT` statements, so it does not include table data or PII.
+
+The remote migration ledger still does not match local files. This snapshot is
+the source of truth for rebuilding a migration chain; do not apply it to the
+existing Staging database or repair Staging migration history without a
+separate rollout decision.
 
 ## Exact next command
 
-After starting Docker Desktop:
+To refresh the snapshot:
 
 ```powershell
 npx supabase@latest link --project-ref $env:SUPABASE_PROJECT_REF --password $env:SUPABASE_DB_PASSWORD
-npx supabase@latest db pull staging_baseline --linked
+npx supabase@latest db dump --linked --schema public --file supabase/staging_public_schema.sql
 ```
 
-Review the generated migration, run `supabase migration list --linked`, then
-commit the exported baseline and its verification output.
+Review the snapshot before committing it. A future migration adoption step must
+be planned separately because Staging already has 23 migration ledger entries.
