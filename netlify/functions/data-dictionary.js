@@ -65,7 +65,7 @@ export default async (request) => {
 
   if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
     return jsonResponse(origin, 500, {
-      error: 'Missing Supabase service configuration.',
+      error: 'Data dictionary is unavailable.',
     });
   }
 
@@ -148,7 +148,7 @@ export default async (request) => {
   } catch (err) {
     console.error('Data dictionary fetch error:', err);
     return jsonResponse(origin, 500, {
-      error: err.message || 'Internal Server Error',
+      error: 'Data dictionary is unavailable.',
     });
   }
 };

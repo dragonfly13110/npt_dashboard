@@ -14,9 +14,15 @@ describe('public server errors', () => {
       path.join(root, 'netlify/functions/forecast-disease-insect.js'),
       'utf8'
     );
+    const dictionary = fs.readFileSync(
+      path.join(root, 'netlify/functions/data-dictionary.js'),
+      'utf8'
+    );
 
     expect(webhook).not.toContain("JSON.stringify({ error: err.message })");
     expect(webhook).not.toContain("event.httpMethod === 'GET'");
     expect(forecast).not.toContain("JSON.stringify({ error: err.message })");
+    expect(dictionary).not.toContain('err.message ||');
+    expect(dictionary).not.toContain('Missing Supabase service configuration.');
   });
 });
