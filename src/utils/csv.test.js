@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { csvMatrixToObjects, parseCsv, parseCsvTable } from './csv';
+import { csvMatrixToObjects, parseCsv, parseCsvTable, toCsvValue } from './csv';
 
 describe('csv utilities', () => {
   it('parses quoted comma values', () => {
@@ -7,6 +7,12 @@ describe('csv utilities', () => {
       ['name', 'note'],
       ['A', 'one, two'],
     ]);
+  });
+
+  it('prevents spreadsheet formulas in exported cells', () => {
+    expect(toCsvValue('=SUM(A1:A2)')).toBe("'=SUM(A1:A2)");
+    expect(toCsvValue('  +1')).toBe("'  +1");
+    expect(toCsvValue('@cmd')).toBe("'@cmd");
   });
 
   it('detects semicolon-delimited CSV files', () => {

@@ -1,6 +1,8 @@
 export function toCsvValue(value) {
   if (value === null || value === undefined) return '';
-  const text = String(value);
+  const rawText = String(value);
+  // ponytail: spreadsheet apps evaluate cells that begin with formula prefixes.
+  const text = /^\s*[=+\-@]/.test(rawText) ? `'${rawText}` : rawText;
   return /[",\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
 }
 
