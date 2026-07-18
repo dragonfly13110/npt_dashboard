@@ -48,6 +48,7 @@ export default function Dashboard() {
   const {
     stats,
     loading,
+    error,
     failedTables,
     refetch,
     districtStats,
@@ -99,6 +100,7 @@ export default function Dashboard() {
   }, []);
 
   const totalRecords = stats.reduce((sum, s) => sum + s.count, 0);
+  const hasDashboardError = Boolean(error) || failedTables.length > 0;
 
   const handleExportPdf = async () => {
     if (loading) {
@@ -317,7 +319,7 @@ export default function Dashboard() {
         <span>ฐานข้อมูลและจำนวนรายการรายระบบงานหลัก</span>
       </div>
 
-      {failedTables.length > 0 && !loading && (
+      {hasDashboardError && !loading && (
         <Alert
           type="warning"
           showIcon
@@ -537,7 +539,7 @@ export default function Dashboard() {
       </Row>
 
       {/* Empty state */}
-      {totalRecords === 0 && !loading && failedTables.length === 0 && (
+      {totalRecords === 0 && !loading && !hasDashboardError && (
         <div className="md-empty-state">
           <div className="md-empty-icon">📭</div>
           <h3>ยังไม่มีข้อมูลในระบบ</h3>
