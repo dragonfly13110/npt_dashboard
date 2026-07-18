@@ -295,10 +295,11 @@ const SUGGESTIONS = [
   { icon: '👨‍🌾', text: 'Smart Farmer', desc: 'เกษตรกรรุ่นใหม่' },
 ];
 
-export default function SearchResults() {
+export default function SearchResults({ publicMode = false }) {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { role } = useAuth();
+  const searchRole = publicMode ? 'guest' : role;
   const initialQuery = searchParams.get('q') || '';
   const [query, setQuery] = useState(initialQuery);
   const [results, setResults] = useState([]);
@@ -314,7 +315,7 @@ export default function SearchResults() {
       }
       setLoading(true);
       try {
-        const data = await globalSearch(searchTerm, 50, role);
+        const data = await globalSearch(searchTerm, 50, searchRole);
         setResults(data);
         if (data.length > 0) {
           setExpandedTables(new Set([data[0].table]));
@@ -330,7 +331,7 @@ export default function SearchResults() {
         setLoading(false);
       }
     },
-    [role]
+    [searchRole]
   );
 
   useEffect(() => {
@@ -345,11 +346,12 @@ export default function SearchResults() {
   const handleSearch = (value) => {
     const trimmed = value ? value.trim() : '';
     if (trimmed.length >= 2) {
-      navigate(`/dashboard/search?q=${encodeURIComponent(trimmed)}`, {
-        replace: true,
-      });
+      navigate(
+        `${publicMode ? '/public/search' : '/dashboard/search'}?q=${encodeURIComponent(trimmed)}`,
+        { replace: true }
+      );
     } else {
-      navigate(`/dashboard/search`, {
+      navigate(publicMode ? '/public/search' : '/dashboard/search', {
         replace: true,
       });
     }
@@ -828,25 +830,28 @@ export default function SearchResults() {
                       >
                         {isVisible ? 'ยุบผลลัพธ์' : 'ดูผลลัพธ์'}
                       </Button>
-                      <Button
-                        type="default"
-                        size="small"
-                        icon={<DatabaseOutlined />}
-                        style={{
-                          borderColor:
-                            GROUP_COLORS[tableResult.group] || '#0969da',
-                          color: GROUP_COLORS[tableResult.group] || '#0969da',
-                          fontWeight: 600,
-                          borderRadius: 6,
-                          fontSize: 12,
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(tableResult.route);
-                        }}
-                      >
-                        ตารางเต็ม
-                      </Button>
+                      {!publicMode && (
+                        <Button
+                          type="default"
+                          size="small"
+                          icon={<DatabaseOutlined />}
+                          style={{
+                            borderColor:
+                              GROUP_COLORS[tableResult.group] || '#0969da',
+                            color:
+                              GROUP_COLORS[tableResult.group] || '#0969da',
+                            fontWeight: 600,
+                            borderRadius: 6,
+                            fontSize: 12,
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(tableResult.route);
+                          }}
+                        >
+                          ตารางเต็ม
+                        </Button>
+                      )}
                       <RightOutlined
                         style={{
                           fontSize: 11,

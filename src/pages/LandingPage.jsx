@@ -259,7 +259,7 @@ export default function LandingPage() {
       e.preventDefault();
       if (!landingQuery.trim() || landingQuery.trim().length < 2) return;
       navigate(
-        `/dashboard/search?q=${encodeURIComponent(landingQuery.trim())}`
+        `/public/search?q=${encodeURIComponent(landingQuery.trim())}`
       );
     },
     [landingQuery, navigate]

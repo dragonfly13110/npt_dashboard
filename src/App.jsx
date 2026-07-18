@@ -256,6 +256,7 @@ function AppRoutes() {
           { path: '/public/fire-hotspots', Component: FireHotspots },
           { path: '/public/disasters', Component: Disasters },
           { path: '/public/data-dictionary', Component: DataDictionary },
+          { path: '/public/search', Component: SearchResults, publicMode: true },
           // eslint-disable-next-line no-unused-vars
         ].map(({ path, Component, publicMode = false }) => (
           <Route
