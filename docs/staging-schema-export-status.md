@@ -17,13 +17,13 @@ The migration ledger stores only migration names, not their SQL text. The
 repository also has no `supabase/migrations/` chain. Reconstructing a baseline
 from loose SQL files would risk replacing the current Staging policy state.
 
-`supabase db pull` is the safe exporter, but it needs the remote database
-password or a direct database URL. The available Management API token can run
-read-only catalog queries but cannot produce a complete replayable dump.
+The database password is now configured and the CLI links to Staging. The CLI
+still needs Docker Desktop to run the schema-diff or dump container. Docker is
+not running on this machine, so no schema snapshot has been generated yet.
 
 ## Exact next command
 
-After adding `SUPABASE_DB_PASSWORD` to a local, uncommitted environment file:
+After starting Docker Desktop:
 
 ```powershell
 npx supabase@latest link --project-ref $env:SUPABASE_PROJECT_REF --password $env:SUPABASE_DB_PASSWORD
