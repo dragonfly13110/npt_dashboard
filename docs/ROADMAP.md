@@ -10,6 +10,7 @@ The following high-risk work is now complete on the migration-foundation branch:
 - Public and admin-facing server failures no longer return raw upstream or database error details.
 - Dashboard counts now distinguish a real zero from a table that failed to load, with a retry action for the user.
 - A Staging schema snapshot exists at `supabase/staging_public_schema.sql`; it contains schema only, never table data.
+- `npm audit` has one remaining high finding in `xlsx`, with no registry patch available. Spreadsheet import is internal-only and now rejects invalid types and files over 4 MB; replace the library or disable Excel input if a maintained fix is still unavailable.
 
 **Do not apply database changes yet.** The remote Staging database has an existing migration ledger, while this repository does not contain the matching historical migration chain. The next database step needs an explicit adoption decision: establish the snapshot as the approved baseline, then create new migrations only after that point.
 
