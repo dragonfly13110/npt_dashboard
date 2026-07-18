@@ -14,11 +14,12 @@ Verified on 18 July 2026 with read-only Supabase Management API queries.
 ## Baseline adoption status
 
 The migration ledger stores only migration names, not their SQL text. The
-repository now has a baseline migration created from this snapshot, plus the
-next RLS migration. The baseline must be recorded as already applied on the
-existing Staging database; it must not be pushed as SQL because Staging already
-has this schema. The remaining remote rollout steps and rollback owner are
-documented in `docs/staging-migration-adoption.md`.
+repository now has a baseline migration created from this snapshot, plus
+subsequent RLS migrations. On 19 July 2026 the baseline was recorded as
+already applied on Staging; its schema SQL was not run there. The RLS
+migrations were then deployed and verified. Backup, rollback, and the
+remaining local-history limitation are documented in
+`docs/staging-migration-adoption.md`.
 
 ## Exported baseline snapshot
 
@@ -29,10 +30,9 @@ user-defined public functions; the other 31 public functions belong to
 extensions and are intentionally not redefined. The dump contains no `COPY`
 or `INSERT` statements, so it does not include table data or PII.
 
-The remote migration ledger still does not match local files. This snapshot is
-the source of truth for rebuilding a migration chain; do not apply it to the
-existing Staging database or repair Staging migration history without a
-separate rollout decision.
+The remote migration ledger now matches the local files. This snapshot remains
+the source of truth for the baseline; do not apply it to the existing Staging
+database because its schema is already present.
 
 ## Refresh command
 
@@ -43,6 +43,5 @@ npx supabase@latest link --project-ref $env:SUPABASE_PROJECT_REF --password $env
 npx supabase@latest db dump --linked --schema public --file supabase/staging_public_schema.sql
 ```
 
-Review the snapshot before committing it. A future migration adoption step must
-preserve Staging's 23 existing ledger entries before any new migration is
-applied.
+Review the snapshot before committing it. Preserve the fetched legacy history
+when creating future migrations.

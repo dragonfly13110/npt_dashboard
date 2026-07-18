@@ -1,8 +1,6 @@
 # Staging migration adoption and rollback
 
-Status: locally validated on 19 July 2026; remote rollout is intentionally
-blocked until the Supabase CLI is logged in and has fetched the existing
-Staging history.
+Status: deployed to Staging and verified on 19 July 2026.
 
 ## What is protected
 
@@ -22,28 +20,38 @@ Staging history.
    first real forward change. It permits `district_editor` only to read and
    submit responses for assignments in their own district, and prevents them
    from moving an assignment to another request.
+3. `20260718175409_restrict_data_request_guard_function_execution.sql` and
+   `20260718175726_revoke_guard_function_execution_from_api_roles.sql` remove
+   direct API execution of the internal trigger functions.
 
 ## Verified locally
 
-`supabase start` applied both migrations to a clean local Docker database.
+Before historical files were fetched, `supabase start` applied the baseline
+and RLS migrations to a clean local Docker database.
 
 - A district editor saw only the request assigned to `District A`.
 - A response for that assignment was accepted.
 - A response for an unassigned request was rejected by RLS.
 - Changing the assignment to another request was rejected by the trigger.
 
-## Safe Staging rollout
+## Completed Staging rollout
 
-1. Run `npx supabase login` and finish the browser sign-in.
-2. Run `npx supabase migration fetch --linked` to save Staging's existing 23
-   ledger entries locally. Do not reconstruct or delete that history manually.
-3. Confirm `npx supabase migration list --linked` shows the old entries plus
-   the two local migration files.
-4. Mark only the baseline version as applied (ledger change only), then run a
-   dry run. Apply only the RLS migration after the dry run shows exactly one
-   pending version.
-5. Test one district editor and one admin in Staging. If anything is wrong,
-   apply the rollback SQL below immediately.
+1. Fetched Staging's existing 23 migration files.
+2. Recorded only the baseline (`20260718171526`) as applied; its schema SQL
+   was not run against Staging.
+3. Dry-run showed exactly one RLS migration, then applied it.
+4. Verified all three Data Request tables still have RLS enabled and their
+   nine expected policies are present.
+5. Verified `anon` and `authenticated` cannot execute the internal guard
+   functions directly.
+
+## Known local limitation
+
+The fetched legacy history begins after an earlier unrecorded base schema, so
+`supabase db reset --local` cannot replay all 23 legacy files against an empty
+database. Staging itself is consistent. Consolidating this old history into a
+fresh-resettable chain is a separate migration-maintenance task; do not delete
+or reorder the fetched files.
 
 ## Rollback
 
