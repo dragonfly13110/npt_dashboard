@@ -115,8 +115,21 @@ export function parseCsvFile(file) {
   });
 }
 
+export const MAX_TABLE_IMPORT_BYTES = 4 * 1024 * 1024;
+
+export function validateTableImportFile(file) {
+  const extension = file?.name?.split('.').pop()?.toLowerCase();
+  if (!['csv', 'txt', 'xlsx', 'xls'].includes(extension)) {
+    throw new Error('รองรับเฉพาะไฟล์ CSV หรือ Excel');
+  }
+  if (!Number.isFinite(file.size) || file.size > MAX_TABLE_IMPORT_BYTES) {
+    throw new Error('ไฟล์นำเข้าต้องมีขนาดไม่เกิน 4 MB');
+  }
+  return extension;
+}
+
 export async function parseTableFile(file) {
-  const extension = file.name.split('.').pop()?.toLowerCase();
+  const extension = validateTableImportFile(file);
 
   if (extension === 'xlsx' || extension === 'xls') {
     const XLSX = await import('xlsx');

@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { csvMatrixToObjects, parseCsv, parseCsvTable, toCsvValue } from './csv';
+import {
+  csvMatrixToObjects,
+  MAX_TABLE_IMPORT_BYTES,
+  parseCsv,
+  parseCsvTable,
+  toCsvValue,
+  validateTableImportFile,
+} from './csv';
 
 describe('csv utilities', () => {
   it('parses quoted comma values', () => {
@@ -33,5 +40,17 @@ describe('csv utilities', () => {
       headers: ['ชื่อกลุ่ม', 'ปีข้อมูล'],
       rows: [{ ชื่อกลุ่ม: 'กลุ่ม A', ปีข้อมูล: '2569', _rowNum: 2 }],
     });
+  });
+
+  it('rejects unsupported or oversized table imports before parsing', () => {
+    expect(() =>
+      validateTableImportFile({ name: 'upload.exe', size: 10 })
+    ).toThrow('CSV หรือ Excel');
+    expect(() =>
+      validateTableImportFile({
+        name: 'upload.xlsx',
+        size: MAX_TABLE_IMPORT_BYTES + 1,
+      })
+    ).toThrow('ไม่เกิน 4 MB');
   });
 });

@@ -410,7 +410,7 @@ export default function CsvImportModal({
                   ลากไฟล์ CSV หรือ Excel มาวางที่นี่
                 </p>
                 <p className="csv-upload-hint">
-                  รองรับ .csv, .txt, .xlsx, .xls และใช้แถวแรกเป็นหัวคอลัมน์
+                  รองรับ .csv, .txt, .xlsx, .xls ขนาดไม่เกิน 4 MB และใช้แถวแรกเป็นหัวคอลัมน์
                 </p>
               </div>
             </Dragger>
