@@ -517,8 +517,9 @@ export default function LandingPage() {
           <a href="#agri-overview">ข้อมูลการเกษตร</a>
           <a href="/public/data-dictionary">คำอธิบายข้อมูล</a>
           <a href="#agri-news">ข่าวและประกาศ</a>
+          <a href="/public/search">เข้าดูข้อมูล</a>
           <a href="/login" className="premium-login">
-            เข้าสู่ระบบ
+            สำหรับเจ้าหน้าที่
           </a>
         </div>
         <button
@@ -1334,12 +1335,20 @@ export default function LandingPage() {
                 <span>เตือนภัยโรค & แมลง</span>
               </a>
               <a
+                href="/public/search"
+                className="mobile-more-item"
+                onClick={closeMoreDrawer}
+              >
+                <SearchOutlined />
+                <span>เข้าดูข้อมูล</span>
+              </a>
+              <a
                 href="/login"
                 className="mobile-more-item"
                 onClick={closeMoreDrawer}
               >
                 <LoginOutlined />
-                <span>เข้าสู่ระบบ</span>
+                <span>สำหรับเจ้าหน้าที่</span>
               </a>
             </div>
           </div>
