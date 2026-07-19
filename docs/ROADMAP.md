@@ -1,25 +1,28 @@
 # 🚀 NPT Smart Agri Dashboard - Development Roadmap
 
-## Progress checkpoint — 2026-07-18
+## Progress checkpoint — 2026-07-19
 
-The following high-risk work is now complete on the migration-foundation branch:
+### งานหนักที่เสร็จแล้ว
 
-- Public search uses the same search experience but remains constrained to the approved public dataset fields.
-- Guest sessions cannot access internal routes; public data endpoints remain protected by RLS or a fixed safe field list.
-- CSV downloads neutralize spreadsheet formulas, and browser security headers are tightened.
-- Public and admin-facing server failures no longer return raw upstream or database error details.
-- Dashboard counts now distinguish a real zero from a table that failed to load, with a retry action for the user.
-- A Staging schema snapshot exists at `supabase/staging_public_schema.sql`; it contains schema only, never table data.
-- `npm audit` has one remaining high finding in `xlsx`, with no registry patch available. Spreadsheet import is internal-only and now rejects invalid types and files over 4 MB; replace the library or disable Excel input if a maintained fix is still unavailable.
+- ~~สร้างและอนุมัติ Staging schema baseline พร้อม backup และ rollback owner~~
+- ~~ทำ migration history ให้ Local และ Staging ตรงกันถึง `20260719053824`~~
+- ~~แก้ RLS ตามสิทธิ์ Admin, Editor, District Editor และ Guest~~
+- ~~ปิด broad write policies, จำกัด function execution และป้องกัน forum impersonation~~
+- ~~แยกข้อมูล PDPA ออกจาก Public Search และเพิ่ม regression test~~
+- ~~ให้ Search หน้า Landing เข้า Dashboard โดยรักษาสิทธิ์เจ้าหน้าที่เดิม หรือสร้าง Guest เมื่อยังไม่ล็อกอิน~~
+- ~~เพิ่ม Sentry, Global Error Boundary, security headers และ safe server errors~~
 
-**Do not apply database changes yet.** The remote Staging database has an existing migration ledger, while this repository does not contain the matching historical migration chain. The next database step needs an explicit adoption decision: establish the snapshot as the approved baseline, then create new migrations only after that point.
+### งานหนักที่เหลือ เรียงตามลำดับ
 
-**Next heavy work, in order:**
+1. เพิ่ม E2E บน Production/Staging สำหรับ Admin, Editor, District Editor และ Guest ครบทุกเส้นทางสำคัญ
+2. ลด production bundle ขนาดใหญ่ โดยแยก `xlsx`, ECharts, คู่มือ และ seed data ออกจาก initial load
+3. เปลี่ยน `xlsx` เป็นไลบรารีที่ยังมี security patch หรือปิด Excel import หากยังไม่มีตัวทดแทน
+4. เพิ่ม health check และ uptime monitoring สำหรับเว็บ, Supabase และ API สำคัญ
+5. ทำ load test สำหรับผู้ใช้พร้อมกัน 100/500/1,000 คน แล้วแก้เฉพาะ bottleneck ที่วัดได้
 
-1. Approve and execute the Staging migration-history adoption runbook (with backup and rollback owner).
-2. Reconcile RLS policies with the approved authorization matrix, especially district-editor handling of data requests.
-3. Add production verification: role-by-role access tests and public endpoint response snapshots.
-4. Reduce large production bundles with targeted lazy loading/code splitting.
+### ข้อจำกัดภายนอก
+
+- Supabase Leaked Password Protection ต้องใช้แผน Pro; แผน Free ยังเปิดไม่ได้
 
 ## 📋 Executive Summary
 
@@ -46,19 +49,19 @@ The following high-risk work is now complete on the migration-foundation branch:
 
 #### 1.1 Security Hardening
 
-- [x] **ลบ Hardcoded API Keys**
+- [x] ~~**ลบ Hardcoded API Keys**~~
   - ไฟล์: `vite.config.js`
   - Action: ลบ API key ที่ hardcoded และบังคับใช้ environment variables เท่านั้น
   - Impact: 🔴 Critical Security Risk
-- [x] **เพิ่ม Environment Variables Validation**
+- [x] ~~**เพิ่ม Environment Variables Validation**~~
   - สร้างไฟล์ `.env.example` พร้อมรายการ variables ที่จำเป็นทั้งหมด
   - เพิ่ม validation script ในขั้นตอน build
   - Alert เมื่อขาด variables สำคัญ
-- [x] **แก้ไข JWT Expiration Handling Bug**
+- [x] ~~**แก้ไข JWT Expiration Handling Bug**~~
   - ไฟล์: `src/contexts/AuthContext.jsx`
   - Issue: ไม่ clear localStorage guestMode เมื่อ JWT หมดอายุ
   - Fix: เพิ่ม logic จัดการ guest mode conflict
-- [ ] **ปรับปรุง CORS Policy**
+- [x] ~~**ปรับปรุง CORS Policy**~~
   - เพิ่ม whitelist domains ที่ชัดเจน
   - Reject requests จาก unknown origins
   - เพิ่ม logging สำหรับ rejected requests
@@ -68,21 +71,21 @@ The following high-risk work is now complete on the migration-foundation branch:
 - [ ] **แก้ไข Silent Error Catching**
   - ไฟล์: `src/services/aiService.js`
   - Action: เปลี่ยนจาก silent catch เป็น proper error logging
-- [ ] **ติดตั้ง Error Monitoring Service**
+- [x] ~~**ติดตั้ง Error Monitoring Service**~~
   - เลือก service: Sentry หรือ LogRocket
   - Configure error tracking สำหรับ production
   - ตั้งค่า alerts สำหรับ critical errors
-- [ ] **เพิ่ม Global Error Boundary**
+- [x] ~~**เพิ่ม Global Error Boundary**~~
   - ตรวจสอบทุก Page มี Error Boundary wrapper
   - เพิ่ม fallback UI ที่ user-friendly
 
 #### 1.3 Data Integrity
 
-- [ ] **เพิ่ม Schema Validation สำหรับ CSV Import**
+- [x] ~~**เพิ่ม Schema Validation สำหรับ CSV Import**~~
   - ไฟล์: `src/services/chatbotDataService.js`
   - เพิ่ม validation ก่อน import ข้อมูล
   - แสดง error messages ที่ชัดเจนเมื่อ schema ไม่ตรง
-- [x] **ป้องกัน Memory Leak ใน SSE Streaming**
+- [x] ~~**ป้องกัน Memory Leak ใน SSE Streaming**~~
   - ไฟล์: `src/services/aiService.js`
   - กำหนด max buffer size
   - เพิ่ม cleanup logic สำหรับ long-running streams
@@ -106,7 +109,7 @@ The following high-risk work is now complete on the migration-foundation branch:
   - ไฟล์: `src/App.jsx` (50+ routes)
   - Action: ย้าย routes ไปเป็น config file (`src/config/routes.js`)
   - แยก routes ตาม module (Admin, Strategy, Production, etc.)
-- [ ] **Implement Lazy Loading**
+- [x] ~~**Implement Lazy Loading**~~
   - ใช้ `React.lazy()` + `Suspense` สำหรับ pages ขนาดใหญ่
   - Target: `PlantProtectionFormDemo.jsx` (21KB), Dashboard pages
 - [ ] **Standardize Naming Conventions**
@@ -117,7 +120,7 @@ The following high-risk work is now complete on the migration-foundation branch:
 
 #### 2.2 Performance Optimization
 
-- [ ] **Optimize React Query Settings**
+- [x] ~~**Optimize React Query Settings**~~
   - ไฟล์: `src/hooks/useDashboardData.js`
   - Extract magic numbers เป็น constants:
     ```javascript
@@ -128,7 +131,7 @@ The following high-risk work is now complete on the migration-foundation branch:
       MAX_RETRIES: 3,
     };
     ```
-- [ ] **เพิ่ม Pagination สำหรับ Large Datasets**
+- [x] ~~**เพิ่ม Pagination สำหรับ Large Datasets**~~
   - ตรวจสอบทุก query ที่ return >1000 records
   - Implement server-side pagination
   - เพิ่ม infinite scroll หรือ pagination UI
@@ -139,7 +142,7 @@ The following high-risk work is now complete on the migration-foundation branch:
 
 #### 2.3 Rate Limiting & Caching
 
-- [ ] **Implement Persistent Rate Limiting**
+- [x] ~~**Implement Persistent Rate Limiting**~~
   - ไฟล์: `netlify/functions/ai-proxy.js`
   - Issue: Rate limit reset on cold start
   - Solution: ใช้ Supabase table หรือ Redis สำหรับ persist request logs
@@ -191,14 +194,14 @@ The following high-risk work is now complete on the migration-foundation branch:
 
 #### 3.3 Code Quality Tools
 
-- [ ] **Setup ESLint + Prettier**
+- [x] ~~**Setup ESLint + Prettier**~~
   - สร้าง `.eslintrc.js` with strict rules
   - เพิ่ม pre-commit hooks ด้วย Husky
   - Auto-format on save
 - [ ] **เพิ่ม Static Analysis**
   - Tools: SonarQube หรือ CodeClimate
   - Track code smells, duplication, complexity
-- [ ] **Dependency Audit**
+- [x] ~~**Dependency Audit**~~
   - รัน `npm audit` เป็นประจำ
   - อัพเดท dependencies ที่มี security patches
   - Remove unused packages
