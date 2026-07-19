@@ -128,9 +128,9 @@ describe('datasetCatalog', () => {
     expect(canAccessDataRequests('viewer')).toBe(false);
   });
 
-  it('keeps guest identities out of the internal shell', () => {
+  it('lets authenticated and guest sessions enter the dashboard shell', () => {
     expect(canAccessInternalShell(null)).toBe(false);
-    expect(canAccessInternalShell({ id: 'guest' })).toBe(false);
+    expect(canAccessInternalShell({ id: 'guest' })).toBe(true);
     expect(canAccessInternalShell({ id: 'user-1' })).toBe(true);
   });
 

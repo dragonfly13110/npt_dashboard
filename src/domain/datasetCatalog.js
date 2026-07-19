@@ -210,7 +210,7 @@ export function canAccessDataRequests(role) {
 }
 
 export function canAccessInternalShell(user) {
-  return Boolean(user?.id && user.id !== 'guest');
+  return Boolean(user?.id);
 }
 
 const DASHBOARD_GROUP_BY_TABLE = DASHBOARD_GROUPS.reduce((acc, group) => {
