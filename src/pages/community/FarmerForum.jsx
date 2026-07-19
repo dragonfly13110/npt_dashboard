@@ -263,9 +263,7 @@ export default function FarmerForum() {
 
         if (!isGuest && typeof post.id !== 'number') {
             await supabase
-                .from('forum_posts')
-                .update({ views: post.views + 1 })
-                .eq('id', post.id);
+                .rpc('increment_forum_post_views', { target_post_id: post.id });
         }
     };
 
