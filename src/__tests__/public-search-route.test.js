@@ -18,7 +18,8 @@ describe('public search', () => {
 
     expect(app).toContain("path: '/public/search'");
     expect(landing).toContain('/public/search?q=');
-    expect(landing).toContain('href="/public/search">เข้าดูข้อมูล</a>');
+    expect(landing).toContain('await loginAsGuest()');
+    expect(landing).toContain("navigate('/dashboard')");
     expect(landing).toContain('สำหรับเจ้าหน้าที่');
     expect(search).toContain("publicMode ? 'guest' : role");
     expect(search).toContain('!publicMode && (');

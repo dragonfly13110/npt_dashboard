@@ -1,7 +1,7 @@
 import { useEffect, lazy, Suspense, useState, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDashboardData } from '../hooks/useDashboardData';
-import { FloatButton, Modal, Spin, Button } from 'antd';
+import { FloatButton, Modal, Spin, Button, message } from 'antd';
 import {
   AppstoreOutlined,
   ArrowUpOutlined,
@@ -26,6 +26,7 @@ import {
   LikeOutlined,
 } from '@ant-design/icons';
 import { supabase } from '../supabaseClient';
+import { useAuth } from '../contexts/AuthContext';
 import AgencyLinksPanel from '../components/widgets/AgencyLinksPanel';
 import LandingFooter from '../components/widgets/LandingFooter';
 import NewsAccordion from '../components/widgets/NewsAccordion';
@@ -228,6 +229,8 @@ export default function LandingPage() {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const { loginAsGuest } = useAuth();
+  const [guestAccessLoading, setGuestAccessLoading] = useState(false);
   const [landingQuery, setLandingQuery] = useState('');
   const [activeInfoModal, setActiveInfoModal] = useState(null);
   const [selectedFarmerType, setSelectedFarmerType] = useState('large_plots');
@@ -264,6 +267,19 @@ export default function LandingPage() {
     },
     [landingQuery, navigate]
   );
+
+  const handleGuestAccess = async (event) => {
+    event.preventDefault();
+    if (guestAccessLoading) return;
+    setGuestAccessLoading(true);
+    try {
+      await loginAsGuest();
+      navigate('/dashboard');
+    } catch {
+      message.error('ไม่สามารถเข้าดูข้อมูลได้ กรุณาลองใหม่');
+      setGuestAccessLoading(false);
+    }
+  };
 
   useEffect(() => {
     const fetchForecast = async () => {
@@ -517,7 +533,13 @@ export default function LandingPage() {
           <a href="#agri-overview">ข้อมูลการเกษตร</a>
           <a href="/public/data-dictionary">คำอธิบายข้อมูล</a>
           <a href="#agri-news">ข่าวและประกาศ</a>
-          <a href="/public/search">เข้าดูข้อมูล</a>
+          <a
+            href="/dashboard"
+            onClick={handleGuestAccess}
+            aria-busy={guestAccessLoading}
+          >
+            เข้าดูข้อมูล
+          </a>
           <a href="/login" className="premium-login">
             สำหรับเจ้าหน้าที่
           </a>
@@ -1335,9 +1357,13 @@ export default function LandingPage() {
                 <span>เตือนภัยโรค & แมลง</span>
               </a>
               <a
-                href="/public/search"
+                href="/dashboard"
                 className="mobile-more-item"
-                onClick={closeMoreDrawer}
+                onClick={(event) => {
+                  closeMoreDrawer();
+                  handleGuestAccess(event);
+                }}
+                aria-busy={guestAccessLoading}
               >
                 <SearchOutlined />
                 <span>เข้าดูข้อมูล</span>
