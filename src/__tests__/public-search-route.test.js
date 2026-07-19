@@ -4,8 +4,8 @@ import { describe, expect, it } from 'vitest';
 
 const root = process.cwd();
 
-describe('public search', () => {
-  it('keeps landing search outside the internal dashboard', () => {
+describe('guest search', () => {
+  it('enters the dashboard search with a guest session', () => {
     const app = fs.readFileSync(path.join(root, 'src/App.jsx'), 'utf8');
     const landing = fs.readFileSync(
       path.join(root, 'src/pages/LandingPage.jsx'),
@@ -16,10 +16,9 @@ describe('public search', () => {
       'utf8'
     );
 
-    expect(app).toContain("path: '/public/search'");
-    expect(landing).toContain('/public/search?q=');
+    expect(app).not.toContain("path: '/public/search'");
     expect(landing).toContain('await loginAsGuest()');
-    expect(landing).toContain("navigate('/dashboard')");
+    expect(landing).toContain('/dashboard/search?q=');
     expect(landing).toContain('สำหรับเจ้าหน้าที่');
     expect(search).toContain("publicMode ? 'guest' : role");
     expect(search).toContain('!publicMode && (');

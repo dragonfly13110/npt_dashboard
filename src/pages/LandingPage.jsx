@@ -257,28 +257,30 @@ export default function LandingPage() {
   const [forecastReportDays, setForecastReportDays] = useState(null);
   const [forecastLoading, setForecastLoading] = useState(false);
 
-  const handleLandingSearchSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      if (!landingQuery.trim() || landingQuery.trim().length < 2) return;
-      navigate(
-        `/public/search?q=${encodeURIComponent(landingQuery.trim())}`
-      );
-    },
-    [landingQuery, navigate]
-  );
-
-  const handleGuestAccess = async (event) => {
-    event.preventDefault();
+  const enterDashboardAsGuest = async (path) => {
     if (guestAccessLoading) return;
     setGuestAccessLoading(true);
     try {
       await loginAsGuest();
-      navigate('/dashboard');
+      navigate(path);
     } catch {
       message.error('ไม่สามารถเข้าดูข้อมูลได้ กรุณาลองใหม่');
       setGuestAccessLoading(false);
     }
+  };
+
+  const handleLandingSearchSubmit = async (event) => {
+    event.preventDefault();
+    const query = landingQuery.trim();
+    if (query.length < 2) return;
+    await enterDashboardAsGuest(
+      `/dashboard/search?q=${encodeURIComponent(query)}`
+    );
+  };
+
+  const handleGuestAccess = (event) => {
+    event.preventDefault();
+    return enterDashboardAsGuest('/dashboard');
   };
 
   useEffect(() => {
