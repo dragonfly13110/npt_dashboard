@@ -174,7 +174,7 @@ Internal หลัง login:
 - `docs/reference/ARCHITECTURE.md`
 - `docs/reference/SYSTEM_OVERVIEW.md`
 - `docs/reference/ENVIRONMENT.md`
-- `docs/ROADMAP.md`
+- `ROADMAP_2026-07-19.md`
 
 ## หมายเหตุสำหรับผู้ดูแล
 
