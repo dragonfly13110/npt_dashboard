@@ -19,6 +19,8 @@ function request(method, cookie) {
 describe('guest-session function', () => {
   beforeEach(() => {
     env = { GUEST_SESSION_SECRET: 'g'.repeat(32) };
+    // Keep tests isolated from a developer's local .env secret.
+    process.env.GUEST_SESSION_SECRET = '';
   });
 
   it('creates and validates an HttpOnly guest session cookie', async () => {
