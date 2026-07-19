@@ -23,6 +23,9 @@ Status: deployed to Staging and verified on 19 July 2026.
 3. `20260718175409_restrict_data_request_guard_function_execution.sql` and
    `20260718175726_revoke_guard_function_execution_from_api_roles.sql` remove
    direct API execution of the internal trigger functions.
+4. The migrations through `20260719053824` harden audit logs, weather and site
+   statistics writes, function execution, forum ownership, development-table
+   write policies, public evaluation input, and the `pg_trgm` extension schema.
 
 ## Verified locally
 
@@ -59,3 +62,27 @@ Use `supabase/rollback/20260718171606_restore_data_request_rls.sql` in the
 Supabase SQL Editor. It restores the three pre-change editor policies from the
 Staging snapshot. The schema backup above is retained as the source of truth
 if a broader schema recovery is ever required.
+
+### Changes after the Data Request rollout
+
+The security migrations after `20260718175726` are intentionally one-way:
+rolling them back would restore anonymous function access, broad write access,
+or forum impersonation. If an application regression appears, roll back the
+application release first and keep these database protections in place.
+
+- Forum ownership adds nullable `author_id` columns. Old rows remain readable;
+  do not drop these columns during an application rollback.
+- The public evaluation change only narrows insertable columns and validates
+  identity/comment length. Fix the form if it rejects invalid input; do not
+  restore unrestricted inserts.
+- Moving `pg_trgm` to `extensions` is transparent to existing indexes. Any
+  replacement search function must keep `search_path = public, extensions`.
+- Before any emergency database reversal, take a fresh schema backup, record
+  the current migration list, and restore only the specific object from the
+  retained baseline backup. Never rerun the baseline against Staging.
+
+### Remaining platform limitation
+
+Supabase leaked-password protection is unavailable on this project's Free
+plan. It remains disabled until the project is upgraded to Pro; the application
+must continue to require a sensible minimum password length in the meantime.

@@ -18,6 +18,40 @@ describe('public privacy surfaces', () => {
     expect(configBlock).not.toMatch(/full_name|owner_name|contact_person/);
   });
 
+  it('keeps every known private field out of public search RPC config', () => {
+    const sql = fs.readFileSync(
+      path.join(root, 'supabase/global_search.sql'),
+      'utf8'
+    );
+    const configBlock = sql.slice(
+      sql.indexOf('VALUES'),
+      sql.indexOf(') AS t(table_name')
+    );
+    const privateFields = [
+      'citizen_id',
+      'first_name',
+      'last_name',
+      'full_name',
+      'owner_name',
+      'farmer_name',
+      'contact_person',
+      'phone',
+      'mobile',
+      'contact_phone',
+      'address',
+      'address_no',
+      'line_id',
+      'email',
+      'facebook',
+      'annual_agri_income',
+      'birth_date',
+    ];
+
+    for (const field of privateFields) {
+      expect(configBlock).not.toMatch(new RegExp(`['"]${field}['"]`));
+    }
+  });
+
   it('keeps person-level income out of public farmer institute API', () => {
     const fn = fs.readFileSync(
       path.join(root, 'netlify/functions/public-farmer-institutes-v2.js'),
