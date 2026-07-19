@@ -15,10 +15,17 @@ describe('guest search', () => {
       path.join(root, 'src/pages/SearchResults.jsx'),
       'utf8'
     );
+    const auth = fs.readFileSync(
+      path.join(root, 'src/contexts/AuthContext.jsx'),
+      'utf8'
+    );
 
     expect(app).not.toContain("path: '/public/search'");
-    expect(landing).toContain('await loginAsGuest()');
+    expect(landing).toContain('if (!user) await loginAsGuest()');
     expect(landing).toContain('/dashboard/search?q=');
+    expect(auth.indexOf('supabase.auth.getSession()')).toBeLessThan(
+      auth.indexOf('getGuestSession()')
+    );
     expect(landing).toContain('สำหรับเจ้าหน้าที่');
     expect(search).toContain("publicMode ? 'guest' : role");
     expect(search).toContain('!publicMode && (');

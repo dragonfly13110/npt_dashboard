@@ -229,7 +229,7 @@ export default function LandingPage() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { loginAsGuest } = useAuth();
+  const { user, loginAsGuest } = useAuth();
   const [guestAccessLoading, setGuestAccessLoading] = useState(false);
   const [landingQuery, setLandingQuery] = useState('');
   const [activeInfoModal, setActiveInfoModal] = useState(null);
@@ -257,11 +257,11 @@ export default function LandingPage() {
   const [forecastReportDays, setForecastReportDays] = useState(null);
   const [forecastLoading, setForecastLoading] = useState(false);
 
-  const enterDashboardAsGuest = async (path) => {
+  const enterDashboard = async (path) => {
     if (guestAccessLoading) return;
     setGuestAccessLoading(true);
     try {
-      await loginAsGuest();
+      if (!user) await loginAsGuest();
       navigate(path);
     } catch {
       message.error('ไม่สามารถเข้าดูข้อมูลได้ กรุณาลองใหม่');
@@ -273,14 +273,14 @@ export default function LandingPage() {
     event.preventDefault();
     const query = landingQuery.trim();
     if (query.length < 2) return;
-    await enterDashboardAsGuest(
+    await enterDashboard(
       `/dashboard/search?q=${encodeURIComponent(query)}`
     );
   };
 
   const handleGuestAccess = (event) => {
     event.preventDefault();
-    return enterDashboardAsGuest('/dashboard');
+    return enterDashboard('/dashboard');
   };
 
   useEffect(() => {

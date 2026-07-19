@@ -137,14 +137,6 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const initAuth = async () => {
-      const guestSession = await getGuestSession();
-      if (guestSession) {
-        setUser({ id: 'guest', email: 'guest@example.com' });
-        setProfile({ role: 'guest', department: null });
-        setLoading(false);
-        return;
-      }
-
       try {
         const {
           data: { session },
@@ -160,9 +152,20 @@ export function AuthProvider({ children }) {
           return;
         }
         const u = session?.user ?? null;
-        setUser(u);
         if (u) {
+          await clearGuestSession();
+          setUser(u);
           await fetchProfile(u.id);
+          setLoading(false);
+          return;
+        }
+
+        const guestSession = await getGuestSession();
+        if (guestSession) {
+          setUser({ id: 'guest', email: 'guest@example.com' });
+          setProfile({ role: 'guest', department: null });
+        } else {
+          setUser(null);
         }
       } catch (err) {
         console.warn('[Auth] initAuth failed, clearing session:', err);
