@@ -27,8 +27,8 @@ async function mockGuestSession(page) {
 
 async function signIn(page, account) {
   await page.goto('/login');
-  await page.locator('input[type="email"]').fill(account.email);
-  await page.locator('input[type="password"]').fill(account.password);
+  await page.locator('input[placeholder="email@example.com"]').fill(account.email);
+  await page.locator('input[placeholder="รหัสผ่าน"]').fill(account.password);
   await page.locator('button[type="submit"]').click();
   await page.waitForURL(/\/dashboard(?:$|\/)/);
 }
