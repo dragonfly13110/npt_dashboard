@@ -6,7 +6,8 @@
 -- columns have drifted from the current app/global_search contract.
 -- =============================================================================
 
-CREATE EXTENSION IF NOT EXISTS pg_trgm;
+CREATE SCHEMA IF NOT EXISTS extensions;
+CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA extensions;
 
 DO $$
 DECLARE
@@ -206,7 +207,7 @@ BEGIN
       )
     THEN
       EXECUTE format(
-        'CREATE INDEX IF NOT EXISTS %I ON public.%I USING gin (%I gin_trgm_ops)',
+        'CREATE INDEX IF NOT EXISTS %I ON public.%I USING gin (%I extensions.gin_trgm_ops)',
         idx.index_name,
         idx.table_name,
         idx.column_name

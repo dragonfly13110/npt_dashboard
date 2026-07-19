@@ -6,7 +6,7 @@ CREATE OR REPLACE FUNCTION public.global_search_public(
 RETURNS JSONB
 LANGUAGE plpgsql
 SECURITY INVOKER
-SET search_path = public
+SET search_path = public, extensions
 AS $$
 DECLARE
   result JSONB := '[]'::jsonb;
