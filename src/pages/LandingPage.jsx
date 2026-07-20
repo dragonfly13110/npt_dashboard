@@ -7,6 +7,7 @@ import {
   ArrowUpOutlined,
   AuditOutlined,
   BankOutlined,
+  BarChartOutlined,
   BookOutlined,
   BugOutlined,
   CalculatorOutlined,
@@ -524,6 +525,7 @@ export default function LandingPage() {
         <div className={`premium-nav-links ${mobileMenuOpen ? 'is-open' : ''}`}>
           <a href="#live-data">สถานการณ์วันนี้</a>
           <a href="#agri-overview">ข้อมูลการเกษตร</a>
+          <a href="/interactive-dashboard">Interactive Dashboard</a>
           <button
             type="button"
             className="premium-nav-button"
@@ -1297,6 +1299,14 @@ export default function LandingPage() {
             <div className="mobile-more-drawer-handle" />
             <div className="mobile-more-drawer-title">ทางลัดเพิ่มเติม</div>
             <div className="mobile-more-grid">
+              <a
+                href="/interactive-dashboard"
+                className="mobile-more-item"
+                onClick={closeMoreDrawer}
+              >
+                <BarChartOutlined />
+                <span>Interactive Dashboard</span>
+              </a>
               <a
                 href="/public/pesticides"
                 className="mobile-more-item"
