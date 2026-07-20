@@ -26,13 +26,12 @@ describe('LandingFooter', () => {
     expect(
       screen.queryByRole('link', { name: /แจ้งปัญหาระบบ/ })
     ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: /คำอธิบายข้อมูล/ })
+    ).toHaveAttribute('href', '/public/data-dictionary');
 
-    fireEvent.click(
-      screen.getByRole('button', { name: /ติดต่อสำนักงานเกษตรอำเภอ/ })
-    );
     fireEvent.click(screen.getByRole('button', { name: /ประเมินเว็บไซต์/ }));
 
-    expect(onOpenPanel).toHaveBeenNthCalledWith(1, 'contacts');
-    expect(onOpenPanel).toHaveBeenNthCalledWith(2, 'websiteEvaluation');
+    expect(onOpenPanel).toHaveBeenCalledWith('websiteEvaluation');
   });
 });

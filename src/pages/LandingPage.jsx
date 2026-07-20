@@ -208,13 +208,6 @@ const externalSystemLinks = [
     isInternal: true,
   },
   {
-    href: '/public/farmer-manual',
-    title: 'คู่มือขึ้นทะเบียนเกษตรกร 2569',
-    subtitle: 'ระเบียบและวิธีปฏิบัติงาน',
-    Icon: BookOutlined,
-    isInternal: true,
-  },
-  {
     href: 'https://kasetinfo.netlify.app/',
     title: 'คลังความรู้เกษตร',
     subtitle: 'Infographic',
@@ -491,13 +484,6 @@ export default function LandingPage() {
             <small>ข้อมูลอ่างเก็บน้ำ</small>
           </span>
         </button>
-        <a href="/dashboard/community/forum" className="landing-system-tab">
-          <CommentOutlined aria-hidden="true" />
-          <span>
-            <strong>ชุมชนเกษตรกร</strong>
-            <small>Farmer Forum</small>
-          </span>
-        </a>
         <button
           className="landing-system-tab evaluation-warning-tab"
           onClick={() => setActiveInfoModal('websiteEvaluation')}
@@ -538,7 +524,13 @@ export default function LandingPage() {
         <div className={`premium-nav-links ${mobileMenuOpen ? 'is-open' : ''}`}>
           <a href="#live-data">สถานการณ์วันนี้</a>
           <a href="#agri-overview">ข้อมูลการเกษตร</a>
-          <a href="/public/data-dictionary">คำอธิบายข้อมูล</a>
+          <button
+            type="button"
+            className="premium-nav-button"
+            onClick={() => setActiveInfoModal('contacts')}
+          >
+            ติดต่อสำนักงานเกษตรอำเภอ
+          </button>
           <a href="#agri-news">ข่าวและประกาศ</a>
           <a
             href="/dashboard"

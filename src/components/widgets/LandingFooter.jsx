@@ -3,10 +3,11 @@ import {
   FacebookOutlined,
   LoginOutlined,
   MailOutlined,
-  MessageOutlined,
   PhoneOutlined,
   LikeOutlined,
   TableOutlined,
+  BookOutlined,
+  CommentOutlined,
 } from '@ant-design/icons';
 import './LandingFooter.css';
 
@@ -73,6 +74,21 @@ export default function LandingFooter({ onOpenPanel = () => {} }) {
     ...contactLinks,
     { label: 'แผนที่อัจฉริยะ', href: '/smart-map', Icon: EnvironmentOutlined },
     { label: 'ตาราง BMC', href: '/bmc', Icon: TableOutlined },
+    {
+      label: 'คู่มือขึ้นทะเบียนเกษตรกร',
+      href: '/public/farmer-manual',
+      Icon: BookOutlined,
+    },
+    {
+      label: 'ชุมชนเกษตรกร',
+      href: '/dashboard/community/forum',
+      Icon: CommentOutlined,
+    },
+    {
+      label: 'คำอธิบายข้อมูล',
+      href: '/public/data-dictionary',
+      Icon: BookOutlined,
+    },
     { label: 'เข้าสู่ระบบเจ้าหน้าที่', href: '/login', Icon: LoginOutlined },
   ];
 
@@ -97,11 +113,6 @@ export default function LandingFooter({ onOpenPanel = () => {} }) {
             {compactLinks.map((link) => (
               <FooterLink key={link.href} {...link} />
             ))}
-            <FooterPanelButton
-              label="ติดต่อสำนักงานเกษตรอำเภอ"
-              Icon={MessageOutlined}
-              onClick={() => onOpenPanel('contacts')}
-            />
             <FooterPanelButton
               label="ประเมินเว็บไซต์"
               detail="แบบสำรวจความพึงพอใจ"
