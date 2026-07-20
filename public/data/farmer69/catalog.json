@@ -1,0 +1,2042 @@
+[
+  {
+    "slug": "farmer69-source-document-information",
+    "title": "ข้อมูลเอกสารต้นฉบับ",
+    "category": "ข้อมูลเอกสาร",
+    "citation_text": "PDF หน้า 1; หน้าเอกสาร -1",
+    "topics": [
+      "ชื่อเอกสาร",
+      "หน่วยงานผู้จัดทำ",
+      "ปีเอกสาร",
+      "ฉบับเดือนพฤษภาคม 2569"
+    ],
+    "review_flags": [],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/b87810b9a341ddc8d8d1fe0b0a23ca76.png"
+    ],
+    "source_pdf_pages": [1],
+    "source_printed_pages": [-1],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-source-table-of-contents",
+    "title": "สารบัญเอกสารต้นฉบับ",
+    "category": "ข้อมูลเอกสาร",
+    "citation_text": "PDF หน้า 2; หน้าเอกสาร 0",
+    "topics": ["สารบัญ", "โครงสร้างคู่มือ", "เลขหน้า"],
+    "review_flags": ["RF-034"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/2f4345e331258db807f7afb6f5c38ad0.png"
+    ],
+    "source_pdf_pages": [2],
+    "source_printed_pages": [0],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-source-advisers-and-authors",
+    "title": "ที่ปรึกษาและผู้จัดทำคู่มือ",
+    "category": "ข้อมูลเอกสาร",
+    "citation_text": "PDF หน้า 90; หน้าเอกสาร 88",
+    "topics": [
+      "ที่ปรึกษา",
+      "ผู้จัดทำ",
+      "กลุ่มทะเบียนเกษตรกร",
+      "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร"
+    ],
+    "review_flags": [],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/cc1a4c4497cd9e15bf084623091b0c1b.png"
+    ],
+    "source_pdf_pages": [90],
+    "source_printed_pages": [88],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-general-terms-and-roles",
+    "title": "คำศัพท์ทั่วไปและผู้เกี่ยวข้องในการขึ้นทะเบียนเกษตรกร",
+    "category": "นิยามศัพท์",
+    "citation_text": "PDF หน้า 3; หน้าเอกสาร 1",
+    "topics": [
+      "เกษตรกร",
+      "ครัวเรือน",
+      "ครัวเรือนเกษตร",
+      "นิติบุคคล",
+      "ผู้ขอขึ้นทะเบียน",
+      "แบบคำร้อง"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [3],
+    "source_printed_pages": [1],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-household-occupation-income-debt",
+    "title": "ข้อมูลครัวเรือน อาชีพ รายได้ และหนี้สินในแบบ ทบก.",
+    "category": "นิยามศัพท์",
+    "citation_text": "PDF หน้า 4, 5; หน้าเอกสาร 2, 3",
+    "topics": [
+      "หัวหน้าครัวเรือน",
+      "สมาชิกครัวเรือน",
+      "อาชีพหลัก",
+      "อาชีพรอง",
+      "รายได้",
+      "หนี้สิน"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [4, 5],
+    "source_printed_pages": [2, 3],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-smart-farm-definitions",
+    "title": "ระบบเกษตรอัจฉริยะในแบบทะเบียนเกษตรกร",
+    "category": "นิยามศัพท์",
+    "citation_text": "PDF หน้า 4; หน้าเอกสาร 2",
+    "topics": ["เกษตรอัจฉริยะ", "โรงเรือนอัจฉริยะ", "เซ็นเซอร์", "IoT"],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [4],
+    "source_printed_pages": [2],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-agricultural-machinery-categories",
+    "title": "เครื่องจักรกลการเกษตร 8 หมวดที่ใช้ในแบบทะเบียน",
+    "category": "นิยามศัพท์",
+    "citation_text": "PDF หน้า 5, 6; หน้าเอกสาร 3, 4",
+    "topics": [
+      "เครื่องจักรกลการเกษตร",
+      "เครื่องต้นกำลัง",
+      "เตรียมดิน",
+      "เครื่องปลูก",
+      "โดรน",
+      "เก็บเกี่ยว",
+      "สูบน้ำ"
+    ],
+    "review_flags": ["RF-002"],
+    "assets": [],
+    "source_pdf_pages": [5, 6],
+    "source_printed_pages": [3, 4],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-plot-tenure-and-land-documents",
+    "title": "แปลง การถือครอง และเอกสารเกี่ยวกับที่ดิน",
+    "category": "นิยามศัพท์",
+    "citation_text": "PDF หน้า 7, 8, 9; หน้าเอกสาร 5, 6, 7",
+    "topics": [
+      "แปลง",
+      "การถือครองที่ดิน",
+      "น.ส.3",
+      "ส.ป.ก.",
+      "กสน.",
+      "น.ค.",
+      "ส.ท.ก.",
+      "ส.ค.1"
+    ],
+    "review_flags": ["RF-001"],
+    "assets": [],
+    "source_pdf_pages": [7, 8, 9],
+    "source_printed_pages": [5, 6, 7],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-no-title-water-and-coordinates",
+    "title": "พื้นที่ไม่มีเอกสารสิทธิ์ แหล่งน้ำ และค่าพิกัดแปลง",
+    "category": "นิยามศัพท์",
+    "citation_text": "PDF หน้า 9, 10, 11; หน้าเอกสาร 7, 8, 9",
+    "topics": [
+      "พื้นที่ไม่มีเอกสารสิทธิ์",
+      "ชลประทาน",
+      "แหล่งน้ำ",
+      "วิธีให้น้ำ",
+      "UTM",
+      "ละติจูด",
+      "ลองจิจูด"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [9, 10, 11],
+    "source_printed_pages": [7, 8, 9],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-orchard-and-mixed-planting",
+    "title": "สวนเดี่ยว สวนแซม และสวนผสม",
+    "category": "นิยามศัพท์",
+    "citation_text": "PDF หน้า 11, 12; หน้าเอกสาร 9, 10",
+    "topics": ["สวนเดี่ยว", "สวนแซม", "สวนผสม", "การคิดพื้นที่ปลูก"],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [11, 12],
+    "source_printed_pages": [9, 10],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-economic-insects-and-beehive-movement",
+    "title": "แมลงเศรษฐกิจและการเคลื่อนย้ายรังผึ้ง",
+    "category": "นิยามศัพท์",
+    "citation_text": "PDF หน้า 12, 13; หน้าเอกสาร 10, 11",
+    "topics": [
+      "ผึ้งพันธุ์",
+      "ผึ้งโพรง",
+      "ชันโรง",
+      "จิ้งหรีด",
+      "ครั่ง",
+      "เคลื่อนย้ายรังผึ้ง"
+    ],
+    "review_flags": ["RF-003"],
+    "assets": [],
+    "source_pdf_pages": [12, 13],
+    "source_printed_pages": [10, 11],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-sustainable-agriculture-and-certification",
+    "title": "ระบบเกษตรกรรมยั่งยืนและการรับรองมาตรฐาน",
+    "category": "นิยามศัพท์",
+    "citation_text": "PDF หน้า 13, 14, 15; หน้าเอกสาร 11, 12, 13",
+    "topics": [
+      "เกษตรกรรมยั่งยืน",
+      "เกษตรผสมผสาน",
+      "เกษตรอินทรีย์",
+      "เกษตรธรรมชาติ",
+      "ทฤษฎีใหม่",
+      "วนเกษตร",
+      "PGS",
+      "Organic Thailand",
+      "IFOAM"
+    ],
+    "review_flags": ["RF-004"],
+    "assets": [],
+    "source_pdf_pages": [13, 14, 15],
+    "source_printed_pages": [11, 12, 13],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-sea-salt-witness-community-and-contract-farming",
+    "title": "นาเกลือสมุทร พยาน ผู้นำชุมชน อาสาสมัครเกษตร และเกษตรพันธสัญญา",
+    "category": "นิยามศัพท์",
+    "citation_text": "PDF หน้า 15, 16; หน้าเอกสาร 13, 14",
+    "topics": [
+      "เกลือสมุทร",
+      "นาเกลือ",
+      "พยาน",
+      "ผู้นำชุมชน",
+      "อกษ.",
+      "อกม.",
+      "เกษตรพันธสัญญา"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [15, 16],
+    "source_printed_pages": [13, 14],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-introduction-and-digital-development",
+    "title": "หลักการและพัฒนาระบบทะเบียนเกษตรกร",
+    "category": "บทนำ",
+    "citation_text": "PDF หน้า 17, 18; หน้าเอกสาร 15, 16",
+    "topics": [
+      "หลักการ",
+      "Digital DOAE",
+      "Farmbook",
+      "e-Form",
+      "Geoplots",
+      "การตรวจสอบข้อมูล",
+      "ข้อมูลทะเบียนเกษตรกร"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [17, 18],
+    "source_printed_pages": [15, 16],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-digital-plot-and-data-use",
+    "title": "ผังแปลงเกษตรกรรมดิจิทัลและการใช้ประโยชน์ข้อมูล",
+    "category": "บทนำ",
+    "citation_text": "PDF หน้า 18, 19; หน้าเอกสาร 16, 17",
+    "topics": [
+      "ผังแปลงดิจิทัล",
+      "Geoplots",
+      "QGIS",
+      "GISAgro",
+      "ภัยพิบัติ",
+      "ประกันภัยพืชผล",
+      "การวางแผนการผลิต"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [18, 19],
+    "source_printed_pages": [16, 17],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-objectives-targets-and-expected-results",
+    "title": "วัตถุประสงค์ เป้าหมาย และผลที่คาดว่าจะได้รับ ปี 2569",
+    "category": "บทนำ",
+    "citation_text": "PDF หน้า 20; หน้าเอกสาร 18",
+    "topics": [
+      "วัตถุประสงค์",
+      "เป้าหมายปี 2569",
+      "ผลที่คาดว่าจะได้รับ",
+      "6 ล้านครัวเรือน",
+      "3.47 ล้านแปลง"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [20],
+    "source_printed_pages": [18],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-household-head-and-spouse-rules",
+    "title": "ครัวเรือน หัวหน้าครัวเรือนเกษตร และคู่สมรส",
+    "category": "หลักเกณฑ์และเงื่อนไข",
+    "citation_text": "PDF หน้า 21; หน้าเอกสาร 19",
+    "topics": [
+      "ครัวเรือนเกษตร",
+      "หัวหน้าครัวเรือนเกษตร",
+      "ทะเบียนบ้าน",
+      "คู่สมรส"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [21],
+    "source_printed_pages": [19],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-natural-person-investor-employer-co-investor",
+    "title": "สิทธิของบุคคลธรรมดา ผู้ลงทุน ผู้ว่าจ้าง และผู้ร่วมลงทุน",
+    "category": "หลักเกณฑ์และเงื่อนไข",
+    "citation_text": "PDF หน้า 21; หน้าเอกสาร 19",
+    "topics": [
+      "บุคคลธรรมดา",
+      "ผู้ลงทุน",
+      "ผู้ว่าจ้าง",
+      "กรรมสิทธิ์ในผลผลิต",
+      "ร่วมลงทุน"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [21],
+    "source_printed_pages": [19],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-legal-entity-nationality-special-person-cases",
+    "title": "นิติบุคคล สัญชาติ และบุคคลกรณีพิเศษ",
+    "category": "หลักเกณฑ์และเงื่อนไข",
+    "citation_text": "PDF หน้า 22; หน้าเอกสาร 20",
+    "topics": [
+      "นิติบุคคล",
+      "สัญชาติไทย",
+      "บรรลุนิติภาวะ",
+      "ผู้พิการ",
+      "ผู้เยาว์",
+      "ความยินยอม"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [22],
+    "source_printed_pages": [20],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-land-with-and-without-right-documents",
+    "title": "พื้นที่มีเอกสารสิทธิ์และพื้นที่ไม่มีเอกสารสิทธิ์",
+    "category": "หลักเกณฑ์และเงื่อนไข",
+    "citation_text": "PDF หน้า 22; หน้าเอกสาร 20",
+    "topics": [
+      "เอกสารสิทธิ์",
+      "ไม่มีเอกสารสิทธิ์",
+      "ผู้นำชุมชน",
+      "การรับจดแจ้ง",
+      "สิทธิโครงการ"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [22],
+    "source_printed_pages": [20],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-land-tenure-household-rent-other",
+    "title": "ลักษณะการถือครองแบบครัวเรือน เช่า และอื่น ๆ",
+    "category": "หลักเกณฑ์และเงื่อนไข",
+    "citation_text": "PDF หน้า 23; หน้าเอกสาร 21",
+    "topics": [
+      "การถือครอง",
+      "ครัวเรือน",
+      "เช่า",
+      "ส.ป.ก.",
+      "สวนแซม",
+      "พื้นที่สาธารณประโยชน์"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [23],
+    "source_printed_pages": [21],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-accepted-activities-and-minimum-threshold-principles",
+    "title": "กิจกรรมการเกษตรที่รับขึ้นทะเบียนและหลักการนับเกณฑ์ขั้นต่ำ",
+    "category": "หลักเกณฑ์และเงื่อนไข",
+    "citation_text": "PDF หน้า 24; หน้าเอกสาร 22",
+    "topics": [
+      "กิจกรรมการเกษตร",
+      "เนื้อที่ขั้นต่ำ",
+      "รายได้ 8000 บาท",
+      "แปลงติดกัน",
+      "แมลงเศรษฐกิจ"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [24],
+    "source_printed_pages": [22],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-authorization-and-conflict-of-role",
+    "title": "การมอบอำนาจและข้อห้ามของผู้รับมอบอำนาจ",
+    "category": "หลักเกณฑ์และเงื่อนไข",
+    "citation_text": "PDF หน้า 24; หน้าเอกสาร 22",
+    "topics": [
+      "มอบอำนาจ",
+      "เกษตรกรรายใหม่",
+      "เกษตรกรรายเดิม",
+      "นิติบุคคล",
+      "พยาน",
+      "ผลประโยชน์ทับซ้อน"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [24],
+    "source_printed_pages": [22],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-data-certification-witness-bangkok-exception",
+    "title": "การรับรองข้อมูล พยาน และข้อยกเว้นของกรุงเทพมหานคร",
+    "category": "หลักเกณฑ์และเงื่อนไข",
+    "citation_text": "PDF หน้า 24; หน้าเอกสาร 22",
+    "topics": [
+      "แบบคำร้อง",
+      "ความถูกต้องข้อมูล",
+      "ลายมือชื่อ",
+      "พยาน",
+      "กรุงเทพมหานคร"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [24],
+    "source_printed_pages": [22],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-verification-benefits-and-status-termination",
+    "title": "การผ่านการตรวจสอบ สิทธิประโยชน์ และการสิ้นสถานภาพเกษตรกร",
+    "category": "หลักเกณฑ์และเงื่อนไข",
+    "citation_text": "PDF หน้า 25; หน้าเอกสาร 23",
+    "topics": [
+      "การตรวจสอบ",
+      "ขึ้นทะเบียนสมบูรณ์",
+      "สิทธิประโยชน์",
+      "สิ้นสถานภาพ",
+      "ข้อมูลเท็จ",
+      "ไม่ปรับปรุง 3 ปี"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [25],
+    "source_printed_pages": [23],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-registration-channels-and-locations",
+    "title": "ช่องทางและสถานที่รับแจ้งขึ้นทะเบียนและปรับปรุงทะเบียน",
+    "category": "หลักเกณฑ์และเงื่อนไข",
+    "citation_text": "PDF หน้า 25; หน้าเอกสาร 23",
+    "topics": [
+      "สำนักงานเกษตรอำเภอ",
+      "แปลงหลัก",
+      "องค์กรปกครองส่วนท้องถิ่น",
+      "อกม.",
+      "Farmbook",
+      "e-Form"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [25],
+    "source_printed_pages": [23],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-supporting-documents-by-land-tenure",
+    "title": "เอกสารประกอบการขึ้นทะเบียนตามลักษณะการถือครอง",
+    "category": "หลักเกณฑ์และเงื่อนไข",
+    "citation_text": "PDF หน้า 26; หน้าเอกสาร 24",
+    "topics": [
+      "ทบก.01",
+      "บัตรประชาชน",
+      "หลักฐานที่ดิน",
+      "สัญญาเช่า",
+      "หนังสือยินยอม",
+      "ไม่มีเอกสารสิทธิ์"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [26],
+    "source_printed_pages": [24],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-registration-timeframe-rice",
+    "title": "กรอบระยะเวลาการขึ้นทะเบียนและปรับปรุงทะเบียนข้าว",
+    "category": "หลักเกณฑ์และเงื่อนไข",
+    "citation_text": "PDF หน้า 27, 28; หน้าเอกสาร 25, 26",
+    "topics": [
+      "ข้าว",
+      "นาปี",
+      "นาปรัง",
+      "กลุ่มพื้นที่",
+      "วันปลูก",
+      "กรอบเวลาบันทึกข้อมูล"
+    ],
+    "review_flags": ["RF-005", "RF-006"],
+    "assets": [],
+    "source_pdf_pages": [27, 28],
+    "source_printed_pages": [25, 26],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-registration-timeframe-field-crops-perennials",
+    "title": "กรอบระยะเวลาพืชไร่ ไม้ผล ไม้ยืนต้น และสมุนไพรอายุยาว",
+    "category": "หลักเกณฑ์และเงื่อนไข",
+    "citation_text": "PDF หน้า 28, 29; หน้าเอกสาร 26, 27",
+    "topics": [
+      "ข้าวโพดเลี้ยงสัตว์",
+      "มันสำปะหลัง",
+      "อ้อยโรงงาน",
+      "ปาล์มน้ำมัน",
+      "ยางพารา",
+      "ไม้ผลไม้ยืนต้น"
+    ],
+    "review_flags": ["RF-005"],
+    "assets": [],
+    "source_pdf_pages": [28, 29],
+    "source_printed_pages": [26, 27],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-registration-timeframe-short-crops-sprouts-wolffia",
+    "title": "กรอบระยะเวลาพืชอายุสั้น ไม้ดอก ไม้ประดับ เพาะเห็ด ผักงอก และผำ",
+    "category": "หลักเกณฑ์และเงื่อนไข",
+    "citation_text": "PDF หน้า 29; หน้าเอกสาร 27",
+    "topics": [
+      "ผัก",
+      "สมุนไพรอายุสั้น",
+      "ไม้ดอกไม้ประดับ",
+      "เพาะเห็ด",
+      "ผักงอก",
+      "ผำ"
+    ],
+    "review_flags": ["RF-005"],
+    "assets": [],
+    "source_pdf_pages": [29],
+    "source_printed_pages": [27],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-registration-timeframe-economic-insects-sea-salt",
+    "title": "กรอบระยะเวลาแมลงเศรษฐกิจและนาเกลือสมุทร",
+    "category": "หลักเกณฑ์และเงื่อนไข",
+    "citation_text": "PDF หน้า 29, 30; หน้าเอกสาร 27, 28",
+    "topics": [
+      "จิ้งหรีด",
+      "ครั่ง",
+      "ผึ้ง",
+      "ชันโรง",
+      "เคลื่อนย้ายรัง",
+      "นาเกลือสมุทร"
+    ],
+    "review_flags": ["RF-005"],
+    "assets": [],
+    "source_pdf_pages": [29, 30],
+    "source_printed_pages": [27, 28],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-public-information-before-registration",
+    "title": "การประชาสัมพันธ์และข้อมูลที่ต้องย้ำก่อนรับแจ้ง",
+    "category": "ขั้นตอนและวิธีปฏิบัติงาน",
+    "citation_text": "PDF หน้า 31; หน้าเอกสาร 29",
+    "topics": [
+      "ประชาสัมพันธ์",
+      "ความสำคัญของทะเบียนเกษตรกร",
+      "การกรอกข้อมูล",
+      "การคำนวณเนื้อที่",
+      "ข้อมูลส่วนบุคคล"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [31],
+    "source_printed_pages": [29],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-intake-channels-and-initial-processing",
+    "title": "ช่องทางรับแจ้งและการดำเนินการเบื้องต้น",
+    "category": "ขั้นตอนและวิธีปฏิบัติงาน",
+    "citation_text": "PDF หน้า 31, 32; หน้าเอกสาร 29, 30",
+    "topics": [
+      "สถานที่รับแจ้ง",
+      "ผู้นำชุมชน",
+      "อกม.",
+      "Farmbook",
+      "e-Form",
+      "ทบก.01"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [31, 32],
+    "source_printed_pages": [29, 30],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-document-and-database-verification",
+    "title": "การตรวจสอบเอกสารและระบบฐานข้อมูล",
+    "category": "ขั้นตอนและวิธีปฏิบัติงาน",
+    "citation_text": "PDF หน้า 32; หน้าเอกสาร 30",
+    "topics": [
+      "ตรวจสอบเอกสาร",
+      "เอกสารสิทธิ์",
+      "ThaID",
+      "Linkage Center",
+      "ทะเบียนราษฎร",
+      "เกษตรพันธสัญญา"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [32],
+    "source_printed_pages": [30],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-social-verification-and-objections",
+    "title": "การตรวจสอบทางสังคมและการจัดการกรณีไม่ลงชื่อหรือคัดค้าน",
+    "category": "ขั้นตอนและวิธีปฏิบัติงาน",
+    "citation_text": "PDF หน้า 32, 33; หน้าเอกสาร 30, 31",
+    "topics": [
+      "ตรวจสอบทางสังคม",
+      "ติดประกาศ",
+      "ประชาคม",
+      "คัดค้าน",
+      "การลงชื่อยืนยัน"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [32, 33],
+    "source_printed_pages": [30, 31],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-community-posting-procedure",
+    "title": "ขั้นตอนการติดประกาศในหมู่บ้านหรือชุมชน",
+    "category": "ขั้นตอนและวิธีปฏิบัติงาน",
+    "citation_text": "PDF หน้า 33; หน้าเอกสาร 31",
+    "topics": ["ติดประกาศ", "หมู่บ้าน", "ชุมชน", "ระยะเวลา 3 วัน", "บันทึกผล"],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [33],
+    "source_printed_pages": [31],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-community-meeting-and-legal-notices",
+    "title": "ขั้นตอนการประชาคมและข้อความกฎหมายในคู่มือ",
+    "category": "ขั้นตอนและวิธีปฏิบัติงาน",
+    "citation_text": "PDF หน้า 33; หน้าเอกสาร 31",
+    "topics": [
+      "ประชาคม",
+      "การยืนยันข้อมูล",
+      "ข้อมูลเท็จ",
+      "มาตรา 137",
+      "มาตรา 267"
+    ],
+    "review_flags": ["RF-009"],
+    "assets": [],
+    "source_pdf_pages": [33],
+    "source_printed_pages": [31],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-field-verification-and-digital-plot-map",
+    "title": "การตรวจสอบพื้นที่และการจัดทำผังแปลงดิจิทัล",
+    "category": "ขั้นตอนและวิธีปฏิบัติงาน",
+    "citation_text": "PDF หน้า 34, 36; หน้าเอกสาร 32, 34",
+    "topics": [
+      "ตรวจสอบพื้นที่",
+      "GPS",
+      "พิกัดแปลง",
+      "Geoplot",
+      "GISagro",
+      "FAARMis",
+      "QGIS",
+      "ผังแปลงดิจิทัล"
+    ],
+    "review_flags": ["RF-007"],
+    "assets": [],
+    "source_pdf_pages": [34, 36],
+    "source_printed_pages": [32, 34],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-village-verification-team",
+    "title": "ผู้ดำเนินการตรวจสอบและคณะทำงานระดับหมู่บ้าน",
+    "category": "ขั้นตอนและวิธีปฏิบัติงาน",
+    "citation_text": "PDF หน้า 34; หน้าเอกสาร 32",
+    "topics": [
+      "ผู้ตรวจสอบ",
+      "เจ้าหน้าที่ตำบล",
+      "อกม.",
+      "อบต.",
+      "เทศบาล",
+      "คณะทำงานระดับหมู่บ้าน",
+      "อุทธรณ์"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [34],
+    "source_printed_pages": [32],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-bangkok-verification-committees",
+    "title": "ผู้ดำเนินการตรวจสอบในกรุงเทพมหานคร",
+    "category": "ขั้นตอนและวิธีปฏิบัติงาน",
+    "citation_text": "PDF หน้า 35; หน้าเอกสาร 33",
+    "topics": [
+      "กรุงเทพมหานคร",
+      "คณะกรรมการระดับแขวง",
+      "เขตพื้นที่ชั้นใน",
+      "เขตพื้นที่ชั้นนอก",
+      "ข้อร้องเรียน",
+      "อุทธรณ์"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [35],
+    "source_printed_pages": [33],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-bangkok-agricultural-office-coverage",
+    "title": "เขตความรับผิดชอบสำนักงานเกษตรพื้นที่กรุงเทพมหานคร",
+    "category": "ขั้นตอนและวิธีปฏิบัติงาน",
+    "citation_text": "PDF หน้า 35; หน้าเอกสาร 33",
+    "topics": [
+      "กรุงเทพมหานคร",
+      "สำนักงานเกษตรพื้นที่",
+      "รายชื่อเขต",
+      "เขตชั้นใน",
+      "เขตชั้นนอก"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [35],
+    "source_printed_pages": [33],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-passed-verification-and-printing",
+    "title": "การยืนยันผลผ่านและการพิมพ์เอกสาร",
+    "category": "ขั้นตอนและวิธีปฏิบัติงาน",
+    "citation_text": "PDF หน้า 36; หน้าเอกสาร 34",
+    "topics": ["ผลตรวจสอบ", "สถานะผ่าน", "สมุดทะเบียนเกษตรกร", "ใบรายงานผล"],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [36],
+    "source_printed_pages": [34],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-correction-of-verified-registration-data",
+    "title": "การแก้ไขข้อมูลที่ผ่านการตรวจสอบแล้ว",
+    "category": "ขั้นตอนและวิธีปฏิบัติงาน",
+    "citation_text": "PDF หน้า 36; หน้าเอกสาร 34",
+    "topics": [
+      "แก้ไขข้อมูล",
+      "หัวหน้าครัวเรือน",
+      "หนังสือมอบอำนาจ",
+      "พยาน",
+      "ตีกลับข้อมูล",
+      "สถานที่ยื่น"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [36],
+    "source_printed_pages": [34],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-update-agricultural-household-members",
+    "title": "การปรับปรุงสมาชิกในครัวเรือนเกษตร",
+    "category": "ขั้นตอนและวิธีปฏิบัติงาน",
+    "citation_text": "PDF หน้า 36, 37; หน้าเอกสาร 34, 35",
+    "topics": [
+      "สมาชิกครัวเรือน",
+      "เพิ่มสมาชิก",
+      "ลบสมาชิก",
+      "สถานะช่วยทำการเกษตร",
+      "Farmbook",
+      "หนังสือมอบอำนาจ"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [36, 37],
+    "source_printed_pages": [34, 35],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-change-agricultural-household-head",
+    "title": "การเปลี่ยนแปลงหัวหน้าครัวเรือนเกษตร",
+    "category": "ขั้นตอนและวิธีปฏิบัติงาน",
+    "citation_text": "PDF หน้า 37; หน้าเอกสาร 35",
+    "topics": [
+      "เปลี่ยนหัวหน้าครัวเรือน",
+      "หนังสือยินยอม",
+      "เสียงข้างมาก",
+      "เสียชีวิต",
+      "60 วัน",
+      "พยาน"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [37],
+    "source_printed_pages": [35],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-change-registration-office",
+    "title": "การเปลี่ยนแปลงสถานที่ขึ้นทะเบียน",
+    "category": "ขั้นตอนและวิธีปฏิบัติงาน",
+    "citation_text": "PDF หน้า 37; หน้าเอกสาร 35",
+    "topics": [
+      "เปลี่ยนสถานที่ขึ้นทะเบียน",
+      "สำนักงานเกษตรอำเภอปลายทาง",
+      "หนังสือมอบอำนาจ",
+      "แบบคำร้อง"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [37],
+    "source_printed_pages": [35],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-cancel-farmer-registration",
+    "title": "การยกเลิกทะเบียนเกษตรกร",
+    "category": "ขั้นตอนและวิธีปฏิบัติงาน",
+    "citation_text": "PDF หน้า 38; หน้าเอกสาร 36",
+    "topics": [
+      "ยกเลิกทะเบียน",
+      "เลิกทำการเกษตร",
+      "หัวหน้าครัวเรือนเสียชีวิต",
+      "สมาชิกมากกว่ากึ่งหนึ่ง",
+      "3 ปี"
+    ],
+    "review_flags": ["RF-008"],
+    "assets": [],
+    "source_pdf_pages": [38],
+    "source_printed_pages": [36],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-false-data-complaints-objections-and-appeals",
+    "title": "ข้อมูลคลาดเคลื่อน ข้อร้องเรียน การคัดค้าน และการอุทธรณ์",
+    "category": "ขั้นตอนและวิธีปฏิบัติงาน",
+    "citation_text": "PDF หน้า 39; หน้าเอกสาร 37",
+    "topics": [
+      "ข้อมูลไม่ตรงความจริง",
+      "ข้อร้องเรียน",
+      "คัดค้าน",
+      "อุทธรณ์",
+      "แจ้งความร้องทุกข์",
+      "เกษตรอำเภอ"
+    ],
+    "review_flags": ["RF-009"],
+    "assets": [],
+    "source_pdf_pages": [39],
+    "source_printed_pages": [37],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-filling-principles-and-three-page-structure",
+    "title": "หลักการกรอกแบบคำร้องและโครงสร้างสามหน้า",
+    "category": "การกรอกแบบคำร้อง",
+    "citation_text": "PDF หน้า 40; หน้าเอกสาร 38",
+    "topics": [
+      "แบบ ทบก.01",
+      "ความครบถ้วนของข้อมูล",
+      "การแก้ไขข้อความ",
+      "โครงสร้างแบบคำร้อง"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [40],
+    "source_printed_pages": [38],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-request-type-location-date-and-applicant",
+    "title": "ประเภทคำร้อง สถานที่ วันที่ และข้อมูลผู้ขอขึ้นทะเบียน",
+    "category": "การกรอกแบบคำร้อง",
+    "citation_text": "PDF หน้า 40; หน้าเอกสาร 38",
+    "topics": [
+      "ประเภทคำร้อง",
+      "สถานที่ขึ้นทะเบียน",
+      "วันที่แจ้ง",
+      "ข้อมูลผู้ขอ",
+      "สถานภาพ",
+      "ที่อยู่ติดต่อ"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [40],
+    "source_printed_pages": [38],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-juristic-person-and-occupation",
+    "title": "ข้อมูลนิติบุคคลและลักษณะการประกอบอาชีพ",
+    "category": "การกรอกแบบคำร้อง",
+    "citation_text": "PDF หน้า 41; หน้าเอกสาร 39",
+    "topics": ["นิติบุคคล", "ผู้รับมอบอำนาจ", "อาชีพหลัก", "อาชีพรอง"],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [41],
+    "source_printed_pages": [39],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-smart-agriculture-and-contract-farming",
+    "title": "ระบบการเกษตรอัจฉริยะและเกษตรพันธสัญญา",
+    "category": "การกรอกแบบคำร้อง",
+    "citation_text": "PDF หน้า 41; หน้าเอกสาร 39",
+    "topics": ["ระบบโรงเรือนอัจฉริยะ", "เซ็นเซอร์", "IoT", "เกษตรพันธสัญญา"],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [41],
+    "source_printed_pages": [39],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-household-members-farm-help-and-organizations",
+    "title": "สมาชิกครัวเรือน การช่วยทำการเกษตร และสมาชิกองค์กร",
+    "category": "การกรอกแบบคำร้อง",
+    "citation_text": "PDF หน้า 41; หน้าเอกสาร 39",
+    "topics": [
+      "สมาชิกครัวเรือน",
+      "ช่วยทำการเกษตร",
+      "สมาชิกองค์กร",
+      "รหัสองค์กร"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [41],
+    "source_printed_pages": [39],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-education-income-and-debt",
+    "title": "ระดับการศึกษา รายได้ และหนี้สินของสมาชิกครัวเรือน",
+    "category": "การกรอกแบบคำร้อง",
+    "citation_text": "PDF หน้า 42; หน้าเอกสาร 40",
+    "topics": [
+      "ระดับการศึกษา",
+      "รายได้ภาคเกษตร",
+      "รายได้นอกภาคเกษตร",
+      "หนี้สินภาคเกษตร",
+      "หนี้สินนอกภาคเกษตร"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [42],
+    "source_printed_pages": [40],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-agricultural-machinery",
+    "title": "การกรอกข้อมูลเครื่องจักรกลการเกษตร",
+    "category": "การกรอกแบบคำร้อง",
+    "citation_text": "PDF หน้า 43; หน้าเอกสาร 41",
+    "topics": [
+      "เครื่องจักรกลการเกษตร",
+      "รับจ้าง",
+      "ไม่รับจ้าง",
+      "จำนวนเครื่องจักร"
+    ],
+    "review_flags": ["RF-010"],
+    "assets": [],
+    "source_pdf_pages": [43],
+    "source_printed_pages": [41],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-plot-location-tenure-and-land-documents",
+    "title": "ที่ตั้งแปลง การถือครอง และข้อมูลเอกสารสิทธิ์",
+    "category": "การกรอกแบบคำร้อง",
+    "citation_text": "PDF หน้า 44; หน้าเอกสาร 42",
+    "topics": [
+      "ที่ตั้งแปลง",
+      "การถือครอง",
+      "เอกสารสิทธิ์",
+      "ผู้รับรองกิจกรรมการเกษตร"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [44],
+    "source_printed_pages": [42],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-irrigation-zone-and-geographic-coordinates",
+    "title": "เขตชลประทานและค่าพิกัดภูมิศาสตร์",
+    "category": "การกรอกแบบคำร้อง",
+    "citation_text": "PDF หน้า 44; หน้าเอกสาร 42",
+    "topics": ["เขตชลประทาน", "UTM", "โซน 47", "โซน 48", "ละติจูด", "ลองจิจูด"],
+    "review_flags": ["RF-011"],
+    "assets": [],
+    "source_pdf_pages": [44],
+    "source_printed_pages": [42],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-water-crop-variety-and-activity-dates",
+    "title": "แหล่งน้ำ วิธีให้น้ำ ชนิด พันธุ์ และวันที่ทำกิจกรรม",
+    "category": "การกรอกแบบคำร้อง",
+    "citation_text": "PDF หน้า 45; หน้าเอกสาร 43",
+    "topics": [
+      "แหล่งน้ำ",
+      "วิธีให้น้ำ",
+      "ชนิดพืช",
+      "พันธุ์พืช",
+      "วันที่ปลูก",
+      "วันที่เก็บเกี่ยว"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [45],
+    "source_printed_pages": [43],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-planting-format-area-and-quantity",
+    "title": "รูปแบบการปลูก เนื้อที่ปลูก เนื้อที่ให้ผล และจำนวนที่ปลูกหรือเลี้ยง",
+    "category": "การกรอกแบบคำร้อง",
+    "citation_text": "PDF หน้า 45; หน้าเอกสาร 43",
+    "topics": [
+      "รูปแบบการปลูก",
+      "โรงเรือน",
+      "เนื้อที่ปลูก",
+      "เนื้อที่เก็บเกี่ยว",
+      "เนื้อที่ให้ผล",
+      "จำนวนที่ปลูก"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [45],
+    "source_printed_pages": [43],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-activity-codes-and-expected-production",
+    "title": "รหัสกิจกรรมและผลผลิตที่คาดว่าจะได้รับ",
+    "category": "การกรอกแบบคำร้อง",
+    "citation_text": "PDF หน้า 46, 48; หน้าเอกสาร 44, 46",
+    "topics": [
+      "รหัสการปลูก",
+      "รหัสการเลี้ยง",
+      "รหัสการผลิต",
+      "ผลผลิตคาดการณ์",
+      "หน่วยผลผลิต"
+    ],
+    "review_flags": ["RF-012"],
+    "assets": [],
+    "source_pdf_pages": [46, 48],
+    "source_printed_pages": [44, 46],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-sustainable-agriculture",
+    "title": "การกรอกข้อมูลระบบเกษตรกรรมยั่งยืน",
+    "category": "การกรอกแบบคำร้อง",
+    "citation_text": "PDF หน้า 46; หน้าเอกสาร 44",
+    "topics": [
+      "เกษตรกรรมยั่งยืน",
+      "เกษตรผสมผสาน",
+      "เกษตรอินทรีย์",
+      "เกษตรธรรมชาติ",
+      "เกษตรทฤษฎีใหม่",
+      "วนเกษตร"
+    ],
+    "review_flags": ["RF-004"],
+    "assets": [],
+    "source_pdf_pages": [46],
+    "source_printed_pages": [44],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-signatures-and-separation-of-duties",
+    "title": "การลงชื่อท้ายแบบและการแยกหน้าที่เจ้าหน้าที่",
+    "category": "การกรอกแบบคำร้อง",
+    "citation_text": "PDF หน้า 47; หน้าเอกสาร 45",
+    "topics": [
+      "ลายมือชื่อ",
+      "พยาน",
+      "เจ้าหน้าที่รับขึ้นทะเบียน",
+      "เจ้าหน้าที่ตรวจแบบ",
+      "การแยกหน้าที่"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [47],
+    "source_printed_pages": [45],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-intercropping-multiple-households-and-code-reference",
+    "title": "การกรอกกรณีสวนแซมหลายครัวเรือนและหน้ารวมรหัส",
+    "category": "การกรอกแบบคำร้อง",
+    "citation_text": "PDF หน้า 47, 48; หน้าเอกสาร 45, 46",
+    "topics": ["สวนแซม", "หลายครัวเรือน", "สถานะการถือครอง", "หน้ารวมรหัส"],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [47, 48],
+    "source_printed_pages": [45, 46],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-documents-preconditions-and-signature-scope",
+    "title": "เงื่อนไขก่อนออกเอกสารและขอบเขตการลงนาม",
+    "category": "เอกสารและรายงานจากระบบ",
+    "citation_text": "PDF หน้า 49; หน้าเอกสาร 47",
+    "topics": [
+      "การผ่านการตรวจสอบ",
+      "ผู้ช่วยนายทะเบียน",
+      "ขอบเขตการรับรอง",
+      "สถานที่ขอเอกสาร"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [49],
+    "source_printed_pages": [47],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-farmbook-definition-use-and-issuance-location",
+    "title": "สมุดทะเบียนเกษตรกร: ความหมาย การใช้ประโยชน์ และสถานที่ออก",
+    "category": "เอกสารและรายงานจากระบบ",
+    "citation_text": "PDF หน้า 49, 50; หน้าเอกสาร 47, 48",
+    "topics": [
+      "สมุดทะเบียนเกษตรกร",
+      "ออกครั้งแรก",
+      "ปรับปรุงสมุด",
+      "การยืนยันความเป็นเกษตรกร"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [49, 50],
+    "source_printed_pages": [47, 48],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-farmbook-preparation-and-printing",
+    "title": "การเตรียมและพิมพ์สมุดทะเบียนเกษตรกร",
+    "category": "เอกสารและรายงานจากระบบ",
+    "citation_text": "PDF หน้า 49, 50; หน้าเอกสาร 47, 48",
+    "topics": [
+      "การพิมพ์สมุด",
+      "ภาพถ่าย 1 นิ้ว",
+      "ตราประทับ",
+      "กระดาษ A4",
+      "ผลตรวจผ่าน"
+    ],
+    "review_flags": ["RF-013"],
+    "assets": [],
+    "source_pdf_pages": [49, 50],
+    "source_printed_pages": [47, 48],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-farmbook-replacement-cancellation-full-and-lost",
+    "title": "การเปลี่ยนเล่ม ยกเลิก สมุดเล่มเต็ม และสมุดหาย",
+    "category": "เอกสารและรายงานจากระบบ",
+    "citation_text": "PDF หน้า 50; หน้าเอกสาร 48",
+    "topics": [
+      "เปลี่ยนสมุด",
+      "ยกเลิกครัวเรือน",
+      "เปลี่ยนหัวหน้าครัวเรือน",
+      "สมุดเต็ม",
+      "สมุดหาย"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [50],
+    "source_printed_pages": [48],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-registration-result-report",
+    "title": "ใบรายงานผลการขึ้นทะเบียนเกษตรกร",
+    "category": "เอกสารและรายงานจากระบบ",
+    "citation_text": "PDF หน้า 50; หน้าเอกสาร 48",
+    "topics": [
+      "ใบรายงานผล",
+      "ข้อมูลพื้นฐาน",
+      "กิจกรรมการเกษตร",
+      "เอกสารแทนสมุด"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [50],
+    "source_printed_pages": [48],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-farmer-certification-letter-and-scope",
+    "title": "หนังสือรับรองเกษตรกรและขอบเขตการรับรอง",
+    "category": "เอกสารและรายงานจากระบบ",
+    "citation_text": "PDF หน้า 51; หน้าเอกสาร 49",
+    "topics": [
+      "หนังสือรับรองเกษตรกร",
+      "แบบคำร้อง",
+      "วัตถุประสงค์",
+      "ขอบเขตการรับรอง"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [51],
+    "source_printed_pages": [49],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-system-reports-and-year-filter-selection",
+    "title": "รายงานจากระบบและการเลือกเงื่อนไขปี",
+    "category": "เอกสารและรายงานจากระบบ",
+    "citation_text": "PDF หน้า 51; หน้าเอกสาร 49",
+    "topics": [
+      "รายงานระบบ",
+      "ปีงบประมาณ",
+      "ปีการเพาะปลูก",
+      "วันที่เพาะปลูก",
+      "วันที่คาดว่าจะเก็บเกี่ยว"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [51],
+    "source_printed_pages": [49],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-reports-tbk-04-1-04-2-04-3",
+    "title": "รายงาน ทบก. 04-1, 04-2 และ 04-3",
+    "category": "เอกสารและรายงานจากระบบ",
+    "citation_text": "PDF หน้า 51, 52; หน้าเอกสาร 49, 50",
+    "topics": [
+      "ทบก.04-1",
+      "ทบก.04-2",
+      "ทบก.04-3",
+      "รายงานกิจกรรมการเกษตร",
+      "ข้อมูลเกษตรกร"
+    ],
+    "review_flags": ["RF-014"],
+    "assets": [],
+    "source_pdf_pages": [51, 52],
+    "source_printed_pages": [49, 50],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-appendices-index-and-use",
+    "title": "รายการภาคผนวกและแนวทางใช้งาน",
+    "category": "ภาคผนวก",
+    "citation_text": "PDF หน้า 53; หน้าเอกสาร 51",
+    "topics": [
+      "ภาคผนวก",
+      "แบบคำร้อง",
+      "ตารางอ้างอิง",
+      "เครื่องพิมพ์สมุดทะเบียน"
+    ],
+    "review_flags": [],
+    "assets": [],
+    "source_pdf_pages": [53],
+    "source_printed_pages": [51],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-appendix-registration-workflow-2569",
+    "title": "กระบวนงานการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "category": "ภาคผนวก",
+    "citation_text": "PDF หน้า 54; หน้าเอกสาร 52",
+    "topics": [
+      "กระบวนงาน",
+      "ช่องทางรับแจ้ง",
+      "การตรวจสอบ",
+      "ฐานข้อมูลทะเบียนเกษตรกร",
+      "การประมวลผล"
+    ],
+    "review_flags": ["RF-015"],
+    "assets": [],
+    "source_pdf_pages": [54],
+    "source_printed_pages": [52],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-regulation-2567-background-effective-date-definitions",
+    "title": "ระเบียบ พ.ศ. 2567: ที่มา การใช้บังคับ และคำนิยาม",
+    "category": "ภาคผนวก",
+    "citation_text": "PDF หน้า 55, 56; หน้าเอกสาร 53, 54",
+    "topics": [
+      "ระเบียบ พ.ศ. 2567",
+      "คำนิยาม",
+      "เกษตรกร",
+      "ครัวเรือน",
+      "กิจการด้านการเกษตร"
+    ],
+    "review_flags": ["RF-016"],
+    "assets": [],
+    "source_pdf_pages": [55, 56],
+    "source_printed_pages": [53, 54],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-regulation-2567-registrar-application-and-status-termination",
+    "title": "ระเบียบ พ.ศ. 2567: นายทะเบียน การรับคำร้อง และการสิ้นสถานภาพ",
+    "category": "ภาคผนวก",
+    "citation_text": "PDF หน้า 57; หน้าเอกสาร 55",
+    "topics": [
+      "นายทะเบียน",
+      "ผู้ช่วยนายทะเบียน",
+      "การตรวจคำร้อง",
+      "สิ้นสถานภาพ",
+      "การขึ้นทะเบียนทดแทน"
+    ],
+    "review_flags": ["RF-016"],
+    "assets": [],
+    "source_pdf_pages": [57],
+    "source_printed_pages": [55],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-regulation-2567-committees-updates-rights-transitional",
+    "title": "ระเบียบ พ.ศ. 2567: คณะกรรมการ การปรับปรุงข้อมูล สิทธิ และบทเฉพาะกาล",
+    "category": "ภาคผนวก",
+    "citation_text": "PDF หน้า 57, 58; หน้าเอกสาร 55, 56",
+    "topics": [
+      "คณะกรรมการระดับจังหวัด",
+      "การปรับปรุงข้อมูล",
+      "มาตรการภาครัฐ",
+      "บทเฉพาะกาล",
+      "วันประกาศ"
+    ],
+    "review_flags": ["RF-016"],
+    "assets": [],
+    "source_pdf_pages": [57, 58],
+    "source_printed_pages": [55, 56],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-regulation-vs-doae-operational-rules",
+    "title": "การแยกระหว่างระเบียบกลางกับหลักเกณฑ์ของกรมส่งเสริมการเกษตร",
+    "category": "ภาคผนวก",
+    "citation_text": "PDF หน้า 55, 56, 57, 58; หน้าเอกสาร 53, 54, 55, 56",
+    "topics": [
+      "ลำดับกฎ",
+      "ระเบียบกลาง",
+      "หลักเกณฑ์หน่วยงาน",
+      "การตีความ",
+      "RAG"
+    ],
+    "review_flags": ["RF-016"],
+    "assets": [],
+    "source_pdf_pages": [55, 56, 57, 58],
+    "source_printed_pages": [53, 54, 55, 56],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "appendix-6-rice-groups-varieties-qr",
+    "title": "ภาคผนวก 6 กลุ่มและพันธุ์ข้าวที่จัดเก็บผ่าน QR Code",
+    "category": "ภาคผนวก 6-7 ข้อมูลพันธุ์ข้าวและพืช",
+    "citation_text": "PDF หน้า 82; หน้าเอกสาร 80",
+    "topics": ["พันธุ์ข้าว", "กลุ่มข้าว", "QR Code"],
+    "review_flags": ["RF-026"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/daee25804657486080974803ae2d8310.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/e5fdcb1da4cea369399422c097661650.png"
+    ],
+    "source_pdf_pages": [82],
+    "source_printed_pages": [80],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "appendix-7-plant-groups-species-varieties-qr",
+    "title": "ภาคผนวก 7 กลุ่ม ชนิด และพันธุ์พืชที่จัดเก็บผ่าน QR Code",
+    "category": "ภาคผนวก 6-7 ข้อมูลพันธุ์ข้าวและพืช",
+    "citation_text": "PDF หน้า 82; หน้าเอกสาร 80",
+    "topics": ["กลุ่มพืช", "ชนิดพืช", "พันธุ์พืช", "QR Code"],
+    "review_flags": ["RF-026"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/50e53e5299a18e3ef5444bb64b7b3e54.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/8bbf3ebfac4e46574eaf1714bff85ff6.png"
+    ],
+    "source_pdf_pages": [82],
+    "source_printed_pages": [80],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "appendix-11-farmer-passbook-stamp",
+    "title": "ตราสัญลักษณ์ในสมุดทะเบียนเกษตรกร",
+    "category": "ภาคผนวก 11 ตราสัญลักษณ์",
+    "citation_text": "PDF หน้า 88; หน้าเอกสาร 86",
+    "topics": [
+      "ตราสัญลักษณ์",
+      "สมุดทะเบียนเกษตรกร",
+      "ขนาด 1 นิ้ว",
+      "หน้าข้อมูลพื้นฐาน"
+    ],
+    "review_flags": ["RF-032"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/80fc8ce9892336fd620078678c74d50b.png"
+    ],
+    "source_pdf_pages": [88],
+    "source_printed_pages": [86],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "appendix-12-passbook-printer-specifications",
+    "title": "คุณลักษณะเฉพาะเครื่องพิมพ์ Passbook สมุดทะเบียนเกษตรกร",
+    "category": "ภาคผนวก 12 เครื่องพิมพ์ Passbook",
+    "citation_text": "PDF หน้า 89; หน้าเอกสาร 87",
+    "topics": [
+      "เครื่องพิมพ์ Passbook",
+      "DOT MATRIX",
+      "FLATBED",
+      "USB 2.0",
+      "Windows",
+      "คุณลักษณะเฉพาะ"
+    ],
+    "review_flags": ["RF-033"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/9ac8cef346fef06d0db5e52b1ad87af0.png"
+    ],
+    "source_pdf_pages": [89],
+    "source_printed_pages": [87],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "product-description-and-unit-principles",
+    "title": "หลักการรายงานลักษณะและหน่วยผลผลิต",
+    "category": "ภาคผนวก 10 ลักษณะและหน่วยผลผลิต",
+    "citation_text": "PDF หน้า 86, 87; หน้าเอกสาร 84, 85",
+    "topics": ["ลักษณะผลผลิต", "หน่วยผลผลิต", "น้ำหนัก", "ความชื้น"],
+    "review_flags": ["RF-030"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/27cefea47897dbb4e0f731e74d09e149.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/10cb9c91bee290128297fcdb175a938f.png"
+    ],
+    "source_pdf_pages": [86, 87],
+    "source_printed_pages": [84, 85],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "plant-product-descriptions-and-units",
+    "title": "ลักษณะผลผลิตและหน่วยผลผลิตของพืช 20 รายการ",
+    "category": "ภาคผนวก 10 ลักษณะและหน่วยผลผลิต",
+    "citation_text": "PDF หน้า 86; หน้าเอกสาร 84",
+    "topics": ["ผลผลิตพืช", "หน่วยผลผลิต", "ความชื้น"],
+    "review_flags": ["RF-030"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/78212c69ab8c429528625778aef32b16.png"
+    ],
+    "source_pdf_pages": [86],
+    "source_printed_pages": [84],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "economic-insect-product-descriptions-and-units",
+    "title": "ลักษณะผลผลิตและหน่วยผลผลิตของแมลงเศรษฐกิจ",
+    "category": "ภาคผนวก 10 ลักษณะและหน่วยผลผลิต",
+    "citation_text": "PDF หน้า 87; หน้าเอกสาร 85",
+    "topics": [
+      "แมลงเศรษฐกิจ",
+      "น้ำผึ้ง",
+      "พรอพอลิส",
+      "ครั่ง",
+      "จิ้งหรีด",
+      "ด้วงสาคู"
+    ],
+    "review_flags": ["RF-030", "RF-031"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/21ad262650d306c800691fa7451e6e1a.png"
+    ],
+    "source_pdf_pages": [87],
+    "source_printed_pages": [85],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-appendix-5-land-consent-certification-overview",
+    "title": "ภาพรวมหนังสือยินยอมหรือรับรองการใช้ประโยชน์ในที่ดิน",
+    "category": "ภาคผนวก: หนังสือยินยอมและรับรองที่ดิน",
+    "citation_text": "PDF หน้า 79, 80, 81; หน้าเอกสาร 77, 78, 79",
+    "topics": ["หนังสือยินยอม", "หนังสือรับรองการเช่า", "ไม่มีเอกสารสิทธิ์"],
+    "review_flags": ["RF-023", "RF-024", "RF-025"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/22fcc956319826bd97f7e3581a81deb1.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/af3bea356550947024a6b0a98419959f.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/9e3c4e84a927a9cf59594b80e14af3fb.png"
+    ],
+    "source_pdf_pages": [79, 80, 81],
+    "source_printed_pages": [77, 78, 79],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-land-use-consent",
+    "title": "หนังสือยินยอมให้ใช้ประโยชน์ในที่ดินเพื่อการเกษตร",
+    "category": "ภาคผนวก: หนังสือยินยอมและรับรองที่ดิน",
+    "citation_text": "PDF หน้า 79; หน้าเอกสาร 77",
+    "topics": [
+      "ผู้ถือกรรมสิทธิ์",
+      "ผู้จัดการมรดก",
+      "ผู้ได้รับความยินยอม",
+      "พยาน"
+    ],
+    "review_flags": ["RF-024", "RF-025"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/d19da044c214279c794f2591bbfc38c9.png"
+    ],
+    "source_pdf_pages": [79],
+    "source_printed_pages": [77],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-land-rental-certification-excluding-perennial-crops",
+    "title": "หนังสือรับรองการเช่าที่ดินเพื่อการเกษตร ยกเว้นไม้ผลไม้ยืนต้น",
+    "category": "ภาคผนวก: หนังสือยินยอมและรับรองที่ดิน",
+    "citation_text": "PDF หน้า 80; หน้าเอกสาร 78",
+    "topics": [
+      "เช่าไม่มีสัญญา",
+      "พื้นที่มีเอกสารสิทธิ์",
+      "ผู้รับรอง",
+      "ผู้ดูแลพื้นที่"
+    ],
+    "review_flags": ["RF-023", "RF-024", "RF-025"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/8464f520d1c940531b9ccef6fcb0986d.png"
+    ],
+    "source_pdf_pages": [80],
+    "source_printed_pages": [78],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-no-title-land-use-certification",
+    "title": "หนังสือรับรองการใช้ที่ดินเพื่อการเกษตรโดยไม่มีเอกสารสิทธิ์",
+    "category": "ภาคผนวก: หนังสือยินยอมและรับรองที่ดิน",
+    "citation_text": "PDF หน้า 81; หน้าเอกสาร 79",
+    "topics": ["ไม่มีเอกสารสิทธิ์", "ผู้รับรอง", "พยาน", "พิกัดแปลง"],
+    "review_flags": ["RF-021", "RF-024", "RF-025"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/1973910f637debee4c96f949402e1a72.png"
+    ],
+    "source_pdf_pages": [81],
+    "source_printed_pages": [79],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "fruit-perennial-density-principles",
+    "title": "หลักการใช้อัตราแปลงไม้ผลไม้ยืนต้นต่อพื้นที่ 1 ไร่",
+    "category": "ภาคผนวก 9 อัตราแปลงไม้ผลไม้ยืนต้น",
+    "citation_text": "PDF หน้า 85; หน้าเอกสาร 83",
+    "topics": ["ไม้ผล", "ไม้ยืนต้น", "จำนวนต้นต่อไร่", "การเทียบเคียง"],
+    "review_flags": ["RF-029"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/b0247e6f6f8c3ee0d15e09d36f06697b.png"
+    ],
+    "source_pdf_pages": [85],
+    "source_printed_pages": [83],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "fruit-perennial-density-table",
+    "title": "ตารางอัตราแปลงไม้ผลไม้ยืนต้น 56 ลำดับ",
+    "category": "ภาคผนวก 9 อัตราแปลงไม้ผลไม้ยืนต้น",
+    "citation_text": "PDF หน้า 85; หน้าเอกสาร 83",
+    "topics": ["ไม้ผล", "ไม้ยืนต้น", "จำนวนต้นต่อไร่"],
+    "review_flags": ["RF-029"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/adaf71c95c0fa485c1147c29926d14f5.png"
+    ],
+    "source_pdf_pages": [85],
+    "source_printed_pages": [83],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "minimum-area-general-and-multiple-plots",
+    "title": "หลักการใช้เกณฑ์เนื้อที่ขั้นต่ำและการรวมพื้นที่หลายแปลง",
+    "category": "ภาคผนวก 8 เกณฑ์เนื้อที่ขั้นต่ำ",
+    "citation_text": "PDF หน้า 83, 84; หน้าเอกสาร 81, 82",
+    "topics": ["เกณฑ์ขั้นต่ำ", "หลายแปลง", "แปลงติดกัน"],
+    "review_flags": [],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/2a6bf911f5a4da7c569fc023cafbc071.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/43730725cfcd8e054864ddec2972a779.png"
+    ],
+    "source_pdf_pages": [83, 84],
+    "source_printed_pages": [81, 82],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "minimum-area-basic-crops-and-forest",
+    "title": "เกณฑ์ขั้นต่ำของข้าว พืชไร่ ผัก ไม้ดอก สมุนไพร และสวนป่า",
+    "category": "ภาคผนวก 8 เกณฑ์เนื้อที่ขั้นต่ำ",
+    "citation_text": "PDF หน้า 83; หน้าเอกสาร 81",
+    "topics": ["ข้าว", "พืชไร่", "ผัก", "ไม้ดอก", "สมุนไพร", "สวนป่า"],
+    "review_flags": [],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/e54d3a033214d8d56330747dc683fb3c.png"
+    ],
+    "source_pdf_pages": [83],
+    "source_printed_pages": [81],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "minimum-area-orchard-mixed-mushroom-and-watermeal",
+    "title": "เกณฑ์ขั้นต่ำของไม้ผล สวนแซม สวนผสม เห็ด ผักงอก และผำ",
+    "category": "ภาคผนวก 8 เกณฑ์เนื้อที่ขั้นต่ำ",
+    "citation_text": "PDF หน้า 83, 84; หน้าเอกสาร 81, 82",
+    "topics": [
+      "ไม้ผล",
+      "ไม้ยืนต้น",
+      "สวนแซม",
+      "สวนผสม",
+      "เห็ด",
+      "ผักงอก",
+      "ผำ"
+    ],
+    "review_flags": ["RF-027"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/743049355dedef47ebfb50e242bb9e82.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/00b67816d5516a092de98a3caddbfac6.png"
+    ],
+    "source_pdf_pages": [83, 84],
+    "source_printed_pages": [81, 82],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "minimum-area-greenhouse-salt-and-economic-insects",
+    "title": "เกณฑ์ขั้นต่ำของโรงเรือน นาเกลือสมุทร และแมลงเศรษฐกิจ",
+    "category": "ภาคผนวก 8 เกณฑ์เนื้อที่ขั้นต่ำ",
+    "citation_text": "PDF หน้า 84; หน้าเอกสาร 82",
+    "topics": ["โรงเรือน", "นาเกลือสมุทร", "แมลงเศรษฐกิจ"],
+    "review_flags": ["RF-027"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/69cbd83cba507b348325ddbca502643e.png"
+    ],
+    "source_pdf_pages": [84],
+    "source_printed_pages": [82],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "minimum-area-hemp-cannabis-kratom-income-exception",
+    "title": "เกณฑ์ขั้นต่ำของกัญชง กัญชา กระท่อม และกรณีรายได้ 8,000 บาท",
+    "category": "ภาคผนวก 8 เกณฑ์เนื้อที่ขั้นต่ำ",
+    "citation_text": "PDF หน้า 84; หน้าเอกสาร 82",
+    "topics": ["กัญชง", "กัญชา", "กระท่อม", "รายได้ 8000 บาท"],
+    "review_flags": ["RF-028"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/8626dacafe2fb4dc0af347a98dc68660.png"
+    ],
+    "source_pdf_pages": [84],
+    "source_printed_pages": [82],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-appendix-4-land-document-overview",
+    "title": "ภาพรวมประเภทเอกสารที่รับขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร",
+    "category": "ภาคผนวก: เอกสารที่ดิน",
+    "citation_text": "PDF หน้า 74, 75, 76, 77, 78; หน้าเอกสาร 72, 73, 74, 75, 76",
+    "topics": [
+      "เอกสารที่ดิน",
+      "เอกสารสิทธิ์",
+      "ที่ดินของรัฐ",
+      "พื้นที่ไม่มีเอกสารสิทธิ์"
+    ],
+    "review_flags": ["RF-021", "RF-022"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/9f57497dcf793adc3111cad94c185f13.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/e9370285d2ba0bf77884162a5fd8dfc2.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/3ef04695d6ac55545ee5222a787cf1f5.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/7d07224560521ac83e3ea0d54fcca987.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/9056cd3faadd392a6f532cfaa56389ee.png"
+    ],
+    "source_pdf_pages": [74, 75, 76, 77, 78],
+    "source_printed_pages": [72, 73, 74, 75, 76],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-land-law-documents-9-groups-22-forms",
+    "title": "เอกสารสิทธิตามกฎหมายที่ดิน 9 กลุ่ม 22 แบบ",
+    "category": "ภาคผนวก: เอกสารที่ดิน",
+    "citation_text": "PDF หน้า 74, 75; หน้าเอกสาร 72, 73",
+    "topics": ["กรมที่ดิน", "โฉนด", "น.ส.", "ส.ค."],
+    "review_flags": ["RF-021"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/1a742df661ca9c7b68adeb9dd8948f9d.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/def093fcb09ed1520b96bb8e238f3ff5.png"
+    ],
+    "source_pdf_pages": [74, 75],
+    "source_printed_pages": [72, 73],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-state-land-use-permits-12-groups-25-forms",
+    "title": "หนังสืออนุญาตการใช้ประโยชน์ในที่ดินของรัฐ 12 กลุ่ม 25 แบบ",
+    "category": "ภาคผนวก: เอกสารที่ดิน",
+    "citation_text": "PDF หน้า 75, 76; หน้าเอกสาร 73, 74",
+    "topics": ["ที่ดินของรัฐ", "ส.ป.ก.", "ป่าสงวน", "นิคม", "คทช."],
+    "review_flags": ["RF-021", "RF-022"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/e4b5d615249e99b4948c82c18dd3477e.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/e620d0b46e048b34074bdfcc6e162396.png"
+    ],
+    "source_pdf_pages": [75, 76],
+    "source_printed_pages": [73, 74],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-state-land-beneficiary-certificates-3-groups",
+    "title": "หนังสือรับรองผู้ทำประโยชน์ในเขตที่ดินของรัฐ 3 กลุ่ม 3 แบบ",
+    "category": "ภาคผนวก: เอกสารที่ดิน",
+    "citation_text": "PDF หน้า 77; หน้าเอกสาร 75",
+    "topics": [
+      "ส.ป.ก. 5-01",
+      "ส.ป.ก. 5-02",
+      "ส.ป.ก. 5-03",
+      "โอนสิทธิ",
+      "มรดกสิทธิ"
+    ],
+    "review_flags": ["RF-021"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/657cadeed357a2457023d717e14ee343.png"
+    ],
+    "source_pdf_pages": [77],
+    "source_printed_pages": [75],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-no-title-land-and-equivalent-documents",
+    "title": "พื้นที่ไม่มีเอกสารสิทธิ์และเอกสารที่จัดอยู่ในกลุ่มไม่มีเอกสารสิทธิ์",
+    "category": "ภาคผนวก: เอกสารที่ดิน",
+    "citation_text": "PDF หน้า 78; หน้าเอกสาร 76",
+    "topics": [
+      "พื้นที่ไม่มีเอกสารสิทธิ์",
+      "ผู้นำชุมชนรับรอง",
+      "ห้ามอ้างกรรมสิทธิ์",
+      "เงื่อนไขโครงการ"
+    ],
+    "review_flags": ["RF-021"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/a0b86273b693903b2ab42a6da298fb1d.png"
+    ],
+    "source_pdf_pages": [78],
+    "source_printed_pages": [76],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-appendix-3-forms-overview",
+    "title": "ภาพรวมแบบคำร้องในภาคผนวก 3 และวิธีใช้ในเว็บไซต์กับ RAG",
+    "category": "ภาคผนวก: แบบคำร้อง",
+    "citation_text": "PDF หน้า 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73; หน้าเอกสาร 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71",
+    "topics": [
+      "แบบคำร้อง",
+      "ภาคผนวก 3",
+      "แบบฟอร์มเปล่า",
+      "schema ช่องกรอก",
+      "RAG"
+    ],
+    "review_flags": ["RF-017", "RF-020"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/5fe32c8e69b9a2674d1df2337a533937.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/acf1f62fd474c70222410f5b352a9230.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/916465c664b321758fface1aae614cd7.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/8e48922902d4c2c3ff942420e066ddd6.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/c97755dceb8e8f34e2310fc24ee90634.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/d68c8202509e568e8126aff07732aa56.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/e0ca70c12f800d0fdea3b6b161af84ec.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/650015b2f9199cc2dd1d7405235df2ca.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/ea85de7deeff494d41032e0ca97ea92e.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/708deeea588a7330801056f86b024601.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/148c175aa6ef38c6c9e96a2bac81ec20.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/a6dfa7bc8f4599c034bba25190d95b16.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/dbf25c19f9c8c719a5b0797b48bbbce4.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/24b3838108da8941e0fbe7337b576012.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/1800abce132a957bbafce7c2f6481c72.png"
+    ],
+    "source_pdf_pages": [
+      59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73
+    ],
+    "source_printed_pages": [
+      57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71
+    ],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-tbk01-household",
+    "title": "แบบ ทบก.01 สำหรับครัวเรือนเกษตร",
+    "category": "ภาคผนวก: แบบคำร้อง",
+    "citation_text": "PDF หน้า 59, 61, 62; หน้าเอกสาร 57, 59, 60",
+    "topics": [
+      "ทบก.01",
+      "ครัวเรือนเกษตร",
+      "ข้อมูลสมาชิก",
+      "เครื่องจักรกล",
+      "กิจกรรมการเกษตร"
+    ],
+    "review_flags": ["RF-010", "RF-011", "RF-012", "RF-017", "RF-020"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/16914702bd29d964de4bed838270694b.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/fa5ff8c9f631c4fa6086a2e29c91f0a2.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/cd3cfaab8337d0afc347d364c9d1acbf.png"
+    ],
+    "source_pdf_pages": [59, 61, 62],
+    "source_printed_pages": [57, 59, 60],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-tbk01-legal-entity",
+    "title": "แบบ ทบก.01 สำหรับนิติบุคคล",
+    "category": "ภาคผนวก: แบบคำร้อง",
+    "citation_text": "PDF หน้า 60, 61, 62; หน้าเอกสาร 58, 59, 60",
+    "topics": [
+      "ทบก.01",
+      "นิติบุคคล",
+      "ผู้รับมอบอำนาจ",
+      "เครื่องจักรกล",
+      "กิจกรรมการเกษตร"
+    ],
+    "review_flags": ["RF-010", "RF-011", "RF-012", "RF-017", "RF-020"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/ba8f3d2fe470dc555fc67ac744561669.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/3a6418162f48461651c5411bc6075722.png",
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/caf76dde42a4183c58931bf9ff788bfe.png"
+    ],
+    "source_pdf_pages": [60, 61, 62],
+    "source_printed_pages": [58, 59, 60],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-correct-registered-data",
+    "title": "แบบคำร้องขอแก้ไขข้อมูลที่แจ้งขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร",
+    "category": "ภาคผนวก: แบบคำร้อง",
+    "citation_text": "PDF หน้า 63; หน้าเอกสาร 61",
+    "topics": ["แก้ไขข้อมูล", "ข้อมูลพื้นฐาน", "ข้อมูลกิจกรรมการเกษตร", "พยาน"],
+    "review_flags": ["RF-017", "RF-020"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/34835dffe736d81dfba3493dd5bf677a.png"
+    ],
+    "source_pdf_pages": [63],
+    "source_printed_pages": [61],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-update-household-members",
+    "title": "แบบคำร้องขอปรับปรุงข้อมูลสมาชิกในครัวเรือนเกษตร",
+    "category": "ภาคผนวก: แบบคำร้อง",
+    "citation_text": "PDF หน้า 64; หน้าเอกสาร 62",
+    "topics": [
+      "สมาชิกครัวเรือน",
+      "ช่วยทำการเกษตร",
+      "เพิ่มสมาชิก",
+      "ยกเลิกสมาชิก"
+    ],
+    "review_flags": ["RF-017", "RF-020"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/286a0548633926d162f8dc7a56bdecd8.png"
+    ],
+    "source_pdf_pages": [64],
+    "source_printed_pages": [62],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-change-head-current-head-submits",
+    "title": "แบบขอเปลี่ยนแปลงหัวหน้าครัวเรือน กรณีหัวหน้าครัวเรือนเดิมดำเนินการ",
+    "category": "ภาคผนวก: แบบคำร้อง",
+    "citation_text": "PDF หน้า 65; หน้าเอกสาร 63",
+    "topics": [
+      "เปลี่ยนหัวหน้าครัวเรือน",
+      "หัวหน้าครัวเรือนเดิม",
+      "สมาชิกที่จะเป็นหัวหน้าแทน"
+    ],
+    "review_flags": ["RF-017", "RF-020"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/f7c20f690a8c9c78e8a62bf58c3d4b4e.png"
+    ],
+    "source_pdf_pages": [65],
+    "source_printed_pages": [63],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-change-head-member-submits",
+    "title": "แบบขอเปลี่ยนแปลงหัวหน้าครัวเรือน กรณีสมาชิกในครัวเรือนดำเนินการ",
+    "category": "ภาคผนวก: แบบคำร้อง",
+    "citation_text": "PDF หน้า 66; หน้าเอกสาร 64",
+    "topics": [
+      "เปลี่ยนหัวหน้าครัวเรือน",
+      "สมาชิกผู้ยื่น",
+      "ความยินยอมสมาชิก",
+      "ข้อยกเว้นหัวหน้าเดิม"
+    ],
+    "review_flags": ["RF-017", "RF-020"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/e0d3e6c829d8bab1b4328d26705d2f86.png"
+    ],
+    "source_pdf_pages": [66],
+    "source_printed_pages": [64],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-change-registration-office",
+    "title": "แบบคำร้องขอเปลี่ยนแปลงสถานที่ขึ้นทะเบียน",
+    "category": "ภาคผนวก: แบบคำร้อง",
+    "citation_text": "PDF หน้า 67; หน้าเอกสาร 65",
+    "topics": [
+      "เปลี่ยนสถานที่ขึ้นทะเบียน",
+      "สำนักงานปลายทาง",
+      "หัวหน้าครัวเรือน",
+      "มอบอำนาจ"
+    ],
+    "review_flags": ["RF-017", "RF-020"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/651684f3ca6f1510319dc30034d4ad01.png"
+    ],
+    "source_pdf_pages": [67],
+    "source_printed_pages": [65],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-cancel-registration-head-submits",
+    "title": "แบบขอยกเลิกทะเบียนเกษตรกร กรณีหัวหน้าครัวเรือนดำเนินการ",
+    "category": "ภาคผนวก: แบบคำร้อง",
+    "citation_text": "PDF หน้า 68; หน้าเอกสาร 66",
+    "topics": [
+      "ยกเลิกทะเบียน",
+      "หัวหน้าครัวเรือน",
+      "เลิกทำการเกษตร",
+      "ขึ้นทะเบียนใหม่"
+    ],
+    "review_flags": ["RF-017", "RF-020"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/6009fa4b4fe441559d8eb1f8c689fe66.png"
+    ],
+    "source_pdf_pages": [68],
+    "source_printed_pages": [66],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-cancel-registration-member-submits",
+    "title": "แบบขอยกเลิกทะเบียนเกษตรกร กรณีสมาชิกในครัวเรือนดำเนินการ",
+    "category": "ภาคผนวก: แบบคำร้อง",
+    "citation_text": "PDF หน้า 69; หน้าเอกสาร 67",
+    "topics": [
+      "ยกเลิกทะเบียน",
+      "สมาชิกผู้ยื่น",
+      "ความยินยอมสมาชิก",
+      "หัวหน้าครัวเรือนกรณีพิเศษ"
+    ],
+    "review_flags": ["RF-017", "RF-020"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/f8ea21a3c9c293c4dadc676b75d9430d.png"
+    ],
+    "source_pdf_pages": [69],
+    "source_printed_pages": [67],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-cancel-registration-deceased-no-members",
+    "title": "แบบขอยกเลิกทะเบียน กรณีหัวหน้าครัวเรือนเสียชีวิตและไม่มีสมาชิกในครัวเรือนเกษตร",
+    "category": "ภาคผนวก: แบบคำร้อง",
+    "citation_text": "PDF หน้า 70; หน้าเอกสาร 68",
+    "topics": [
+      "ยกเลิกทะเบียน",
+      "เสียชีวิต",
+      "ไม่มีสมาชิกครัวเรือน",
+      "ตรวจทะเบียนราษฎร"
+    ],
+    "review_flags": ["RF-017", "RF-020"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/c8f002ed4b7b75b7cb3132184c4fc11e.png"
+    ],
+    "source_pdf_pages": [70],
+    "source_printed_pages": [68],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-request-farmer-certificate",
+    "title": "แบบคำร้องขอหนังสือรับรองเกษตรกร",
+    "category": "ภาคผนวก: แบบคำร้อง",
+    "citation_text": "PDF หน้า 71; หน้าเอกสาร 69",
+    "topics": ["หนังสือรับรองเกษตรกร", "ภาษาไทย", "ภาษาอังกฤษ", "วัตถุประสงค์"],
+    "review_flags": ["RF-017", "RF-020"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/7e5098a9e7dc6fa0d02db279eeb9ac69.png"
+    ],
+    "source_pdf_pages": [71],
+    "source_printed_pages": [69],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-power-of-attorney-example",
+    "title": "ตัวอย่างหนังสือมอบอำนาจสำหรับงานทะเบียนเกษตรกร",
+    "category": "ภาคผนวก: แบบคำร้อง",
+    "citation_text": "PDF หน้า 72; หน้าเอกสาร 70",
+    "topics": [
+      "หนังสือมอบอำนาจ",
+      "ผู้มอบอำนาจ",
+      "ผู้รับมอบอำนาจ",
+      "อากรแสตมป์"
+    ],
+    "review_flags": ["RF-017", "RF-019", "RF-020"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/c462679c2324476570ad9bc1d5a18ab6.png"
+    ],
+    "source_pdf_pages": [72],
+    "source_printed_pages": [70],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  },
+  {
+    "slug": "farmer69-form-beehive-movement-placement",
+    "title": "แบบคำร้องการเคลื่อนย้ายรังและขอตั้งวางรังผึ้ง",
+    "category": "ภาคผนวก: แบบคำร้อง",
+    "citation_text": "PDF หน้า 73; หน้าเอกสาร 71",
+    "topics": [
+      "รังผึ้ง",
+      "เคลื่อนย้ายรัง",
+      "ตั้งวางรัง",
+      "พิกัด",
+      "เจ้าของสวน"
+    ],
+    "review_flags": ["RF-003", "RF-017", "RF-018", "RF-020"],
+    "assets": [
+      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/89c60a336fbdba7f0cfc5d592a1098a5.png"
+    ],
+    "source_pdf_pages": [73],
+    "source_printed_pages": [71],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+  }
+]

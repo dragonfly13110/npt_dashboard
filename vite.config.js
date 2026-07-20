@@ -536,6 +536,9 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
+      watch: {
+        ignored: ['**/farmer69_knowledge_v1.1/**', '**/*.pdf', '**/tmp/**'],
+      },
       proxy: {
         // Proxy Netlify Functions to deployed site (AI proxy, sync, etc.)
         '/.netlify/functions': {

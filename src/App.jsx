@@ -67,6 +67,8 @@ const PesticidesCatalog = lazy(
 const PesticideArticle = lazy(
   () => import('./pages/pesticides/PesticideArticle')
 );
+const Farmer69Catalog = lazy(() => import('./pages/farmer69/Farmer69Catalog'));
+const Farmer69Article = lazy(() => import('./pages/farmer69/Farmer69Article'));
 
 // Strategy
 const Disasters = lazy(() => import('./pages/strategy/Disasters'));
@@ -244,6 +246,34 @@ function AppRoutes() {
               }}
             >
               <PesticideArticle />
+            </div>
+          }
+        />
+        <Route
+          path="/public/farmer-manual"
+          element={
+            <div
+              style={{
+                padding: '20px 24px',
+                minHeight: '100vh',
+                backgroundColor: '#f8fafc',
+              }}
+            >
+              <Farmer69Catalog />
+            </div>
+          }
+        />
+        <Route
+          path="/public/farmer-manual/:slug"
+          element={
+            <div
+              style={{
+                padding: '20px 24px',
+                minHeight: '100vh',
+                backgroundColor: '#f8fafc',
+              }}
+            >
+              <Farmer69Article />
             </div>
           }
         />

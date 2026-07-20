@@ -90,6 +90,9 @@ supabase/.temp/
 *.lz
 *.lzo
 *.tar.gz
-*.tar.bz2
-*.tar.xz
-*.tar.zst
+# Raw manual files and PDFs (kept local)
+farmer69_knowledge_v1.1/
+farmer68-Final-s-watermark.pdf
+tmp/pdf-inspection.txt
+tmp/farmer69-full-text.txt
+

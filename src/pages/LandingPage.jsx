@@ -208,6 +208,13 @@ const externalSystemLinks = [
     isInternal: true,
   },
   {
+    href: '/public/farmer-manual',
+    title: 'คู่มือขึ้นทะเบียนเกษตรกร 2569',
+    subtitle: 'ระเบียบและวิธีปฏิบัติงาน',
+    Icon: BookOutlined,
+    isInternal: true,
+  },
+  {
     href: 'https://kasetinfo.netlify.app/',
     title: 'คลังความรู้เกษตร',
     subtitle: 'Infographic',
@@ -1305,6 +1312,14 @@ export default function LandingPage() {
               >
                 <ReadOutlined />
                 <span>คู่มือสารเคมีพืช</span>
+              </a>
+              <a
+                href="/public/farmer-manual"
+                className="mobile-more-item"
+                onClick={closeMoreDrawer}
+              >
+                <BookOutlined />
+                <span>คู่มือขึ้นทะเบียน 2569</span>
               </a>
               <a
                 href="https://kasetinfo.netlify.app/"

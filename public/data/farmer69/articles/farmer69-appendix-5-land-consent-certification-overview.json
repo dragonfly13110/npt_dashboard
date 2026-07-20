@@ -1,0 +1,17 @@
+{
+  "slug": "farmer69-appendix-5-land-consent-certification-overview",
+  "title": "ภาพรวมหนังสือยินยอมหรือรับรองการใช้ประโยชน์ในที่ดิน",
+  "category": "ภาคผนวก: หนังสือยินยอมและรับรองที่ดิน",
+  "citation_text": "PDF หน้า 79, 80, 81; หน้าเอกสาร 77, 78, 79",
+  "topics": ["หนังสือยินยอม", "หนังสือรับรองการเช่า", "ไม่มีเอกสารสิทธิ์"],
+  "review_flags": ["RF-023", "RF-024", "RF-025"],
+  "assets": [
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/22fcc956319826bd97f7e3581a81deb1.png",
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/af3bea356550947024a6b0a98419959f.png",
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/9e3c4e84a927a9cf59594b80e14af3fb.png"
+  ],
+  "source_pdf_pages": [79, 80, 81],
+  "source_printed_pages": [77, 78, 79],
+  "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+  "body_markdown": "# ภาพรวมหนังสือยินยอมหรือรับรองการใช้ประโยชน์ในที่ดิน\n\nภาคผนวก 5 มีตัวอย่างเอกสาร 3 แบบ\n\n1. หนังสือยินยอมให้ใช้ประโยชน์ในที่ดินเพื่อการเกษตร\n2. หนังสือรับรองการเช่าที่ดินเพื่อการเกษตร ยกเว้นไม้ผลไม้ยืนต้น ใช้เฉพาะพื้นที่ที่ทางราชการออกเอกสารสิทธิ์แล้ว\n3. หนังสือรับรองการใช้ที่ดินเพื่อการเกษตรโดยไม่มีเอกสารสิทธิ์\n\n## การจัดเก็บในคลัง\n\nแต่ละแบบเก็บภาพหน้าเต็ม คำอธิบายกลุ่มช่อง และตารางโครงสร้างสำหรับเว็บไซต์กับ RAG โดยไม่สร้างกฎตรวจช่องเพิ่มจากสิ่งที่ต้นฉบับไม่ได้ระบุ\n\n## ข้อควบคุม\n\n- ใช้ภาพแบบฟอร์มเปล่าเท่านั้น\n- ห้ามนำแบบที่กรอกเลขประจำตัวประชาชน ที่อยู่ โทรศัพท์ หรือพิกัดจริงเข้าสู่คลังสาธารณะ\n- การใช้แบบต้องเลือกตามสถานะที่ดินและหลักฐานของกรณีจริง ไม่ใช้แบบทั้งสามแทนกันโดยอัตโนมัติ\n\n## อ้างอิงต้นฉบับ\n\n- PDF หน้า 79-81\n- หน้าเอกสาร 77-79\n- ภาคผนวก 5\n"
+}

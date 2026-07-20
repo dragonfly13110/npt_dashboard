@@ -1,0 +1,39 @@
+{
+  "slug": "farmer69-appendix-3-forms-overview",
+  "title": "ภาพรวมแบบคำร้องในภาคผนวก 3 และวิธีใช้ในเว็บไซต์กับ RAG",
+  "category": "ภาคผนวก: แบบคำร้อง",
+  "citation_text": "PDF หน้า 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73; หน้าเอกสาร 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71",
+  "topics": [
+    "แบบคำร้อง",
+    "ภาคผนวก 3",
+    "แบบฟอร์มเปล่า",
+    "schema ช่องกรอก",
+    "RAG"
+  ],
+  "review_flags": ["RF-017", "RF-020"],
+  "assets": [
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/5fe32c8e69b9a2674d1df2337a533937.png",
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/acf1f62fd474c70222410f5b352a9230.png",
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/916465c664b321758fface1aae614cd7.png",
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/8e48922902d4c2c3ff942420e066ddd6.png",
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/c97755dceb8e8f34e2310fc24ee90634.png",
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/d68c8202509e568e8126aff07732aa56.png",
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/e0ca70c12f800d0fdea3b6b161af84ec.png",
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/650015b2f9199cc2dd1d7405235df2ca.png",
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/ea85de7deeff494d41032e0ca97ea92e.png",
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/708deeea588a7330801056f86b024601.png",
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/148c175aa6ef38c6c9e96a2bac81ec20.png",
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/a6dfa7bc8f4599c034bba25190d95b16.png",
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/dbf25c19f9c8c719a5b0797b48bbbce4.png",
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/24b3838108da8941e0fbe7337b576012.png",
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/1800abce132a957bbafce7c2f6481c72.png"
+  ],
+  "source_pdf_pages": [
+    59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73
+  ],
+  "source_printed_pages": [
+    57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71
+  ],
+  "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+  "body_markdown": "# ภาพรวมแบบคำร้องในภาคผนวก 3\n\nภาคผนวก 3 ระบุแบบคำร้องหลัก 10 ประเภท แต่มีเอกสารต้นฉบับรวม 15 หน้า เนื่องจากแบบ ทบก.01 มีหลายหน้า และแบบเปลี่ยนหัวหน้าครัวเรือนกับแบบยกเลิกทะเบียนแยกตามผู้ดำเนินการหรือกรณีเฉพาะ\n\n## หลักการจัดเก็บในคลังความรู้\n\nแบบคำร้องแต่ละรายการเก็บไว้สามชั้นที่เชื่อมกัน\n\n1. ภาพแบบฟอร์มเปล่าจากหน้าต้นฉบับ เพื่อรักษาตำแหน่งช่อง เครื่องหมาย และคำอธิบายท้ายแบบ\n2. บทความอธิบายวัตถุประสงค์ โครงสร้างช่อง ผู้ลงชื่อ และจุดที่ต้องระวัง\n3. ตารางข้อมูลแบบมีโครงสร้างในโฟลเดอร์ `ข้อมูล` สำหรับระบบค้นหา เว็บไซต์ และ RAG\n\nเนื้อหาในชุดนี้ไม่เขียนวิธีปฏิบัติซ้ำจากบทที่ 3 และบทที่ 4 แต่เชื่อมไปยังหลักเกณฑ์ที่เกี่ยวข้อง เช่น ผู้มีสิทธิยื่น สถานที่ยื่น การมอบอำนาจ พยาน และเอกสารแนบ\n\n## รายการแบบคำร้อง\n\n1. แบบ ทบก.01 สำหรับครัวเรือนเกษตร\n2. แบบ ทบก.01 สำหรับนิติบุคคล\n3. แบบคำร้องขอแก้ไขข้อมูล\n4. แบบคำร้องขอปรับปรุงข้อมูลสมาชิกในครัวเรือนเกษตร\n5. แบบคำร้องขอเปลี่ยนแปลงหัวหน้าครัวเรือนเกษตร แยกสองกรณี\n6. แบบคำร้องขอเปลี่ยนแปลงสถานที่ขึ้นทะเบียน\n7. แบบคำร้องขอยกเลิกทะเบียนเกษตรกร แยกสามกรณี\n8. แบบคำร้องขอหนังสือรับรองเกษตรกร\n9. ตัวอย่างหนังสือมอบอำนาจ\n10. แบบคำร้องการเคลื่อนย้ายรังและขอตั้งวางรังผึ้ง\n\n## ข้อควบคุมข้อมูลส่วนบุคคล\n\nภาพที่จัดเก็บเป็นแบบฟอร์มเปล่าเท่านั้น แบบที่กรอกข้อมูลจริงอาจมีเลขประจำตัวประชาชน ที่อยู่ โทรศัพท์ รายได้ หนี้สิน พิกัดแปลง และข้อมูลบุคคลอื่น จึงห้ามนำแบบที่กรอกจริงเข้าสู่เว็บไซต์สาธารณะหรือ RAG ที่ไม่มีการควบคุมสิทธิ\n\n## อ้างอิงต้นฉบับ\n\n- PDF หน้า 59-73\n- หน้าเอกสาร 57-71\n- ภาคผนวก 3 แบบคำร้อง (1)-(10)\n"
+}

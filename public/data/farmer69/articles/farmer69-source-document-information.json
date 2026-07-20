@@ -1,0 +1,20 @@
+{
+  "slug": "farmer69-source-document-information",
+  "title": "ข้อมูลเอกสารต้นฉบับ",
+  "category": "ข้อมูลเอกสาร",
+  "citation_text": "PDF หน้า 1; หน้าเอกสาร -1",
+  "topics": [
+    "ชื่อเอกสาร",
+    "หน่วยงานผู้จัดทำ",
+    "ปีเอกสาร",
+    "ฉบับเดือนพฤษภาคม 2569"
+  ],
+  "review_flags": [],
+  "assets": [
+    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/b87810b9a341ddc8d8d1fe0b0a23ca76.png"
+  ],
+  "source_pdf_pages": [1],
+  "source_printed_pages": [-1],
+  "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+  "body_markdown": "# ข้อมูลเอกสารต้นฉบับ\n\n## ชื่อเอกสาร\n\nคู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569\n\n## หน่วยงานและวันที่จัดทำ\n\n- ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร\n- กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์\n- พฤษภาคม 2569\n\n## ข้อมูลควบคุมแหล่งที่มา\n\nคลังความรู้รุ่นนี้สร้างจาก PDF ต้นฉบับ 90 หน้า และตรวจความตรงกันของไฟล์ด้วยค่า SHA-256 ที่บันทึกใน metadata ของทุกบทความ\n\n## อ้างอิงต้นฉบับ\n\n- PDF หน้า 1\n- หน้าปก ไม่มีเลขหน้าพิมพ์ในเล่ม\n"
+}
