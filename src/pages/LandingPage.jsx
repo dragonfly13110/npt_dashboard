@@ -502,13 +502,6 @@ export default function LandingPage() {
             <small>แบบสำรวจความพึงพอใจ</small>
           </span>
         </button>
-        <a href="/public/data-dictionary" className="landing-system-tab">
-          <ReadOutlined aria-hidden="true" />
-          <span>
-            <strong>คำอธิบายข้อมูล</strong>
-            <small>Data Dictionary</small>
-          </span>
-        </a>
         <a href="/manual" className="landing-system-tab">
           <BookOutlined aria-hidden="true" />
           <span>
