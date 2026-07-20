@@ -7,6 +7,12 @@ describe('normalizeLandingChatbotLink', () => {
     expect(normalizeLandingChatbotLink('/public/large-plots')).toBe(
       '/public/large-plots'
     );
+    expect(normalizeLandingChatbotLink('/public/pesticides')).toBe(
+      '/public/pesticides'
+    );
+    expect(
+      normalizeLandingChatbotLink('/public/pesticides/cassava-anthracnose')
+    ).toBe('/public/pesticides/cassava-anthracnose');
   });
 
   it('normalizes safe aliases to public routes', () => {

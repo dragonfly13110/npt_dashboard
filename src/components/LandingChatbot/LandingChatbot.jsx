@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Button, Input, Tooltip, Avatar, message as antMessage } from 'antd';
 import {
   SendOutlined,
@@ -95,6 +95,7 @@ const SYSTEM_PROMPT = `คุณคือ "น้องข้าวหลาม"
 - "Young Smart Farmer นครชัยศรี" หรือ "วิสาหกิจชุมชนสามพราน"
 
 คำแนะนำในการตอบคำถาม:
+- หากผู้ใช้ถามถึง "เมนู" (menu), "ฟังก์ชัน" (function), หรือ "ฟีเจอร์" (feature) ของระบบ (เช่น "ระบบนี้มีเมนูเด่นอะไรบ้าง") ให้เข้าใจว่าเป็นเมนูระบบหรือหน้าเว็บแดชบอร์ดเกษตรนี้ ห้ามสับสนหรือตอบว่าไม่มีเพราะไม่ใช่เมนูอาหารเด็ดขาด!
 - ตอบด้วยความสุภาพ น่ารัก เป็นมิตร อ่อนน้อมถ่อมตนตามประเพณีไทย ใช้สรรพนามแทนตัวเองว่า "น้องข้าวหลาม" หรือ "หนู" และเรียกผู้ใช้ว่า "คุณพี่" หรือ "คุณเกษตรกร" หรือ "คุณผู้ใช้งาน"
 - ใช้ Emoji เกษตรพองาม เช่น 🌾 🧑‍🌾 🚜 📈 🤖
 - ตอบให้กระชับ ชัดเจน ทีละ 2-3 ย่อหน้าสั้นๆ เพื่อให้อ่านง่ายบนกล่องสนทนาขนาดเล็ก
@@ -117,11 +118,18 @@ const SYSTEM_PROMPT = `คุณคือ "น้องข้าวหลาม"
 - หากผู้ใช้ถามเกี่ยวกับ Smart Farmer โดยรวม ให้ใส่ลิงก์นี้: [ข้อมูล Smart Farmer รวม](/public/smart-farmers)
 - รูปแบบลิงก์ต้องใช้ Markdown เช่น [ข้อความลิงก์](Relative Path ในระบบ เช่น /public/large-plots) เท่านั้น ห้ามเขียน URL เต็ม และห้ามลิงก์ออกไปภายนอกระบบ ห้ามคิดหรือคาดเดาเส้นทางลิงก์อื่นๆ ขึ้นมาเองนอกเหนือจากรายการที่กำหนดไว้นี้เด็ดขาด`;
 
-const QUICK_PROMPTS = [
+const GENERAL_QUICK_PROMPTS = [
   { text: 'ระบบนี้มีเมนูเด่นๆ อะไรบ้าง? 📊' },
   { text: 'ค้นหาข้อมูลเกษตรกรหรือแปลงใหญ่อย่างไร? 🔍' },
   { text: 'ดูพยากรณ์โรคพืชและแมลงตรงไหน? 🤖' },
   { text: 'เช็คสภาพอากาศและสถานการณ์น้ำได้ไหม? 🌧️' },
+];
+
+const PESTICIDE_QUICK_PROMPTS = [
+  { text: 'มะม่วงเป็นโรคแอนแทรคโนส ใช้ยาอะไร? 🥭' },
+  { text: 'ข้าวเป็นโรคใบไหม้ มีคำแนะนำอย่างไร? 🌾' },
+  { text: 'ค้นหาข้อมูลกลไกและกลุ่มต้านทานของสารเคมี? 🧪' },
+  { text: 'การสลับกลุ่มสารเคมีเพื่อเลี่ยงเชื้อดื้อยาทำอย่างไร? 🦠' },
 ];
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -186,16 +194,51 @@ export const parseMarkdownText = (text) => {
 };
 
 export default function LandingChatbot() {
+  const location = useLocation();
+  const isPesticideBot = location.pathname.startsWith('/public/pesticides');
+  const botName = isPesticideBot ? 'ข้าวหลามเคมี' : 'น้องข้าวหลาม';
+  const botStatus = isPesticideBot
+    ? 'แนะนำการใช้สารเคมีเกษตร'
+    : 'แนะนำการใช้งานทั่วไป';
+  const botWelcomeTooltip = isPesticideBot
+    ? 'คุยกับข้าวหลามเคมี'
+    : 'คุยกับน้องข้าวหลาม';
+  const quickPrompts = isPesticideBot
+    ? PESTICIDE_QUICK_PROMPTS
+    : GENERAL_QUICK_PROMPTS;
+
   const [isOpen, setIsOpen] = useState(false);
   const [showWelcomeBubble, setShowWelcomeBubble] = useState(true);
-  const [messages, setMessages] = useState(() =>
-    loadLandingChatbotMessages([
-      {
-        role: 'assistant',
-        content: `สวัสดีค่ะ! 🌾 หนูนามว่า **น้องข้าวหลาม** ยินดีต้อนรับสู่ศูนย์ข้อมูลเกษตรนครปฐมค่ะ!\n\nหนูสามารถช่วยแนะนำได้ว่าในระบบของเรามีข้อมูลอะไรบ้าง ค้นหาข้อมูลอะไรได้บ้าง หรือช่วยแนะแนวทางการเดินทางไปยังเมนูต่างๆ ค่ะ\n\nอยากรู้เรื่องไหน เลือกคำถามแนะนำด้านล่าง หรือพิมพ์คุยกับหนูได้เลยนะคะ 👇`,
-      },
-    ])
-  );
+  const [messages, setMessages] = useState(() => {
+    const isPesticide =
+      window.location.pathname.startsWith('/public/pesticides');
+    const storageKey = isPesticide
+      ? 'npt_pesticide_chatbot_messages'
+      : 'npt_landing_chatbot_messages';
+    const defaultMessages = isPesticide
+      ? [
+          {
+            role: 'assistant',
+            content: `สวัสดีค่ะ! 🧪 หนูนามว่า **ข้าวหลามเคมี** ยินดีต้อนรับสู่คลังความรู้สารเคมีและยากำจัดศัตรูพืชค่ะ!\n\nหนูสามารถช่วยแนะนำการใช้ยาปราบศัตรูพืช อัตราการใช้ การเลือกผสมหรือฉีดพ่น หรือข้อมูลกลุ่มดื้อยาได้ค่ะ\n\nพิมพ์คุยกับหนูได้เลยนะคะ 👇`,
+          },
+        ]
+      : [
+          {
+            role: 'assistant',
+            content: `สวัสดีค่ะ! 🌾 หนูนามว่า **น้องข้าวหลาม** ยินดีต้อนรับสู่ศูนย์ข้อมูลเกษตรนครปฐมค่ะ!\n\nหนูสามารถช่วยแนะนำได้ว่าในระบบของเรามีข้อมูลอะไรบ้าง ค้นหาข้อมูลอะไรได้บ้าง หรือช่วยแนะแนวทางการเดินทางไปยังเมนูต่างๆ ค่ะ\n\nอยากรู้เรื่องไหน เลือกคำถามแนะนำด้านล่าง หรือพิมพ์คุยกับหนูได้เลยนะคะ 👇`,
+          },
+        ];
+    try {
+      const stored = localStorage.getItem(storageKey);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {
+      console.error('Error loading chatbot messages', e);
+    }
+    return defaultMessages;
+  });
   const [inputValue, setInputValue] = useState('');
   const [loading, setLoading] = useState(false);
   const [remainingLimit, setRemainingLimit] = useState(DAILY_LIMIT);
@@ -271,8 +314,15 @@ export default function LandingChatbot() {
   }, [updateLimitState]);
 
   useEffect(() => {
-    saveLandingChatbotMessages(messages);
-  }, [messages]);
+    const storageKey = isPesticideBot
+      ? 'npt_pesticide_chatbot_messages'
+      : 'npt_landing_chatbot_messages';
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(messages));
+    } catch (e) {
+      console.error('Error saving messages', e);
+    }
+  }, [messages, isPesticideBot]);
 
   // Scroll to bottom when messages change or open status changes
   useEffect(() => {
@@ -338,6 +388,7 @@ export default function LandingChatbot() {
       requestPayload = {
         provider: 'gemini',
         landing: true,
+        pesticideBot: isPesticideBot,
         body: {
           model: MODEL_NAME,
           contents,
@@ -514,13 +565,29 @@ export default function LandingChatbot() {
   };
 
   const handleClear = () => {
-    clearLandingChatbotMessages();
-    setMessages([
-      {
-        role: 'assistant',
-        content: `เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🌾 น้องข้าวหลามยินดีบริการค่ะ มีตรงไหนให้หนูช่วยแนะนำ สอบถามมาได้เลยนะคะ!`,
-      },
-    ]);
+    const storageKey = isPesticideBot
+      ? 'npt_pesticide_chatbot_messages'
+      : 'npt_landing_chatbot_messages';
+    try {
+      localStorage.removeItem(storageKey);
+    } catch (e) {
+      console.error('Error clearing messages', e);
+    }
+    setMessages(
+      isPesticideBot
+        ? [
+            {
+              role: 'assistant',
+              content: `เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🧪 ข้าวหลามเคมี ยินดีบริการค่ะ ถามคำถามเรื่องยาและสารเคมีกำจัดศัตรูพืชได้เลยนะคะ!`,
+            },
+          ]
+        : [
+            {
+              role: 'assistant',
+              content: `เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🌾 น้องข้าวหลามยินดีบริการค่ะ มีตรงไหนให้หนูช่วยแนะนำ สอบถามมาได้เลยนะคะ!`,
+            },
+          ]
+    );
     inputRef.current?.focus();
   };
 
@@ -546,8 +613,17 @@ export default function LandingChatbot() {
           </div>
           <div className="welcome-bubble-text">
             <span>
-              💬 สวัสดีค่ะ! สอบถามข้อมูลระบบกับ <b>น้องข้าวหลาม</b>{' '}
-              ได้ตรงนี้นะคะ 🌾
+              {isPesticideBot ? (
+                <>
+                  💬 สวัสดีค่ะ! สอบถามข้อมูลโรคพืชและยาป้องกันกำจัดศัตรูพืชกับ{' '}
+                  <b>{botName}</b> ได้ตรงนี้นะคะ 🧪
+                </>
+              ) : (
+                <>
+                  💬 สวัสดีค่ะ! สอบถามข้อมูลระบบกับ <b>{botName}</b>{' '}
+                  ได้ตรงนี้นะคะ 🌾
+                </>
+              )}
             </span>
           </div>
         </div>
@@ -561,12 +637,12 @@ export default function LandingChatbot() {
             setIsOpen(true);
             setShowWelcomeBubble(false);
           }}
-          title="คุยกับน้องข้าวหลาม"
+          title={botWelcomeTooltip}
           style={{ padding: 0 }}
         >
           <img
             src={landingChatbotAvatar}
-            alt="น้องข้าวหลาม"
+            alt={botName}
             style={{
               width: '100%',
               height: '100%',
@@ -589,9 +665,9 @@ export default function LandingChatbot() {
                 style={{ background: 'rgba(255, 255, 255, 0.2)' }}
               />
               <div className="header-text">
-                <span className="header-name">น้องข้าวหลาม</span>
+                <span className="header-name">{botName}</span>
                 <span className="header-status">
-                  <span className="status-dot"></span> แนะนำการใช้งานทั่วไป
+                  <span className="status-dot"></span> {botStatus}
                 </span>
               </div>
             </div>
@@ -669,7 +745,7 @@ export default function LandingChatbot() {
                   <QuestionCircleOutlined /> คำถามที่พบบ่อย
                 </div>
                 <div className="quick-prompts-grid">
-                  {QUICK_PROMPTS.map((prompt, pIdx) => (
+                  {quickPrompts.map((prompt, pIdx) => (
                     <button
                       key={pIdx}
                       className="quick-prompt-chip"

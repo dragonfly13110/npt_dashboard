@@ -60,15 +60,27 @@ describe('Gemini LINE client', () => {
     const fetchMock = vi.fn().mockResolvedValue({
       status: 200,
       json: async () => ({
-        candidates: [{
-          content: { parts: [{ text: 'ข้อมูลจากเว็บ' }] },
-          groundingMetadata: {
-            groundingChunks: [{ web: { title: 'แหล่งข้อมูล', uri: 'https://example.com/source' } }],
+        candidates: [
+          {
+            content: { parts: [{ text: 'ข้อมูลจากเว็บ' }] },
+            groundingMetadata: {
+              groundingChunks: [
+                {
+                  web: {
+                    title: 'แหล่งข้อมูล',
+                    uri: 'https://example.com/source',
+                  },
+                },
+              ],
+            },
           },
-        }],
+        ],
       }),
     });
-    const client = createGeminiClient({ fetch: fetchMock, model: 'gemini-2.5-flash-lite' });
+    const client = createGeminiClient({
+      fetch: fetchMock,
+      model: 'gemini-2.5-flash-lite',
+    });
     await expect(
       client.searchExternal('key-web', 'gemini-2.5-flash-lite', {
         question: 'ราคาสินค้าวันนี้',
@@ -321,5 +333,73 @@ describe('Gemini LINE client', () => {
       status: 429,
       retryAfterMs: 60000,
     });
+  });
+
+  it('instructs planner to clarify system menus and not confuse with food menus', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      status: 200,
+      json: async () => ({
+        candidates: [
+          {
+            content: {
+              parts: [
+                {
+                  text: JSON.stringify({
+                    intent: 'general',
+                    tools: [],
+                    tables: [],
+                    searchTerms: [],
+                    crop: 'none',
+                    district: 'none',
+                    preferenceAction: 'none',
+                    needsGrounding: false,
+                    answer: 'ระบบมีเมนูเด่นดังนี้...',
+                  }),
+                },
+              ],
+            },
+          },
+        ],
+      }),
+    });
+    const client = createGeminiClient({
+      fetch: fetchMock,
+      model: 'gemini-2.5-flash-lite',
+      timeoutMs: 8000,
+    });
+
+    await client.plan('key-menu', 'gemini-2.5-flash-lite', {
+      question: 'มีเมนูอะไรบ้าง',
+    });
+
+    const instruction = JSON.parse(fetchMock.mock.calls[0][1].body)
+      .systemInstruction.parts[0].text;
+    expect(instruction).toContain('NOT a food menu');
+    expect(instruction).toContain('เมนู');
+    expect(instruction).toContain('ฟังก์ชัน');
+  });
+
+  it('instructs synthesizer to not confuse system menus with food menus', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      status: 200,
+      json: async () => ({
+        candidates: [{ content: { parts: [{ text: 'เมนูระบบ...' }] } }],
+      }),
+    });
+    const client = createGeminiClient({
+      fetch: fetchMock,
+      model: 'gemini-2.5-flash-lite',
+      timeoutMs: 8000,
+    });
+
+    await client.synthesize('key-synth-menu', 'gemini-2.5-flash-lite', {
+      question: 'เมนูหลักของระบบ',
+      evidence: [],
+    });
+
+    const instruction = JSON.parse(fetchMock.mock.calls[0][1].body)
+      .systemInstruction.parts[0].text;
+    expect(instruction).toContain('Never confuse system/UI menus');
+    expect(instruction).toContain('food or restaurant menus');
   });
 });

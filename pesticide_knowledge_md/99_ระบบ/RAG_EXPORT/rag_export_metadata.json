@@ -1,0 +1,32 @@
+{
+  "release_version": "3.6",
+  "generated_date": "19 กรกฎาคม 2569",
+  "source_repository_version": "3.5",
+  "source_documents": 178,
+  "chunks": 1409,
+  "evaluation_cases": 70,
+  "preferred_chunk_max_chars": 1800,
+  "embedding_dimension_in_example_sql": 768,
+  "category_counts": {
+    "กลไกการออกฤทธิ์": 8,
+    "การใช้สารร่วมชีวภัณฑ์และสารธรรมชาติ": 8,
+    "พื้นฐานก่อนใช้สาร": 19,
+    "ภาคผนวกและดรรชนี": 3,
+    "วัตถุอันตรายห้ามใช้ทางการเกษตร": 5,
+    "สถานการณ์ความต้านทานของวัชพืชต่อสารกำจัดวัชพืช": 4,
+    "สถานการณ์ความต้านทานของแมลงศัตรูพืชต่อสารกำจัดแมลง": 6,
+    "สารกำจัดวัชพืชรายพืช": 17,
+    "สารกำจัดแมลง ไร และสัตว์ศัตรูพืชรายพืช": 75,
+    "สารป้องกันกำจัดโรคพืชรายพืช": 27,
+    "เทคนิคการพ่นสารจากงานวิจัย": 4,
+    "โปรแกรมหมุนเวียนสารกำจัดแมลงเพื่อจัดการความต้านทาน": 2
+  },
+  "yaml_errors": [],
+  "missing_slugs": [],
+  "sha256": {
+    "rag_chunks.jsonl": "0235f50a06d85a1802cce89f619ec0a904b093a3f863059e7ccee47e24fe8610",
+    "rag_documents.csv": "b19976b424065a1f153302916d6cf987ee455c2160cb78f2ef48b3d056c947bb",
+    "rag_evaluation.jsonl": "b6cbe07606c001b0c3f56a03c1dfe2d79947f926ea581994833cbe0a4ebc96a6",
+    "supabase_pgvector_schema.sql": "6ee190c4eb6c53c54fce8da732c6be87fe996eaa8ee1cfdfe8962eb8177c07be"
+  }
+}

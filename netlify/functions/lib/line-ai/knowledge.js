@@ -1,14 +1,25 @@
 import catalog from '../../../../src/domain/datasetCatalog.json' with { type: 'json' };
 import manualIndex from './manual-index.json' with { type: 'json' };
+import {
+  searchPesticideArticles,
+  loadArticleContent,
+} from '../pesticide-search.js';
 
 const ORIGIN = 'https://npt-dashboard.netlify.app';
-const ROLE_RANK = { guest: 0, viewer: 1, editor: 2, district_editor: 2, admin: 3 };
-const ENTRIES = new Map([
-  ...catalog.LINE_DATASETS,
-  ...catalog.SYSTEM_PAGES,
-  ...catalog.MANUALS,
-].map((entry) => [entry.id, entry]));
-const PRIVATE_KEY = /full_name|first_name|last_name|owner_name|farmer_name|contact_person|chairman|president|leader|manager|phone|mobile|tel|address|email|line_id|facebook/i;
+const ROLE_RANK = {
+  guest: 0,
+  viewer: 1,
+  editor: 2,
+  district_editor: 2,
+  admin: 3,
+};
+const ENTRIES = new Map(
+  [...catalog.LINE_DATASETS, ...catalog.SYSTEM_PAGES, ...catalog.MANUALS].map(
+    (entry) => [entry.id, entry]
+  )
+);
+const PRIVATE_KEY =
+  /full_name|first_name|last_name|owner_name|farmer_name|contact_person|chairman|president|leader|manager|phone|mobile|tel|address|email|line_id|facebook/i;
 
 function canAccess(identity, entry) {
   return (ROLE_RANK[identity?.role] ?? 0) >= (ROLE_RANK[entry.minRole] ?? 99);
@@ -29,7 +40,13 @@ function routeFor(entry) {
 }
 
 function termsForSearch(terms) {
-  return [...new Set((terms || []).map((term) => String(term).trim()).filter((term) => term.length >= 2))].slice(0, 5);
+  return [
+    ...new Set(
+      (terms || [])
+        .map((term) => String(term).trim())
+        .filter((term) => term.length >= 2)
+    ),
+  ].slice(0, 5);
 }
 
 function selectedEntries(identity, catalogIds, terms) {
@@ -41,24 +58,45 @@ function selectedEntries(identity, catalogIds, terms) {
   const searchText = terms.join(' ').toLowerCase();
   return [...ENTRIES.values()]
     .filter((entry) => canAccess(identity, entry))
-    .filter((entry) => !searchText || [entry.title, entry.description, ...(entry.aliases || [])].join(' ').toLowerCase().includes(searchText))
+    .filter(
+      (entry) =>
+        !searchText ||
+        [entry.title, entry.description, ...(entry.aliases || [])]
+          .join(' ')
+          .toLowerCase()
+          .includes(searchText)
+    )
     .slice(0, 5);
 }
 
 function searchManuals(entries, terms, role) {
   const allowed = new Set(entries.map((entry) => entry.id));
   return manualIndex
-    .filter((chunk) => allowed.has(chunk.id) && (ROLE_RANK[role] ?? 0) >= (ROLE_RANK[chunk.minRole] ?? 99))
+    .filter(
+      (chunk) =>
+        allowed.has(chunk.id) &&
+        (ROLE_RANK[role] ?? 0) >= (ROLE_RANK[chunk.minRole] ?? 99)
+    )
     .map((chunk) => ({
       chunk,
-      score: terms.reduce((score, term) => score + (chunk.content.toLowerCase().includes(term.toLowerCase()) ? 1 : 0), 0),
+      score: terms.reduce(
+        (score, term) =>
+          score +
+          (chunk.content.toLowerCase().includes(term.toLowerCase()) ? 1 : 0),
+        0
+      ),
     }))
     .filter(({ score }) => score > 0)
     .sort((left, right) => right.score - left.score)
     .slice(0, 3);
 }
 
-export async function searchSystemKnowledge({ supabase, identity, catalogIds = [], searchTerms = [] }) {
+export async function searchSystemKnowledge({
+  supabase,
+  identity,
+  catalogIds = [],
+  searchTerms = [],
+}) {
   const terms = termsForSearch(searchTerms);
   const entries = selectedEntries(identity, catalogIds, terms);
   const evidence = [];
@@ -68,7 +106,10 @@ export async function searchSystemKnowledge({ supabase, identity, catalogIds = [
 
   if (tableNames.length && supabase?.rpc) {
     try {
-      const rpcName = identity?.role === 'guest' ? 'global_search_public' : 'global_search_staff';
+      const rpcName =
+        identity?.role === 'guest'
+          ? 'global_search_public'
+          : 'global_search_staff';
       const { data, error } = await supabase.rpc(rpcName, {
         search_terms: terms,
         table_names: tableNames,
@@ -76,12 +117,28 @@ export async function searchSystemKnowledge({ supabase, identity, catalogIds = [
       });
       if (!error) {
         for (const category of Array.isArray(data) ? data : []) {
-          const entry = catalog.LINE_DATASETS.find((item) => item.source === category.table);
+          const entry = catalog.LINE_DATASETS.find(
+            (item) => item.source === category.table
+          );
           if (!entry) continue;
-          const safeResults = (category.results || []).slice(0, 3).map((row) => publicRecord(row, entry, identity?.role));
+          const safeResults = (category.results || [])
+            .slice(0, 3)
+            .map((row) => publicRecord(row, entry, identity?.role));
           if (!safeResults.length && !category.totalCount) continue;
-          evidence.push({ sourceKind: 'system', catalogId: entry.id, table: entry.source, totalCount: category.totalCount || safeResults.length, results: safeResults });
-          records.push({ title: entry.title, subtitle: `พบ ${category.totalCount || safeResults.length} รายการ`, url: routeFor(entry), totalCount: category.totalCount || safeResults.length, sourceKind: 'system' });
+          evidence.push({
+            sourceKind: 'system',
+            catalogId: entry.id,
+            table: entry.source,
+            totalCount: category.totalCount || safeResults.length,
+            results: safeResults,
+          });
+          records.push({
+            title: entry.title,
+            subtitle: `พบ ${category.totalCount || safeResults.length} รายการ`,
+            url: routeFor(entry),
+            totalCount: category.totalCount || safeResults.length,
+            sourceKind: 'system',
+          });
         }
       }
     } catch {
@@ -89,18 +146,83 @@ export async function searchSystemKnowledge({ supabase, identity, catalogIds = [
     }
   }
 
-  for (const { chunk } of searchManuals(entries, terms, identity?.role || 'guest')) {
-    evidence.push({ sourceKind: 'system', catalogId: chunk.id, title: chunk.title, heading: chunk.heading, content: chunk.content });
-    records.push({ title: chunk.title, subtitle: chunk.heading || 'คู่มือระบบ', url: chunk.route, sourceKind: 'system' });
+  for (const { chunk } of searchManuals(
+    entries,
+    terms,
+    identity?.role || 'guest'
+  )) {
+    evidence.push({
+      sourceKind: 'system',
+      catalogId: chunk.id,
+      title: chunk.title,
+      heading: chunk.heading,
+      content: chunk.content,
+    });
+    records.push({
+      title: chunk.title,
+      subtitle: chunk.heading || 'คู่มือระบบ',
+      url: chunk.route,
+      sourceKind: 'system',
+    });
   }
 
   for (const entry of entries.filter((item) => item.kind === 'page')) {
-    const haystack = [entry.title, entry.description, ...(entry.aliases || [])].join(' ').toLowerCase();
-    if (!terms.length || terms.some((term) => haystack.includes(term.toLowerCase()))) {
-      evidence.push({ sourceKind: 'system', catalogId: entry.id, title: entry.title, description: entry.description, route: entry.route });
-      records.push({ title: entry.title, subtitle: entry.description, url: routeFor(entry), sourceKind: 'system' });
+    const haystack = [entry.title, entry.description, ...(entry.aliases || [])]
+      .join(' ')
+      .toLowerCase();
+    if (
+      !terms.length ||
+      terms.some((term) => haystack.includes(term.toLowerCase()))
+    ) {
+      evidence.push({
+        sourceKind: 'system',
+        catalogId: entry.id,
+        title: entry.title,
+        description: entry.description,
+        route: entry.route,
+      });
+      records.push({
+        title: entry.title,
+        subtitle: entry.description,
+        url: routeFor(entry),
+        sourceKind: 'system',
+      });
     }
   }
 
-  return { found: evidence.length > 0, evidence: evidence.slice(0, 5), records: records.slice(0, 3) };
+  // Search static pesticide catalog
+  if (terms.length > 0) {
+    try {
+      const matchedPesticides = searchPesticideArticles(terms.join(' '));
+      for (const article of matchedPesticides) {
+        const content = loadArticleContent(article.slug);
+        if (content) {
+          evidence.push({
+            sourceKind: 'system',
+            catalogId: 'pesticide_manual',
+            title: article.title,
+            heading: article.category,
+            content: `ชนิดพืช: ${article.plant || 'ทั่วไป'}\nชนิดศัตรูพืช: ${article.pest_type || 'ทั่วไป'}\n${content.slice(0, 1500)}`,
+          });
+          records.push({
+            title: article.title,
+            subtitle: article.category,
+            url: `/public/pesticides/${article.slug}`,
+            sourceKind: 'system',
+          });
+        }
+      }
+    } catch (err) {
+      console.error(
+        'Error during pesticide static RAG search in knowledge.js:',
+        err
+      );
+    }
+  }
+
+  return {
+    found: evidence.length > 0,
+    evidence: evidence.slice(0, 5),
+    records: records.slice(0, 3),
+  };
 }

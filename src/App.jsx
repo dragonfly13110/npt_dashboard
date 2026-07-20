@@ -61,6 +61,12 @@ const WebsiteEvaluations = lazy(
 );
 const DataQuality = lazy(() => import('./pages/admin/DataQuality'));
 const Profile = lazy(() => import('./pages/Profile'));
+const PesticidesCatalog = lazy(
+  () => import('./pages/pesticides/PesticidesCatalog')
+);
+const PesticideArticle = lazy(
+  () => import('./pages/pesticides/PesticideArticle')
+);
 
 // Strategy
 const Disasters = lazy(() => import('./pages/strategy/Disasters'));
@@ -163,8 +169,7 @@ function PublicAdminReadRoute({ children }) {
 function DataRequestRoute({ children }) {
   const { role, loading } = useAuth();
   if (loading) return <PageSkeleton />;
-  if (!canAccessDataRequests(role))
-    return <Navigate to="/dashboard" replace />;
+  if (!canAccessDataRequests(role)) return <Navigate to="/dashboard" replace />;
   return children;
 }
 
@@ -212,6 +217,34 @@ function AppRoutes() {
         <Route path="/manual" element={<Manual />} />
         <Route path="/manual/:slug" element={<ManualArticle />} />
         <Route path="/bmc" element={<Bmc />} />
+        <Route
+          path="/public/pesticides"
+          element={
+            <div
+              style={{
+                padding: '20px 24px',
+                minHeight: '100vh',
+                backgroundColor: '#f8fafc',
+              }}
+            >
+              <PesticidesCatalog />
+            </div>
+          }
+        />
+        <Route
+          path="/public/pesticides/:slug"
+          element={
+            <div
+              style={{
+                padding: '20px 24px',
+                minHeight: '100vh',
+                backgroundColor: '#f8fafc',
+              }}
+            >
+              <PesticideArticle />
+            </div>
+          }
+        />
 
         {/* Interactive Dashboard — PUBLIC */}
         <Route

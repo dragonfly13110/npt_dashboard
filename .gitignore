@@ -58,6 +58,7 @@ output/playwright/
 output/vite-cache/
 playwright-report/
 test-results/
+public/data/pesticides/
 supabase/.temp/
 .playwright-cli/
 .codex-hero-split.png

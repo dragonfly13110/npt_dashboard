@@ -201,6 +201,13 @@ const externalSystemLinks = [
     isInternal: true,
   },
   {
+    href: '/public/pesticides',
+    title: 'คู่มือสารเคมีปราบศัตรูพืช',
+    subtitle: 'คำแนะนำการใช้สารเคมี',
+    Icon: ReadOutlined,
+    isInternal: true,
+  },
+  {
     href: 'https://kasetinfo.netlify.app/',
     title: 'คลังความรู้เกษตร',
     subtitle: 'Infographic',
@@ -273,9 +280,7 @@ export default function LandingPage() {
     event.preventDefault();
     const query = landingQuery.trim();
     if (query.length < 2) return;
-    await enterDashboard(
-      `/dashboard/search?q=${encodeURIComponent(query)}`
-    );
+    await enterDashboard(`/dashboard/search?q=${encodeURIComponent(query)}`);
   };
 
   const handleGuestAccess = (event) => {
@@ -1300,6 +1305,14 @@ export default function LandingPage() {
             <div className="mobile-more-drawer-handle" />
             <div className="mobile-more-drawer-title">ทางลัดเพิ่มเติม</div>
             <div className="mobile-more-grid">
+              <a
+                href="/public/pesticides"
+                className="mobile-more-item"
+                onClick={closeMoreDrawer}
+              >
+                <ReadOutlined />
+                <span>คู่มือสารเคมีพืช</span>
+              </a>
               <a
                 href="https://kasetinfo.netlify.app/"
                 target="_blank"

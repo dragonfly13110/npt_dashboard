@@ -15,6 +15,7 @@ export const LANDING_CHATBOT_ALLOWED_LINKS = Object.freeze({
   '/public/agricultural-prices': 'ข้อมูลราคาสินค้าเกษตรและพลังงาน',
   '/public/disease-forecast': 'ระบบพยากรณ์เตือนภัยโรคและแมลงศัตรูพืช',
   '/public/fire-hotspots': 'พิกัดจุดความร้อน',
+  '/public/pesticides': 'คลังความรู้ยากำจัดศัตรูพืช',
 });
 
 const LANDING_CHATBOT_LINK_ALIASES = Object.freeze({
@@ -53,6 +54,7 @@ export function normalizeLandingChatbotLink(rawUrl) {
 
   const pathOnly = trimmedUrl.split(/[?#]/, 1)[0];
   if (/^\/manual\/[^/?#]+$/.test(pathOnly)) return pathOnly;
+  if (/^\/public\/pesticides\/[^/?#]+$/.test(pathOnly)) return pathOnly;
   const normalizedPath =
     pathOnly.length > 1 ? pathOnly.replace(/\/+$/, '') : pathOnly;
   const aliasedPath =

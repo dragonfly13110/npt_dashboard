@@ -15,7 +15,8 @@
     "test:e2e:ui": "playwright test --ui",
     "prerender": "node scripts/prerender.js",
     "build:line-knowledge": "node scripts/build-line-manual-index.mjs",
-    "build:netlify": "npm run build:line-knowledge && vite build",
+    "build:pesticides": "node scripts/build-pesticide-knowledge.mjs",
+    "build:netlify": "npm run build:line-knowledge && npm run build:pesticides && vite build",
     "prepare": "husky"
   },
   "dependencies": {

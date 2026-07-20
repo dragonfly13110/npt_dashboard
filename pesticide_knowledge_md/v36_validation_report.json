@@ -1,0 +1,65 @@
+{
+  "version": "3.6",
+  "date": "19 กรกฎาคม 2569",
+  "phase": "RAG-ready export",
+  "new_markdown_files": [
+    "12_ชุดข้อมูลสำหรับระบบ_RAG/01_โครงสร้างข้อมูลและฟิลด์เมทาดาทา.md",
+    "12_ชุดข้อมูลสำหรับระบบ_RAG/02_หลักการแบ่งชิ้นข้อมูลและการค้นคืน.md",
+    "12_ชุดข้อมูลสำหรับระบบ_RAG/03_คำสั่งระบบและกติกาความปลอดภัย.md",
+    "12_ชุดข้อมูลสำหรับระบบ_RAG/04_ชุดคำถามประเมินระบบ_RAG.md",
+    "12_ชุดข้อมูลสำหรับระบบ_RAG/05_คู่มือนำเข้าฐานข้อมูลและใช้งาน.md"
+  ],
+  "export_files": [
+    "99_ระบบ/RAG_EXPORT/rag_chunks.jsonl",
+    "99_ระบบ/RAG_EXPORT/rag_documents.csv",
+    "99_ระบบ/RAG_EXPORT/rag_evaluation.jsonl",
+    "99_ระบบ/RAG_EXPORT/supabase_pgvector_schema.sql",
+    "99_ระบบ/RAG_EXPORT/rag_export_metadata.json"
+  ],
+  "source_documents": 178,
+  "rag_chunks": 1409,
+  "evaluation_cases": 70,
+  "markdown_total": 191,
+  "actual_files": 197,
+  "manifest_entries": 197,
+  "manifest_match": true,
+  "yaml_failures": [],
+  "duplicate_slugs": {},
+  "duplicate_titles": {},
+  "links_checked": 215,
+  "broken_links": [],
+  "rag_validation": {
+    "source_yaml_errors": [],
+    "source_missing_slugs": [],
+    "duplicate_chunk_ids": [],
+    "chunks_missing_text": [],
+    "chunks_over_3000_chars": 0,
+    "unknown_document_slugs": [],
+    "chunk_char_min": 104,
+    "chunk_char_max": 1920,
+    "chunk_char_average": 421.94
+  },
+  "category_document_counts": {
+    "กลไกการออกฤทธิ์": 8,
+    "การใช้สารร่วมชีวภัณฑ์และสารธรรมชาติ": 8,
+    "พื้นฐานก่อนใช้สาร": 19,
+    "ภาคผนวกและดรรชนี": 3,
+    "วัตถุอันตรายห้ามใช้ทางการเกษตร": 5,
+    "สถานการณ์ความต้านทานของวัชพืชต่อสารกำจัดวัชพืช": 4,
+    "สถานการณ์ความต้านทานของแมลงศัตรูพืชต่อสารกำจัดแมลง": 6,
+    "สารกำจัดวัชพืชรายพืช": 17,
+    "สารกำจัดแมลง ไร และสัตว์ศัตรูพืชรายพืช": 75,
+    "สารป้องกันกำจัดโรคพืชรายพืช": 27,
+    "เทคนิคการพ่นสารจากงานวิจัย": 4,
+    "โปรแกรมหมุนเวียนสารกำจัดแมลงเพื่อจัดการความต้านทาน": 2
+  },
+  "zip_test": {
+    "pesticide_knowledge_md_batch36_grouped.zip": null,
+    "pesticide_knowledge_md_full_v36.zip": null
+  },
+  "zip_entry_counts": {
+    "pesticide_knowledge_md_batch36_grouped.zip": 15,
+    "pesticide_knowledge_md_full_v36.zip": 197
+  },
+  "full_zip_root_ok": true
+}
