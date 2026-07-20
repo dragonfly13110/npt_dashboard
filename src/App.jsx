@@ -141,8 +141,10 @@ const ProtectionDashboard = lazy(
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
+  const location = useLocation();
   if (loading) return <PageSkeleton />;
-  if (!canAccessInternalShell(user)) return <Navigate to="/login" replace />;
+  if (!canAccessInternalShell(user))
+    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
   return children;
 }
 
@@ -269,6 +271,10 @@ function AppRoutes() {
             Component: AgriculturalCareerGroups,
           },
           { path: '/public/young-farmer-groups', Component: YoungFarmerGroups },
+          {
+            path: '/public/housewife-farmer-groups',
+            Component: HousewifeFarmerGroups,
+          },
           {
             path: '/public/community-enterprises',
             Component: CommunityEnterprises,

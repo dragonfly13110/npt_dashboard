@@ -39,12 +39,11 @@ const NPT_DISTRICTS = [
 const ROUTE_BY_KEY = {
   large_plots: '/public/large-plots',
   community_enterprises: '/public/community-enterprises',
-  housewife_farmer_groups: '/dashboard/development/housewife-farmer-groups',
-  young_farmer_groups_detailed: '/dashboard/development/young-farmer-groups',
-  agricultural_career_groups:
-    '/dashboard/development/agricultural-career-groups',
-  smart_farmer_sf: '/dashboard/development/smart-farmers',
-  young_smart_farmer_ysf: '/dashboard/development/young-smart-farmer-ysf',
+  housewife_farmer_groups: '/public/housewife-farmer-groups',
+  young_farmer_groups_detailed: '/public/young-farmer-groups',
+  agricultural_career_groups: '/public/agricultural-career-groups',
+  smart_farmer_sf: '/public/smart-farmer-sf',
+  young_smart_farmer_ysf: '/public/young-smart-farmer-ysf',
 };
 
 async function fetchInstituteV2Data() {

@@ -8,8 +8,9 @@ import {
   MailOutlined,
   SafetyOutlined,
 } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+import { useAuth } from '../contexts/AuthContext';
 import '../styles/login.css';
 
 const { Text, Title } = Typography;
@@ -18,6 +19,9 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { loginAsGuest } = useAuth();
+  const redirectTo = location.state?.from || '/dashboard';
 
   useEffect(() => {
     document.title = 'เข้าสู่ระบบ | ศูนย์ข้อมูลการเกษตรนครปฐม';
@@ -33,7 +37,14 @@ export default function Login() {
     };
   }, []);
 
-  const handleGuestLogin = () => navigate('/');
+  const handleGuestLogin = async () => {
+    try {
+      await loginAsGuest();
+      navigate(redirectTo);
+    } catch {
+      message.error('ไม่สามารถเข้าชมข้อมูลได้ กรุณาลองใหม่');
+    }
+  };
 
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
@@ -59,7 +70,7 @@ export default function Login() {
       });
       if (error) throw error;
       message.success('เข้าสู่ระบบสำเร็จ');
-      navigate('/dashboard');
+      navigate(redirectTo);
     } catch (err) {
       message.error(`เข้าสู่ระบบไม่สำเร็จ: ${err.message}`);
     } finally {
