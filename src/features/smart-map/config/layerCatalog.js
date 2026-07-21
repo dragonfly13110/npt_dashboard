@@ -272,7 +272,6 @@ export const SMART_MAP_LAYERS = [
       'group_type',
       'latitude',
       'longitude',
-      'updated_at',
     ],
   },
   {
