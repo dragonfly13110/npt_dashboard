@@ -446,6 +446,8 @@ CREATE TABLE IF NOT EXISTS pest_centers (
   chairman TEXT,
   member_count INTEGER,
   contact_phone TEXT,
+  latitude NUMERIC,
+  longitude NUMERIC,
   notes TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()

@@ -2295,6 +2295,8 @@ CREATE TABLE IF NOT EXISTS "public"."soil_fertilizer_centers" (
     "member_count" numeric,
     "main_crop_type" "text",
     "group_type" "text",
+    "latitude" numeric,
+    "longitude" numeric,
     "custom_fields" "jsonb" DEFAULT '{}'::"jsonb" NOT NULL
 );
 

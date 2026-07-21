@@ -77,6 +77,20 @@ const MARKER_LAYERS = [
     icon: '🏫',
   },
   {
+    key: 'pest_center',
+    apiLayer: 'pest_centers',
+    label: 'ศจช.',
+    color: '#0969da',
+    icon: '🐛',
+  },
+  {
+    key: 'soil_fertilizer_center',
+    apiLayer: 'soil_fertilizer_centers',
+    label: 'ศดปช.',
+    color: '#bf8700',
+    icon: '🌱',
+  },
+  {
     key: 'young_farmer',
     apiLayer: 'young_farmer_groups',
     label: 'กลุ่มยุวเกษตรกร',
@@ -229,6 +243,28 @@ function markersFromFeatures(key, collection) {
         typeLabel: 'ศูนย์เรียนรู้ ศพก.',
       };
     }
+    if (key === 'pest_center') {
+      return {
+        ...base,
+        name: properties.center_name || 'ศจช.',
+        memberCount: properties.member_count,
+        activity: properties.main_crop_type
+          ? `พืชหลัก: ${properties.main_crop_type}`
+          : null,
+        typeLabel: 'ศูนย์จัดการศัตรูพืชชุมชน (ศจช.)',
+      };
+    }
+    if (key === 'soil_fertilizer_center') {
+      return {
+        ...base,
+        name: properties.center_name || 'ศดปช.',
+        memberCount: properties.member_count,
+        activity: properties.main_crop_type
+          ? `พืชหลัก: ${properties.main_crop_type}`
+          : null,
+        typeLabel: 'ศูนย์จัดการดินปุ๋ยชุมชน (ศดปช.)',
+      };
+    }
     if (
       key === 'young_farmer' ||
       key === 'career_group' ||
@@ -276,6 +312,8 @@ export default function SmartMapScreen() {
   const [activeMetric, setActiveMetric] = useState('area');
   const [visibleLayers, setVisibleLayers] = useState({
     learning_center: false,
+    pest_center: false,
+    soil_fertilizer_center: false,
     young_farmer: false,
     career_group: false,
     housewife_group: false,
@@ -328,6 +366,17 @@ export default function SmartMapScreen() {
     enabled: visibleLayers.learning_center,
     bbox,
   });
+  const pestCenterPoints = useSmartMapPoints('pest_centers', {
+    enabled: visibleLayers.pest_center,
+    bbox,
+  });
+  const soilFertilizerCenterPoints = useSmartMapPoints(
+    'soil_fertilizer_centers',
+    {
+      enabled: visibleLayers.soil_fertilizer_center,
+      bbox,
+    }
+  );
   const youngFarmerPoints = useSmartMapPoints('young_farmer_groups', {
     enabled: visibleLayers.young_farmer,
     bbox,
@@ -416,6 +465,11 @@ export default function SmartMapScreen() {
         'learning_center',
         learningCenterPoints.data
       ),
+      pest_center: markersFromFeatures('pest_center', pestCenterPoints.data),
+      soil_fertilizer_center: markersFromFeatures(
+        'soil_fertilizer_center',
+        soilFertilizerCenterPoints.data
+      ),
       young_farmer: markersFromFeatures('young_farmer', youngFarmerPoints.data),
       career_group: markersFromFeatures('career_group', careerGroupPoints.data),
       housewife_group: markersFromFeatures(
@@ -427,6 +481,8 @@ export default function SmartMapScreen() {
     }),
     [
       learningCenterPoints.data,
+      pestCenterPoints.data,
+      soilFertilizerCenterPoints.data,
       youngFarmerPoints.data,
       careerGroupPoints.data,
       housewifeGroupPoints.data,
@@ -436,6 +492,8 @@ export default function SmartMapScreen() {
   );
   const layerErrors = {
     learning_center: learningCenterPoints.error,
+    pest_center: pestCenterPoints.error,
+    soil_fertilizer_center: soilFertilizerCenterPoints.error,
     young_farmer: youngFarmerPoints.error,
     career_group: careerGroupPoints.error,
     housewife_group: housewifeGroupPoints.error,
@@ -455,6 +513,8 @@ export default function SmartMapScreen() {
   const soilLayerError = soil.error?.message || null;
   const layerMetaByKey = {
     learning_center: learningCenterPoints.data?.meta,
+    pest_center: pestCenterPoints.data?.meta,
+    soil_fertilizer_center: soilFertilizerCenterPoints.data?.meta,
     young_farmer: youngFarmerPoints.data?.meta,
     career_group: careerGroupPoints.data?.meta,
     housewife_group: housewifeGroupPoints.data?.meta,
