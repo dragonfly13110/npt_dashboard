@@ -72,6 +72,7 @@ export default function CrudTable({
   defaultSort = null,
   extraActions = null,
   fetchDataOverride = null,
+  fetchDataVersion = null,
   fetchAllOverride = null,
   requiredColumns = null,
   defaultColumns = null,
@@ -361,6 +362,7 @@ export default function CrudTable({
       defaultSort,
       JSON.stringify(finalFilterConfig),
       customFields.map((field) => field.id).join(','),
+      fetchDataVersion,
     ],
     [
       tableName,
@@ -373,6 +375,7 @@ export default function CrudTable({
       defaultSort,
       finalFilterConfig,
       customFields,
+      fetchDataVersion,
     ]
   );
 

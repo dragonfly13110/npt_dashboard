@@ -290,6 +290,7 @@ export default function LargePlots() {
     data: dashboardData = [],
     isLoading: loading,
     refetch: refreshDashboard,
+    dataUpdatedAt: dashboardDataUpdatedAt,
   } = useApiCache(['large_plots_page', role], fetchLargePlots);
 
   // Derived Filter Options
@@ -595,7 +596,6 @@ export default function LargePlots() {
 
       {/* ===== Data Table Section ===== */}
       <CrudTable
-        key={`large-plots-${role}-${dashboardData.length}`}
         tableName="large_plots"
         title="ข้อมูลแปลงใหญ่"
         columns={columns}
@@ -606,6 +606,7 @@ export default function LargePlots() {
         onFiltersChange={setPageFilters}
         hideFilterBar
         fetchDataOverride={fetchTableData}
+        fetchDataVersion={dashboardDataUpdatedAt}
         fetchAllOverride={() => dashboardData}
         onMutationSuccess={refreshDashboard}
         scrollX={1100}
