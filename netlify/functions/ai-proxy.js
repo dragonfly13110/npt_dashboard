@@ -478,6 +478,8 @@ export default async (req, context) => {
 
     if (validation.provider === 'gemini' && geminiApiKeys.size > 0) {
       apiKey = 'POOL_KEYS_PRESENT';
+    } else if (validation.provider === 'gemini' && validation.landing) {
+      apiKey = '';
     } else {
       apiKey = getEnv(validation.providerConfig.envKey);
       if (!apiKey && validation.provider === 'gemini') {
@@ -563,7 +565,7 @@ export default async (req, context) => {
           });
         } catch (poolError) {
           console.error('All keys in Gemini pool failed:', poolError.message);
-          // Try a final fallback to default GEMINI_API_KEY / VITE_GEMINI_API_KEY if configured
+          if (validation.landing) throw poolError;
           const fallbackKey =
             getEnv('GEMINI_API_KEY') || getEnv('VITE_GEMINI_API_KEY');
           if (fallbackKey) {
@@ -594,7 +596,8 @@ export default async (req, context) => {
           }
         }
         if (!upstream) {
-          // Try a final fallback to default GEMINI_API_KEY / VITE_GEMINI_API_KEY if configured
+          if (validation.landing)
+            throw lastErr || new Error('All in-memory slot keys failed');
           const fallbackKey =
             getEnv('GEMINI_API_KEY') || getEnv('VITE_GEMINI_API_KEY');
           if (fallbackKey) {

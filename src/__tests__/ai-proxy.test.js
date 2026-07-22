@@ -224,7 +224,7 @@ describe('ai-proxy', () => {
   });
 
   it('builds a compact server-owned prompt for landing Gemini chat', async () => {
-    process.env.GEMINI_API_KEY = 'test-key';
+    process.env.GEMINI_API_KEY_1 = 'test-key';
     mockAllowedRateClaim();
     fetch.mockResolvedValueOnce(
       new Response(JSON.stringify({ ok: true }), {
@@ -276,7 +276,7 @@ describe('ai-proxy', () => {
   });
 
   it('injects only matching public evidence for a landing data question', async () => {
-    process.env.GEMINI_API_KEY = 'test-key';
+    process.env.GEMINI_API_KEY_1 = 'test-key';
     mockAllowedRateClaim();
     fetch.mockResolvedValueOnce(
       new Response(
@@ -509,6 +509,34 @@ describe('ai-proxy', () => {
       (u) => u.includes('key=key-slot-1') || u.includes('key=key-slot-2')
     );
     expect(url1).not.toBe(url2);
+  });
+
+  it('does not use the default Gemini key when every landing pool key fails', async () => {
+    delete process.env.VITE_SUPABASE_URL;
+    delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+    process.env.GEMINI_API_KEY = 'default-key';
+    process.env.GEMINI_API_KEY_1 = 'key-slot-1';
+    process.env.GEMINI_API_KEY_2 = 'key-slot-2';
+    fetch.mockResolvedValue(
+      new Response(JSON.stringify({ error: 'unavailable' }), { status: 503 })
+    );
+
+    const response = await handler(
+      request({
+        provider: 'gemini',
+        landing: true,
+        body: {
+          model: 'gemini-3.5-flash-lite',
+          contents: [{ role: 'user', parts: [{ text: 'hello' }] }],
+        },
+      })
+    );
+
+    expect(response.status).toBe(500);
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch.mock.calls.map(([url]) => url).join(' ')).not.toContain(
+      'key=default-key'
+    );
   });
 
   it('calls keyPool.execute when Supabase is configured and slot keys are present', async () => {
