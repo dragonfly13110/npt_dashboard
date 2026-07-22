@@ -2,6 +2,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 let pesticideCatalogCache = null;
+const COMMON_NAME_STOPWORDS = new Set([
+  'สูตร',
+  'กลุ่ม',
+  'ระดับพิษและ LD50',
+  'อัตรา',
+  'เหยื่อตัวอย่าง',
+  'วิธีวาง',
+  'ข้อจำกัด',
+]);
 
 export function loadPesticideCatalog() {
   if (pesticideCatalogCache) return pesticideCatalogCache;
@@ -65,7 +74,12 @@ export function searchPesticideArticles(queryText) {
     // 1. Check if query matches specific chemical name (always allowed, does not require keywords)
     if (Array.isArray(entry.commonNames)) {
       for (const name of entry.commonNames) {
-        if (name && name.length >= 2 && q.includes(name.toLowerCase())) {
+        if (
+          name &&
+          name.length >= 2 &&
+          !COMMON_NAME_STOPWORDS.has(name) &&
+          q.includes(name.toLowerCase())
+        ) {
           score += 12; // High weight for specific chemical names
         }
       }

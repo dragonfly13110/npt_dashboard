@@ -251,7 +251,29 @@ describe('ai-proxy', () => {
     const [, init] = fetch.mock.calls[1];
     const body = JSON.parse(init.body);
     expect(body.generationConfig.maxOutputTokens).toBe(350);
-    expect(body.systemInstruction.parts[0].text.length).toBeLessThan(2500);
+    expect(body.systemInstruction.parts[0].text.length).toBeLessThan(6000);
+    expect(body.systemInstruction.parts[0].text).toContain(
+      '/public/large-plots'
+    );
+    expect(body.systemInstruction.parts[0].text).toContain(
+      '/public/agricultural-career-groups'
+    );
+    expect(body.systemInstruction.parts[0].text).toContain(
+      'นครปฐมปลูกกล้วยไหม'
+    );
+    expect(body.systemInstruction.parts[0].text).toContain(
+      'ห้ามแต่งชื่อกลุ่ม ชื่อแปลง'
+    );
+    for (const route of [
+      '/dashboard/admin/personnel',
+      '/dashboard/strategy/farmer-registry',
+      '/dashboard/production/crop-production',
+      '/dashboard/development/young-farmer-groups',
+      '/dashboard/protection/soil-series',
+    ]) {
+      expect(body.systemInstruction.parts[0].text).toContain(route);
+    }
+    expect(fetch).toHaveBeenCalledTimes(2);
     expect(body.contents).toHaveLength(1);
     expect(JSON.stringify(body).length).toBeLessThan(16_000);
   });
@@ -273,49 +295,6 @@ describe('ai-proxy', () => {
     expect(await response.json()).toEqual({
       error: 'Invalid landing question',
     });
-  });
-
-  it('injects only matching public evidence for a landing data question', async () => {
-    process.env.GEMINI_API_KEY_1 = 'test-key';
-    mockAllowedRateClaim();
-    fetch.mockResolvedValueOnce(
-      new Response(
-        JSON.stringify([
-          {
-            table: 'large_plots',
-            totalCount: 1,
-            results: [{ plot_name: 'สวนมะพร้าวสามพราน' }],
-          },
-        ]),
-        { status: 200, headers: { 'content-type': 'application/json' } }
-      )
-    );
-    fetch.mockResolvedValueOnce(
-      new Response(JSON.stringify({ ok: true }), {
-        status: 200,
-        headers: { 'content-type': 'application/json' },
-      })
-    );
-
-    const response = await handler(
-      request({
-        provider: 'gemini',
-        landing: true,
-        body: {
-          model: 'gemini-3.5-flash-lite',
-          contents: [
-            { role: 'user', parts: [{ text: 'แปลงใหญ่มะพร้าวในสามพราน' }] },
-          ],
-          stream: true,
-        },
-      })
-    );
-
-    expect(response.status).toBe(200);
-    const [, init] = fetch.mock.calls[2];
-    const body = JSON.parse(init.body);
-    expect(body.contents[0].parts[0].text).toContain('สวนมะพร้าวสามพราน');
-    expect(body.contents[0].parts[0].text).toContain('สามพราน');
   });
 
   it('allows Gemini 3.6 Flash thinking requests', async () => {

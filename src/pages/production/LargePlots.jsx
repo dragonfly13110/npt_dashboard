@@ -595,6 +595,7 @@ export default function LargePlots() {
 
       {/* ===== Data Table Section ===== */}
       <CrudTable
+        key={`large-plots-${role}-${dashboardData.length}`}
         tableName="large_plots"
         title="ข้อมูลแปลงใหญ่"
         columns={columns}
