@@ -282,7 +282,7 @@ function getLineAiConfig() {
   return {
     enabled: env('LINE_AI_ENABLED') === 'true',
     keys,
-    model: env('LINE_AI_MODEL') || 'gemini-3.1-flash-lite',
+    model: env('LINE_AI_MODEL') || 'gemini-3.5-flash-lite',
     fallbacks: (env('LINE_AI_FALLBACK_MODELS') || 'gemini-2.5-flash-lite')
       .split(',')
       .map((v) => v.trim())
@@ -379,12 +379,10 @@ const {
 
 describe('LINE AI store', () => {
   it('loads only latest ten messages inside 24 hours', async () => {
-    const range = vi
-      .fn()
-      .mockResolvedValue({
-        data: [{ role: 'user', content: 'ล่าสุด' }],
-        error: null,
-      });
+    const range = vi.fn().mockResolvedValue({
+      data: [{ role: 'user', content: 'ล่าสุด' }],
+      error: null,
+    });
     const gte = vi.fn(() => ({ order: () => ({ range }) }));
     const supabase = {
       from: vi.fn(() => ({ select: () => ({ eq: () => ({ gte }) }) })),
@@ -398,12 +396,10 @@ describe('LINE AI store', () => {
 
   it('claims quota through atomic RPC', async () => {
     const supabase = {
-      rpc: vi
-        .fn()
-        .mockResolvedValue({
-          data: { allowed: false, reason: 'daily' },
-          error: null,
-        }),
+      rpc: vi.fn().mockResolvedValue({
+        data: { allowed: false, reason: 'daily' },
+        error: null,
+      }),
     };
     const store = createLineAiStore(supabase);
     await expect(
@@ -441,14 +437,12 @@ function createLineAiStore(supabase) {
     },
     async appendMessage(userId, role, content, sourceType = null) {
       assertOk(
-        await supabase
-          .from('line_conversations')
-          .insert({
-            line_user_id: userId,
-            role,
-            content: content.slice(0, 4000),
-            source_type: sourceType,
-          })
+        await supabase.from('line_conversations').insert({
+          line_user_id: userId,
+          role,
+          content: content.slice(0, 4000),
+          source_type: sourceType,
+        })
       );
     },
     async claimQuota(userId, kind, limits, keySlot = null) {
@@ -494,42 +488,36 @@ function createLineAiStore(supabase) {
     },
     async markKeyUsed(slot) {
       assertOk(
-        await supabase
-          .from('line_ai_key_health')
-          .upsert({
-            key_slot: slot,
-            last_used_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          })
+        await supabase.from('line_ai_key_health').upsert({
+          key_slot: slot,
+          last_used_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        })
       );
     },
     async markKeyHealthy(slot) {
       assertOk(
-        await supabase
-          .from('line_ai_key_health')
-          .upsert({
-            key_slot: slot,
-            status: 'active',
-            consecutive_failures: 0,
-            cooldown_until: null,
-            last_error_code: null,
-            updated_at: new Date().toISOString(),
-          })
+        await supabase.from('line_ai_key_health').upsert({
+          key_slot: slot,
+          status: 'active',
+          consecutive_failures: 0,
+          cooldown_until: null,
+          last_error_code: null,
+          updated_at: new Date().toISOString(),
+        })
       );
     },
     async markKeyFailure(slot, failure) {
       assertOk(
-        await supabase
-          .from('line_ai_key_health')
-          .upsert({
-            key_slot: slot,
-            status: failure.disable ? 'disabled' : 'active',
-            cooldown_until: failure.cooldownMs
-              ? new Date(Date.now() + failure.cooldownMs).toISOString()
-              : null,
-            last_error_code: failure.code,
-            updated_at: new Date().toISOString(),
-          })
+        await supabase.from('line_ai_key_health').upsert({
+          key_slot: slot,
+          status: failure.disable ? 'disabled' : 'active',
+          cooldown_until: failure.cooldownMs
+            ? new Date(Date.now() + failure.cooldownMs).toISOString()
+            : null,
+          last_error_code: failure.code,
+          updated_at: new Date().toISOString(),
+        })
       );
     },
   };
@@ -569,24 +557,22 @@ const {
 
 describe('Gemini LINE client', () => {
   it('falls back to accessible configured model', async () => {
-    const fetch = vi
-      .fn()
-      .mockResolvedValue(
-        new Response(
-          JSON.stringify({
-            models: [
-              {
-                name: 'models/gemini-2.5-flash-lite',
-                supportedGenerationMethods: ['generateContent'],
-              },
-            ],
-          }),
-          { status: 200 }
-        )
-      );
+    const fetch = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          models: [
+            {
+              name: 'models/gemini-2.5-flash-lite',
+              supportedGenerationMethods: ['generateContent'],
+            },
+          ],
+        }),
+        { status: 200 }
+      )
+    );
     const client = createGeminiClient({
       fetch,
-      model: 'gemini-3.1-flash-lite',
+      model: 'gemini-3.5-flash-lite',
       fallbacks: ['gemini-2.5-flash-lite'],
       timeoutMs: 8000,
     });
@@ -596,16 +582,14 @@ describe('Gemini LINE client', () => {
   });
 
   it('enables google_search only for current intent', async () => {
-    const fetch = vi
-      .fn()
-      .mockResolvedValue(
-        new Response(
-          JSON.stringify({
-            candidates: [{ content: { parts: [{ text: 'สด' }] } }],
-          }),
-          { status: 200 }
-        )
-      );
+    const fetch = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          candidates: [{ content: { parts: [{ text: 'สด' }] } }],
+        }),
+        { status: 200 }
+      )
+    );
     const client = createGeminiClient({
       fetch,
       model: 'gemini-2.5-flash-lite',
@@ -925,12 +909,10 @@ Add an orchestrator setter under `NODE_ENV=test`, then test:
 ```js
 it('sends exactly one AI reply for free text', async () => {
   webhook.setLineAiOrchestrator({
-    answer: vi
-      .fn()
-      .mockResolvedValue({
-        messages: [{ type: 'text', text: 'คำตอบ AI' }],
-        sourceType: 'general',
-      }),
+    answer: vi.fn().mockResolvedValue({
+      messages: [{ type: 'text', text: 'คำตอบ AI' }],
+      sourceType: 'general',
+    }),
   });
   await webhook.handler(signedMessageEvent('ถามอะไรก็ได้'));
   expect(mockFetch).toHaveBeenCalledTimes(1);
@@ -1028,7 +1010,7 @@ Set server-only values:
 
 ```text
 GEMINI_API_KEY_1 … GEMINI_API_KEY_5
-LINE_AI_MODEL=gemini-3.1-flash-lite
+LINE_AI_MODEL=gemini-3.5-flash-lite
 LINE_AI_FALLBACK_MODELS=gemini-2.5-flash-lite
 LINE_AI_ENABLED=false
 LINE_AI_DAILY_LIMIT=30

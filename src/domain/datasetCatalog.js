@@ -209,6 +209,24 @@ export function canAccessDataRequests(role) {
   return ['admin', 'editor', 'district_editor'].includes(role);
 }
 
+export function canAccessAdminDataPage(role) {
+  return ['guest', 'viewer', 'editor', 'district_editor', 'admin'].includes(
+    role
+  );
+}
+
+export function canEditPersonnelRecord(role, department, record) {
+  return (
+    role !== 'district_editor' ||
+    Boolean(department && record?.district === department)
+  );
+}
+
+export function scopePersonnelValues(role, department, values) {
+  if (role !== 'district_editor') return values;
+  return { ...values, district: department, office_type: 'District' };
+}
+
 export function canAccessInternalShell(user) {
   return Boolean(user?.id);
 }

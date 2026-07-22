@@ -20,6 +20,11 @@ import CrudTable from '../../components/DataTable/CrudTable';
 import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { supabase } from '../../supabaseClient';
 import EChart from '../../components/widgets/EChart';
+import { useAuth } from '../../contexts/AuthContext';
+import {
+  canEditPersonnelRecord,
+  scopePersonnelValues,
+} from '../../domain/datasetCatalog';
 
 const DATE_FIELDS = [
   'appointed_date',
@@ -330,6 +335,7 @@ const matchesPageFilters = (record, filters) =>
   });
 
 export default function Personnel() {
+  const { role, department } = useAuth();
   const [stats, setStats] = useState({
     total: 0,
     provincial: 0,
@@ -634,7 +640,16 @@ export default function Personnel() {
           'status',
         ]}
         transformRecordForForm={transformPersonnelRecordForForm}
-        transformValuesBeforeSave={transformPersonnelValuesBeforeSave}
+        transformValuesBeforeSave={(values) =>
+          scopePersonnelValues(
+            role,
+            department,
+            transformPersonnelValuesBeforeSave(values)
+          )
+        }
+        canEditRecord={(record) =>
+          canEditPersonnelRecord(role, department, record)
+        }
         onMutationSuccess={fetchStats}
       />
     </div>

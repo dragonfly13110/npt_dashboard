@@ -44,7 +44,7 @@ The planner returns validated JSON containing:
 
 The server validates this plan before execution. Supabase evidence has highest priority, followed by grounded current web information, then general model knowledge. Responses label the source category as `ข้อมูลจากระบบ`, `ข้อมูลล่าสุดจากเว็บ`, or `ความรู้ทั่วไป`. If evidence is insufficient, the assistant asks one focused clarification question or states its uncertainty.
 
-The primary requested model is `gemini-3.1-flash-lite`. At startup or first use, the server must verify that the configured account can access it. If unavailable, it selects an explicitly configured Flash Lite fallback that the account supports. A model name is never silently invented.
+The primary requested model is `gemini-3.5-flash-lite`. At startup or first use, the server must verify that the configured account can access it. If unavailable, it selects an explicitly configured Flash Lite fallback that the account supports. A model name is never silently invented.
 
 ## Conversation memory
 

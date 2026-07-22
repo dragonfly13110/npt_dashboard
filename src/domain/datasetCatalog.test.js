@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import {
+  canAccessAdminDataPage,
   canRoleAccessLineKnowledge,
   canDistrictEditorWriteTable,
+  canEditPersonnelRecord,
   canAccessDataRequests,
   canAccessInternalShell,
   canGroupAccessTable,
@@ -16,6 +18,7 @@ import {
   getSearchColumns,
   listDatasetKeys,
   listLineKnowledgeEntries,
+  scopePersonnelValues,
 } from './datasetCatalog';
 import catalogJson from './datasetCatalog.json';
 
@@ -40,6 +43,39 @@ function getLegacyWrapperTables(sql) {
 }
 
 describe('datasetCatalog', () => {
+  it('allows district editors to open admin data pages', () => {
+    expect(canAccessAdminDataPage('district_editor')).toBe(true);
+  });
+
+  it('limits district personnel edits and saved district to the editor district', () => {
+    expect(
+      canEditPersonnelRecord('district_editor', 'สามพราน', {
+        district: 'สามพราน',
+      })
+    ).toBe(true);
+    expect(
+      canEditPersonnelRecord('district_editor', 'สามพราน', {
+        district: 'บางเลน',
+      })
+    ).toBe(false);
+    expect(
+      scopePersonnelValues('district_editor', 'สามพราน', {
+        district: 'บางเลน',
+        office_type: 'Provincial',
+      })
+    ).toMatchObject({ district: 'สามพราน', office_type: 'District' });
+  });
+
+  it('enforces district personnel scope in RLS', () => {
+    const sql = readFileSync(
+      'supabase/migrations/20260722160000_enforce_district_personnel_scope.sql',
+      'utf8'
+    );
+
+    expect(sql).toContain("current_profile_role() = 'district_editor'");
+    expect(sql).toContain('district = public.current_profile_department()');
+  });
+
   it('keeps table routes and search metadata in one place', () => {
     expect(getDatasetRoute('large_plots')).toBe(
       '/dashboard/production/large-plots'

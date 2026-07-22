@@ -436,7 +436,7 @@ export default function AiDiseaseForecast() {
                     {parseThaiFullDateStr(selectedForecast.forecast_date)}
                   </h3>
                   <span className="generation-badge">
-                    🤖 โมเดล: Gemini 3.5 Flash + Grounding
+                    🤖 โมเดล: Gemini 3.6 Flash + Grounding
                   </span>
                 </div>
 

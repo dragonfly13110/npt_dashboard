@@ -20,7 +20,7 @@ describe('Gemini LINE client', () => {
     });
     const client = createGeminiClient({
       fetch: fetchMock,
-      model: 'gemini-3.1-flash-lite',
+      model: 'gemini-3.5-flash-lite',
       fallbacks: ['gemini-2.5-flash-lite'],
       timeoutMs: 8000,
     });

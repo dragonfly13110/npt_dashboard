@@ -14,7 +14,7 @@
 
 - Public users may receive only evidence already exposed by `global_search_public` or other public-safe tool runners.
 - Never send `/dashboard/*`, staff-only routes, raw schema, API keys, phone numbers, addresses, or internal records to the browser or model.
-- Use `gemini-3.1-flash-lite` by default; keep the existing environment override.
+- Use `gemini-3.5-flash-lite` by default; keep the existing environment override.
 - Maximum generated answer: 350 output tokens; normal answer: 2-5 short lines.
 - Send at most 4 prior messages and at most 3 evidence groups with 3 records each.
 - One model call per generated answer. Greetings, help, and direct navigation use zero model calls.
@@ -50,10 +50,12 @@
 ### Task 1: Expand Zero-Token Replies
 
 **Files:**
+
 - Modify: `src/components/LandingChatbot/quickReply.js`
 - Modify: `src/components/LandingChatbot/quickReply.test.js`
 
 **Interfaces:**
+
 - Consumes: `getLandingQuickReply(text: string)` already called before the quota/model path.
 - Produces: `string | null`; returned strings may contain only routes accepted by `normalizeLandingChatbotLink`.
 
@@ -90,10 +92,22 @@ Keep the existing greeting/help rules. Add a short ordered rule list, with speci
 
 ```js
 const NAVIGATION_REPLIES = [
-  [/^(ขอ)?(ดู|เปิด|ไป)?\s*แผนที่(อัจฉริยะ)?$/i, 'ดูแผนที่ได้ที่ [แผนที่อัจฉริยะ](/smart-map) ค่ะ'],
-  [/^(ขอ)?(ดู|เปิด|ไปดู)?\s*ราคา(สินค้าเกษตร)?$/i, 'ดูราคาล่าสุดได้ที่ [ราคาสินค้าเกษตร](/public/agricultural-prices) ค่ะ'],
-  [/^(ขอ)?(ดู|เปิด)?\s*พยากรณ์(โรคพืช)?$/i, 'ดูข้อมูลได้ที่ [พยากรณ์โรคและแมลง](/public/disease-forecast) ค่ะ'],
-  [/^(ขอ)?(ดู|เปิด)?\s*คู่มือ(ใช้งาน)?$/i, 'อ่านได้ที่ [คู่มือการใช้งาน](/manual) ค่ะ'],
+  [
+    /^(ขอ)?(ดู|เปิด|ไป)?\s*แผนที่(อัจฉริยะ)?$/i,
+    'ดูแผนที่ได้ที่ [แผนที่อัจฉริยะ](/smart-map) ค่ะ',
+  ],
+  [
+    /^(ขอ)?(ดู|เปิด|ไปดู)?\s*ราคา(สินค้าเกษตร)?$/i,
+    'ดูราคาล่าสุดได้ที่ [ราคาสินค้าเกษตร](/public/agricultural-prices) ค่ะ',
+  ],
+  [
+    /^(ขอ)?(ดู|เปิด)?\s*พยากรณ์(โรคพืช)?$/i,
+    'ดูข้อมูลได้ที่ [พยากรณ์โรคและแมลง](/public/disease-forecast) ค่ะ',
+  ],
+  [
+    /^(ขอ)?(ดู|เปิด)?\s*คู่มือ(ใช้งาน)?$/i,
+    'อ่านได้ที่ [คู่มือการใช้งาน](/manual) ค่ะ',
+  ],
 ];
 ```
 
@@ -117,10 +131,12 @@ git commit -m "perf: answer landing navigation without AI"
 ### Task 2: Select Only Relevant Public Evidence
 
 **Files:**
+
 - Create: `netlify/functions/lib/landing-chat/query-context.js`
 - Create: `src/__tests__/landing-chat-query-context.test.js`
 
 **Interfaces:**
+
 - Consumes: `question: string`.
 - Produces: `getLandingQueryContext(question): { tools: string[], tables: string[], searchTerms: string[], context: object }`.
 - Later consumed by `executeTools(supabase, tools, searchTerms, tables, context)` from `netlify/functions/lib/line-ai/tools.js`.
@@ -139,7 +155,11 @@ describe('getLandingQueryContext', () => {
     ['วันนี้อากาศเป็นอย่างไร', ['latest_weather'], ['daily_weather']],
     ['มีจุดความร้อนหรือฝุ่นไหม', ['fire_hotspots'], ['fire_hotspots']],
     ['โรคพืชในข้าวสัปดาห์นี้', ['disease_forecast'], ['ai_disease_forecasts']],
-    ['วิสาหกิจชุมชนในกำแพงแสนมีกี่กลุ่ม', ['area_summary'], ['community_enterprises']],
+    [
+      'วิสาหกิจชุมชนในกำแพงแสนมีกี่กลุ่ม',
+      ['area_summary'],
+      ['community_enterprises'],
+    ],
   ])('%s', (question, tools, tables) => {
     const result = getLandingQueryContext(question);
     expect(result.tools).toEqual(tools);
@@ -154,7 +174,9 @@ describe('getLandingQueryContext', () => {
   });
 
   it('returns no tool for unrelated general knowledge', () => {
-    expect(getLandingQueryContext('ปลูกมะเขือเทศอย่างไร')).toMatchObject({ tools: [] });
+    expect(getLandingQueryContext('ปลูกมะเขือเทศอย่างไร')).toMatchObject({
+      tools: [],
+    });
   });
 });
 ```
@@ -172,16 +194,55 @@ Create `query-context.js` with plain regex/data only. Import `PUBLIC_TABLES` and
 ```js
 import { PUBLIC_TABLES } from '../line-ai/tools.js';
 
-const DISTRICTS = ['เมืองนครปฐม', 'กำแพงแสน', 'นครชัยศรี', 'ดอนตูม', 'บางเลน', 'สามพราน', 'พุทธมณฑล'];
+const DISTRICTS = [
+  'เมืองนครปฐม',
+  'กำแพงแสน',
+  'นครชัยศรี',
+  'ดอนตูม',
+  'บางเลน',
+  'สามพราน',
+  'พุทธมณฑล',
+];
 const TOPICS = [
-  { re: /อากาศ|ฝน|อุณหภูมิ/, tools: ['latest_weather'], tables: ['daily_weather'] },
-  { re: /จุดความร้อน|ไฟป่า|PM\s*2\.5|ฝุ่น/i, tools: ['fire_hotspots'], tables: ['fire_hotspots'] },
-  { re: /โรคพืช|แมลงศัตรู|ระบาด|พยากรณ์โรค/, tools: ['disease_forecast'], tables: ['ai_disease_forecasts'] },
+  {
+    re: /อากาศ|ฝน|อุณหภูมิ/,
+    tools: ['latest_weather'],
+    tables: ['daily_weather'],
+  },
+  {
+    re: /จุดความร้อน|ไฟป่า|PM\s*2\.5|ฝุ่น/i,
+    tools: ['fire_hotspots'],
+    tables: ['fire_hotspots'],
+  },
+  {
+    re: /โรคพืช|แมลงศัตรู|ระบาด|พยากรณ์โรค/,
+    tools: ['disease_forecast'],
+    tables: ['ai_disease_forecasts'],
+  },
   { re: /แปลงใหญ่/, tools: ['global_search'], tables: ['large_plots'] },
-  { re: /GAP|อินทรีย์|มาตรฐาน|ใบรับรอง/i, tools: ['global_search'], tables: ['certifications'] },
-  { re: /วิสาหกิจชุมชน/, tools: ['area_summary'], tables: ['community_enterprises'], farmerGroupType: 'community_enterprise' },
-  { re: /กลุ่มแม่บ้าน/, tools: ['area_summary'], tables: ['housewife_groups'], farmerGroupType: 'housewife' },
-  { re: /ยุวเกษตรกร/, tools: ['area_summary'], tables: ['young_farmer_groups_detailed'], farmerGroupType: 'young_farmer' },
+  {
+    re: /GAP|อินทรีย์|มาตรฐาน|ใบรับรอง/i,
+    tools: ['global_search'],
+    tables: ['certifications'],
+  },
+  {
+    re: /วิสาหกิจชุมชน/,
+    tools: ['area_summary'],
+    tables: ['community_enterprises'],
+    farmerGroupType: 'community_enterprise',
+  },
+  {
+    re: /กลุ่มแม่บ้าน/,
+    tools: ['area_summary'],
+    tables: ['housewife_groups'],
+    farmerGroupType: 'housewife',
+  },
+  {
+    re: /ยุวเกษตรกร/,
+    tools: ['area_summary'],
+    tables: ['young_farmer_groups_detailed'],
+    farmerGroupType: 'young_farmer',
+  },
 ];
 ```
 
@@ -205,6 +266,7 @@ git commit -m "feat: select public landing chat evidence"
 ### Task 3: Add One-Call Evidence-Grounded Landing Flow
 
 **Files:**
+
 - Modify: `netlify/functions/ai-proxy.js`
 - Create: `src/__tests__/landing-chat.test.js`
 - Reuse unchanged: `netlify/functions/lib/line-ai/tools.js`
@@ -212,6 +274,7 @@ git commit -m "feat: select public landing chat evidence"
 - Reuse unchanged: `netlify/functions/lib/http-security.js` for the existing origin/CORS response helpers.
 
 **Interfaces:**
+
 - Accepts POST JSON: `{ question: string, history: Array<{ role: 'user'|'assistant', content: string }> }`.
 - Returns SSE chunks in the same Gemini `data: {...}` shape currently consumed by `LandingChatbot.jsx`.
 - Calls `getLandingQueryContext(question)`, then `executeTools(...)`, then one Gemini streaming request.
@@ -224,7 +287,10 @@ Extend `src/__tests__/ai-proxy.test.js` using its existing request/response mock
 expect(response.status).toBe(405); // GET
 expect(response.status).toBe(400); // empty/over-1000-char question
 expect(response.status).toBe(400); // malformed history role/content
-expect(mockRpc).toHaveBeenCalledWith('global_search_public', expect.any(Object));
+expect(mockRpc).toHaveBeenCalledWith(
+  'global_search_public',
+  expect.any(Object)
+);
 expect(JSON.stringify(upstreamBody).length).toBeLessThan(16_000);
 expect(upstreamBody.generationConfig.maxOutputTokens).toBe(350);
 expect(upstreamBody.contents.length).toBeLessThanOrEqual(5); // four history + current
@@ -309,11 +375,13 @@ git commit -m "feat: ground landing chat in public data"
 ### Task 4: Shrink the Browser Request and Context Window
 
 **Files:**
+
 - Modify: `src/components/LandingChatbot/LandingChatbot.jsx`
 - Modify: `src/components/LandingChatbot/conversationStorage.js`
 - Modify: `src/components/LandingChatbot/conversationStorage.test.js`
 
 **Interfaces:**
+
 - Browser sends `{ provider, landing: true, body: { model, contents, stream } }` to the existing `/.netlify/functions/ai-proxy`.
 - Existing proxy owns system prompt/evidence/token limits for landing Gemini requests.
 - UI continues parsing Gemini SSE and rendering safe links exactly as now.
@@ -399,9 +467,11 @@ git commit -m "perf: send compact landing chat requests"
 ### Task 5: Verify Intelligence, Safety, and Token Budget
 
 **Files:**
+
 - Modify only failing files from Tasks 1-4; create no benchmark framework.
 
 **Interfaces:**
+
 - Uses the production-like Netlify dev endpoint and the existing browser chatbot.
 - Produces a short evidence table in the final implementation handoff, not a permanent analytics system.
 
@@ -430,7 +500,7 @@ Using browser DevTools Network, ask:
 For requests 2-3, copy the request body and verify its UTF-8 byte size in the console:
 
 ```js
-new TextEncoder().encode(requestBodyText).length
+new TextEncoder().encode(requestBodyText).length;
 ```
 
 Expected: each is below 16,000 bytes.

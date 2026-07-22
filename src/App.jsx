@@ -15,6 +15,7 @@ import AppLayout from './components/Layout/AppLayout';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import LandingChatbot from './components/LandingChatbot/LandingChatbot';
 import {
+  canAccessAdminDataPage,
   canAccessDataRequests,
   canAccessInternalShell,
 } from './domain/datasetCatalog';
@@ -160,13 +161,7 @@ function AdminRoute({ children }) {
 function PublicAdminReadRoute({ children }) {
   const { role, loading } = useAuth();
   if (loading) return <PageSkeleton />;
-  if (
-    role === 'guest' ||
-    role === 'admin' ||
-    role === 'viewer' ||
-    role === 'editor'
-  )
-    return children;
+  if (canAccessAdminDataPage(role)) return children;
   return <Navigate to="/dashboard" replace />;
 }
 
