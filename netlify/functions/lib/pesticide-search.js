@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 let pesticideCatalogCache = null;
+let pesticideChunksCache = null;
 const COMMON_NAME_STOPWORDS = new Set([
   'สูตร',
   'กลุ่ม',
@@ -27,6 +28,138 @@ export function loadPesticideCatalog() {
     console.error('Error loading pesticide catalog:', err);
   }
   return pesticideCatalogCache || [];
+}
+
+export function loadPesticideChunks() {
+  if (pesticideChunksCache) return pesticideChunksCache;
+
+  try {
+    const builtPath = path.join(
+      process.cwd(),
+      'public/data/pesticides/rag-chunks.json'
+    );
+    if (fs.existsSync(builtPath)) {
+      pesticideChunksCache = JSON.parse(fs.readFileSync(builtPath, 'utf8'));
+      return pesticideChunksCache;
+    }
+
+    // ponytail: source fallback keeps tests/local dev working before the build step.
+    const knowledgeRoot = path.join(process.cwd(), 'pesticide_knowledge_md');
+    const systemDir = fs
+      .readdirSync(knowledgeRoot, { withFileTypes: true })
+      .find((entry) => entry.isDirectory() && entry.name.startsWith('99_'));
+    const sourcePath = systemDir
+      ? path.join(
+          knowledgeRoot,
+          systemDir.name,
+          'RAG_EXPORT',
+          'rag_chunks.jsonl'
+        )
+      : '';
+    if (sourcePath && fs.existsSync(sourcePath)) {
+      pesticideChunksCache = fs
+        .readFileSync(sourcePath, 'utf8')
+        .split(/\r?\n/)
+        .filter(Boolean)
+        .map((line) => JSON.parse(line));
+    }
+  } catch (err) {
+    console.error('Error loading pesticide RAG chunks:', err);
+  }
+
+  return pesticideChunksCache || [];
+}
+
+const QUERY_STOPWORDS = new Set([
+  'อะไร',
+  'อย่างไร',
+  'ยังไง',
+  'หรือ',
+  'และ',
+  'เป็น',
+  'ใช้',
+  'ช่วย',
+  'แนะนำ',
+  'ข้อมูล',
+  'โรค',
+  'ยา',
+  'สาร',
+  'สารเคมี',
+  'หน่อย',
+  'ครับ',
+  'ค่ะ',
+]);
+
+function queryTerms(query) {
+  const segmenter = new Intl.Segmenter('th', { granularity: 'word' });
+  return [
+    ...new Set(
+      [...segmenter.segment(query)]
+        .filter((part) => part.isWordLike)
+        .map((part) => part.segment.toLowerCase().trim())
+        .filter((term) => term.length >= 2 && !QUERY_STOPWORDS.has(term))
+    ),
+  ];
+}
+
+export function searchPesticideChunks(queryText, limit = 6) {
+  const query = String(queryText || '')
+    .toLowerCase()
+    .trim();
+  const terms = queryTerms(query);
+  if (query.length < 2 || terms.length === 0) return [];
+
+  const chunks = loadPesticideChunks();
+  const plantTerms = terms.filter((term) =>
+    chunks.some((chunk) =>
+      String(chunk.plant || '')
+        .toLowerCase()
+        .includes(term)
+    )
+  );
+  const ranked = chunks
+    .map((chunk) => {
+      const title = String(chunk.title || '').toLowerCase();
+      const heading = String(chunk.section_heading || '').toLowerCase();
+      const plant = String(chunk.plant || '').toLowerCase();
+      const metadata = [chunk.category, chunk.plant, chunk.pest_type]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+      const text = String(chunk.text || '').toLowerCase();
+      if (
+        plantTerms.length > 0 &&
+        !plantTerms.some((term) => plant.includes(term) || title.includes(term))
+      ) {
+        return { chunk, score: 0 };
+      }
+
+      let score = text.includes(query) ? 30 : 0;
+
+      for (const term of terms) {
+        if (title.includes(term)) score += 10;
+        if (metadata.includes(term)) score += 7;
+        if (heading.includes(term)) score += 5;
+        if (text.includes(term)) score += 2;
+      }
+
+      return { chunk, score };
+    })
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score);
+
+  const selected = [];
+  const documentCounts = new Map();
+  const minimumScore = (ranked[0]?.score || 0) * 0.5;
+  for (const { chunk, score } of ranked) {
+    if (score < minimumScore) break;
+    const count = documentCounts.get(chunk.document_slug) || 0;
+    if (count >= 2) continue;
+    selected.push(chunk);
+    documentCounts.set(chunk.document_slug, count + 1);
+    if (selected.length >= limit) break;
+  }
+  return selected;
 }
 
 export function searchPesticideArticles(queryText) {

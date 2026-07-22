@@ -278,6 +278,45 @@ describe('ai-proxy', () => {
     expect(JSON.stringify(body).length).toBeLessThan(16_000);
   });
 
+  it('uses the dedicated pesticide corpus, prompt, and longer answer limit', async () => {
+    process.env.GEMINI_API_KEY_1 = 'test-key';
+    mockAllowedRateClaim();
+    fetch.mockResolvedValueOnce(
+      new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      })
+    );
+
+    const response = await handler(
+      request({
+        provider: 'gemini',
+        landing: true,
+        pesticideBot: true,
+        body: {
+          model: 'gemini-3.5-flash-lite',
+          contents: [
+            {
+              role: 'user',
+              parts: [{ text: 'มะม่วงเป็นโรคแอนแทรคโนส ใช้ยาอะไร' }],
+            },
+          ],
+          stream: true,
+        },
+      })
+    );
+
+    expect(response.status).toBe(200);
+    const [, init] = fetch.mock.calls[1];
+    const body = JSON.parse(init.body);
+    expect(body.generationConfig.maxOutputTokens).toBe(1400);
+    expect(body.systemInstruction.parts[0].text).toContain('ข้าวหลามเคมี');
+    expect(JSON.stringify(body.contents)).toContain(
+      '/public/pesticides/mango-anthracnose-recommendation-2568'
+    );
+    expect(body.systemInstruction.parts[0].text).toContain('แหล่งข้อมูล');
+  });
+
   it('rejects landing payloads without a bounded user question', async () => {
     process.env.GEMINI_API_KEY = 'test-key';
     const response = await handler(

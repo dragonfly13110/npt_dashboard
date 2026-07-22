@@ -252,6 +252,25 @@ function buildPesticideKnowledge() {
   // Save catalog.json
   const catalogPath = path.join(outputDir, 'catalog.json');
   writeFileSync(catalogPath, JSON.stringify(catalog, null, 2) + '\n', 'utf8');
+
+  const systemDir = items.find(
+    (item) => item.isDirectory() && item.name.startsWith('99_')
+  );
+  const ragChunksPath = systemDir
+    ? path.join(inputDir, systemDir.name, 'RAG_EXPORT', 'rag_chunks.jsonl')
+    : '';
+  if (ragChunksPath && existsSync(ragChunksPath)) {
+    const chunks = readFileSync(ragChunksPath, 'utf8')
+      .split(/\r?\n/)
+      .filter(Boolean)
+      .map((line) => JSON.parse(line));
+    writeFileSync(
+      path.join(outputDir, 'rag-chunks.json'),
+      JSON.stringify(chunks) + '\n',
+      'utf8'
+    );
+  }
+
   console.log(
     `Pesticide build completed! Generated ${catalog.length} article JSONs and catalog.json`
   );

@@ -181,13 +181,16 @@ function NonGuestRoute({ children }) {
 
 function PublicLandingChatbot() {
   const location = useLocation();
+  const chatbotKind = location.pathname.startsWith('/public/pesticides')
+    ? 'pesticide'
+    : 'general';
   const isPublicRoute =
     location.pathname === '/' ||
     location.pathname === '/interactive-dashboard' ||
     location.pathname === '/smart-map' ||
     location.pathname.startsWith('/public/');
 
-  return isPublicRoute ? <LandingChatbot /> : null;
+  return isPublicRoute ? <LandingChatbot key={chatbotKind} /> : null;
 }
 
 function AppRoutes() {

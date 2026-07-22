@@ -17,12 +17,7 @@ import {
   LANDING_CHATBOT_LINK_POLICY_PROMPT,
   normalizeLandingChatbotLink,
 } from './linkSafety';
-import {
-  LANDING_CHATBOT_CONTEXT_MESSAGE_LIMIT,
-  clearLandingChatbotMessages,
-  loadLandingChatbotMessages,
-  saveLandingChatbotMessages,
-} from './conversationStorage';
+import { LANDING_CHATBOT_CONTEXT_MESSAGE_LIMIT } from './conversationStorage';
 import { getLandingQuickReply } from './quickReply';
 import { LANDING_CHATBOT_PUBLIC_KNOWLEDGE_PROMPT } from './publicKnowledge';
 
@@ -70,6 +65,7 @@ if (PROVIDER_NAME === 'gemini' && !GEMINI_MODELS.includes(MODEL_NAME)) {
 
 const DAILY_LIMIT = 10;
 const LANDING_CHATBOT_TIMEOUT_MS = 20000;
+const PESTICIDE_CHATBOT_TIMEOUT_MS = 45000;
 const CONTEXT_MEMORY_PROMPT =
   'Use the recent conversation history as context for follow-up questions. If the user asks "that", "it", "same one", "เมื่อกี้", or similar references, resolve it from the previous messages instead of treating the new message as an isolated question.';
 
@@ -206,6 +202,9 @@ export default function LandingChatbot() {
   const quickPrompts = isPesticideBot
     ? PESTICIDE_QUICK_PROMPTS
     : GENERAL_QUICK_PROMPTS;
+  const limitStorageKey = isPesticideBot
+    ? 'npt_pesticide_chatbot_limit'
+    : 'npt_landing_chatbot_limit';
 
   const [isOpen, setIsOpen] = useState(false);
   const [showWelcomeBubble, setShowWelcomeBubble] = useState(true);
@@ -261,7 +260,7 @@ export default function LandingChatbot() {
   const updateLimitState = useCallback(() => {
     try {
       const todayStr = getTodayDateString();
-      const stored = localStorage.getItem('npt_landing_chatbot_limit');
+      const stored = localStorage.getItem(limitStorageKey);
       if (stored) {
         const parsed = JSON.parse(stored);
         if (parsed.date === todayStr) {
@@ -275,12 +274,12 @@ export default function LandingChatbot() {
       console.error('Error reading chatbot limit from localStorage', e);
       setRemainingLimit(DAILY_LIMIT);
     }
-  }, []);
+  }, [limitStorageKey]);
 
   function incrementLimitUsage() {
     try {
       const todayStr = getTodayDateString();
-      const stored = localStorage.getItem('npt_landing_chatbot_limit');
+      const stored = localStorage.getItem(limitStorageKey);
       let count = 1;
       if (stored) {
         const parsed = JSON.parse(stored);
@@ -289,7 +288,7 @@ export default function LandingChatbot() {
         }
       }
       localStorage.setItem(
-        'npt_landing_chatbot_limit',
+        limitStorageKey,
         JSON.stringify({ date: todayStr, count })
       );
       setRemainingLimit(Math.max(0, DAILY_LIMIT - count));
@@ -407,6 +406,8 @@ export default function LandingChatbot() {
 
       requestPayload = {
         provider: 'kku',
+        landing: isPesticideBot,
+        pesticideBot: isPesticideBot,
         body: {
           model: MODEL_NAME,
           messages: apiMessages,
@@ -419,7 +420,11 @@ export default function LandingChatbot() {
 
     try {
       const response = await fetch(AI_PROXY_URL, {
-        signal: AbortSignal.timeout(LANDING_CHATBOT_TIMEOUT_MS),
+        signal: AbortSignal.timeout(
+          isPesticideBot
+            ? PESTICIDE_CHATBOT_TIMEOUT_MS
+            : LANDING_CHATBOT_TIMEOUT_MS
+        ),
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestPayload),
@@ -788,7 +793,9 @@ export default function LandingChatbot() {
                 onPressEnter={() => handleSend()}
                 placeholder={
                   remainingLimit > 0
-                    ? 'สอบถามเรื่องระบบเกษตรนครปฐม...'
+                    ? isPesticideBot
+                      ? 'ถามจากคลังความรู้สารป้องกันกำจัดศัตรูพืช...'
+                      : 'สอบถามเรื่องระบบเกษตรนครปฐม...'
                     : 'โควตาหมดแล้วค่ะ'
                 }
                 disabled={loading || remainingLimit <= 0}
