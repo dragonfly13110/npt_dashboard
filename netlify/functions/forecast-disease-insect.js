@@ -269,7 +269,7 @@ export const generateForecast = async (event = {}, context) => {
         : 'No recent pest outbreaks reported.';
 
     // 4. Set up Gemini API request and retry loop
-    const model = 'gemini-3.5-flash';
+    const model = 'gemini-3.6-flash';
     const url = GEMINI_API_KEY
       ? `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`
       : '';

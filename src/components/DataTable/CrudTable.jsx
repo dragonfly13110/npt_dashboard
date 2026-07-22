@@ -83,6 +83,7 @@ export default function CrudTable({
   controlledFilters = null,
   onFiltersChange = null,
   hideFilterBar = false,
+  canEditRecord = null,
 }) {
   const { createRecord, updateRecord, deleteRecord, fetchAll } =
     useSupabaseCrud(tableName);
@@ -753,55 +754,59 @@ export default function CrudTable({
     width: userCanEdit ? (userCanDelete ? 140 : 100) : 60,
     fixed: 'right',
     align: 'center',
-    render: (_, record) => (
-      <Space size={4}>
-        <Tooltip title="ดูรายละเอียด">
-          <Button
-            className="action-btn view"
-            icon={<EyeOutlined />}
-            style={{ color: 'var(--primary)' }}
-            onClick={(e) => {
-              e.stopPropagation(); // prevent row click double trigger
-              setDetailRecord(record);
-            }}
-          />
-        </Tooltip>
-        {userCanEdit && (
-          <Tooltip title="แก้ไข">
+    render: (_, record) => {
+      const canEditThisRecord =
+        userCanEdit && (!canEditRecord || canEditRecord(record));
+      return (
+        <Space size={4}>
+          <Tooltip title="ดูรายละเอียด">
             <Button
-              className="action-btn edit"
-              icon={<EditOutlined />}
+              className="action-btn view"
+              icon={<EyeOutlined />}
+              style={{ color: 'var(--primary)' }}
               onClick={(e) => {
-                e.stopPropagation();
-                if (!userCanEdit) {
-                  message.warning('คุณไม่มีสิทธิ์แก้ไข');
-                  return;
-                }
-                handleEdit(record);
+                e.stopPropagation(); // prevent row click double trigger
+                setDetailRecord(record);
               }}
             />
           </Tooltip>
-        )}
-        {userCanEdit && userCanDelete && (
-          <Popconfirm
-            title="ยืนยันการลบ"
-            description="คุณต้องการลบข้อมูลนี้ใช่หรือไม่?"
-            onConfirm={() => handleDelete(record.id)}
-            okText="ลบ"
-            cancelText="ยกเลิก"
-            okButtonProps={{ danger: true }}
-          >
-            <Tooltip title="ลบ">
+          {canEditThisRecord && (
+            <Tooltip title="แก้ไข">
               <Button
-                className="action-btn delete"
-                icon={<DeleteOutlined />}
-                onClick={(e) => e.stopPropagation()}
+                className="action-btn edit"
+                icon={<EditOutlined />}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (!canEditThisRecord) {
+                    message.warning('คุณไม่มีสิทธิ์แก้ไข');
+                    return;
+                  }
+                  handleEdit(record);
+                }}
               />
             </Tooltip>
-          </Popconfirm>
-        )}
-      </Space>
-    ),
+          )}
+          {canEditThisRecord && userCanDelete && (
+            <Popconfirm
+              title="ยืนยันการลบ"
+              description="คุณต้องการลบข้อมูลนี้ใช่หรือไม่?"
+              onConfirm={() => handleDelete(record.id)}
+              okText="ลบ"
+              cancelText="ยกเลิก"
+              okButtonProps={{ danger: true }}
+            >
+              <Tooltip title="ลบ">
+                <Button
+                  className="action-btn delete"
+                  icon={<DeleteOutlined />}
+                  onClick={(e) => e.stopPropagation()}
+                />
+              </Tooltip>
+            </Popconfirm>
+          )}
+        </Space>
+      );
+    },
   };
 
   const allColumns = [...sortableColumns, actionColumn];

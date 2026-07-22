@@ -102,7 +102,7 @@ describe('ai-proxy', () => {
 
   it('rejects configured providers when the server key is missing', async () => {
     const response = await handler(
-      request({ provider: 'gemini', body: { model: 'gemini-3.1-flash-lite' } })
+      request({ provider: 'gemini', body: { model: 'gemini-3.5-flash-lite' } })
     );
     expect(response.status).toBe(500);
     expect(await response.json()).toEqual({
@@ -124,7 +124,7 @@ describe('ai-proxy', () => {
     );
 
     const response = await handler(
-      request({ provider: 'gemini', body: { model: 'gemini-3.1-flash-lite' } })
+      request({ provider: 'gemini', body: { model: 'gemini-3.5-flash-lite' } })
     );
 
     expect(response.status).toBe(429);
@@ -145,7 +145,7 @@ describe('ai-proxy', () => {
     );
 
     const response = await handler(
-      request({ provider: 'gemini', body: { model: 'gemini-3.1-flash-lite' } })
+      request({ provider: 'gemini', body: { model: 'gemini-3.5-flash-lite' } })
     );
 
     expect(response.status).toBe(200);
@@ -162,7 +162,7 @@ describe('ai-proxy', () => {
     );
 
     const response = await handler(
-      request({ provider: 'gemini', body: { model: 'gemini-3.1-flash-lite' } })
+      request({ provider: 'gemini', body: { model: 'gemini-3.5-flash-lite' } })
     );
 
     expect(response.status).toBe(200);
@@ -182,7 +182,7 @@ describe('ai-proxy', () => {
     const waitUntil = vi.fn();
 
     const response = await handler(
-      request({ provider: 'gemini', body: { model: 'gemini-3.1-flash-lite' } }),
+      request({ provider: 'gemini', body: { model: 'gemini-3.5-flash-lite' } }),
       { requestId: 'req-ai-1', waitUntil }
     );
 
@@ -209,7 +209,7 @@ describe('ai-proxy', () => {
       request({
         provider: 'gemini',
         body: {
-          model: 'gemini-3.1-flash-lite',
+          model: 'gemini-3.5-flash-lite',
           stream: false,
           contents: [{ role: 'user', parts: [{ text: 'hello' }] }],
         },
@@ -224,7 +224,7 @@ describe('ai-proxy', () => {
   });
 
   it('builds a compact server-owned prompt for landing Gemini chat', async () => {
-    process.env.GEMINI_API_KEY = 'test-key';
+    process.env.GEMINI_API_KEY_1 = 'test-key';
     mockAllowedRateClaim();
     fetch.mockResolvedValueOnce(
       new Response(JSON.stringify({ ok: true }), {
@@ -238,7 +238,7 @@ describe('ai-proxy', () => {
         provider: 'gemini',
         landing: true,
         body: {
-          model: 'gemini-3.1-flash-lite',
+          model: 'gemini-3.5-flash-lite',
           contents: [
             { role: 'user', parts: [{ text: 'ปลูกมะเขือเทศอย่างไร' }] },
           ],
@@ -263,18 +263,20 @@ describe('ai-proxy', () => {
         provider: 'gemini',
         landing: true,
         body: {
-          model: 'gemini-3.1-flash-lite',
+          model: 'gemini-3.5-flash-lite',
           contents: [{ role: 'model', parts: [{ text: 'not a question' }] }],
         },
       })
     );
 
     expect(response.status).toBe(400);
-    expect(await response.json()).toEqual({ error: 'Invalid landing question' });
+    expect(await response.json()).toEqual({
+      error: 'Invalid landing question',
+    });
   });
 
   it('injects only matching public evidence for a landing data question', async () => {
-    process.env.GEMINI_API_KEY = 'test-key';
+    process.env.GEMINI_API_KEY_1 = 'test-key';
     mockAllowedRateClaim();
     fetch.mockResolvedValueOnce(
       new Response(
@@ -300,7 +302,7 @@ describe('ai-proxy', () => {
         provider: 'gemini',
         landing: true,
         body: {
-          model: 'gemini-3.1-flash-lite',
+          model: 'gemini-3.5-flash-lite',
           contents: [
             { role: 'user', parts: [{ text: 'แปลงใหญ่มะพร้าวในสามพราน' }] },
           ],
@@ -316,7 +318,7 @@ describe('ai-proxy', () => {
     expect(body.contents[0].parts[0].text).toContain('สามพราน');
   });
 
-  it('allows Gemini 3.5 Flash thinking requests', async () => {
+  it('allows Gemini 3.6 Flash thinking requests', async () => {
     process.env.GEMINI_API_KEY = 'test-key';
     mockAllowedRateClaim();
     fetch.mockResolvedValueOnce(
@@ -330,7 +332,7 @@ describe('ai-proxy', () => {
       request({
         provider: 'gemini',
         body: {
-          model: 'gemini-3.5-flash',
+          model: 'gemini-3.6-flash',
           contents: [
             { role: 'user', parts: [{ text: 'สรุปสถานการณ์จังหวัด' }] },
           ],
@@ -344,7 +346,7 @@ describe('ai-proxy', () => {
 
     expect(response.status).toBe(200);
     expect(fetch.mock.calls[1][0]).toContain(
-      '/gemini-3.5-flash:generateContent?'
+      '/gemini-3.6-flash:generateContent?'
     );
   });
 
@@ -453,7 +455,7 @@ describe('ai-proxy', () => {
       request({
         provider: 'gemini',
         body: {
-          model: 'gemini-3.1-flash-lite',
+          model: 'gemini-3.5-flash-lite',
           contents: [{ role: 'user', parts: [{ text: 'hello' }] }],
         },
       })
@@ -490,7 +492,7 @@ describe('ai-proxy', () => {
       request({
         provider: 'gemini',
         body: {
-          model: 'gemini-3.1-flash-lite',
+          model: 'gemini-3.5-flash-lite',
           contents: [{ role: 'user', parts: [{ text: 'hello' }] }],
         },
       })
@@ -507,6 +509,34 @@ describe('ai-proxy', () => {
       (u) => u.includes('key=key-slot-1') || u.includes('key=key-slot-2')
     );
     expect(url1).not.toBe(url2);
+  });
+
+  it('does not use the default Gemini key when every landing pool key fails', async () => {
+    delete process.env.VITE_SUPABASE_URL;
+    delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+    process.env.GEMINI_API_KEY = 'default-key';
+    process.env.GEMINI_API_KEY_1 = 'key-slot-1';
+    process.env.GEMINI_API_KEY_2 = 'key-slot-2';
+    fetch.mockResolvedValue(
+      new Response(JSON.stringify({ error: 'unavailable' }), { status: 503 })
+    );
+
+    const response = await handler(
+      request({
+        provider: 'gemini',
+        landing: true,
+        body: {
+          model: 'gemini-3.5-flash-lite',
+          contents: [{ role: 'user', parts: [{ text: 'hello' }] }],
+        },
+      })
+    );
+
+    expect(response.status).toBe(500);
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch.mock.calls.map(([url]) => url).join(' ')).not.toContain(
+      'key=default-key'
+    );
   });
 
   it('calls keyPool.execute when Supabase is configured and slot keys are present', async () => {
@@ -527,7 +557,7 @@ describe('ai-proxy', () => {
       request({
         provider: 'gemini',
         body: {
-          model: 'gemini-3.1-flash-lite',
+          model: 'gemini-3.5-flash-lite',
           contents: [{ role: 'user', parts: [{ text: 'hello' }] }],
         },
       })

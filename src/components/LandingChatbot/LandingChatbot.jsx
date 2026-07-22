@@ -30,13 +30,13 @@ const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
 const RAW_PROVIDER_NAME =
   import.meta.env.VITE_LANDING_CHATBOT_PROVIDER || 'gemini';
 const RAW_MODEL_NAME =
-  import.meta.env.VITE_LANDING_CHATBOT_MODEL || 'gemini-3.1-flash-lite';
+  import.meta.env.VITE_LANDING_CHATBOT_MODEL || 'gemini-3.5-flash-lite';
 
 const GEMINI_MODELS = [
-  'gemini-3.5-flash',
+  'gemini-3.6-flash',
   'gemini-3-flash-preview',
-  'gemini-3.1-flash-lite',
-  'gemini-3.1-flash-lite-preview',
+  'gemini-3.5-flash-lite',
+  'gemini-3.5-flash-lite-preview',
   'gemini-2.5-flash',
   'gemini-2.5-flash-lite',
   'gemini-1.5-flash',
@@ -64,7 +64,7 @@ if (PROVIDER_NAME === 'gemini' && !GEMINI_MODELS.includes(MODEL_NAME)) {
   if (isKkuModel) {
     PROVIDER_NAME = 'kku';
   } else {
-    MODEL_NAME = 'gemini-3.1-flash-lite';
+    MODEL_NAME = 'gemini-3.5-flash-lite';
   }
 }
 
@@ -555,7 +555,7 @@ export default function LandingChatbot() {
           {
             role: 'assistant',
             content:
-              'ขออภัยจริงๆ ค่ะ ระบบขัดข้องชั่วคราว ไม่สามารถตอบคุณพี่ได้ในขณะนี้ กรุณาลองใหม่อีกครั้งนะคะ หรือเลือกเมนูลัดต่างๆ บนหน้าแดชบอร์ดได้เลยค่ะ 🙏',
+              'ขออภัยค่ะ ขณะนี้ระบบ AI มีปัญหาชั่วคราว ทีมงานกำลังเร่งแก้ไข กรุณาลองใหม่อีกครั้งในภายหลังนะคะ',
           },
         ];
       });

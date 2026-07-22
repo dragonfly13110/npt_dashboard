@@ -28,7 +28,7 @@ const questions = [
 ];
 
 const client = createGeminiClient({
-  model: env.LINE_AI_MODEL || 'gemini-3.1-flash-lite',
+  model: env.LINE_AI_MODEL || 'gemini-3.5-flash-lite',
   timeoutMs: 20000,
 });
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -39,7 +39,7 @@ for (const [index, question] of questions.entries()) {
     try {
       plan = await client.plan(
         apiKey,
-        env.LINE_AI_MODEL || 'gemini-3.1-flash-lite',
+        env.LINE_AI_MODEL || 'gemini-3.5-flash-lite',
         { question }
       );
       break;

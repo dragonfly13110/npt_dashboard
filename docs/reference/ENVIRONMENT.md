@@ -9,7 +9,8 @@ This project must not rely on hardcoded service keys. Configure these values in 
 - `VITE_LANDING_CHATBOT_API_URL`: Endpoint path/URL for the KKU Landing Chatbot API (defaults to `/api/kku/okmd/api/v1`).
 - `VITE_LANDING_CHATBOT_API_KEY`: API Key for the KKU Landing Chatbot service.
 - `VITE_LANDING_CHATBOT_PROVIDER`: The AI provider to use for the landing chatbot (e.g., `gemini` or `kku`).
-- `VITE_LANDING_CHATBOT_MODEL`: The AI model to use for the landing chatbot (e.g., `gemini-3.1-flash-lite` or `deepseek-v4-flash`).
+- `VITE_LANDING_CHATBOT_MODEL`: The AI model to use for the landing chatbot (e.g., `gemini-3.5-flash-lite` or `deepseek-v4-flash`).
+- Landing Chatbot uses only `GEMINI_API_KEY_1` through `GEMINI_API_KEY_5`; it does not fall back to `GEMINI_API_KEY`.
 
 ## Netlify Function Variables
 

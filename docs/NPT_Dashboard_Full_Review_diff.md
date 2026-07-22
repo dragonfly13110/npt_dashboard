@@ -997,7 +997,7 @@ const messages = [
 
 | Provider       | Environment Variable           | Models ที่รองรับ                                   |
 | -------------- | ------------------------------ | -------------------------------------------------- |
-| **Gemini**     | `GEMINI_API_KEY`               | gemini-3.5-flash, gemini-2.5-flash, gemma-4-31b-it |
+| **Gemini**     | `GEMINI_API_KEY`               | gemini-3.6-flash, gemini-2.5-flash, gemma-4-31b-it |
 | **OpenRouter** | `OPENROUTER_API_KEY`           | google/gemma-4-31b-it, qwen/qwen3.5-397b-a17b      |
 | **NVIDIA**     | `NVIDIA_API_KEY`               | qwen/qwen3.5-397b-a17b, meta/llama-3.1-8b-instruct |
 | **KKU**        | `VITE_LANDING_CHATBOT_API_KEY` | deepseek-v4-flash, claude-sonnet-4.6, gpt-5.4-mini |

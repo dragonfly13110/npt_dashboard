@@ -212,7 +212,7 @@ describe('LINE AI configuration', () => {
 
     expect(config).toMatchObject({
       enabled: false,
-      model: 'gemini-3.1-flash-lite',
+      model: 'gemini-3.5-flash-lite',
       fallbackModels: ['gemini-2.5-flash-lite'],
       aiDailyLimit: 30,
       groundingDailyLimit: 5,

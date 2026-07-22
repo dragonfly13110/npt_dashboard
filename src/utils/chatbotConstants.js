@@ -12,9 +12,9 @@ export const AI_MODELS = {
   },
   gemini: {
     key: 'gemini',
-    label: '✨ Gemini 3.1 Flash-Lite',
+    label: '✨ Gemini 3.5 Flash-Lite',
     shortLabel: 'Gemini',
-    description: 'Gemini 3.1 Flash-Lite',
+    description: 'Gemini 3.5 Flash-Lite',
     provider: 'Google',
     color: '#4285f4',
     icon: '✨',
@@ -245,7 +245,7 @@ export const AI_MODELS = {
 
 export const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
 export const GEMMA_MODEL = 'gemma-4-31b-it';
-export const GEMINI_MODEL = 'gemini-3.1-flash-lite';
+export const GEMINI_MODEL = 'gemini-3.5-flash-lite';
 export const QWEN_MODEL = 'qwen/qwen3.5-397b-a17b';
 export const KIMI_MODEL = 'moonshotai/kimi-k2.6';
 export const MISTRAL_LARGE_MODEL =

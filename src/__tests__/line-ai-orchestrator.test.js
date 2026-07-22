@@ -14,7 +14,7 @@ describe('LINE AI Orchestrator', () => {
   beforeEach(() => {
     config = {
       enabled: true,
-      model: 'gemini-3.1-flash-lite',
+      model: 'gemini-3.5-flash-lite',
       fallbackModels: ['gemini-2.5-flash-lite'],
       aiDailyLimit: 30,
       groundingDailyLimit: 5,
@@ -42,7 +42,7 @@ describe('LINE AI Orchestrator', () => {
     };
 
     gemini = {
-      resolveModel: vi.fn().mockResolvedValue('gemini-3.1-flash-lite'),
+      resolveModel: vi.fn().mockResolvedValue('gemini-3.5-flash-lite'),
       plan: vi.fn(),
       synthesize: vi.fn(),
     };
@@ -648,7 +648,10 @@ describe('LINE AI Orchestrator', () => {
       clock,
     });
 
-    const result = await orchestrator.answer({ userId: 'U1', text: 'ราคาข้าววันนี้' });
+    const result = await orchestrator.answer({
+      userId: 'U1',
+      text: 'ราคาข้าววันนี้',
+    });
 
     expect(result.sourceType).toBe('internet');
     expect(gemini.searchExternal).toHaveBeenCalled();

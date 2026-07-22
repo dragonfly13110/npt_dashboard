@@ -46,7 +46,7 @@ export function loadConfig(env = null, netlifyEnv = null) {
 
   const config = {
     enabled: get('LINE_AI_ENABLED') === 'true',
-    model: get('LINE_AI_MODEL') || 'gemini-3.1-flash-lite',
+    model: get('LINE_AI_MODEL') || 'gemini-3.5-flash-lite',
     fallbackModels: csv(get('LINE_AI_FALLBACK_MODELS'), [
       'gemini-2.5-flash-lite',
     ]),

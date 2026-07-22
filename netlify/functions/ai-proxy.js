@@ -42,10 +42,10 @@ const PROVIDERS = {
   gemini: {
     envKey: 'GEMINI_API_KEY',
     models: new Set([
-      'gemini-3.5-flash',
+      'gemini-3.6-flash',
       'gemini-3-flash-preview',
-      'gemini-3.1-flash-lite',
-      'gemini-3.1-flash-lite-preview',
+      'gemini-3.5-flash-lite',
+      'gemini-3.5-flash-lite-preview',
       'gemini-2.5-flash',
       'gemini-2.5-flash-lite',
       'gemini-1.5-flash',
@@ -351,7 +351,7 @@ async function buildLandingBody(body) {
   ];
 
   return {
-    model: body.model || 'gemini-3.1-flash-lite',
+    model: body.model || 'gemini-3.5-flash-lite',
     contents: compactQuestion,
     systemInstruction: { parts: [{ text: LANDING_SYSTEM_PROMPT }] },
     generationConfig: {
@@ -384,7 +384,7 @@ function clampTokenLimits(body) {
 }
 
 async function callGemini(apiKey, body) {
-  const model = body.model || 'gemini-3.1-flash-lite';
+  const model = body.model || 'gemini-3.5-flash-lite';
   const isStream = body.stream === true;
   const endpoint = isStream
     ? 'streamGenerateContent?alt=sse&'
@@ -478,6 +478,8 @@ export default async (req, context) => {
 
     if (validation.provider === 'gemini' && geminiApiKeys.size > 0) {
       apiKey = 'POOL_KEYS_PRESENT';
+    } else if (validation.provider === 'gemini' && validation.landing) {
+      apiKey = '';
     } else {
       apiKey = getEnv(validation.providerConfig.envKey);
       if (!apiKey && validation.provider === 'gemini') {
@@ -563,7 +565,7 @@ export default async (req, context) => {
           });
         } catch (poolError) {
           console.error('All keys in Gemini pool failed:', poolError.message);
-          // Try a final fallback to default GEMINI_API_KEY / VITE_GEMINI_API_KEY if configured
+          if (validation.landing) throw poolError;
           const fallbackKey =
             getEnv('GEMINI_API_KEY') || getEnv('VITE_GEMINI_API_KEY');
           if (fallbackKey) {
@@ -594,7 +596,8 @@ export default async (req, context) => {
           }
         }
         if (!upstream) {
-          // Try a final fallback to default GEMINI_API_KEY / VITE_GEMINI_API_KEY if configured
+          if (validation.landing)
+            throw lastErr || new Error('All in-memory slot keys failed');
           const fallbackKey =
             getEnv('GEMINI_API_KEY') || getEnv('VITE_GEMINI_API_KEY');
           if (fallbackKey) {

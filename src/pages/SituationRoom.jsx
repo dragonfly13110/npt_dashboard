@@ -34,7 +34,7 @@ import './SituationRoom.css';
 
 const { Text, Title } = Typography;
 const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
-const GEMINI_SITUATION_MODEL = 'gemini-3.1-flash-lite';
+const GEMINI_SITUATION_MODEL = 'gemini-3.5-flash-lite';
 
 const DISTRICT_CENTROIDS = [
   { name: 'เมืองนครปฐม', lat: 13.82, lon: 100.04 },

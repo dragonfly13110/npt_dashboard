@@ -18,7 +18,7 @@ import {
 } from './promptGuardService';
 
 /**
- * Handles requests for Google Gemini API (including Gemini 3.1 and Gemma 4)
+ * Handles requests for Google Gemini API (including Gemini 3.5/3.6 and Gemma 4)
  */
 async function callGeminiAI(
   modelIdentifier,
