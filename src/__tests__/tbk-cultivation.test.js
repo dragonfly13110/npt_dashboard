@@ -3,6 +3,7 @@ import {
   filterTbkCultivationRows,
   parseTbkCultivationTable,
   summarizeTbkCultivationRows,
+  topTbkCultivationItems,
   validateTbkCultivationRows,
 } from '../utils/tbkCultivation';
 
@@ -77,5 +78,17 @@ describe('TBK cultivation report', () => {
       disasterAreaRai: 0,
       remainingAreaRai: 134.38,
     });
+  });
+
+  it('aggregates and ranks the largest cultivated areas', () => {
+    const rows = [
+      { itemBreed: 'ข้าว กข41', areaRai: 30 },
+      { itemBreed: 'ข้าว กข43', areaRai: 20 },
+      { itemBreed: 'ข้าว กข41', areaRai: 15 },
+    ];
+
+    expect(topTbkCultivationItems(rows, 1)).toEqual([
+      { itemBreed: 'ข้าว กข41', areaRai: 45 },
+    ]);
   });
 });

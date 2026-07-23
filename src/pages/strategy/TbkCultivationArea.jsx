@@ -15,17 +15,20 @@ import {
   message,
 } from 'antd';
 import {
+  BarChartOutlined,
   DatabaseOutlined,
   DownloadOutlined,
   SearchOutlined,
   SyncOutlined,
 } from '@ant-design/icons';
 import { PageHeader } from '../../components/widgets/SharedDashboardUI';
+import EChart from '../../components/widgets/EChart';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../supabaseClient';
 import {
   filterTbkCultivationRows,
   summarizeTbkCultivationRows,
+  topTbkCultivationItems,
 } from '../../utils/tbkCultivation';
 
 const EMPTY_TEXT = 'ยังไม่มี snapshot ข้อมูลพื้นที่ตาม ทบก.';
@@ -65,6 +68,57 @@ function normalizeRows(rows) {
     disasterAreaRai: Number(row.disaster_area_rai) || 0,
     remainingAreaRai: Number(row.remaining_area_rai) || 0,
   }));
+}
+
+function cultivationChartOption(items) {
+  return {
+    aria: {
+      enabled: true,
+      description: 'กราฟ 10 ชนิดหรือพันธุ์ที่มีพื้นที่เพาะปลูกมากที่สุด',
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+      valueFormatter: (value) => `${formatDecimal(value)} ไร่`,
+    },
+    grid: { left: 16, right: 96, top: 16, bottom: 16, containLabel: true },
+    xAxis: {
+      type: 'value',
+      axisLabel: { formatter: (value) => formatInteger(value) },
+    },
+    yAxis: {
+      type: 'category',
+      inverse: true,
+      data: items.map((item) => item.itemBreed),
+      axisLabel: { width: 220, overflow: 'truncate' },
+    },
+    series: [
+      {
+        name: 'พื้นที่เพาะปลูก',
+        type: 'bar',
+        barMaxWidth: 30,
+        data: items.map((item) => Number(item.areaRai.toFixed(2))),
+        label: {
+          show: true,
+          position: 'right',
+          formatter: ({ value }) => formatDecimal(value),
+        },
+        itemStyle: {
+          color: {
+            type: 'linear',
+            x: 0,
+            y: 0,
+            x2: 1,
+            y2: 0,
+            colorStops: [
+              { offset: 0, color: '#15803d' },
+              { offset: 1, color: '#4ade80' },
+            ],
+          },
+        },
+      },
+    ],
+  };
 }
 
 const COLUMNS = [
@@ -209,6 +263,10 @@ export default function TbkCultivationArea() {
   );
   const summary = useMemo(
     () => summarizeTbkCultivationRows(filteredRows),
+    [filteredRows]
+  );
+  const chartItems = useMemo(
+    () => topTbkCultivationItems(filteredRows),
     [filteredRows]
   );
 
@@ -453,6 +511,38 @@ export default function TbkCultivationArea() {
               </Col>
             ))}
           </Row>
+
+          <Card
+            title={
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                }}
+              >
+                <BarChartOutlined style={{ color: '#15803d' }} />
+                10 ชนิด/พันธุ์ที่มีพื้นที่เพาะปลูกมากที่สุด
+              </span>
+            }
+            extra={<Tag color="green">หน่วย: ไร่</Tag>}
+            style={{ marginBottom: 16 }}
+            styles={{
+              header: {
+                background: 'linear-gradient(90deg, #f0fdf4, #ffffff)',
+                borderBottomColor: '#bbf7d0',
+              },
+            }}
+          >
+            {chartItems.length ? (
+              <EChart
+                option={cultivationChartOption(chartItems)}
+                style={{ height: Math.max(320, chartItems.length * 48) }}
+              />
+            ) : (
+              <Empty description="ไม่พบข้อมูลสำหรับสร้างกราฟ" />
+            )}
+          </Card>
 
           <Alert
             type="info"

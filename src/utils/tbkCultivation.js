@@ -135,3 +135,18 @@ export function summarizeTbkCultivationRows(rows) {
     }
   );
 }
+
+export function topTbkCultivationItems(rows, limit = 10) {
+  const totals = new Map();
+  for (const row of rows) {
+    totals.set(row.itemBreed, (totals.get(row.itemBreed) || 0) + row.areaRai);
+  }
+  return [...totals]
+    .map(([itemBreed, areaRai]) => ({ itemBreed, areaRai }))
+    .sort(
+      (a, b) =>
+        b.areaRai - a.areaRai ||
+        a.itemBreed.localeCompare(b.itemBreed, 'th')
+    )
+    .slice(0, limit);
+}

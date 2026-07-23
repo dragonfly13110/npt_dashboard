@@ -58,6 +58,11 @@ vi.mock('../components/widgets/SharedDashboardUI', () => ({
     </header>
   ),
 }));
+vi.mock('../components/widgets/EChart', () => ({
+  default: ({ option }) => (
+    <div data-testid="tbk-chart">{option.series[0].data.join(',')}</div>
+  ),
+}));
 
 function mockQuery(data = rows) {
   const rowQuery = {
@@ -111,6 +116,7 @@ describe('TbkCultivationArea page', () => {
 
     await screen.findByText('พื้นที่เพาะปลูกตาม ทบก.');
     expect(screen.getByText('101.50')).toBeInTheDocument();
+    expect(screen.getByTestId('tbk-chart')).toHaveTextContent('100,1.5');
     expect(screen.getByText('ข้าวเจ้า (กข41)')).toBeInTheDocument();
     expect(screen.getByText('ไก่ (ไก่ไข่)')).toBeInTheDocument();
 
@@ -121,6 +127,7 @@ describe('TbkCultivationArea page', () => {
     await waitFor(() =>
       expect(screen.queryByText('ไก่ (ไก่ไข่)')).not.toBeInTheDocument()
     );
+    expect(screen.getByTestId('tbk-chart')).toHaveTextContent('100');
     expect(screen.getAllByText('100.00')).not.toHaveLength(0);
   });
 
