@@ -1,0 +1,232 @@
+import { useEffect, useMemo, useState } from 'react';
+import {
+  Alert,
+  Card,
+  Col,
+  Empty,
+  Row,
+  Select,
+  Spin,
+  Statistic,
+  Table,
+  Tag,
+} from 'antd';
+import { BarChartOutlined, DatabaseOutlined } from '@ant-design/icons';
+import EChart from '../../components/widgets/EChart';
+import { PageHeader } from '../../components/widgets/SharedDashboardUI';
+import { supabase } from '../../supabaseClient';
+
+const MONTH_LABELS = [
+  '\u0e21.\u0e04.',
+  '\u0e01.\u0e1e.',
+  '\u0e21\u0e35.\u0e04.',
+  '\u0e40\u0e21.\u0e22.',
+  '\u0e1e.\u0e04.',
+  '\u0e21\u0e34.\u0e22.',
+  '\u0e01.\u0e04.',
+  '\u0e2a.\u0e04.',
+  '\u0e01.\u0e22.',
+  '\u0e15.\u0e04.',
+  '\u0e1e.\u0e22.',
+  '\u0e18.\u0e04.',
+];
+
+const COLUMNS = [
+  { title: '\u0e2d\u0e33\u0e40\u0e20\u0e2d', dataIndex: 'district', key: 'district', fixed: 'left' },
+  { title: '\u0e40\u0e14\u0e37\u0e2d\u0e19\u0e40\u0e01\u0e47\u0e1a\u0e40\u0e01\u0e35\u0e48\u0e22\u0e27', dataIndex: 'monthLabel', key: 'monthLabel' },
+  { title: '\u0e04\u0e23\u0e31\u0e27\u0e40\u0e23\u0e37\u0e2d\u0e19', dataIndex: 'householdCount', key: 'householdCount', align: 'right', render: formatInteger },
+  { title: '\u0e41\u0e1b\u0e25\u0e07', dataIndex: 'plotCount', key: 'plotCount', align: 'right', render: formatInteger },
+  { title: '\u0e40\u0e19\u0e37\u0e49\u0e2d\u0e17\u0e35\u0e48 (\u0e44\u0e23\u0e48)', dataIndex: 'areaRai', key: 'areaRai', align: 'right', render: formatDecimal },
+  { title: '\u0e04\u0e32\u0e14\u0e01\u0e32\u0e23\u0e13\u0e4c\u0e02\u0e49\u0e32\u0e27 (\u0e15\u0e31\u0e19)', dataIndex: 'estimatedTons', key: 'estimatedTons', align: 'right', render: formatDecimal },
+];
+
+function formatInteger(value) {
+  return Number(value || 0).toLocaleString('th-TH');
+}
+
+function formatDecimal(value) {
+  return Number(value || 0).toLocaleString('th-TH', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
+function validRows(rows) {
+  return (rows || []).filter(
+    (row) =>
+      row?.district_code &&
+      Number.isInteger(Number(row.harvest_month)) &&
+      Number(row.harvest_month) >= 1 &&
+      Number(row.harvest_month) <= 12 &&
+      Number(row.area_rai) >= 0 &&
+      Number(row.estimated_tons) >= 0
+  );
+}
+
+function uniqueSorted(values) {
+  return [...new Set(values.filter(Boolean))].sort((a, b) => String(b).localeCompare(String(a), 'th'));
+}
+
+function summarize(rows) {
+  const monthly = Array.from({ length: 12 }, (_, index) => ({
+    month: index + 1,
+    areaRai: 0,
+    estimatedTons: 0,
+  }));
+  const districtRows = new Map();
+  for (const row of rows) {
+    const month = Number(row.harvest_month);
+    const areaRai = Number(row.area_rai) || 0;
+    const estimatedTons = Number(row.estimated_tons) || 0;
+    monthly[month - 1].areaRai += areaRai;
+    monthly[month - 1].estimatedTons += estimatedTons;
+    districtRows.set(`${row.district_code}:${month}`, {
+      key: `${row.district_code}:${month}`,
+      district: row.district,
+      monthLabel: MONTH_LABELS[month - 1],
+      householdCount: Number(row.household_count) || 0,
+      plotCount: Number(row.plot_count) || 0,
+      areaRai,
+      estimatedTons,
+    });
+  }
+  return {
+    monthly,
+    districtRows: [...districtRows.values()].sort((a, b) =>
+      `${a.district}${a.monthLabel}`.localeCompare(`${b.district}${b.monthLabel}`, 'th')
+    ),
+    areaRai: monthly.reduce((sum, row) => sum + row.areaRai, 0),
+    estimatedTons: monthly.reduce((sum, row) => sum + row.estimatedTons, 0),
+  };
+}
+
+function chartOption(monthly) {
+  return {
+    tooltip: { trigger: 'axis', valueFormatter: (value) => `${formatDecimal(value)} ตัน` },
+    grid: { left: 48, right: 24, top: 24, bottom: 32 },
+    xAxis: { type: 'category', data: MONTH_LABELS },
+    yAxis: { type: 'value', name: '\u0e15\u0e31\u0e19' },
+    series: [
+      {
+        name: '\u0e04\u0e32\u0e14\u0e01\u0e32\u0e23\u0e13\u0e4c\u0e02\u0e49\u0e32\u0e27',
+        type: 'bar',
+        itemStyle: { color: '#1a7f37' },
+        data: monthly.map((row) => Number(row.estimatedTons.toFixed(2))),
+      },
+    ],
+  };
+}
+
+export default function RiceHarvestSituation() {
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [cropYear, setCropYear] = useState(null);
+  const [snapshotDate, setSnapshotDate] = useState(null);
+
+  useEffect(() => {
+    document.title = '\u0e2a\u0e16\u0e32\u0e19\u0e01\u0e32\u0e23\u0e13\u0e4c\u0e01\u0e32\u0e23\u0e40\u0e1e\u0e32\u0e30\u0e1b\u0e25\u0e39\u0e01\u0e02\u0e49\u0e32\u0e27 | \u0e28\u0e39\u0e19\u0e22\u0e4c\u0e02\u0e49\u0e2d\u0e21\u0e39\u0e25\u0e01\u0e32\u0e23\u0e40\u0e01\u0e29\u0e15\u0e23\u0e19\u0e04\u0e23\u0e1b\u0e10\u0e21';
+    let active = true;
+    async function load() {
+      setLoading(true);
+      const { data, error: queryError } = await supabase
+        .from('rice_harvest_snapshots')
+        .select('snapshot_date,scraped_at,source_cutoff_date,crop_year,district_code,district,harvest_month,household_count,plot_count,area_rai,estimated_tons')
+        .order('snapshot_date', { ascending: false })
+        .order('harvest_month', { ascending: true })
+        .order('district_code', { ascending: true });
+      if (!active) return;
+      if (queryError) setError(queryError.message);
+      else setRows(validRows(data));
+      setLoading(false);
+    }
+    load().catch((loadError) => {
+      if (!active) return;
+      setError(loadError.message);
+      setLoading(false);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const cropYears = useMemo(() => uniqueSorted(rows.map((row) => row.crop_year)), [rows]);
+  const activeCropYear = cropYear || cropYears[0] || null;
+  const snapshotDates = useMemo(
+    () => uniqueSorted(rows.filter((row) => row.crop_year === activeCropYear).map((row) => row.snapshot_date)),
+    [rows, activeCropYear]
+  );
+  const activeSnapshotDate = snapshotDate || snapshotDates[0] || null;
+  const currentRows = useMemo(
+    () => rows.filter((row) => row.crop_year === activeCropYear && row.snapshot_date === activeSnapshotDate),
+    [rows, activeCropYear, activeSnapshotDate]
+  );
+  const previousSnapshotDate = snapshotDates.find((date) => date < activeSnapshotDate);
+  const previousRows = useMemo(
+    () => rows.filter((row) => row.crop_year === activeCropYear && row.snapshot_date === previousSnapshotDate),
+    [rows, activeCropYear, previousSnapshotDate]
+  );
+  const summary = useMemo(() => summarize(currentRows), [currentRows]);
+  const previousSummary = useMemo(() => summarize(previousRows), [previousRows]);
+  const deltaTons = summary.estimatedTons - previousSummary.estimatedTons;
+  const latestMeta = currentRows[0];
+
+  if (loading) {
+    return <div style={{ padding: 48, textAlign: 'center' }}><Spin size="large" /></div>;
+  }
+
+  return (
+    <div>
+      <PageHeader
+        title="\u0e2a\u0e16\u0e32\u0e19\u0e01\u0e32\u0e23\u0e13\u0e4c\u0e01\u0e32\u0e23\u0e40\u0e1e\u0e32\u0e30\u0e1b\u0e25\u0e39\u0e01\u0e02\u0e49\u0e32\u0e27"
+        subtitle="\u0e1e\u0e37\u0e49\u0e19\u0e17\u0e35\u0e48\u0e41\u0e25\u0e30\u0e1b\u0e23\u0e30\u0e21\u0e32\u0e13\u0e02\u0e49\u0e32\u0e27\u0e04\u0e32\u0e14\u0e01\u0e32\u0e23\u0e13\u0e4c\u0e15\u0e32\u0e21\u0e40\u0e14\u0e37\u0e2d\u0e19\u0e40\u0e01\u0e47\u0e1a\u0e40\u0e01\u0e35\u0e48\u0e22\u0e27 (800 \u0e01\u0e01.\u0e15\u0e48\u0e2d\u0e44\u0e23\u0e48)"
+        icon={BarChartOutlined}
+      />
+
+      {error && <Alert type="error" showIcon message="\u0e2d\u0e48\u0e32\u0e19\u0e02\u0e49\u0e2d\u0e21\u0e39\u0e25\u0e44\u0e21\u0e48\u0e2a\u0e33\u0e40\u0e23\u0e47\u0e08" description={error} style={{ marginBottom: 16 }} />}
+
+      {!rows.length ? (
+        <Card><Empty description="\u0e22\u0e31\u0e07\u0e44\u0e21\u0e48\u0e21\u0e35 snapshot \u0e02\u0e49\u0e2d\u0e21\u0e39\u0e25\u0e02\u0e49\u0e32\u0e27" /></Card>
+      ) : (
+        <>
+          <Card style={{ marginBottom: 16 }}>
+            <Row gutter={[16, 16]} align="middle">
+              <Col xs={24} md={8}>
+                <span>\u0e1b\u0e35\u0e01\u0e32\u0e23\u0e1c\u0e25\u0e34\u0e15</span>
+                <Select value={activeCropYear} onChange={(value) => { setCropYear(value); setSnapshotDate(null); }} options={cropYears.map((value) => ({ value, label: value }))} style={{ width: '100%', marginTop: 4 }} />
+              </Col>
+              <Col xs={24} md={8}>
+                <span>\u0e23\u0e2d\u0e1a\u0e02\u0e49\u0e2d\u0e21\u0e39\u0e25</span>
+                <Select value={activeSnapshotDate} onChange={setSnapshotDate} options={snapshotDates.map((value) => ({ value, label: value }))} style={{ width: '100%', marginTop: 4 }} />
+              </Col>
+              <Col xs={24} md={8}>
+                <Tag icon={<DatabaseOutlined />} color="green" style={{ marginTop: 20 }}>
+                  DOAE: {latestMeta?.source_cutoff_date || '-'} | ดึงข้อมูล: {latestMeta?.scraped_at ? new Date(latestMeta.scraped_at).toLocaleString('th-TH') : '-'}
+                </Tag>
+              </Col>
+            </Row>
+          </Card>
+
+          <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+            <Col xs={24} md={8}><Card><Statistic title="พื้นที่ตามเดือนเก็บเกี่ยวรวม (ไร่)" value={summary.areaRai} precision={2} /></Card></Col>
+            <Col xs={24} md={8}><Card><Statistic title="ข้าวคาดการณ์รวม (ตัน)" value={summary.estimatedTons} precision={2} /></Card></Col>
+            <Col xs={24} md={8}><Card><Statistic title={previousSnapshotDate ? `เปลี่ยนจาก ${previousSnapshotDate} (ตัน)` : 'ความคืบหน้ารอบแรก'} value={previousSnapshotDate ? deltaTons : 0} precision={2} valueStyle={{ color: deltaTons >= 0 ? '#1a7f37' : '#cf222e' }} /></Card></Col>
+          </Row>
+
+          <Row gutter={[16, 16]}>
+            <Col xs={24} lg={10}>
+              <Card title="ข้าวคาดว่าจะออกแต่ละเดือน (ตัน)">
+                <EChart option={chartOption(summary.monthly)} style={{ height: 320 }} />
+              </Card>
+            </Col>
+            <Col xs={24} lg={14}>
+              <Card title="รายละเอียดรายอำเภอและเดือนเก็บเกี่ยว">
+                <Table columns={COLUMNS} dataSource={summary.districtRows} pagination={{ pageSize: 14, showSizeChanger: false }} scroll={{ x: 780 }} size="small" />
+              </Card>
+            </Col>
+          </Row>
+        </>
+      )}
+    </div>
+  );
+}

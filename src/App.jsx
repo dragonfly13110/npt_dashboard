@@ -93,6 +93,9 @@ const DailyWeather = lazy(() => import('./pages/strategy/DailyWeather'));
 const LargePlots = lazy(() => import('./pages/production/LargePlots'));
 const Certifications = lazy(() => import('./pages/production/Certifications'));
 const CropProduction = lazy(() => import('./pages/production/CropProduction'));
+const RiceHarvestSituation = lazy(
+  () => import('./pages/production/RiceHarvestSituation')
+);
 const ProductionCosts = lazy(
   () => import('./pages/production/ProductionCosts')
 );
@@ -527,6 +530,10 @@ function AppRoutes() {
           <Route
             path="production/crop-production"
             element={<CropProduction />}
+          />
+          <Route
+            path="production/rice-harvest-situation"
+            element={<RiceHarvestSituation />}
           />
           <Route
             path="production/production-costs"
