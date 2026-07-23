@@ -53,6 +53,8 @@ const COPY = {
     '\u0e02\u0e49\u0e32\u0e27\u0e04\u0e32\u0e14\u0e27\u0e48\u0e32\u0e08\u0e30\u0e2d\u0e2d\u0e01\u0e41\u0e15\u0e48\u0e25\u0e30\u0e40\u0e14\u0e37\u0e2d\u0e19 (\u0e15\u0e31\u0e19)',
   districtTable: (year) =>
     `\u0e23\u0e32\u0e22\u0e25\u0e30\u0e40\u0e2d\u0e35\u0e22\u0e14\u0e23\u0e32\u0e22\u0e2d\u0e33\u0e40\u0e20\u0e2d\u0e41\u0e25\u0e30\u0e40\u0e14\u0e37\u0e2d\u0e19\u0e40\u0e01\u0e47\u0e1a\u0e40\u0e01\u0e35\u0e48\u0e22\u0e27 (\u0e1b\u0e35 ${year})`,
+  filterDistrict: '\u0e01\u0e23\u0e2d\u0e07\u0e2d\u0e33\u0e40\u0e20\u0e2d',
+  filterMonth: '\u0e01\u0e23\u0e2d\u0e07\u0e40\u0e14\u0e37\u0e2d\u0e19',
   changedFrom: (date) =>
     `\u0e40\u0e1b\u0e25\u0e35\u0e48\u0e22\u0e19\u0e08\u0e32\u0e01 ${date} (\u0e15\u0e31\u0e19)`,
 };
@@ -131,6 +133,12 @@ function uniqueSorted(values) {
   );
 }
 
+function formatHarvestMonth(month, cropYear) {
+  const years = String(cropYear || '').split('/');
+  const year = (years[month >= 7 ? 0 : 1] || years[0] || '').slice(-2);
+  return `${MONTH_LABELS[month - 1]}${year ? ` (${year})` : ''}`;
+}
+
 function summarize(rows) {
   const monthly = Array.from({ length: 12 }, (_, index) => ({
     month: index + 1,
@@ -147,8 +155,9 @@ function summarize(rows) {
     districtRows.set(`${row.district_code}:${month}`, {
       key: `${row.district_code}:${month}`,
       district: row.district,
+      districtCode: row.district_code,
       harvestMonth: month,
-      monthLabel: `${MONTH_LABELS[month - 1]} (${String(row.crop_year).split('/').at(-1)})`,
+      monthLabel: formatHarvestMonth(month, row.crop_year),
       householdCount: Number(row.household_count) || 0,
       plotCount: Number(row.plot_count) || 0,
       areaRai,
@@ -193,6 +202,8 @@ export default function RiceHarvestSituation() {
   const [error, setError] = useState(null);
   const [cropYear, setCropYear] = useState(null);
   const [snapshotDate, setSnapshotDate] = useState(null);
+  const [districtCode, setDistrictCode] = useState(null);
+  const [harvestMonth, setHarvestMonth] = useState(null);
 
   useEffect(() => {
     document.title =
@@ -266,6 +277,34 @@ export default function RiceHarvestSituation() {
   );
   const deltaTons = summary.estimatedTons - previousSummary.estimatedTons;
   const latestMeta = currentRows[0];
+  const districtOptions = useMemo(
+    () =>
+      [
+        ...new Map(
+          summary.districtRows.map((row) => [row.districtCode, row.district])
+        ),
+      ]
+        .map(([value, label]) => ({ value, label }))
+        .sort((a, b) => a.label.localeCompare(b.label, 'th')),
+    [summary.districtRows]
+  );
+  const monthOptions = useMemo(
+    () =>
+      Array.from({ length: 12 }, (_, index) => ({
+        value: index + 1,
+        label: formatHarvestMonth(index + 1, activeCropYear),
+      })),
+    [activeCropYear]
+  );
+  const filteredDistrictRows = useMemo(
+    () =>
+      summary.districtRows.filter(
+        (row) =>
+          (!districtCode || row.districtCode === districtCode) &&
+          (!harvestMonth || row.harvestMonth === harvestMonth)
+      ),
+    [summary.districtRows, districtCode, harvestMonth]
+  );
 
   if (loading) {
     return (
@@ -308,6 +347,8 @@ export default function RiceHarvestSituation() {
                   onChange={(value) => {
                     setCropYear(value);
                     setSnapshotDate(null);
+                    setDistrictCode(null);
+                    setHarvestMonth(null);
                   }}
                   options={cropYears.map((value) => ({ value, label: value }))}
                   style={{ width: '100%', marginTop: 4 }}
@@ -317,7 +358,11 @@ export default function RiceHarvestSituation() {
                 <span>{COPY.snapshot}</span>
                 <Select
                   value={activeSnapshotDate}
-                  onChange={setSnapshotDate}
+                  onChange={(value) => {
+                    setSnapshotDate(value);
+                    setDistrictCode(null);
+                    setHarvestMonth(null);
+                  }}
                   options={snapshotDates.map((value) => ({
                     value,
                     label: value,
@@ -389,9 +434,31 @@ export default function RiceHarvestSituation() {
             </Col>
             <Col xs={24} lg={14}>
               <Card title={COPY.districtTable(activeCropYear)}>
+                <Row gutter={[8, 8]} style={{ marginBottom: 12 }}>
+                  <Col xs={24} sm={12}>
+                    <Select
+                      allowClear
+                      value={districtCode}
+                      onChange={setDistrictCode}
+                      options={districtOptions}
+                      placeholder={COPY.filterDistrict}
+                      style={{ width: '100%' }}
+                    />
+                  </Col>
+                  <Col xs={24} sm={12}>
+                    <Select
+                      allowClear
+                      value={harvestMonth}
+                      onChange={setHarvestMonth}
+                      options={monthOptions}
+                      placeholder={COPY.filterMonth}
+                      style={{ width: '100%' }}
+                    />
+                  </Col>
+                </Row>
                 <Table
                   columns={COLUMNS}
-                  dataSource={summary.districtRows}
+                  dataSource={filteredDistrictRows}
                   pagination={{ pageSize: 14, showSizeChanger: false }}
                   scroll={{ x: 780 }}
                   size="small"
