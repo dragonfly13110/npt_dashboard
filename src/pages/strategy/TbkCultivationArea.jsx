@@ -28,10 +28,14 @@ import { supabase } from '../../supabaseClient';
 import {
   filterTbkCultivationRows,
   summarizeTbkCultivationRows,
-  topTbkCultivationItems,
 } from '../../utils/tbkCultivation';
 
 const EMPTY_TEXT = 'ยังไม่มี snapshot ข้อมูลพื้นที่ตาม ทบก.';
+const CHART_METRICS = {
+  areaRai: { label: 'พื้นที่', unit: 'ไร่' },
+  plotCount: { label: 'จำนวนแปลง', unit: 'แปลง' },
+  householdCount: { label: 'ครัวเรือน', unit: 'ครัวเรือน' },
+};
 
 function formatInteger(value) {
   return Number(value || 0).toLocaleString('th-TH');
@@ -70,7 +74,19 @@ function normalizeRows(rows) {
   }));
 }
 
-function cultivationChartOption(items) {
+function aggregateChartItems(rows, labelKey, valueKey = 'areaRai', limit = 8) {
+  const totals = new Map();
+  rows.forEach((row) =>
+    totals.set(row[labelKey], (totals.get(row[labelKey]) || 0) + row[valueKey])
+  );
+  return [...totals]
+    .map(([name, value]) => ({ name, value }))
+    .sort((a, b) => b.value - a.value)
+    .slice(0, limit);
+}
+
+function cultivationChartOption(items, metric) {
+  const { unit } = CHART_METRICS[metric];
   return {
     aria: {
       enabled: true,
@@ -79,7 +95,7 @@ function cultivationChartOption(items) {
     tooltip: {
       trigger: 'axis',
       axisPointer: { type: 'shadow' },
-      valueFormatter: (value) => `${formatDecimal(value)} ไร่`,
+      valueFormatter: (value) => `${formatDecimal(value)} ${unit}`,
     },
     grid: { left: 16, right: 96, top: 16, bottom: 16, containLabel: true },
     xAxis: {
@@ -89,15 +105,15 @@ function cultivationChartOption(items) {
     yAxis: {
       type: 'category',
       inverse: true,
-      data: items.map((item) => item.itemBreed),
+      data: items.map((item) => item.name),
       axisLabel: { width: 220, overflow: 'truncate' },
     },
     series: [
       {
-        name: 'พื้นที่เพาะปลูก',
+        name: unit,
         type: 'bar',
         barMaxWidth: 30,
-        data: items.map((item) => Number(item.areaRai.toFixed(2))),
+        data: items.map((item) => Number(item.value.toFixed(2))),
         label: {
           show: true,
           position: 'right',
@@ -116,6 +132,70 @@ function cultivationChartOption(items) {
             ],
           },
         },
+      },
+    ],
+  };
+}
+
+function pieChartOption(items) {
+  return {
+    tooltip: {
+      trigger: 'item',
+      formatter: ({ name, value, percent }) =>
+        `${name}<br/>${formatDecimal(value)} ไร่ (${percent}%)`,
+    },
+    legend: {
+      type: 'scroll',
+      orient: 'vertical',
+      right: 0,
+      top: 'middle',
+      width: 90,
+    },
+    series: [
+      {
+        type: 'pie',
+        radius: ['40%', '64%'],
+        center: ['30%', '50%'],
+        data: items,
+        label: { show: false },
+      },
+    ],
+  };
+}
+
+function compactBarOption(items) {
+  return {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+      valueFormatter: (value) => `${formatDecimal(value)} ไร่`,
+    },
+    grid: { left: 8, right: 36, top: 8, bottom: 8, containLabel: true },
+    xAxis: {
+      type: 'value',
+      splitNumber: 3,
+      axisLabel: {
+        hideOverlap: true,
+        formatter: (value) =>
+          Number(value).toLocaleString('th-TH', {
+            notation: 'compact',
+            maximumFractionDigits: 1,
+          }),
+      },
+    },
+    yAxis: {
+      type: 'category',
+      inverse: true,
+      data: items.map((item) => item.name),
+      axisLabel: { width: 110, overflow: 'truncate' },
+    },
+    series: [
+      {
+        type: 'bar',
+        data: items.map((item) => Number(item.value.toFixed(2))),
+        barMaxWidth: 18,
+        label: { show: false },
+        itemStyle: { color: '#0ea5e9' },
       },
     ],
   };
@@ -200,6 +280,8 @@ export default function TbkCultivationArea() {
   const [rows, setRows] = useState([]);
   const [meta, setMeta] = useState(null);
   const [groupCode, setGroupCode] = useState('');
+  const [locationName, setLocationName] = useState('');
+  const [chartMetric, setChartMetric] = useState('areaRai');
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
@@ -257,16 +339,27 @@ export default function TbkCultivationArea() {
         .sort((a, b) => a.value.localeCompare(b.value)),
     [rows]
   );
+  const locations = useMemo(
+    () =>
+      [...new Set(rows.map((row) => row.locationName))]
+        .sort((a, b) => a.localeCompare(b, 'th'))
+        .map((value) => ({ value, label: value })),
+    [rows]
+  );
   const filteredRows = useMemo(
-    () => filterTbkCultivationRows(rows, { groupCode, search }),
-    [rows, groupCode, search]
+    () => filterTbkCultivationRows(rows, { groupCode, locationName, search }),
+    [rows, groupCode, locationName, search]
   );
   const summary = useMemo(
     () => summarizeTbkCultivationRows(filteredRows),
     [filteredRows]
   );
   const chartItems = useMemo(
-    () => topTbkCultivationItems(filteredRows),
+    () => aggregateChartItems(filteredRows, 'itemBreed', chartMetric, 10),
+    [filteredRows, chartMetric]
+  );
+  const groupChartItems = useMemo(
+    () => aggregateChartItems(filteredRows, 'groupName'),
     [filteredRows]
   );
 
@@ -421,6 +514,26 @@ export default function TbkCultivationArea() {
         </Card>
       ) : (
         <>
+          <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+            {[
+              ['รายการ', formatInteger(summary.rowCount)],
+              ['แปลงตามรายการ', formatInteger(summary.plotCount)],
+              ['เนื้อที่ (ไร่)', formatDecimal(summary.areaRai)],
+              ['พื้นที่ประสบภัย (ไร่)', formatDecimal(summary.disasterAreaRai)],
+              ['พื้นที่คงเหลือ (ไร่)', formatDecimal(summary.remainingAreaRai)],
+            ].map(([title, value]) => (
+              <Col xs={24} sm={12} xl={4} key={title} flex="1 1 180px">
+                <Card variant="borderless" style={{ height: '100%' }}>
+                  <Statistic
+                    title={title}
+                    value={value}
+                    formatter={() => value}
+                  />
+                </Card>
+              </Col>
+            ))}
+          </Row>
+
           <Card
             style={{
               marginBottom: 16,
@@ -442,6 +555,19 @@ export default function TbkCultivationArea() {
                   style={{ width: '100%', marginTop: 4 }}
                 />
               </Col>
+              <Col xs={24} md={6}>
+                <label htmlFor="tbk-district">อำเภอ</label>
+                <Select
+                  id="tbk-district"
+                  aria-label="อำเภอ"
+                  allowClear
+                  placeholder="ทุกอำเภอ"
+                  options={locations}
+                  value={locationName || undefined}
+                  onChange={(value) => setLocationName(value || '')}
+                  style={{ width: '100%', marginTop: 4 }}
+                />
+              </Col>
               <Col xs={24} md={10}>
                 <label htmlFor="tbk-search">ค้นหาชนิดหรือพันธุ์</label>
                 <Input
@@ -455,7 +581,7 @@ export default function TbkCultivationArea() {
                   style={{ marginTop: 4 }}
                 />
               </Col>
-              <Col xs={24} md={6}>
+              <Col xs={24} md={24}>
                 <div
                   style={{
                     display: 'flex',
@@ -492,26 +618,6 @@ export default function TbkCultivationArea() {
             </div>
           </Card>
 
-          <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
-            {[
-              ['รายการ', formatInteger(summary.rowCount)],
-              ['แปลงตามรายการ', formatInteger(summary.plotCount)],
-              ['เนื้อที่ (ไร่)', formatDecimal(summary.areaRai)],
-              ['พื้นที่ประสบภัย (ไร่)', formatDecimal(summary.disasterAreaRai)],
-              ['พื้นที่คงเหลือ (ไร่)', formatDecimal(summary.remainingAreaRai)],
-            ].map(([title, value]) => (
-              <Col xs={24} sm={12} xl={4} key={title} flex="1 1 180px">
-                <Card variant="borderless" style={{ height: '100%' }}>
-                  <Statistic
-                    title={title}
-                    value={value}
-                    formatter={() => value}
-                  />
-                </Card>
-              </Col>
-            ))}
-          </Row>
-
           <Card
             title={
               <span
@@ -522,10 +628,12 @@ export default function TbkCultivationArea() {
                 }}
               >
                 <BarChartOutlined style={{ color: '#15803d' }} />
-                10 ชนิด/พันธุ์ที่มีพื้นที่เพาะปลูกมากที่สุด
+                10 ชนิด/พันธุ์ที่มี{CHART_METRICS[chartMetric].label}สูงสุด
               </span>
             }
-            extra={<Tag color="green">หน่วย: ไร่</Tag>}
+            extra={
+              <Tag color="green">หน่วย: {CHART_METRICS[chartMetric].unit}</Tag>
+            }
             style={{ marginBottom: 16 }}
             styles={{
               header: {
@@ -535,14 +643,68 @@ export default function TbkCultivationArea() {
             }}
           >
             {chartItems.length ? (
-              <EChart
-                option={cultivationChartOption(chartItems)}
-                style={{ height: Math.max(320, chartItems.length * 48) }}
-              />
+              <>
+                <Select
+                  aria-label="ตัวชี้วัดกราฟ"
+                  value={chartMetric}
+                  onChange={setChartMetric}
+                  options={[
+                    ...Object.entries(CHART_METRICS).map(([value, metric]) => ({
+                      value,
+                      label: `${metric.label} (${metric.unit})`,
+                    })),
+                  ]}
+                  style={{ width: 180, marginBottom: 8 }}
+                />
+                <EChart
+                  option={cultivationChartOption(chartItems, chartMetric)}
+                  style={{ height: 250 }}
+                />
+              </>
             ) : (
               <Empty description="ไม่พบข้อมูลสำหรับสร้างกราฟ" />
             )}
           </Card>
+
+          <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+            <Col xs={24} lg={8}>
+              <Card title="สัดส่วนพื้นที่ตามกลุ่ม" size="small">
+                <EChart
+                  option={pieChartOption(groupChartItems)}
+                  style={{ height: 240 }}
+                />
+              </Card>
+            </Col>
+            <Col xs={24} lg={8}>
+              <Card title="จัดอันดับพื้นที่ตามกลุ่ม" size="small">
+                <EChart
+                  option={compactBarOption(groupChartItems)}
+                  style={{ height: 240 }}
+                />
+              </Card>
+            </Col>
+            <Col xs={24} lg={8}>
+              <Card title="ภาพรวมภัยเทียบพื้นที่คงเหลือ" size="small">
+                <EChart
+                  option={{
+                    tooltip: { trigger: 'item' },
+                    series: [
+                      {
+                        type: 'pie',
+                        radius: ['46%', '72%'],
+                        data: [
+                          { name: 'คงเหลือ', value: summary.remainingAreaRai },
+                          { name: 'ประสบภัย', value: summary.disasterAreaRai },
+                        ],
+                        label: { formatter: '{b}\n{d}%' },
+                      },
+                    ],
+                  }}
+                  style={{ height: 240 }}
+                />
+              </Card>
+            </Col>
+          </Row>
 
           <Alert
             type="info"

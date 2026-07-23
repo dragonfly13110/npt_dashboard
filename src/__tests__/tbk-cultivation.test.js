@@ -66,6 +66,7 @@ describe('TBK cultivation report', () => {
     });
     const filtered = filterTbkCultivationRows(rows, {
       groupCode: '01',
+      locationName: 'นครปฐม',
       search: 'กข43',
     });
 
