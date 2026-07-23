@@ -147,6 +147,7 @@ function summarize(rows) {
     districtRows.set(`${row.district_code}:${month}`, {
       key: `${row.district_code}:${month}`,
       district: row.district,
+      harvestMonth: month,
       monthLabel: MONTH_LABELS[month - 1],
       householdCount: Number(row.household_count) || 0,
       plotCount: Number(row.plot_count) || 0,
@@ -156,11 +157,10 @@ function summarize(rows) {
   }
   return {
     monthly,
-    districtRows: [...districtRows.values()].sort((a, b) =>
-      `${a.district}${a.monthLabel}`.localeCompare(
-        `${b.district}${b.monthLabel}`,
-        'th'
-      )
+    districtRows: [...districtRows.values()].sort(
+      (a, b) =>
+        a.district.localeCompare(b.district, 'th') ||
+        a.harvestMonth - b.harvestMonth
     ),
     areaRai: monthly.reduce((sum, row) => sum + row.areaRai, 0),
     estimatedTons: monthly.reduce((sum, row) => sum + row.estimatedTons, 0),

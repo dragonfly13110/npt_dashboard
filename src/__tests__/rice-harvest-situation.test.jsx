@@ -3,6 +3,19 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import RiceHarvestSituation from '../pages/production/RiceHarvestSituation';
 
 const rows = [
+  {
+    snapshot_date: '2026-07-23',
+    scraped_at: '2026-07-23T01:00:00Z',
+    source_cutoff_date: '2026-07-23',
+    crop_year: '2569/70',
+    district_code: '2-730100',
+    district: 'district 1',
+    harvest_month: 2,
+    household_count: 1,
+    plot_count: 1,
+    area_rai: 10,
+    estimated_tons: 8,
+  },
   ...Array.from({ length: 7 }, (_, index) => ({
     snapshot_date: '2026-07-23',
     scraped_at: '2026-07-23T01:00:00Z',
@@ -74,20 +87,26 @@ describe('RiceHarvestSituation page', () => {
     );
 
     expect(screen.getByText('2569/70')).toBeInTheDocument();
-    expect(screen.getByText('district 1')).toBeInTheDocument();
+    expect(screen.getAllByText('district 1')).not.toHaveLength(0);
     expect(
       screen.getByText(
         /\u0e40\u0e1b\u0e25\u0e35\u0e48\u0e22\u0e19\u0e08\u0e32\u0e01/
       )
     ).toBeInTheDocument();
     expect(screen.getByTestId('rice-harvest-chart')).toBeInTheDocument();
+
+    expect(
+      screen
+        .getAllByText('district 1')
+        .map((cell) => cell.closest('tr').children[1].textContent)
+    ).toEqual(['\u0e01.\u0e1e.', '\u0e1e.\u0e22.']);
   });
 
   it('renders Thai UI copy instead of literal Unicode escape sequences', async () => {
     render(<RiceHarvestSituation />);
 
     await waitFor(() =>
-      expect(screen.getByText('district 1')).toBeInTheDocument()
+      expect(screen.getAllByText('district 1')).not.toHaveLength(0)
     );
 
     expect(screen.queryByText(/\\u0e[0-9a-f]{2}/i)).not.toBeInTheDocument();
