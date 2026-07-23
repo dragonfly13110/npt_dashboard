@@ -66,12 +66,30 @@ describe('RiceHarvestSituation page', () => {
     render(<RiceHarvestSituation />);
 
     await waitFor(() =>
-      expect(screen.getByText(/\u0e02\u0e49\u0e32\u0e27\u0e04\u0e32\u0e14\u0e01\u0e32\u0e23\u0e13\u0e4c\u0e23\u0e27\u0e21/)).toBeInTheDocument()
+      expect(
+        screen.getByText(
+          /\u0e02\u0e49\u0e32\u0e27\u0e04\u0e32\u0e14\u0e01\u0e32\u0e23\u0e13\u0e4c\u0e23\u0e27\u0e21/
+        )
+      ).toBeInTheDocument()
     );
 
     expect(screen.getByText('2569/70')).toBeInTheDocument();
     expect(screen.getByText('district 1')).toBeInTheDocument();
-    expect(screen.getByText(/\u0e40\u0e1b\u0e25\u0e35\u0e48\u0e22\u0e19\u0e08\u0e32\u0e01/)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /\u0e40\u0e1b\u0e25\u0e35\u0e48\u0e22\u0e19\u0e08\u0e32\u0e01/
+      )
+    ).toBeInTheDocument();
     expect(screen.getByTestId('rice-harvest-chart')).toBeInTheDocument();
+  });
+
+  it('renders Thai UI copy instead of literal Unicode escape sequences', async () => {
+    render(<RiceHarvestSituation />);
+
+    await waitFor(() =>
+      expect(screen.getByText('district 1')).toBeInTheDocument()
+    );
+
+    expect(screen.queryByText(/\\u0e[0-9a-f]{2}/i)).not.toBeInTheDocument();
   });
 });
