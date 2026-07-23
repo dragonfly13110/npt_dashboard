@@ -9,12 +9,16 @@
     "ไม่มีสมาชิกครัวเรือน",
     "ตรวจทะเบียนราษฎร"
   ],
-  "review_flags": ["RF-017", "RF-020"],
-  "assets": [
-    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/c8f002ed4b7b75b7cb3132184c4fc11e.png"
+  "review_flags": [
+    "RF-017",
+    "RF-020"
   ],
-  "source_pdf_pages": [70],
-  "source_printed_pages": [68],
+  "source_pdf_pages": [
+    70
+  ],
+  "source_printed_pages": [
+    68
+  ],
   "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
   "body_markdown": "# แบบยกเลิกทะเบียน กรณีหัวหน้าครัวเรือนเสียชีวิตและไม่มีสมาชิก\n\n## ผู้ที่กรอกแบบได้\n\nแบบมีตัวเลือกฐานะผู้ยื่น ได้แก่ บุตร ญาติ หรือพี่น้อง ผู้นำชุมชน หรืออาสาสมัครเกษตรหมู่บ้าน\n\n## ข้อมูลในแบบ\n\n- ข้อมูลผู้ยื่นและฐานะของผู้ยื่น\n- ข้อมูลหัวหน้าครัวเรือนผู้เสียชีวิต\n- เหตุการเสียชีวิต\n- ลายมือชื่อผู้ยื่น พยาน และเจ้าหน้าที่ผู้รับคำร้อง\n\nเมื่อเจ้าหน้าที่บันทึกข้อมูล ระบบทะเบียนเกษตรกรจะตรวจสอบข้อมูลการเสียชีวิตจากทะเบียนราษฎรและดำเนินการยกเลิกตามหลักเกณฑ์ ผู้ยื่นกับพยานต้องไม่เป็นบุคคลเดียวกัน\n\n## อ้างอิงต้นฉบับ\n\n- PDF หน้า 70\n- หน้าเอกสาร 68\n- ภาคผนวก 3 (7)\n"
 }

@@ -29,6 +29,7 @@ import {
   DownloadOutlined,
   EditOutlined,
   EnvironmentOutlined,
+  FilterOutlined,
   PlusOutlined,
   SearchOutlined,
   ShopOutlined,
@@ -1104,49 +1105,169 @@ export function HousewifeFarmerGroups() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
             gap: 12,
+            alignItems: 'end',
           }}
         >
-          <Select
-            value={activeYear}
-            onChange={(value) => {
-              setYear(value);
-              setDistrict(ALL);
-              setActivity(ALL);
-              setPotential(ALL);
-              setSalesChannel(ALL);
-            }}
-            options={years.map((value) => ({ value, label: `ปี ${value}` }))}
-            placeholder="เลือกปี"
-          />
-          <Input
-            allowClear
-            prefix={<SearchOutlined />}
-            placeholder="ค้นหาชื่อกลุ่ม อำเภอ ตำบล กิจกรรม"
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-          />
-          <Select
-            value={district}
-            onChange={setDistrict}
-            options={districts.map((value) => ({ value, label: value }))}
-          />
-          <Select
-            value={activity}
-            onChange={setActivity}
-            options={activities.map((value) => ({ value, label: value }))}
-          />
-          <Select
-            value={potential}
-            onChange={setPotential}
-            options={potentials.map((value) => ({ value, label: value }))}
-          />
-          <Select
-            value={salesChannel}
-            onChange={setSalesChannel}
-            options={salesChannels.map((value) => ({ value, label: value }))}
-          />
+          <div>
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                color: '#475569',
+                marginBottom: 4,
+              }}
+            >
+              ปีข้อมูล
+            </div>
+            <Select
+              style={{ width: '100%' }}
+              value={activeYear}
+              onChange={(value) => {
+                setYear(value);
+                setDistrict(ALL);
+                setActivity(ALL);
+                setPotential(ALL);
+                setSalesChannel(ALL);
+              }}
+              options={years.map((value) => ({ value, label: `ปี ${value}` }))}
+              placeholder="เลือกปี"
+            />
+          </div>
+
+          <div>
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                color: '#475569',
+                marginBottom: 4,
+              }}
+            >
+              ค้นหาชื่อกลุ่ม / ตำบล
+            </div>
+            <Input
+              allowClear
+              prefix={<SearchOutlined />}
+              placeholder="พิมพ์คำค้นหา..."
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+            />
+          </div>
+
+          <div>
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                color: '#475569',
+                marginBottom: 4,
+              }}
+            >
+              อำเภอ
+            </div>
+            <Select
+              style={{ width: '100%' }}
+              value={district}
+              onChange={setDistrict}
+              options={districts.map((value) => ({
+                value,
+                label: value === ALL ? 'ทุกอำเภอ (ทั้งหมด)' : value,
+              }))}
+            />
+          </div>
+
+          <div>
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                color: '#475569',
+                marginBottom: 4,
+              }}
+            >
+              กิจกรรมกลุ่ม
+            </div>
+            <Select
+              style={{ width: '100%' }}
+              value={activity}
+              onChange={setActivity}
+              options={activities.map((value) => ({
+                value,
+                label: value === ALL ? 'ทุกกิจกรรม (ทั้งหมด)' : value,
+              }))}
+            />
+          </div>
+
+          <div>
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                color: '#475569',
+                marginBottom: 4,
+              }}
+            >
+              ระดับศักยภาพ
+            </div>
+            <Select
+              style={{ width: '100%' }}
+              value={potential}
+              onChange={setPotential}
+              options={potentials.map((value) => ({
+                value,
+                label:
+                  value === ALL ? 'ทุกระดับศักยภาพ (ทั้งหมด)' : `ระดับ: ${value}`,
+              }))}
+            />
+          </div>
+
+          <div>
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                color: '#475569',
+                marginBottom: 4,
+              }}
+            >
+              ช่องทางจำหน่าย
+            </div>
+            <Select
+              style={{ width: '100%' }}
+              value={salesChannel}
+              onChange={setSalesChannel}
+              options={salesChannels.map((value) => ({
+                value,
+                label:
+                  value === ALL ? 'ทุกช่องทาง (ทั้งหมด)' : `ช่องทาง: ${value}`,
+              }))}
+            />
+          </div>
+
+          {(search ||
+            district !== ALL ||
+            activity !== ALL ||
+            potential !== ALL ||
+            salesChannel !== ALL) && (
+            <div>
+              <Button
+                icon={<FilterOutlined />}
+                onClick={() => {
+                  setSearch('');
+                  setDistrict(ALL);
+                  setActivity(ALL);
+                  setPotential(ALL);
+                  setSalesChannel(ALL);
+                }}
+                danger
+                style={{ width: '100%' }}
+              >
+                ล้างตัวกรอง
+              </Button>
+            </div>
+          )}
         </div>
       </Card>
 

@@ -11,11 +11,12 @@
       "ฉบับเดือนพฤษภาคม 2569"
     ],
     "review_flags": [],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/b87810b9a341ddc8d8d1fe0b0a23ca76.png"
+    "source_pdf_pages": [
+      1
     ],
-    "source_pdf_pages": [1],
-    "source_printed_pages": [-1],
+    "source_printed_pages": [
+      -1
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -23,13 +24,20 @@
     "title": "สารบัญเอกสารต้นฉบับ",
     "category": "ข้อมูลเอกสาร",
     "citation_text": "PDF หน้า 2; หน้าเอกสาร 0",
-    "topics": ["สารบัญ", "โครงสร้างคู่มือ", "เลขหน้า"],
-    "review_flags": ["RF-034"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/2f4345e331258db807f7afb6f5c38ad0.png"
+    "topics": [
+      "สารบัญ",
+      "โครงสร้างคู่มือ",
+      "เลขหน้า"
     ],
-    "source_pdf_pages": [2],
-    "source_printed_pages": [0],
+    "review_flags": [
+      "RF-034"
+    ],
+    "source_pdf_pages": [
+      2
+    ],
+    "source_printed_pages": [
+      0
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -44,11 +52,12 @@
       "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร"
     ],
     "review_flags": [],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/cc1a4c4497cd9e15bf084623091b0c1b.png"
+    "source_pdf_pages": [
+      90
     ],
-    "source_pdf_pages": [90],
-    "source_printed_pages": [88],
+    "source_printed_pages": [
+      88
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -65,9 +74,12 @@
       "แบบคำร้อง"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [3],
-    "source_printed_pages": [1],
+    "source_pdf_pages": [
+      3
+    ],
+    "source_printed_pages": [
+      1
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -84,9 +96,14 @@
       "หนี้สิน"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [4, 5],
-    "source_printed_pages": [2, 3],
+    "source_pdf_pages": [
+      4,
+      5
+    ],
+    "source_printed_pages": [
+      2,
+      3
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -94,11 +111,19 @@
     "title": "ระบบเกษตรอัจฉริยะในแบบทะเบียนเกษตรกร",
     "category": "นิยามศัพท์",
     "citation_text": "PDF หน้า 4; หน้าเอกสาร 2",
-    "topics": ["เกษตรอัจฉริยะ", "โรงเรือนอัจฉริยะ", "เซ็นเซอร์", "IoT"],
+    "topics": [
+      "เกษตรอัจฉริยะ",
+      "โรงเรือนอัจฉริยะ",
+      "เซ็นเซอร์",
+      "IoT"
+    ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [4],
-    "source_printed_pages": [2],
+    "source_pdf_pages": [
+      4
+    ],
+    "source_printed_pages": [
+      2
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -115,10 +140,17 @@
       "เก็บเกี่ยว",
       "สูบน้ำ"
     ],
-    "review_flags": ["RF-002"],
-    "assets": [],
-    "source_pdf_pages": [5, 6],
-    "source_printed_pages": [3, 4],
+    "review_flags": [
+      "RF-002"
+    ],
+    "source_pdf_pages": [
+      5,
+      6
+    ],
+    "source_printed_pages": [
+      3,
+      4
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -136,10 +168,19 @@
       "ส.ท.ก.",
       "ส.ค.1"
     ],
-    "review_flags": ["RF-001"],
-    "assets": [],
-    "source_pdf_pages": [7, 8, 9],
-    "source_printed_pages": [5, 6, 7],
+    "review_flags": [
+      "RF-001"
+    ],
+    "source_pdf_pages": [
+      7,
+      8,
+      9
+    ],
+    "source_printed_pages": [
+      5,
+      6,
+      7
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -157,9 +198,16 @@
       "ลองจิจูด"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [9, 10, 11],
-    "source_printed_pages": [7, 8, 9],
+    "source_pdf_pages": [
+      9,
+      10,
+      11
+    ],
+    "source_printed_pages": [
+      7,
+      8,
+      9
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -167,11 +215,21 @@
     "title": "สวนเดี่ยว สวนแซม และสวนผสม",
     "category": "นิยามศัพท์",
     "citation_text": "PDF หน้า 11, 12; หน้าเอกสาร 9, 10",
-    "topics": ["สวนเดี่ยว", "สวนแซม", "สวนผสม", "การคิดพื้นที่ปลูก"],
+    "topics": [
+      "สวนเดี่ยว",
+      "สวนแซม",
+      "สวนผสม",
+      "การคิดพื้นที่ปลูก"
+    ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [11, 12],
-    "source_printed_pages": [9, 10],
+    "source_pdf_pages": [
+      11,
+      12
+    ],
+    "source_printed_pages": [
+      9,
+      10
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -187,10 +245,17 @@
       "ครั่ง",
       "เคลื่อนย้ายรังผึ้ง"
     ],
-    "review_flags": ["RF-003"],
-    "assets": [],
-    "source_pdf_pages": [12, 13],
-    "source_printed_pages": [10, 11],
+    "review_flags": [
+      "RF-003"
+    ],
+    "source_pdf_pages": [
+      12,
+      13
+    ],
+    "source_printed_pages": [
+      10,
+      11
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -209,10 +274,19 @@
       "Organic Thailand",
       "IFOAM"
     ],
-    "review_flags": ["RF-004"],
-    "assets": [],
-    "source_pdf_pages": [13, 14, 15],
-    "source_printed_pages": [11, 12, 13],
+    "review_flags": [
+      "RF-004"
+    ],
+    "source_pdf_pages": [
+      13,
+      14,
+      15
+    ],
+    "source_printed_pages": [
+      11,
+      12,
+      13
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -230,9 +304,14 @@
       "เกษตรพันธสัญญา"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [15, 16],
-    "source_printed_pages": [13, 14],
+    "source_pdf_pages": [
+      15,
+      16
+    ],
+    "source_printed_pages": [
+      13,
+      14
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -250,9 +329,14 @@
       "ข้อมูลทะเบียนเกษตรกร"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [17, 18],
-    "source_printed_pages": [15, 16],
+    "source_pdf_pages": [
+      17,
+      18
+    ],
+    "source_printed_pages": [
+      15,
+      16
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -270,9 +354,14 @@
       "การวางแผนการผลิต"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [18, 19],
-    "source_printed_pages": [16, 17],
+    "source_pdf_pages": [
+      18,
+      19
+    ],
+    "source_printed_pages": [
+      16,
+      17
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -288,9 +377,12 @@
       "3.47 ล้านแปลง"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [20],
-    "source_printed_pages": [18],
+    "source_pdf_pages": [
+      20
+    ],
+    "source_printed_pages": [
+      18
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -305,9 +397,12 @@
       "คู่สมรส"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [21],
-    "source_printed_pages": [19],
+    "source_pdf_pages": [
+      21
+    ],
+    "source_printed_pages": [
+      19
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -323,9 +418,12 @@
       "ร่วมลงทุน"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [21],
-    "source_printed_pages": [19],
+    "source_pdf_pages": [
+      21
+    ],
+    "source_printed_pages": [
+      19
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -342,9 +440,12 @@
       "ความยินยอม"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [22],
-    "source_printed_pages": [20],
+    "source_pdf_pages": [
+      22
+    ],
+    "source_printed_pages": [
+      20
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -360,9 +461,12 @@
       "สิทธิโครงการ"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [22],
-    "source_printed_pages": [20],
+    "source_pdf_pages": [
+      22
+    ],
+    "source_printed_pages": [
+      20
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -379,9 +483,12 @@
       "พื้นที่สาธารณประโยชน์"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [23],
-    "source_printed_pages": [21],
+    "source_pdf_pages": [
+      23
+    ],
+    "source_printed_pages": [
+      21
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -397,9 +504,12 @@
       "แมลงเศรษฐกิจ"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [24],
-    "source_printed_pages": [22],
+    "source_pdf_pages": [
+      24
+    ],
+    "source_printed_pages": [
+      22
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -416,9 +526,12 @@
       "ผลประโยชน์ทับซ้อน"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [24],
-    "source_printed_pages": [22],
+    "source_pdf_pages": [
+      24
+    ],
+    "source_printed_pages": [
+      22
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -434,9 +547,12 @@
       "กรุงเทพมหานคร"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [24],
-    "source_printed_pages": [22],
+    "source_pdf_pages": [
+      24
+    ],
+    "source_printed_pages": [
+      22
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -453,9 +569,12 @@
       "ไม่ปรับปรุง 3 ปี"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [25],
-    "source_printed_pages": [23],
+    "source_pdf_pages": [
+      25
+    ],
+    "source_printed_pages": [
+      23
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -472,9 +591,12 @@
       "e-Form"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [25],
-    "source_printed_pages": [23],
+    "source_pdf_pages": [
+      25
+    ],
+    "source_printed_pages": [
+      23
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -491,9 +613,12 @@
       "ไม่มีเอกสารสิทธิ์"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [26],
-    "source_printed_pages": [24],
+    "source_pdf_pages": [
+      26
+    ],
+    "source_printed_pages": [
+      24
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -509,10 +634,18 @@
       "วันปลูก",
       "กรอบเวลาบันทึกข้อมูล"
     ],
-    "review_flags": ["RF-005", "RF-006"],
-    "assets": [],
-    "source_pdf_pages": [27, 28],
-    "source_printed_pages": [25, 26],
+    "review_flags": [
+      "RF-005",
+      "RF-006"
+    ],
+    "source_pdf_pages": [
+      27,
+      28
+    ],
+    "source_printed_pages": [
+      25,
+      26
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -528,10 +661,17 @@
       "ยางพารา",
       "ไม้ผลไม้ยืนต้น"
     ],
-    "review_flags": ["RF-005"],
-    "assets": [],
-    "source_pdf_pages": [28, 29],
-    "source_printed_pages": [26, 27],
+    "review_flags": [
+      "RF-005"
+    ],
+    "source_pdf_pages": [
+      28,
+      29
+    ],
+    "source_printed_pages": [
+      26,
+      27
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -547,10 +687,15 @@
       "ผักงอก",
       "ผำ"
     ],
-    "review_flags": ["RF-005"],
-    "assets": [],
-    "source_pdf_pages": [29],
-    "source_printed_pages": [27],
+    "review_flags": [
+      "RF-005"
+    ],
+    "source_pdf_pages": [
+      29
+    ],
+    "source_printed_pages": [
+      27
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -566,10 +711,17 @@
       "เคลื่อนย้ายรัง",
       "นาเกลือสมุทร"
     ],
-    "review_flags": ["RF-005"],
-    "assets": [],
-    "source_pdf_pages": [29, 30],
-    "source_printed_pages": [27, 28],
+    "review_flags": [
+      "RF-005"
+    ],
+    "source_pdf_pages": [
+      29,
+      30
+    ],
+    "source_printed_pages": [
+      27,
+      28
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -585,9 +737,12 @@
       "ข้อมูลส่วนบุคคล"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [31],
-    "source_printed_pages": [29],
+    "source_pdf_pages": [
+      31
+    ],
+    "source_printed_pages": [
+      29
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -604,9 +759,14 @@
       "ทบก.01"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [31, 32],
-    "source_printed_pages": [29, 30],
+    "source_pdf_pages": [
+      31,
+      32
+    ],
+    "source_printed_pages": [
+      29,
+      30
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -623,9 +783,12 @@
       "เกษตรพันธสัญญา"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [32],
-    "source_printed_pages": [30],
+    "source_pdf_pages": [
+      32
+    ],
+    "source_printed_pages": [
+      30
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -641,9 +804,14 @@
       "การลงชื่อยืนยัน"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [32, 33],
-    "source_printed_pages": [30, 31],
+    "source_pdf_pages": [
+      32,
+      33
+    ],
+    "source_printed_pages": [
+      30,
+      31
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -651,11 +819,20 @@
     "title": "ขั้นตอนการติดประกาศในหมู่บ้านหรือชุมชน",
     "category": "ขั้นตอนและวิธีปฏิบัติงาน",
     "citation_text": "PDF หน้า 33; หน้าเอกสาร 31",
-    "topics": ["ติดประกาศ", "หมู่บ้าน", "ชุมชน", "ระยะเวลา 3 วัน", "บันทึกผล"],
+    "topics": [
+      "ติดประกาศ",
+      "หมู่บ้าน",
+      "ชุมชน",
+      "ระยะเวลา 3 วัน",
+      "บันทึกผล"
+    ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [33],
-    "source_printed_pages": [31],
+    "source_pdf_pages": [
+      33
+    ],
+    "source_printed_pages": [
+      31
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -670,10 +847,15 @@
       "มาตรา 137",
       "มาตรา 267"
     ],
-    "review_flags": ["RF-009"],
-    "assets": [],
-    "source_pdf_pages": [33],
-    "source_printed_pages": [31],
+    "review_flags": [
+      "RF-009"
+    ],
+    "source_pdf_pages": [
+      33
+    ],
+    "source_printed_pages": [
+      31
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -691,10 +873,17 @@
       "QGIS",
       "ผังแปลงดิจิทัล"
     ],
-    "review_flags": ["RF-007"],
-    "assets": [],
-    "source_pdf_pages": [34, 36],
-    "source_printed_pages": [32, 34],
+    "review_flags": [
+      "RF-007"
+    ],
+    "source_pdf_pages": [
+      34,
+      36
+    ],
+    "source_printed_pages": [
+      32,
+      34
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -712,9 +901,12 @@
       "อุทธรณ์"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [34],
-    "source_printed_pages": [32],
+    "source_pdf_pages": [
+      34
+    ],
+    "source_printed_pages": [
+      32
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -731,9 +923,12 @@
       "อุทธรณ์"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [35],
-    "source_printed_pages": [33],
+    "source_pdf_pages": [
+      35
+    ],
+    "source_printed_pages": [
+      33
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -749,9 +944,12 @@
       "เขตชั้นนอก"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [35],
-    "source_printed_pages": [33],
+    "source_pdf_pages": [
+      35
+    ],
+    "source_printed_pages": [
+      33
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -759,11 +957,19 @@
     "title": "การยืนยันผลผ่านและการพิมพ์เอกสาร",
     "category": "ขั้นตอนและวิธีปฏิบัติงาน",
     "citation_text": "PDF หน้า 36; หน้าเอกสาร 34",
-    "topics": ["ผลตรวจสอบ", "สถานะผ่าน", "สมุดทะเบียนเกษตรกร", "ใบรายงานผล"],
+    "topics": [
+      "ผลตรวจสอบ",
+      "สถานะผ่าน",
+      "สมุดทะเบียนเกษตรกร",
+      "ใบรายงานผล"
+    ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [36],
-    "source_printed_pages": [34],
+    "source_pdf_pages": [
+      36
+    ],
+    "source_printed_pages": [
+      34
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -780,9 +986,12 @@
       "สถานที่ยื่น"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [36],
-    "source_printed_pages": [34],
+    "source_pdf_pages": [
+      36
+    ],
+    "source_printed_pages": [
+      34
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -799,9 +1008,14 @@
       "หนังสือมอบอำนาจ"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [36, 37],
-    "source_printed_pages": [34, 35],
+    "source_pdf_pages": [
+      36,
+      37
+    ],
+    "source_printed_pages": [
+      34,
+      35
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -818,9 +1032,12 @@
       "พยาน"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [37],
-    "source_printed_pages": [35],
+    "source_pdf_pages": [
+      37
+    ],
+    "source_printed_pages": [
+      35
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -835,9 +1052,12 @@
       "แบบคำร้อง"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [37],
-    "source_printed_pages": [35],
+    "source_pdf_pages": [
+      37
+    ],
+    "source_printed_pages": [
+      35
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -852,10 +1072,15 @@
       "สมาชิกมากกว่ากึ่งหนึ่ง",
       "3 ปี"
     ],
-    "review_flags": ["RF-008"],
-    "assets": [],
-    "source_pdf_pages": [38],
-    "source_printed_pages": [36],
+    "review_flags": [
+      "RF-008"
+    ],
+    "source_pdf_pages": [
+      38
+    ],
+    "source_printed_pages": [
+      36
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -871,10 +1096,15 @@
       "แจ้งความร้องทุกข์",
       "เกษตรอำเภอ"
     ],
-    "review_flags": ["RF-009"],
-    "assets": [],
-    "source_pdf_pages": [39],
-    "source_printed_pages": [37],
+    "review_flags": [
+      "RF-009"
+    ],
+    "source_pdf_pages": [
+      39
+    ],
+    "source_printed_pages": [
+      37
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -889,9 +1119,12 @@
       "โครงสร้างแบบคำร้อง"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [40],
-    "source_printed_pages": [38],
+    "source_pdf_pages": [
+      40
+    ],
+    "source_printed_pages": [
+      38
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -908,9 +1141,12 @@
       "ที่อยู่ติดต่อ"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [40],
-    "source_printed_pages": [38],
+    "source_pdf_pages": [
+      40
+    ],
+    "source_printed_pages": [
+      38
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -918,11 +1154,19 @@
     "title": "ข้อมูลนิติบุคคลและลักษณะการประกอบอาชีพ",
     "category": "การกรอกแบบคำร้อง",
     "citation_text": "PDF หน้า 41; หน้าเอกสาร 39",
-    "topics": ["นิติบุคคล", "ผู้รับมอบอำนาจ", "อาชีพหลัก", "อาชีพรอง"],
+    "topics": [
+      "นิติบุคคล",
+      "ผู้รับมอบอำนาจ",
+      "อาชีพหลัก",
+      "อาชีพรอง"
+    ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [41],
-    "source_printed_pages": [39],
+    "source_pdf_pages": [
+      41
+    ],
+    "source_printed_pages": [
+      39
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -930,11 +1174,19 @@
     "title": "ระบบการเกษตรอัจฉริยะและเกษตรพันธสัญญา",
     "category": "การกรอกแบบคำร้อง",
     "citation_text": "PDF หน้า 41; หน้าเอกสาร 39",
-    "topics": ["ระบบโรงเรือนอัจฉริยะ", "เซ็นเซอร์", "IoT", "เกษตรพันธสัญญา"],
+    "topics": [
+      "ระบบโรงเรือนอัจฉริยะ",
+      "เซ็นเซอร์",
+      "IoT",
+      "เกษตรพันธสัญญา"
+    ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [41],
-    "source_printed_pages": [39],
+    "source_pdf_pages": [
+      41
+    ],
+    "source_printed_pages": [
+      39
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -949,9 +1201,12 @@
       "รหัสองค์กร"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [41],
-    "source_printed_pages": [39],
+    "source_pdf_pages": [
+      41
+    ],
+    "source_printed_pages": [
+      39
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -967,9 +1222,12 @@
       "หนี้สินนอกภาคเกษตร"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [42],
-    "source_printed_pages": [40],
+    "source_pdf_pages": [
+      42
+    ],
+    "source_printed_pages": [
+      40
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -983,10 +1241,15 @@
       "ไม่รับจ้าง",
       "จำนวนเครื่องจักร"
     ],
-    "review_flags": ["RF-010"],
-    "assets": [],
-    "source_pdf_pages": [43],
-    "source_printed_pages": [41],
+    "review_flags": [
+      "RF-010"
+    ],
+    "source_pdf_pages": [
+      43
+    ],
+    "source_printed_pages": [
+      41
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1001,9 +1264,12 @@
       "ผู้รับรองกิจกรรมการเกษตร"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [44],
-    "source_printed_pages": [42],
+    "source_pdf_pages": [
+      44
+    ],
+    "source_printed_pages": [
+      42
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1011,11 +1277,23 @@
     "title": "เขตชลประทานและค่าพิกัดภูมิศาสตร์",
     "category": "การกรอกแบบคำร้อง",
     "citation_text": "PDF หน้า 44; หน้าเอกสาร 42",
-    "topics": ["เขตชลประทาน", "UTM", "โซน 47", "โซน 48", "ละติจูด", "ลองจิจูด"],
-    "review_flags": ["RF-011"],
-    "assets": [],
-    "source_pdf_pages": [44],
-    "source_printed_pages": [42],
+    "topics": [
+      "เขตชลประทาน",
+      "UTM",
+      "โซน 47",
+      "โซน 48",
+      "ละติจูด",
+      "ลองจิจูด"
+    ],
+    "review_flags": [
+      "RF-011"
+    ],
+    "source_pdf_pages": [
+      44
+    ],
+    "source_printed_pages": [
+      42
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1032,9 +1310,12 @@
       "วันที่เก็บเกี่ยว"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [45],
-    "source_printed_pages": [43],
+    "source_pdf_pages": [
+      45
+    ],
+    "source_printed_pages": [
+      43
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1051,9 +1332,12 @@
       "จำนวนที่ปลูก"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [45],
-    "source_printed_pages": [43],
+    "source_pdf_pages": [
+      45
+    ],
+    "source_printed_pages": [
+      43
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1068,10 +1352,17 @@
       "ผลผลิตคาดการณ์",
       "หน่วยผลผลิต"
     ],
-    "review_flags": ["RF-012"],
-    "assets": [],
-    "source_pdf_pages": [46, 48],
-    "source_printed_pages": [44, 46],
+    "review_flags": [
+      "RF-012"
+    ],
+    "source_pdf_pages": [
+      46,
+      48
+    ],
+    "source_printed_pages": [
+      44,
+      46
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1087,10 +1378,15 @@
       "เกษตรทฤษฎีใหม่",
       "วนเกษตร"
     ],
-    "review_flags": ["RF-004"],
-    "assets": [],
-    "source_pdf_pages": [46],
-    "source_printed_pages": [44],
+    "review_flags": [
+      "RF-004"
+    ],
+    "source_pdf_pages": [
+      46
+    ],
+    "source_printed_pages": [
+      44
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1106,9 +1402,12 @@
       "การแยกหน้าที่"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [47],
-    "source_printed_pages": [45],
+    "source_pdf_pages": [
+      47
+    ],
+    "source_printed_pages": [
+      45
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1116,11 +1415,21 @@
     "title": "การกรอกกรณีสวนแซมหลายครัวเรือนและหน้ารวมรหัส",
     "category": "การกรอกแบบคำร้อง",
     "citation_text": "PDF หน้า 47, 48; หน้าเอกสาร 45, 46",
-    "topics": ["สวนแซม", "หลายครัวเรือน", "สถานะการถือครอง", "หน้ารวมรหัส"],
+    "topics": [
+      "สวนแซม",
+      "หลายครัวเรือน",
+      "สถานะการถือครอง",
+      "หน้ารวมรหัส"
+    ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [47, 48],
-    "source_printed_pages": [45, 46],
+    "source_pdf_pages": [
+      47,
+      48
+    ],
+    "source_printed_pages": [
+      45,
+      46
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1135,9 +1444,12 @@
       "สถานที่ขอเอกสาร"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [49],
-    "source_printed_pages": [47],
+    "source_pdf_pages": [
+      49
+    ],
+    "source_printed_pages": [
+      47
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1152,9 +1464,14 @@
       "การยืนยันความเป็นเกษตรกร"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [49, 50],
-    "source_printed_pages": [47, 48],
+    "source_pdf_pages": [
+      49,
+      50
+    ],
+    "source_printed_pages": [
+      47,
+      48
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1169,10 +1486,17 @@
       "กระดาษ A4",
       "ผลตรวจผ่าน"
     ],
-    "review_flags": ["RF-013"],
-    "assets": [],
-    "source_pdf_pages": [49, 50],
-    "source_printed_pages": [47, 48],
+    "review_flags": [
+      "RF-013"
+    ],
+    "source_pdf_pages": [
+      49,
+      50
+    ],
+    "source_printed_pages": [
+      47,
+      48
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1188,9 +1512,12 @@
       "สมุดหาย"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [50],
-    "source_printed_pages": [48],
+    "source_pdf_pages": [
+      50
+    ],
+    "source_printed_pages": [
+      48
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1205,9 +1532,12 @@
       "เอกสารแทนสมุด"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [50],
-    "source_printed_pages": [48],
+    "source_pdf_pages": [
+      50
+    ],
+    "source_printed_pages": [
+      48
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1222,9 +1552,12 @@
       "ขอบเขตการรับรอง"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [51],
-    "source_printed_pages": [49],
+    "source_pdf_pages": [
+      51
+    ],
+    "source_printed_pages": [
+      49
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1240,9 +1573,12 @@
       "วันที่คาดว่าจะเก็บเกี่ยว"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [51],
-    "source_printed_pages": [49],
+    "source_pdf_pages": [
+      51
+    ],
+    "source_printed_pages": [
+      49
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1257,10 +1593,17 @@
       "รายงานกิจกรรมการเกษตร",
       "ข้อมูลเกษตรกร"
     ],
-    "review_flags": ["RF-014"],
-    "assets": [],
-    "source_pdf_pages": [51, 52],
-    "source_printed_pages": [49, 50],
+    "review_flags": [
+      "RF-014"
+    ],
+    "source_pdf_pages": [
+      51,
+      52
+    ],
+    "source_printed_pages": [
+      49,
+      50
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1275,9 +1618,12 @@
       "เครื่องพิมพ์สมุดทะเบียน"
     ],
     "review_flags": [],
-    "assets": [],
-    "source_pdf_pages": [53],
-    "source_printed_pages": [51],
+    "source_pdf_pages": [
+      53
+    ],
+    "source_printed_pages": [
+      51
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1292,10 +1638,15 @@
       "ฐานข้อมูลทะเบียนเกษตรกร",
       "การประมวลผล"
     ],
-    "review_flags": ["RF-015"],
-    "assets": [],
-    "source_pdf_pages": [54],
-    "source_printed_pages": [52],
+    "review_flags": [
+      "RF-015"
+    ],
+    "source_pdf_pages": [
+      54
+    ],
+    "source_printed_pages": [
+      52
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1310,10 +1661,17 @@
       "ครัวเรือน",
       "กิจการด้านการเกษตร"
     ],
-    "review_flags": ["RF-016"],
-    "assets": [],
-    "source_pdf_pages": [55, 56],
-    "source_printed_pages": [53, 54],
+    "review_flags": [
+      "RF-016"
+    ],
+    "source_pdf_pages": [
+      55,
+      56
+    ],
+    "source_printed_pages": [
+      53,
+      54
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1328,10 +1686,15 @@
       "สิ้นสถานภาพ",
       "การขึ้นทะเบียนทดแทน"
     ],
-    "review_flags": ["RF-016"],
-    "assets": [],
-    "source_pdf_pages": [57],
-    "source_printed_pages": [55],
+    "review_flags": [
+      "RF-016"
+    ],
+    "source_pdf_pages": [
+      57
+    ],
+    "source_printed_pages": [
+      55
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1346,10 +1709,17 @@
       "บทเฉพาะกาล",
       "วันประกาศ"
     ],
-    "review_flags": ["RF-016"],
-    "assets": [],
-    "source_pdf_pages": [57, 58],
-    "source_printed_pages": [55, 56],
+    "review_flags": [
+      "RF-016"
+    ],
+    "source_pdf_pages": [
+      57,
+      58
+    ],
+    "source_printed_pages": [
+      55,
+      56
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1364,10 +1734,21 @@
       "การตีความ",
       "RAG"
     ],
-    "review_flags": ["RF-016"],
-    "assets": [],
-    "source_pdf_pages": [55, 56, 57, 58],
-    "source_printed_pages": [53, 54, 55, 56],
+    "review_flags": [
+      "RF-016"
+    ],
+    "source_pdf_pages": [
+      55,
+      56,
+      57,
+      58
+    ],
+    "source_printed_pages": [
+      53,
+      54,
+      55,
+      56
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1375,14 +1756,20 @@
     "title": "ภาคผนวก 6 กลุ่มและพันธุ์ข้าวที่จัดเก็บผ่าน QR Code",
     "category": "ภาคผนวก 6-7 ข้อมูลพันธุ์ข้าวและพืช",
     "citation_text": "PDF หน้า 82; หน้าเอกสาร 80",
-    "topics": ["พันธุ์ข้าว", "กลุ่มข้าว", "QR Code"],
-    "review_flags": ["RF-026"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/daee25804657486080974803ae2d8310.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/e5fdcb1da4cea369399422c097661650.png"
+    "topics": [
+      "พันธุ์ข้าว",
+      "กลุ่มข้าว",
+      "QR Code"
     ],
-    "source_pdf_pages": [82],
-    "source_printed_pages": [80],
+    "review_flags": [
+      "RF-026"
+    ],
+    "source_pdf_pages": [
+      82
+    ],
+    "source_printed_pages": [
+      80
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1390,14 +1777,21 @@
     "title": "ภาคผนวก 7 กลุ่ม ชนิด และพันธุ์พืชที่จัดเก็บผ่าน QR Code",
     "category": "ภาคผนวก 6-7 ข้อมูลพันธุ์ข้าวและพืช",
     "citation_text": "PDF หน้า 82; หน้าเอกสาร 80",
-    "topics": ["กลุ่มพืช", "ชนิดพืช", "พันธุ์พืช", "QR Code"],
-    "review_flags": ["RF-026"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/50e53e5299a18e3ef5444bb64b7b3e54.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/8bbf3ebfac4e46574eaf1714bff85ff6.png"
+    "topics": [
+      "กลุ่มพืช",
+      "ชนิดพืช",
+      "พันธุ์พืช",
+      "QR Code"
     ],
-    "source_pdf_pages": [82],
-    "source_printed_pages": [80],
+    "review_flags": [
+      "RF-026"
+    ],
+    "source_pdf_pages": [
+      82
+    ],
+    "source_printed_pages": [
+      80
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1411,12 +1805,15 @@
       "ขนาด 1 นิ้ว",
       "หน้าข้อมูลพื้นฐาน"
     ],
-    "review_flags": ["RF-032"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/80fc8ce9892336fd620078678c74d50b.png"
+    "review_flags": [
+      "RF-032"
     ],
-    "source_pdf_pages": [88],
-    "source_printed_pages": [86],
+    "source_pdf_pages": [
+      88
+    ],
+    "source_printed_pages": [
+      86
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1432,12 +1829,15 @@
       "Windows",
       "คุณลักษณะเฉพาะ"
     ],
-    "review_flags": ["RF-033"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/9ac8cef346fef06d0db5e52b1ad87af0.png"
+    "review_flags": [
+      "RF-033"
     ],
-    "source_pdf_pages": [89],
-    "source_printed_pages": [87],
+    "source_pdf_pages": [
+      89
+    ],
+    "source_printed_pages": [
+      87
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1445,14 +1845,23 @@
     "title": "หลักการรายงานลักษณะและหน่วยผลผลิต",
     "category": "ภาคผนวก 10 ลักษณะและหน่วยผลผลิต",
     "citation_text": "PDF หน้า 86, 87; หน้าเอกสาร 84, 85",
-    "topics": ["ลักษณะผลผลิต", "หน่วยผลผลิต", "น้ำหนัก", "ความชื้น"],
-    "review_flags": ["RF-030"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/27cefea47897dbb4e0f731e74d09e149.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/10cb9c91bee290128297fcdb175a938f.png"
+    "topics": [
+      "ลักษณะผลผลิต",
+      "หน่วยผลผลิต",
+      "น้ำหนัก",
+      "ความชื้น"
     ],
-    "source_pdf_pages": [86, 87],
-    "source_printed_pages": [84, 85],
+    "review_flags": [
+      "RF-030"
+    ],
+    "source_pdf_pages": [
+      86,
+      87
+    ],
+    "source_printed_pages": [
+      84,
+      85
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1460,13 +1869,20 @@
     "title": "ลักษณะผลผลิตและหน่วยผลผลิตของพืช 20 รายการ",
     "category": "ภาคผนวก 10 ลักษณะและหน่วยผลผลิต",
     "citation_text": "PDF หน้า 86; หน้าเอกสาร 84",
-    "topics": ["ผลผลิตพืช", "หน่วยผลผลิต", "ความชื้น"],
-    "review_flags": ["RF-030"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/78212c69ab8c429528625778aef32b16.png"
+    "topics": [
+      "ผลผลิตพืช",
+      "หน่วยผลผลิต",
+      "ความชื้น"
     ],
-    "source_pdf_pages": [86],
-    "source_printed_pages": [84],
+    "review_flags": [
+      "RF-030"
+    ],
+    "source_pdf_pages": [
+      86
+    ],
+    "source_printed_pages": [
+      84
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1482,12 +1898,16 @@
       "จิ้งหรีด",
       "ด้วงสาคู"
     ],
-    "review_flags": ["RF-030", "RF-031"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/21ad262650d306c800691fa7451e6e1a.png"
+    "review_flags": [
+      "RF-030",
+      "RF-031"
     ],
-    "source_pdf_pages": [87],
-    "source_printed_pages": [85],
+    "source_pdf_pages": [
+      87
+    ],
+    "source_printed_pages": [
+      85
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1495,15 +1915,26 @@
     "title": "ภาพรวมหนังสือยินยอมหรือรับรองการใช้ประโยชน์ในที่ดิน",
     "category": "ภาคผนวก: หนังสือยินยอมและรับรองที่ดิน",
     "citation_text": "PDF หน้า 79, 80, 81; หน้าเอกสาร 77, 78, 79",
-    "topics": ["หนังสือยินยอม", "หนังสือรับรองการเช่า", "ไม่มีเอกสารสิทธิ์"],
-    "review_flags": ["RF-023", "RF-024", "RF-025"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/22fcc956319826bd97f7e3581a81deb1.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/af3bea356550947024a6b0a98419959f.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/9e3c4e84a927a9cf59594b80e14af3fb.png"
+    "topics": [
+      "หนังสือยินยอม",
+      "หนังสือรับรองการเช่า",
+      "ไม่มีเอกสารสิทธิ์"
     ],
-    "source_pdf_pages": [79, 80, 81],
-    "source_printed_pages": [77, 78, 79],
+    "review_flags": [
+      "RF-023",
+      "RF-024",
+      "RF-025"
+    ],
+    "source_pdf_pages": [
+      79,
+      80,
+      81
+    ],
+    "source_printed_pages": [
+      77,
+      78,
+      79
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1517,12 +1948,16 @@
       "ผู้ได้รับความยินยอม",
       "พยาน"
     ],
-    "review_flags": ["RF-024", "RF-025"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/d19da044c214279c794f2591bbfc38c9.png"
+    "review_flags": [
+      "RF-024",
+      "RF-025"
     ],
-    "source_pdf_pages": [79],
-    "source_printed_pages": [77],
+    "source_pdf_pages": [
+      79
+    ],
+    "source_printed_pages": [
+      77
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1536,12 +1971,17 @@
       "ผู้รับรอง",
       "ผู้ดูแลพื้นที่"
     ],
-    "review_flags": ["RF-023", "RF-024", "RF-025"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/8464f520d1c940531b9ccef6fcb0986d.png"
+    "review_flags": [
+      "RF-023",
+      "RF-024",
+      "RF-025"
     ],
-    "source_pdf_pages": [80],
-    "source_printed_pages": [78],
+    "source_pdf_pages": [
+      80
+    ],
+    "source_printed_pages": [
+      78
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1549,13 +1989,23 @@
     "title": "หนังสือรับรองการใช้ที่ดินเพื่อการเกษตรโดยไม่มีเอกสารสิทธิ์",
     "category": "ภาคผนวก: หนังสือยินยอมและรับรองที่ดิน",
     "citation_text": "PDF หน้า 81; หน้าเอกสาร 79",
-    "topics": ["ไม่มีเอกสารสิทธิ์", "ผู้รับรอง", "พยาน", "พิกัดแปลง"],
-    "review_flags": ["RF-021", "RF-024", "RF-025"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/1973910f637debee4c96f949402e1a72.png"
+    "topics": [
+      "ไม่มีเอกสารสิทธิ์",
+      "ผู้รับรอง",
+      "พยาน",
+      "พิกัดแปลง"
     ],
-    "source_pdf_pages": [81],
-    "source_printed_pages": [79],
+    "review_flags": [
+      "RF-021",
+      "RF-024",
+      "RF-025"
+    ],
+    "source_pdf_pages": [
+      81
+    ],
+    "source_printed_pages": [
+      79
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1563,13 +2013,21 @@
     "title": "หลักการใช้อัตราแปลงไม้ผลไม้ยืนต้นต่อพื้นที่ 1 ไร่",
     "category": "ภาคผนวก 9 อัตราแปลงไม้ผลไม้ยืนต้น",
     "citation_text": "PDF หน้า 85; หน้าเอกสาร 83",
-    "topics": ["ไม้ผล", "ไม้ยืนต้น", "จำนวนต้นต่อไร่", "การเทียบเคียง"],
-    "review_flags": ["RF-029"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/b0247e6f6f8c3ee0d15e09d36f06697b.png"
+    "topics": [
+      "ไม้ผล",
+      "ไม้ยืนต้น",
+      "จำนวนต้นต่อไร่",
+      "การเทียบเคียง"
     ],
-    "source_pdf_pages": [85],
-    "source_printed_pages": [83],
+    "review_flags": [
+      "RF-029"
+    ],
+    "source_pdf_pages": [
+      85
+    ],
+    "source_printed_pages": [
+      83
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1577,13 +2035,20 @@
     "title": "ตารางอัตราแปลงไม้ผลไม้ยืนต้น 56 ลำดับ",
     "category": "ภาคผนวก 9 อัตราแปลงไม้ผลไม้ยืนต้น",
     "citation_text": "PDF หน้า 85; หน้าเอกสาร 83",
-    "topics": ["ไม้ผล", "ไม้ยืนต้น", "จำนวนต้นต่อไร่"],
-    "review_flags": ["RF-029"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/adaf71c95c0fa485c1147c29926d14f5.png"
+    "topics": [
+      "ไม้ผล",
+      "ไม้ยืนต้น",
+      "จำนวนต้นต่อไร่"
     ],
-    "source_pdf_pages": [85],
-    "source_printed_pages": [83],
+    "review_flags": [
+      "RF-029"
+    ],
+    "source_pdf_pages": [
+      85
+    ],
+    "source_printed_pages": [
+      83
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1591,14 +2056,20 @@
     "title": "หลักการใช้เกณฑ์เนื้อที่ขั้นต่ำและการรวมพื้นที่หลายแปลง",
     "category": "ภาคผนวก 8 เกณฑ์เนื้อที่ขั้นต่ำ",
     "citation_text": "PDF หน้า 83, 84; หน้าเอกสาร 81, 82",
-    "topics": ["เกณฑ์ขั้นต่ำ", "หลายแปลง", "แปลงติดกัน"],
-    "review_flags": [],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/2a6bf911f5a4da7c569fc023cafbc071.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/43730725cfcd8e054864ddec2972a779.png"
+    "topics": [
+      "เกณฑ์ขั้นต่ำ",
+      "หลายแปลง",
+      "แปลงติดกัน"
     ],
-    "source_pdf_pages": [83, 84],
-    "source_printed_pages": [81, 82],
+    "review_flags": [],
+    "source_pdf_pages": [
+      83,
+      84
+    ],
+    "source_printed_pages": [
+      81,
+      82
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1606,13 +2077,21 @@
     "title": "เกณฑ์ขั้นต่ำของข้าว พืชไร่ ผัก ไม้ดอก สมุนไพร และสวนป่า",
     "category": "ภาคผนวก 8 เกณฑ์เนื้อที่ขั้นต่ำ",
     "citation_text": "PDF หน้า 83; หน้าเอกสาร 81",
-    "topics": ["ข้าว", "พืชไร่", "ผัก", "ไม้ดอก", "สมุนไพร", "สวนป่า"],
-    "review_flags": [],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/e54d3a033214d8d56330747dc683fb3c.png"
+    "topics": [
+      "ข้าว",
+      "พืชไร่",
+      "ผัก",
+      "ไม้ดอก",
+      "สมุนไพร",
+      "สวนป่า"
     ],
-    "source_pdf_pages": [83],
-    "source_printed_pages": [81],
+    "review_flags": [],
+    "source_pdf_pages": [
+      83
+    ],
+    "source_printed_pages": [
+      81
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1629,13 +2108,17 @@
       "ผักงอก",
       "ผำ"
     ],
-    "review_flags": ["RF-027"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/743049355dedef47ebfb50e242bb9e82.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/00b67816d5516a092de98a3caddbfac6.png"
+    "review_flags": [
+      "RF-027"
     ],
-    "source_pdf_pages": [83, 84],
-    "source_printed_pages": [81, 82],
+    "source_pdf_pages": [
+      83,
+      84
+    ],
+    "source_printed_pages": [
+      81,
+      82
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1643,13 +2126,20 @@
     "title": "เกณฑ์ขั้นต่ำของโรงเรือน นาเกลือสมุทร และแมลงเศรษฐกิจ",
     "category": "ภาคผนวก 8 เกณฑ์เนื้อที่ขั้นต่ำ",
     "citation_text": "PDF หน้า 84; หน้าเอกสาร 82",
-    "topics": ["โรงเรือน", "นาเกลือสมุทร", "แมลงเศรษฐกิจ"],
-    "review_flags": ["RF-027"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/69cbd83cba507b348325ddbca502643e.png"
+    "topics": [
+      "โรงเรือน",
+      "นาเกลือสมุทร",
+      "แมลงเศรษฐกิจ"
     ],
-    "source_pdf_pages": [84],
-    "source_printed_pages": [82],
+    "review_flags": [
+      "RF-027"
+    ],
+    "source_pdf_pages": [
+      84
+    ],
+    "source_printed_pages": [
+      82
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1657,13 +2147,21 @@
     "title": "เกณฑ์ขั้นต่ำของกัญชง กัญชา กระท่อม และกรณีรายได้ 8,000 บาท",
     "category": "ภาคผนวก 8 เกณฑ์เนื้อที่ขั้นต่ำ",
     "citation_text": "PDF หน้า 84; หน้าเอกสาร 82",
-    "topics": ["กัญชง", "กัญชา", "กระท่อม", "รายได้ 8000 บาท"],
-    "review_flags": ["RF-028"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/8626dacafe2fb4dc0af347a98dc68660.png"
+    "topics": [
+      "กัญชง",
+      "กัญชา",
+      "กระท่อม",
+      "รายได้ 8000 บาท"
     ],
-    "source_pdf_pages": [84],
-    "source_printed_pages": [82],
+    "review_flags": [
+      "RF-028"
+    ],
+    "source_pdf_pages": [
+      84
+    ],
+    "source_printed_pages": [
+      82
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1677,16 +2175,24 @@
       "ที่ดินของรัฐ",
       "พื้นที่ไม่มีเอกสารสิทธิ์"
     ],
-    "review_flags": ["RF-021", "RF-022"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/9f57497dcf793adc3111cad94c185f13.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/e9370285d2ba0bf77884162a5fd8dfc2.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/3ef04695d6ac55545ee5222a787cf1f5.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/7d07224560521ac83e3ea0d54fcca987.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/9056cd3faadd392a6f532cfaa56389ee.png"
+    "review_flags": [
+      "RF-021",
+      "RF-022"
     ],
-    "source_pdf_pages": [74, 75, 76, 77, 78],
-    "source_printed_pages": [72, 73, 74, 75, 76],
+    "source_pdf_pages": [
+      74,
+      75,
+      76,
+      77,
+      78
+    ],
+    "source_printed_pages": [
+      72,
+      73,
+      74,
+      75,
+      76
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1694,14 +2200,23 @@
     "title": "เอกสารสิทธิตามกฎหมายที่ดิน 9 กลุ่ม 22 แบบ",
     "category": "ภาคผนวก: เอกสารที่ดิน",
     "citation_text": "PDF หน้า 74, 75; หน้าเอกสาร 72, 73",
-    "topics": ["กรมที่ดิน", "โฉนด", "น.ส.", "ส.ค."],
-    "review_flags": ["RF-021"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/1a742df661ca9c7b68adeb9dd8948f9d.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/def093fcb09ed1520b96bb8e238f3ff5.png"
+    "topics": [
+      "กรมที่ดิน",
+      "โฉนด",
+      "น.ส.",
+      "ส.ค."
     ],
-    "source_pdf_pages": [74, 75],
-    "source_printed_pages": [72, 73],
+    "review_flags": [
+      "RF-021"
+    ],
+    "source_pdf_pages": [
+      74,
+      75
+    ],
+    "source_printed_pages": [
+      72,
+      73
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1709,14 +2224,25 @@
     "title": "หนังสืออนุญาตการใช้ประโยชน์ในที่ดินของรัฐ 12 กลุ่ม 25 แบบ",
     "category": "ภาคผนวก: เอกสารที่ดิน",
     "citation_text": "PDF หน้า 75, 76; หน้าเอกสาร 73, 74",
-    "topics": ["ที่ดินของรัฐ", "ส.ป.ก.", "ป่าสงวน", "นิคม", "คทช."],
-    "review_flags": ["RF-021", "RF-022"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/e4b5d615249e99b4948c82c18dd3477e.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/e620d0b46e048b34074bdfcc6e162396.png"
+    "topics": [
+      "ที่ดินของรัฐ",
+      "ส.ป.ก.",
+      "ป่าสงวน",
+      "นิคม",
+      "คทช."
     ],
-    "source_pdf_pages": [75, 76],
-    "source_printed_pages": [73, 74],
+    "review_flags": [
+      "RF-021",
+      "RF-022"
+    ],
+    "source_pdf_pages": [
+      75,
+      76
+    ],
+    "source_printed_pages": [
+      73,
+      74
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1731,12 +2257,15 @@
       "โอนสิทธิ",
       "มรดกสิทธิ"
     ],
-    "review_flags": ["RF-021"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/657cadeed357a2457023d717e14ee343.png"
+    "review_flags": [
+      "RF-021"
     ],
-    "source_pdf_pages": [77],
-    "source_printed_pages": [75],
+    "source_pdf_pages": [
+      77
+    ],
+    "source_printed_pages": [
+      75
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1750,12 +2279,15 @@
       "ห้ามอ้างกรรมสิทธิ์",
       "เงื่อนไขโครงการ"
     ],
-    "review_flags": ["RF-021"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/a0b86273b693903b2ab42a6da298fb1d.png"
+    "review_flags": [
+      "RF-021"
     ],
-    "source_pdf_pages": [78],
-    "source_printed_pages": [76],
+    "source_pdf_pages": [
+      78
+    ],
+    "source_printed_pages": [
+      76
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1770,29 +2302,43 @@
       "schema ช่องกรอก",
       "RAG"
     ],
-    "review_flags": ["RF-017", "RF-020"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/5fe32c8e69b9a2674d1df2337a533937.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/acf1f62fd474c70222410f5b352a9230.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/916465c664b321758fface1aae614cd7.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/8e48922902d4c2c3ff942420e066ddd6.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/c97755dceb8e8f34e2310fc24ee90634.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/d68c8202509e568e8126aff07732aa56.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/e0ca70c12f800d0fdea3b6b161af84ec.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/650015b2f9199cc2dd1d7405235df2ca.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/ea85de7deeff494d41032e0ca97ea92e.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/708deeea588a7330801056f86b024601.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/148c175aa6ef38c6c9e96a2bac81ec20.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/a6dfa7bc8f4599c034bba25190d95b16.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/dbf25c19f9c8c719a5b0797b48bbbce4.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/24b3838108da8941e0fbe7337b576012.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/1800abce132a957bbafce7c2f6481c72.png"
+    "review_flags": [
+      "RF-017",
+      "RF-020"
     ],
     "source_pdf_pages": [
-      59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73
     ],
     "source_printed_pages": [
-      57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71
     ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
@@ -1808,14 +2354,23 @@
       "เครื่องจักรกล",
       "กิจกรรมการเกษตร"
     ],
-    "review_flags": ["RF-010", "RF-011", "RF-012", "RF-017", "RF-020"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/16914702bd29d964de4bed838270694b.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/fa5ff8c9f631c4fa6086a2e29c91f0a2.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/cd3cfaab8337d0afc347d364c9d1acbf.png"
+    "review_flags": [
+      "RF-010",
+      "RF-011",
+      "RF-012",
+      "RF-017",
+      "RF-020"
     ],
-    "source_pdf_pages": [59, 61, 62],
-    "source_printed_pages": [57, 59, 60],
+    "source_pdf_pages": [
+      59,
+      61,
+      62
+    ],
+    "source_printed_pages": [
+      57,
+      59,
+      60
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1830,14 +2385,23 @@
       "เครื่องจักรกล",
       "กิจกรรมการเกษตร"
     ],
-    "review_flags": ["RF-010", "RF-011", "RF-012", "RF-017", "RF-020"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/ba8f3d2fe470dc555fc67ac744561669.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/3a6418162f48461651c5411bc6075722.png",
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/caf76dde42a4183c58931bf9ff788bfe.png"
+    "review_flags": [
+      "RF-010",
+      "RF-011",
+      "RF-012",
+      "RF-017",
+      "RF-020"
     ],
-    "source_pdf_pages": [60, 61, 62],
-    "source_printed_pages": [58, 59, 60],
+    "source_pdf_pages": [
+      60,
+      61,
+      62
+    ],
+    "source_printed_pages": [
+      58,
+      59,
+      60
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1845,13 +2409,22 @@
     "title": "แบบคำร้องขอแก้ไขข้อมูลที่แจ้งขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร",
     "category": "ภาคผนวก: แบบคำร้อง",
     "citation_text": "PDF หน้า 63; หน้าเอกสาร 61",
-    "topics": ["แก้ไขข้อมูล", "ข้อมูลพื้นฐาน", "ข้อมูลกิจกรรมการเกษตร", "พยาน"],
-    "review_flags": ["RF-017", "RF-020"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/34835dffe736d81dfba3493dd5bf677a.png"
+    "topics": [
+      "แก้ไขข้อมูล",
+      "ข้อมูลพื้นฐาน",
+      "ข้อมูลกิจกรรมการเกษตร",
+      "พยาน"
     ],
-    "source_pdf_pages": [63],
-    "source_printed_pages": [61],
+    "review_flags": [
+      "RF-017",
+      "RF-020"
+    ],
+    "source_pdf_pages": [
+      63
+    ],
+    "source_printed_pages": [
+      61
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1865,12 +2438,16 @@
       "เพิ่มสมาชิก",
       "ยกเลิกสมาชิก"
     ],
-    "review_flags": ["RF-017", "RF-020"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/286a0548633926d162f8dc7a56bdecd8.png"
+    "review_flags": [
+      "RF-017",
+      "RF-020"
     ],
-    "source_pdf_pages": [64],
-    "source_printed_pages": [62],
+    "source_pdf_pages": [
+      64
+    ],
+    "source_printed_pages": [
+      62
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1883,12 +2460,16 @@
       "หัวหน้าครัวเรือนเดิม",
       "สมาชิกที่จะเป็นหัวหน้าแทน"
     ],
-    "review_flags": ["RF-017", "RF-020"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/f7c20f690a8c9c78e8a62bf58c3d4b4e.png"
+    "review_flags": [
+      "RF-017",
+      "RF-020"
     ],
-    "source_pdf_pages": [65],
-    "source_printed_pages": [63],
+    "source_pdf_pages": [
+      65
+    ],
+    "source_printed_pages": [
+      63
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1902,12 +2483,16 @@
       "ความยินยอมสมาชิก",
       "ข้อยกเว้นหัวหน้าเดิม"
     ],
-    "review_flags": ["RF-017", "RF-020"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/e0d3e6c829d8bab1b4328d26705d2f86.png"
+    "review_flags": [
+      "RF-017",
+      "RF-020"
     ],
-    "source_pdf_pages": [66],
-    "source_printed_pages": [64],
+    "source_pdf_pages": [
+      66
+    ],
+    "source_printed_pages": [
+      64
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1921,12 +2506,16 @@
       "หัวหน้าครัวเรือน",
       "มอบอำนาจ"
     ],
-    "review_flags": ["RF-017", "RF-020"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/651684f3ca6f1510319dc30034d4ad01.png"
+    "review_flags": [
+      "RF-017",
+      "RF-020"
     ],
-    "source_pdf_pages": [67],
-    "source_printed_pages": [65],
+    "source_pdf_pages": [
+      67
+    ],
+    "source_printed_pages": [
+      65
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1940,12 +2529,16 @@
       "เลิกทำการเกษตร",
       "ขึ้นทะเบียนใหม่"
     ],
-    "review_flags": ["RF-017", "RF-020"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/6009fa4b4fe441559d8eb1f8c689fe66.png"
+    "review_flags": [
+      "RF-017",
+      "RF-020"
     ],
-    "source_pdf_pages": [68],
-    "source_printed_pages": [66],
+    "source_pdf_pages": [
+      68
+    ],
+    "source_printed_pages": [
+      66
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1959,12 +2552,16 @@
       "ความยินยอมสมาชิก",
       "หัวหน้าครัวเรือนกรณีพิเศษ"
     ],
-    "review_flags": ["RF-017", "RF-020"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/f8ea21a3c9c293c4dadc676b75d9430d.png"
+    "review_flags": [
+      "RF-017",
+      "RF-020"
     ],
-    "source_pdf_pages": [69],
-    "source_printed_pages": [67],
+    "source_pdf_pages": [
+      69
+    ],
+    "source_printed_pages": [
+      67
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1978,12 +2575,16 @@
       "ไม่มีสมาชิกครัวเรือน",
       "ตรวจทะเบียนราษฎร"
     ],
-    "review_flags": ["RF-017", "RF-020"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/c8f002ed4b7b75b7cb3132184c4fc11e.png"
+    "review_flags": [
+      "RF-017",
+      "RF-020"
     ],
-    "source_pdf_pages": [70],
-    "source_printed_pages": [68],
+    "source_pdf_pages": [
+      70
+    ],
+    "source_printed_pages": [
+      68
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -1991,13 +2592,22 @@
     "title": "แบบคำร้องขอหนังสือรับรองเกษตรกร",
     "category": "ภาคผนวก: แบบคำร้อง",
     "citation_text": "PDF หน้า 71; หน้าเอกสาร 69",
-    "topics": ["หนังสือรับรองเกษตรกร", "ภาษาไทย", "ภาษาอังกฤษ", "วัตถุประสงค์"],
-    "review_flags": ["RF-017", "RF-020"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/7e5098a9e7dc6fa0d02db279eeb9ac69.png"
+    "topics": [
+      "หนังสือรับรองเกษตรกร",
+      "ภาษาไทย",
+      "ภาษาอังกฤษ",
+      "วัตถุประสงค์"
     ],
-    "source_pdf_pages": [71],
-    "source_printed_pages": [69],
+    "review_flags": [
+      "RF-017",
+      "RF-020"
+    ],
+    "source_pdf_pages": [
+      71
+    ],
+    "source_printed_pages": [
+      69
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -2011,12 +2621,17 @@
       "ผู้รับมอบอำนาจ",
       "อากรแสตมป์"
     ],
-    "review_flags": ["RF-017", "RF-019", "RF-020"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/c462679c2324476570ad9bc1d5a18ab6.png"
+    "review_flags": [
+      "RF-017",
+      "RF-019",
+      "RF-020"
     ],
-    "source_pdf_pages": [72],
-    "source_printed_pages": [70],
+    "source_pdf_pages": [
+      72
+    ],
+    "source_printed_pages": [
+      70
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   },
   {
@@ -2031,12 +2646,18 @@
       "พิกัด",
       "เจ้าของสวน"
     ],
-    "review_flags": ["RF-003", "RF-017", "RF-018", "RF-020"],
-    "assets": [
-      "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/89c60a336fbdba7f0cfc5d592a1098a5.png"
+    "review_flags": [
+      "RF-003",
+      "RF-017",
+      "RF-018",
+      "RF-020"
     ],
-    "source_pdf_pages": [73],
-    "source_printed_pages": [71],
+    "source_pdf_pages": [
+      73
+    ],
+    "source_printed_pages": [
+      71
+    ],
     "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
   }
 ]

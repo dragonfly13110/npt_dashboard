@@ -3,14 +3,20 @@
   "title": "ภาคผนวก 6 กลุ่มและพันธุ์ข้าวที่จัดเก็บผ่าน QR Code",
   "category": "ภาคผนวก 6-7 ข้อมูลพันธุ์ข้าวและพืช",
   "citation_text": "PDF หน้า 82; หน้าเอกสาร 80",
-  "topics": ["พันธุ์ข้าว", "กลุ่มข้าว", "QR Code"],
-  "review_flags": ["RF-026"],
-  "assets": [
-    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/daee25804657486080974803ae2d8310.png",
-    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/e5fdcb1da4cea369399422c097661650.png"
+  "topics": [
+    "พันธุ์ข้าว",
+    "กลุ่มข้าว",
+    "QR Code"
   ],
-  "source_pdf_pages": [82],
-  "source_printed_pages": [80],
+  "review_flags": [
+    "RF-026"
+  ],
+  "source_pdf_pages": [
+    82
+  ],
+  "source_printed_pages": [
+    80
+  ],
   "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
   "body_markdown": "# ภาคผนวก 6 กลุ่มและพันธุ์ข้าวที่จัดเก็บผ่าน QR Code\n\n## ข้อมูลที่มีอยู่ในเอกสาร\n\nคู่มือระบุชื่อภาคผนวก 6 ว่า “กลุ่มและพันธุ์ข้าวที่มีการจัดเก็บในการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร” แต่ไม่ได้พิมพ์รายการกลุ่มหรือพันธุ์ข้าวไว้ในเล่ม โดยแสดง QR Code เป็นช่องทางไปยังข้อมูลภายนอก\n\n## ปลายทางที่ถอดจาก QR Code\n\n`https://farmer.doae.go.th/farmer/detail_breed/appendix6`\n\n## สถานะการนำเข้าคลัง\n\n- เก็บชื่อภาคผนวก เลขหน้า ภาพหน้าเต็ม ภาพ QR และปลายทางที่ถอดรหัสได้แล้ว\n- ยังไม่สร้างรายชื่อพันธุ์ข้าวจากความรู้ทั่วไปหรือเอกสารปีอื่น\n- ยังไม่นำเนื้อหาที่ปลายทางภายนอกเข้าสู่คลังรุ่นนี้ เพราะรายการนั้นไม่ได้อยู่ใน PDF\n- ระบบ RAG ต้องตอบได้เพียงว่าคู่มือชี้ไปยังปลายทางใด และต้องไม่แต่งรายชื่อพันธุ์ขึ้นเอง\n\n## อ้างอิงต้นฉบับ\n\n- PDF หน้า 82\n- หน้าเอกสาร 80\n- ภาคผนวก 6\n"
 }

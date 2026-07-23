@@ -9,12 +9,16 @@
     "หัวหน้าครัวเรือน",
     "มอบอำนาจ"
   ],
-  "review_flags": ["RF-017", "RF-020"],
-  "assets": [
-    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/651684f3ca6f1510319dc30034d4ad01.png"
+  "review_flags": [
+    "RF-017",
+    "RF-020"
   ],
-  "source_pdf_pages": [67],
-  "source_printed_pages": [65],
+  "source_pdf_pages": [
+    67
+  ],
+  "source_printed_pages": [
+    65
+  ],
   "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
   "body_markdown": "# แบบคำร้องขอเปลี่ยนแปลงสถานที่ขึ้นทะเบียน\n\n## ช่องข้อมูลหลัก\n\n- ข้อมูลหัวหน้าครัวเรือนผู้ยื่น เลขประจำตัวประชาชน รหัสประจำบ้าน ที่อยู่ และโทรศัพท์\n- สำนักงานหรือพื้นที่ขึ้นทะเบียนเดิม ระดับอำเภอและจังหวัด\n- พื้นที่ปลายทาง ระดับตำบล อำเภอ และจังหวัด\n- เหตุผลที่ขอเปลี่ยนสถานที่\n- ลายมือชื่อผู้ยื่นและเจ้าหน้าที่ผู้รับคำร้อง\n\nผู้ยื่นต้องเป็นหัวหน้าครัวเรือนเกษตร หรือมอบอำนาจตามเงื่อนไข แบบต้องยื่นที่สำนักงานเกษตรอำเภอปลายทางที่จะย้ายไป\n\n## อ้างอิงต้นฉบับ\n\n- PDF หน้า 67\n- หน้าเอกสาร 65\n- ภาคผนวก 3 (6)\n"
 }

@@ -200,25 +200,6 @@ export default function Farmer69Article() {
               <MarkdownBlock block={block} key={blockIndex} />
             ))}
           </div>
-
-          {article.assets && article.assets.length > 0 && (
-            <div className="farmer69-gallery-section">
-              <h3>🖼️ ภาพอ้างอิงจากต้นฉบับคู่มือ</h3>
-              <div className="farmer69-gallery-grid">
-                {article.assets.map((url, idx) => (
-                  <div key={idx} className="farmer69-gallery-item">
-                    <a href={url} target="_blank" rel="noopener noreferrer">
-                      <img
-                        src={url}
-                        alt={`ภาพอ้างอิงหน้าคู่มือ ${idx + 1}`}
-                        loading="lazy"
-                      />
-                    </a>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </article>
 
         <aside className="farmer69-article-sidebar">

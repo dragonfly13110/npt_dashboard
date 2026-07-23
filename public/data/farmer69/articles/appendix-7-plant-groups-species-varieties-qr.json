@@ -3,14 +3,21 @@
   "title": "ภาคผนวก 7 กลุ่ม ชนิด และพันธุ์พืชที่จัดเก็บผ่าน QR Code",
   "category": "ภาคผนวก 6-7 ข้อมูลพันธุ์ข้าวและพืช",
   "citation_text": "PDF หน้า 82; หน้าเอกสาร 80",
-  "topics": ["กลุ่มพืช", "ชนิดพืช", "พันธุ์พืช", "QR Code"],
-  "review_flags": ["RF-026"],
-  "assets": [
-    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/50e53e5299a18e3ef5444bb64b7b3e54.png",
-    "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source-images/8bbf3ebfac4e46574eaf1714bff85ff6.png"
+  "topics": [
+    "กลุ่มพืช",
+    "ชนิดพืช",
+    "พันธุ์พืช",
+    "QR Code"
   ],
-  "source_pdf_pages": [82],
-  "source_printed_pages": [80],
+  "review_flags": [
+    "RF-026"
+  ],
+  "source_pdf_pages": [
+    82
+  ],
+  "source_printed_pages": [
+    80
+  ],
   "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
   "body_markdown": "# ภาคผนวก 7 กลุ่ม ชนิด และพันธุ์พืชที่จัดเก็บผ่าน QR Code\n\n## ข้อมูลที่มีอยู่ในเอกสาร\n\nคู่มือระบุชื่อภาคผนวก 7 ว่า “กลุ่ม ชนิด และพันธุ์พืชที่มีการจัดเก็บในการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร” แต่ไม่ได้พิมพ์รายการไว้ในเล่ม โดยแสดง QR Code เป็นช่องทางไปยังข้อมูลภายนอก\n\n## ปลายทางที่ถอดจาก QR Code\n\n`https://farmer.doae.go.th/farmer/detail_breed/appendix7`\n\n## หมายเหตุในคู่มือ\n\nหากเจ้าหน้าที่ต้องการเพิ่มกลุ่ม ชนิด และพันธุ์พืช สามารถแจ้งกลุ่มทะเบียนเกษตรกร ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร เพื่อพิจารณาเพิ่มเติมข้อมูล\n\n## สถานะการนำเข้าคลัง\n\n- เก็บชื่อภาคผนวก หมายเหตุ เลขหน้า ภาพหน้าเต็ม ภาพ QR และปลายทางที่ถอดรหัสได้แล้ว\n- ยังไม่นำรายชื่อกลุ่ม ชนิด และพันธุ์พืชภายนอกเข้าสู่คลังรุ่นนี้\n- ห้ามเติมรายการจากความจำ แหล่งทั่วไป หรือคู่มือคนละรุ่น\n\n## อ้างอิงต้นฉบับ\n\n- PDF หน้า 82\n- หน้าเอกสาร 80\n- ภาคผนวก 7\n"
 }

@@ -106,36 +106,7 @@ async function run() {
   try {
     await ensureBucketExists();
 
-    // 1. Upload Images using MD5 hashing of relative paths
-    const imagesDir = path.join(
-      rootDir,
-      'farmer69_knowledge_v1.1',
-      '08_ส่งออก',
-      'เว็บไซต์',
-      'พร้อมใช้งาน',
-      'assets',
-      'source-images'
-    );
-    if (fs.existsSync(imagesDir)) {
-      console.log('Scanning images...');
-      const localFiles = getFilesRecursive(imagesDir);
-      console.log(`Found ${localFiles.length} image files to upload.`);
-
-      for (const file of localFiles) {
-        const relativePath = path.relative(imagesDir, file).replace(/\\/g, '/');
-        // Generate MD5 hash of the relative path to be ASCII-safe
-        const hash = crypto
-          .createHash('md5')
-          .update(relativePath)
-          .digest('hex');
-        const supabasePath = `source-images/${hash}.png`;
-        await uploadFile(file, supabasePath, 'image/png');
-      }
-    } else {
-      console.warn(`Images directory not found at: ${imagesDir}`);
-    }
-
-    // 2. Upload PDF
+    // 1. Upload PDF
     const pdfPath = path.join(
       rootDir,
       'farmer69_knowledge_v1.1',

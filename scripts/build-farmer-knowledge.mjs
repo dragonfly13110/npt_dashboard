@@ -54,26 +54,7 @@ async function buildFarmerKnowledge() {
     const slug = doc.document_id || doc.metadata?.slug;
     if (!slug) continue;
 
-    // Process assets to Supabase CDN URLs
-    const assets = doc.metadata?.assets || [];
-    const cdnAssets = assets.map((assetPath) => {
-      const baseName = path.basename(assetPath);
-      // Path matching how it is structured in assets/source-images on disk
-      const relativePathOnDisk = `${slug}/${baseName}`;
-      const hash = md5(relativePathOnDisk);
-      return `${cdnBase}/source-images/${hash}.png`;
-    });
-
-    // Construct rewritten content: append images gallery to body_markdown if assets exist
     let rewrittenContent = doc.body_markdown || '';
-
-    // Rewrite internal page links: e.g. [some page](01_บทนำ/01_บทนำ.md) to (/public/farmer-manual/slug)
-    // In this repo, since we have slugs for all pages, let's keep internal links as they are or we can resolve them.
-    // Let's rewrite relative markdown links like [นิยามศัพท์](../01_นิยามศัพท์/01_นิยามศัพท์.md)
-    // Actually, in our App.jsx public routes we can resolve these or the component can handle it.
-    // Let's see if the static HTML pages had absolute links. The articles.jsonl has standard relative links.
-    // Let's replace any links like `[Label](path/to/file.md)` to `/public/farmer-manual/slug` if we know it.
-    // Let's build a map first. We can do that by parsing JSONL twice.
 
     const catalogEntry = {
       slug: slug,
@@ -82,7 +63,6 @@ async function buildFarmerKnowledge() {
       citation_text: doc.citation_text || '',
       topics: doc.topics || doc.metadata?.topics || [],
       review_flags: doc.review_flags || doc.metadata?.review_flags || [],
-      assets: cdnAssets,
       source_pdf_pages:
         doc.source_pdf_pages || doc.metadata?.source_pdf_pages || [],
       source_printed_pages:
