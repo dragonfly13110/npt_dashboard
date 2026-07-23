@@ -11,7 +11,11 @@ import {
   Table,
   Tag,
 } from 'antd';
-import { BarChartOutlined, DatabaseOutlined } from '@ant-design/icons';
+import {
+  BarChartOutlined,
+  DatabaseOutlined,
+  FilterOutlined,
+} from '@ant-design/icons';
 import EChart from '../../components/widgets/EChart';
 import { PageHeader } from '../../components/widgets/SharedDashboardUI';
 import { supabase } from '../../supabaseClient';
@@ -53,8 +57,13 @@ const COPY = {
     '\u0e02\u0e49\u0e32\u0e27\u0e04\u0e32\u0e14\u0e27\u0e48\u0e32\u0e08\u0e30\u0e2d\u0e2d\u0e01\u0e41\u0e15\u0e48\u0e25\u0e30\u0e40\u0e14\u0e37\u0e2d\u0e19 (\u0e15\u0e31\u0e19)',
   districtTable: (year) =>
     `\u0e23\u0e32\u0e22\u0e25\u0e30\u0e40\u0e2d\u0e35\u0e22\u0e14\u0e23\u0e32\u0e22\u0e2d\u0e33\u0e40\u0e20\u0e2d\u0e41\u0e25\u0e30\u0e40\u0e14\u0e37\u0e2d\u0e19\u0e40\u0e01\u0e47\u0e1a\u0e40\u0e01\u0e35\u0e48\u0e22\u0e27 (\u0e1b\u0e35 ${year})`,
-  filterDistrict: '\u0e01\u0e23\u0e2d\u0e07\u0e2d\u0e33\u0e40\u0e20\u0e2d',
-  filterMonth: '\u0e01\u0e23\u0e2d\u0e07\u0e40\u0e14\u0e37\u0e2d\u0e19',
+  filterTitle: '\u0e01\u0e23\u0e2d\u0e07\u0e23\u0e32\u0e22\u0e01\u0e32\u0e23',
+  district: '\u0e2d\u0e33\u0e40\u0e20\u0e2d',
+  month:
+    '\u0e40\u0e14\u0e37\u0e2d\u0e19\u0e40\u0e01\u0e47\u0e1a\u0e40\u0e01\u0e35\u0e48\u0e22\u0e27',
+  allDistricts: '\u0e17\u0e38\u0e01\u0e2d\u0e33\u0e40\u0e20\u0e2d',
+  allMonths: '\u0e17\u0e38\u0e01\u0e40\u0e14\u0e37\u0e2d\u0e19',
+  rows: '\u0e23\u0e32\u0e22\u0e01\u0e32\u0e23',
   changedFrom: (date) =>
     `\u0e40\u0e1b\u0e25\u0e35\u0e48\u0e22\u0e19\u0e08\u0e32\u0e01 ${date} (\u0e15\u0e31\u0e19)`,
 };
@@ -424,7 +433,7 @@ export default function RiceHarvestSituation() {
           </Row>
 
           <Row gutter={[16, 16]}>
-            <Col xs={24} lg={10}>
+            <Col xs={24} lg={8}>
               <Card title={COPY.monthlyChart}>
                 <EChart
                   option={chartOption(summary.monthly)}
@@ -432,30 +441,93 @@ export default function RiceHarvestSituation() {
                 />
               </Card>
             </Col>
-            <Col xs={24} lg={14}>
-              <Card title={COPY.districtTable(activeCropYear)}>
-                <Row gutter={[8, 8]} style={{ marginBottom: 12 }}>
-                  <Col xs={24} sm={12}>
-                    <Select
-                      allowClear
-                      value={districtCode}
-                      onChange={setDistrictCode}
-                      options={districtOptions}
-                      placeholder={COPY.filterDistrict}
-                      style={{ width: '100%' }}
-                    />
-                  </Col>
-                  <Col xs={24} sm={12}>
-                    <Select
-                      allowClear
-                      value={harvestMonth}
-                      onChange={setHarvestMonth}
-                      options={monthOptions}
-                      placeholder={COPY.filterMonth}
-                      style={{ width: '100%' }}
-                    />
-                  </Col>
-                </Row>
+            <Col xs={24} lg={16}>
+              <Card
+                title={
+                  <span
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 8,
+                    }}
+                  >
+                    <BarChartOutlined style={{ color: '#15803d' }} />
+                    {COPY.districtTable(activeCropYear)}
+                  </span>
+                }
+                extra={
+                  <Tag color="green">
+                    {filteredDistrictRows.length} {COPY.rows}
+                  </Tag>
+                }
+                styles={{
+                  header: {
+                    background: '#f0fdf4',
+                    borderBottomColor: '#bbf7d0',
+                  },
+                  body: { paddingTop: 16 },
+                }}
+              >
+                <div
+                  style={{
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: 10,
+                    marginBottom: 16,
+                    padding: 12,
+                  }}
+                >
+                  <div
+                    style={{
+                      color: '#15803d',
+                      fontWeight: 600,
+                      marginBottom: 8,
+                    }}
+                  >
+                    <FilterOutlined style={{ marginRight: 6 }} />
+                    {COPY.filterTitle}
+                  </div>
+                  <Row gutter={[8, 8]}>
+                    <Col xs={24} sm={12}>
+                      <div
+                        style={{
+                          color: '#64748b',
+                          fontSize: 12,
+                          marginBottom: 4,
+                        }}
+                      >
+                        {COPY.district}
+                      </div>
+                      <Select
+                        allowClear
+                        value={districtCode}
+                        onChange={setDistrictCode}
+                        options={districtOptions}
+                        placeholder={COPY.allDistricts}
+                        style={{ width: '100%' }}
+                      />
+                    </Col>
+                    <Col xs={24} sm={12}>
+                      <div
+                        style={{
+                          color: '#64748b',
+                          fontSize: 12,
+                          marginBottom: 4,
+                        }}
+                      >
+                        {COPY.month}
+                      </div>
+                      <Select
+                        allowClear
+                        value={harvestMonth}
+                        onChange={setHarvestMonth}
+                        options={monthOptions}
+                        placeholder={COPY.allMonths}
+                        style={{ width: '100%' }}
+                      />
+                    </Col>
+                  </Row>
+                </div>
                 <Table
                   columns={COLUMNS}
                   dataSource={filteredDistrictRows}

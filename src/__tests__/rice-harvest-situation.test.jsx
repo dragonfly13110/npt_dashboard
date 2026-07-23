@@ -94,10 +94,10 @@ describe('RiceHarvestSituation page', () => {
     ).toBeInTheDocument();
     expect(screen.getAllByText('district 1')).not.toHaveLength(0);
     expect(
-      screen.getByText('\u0e01\u0e23\u0e2d\u0e07\u0e2d\u0e33\u0e40\u0e20\u0e2d')
+      screen.getByText('\u0e17\u0e38\u0e01\u0e2d\u0e33\u0e40\u0e20\u0e2d')
     ).toBeInTheDocument();
     expect(
-      screen.getByText('\u0e01\u0e23\u0e2d\u0e07\u0e40\u0e14\u0e37\u0e2d\u0e19')
+      screen.getByText('\u0e17\u0e38\u0e01\u0e40\u0e14\u0e37\u0e2d\u0e19')
     ).toBeInTheDocument();
     expect(
       screen.getByText(
