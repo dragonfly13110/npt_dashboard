@@ -15,6 +15,10 @@ export const DASHBOARD_GROUPS = [
     color: '#1565c0',
     tables: [
       { table: 'farmer_registry', label: 'ทะเบียนเกษตรกร' },
+      {
+        table: 'tbk_cultivation_snapshots',
+        label: 'พื้นที่เพาะปลูกตาม ทบก.',
+      },
       { table: 'agricultural_areas', label: 'พื้นที่การเกษตร' },
       { table: 'learning_centers', label: 'ศพก.' },
       { table: 'daily_weather', label: 'สภาพอากาศ/น้ำฝน' },
@@ -114,6 +118,7 @@ export const GROUP_TABLES = {
   admin: ['personnel', 'assets', 'budgets'],
   strategy: [
     'farmer_registry',
+    'tbk_cultivation_snapshots',
     'agricultural_areas',
     'gis_areas',
     'learning_centers',
