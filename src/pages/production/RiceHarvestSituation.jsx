@@ -148,7 +148,7 @@ function summarize(rows) {
       key: `${row.district_code}:${month}`,
       district: row.district,
       harvestMonth: month,
-      monthLabel: MONTH_LABELS[month - 1],
+      monthLabel: `${MONTH_LABELS[month - 1]} (${String(row.crop_year).split('/').at(-1)})`,
       householdCount: Number(row.household_count) || 0,
       plotCount: Number(row.plot_count) || 0,
       areaRai,

@@ -104,7 +104,7 @@ describe('RiceHarvestSituation page', () => {
       screen
         .getAllByText('district 1')
         .map((cell) => cell.closest('tr').children[1].textContent)
-    ).toEqual(['\u0e01.\u0e1e.', '\u0e1e.\u0e22.']);
+    ).toEqual(['\u0e01.\u0e1e. (70)', '\u0e1e.\u0e22. (70)']);
   });
 
   it('renders Thai UI copy instead of literal Unicode escape sequences', async () => {
