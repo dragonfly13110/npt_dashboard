@@ -29,13 +29,11 @@ function requireManagementEnv() {
 }
 
 function requireSyncEnv() {
-  const missing = [
-    'DOAE_USERNAME',
-    'DOAE_PASSWORD',
-    'SUPABASE_PROJECT_REF',
-    'SUPABASE_ACCESS_TOKEN',
-  ].filter((key) => !getEnv(key));
-  if (missing.length) throw new Error(`Missing required env: ${missing.join(', ')}`);
+  const missing = ['SUPABASE_PROJECT_REF', 'SUPABASE_ACCESS_TOKEN'].filter(
+    (key) => !getEnv(key)
+  );
+  if (missing.length)
+    throw new Error(`Missing required env: ${missing.join(', ')}`);
 }
 
 async function runSQL(sql) {
@@ -83,7 +81,8 @@ async function requireAdmin(request, origin) {
   const token = (request.headers.get('authorization') || '')
     .replace(/^Bearer\s+/i, '')
     .trim();
-  if (!token) return jsonResponse(401, { error: 'Missing authorization token' }, origin);
+  if (!token)
+    return jsonResponse(401, { error: 'Missing authorization token' }, origin);
 
   const supabase = createClient(supabaseUrl, serviceRoleKey, {
     auth: { persistSession: false, autoRefreshToken: false },
@@ -92,7 +91,8 @@ async function requireAdmin(request, origin) {
     data: { user },
     error: userError,
   } = await supabase.auth.getUser(token);
-  if (userError || !user) return jsonResponse(401, { error: 'Invalid authorization token' }, origin);
+  if (userError || !user)
+    return jsonResponse(401, { error: 'Invalid authorization token' }, origin);
 
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
@@ -100,7 +100,11 @@ async function requireAdmin(request, origin) {
     .eq('id', user.id)
     .single();
   if (profileError || profile?.role !== 'admin') {
-    return jsonResponse(403, { error: 'Only admins can sync rice harvest data' }, origin);
+    return jsonResponse(
+      403,
+      { error: 'Only admins can sync rice harvest data' },
+      origin
+    );
   }
   return null;
 }
@@ -137,20 +141,24 @@ export async function scheduledSyncRiceHarvest(_event, context) {
     return await runSync({ force: false });
   } catch (error) {
     await reportSyncFailure(error, context, 'scheduled_sync_failed');
-    return jsonResponse(500, { error: error.message || 'Rice harvest sync failed' });
+    return jsonResponse(500, {
+      error: error.message || 'Rice harvest sync failed',
+    });
   }
 }
 
 export default async function syncRiceHarvest(request, context) {
   const origin = request.headers.get('origin');
-  if (!isOriginAllowed(origin)) return jsonResponse(403, { error: 'Origin not allowed' }, origin);
+  if (!isOriginAllowed(origin))
+    return jsonResponse(403, { error: 'Origin not allowed' }, origin);
   if (request.method === 'OPTIONS') {
     return new Response('', {
       status: 204,
       headers: corsHeaders(origin, { headers: 'Authorization, Content-Type' }),
     });
   }
-  if (request.method !== 'POST') return jsonResponse(405, { error: 'Method not allowed' }, origin);
+  if (request.method !== 'POST')
+    return jsonResponse(405, { error: 'Method not allowed' }, origin);
 
   try {
     const authError = await requireAdmin(request, origin);
@@ -168,7 +176,11 @@ export default async function syncRiceHarvest(request, context) {
     return await runSync({ force: body.force === true, origin });
   } catch (error) {
     await reportSyncFailure(error, context, 'manual_sync_failed');
-    return jsonResponse(500, { error: error.message || 'Rice harvest sync failed' }, origin);
+    return jsonResponse(
+      500,
+      { error: error.message || 'Rice harvest sync failed' },
+      origin
+    );
   }
 }
 

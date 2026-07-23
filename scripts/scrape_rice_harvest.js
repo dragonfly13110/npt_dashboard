@@ -25,7 +25,6 @@ for (const envPath of [
   }
 }
 
-export const DOAE_LOGIN_URL = 'https://farmer.doae.go.th/index/index/2';
 export const DOAE_RICE_REPORT_BASE_URL =
   'https://farmer.doae.go.th/report/report6x/rice_pv_mm_1/73';
 const DOAE_USER_AGENT =
@@ -36,53 +35,11 @@ function getEnv(name) {
 }
 
 function requiredEnv() {
-  const missing = ['DOAE_USERNAME', 'DOAE_PASSWORD', 'SUPABASE_PROJECT_REF', 'SUPABASE_ACCESS_TOKEN'].filter(
+  const missing = ['SUPABASE_PROJECT_REF', 'SUPABASE_ACCESS_TOKEN'].filter(
     (name) => !getEnv(name)
   );
-  if (missing.length) throw new Error(`Missing required env: ${missing.join(', ')}`);
-}
-
-function getSetCookies(headers) {
-  if (typeof headers?.getSetCookie === 'function') return headers.getSetCookie();
-  const cookie = headers?.get?.('set-cookie');
-  return cookie ? [cookie] : [];
-}
-
-function cookieHeader(setCookies) {
-  const cookies = new Map();
-  for (const header of setCookies) {
-    const [name, ...value] = header.split(';')[0].split('=');
-    if (name) cookies.set(name.trim(), value.join('=').trim());
-  }
-  return [...cookies.entries()].map(([name, value]) => `${name}=${value}`).join('; ');
-}
-
-async function loginDoae(fetchImpl) {
-  requiredEnv();
-  const initial = await fetchImpl(DOAE_LOGIN_URL, {
-    headers: { 'User-Agent': DOAE_USER_AGENT },
-  });
-  const cookies = getSetCookies(initial.headers);
-  const initialCookie = cookieHeader(cookies);
-  const login = await fetchImpl(
-    'https://farmer.doae.go.th/home/authen/portal_authen',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Cookie: initialCookie,
-        'User-Agent': DOAE_USER_AGENT,
-      },
-      body: new URLSearchParams({
-        username: getEnv('DOAE_USERNAME'),
-        password: getEnv('DOAE_PASSWORD'),
-      }),
-      redirect: 'manual',
-    }
-  );
-  const allCookies = cookieHeader([...cookies, ...getSetCookies(login.headers)]);
-  if (!allCookies) throw new Error('DOAE authentication did not return a session cookie');
-  return allCookies;
+  if (missing.length)
+    throw new Error(`Missing required env: ${missing.join(', ')}`);
 }
 
 function shortThaiYear(date) {
@@ -91,7 +48,7 @@ function shortThaiYear(date) {
 
 export function getCandidateSeasonCodes(date = new Date()) {
   const current = Number(shortThaiYear(date));
-  return Array.from({ length: 6 }, (_, index) => `${current + 2 - index}_1`);
+  return Array.from({ length: 6 }, (_, index) => `${current - index}_1`);
 }
 
 export function riceReportUrl(seasonCode) {
@@ -168,21 +125,25 @@ function thailandDate(date = new Date()) {
   }).format(date);
 }
 
-function buildSnapshotSql(records, { snapshotDate, cropYear, sourceCutoffDate }) {
-  const values = records.map((row) =>
-    `(${[
-      sqlValue(snapshotDate),
-      sqlValue(new Date().toISOString()),
-      sqlValue(sourceCutoffDate),
-      sqlValue(cropYear),
-      sqlValue(row.districtCode),
-      sqlValue(row.district),
-      sqlValue(row.harvestMonth),
-      sqlValue(row.householdCount),
-      sqlValue(row.plotCount),
-      sqlValue(row.areaRai),
-      sqlValue(row.estimatedTons),
-    ].join(', ')})`
+function buildSnapshotSql(
+  records,
+  { snapshotDate, cropYear, sourceCutoffDate }
+) {
+  const values = records.map(
+    (row) =>
+      `(${[
+        sqlValue(snapshotDate),
+        sqlValue(new Date().toISOString()),
+        sqlValue(sourceCutoffDate),
+        sqlValue(cropYear),
+        sqlValue(row.districtCode),
+        sqlValue(row.district),
+        sqlValue(row.harvestMonth),
+        sqlValue(row.householdCount),
+        sqlValue(row.plotCount),
+        sqlValue(row.areaRai),
+        sqlValue(row.estimatedTons),
+      ].join(', ')})`
   );
   return `
     insert into public.rice_harvest_snapshots
@@ -207,14 +168,18 @@ export async function scrapeRiceHarvest({
   currentDate = new Date(),
   candidateSeasonCodes,
 } = {}) {
-  const cookie = await loginDoae(fetchImpl);
+  requiredEnv();
   const report = await discoverLatestRiceReport(fetchImpl, {
-    cookie,
     currentDate,
     candidateSeasonCodes,
   });
-  const parsed = parseRiceHarvestTable(report.html, { cropYear: report.cropYear });
-  const validation = validateRiceHarvestRecords(parsed.records, parsed.provinceTotal);
+  const parsed = parseRiceHarvestTable(report.html, {
+    cropYear: report.cropYear,
+  });
+  const validation = validateRiceHarvestRecords(
+    parsed.records,
+    parsed.provinceTotal
+  );
   if (!validation.ok) throw new Error(validation.error);
 
   const snapshotDate = thailandDate(currentDate);
@@ -233,7 +198,9 @@ export async function scrapeRiceHarvest({
   `);
   const rowCount = Number(verifyRows?.[0]?.row_count || 0);
   if (rowCount < parsed.records.length) {
-    throw new Error(`Rice harvest snapshot verification failed: ${rowCount} rows`);
+    throw new Error(
+      `Rice harvest snapshot verification failed: ${rowCount} rows`
+    );
   }
   return {
     cropYear: report.cropYear,
@@ -242,7 +209,10 @@ export async function scrapeRiceHarvest({
   };
 }
 
-if (process.argv[1] && path.basename(process.argv[1]) === 'scrape_rice_harvest.js') {
+if (
+  process.argv[1] &&
+  path.basename(process.argv[1]) === 'scrape_rice_harvest.js'
+) {
   scrapeRiceHarvest().catch((error) => {
     console.error(error.message);
     process.exitCode = 1;

@@ -1,5 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { scrapeRiceHarvest } from '../../scripts/scrape_rice_harvest.js';
+import {
+  getCandidateSeasonCodes,
+  scrapeRiceHarvest,
+} from '../../scripts/scrape_rice_harvest.js';
 
 const MONTHS = [
   '\u0e01\u0e23\u0e01\u0e0e\u0e32\u0e04\u0e21',
@@ -17,7 +20,9 @@ const MONTHS = [
 ];
 
 function validReportHtml() {
-  const headers = MONTHS.map((month) => `<th colspan="3">${month}</th>`).join('');
+  const headers = MONTHS.map((month) => `<th colspan="3">${month}</th>`).join(
+    ''
+  );
   const cells = MONTHS.map(() => '<td>1</td><td>1</td><td>1</td>').join('');
   const rows = Array.from(
     { length: 7 },
@@ -28,8 +33,6 @@ function validReportHtml() {
 }
 
 function configureEnv() {
-  process.env.DOAE_USERNAME = 'doae-user';
-  process.env.DOAE_PASSWORD = 'doae-pass';
   process.env.SUPABASE_PROJECT_REF = 'project-ref';
   process.env.SUPABASE_ACCESS_TOKEN = 'access-token';
 }
@@ -41,20 +44,20 @@ function response(body, headers = {}) {
 describe('scrape rice harvest', () => {
   afterEach(() => {
     vi.restoreAllMocks();
-    for (const key of [
-      'DOAE_USERNAME',
-      'DOAE_PASSWORD',
-      'SUPABASE_PROJECT_REF',
-      'SUPABASE_ACCESS_TOKEN',
-    ]) delete process.env[key];
+    for (const key of ['SUPABASE_PROJECT_REF', 'SUPABASE_ACCESS_TOKEN'])
+      delete process.env[key];
+  });
+
+  it('checks the current crop year before older reports', () => {
+    expect(
+      getCandidateSeasonCodes(new Date('2026-07-23T00:00:00Z')).slice(0, 3)
+    ).toEqual(['69_1', '68_1', '67_1']);
   });
 
   it('does not write an empty source report', async () => {
     configureEnv();
     const fetchImpl = vi
       .fn()
-      .mockResolvedValueOnce(response('', { 'set-cookie': 'sid=initial' }))
-      .mockResolvedValueOnce(response('', { 'set-cookie': 'sid=authenticated' }))
       .mockResolvedValueOnce(response('<table><tbody></tbody></table>'));
     const runSQL = vi.fn();
 
@@ -72,8 +75,6 @@ describe('scrape rice harvest', () => {
     configureEnv();
     const fetchImpl = vi
       .fn()
-      .mockResolvedValueOnce(response('', { 'set-cookie': 'sid=initial' }))
-      .mockResolvedValueOnce(response('', { 'set-cookie': 'sid=authenticated' }))
       .mockResolvedValueOnce(response(validReportHtml()));
     const runSQL = vi
       .fn()
