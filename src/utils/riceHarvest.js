@@ -54,7 +54,8 @@ function decodeHtml(value) {
 }
 
 function parseCells(rowHtml) {
-  return [...rowHtml.matchAll(/<(td|th)\b[^>]*>([\s\S]*?)<\/\1>/gi)].map(
+  const withoutComments = rowHtml.replace(/<!--[\s\S]*?-->/g, '');
+  return [...withoutComments.matchAll(/<(td|th)\b[^>]*>([\s\S]*?)<\/\1>/gi)].map(
     (match) => decodeHtml(match[2])
   );
 }
@@ -72,6 +73,7 @@ function parseNumber(value) {
 function findMonthNumbers(html) {
   return THAI_MONTHS.map((month, index) => ({ month, number: index + 1 }))
     .filter(({ month }) => html.includes(month))
+    .sort((left, right) => html.indexOf(left.month) - html.indexOf(right.month))
     .map(({ number }) => number);
 }
 
@@ -102,9 +104,11 @@ function parseHarvestRows(html, monthNumbers, cropYear) {
     const district = cells[1];
     const dataCells = cells.slice(2);
     const monthly = [];
+    const totalColumnOffset =
+      dataCells.length >= monthNumbers.length * 3 + 3 ? 3 : 0;
 
     monthNumbers.forEach((harvestMonth, monthIndex) => {
-      const offset = monthIndex * 3;
+      const offset = totalColumnOffset + monthIndex * 3;
       if (dataCells.length < offset + 3) return;
       const householdCount = parseNumber(dataCells[offset]);
       const plotCount = parseNumber(dataCells[offset + 1]);

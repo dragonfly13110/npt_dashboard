@@ -27,6 +27,16 @@ const FIXTURE_HTML = `
   </table>
 `;
 
+const ACTUAL_ORDER_HTML = `
+  <table><thead>
+    <tr><th>\u0e23\u0e2b\u0e31\u0e2a</th><th>\u0e2d\u0e33\u0e40\u0e20\u0e2d</th><th colspan="3">\u0e1a\u0e31\u0e19\u0e17\u0e36\u0e01 (\u0e23\u0e27\u0e21)</th><th colspan="3">\u0e01\u0e23\u0e01\u0e0e\u0e32\u0e04\u0e21</th><th colspan="3">${MONTH_NOVEMBER}</th></tr>
+    <tr><th></th><th></th><th>\u0e04\u0e23\u0e31\u0e27\u0e40\u0e23\u0e37\u0e2d\u0e19</th><th>\u0e41\u0e1b\u0e25\u0e07</th><th>\u0e40\u0e19\u0e37\u0e49\u0e2d\u0e17\u0e35\u0e48</th><th>\u0e04\u0e23\u0e31\u0e27\u0e40\u0e23\u0e37\u0e2d\u0e19</th><th>\u0e41\u0e1b\u0e25\u0e07</th><th>\u0e40\u0e19\u0e37\u0e49\u0e2d\u0e17\u0e35\u0e48</th><th>\u0e04\u0e23\u0e31\u0e27\u0e40\u0e23\u0e37\u0e2d\u0e19</th><th>\u0e41\u0e1b\u0e25\u0e07</th><th>\u0e40\u0e19\u0e37\u0e49\u0e2d\u0e17\u0e35\u0e48</th></tr>
+  </thead><tbody>
+    <tr><td>2-730000</td><td>\u0e19\u0e04\u0e23\u0e1b\u0e10\u0e21</td><td>7</td><td>8</td><td>100</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
+    ${Array.from({ length: 7 }, (_, index) => `<tr><td>2-730${index + 1}00</td><td>district ${index + 1}</td><td>1</td><td>1</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>`).join('')}
+  </tbody></table>
+`;
+
 describe('rice harvest parsing', () => {
   it('parses district harvest-month area and estimates tonnes at 0.8 per rai', () => {
     const result = parseRiceHarvestTable(FIXTURE_HTML, { cropYear: '69_1' });
@@ -49,6 +59,16 @@ describe('rice harvest parsing', () => {
   it('estimates exactly 0.8 tonnes per rai', () => {
     expect(estimateRiceTons(1)).toBe(0.8);
     expect(estimateRiceTons(61550.41)).toBe(49240.328);
+  });
+
+  it('skips the total group and preserves DOAE month order', () => {
+    const result = parseRiceHarvestTable(ACTUAL_ORDER_HTML, { cropYear: '69_1' });
+    const bangLenRows = result.records.filter(
+      (row) => row.districtCode === '2-730500'
+    );
+
+    expect(bangLenRows.map((row) => row.harvestMonth)).toEqual([7, 11]);
+    expect(bangLenRows.map((row) => row.areaRai)).toEqual([4, 7]);
   });
 
   it('rejects empty, duplicate, missing-district, and negative-area snapshots', () => {
