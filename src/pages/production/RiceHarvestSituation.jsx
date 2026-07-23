@@ -279,23 +279,37 @@ export default function RiceHarvestSituation() {
       ),
     [rows, activeCropYear, previousSnapshotDate]
   );
-  const summary = useMemo(() => summarize(currentRows), [currentRows]);
+  const filteredRows = useMemo(
+    () =>
+      currentRows.filter(
+        (row) =>
+          (!districtCode || row.district_code === districtCode) &&
+          (!harvestMonth || Number(row.harvest_month) === harvestMonth)
+      ),
+    [currentRows, districtCode, harvestMonth]
+  );
+  const filteredPreviousRows = useMemo(
+    () =>
+      previousRows.filter(
+        (row) =>
+          (!districtCode || row.district_code === districtCode) &&
+          (!harvestMonth || Number(row.harvest_month) === harvestMonth)
+      ),
+    [previousRows, districtCode, harvestMonth]
+  );
+  const summary = useMemo(() => summarize(filteredRows), [filteredRows]);
   const previousSummary = useMemo(
-    () => summarize(previousRows),
-    [previousRows]
+    () => summarize(filteredPreviousRows),
+    [filteredPreviousRows]
   );
   const deltaTons = summary.estimatedTons - previousSummary.estimatedTons;
   const latestMeta = currentRows[0];
   const districtOptions = useMemo(
     () =>
-      [
-        ...new Map(
-          summary.districtRows.map((row) => [row.districtCode, row.district])
-        ),
-      ]
+      [...new Map(currentRows.map((row) => [row.district_code, row.district]))]
         .map(([value, label]) => ({ value, label }))
         .sort((a, b) => a.label.localeCompare(b.label, 'th')),
-    [summary.districtRows]
+    [currentRows]
   );
   const monthOptions = useMemo(
     () =>
@@ -305,16 +319,6 @@ export default function RiceHarvestSituation() {
       })),
     [activeCropYear]
   );
-  const filteredDistrictRows = useMemo(
-    () =>
-      summary.districtRows.filter(
-        (row) =>
-          (!districtCode || row.districtCode === districtCode) &&
-          (!harvestMonth || row.harvestMonth === harvestMonth)
-      ),
-    [summary.districtRows, districtCode, harvestMonth]
-  );
-
   if (loading) {
     return (
       <div style={{ padding: 48, textAlign: 'center' }}>
@@ -395,6 +399,52 @@ export default function RiceHarvestSituation() {
             </Row>
           </Card>
 
+          <Card
+            title={
+              <span style={{ color: '#15803d' }}>
+                <FilterOutlined style={{ marginRight: 8 }} />
+                {COPY.filterTitle}
+              </span>
+            }
+            style={{ marginBottom: 16 }}
+            styles={{
+              header: { background: '#f0fdf4', borderBottomColor: '#bbf7d0' },
+            }}
+          >
+            <Row gutter={[12, 12]}>
+              <Col xs={24} md={12}>
+                <div
+                  style={{ color: '#64748b', fontSize: 12, marginBottom: 4 }}
+                >
+                  {COPY.district}
+                </div>
+                <Select
+                  allowClear
+                  value={districtCode}
+                  onChange={setDistrictCode}
+                  options={districtOptions}
+                  placeholder={COPY.allDistricts}
+                  style={{ width: '100%' }}
+                />
+              </Col>
+              <Col xs={24} md={12}>
+                <div
+                  style={{ color: '#64748b', fontSize: 12, marginBottom: 4 }}
+                >
+                  {COPY.month}
+                </div>
+                <Select
+                  allowClear
+                  value={harvestMonth}
+                  onChange={setHarvestMonth}
+                  options={monthOptions}
+                  placeholder={COPY.allMonths}
+                  style={{ width: '100%' }}
+                />
+              </Col>
+            </Row>
+          </Card>
+
           <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
             <Col xs={24} md={8}>
               <Card>
@@ -457,7 +507,7 @@ export default function RiceHarvestSituation() {
                 }
                 extra={
                   <Tag color="green">
-                    {filteredDistrictRows.length} {COPY.rows}
+                    {summary.districtRows.length} {COPY.rows}
                   </Tag>
                 }
                 styles={{
@@ -468,69 +518,9 @@ export default function RiceHarvestSituation() {
                   body: { paddingTop: 16 },
                 }}
               >
-                <div
-                  style={{
-                    background: '#f8fafc',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: 10,
-                    marginBottom: 16,
-                    padding: 12,
-                  }}
-                >
-                  <div
-                    style={{
-                      color: '#15803d',
-                      fontWeight: 600,
-                      marginBottom: 8,
-                    }}
-                  >
-                    <FilterOutlined style={{ marginRight: 6 }} />
-                    {COPY.filterTitle}
-                  </div>
-                  <Row gutter={[8, 8]}>
-                    <Col xs={24} sm={12}>
-                      <div
-                        style={{
-                          color: '#64748b',
-                          fontSize: 12,
-                          marginBottom: 4,
-                        }}
-                      >
-                        {COPY.district}
-                      </div>
-                      <Select
-                        allowClear
-                        value={districtCode}
-                        onChange={setDistrictCode}
-                        options={districtOptions}
-                        placeholder={COPY.allDistricts}
-                        style={{ width: '100%' }}
-                      />
-                    </Col>
-                    <Col xs={24} sm={12}>
-                      <div
-                        style={{
-                          color: '#64748b',
-                          fontSize: 12,
-                          marginBottom: 4,
-                        }}
-                      >
-                        {COPY.month}
-                      </div>
-                      <Select
-                        allowClear
-                        value={harvestMonth}
-                        onChange={setHarvestMonth}
-                        options={monthOptions}
-                        placeholder={COPY.allMonths}
-                        style={{ width: '100%' }}
-                      />
-                    </Col>
-                  </Row>
-                </div>
                 <Table
                   columns={COLUMNS}
-                  dataSource={filteredDistrictRows}
+                  dataSource={summary.districtRows}
                   pagination={{ pageSize: 14, showSizeChanger: false }}
                   scroll={{ x: 780 }}
                   size="small"
