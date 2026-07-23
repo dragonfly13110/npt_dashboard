@@ -102,14 +102,15 @@ export function validateTbkCultivationRows(rows) {
 
 export function filterTbkCultivationRows(
   rows,
-  { groupCode = '', search = '' } = {}
+  { groupCode = '', locationName = '', search = '' } = {}
 ) {
   const query = search.trim().toLocaleLowerCase('th-TH');
   return rows.filter(
     (row) =>
       (!groupCode || row.groupCode === groupCode) &&
+      (!locationName || row.locationName === locationName) &&
       (!query ||
-        `${row.locationName} ${row.itemBreed}`
+        `${row.locationCode} ${row.locationName} ${row.itemBreed}`
           .toLocaleLowerCase('th-TH')
           .includes(query))
   );
@@ -145,8 +146,7 @@ export function topTbkCultivationItems(rows, limit = 10) {
     .map(([itemBreed, areaRai]) => ({ itemBreed, areaRai }))
     .sort(
       (a, b) =>
-        b.areaRai - a.areaRai ||
-        a.itemBreed.localeCompare(b.itemBreed, 'th')
+        b.areaRai - a.areaRai || a.itemBreed.localeCompare(b.itemBreed, 'th')
     )
     .slice(0, limit);
 }

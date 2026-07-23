@@ -116,7 +116,11 @@ describe('TbkCultivationArea page', () => {
 
     await screen.findByText('พื้นที่เพาะปลูกตาม ทบก.');
     expect(screen.getByText('101.50')).toBeInTheDocument();
-    expect(screen.getByTestId('tbk-chart')).toHaveTextContent('100,1.5');
+    expect(
+      screen
+        .getAllByTestId('tbk-chart')
+        .some((chart) => chart.textContent === '100,1.5')
+    ).toBe(true);
     expect(screen.getByText('ข้าวเจ้า (กข41)')).toBeInTheDocument();
     expect(screen.getByText('ไก่ (ไก่ไข่)')).toBeInTheDocument();
 
@@ -127,7 +131,11 @@ describe('TbkCultivationArea page', () => {
     await waitFor(() =>
       expect(screen.queryByText('ไก่ (ไก่ไข่)')).not.toBeInTheDocument()
     );
-    expect(screen.getByTestId('tbk-chart')).toHaveTextContent('100');
+    expect(
+      screen
+        .getAllByTestId('tbk-chart')
+        .some((chart) => chart.textContent === '100')
+    ).toBe(true);
     expect(screen.getAllByText('100.00')).not.toHaveLength(0);
   });
 
