@@ -37,6 +37,7 @@ const routeLabels = {
   overview: 'Dashboard กลุ่ม',
   strategy: 'กลุ่มยุทธศาสตร์และสารสนเทศ',
   'farmer-registry': 'ทะเบียนเกษตรกร',
+  'tbk-cultivation-area': 'พื้นที่เพาะปลูกตาม ทบก.',
   disasters: 'ภัยพิบัติ',
   production: 'กลุ่มส่งเสริมและพัฒนาการผลิต',
   'large-plots': 'แปลงใหญ่',

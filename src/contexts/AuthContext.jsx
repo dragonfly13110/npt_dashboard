@@ -30,6 +30,7 @@ const GROUP_TABLES = {
   admin: ['personnel', 'assets', 'budgets'],
   strategy: [
     'farmer_registry',
+    'tbk_cultivation_snapshots',
     'agricultural_areas',
     'learning_centers',
     'disasters',

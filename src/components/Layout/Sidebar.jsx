@@ -132,6 +132,11 @@ const allMenuItems = [
         label: 'ทะเบียนเกษตรกร',
       },
       {
+        key: '/dashboard/strategy/tbk-cultivation-area',
+        icon: <FileExcelOutlined />,
+        label: 'พื้นที่เพาะปลูกตาม ทบก.',
+      },
+      {
         key: '/dashboard/strategy/parcel-drawing-progress',
         icon: <EnvironmentOutlined />,
         label: 'การวาดผังแปลงเกษตรกรรมดิจิทัล',
@@ -187,7 +192,8 @@ const allMenuItems = [
       {
         key: '/dashboard/production/rice-harvest-situation',
         icon: <BarChartOutlined />,
-        label: '\u0e2a\u0e16\u0e32\u0e19\u0e01\u0e32\u0e23\u0e13\u0e4c\u0e01\u0e32\u0e23\u0e40\u0e1e\u0e32\u0e30\u0e1b\u0e25\u0e39\u0e01\u0e02\u0e49\u0e32\u0e27',
+        label:
+          '\u0e2a\u0e16\u0e32\u0e19\u0e01\u0e32\u0e23\u0e13\u0e4c\u0e01\u0e32\u0e23\u0e40\u0e1e\u0e32\u0e30\u0e1b\u0e25\u0e39\u0e01\u0e02\u0e49\u0e32\u0e27',
       },
       {
         key: '/dashboard/production/production-costs',
