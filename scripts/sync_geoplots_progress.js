@@ -45,9 +45,16 @@ function sqlVal(value) {
 function toProgressRow(row, extra = {}) {
   const target = num(row.target_2_69);
   const geoplots68 = num(row.geoplots_68);
+  const geoplots67 = num(row.geoplots_67);
   const qgis68 = num(row.qgis_68);
-  const doae = 0;
-  const drawn = geoplots68 + qgis68 + doae;
+  const qgis67 = num(row.qgis_67);
+  const remaining68 = num(row.remain_list_68);
+  const remaining67 = num(row.remain_list_67);
+  let drawn = geoplots68 + qgis68;
+  if (remaining68 <= 0 && drawn < target) drawn += geoplots67 + qgis67;
+  const doae =
+    remaining68 + remaining67 <= 0 && drawn < target ? target - drawn : 0;
+  drawn += doae;
   const remainingTarget = Math.max(target - drawn, 0);
   const progress = target > 0 ? (drawn / target) * 100 : 0;
 
@@ -56,12 +63,12 @@ function toProgressRow(row, extra = {}) {
     target_plots: target,
     drawn_plots: drawn,
     remaining_target_plots: remainingTarget,
-    remaining_list_68: num(row.remain_list_68),
-    remaining_list_67: num(row.remain_list_67),
+    remaining_list_68: remaining68,
+    remaining_list_67: remaining67,
     geoplots_68: geoplots68,
-    geoplots_67: num(row.geoplots_67),
+    geoplots_67: geoplots67,
     qgis_68: qgis68,
-    qgis_67: num(row.qgis_67),
+    qgis_67: qgis67,
     doae_plots: doae,
     progress_percent: Math.round(progress * 100) / 100,
     total_chart_plots:

@@ -13,19 +13,43 @@ describe('toProgressRows', () => {
         m_code: 73,
         m_name: 'นครปฐม',
         target_2_69: 1240,
-        remain_list_68: '27',
-        remain_list_67: '43',
-        geoplots_68: '740',
-        geoplots_67: '108',
+        remain_list_68: '0',
+        remain_list_67: '0',
+        geoplots_68: '755',
+        geoplots_67: '134',
         qgis_68: '0',
         qgis_67: '0',
       },
     ]);
 
-    expect(row.drawn_plots).toBe(740);
-    expect(row.remaining_target_plots).toBe(500);
-    expect(row.progress_percent).toBe(59.68);
-    expect(row.total_chart_plots).toBe(2550);
+    expect(row.drawn_plots).toBe(1240);
+    expect(row.remaining_target_plots).toBe(0);
+    expect(row.progress_percent).toBe(100);
+    expect(row.total_chart_plots).toBe(2480);
+  });
+
+  it('keeps progress above 100 percent when completed plots exceed target', () => {
+    const [row] = toProgressRows([
+      { code: 7302, name: 'district', target_2_69: 1851, geoplots_68: 2181 },
+    ]);
+
+    expect(row.progress_percent).toBe(117.83);
+  });
+
+  it('does not add DOAE while a remaining list still exists', () => {
+    const [row] = toProgressRows([
+      {
+        code: 7305,
+        name: 'district',
+        target_2_69: 2975,
+        remain_list_68: 2537,
+        remain_list_67: 623,
+        geoplots_68: 2377,
+      },
+    ]);
+
+    expect(row.doae_plots).toBe(0);
+    expect(row.progress_percent).toBe(79.9);
   });
 
   it('keeps district metadata for subdistrict rows', () => {
@@ -52,8 +76,8 @@ describe('toProgressRows', () => {
       district: 'เมืองนครปฐม',
       subdistrict_code: '730101',
       subdistrict: 'พระปฐมเจดีย์',
-      drawn_plots: 5,
-      progress_percent: 50,
+      drawn_plots: 10,
+      progress_percent: 100,
     });
   });
 });
