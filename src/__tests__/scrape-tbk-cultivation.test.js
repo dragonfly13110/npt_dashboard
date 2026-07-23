@@ -35,9 +35,13 @@ describe('TBK cultivation scraper', () => {
 
   it('builds the current-year Nakhon Pathom report query', () => {
     const url = new URL(buildTbkReportUrl('01', 69));
+    expect(url.pathname).toBe(
+      '/plants_detail/plants_select/report_select67_view'
+    );
     expect(url.searchParams.get('year')).toBe('69');
     expect(url.searchParams.get('ProvinceCode')).toBe('73');
-    expect(url.searchParams.get(' TypeCode')).toBe('01');
+    expect(url.searchParams.get('TypeCode')).toBe('01');
+    expect(url.searchParams.has(' TypeCode')).toBe(false);
     expect(url.searchParams.get('DetailCodeShow')).toBe('1');
     expect(url.searchParams.get('BreedCodeShow')).toBe('1');
   });

@@ -29,6 +29,8 @@ const LOGIN_URL = 'https://farmer.doae.go.th/index/index/2';
 const AUTH_URL = 'https://farmer.doae.go.th/home/authen/portal_authen';
 const REPORT_URL =
   'https://farmer.doae.go.th/plants_detail/plants_select/report_select';
+const REPORT_DATA_URL =
+  'https://farmer.doae.go.th/plants_detail/plants_select/report_select67_view';
 const USER_AGENT =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36';
 
@@ -73,14 +75,14 @@ export function buildTbkReportUrl(groupCode = '', year = shortThaiYear()) {
     ProvinceCode: '73',
     AmphurCode: '',
     TambonCode: '',
-    ' TypeCode': groupCode,
+    TypeCode: groupCode,
     DetailCode: '',
     BreedCode: '',
     DetailCodeShow: '1',
     BreedCodeShow: '1',
     btnSubmit: 'แสดงข้อมูล',
   });
-  return `${REPORT_URL}?${query}`;
+  return `${REPORT_DATA_URL}?${query}`;
 }
 
 function addResponseCookies(response, cookies) {
@@ -132,13 +134,32 @@ async function openSession(fetchImpl) {
 
 async function fetchReport(fetchImpl, cookie, groupCode, year) {
   const response = await fetchImpl(buildTbkReportUrl(groupCode, year), {
-    headers: { Cookie: cookie, 'User-Agent': USER_AGENT },
+    headers: {
+      Cookie: cookie,
+      Referer: REPORT_URL,
+      'User-Agent': USER_AGENT,
+      'X-Requested-With': 'XMLHttpRequest',
+    },
   });
   if (!response.ok)
     throw new Error(`DOAE TBK report failed: ${response.status}`);
   const html = await response.text();
   if (!hasTbkTableShape(html)) {
-    throw new Error(`DOAE TBK report structure changed: ${groupCode || 'all'}`);
+    const title = html
+      .match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]
+      ?.replace(/\s+/g, ' ')
+      .trim();
+    const tableRows = (html.match(/<tr\b[^>]*>[\s\S]*?<\/tr>/gi) || []).filter(
+      (row) => (row.match(/<td\b[^>]*>[\s\S]*?<\/td>/gi) || []).length === 10
+    ).length;
+    throw new Error(
+      `DOAE TBK report structure changed: ${groupCode || 'all'} ` +
+        `(status=${response.status}, length=${html.length}, title=${title || '-'}, ` +
+        `login=${html.includes('กรุณาเข้าสู่ระบบ')}, table=${html.includes('table_id_1')}, ` +
+        `location=${html.includes('จังหวัด/อำเภอ/ตำบล/หมู่')}, ` +
+        `plant=${html.includes('พืช/พันธ์พืช')}, disaster=${html.includes('ภัยธรรมชาติ')}, ` +
+        `remaining=${html.includes('คงเหลือ')}, rows10=${tableRows})`
+    );
   }
   return html;
 }
