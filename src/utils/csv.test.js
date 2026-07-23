@@ -42,13 +42,19 @@ describe('csv utilities', () => {
     });
   });
 
+  it('rejects Excel uploads', () => {
+    expect(() =>
+      validateTableImportFile({ name: 'upload.xlsx', size: 10 })
+    ).toThrow('รองรับเฉพาะไฟล์ CSV หรือ TXT');
+  });
+
   it('rejects unsupported or oversized table imports before parsing', () => {
     expect(() =>
       validateTableImportFile({ name: 'upload.exe', size: 10 })
-    ).toThrow('CSV หรือ Excel');
+    ).toThrow('CSV หรือ TXT');
     expect(() =>
       validateTableImportFile({
-        name: 'upload.xlsx',
+        name: 'upload.csv',
         size: MAX_TABLE_IMPORT_BYTES + 1,
       })
     ).toThrow('ไม่เกิน 4 MB');

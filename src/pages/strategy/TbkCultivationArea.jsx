@@ -29,6 +29,7 @@ import {
   filterTbkCultivationRows,
   summarizeTbkCultivationRows,
 } from '../../utils/tbkCultivation';
+import { downloadCsv } from '../../utils/csv';
 
 const EMPTY_TEXT = 'ยังไม่มี snapshot ข้อมูลพื้นที่ตาม ทบก.';
 const CHART_METRICS = {
@@ -46,11 +47,6 @@ function formatDecimal(value) {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
-}
-
-function spreadsheetText(value) {
-  const text = String(value ?? '');
-  return /^\s*[=+\-@]/.test(text) ? `'${text}` : text;
 }
 
 function normalizeRows(rows) {
@@ -390,93 +386,53 @@ export default function TbkCultivationArea() {
     }
   }
 
-  async function exportExcel() {
+  function exportCsv() {
     setExporting(true);
     try {
-      const XLSX = await import('xlsx');
-      const worksheet = XLSX.utils.aoa_to_sheet([
-        ['พื้นที่เพาะปลูกตาม ทบก. จังหวัดนครปฐม'],
+      downloadCsv(
+        `tbk-cultivation-${meta?.dataYear || 'report'}-${meta?.snapshotDate || 'snapshot'}.csv`,
         [
-          `ปีการผลิต ${meta?.dataYear || '-'} | รอบข้อมูล ${meta?.snapshotDate || '-'}`,
-        ],
-        [
-          `กลุ่มข้อมูล ${groups.find((group) => group.value === groupCode)?.label || 'ทั้งหมด'} | ค้นหา ${search || '-'}`,
-        ],
-        [
-          `จำนวน ${formatInteger(summary.rowCount)} รายการ | พื้นที่ ${formatDecimal(summary.areaRai)} ไร่`,
-        ],
-        [],
-        [
-          'รหัส',
-          'จังหวัด/อำเภอ/ตำบล/หมู่',
-          'กลุ่มข้อมูล',
-          'พืช/พันธุ์พืช',
-          'ครัวเรือน',
-          'แปลง',
-          'เนื้อที่ (ไร่)',
-          'ครัวเรือนประสบภัย',
-          'แปลงประสบภัย',
-          'เนื้อที่ประสบภัย (ไร่)',
-          'เนื้อที่คงเหลือ (ไร่)',
-        ],
-        ...filteredRows.map((row) => [
-          spreadsheetText(row.locationCode),
-          spreadsheetText(row.locationName),
-          spreadsheetText(row.groupName),
-          spreadsheetText(row.itemBreed),
-          row.householdCount,
-          row.plotCount,
-          row.areaRai,
-          row.disasterHouseholdCount,
-          row.disasterPlotCount,
-          row.disasterAreaRai,
-          row.remainingAreaRai,
-        ]),
-      ]);
-      const lastRow = filteredRows.length + 6;
-      worksheet['!merges'] = [0, 1, 2, 3].map((row) => ({
-        s: { r: row, c: 0 },
-        e: { r: row, c: 10 },
-      }));
-      worksheet['!cols'] = [
-        { wch: 12 },
-        { wch: 28 },
-        { wch: 28 },
-        { wch: 48 },
-        ...Array.from({ length: 7 }, () => ({ wch: 18 })),
-      ];
-      worksheet['!autofilter'] = { ref: `A6:K${Math.max(lastRow, 6)}` };
-      worksheet['!freeze'] = { xSplit: 0, ySplit: 6 };
-      for (let column = 0; column < 11; column += 1) {
-        const cell = worksheet[XLSX.utils.encode_cell({ r: 5, c: column })];
-        cell.s = {
-          fill: { fgColor: { rgb: '166534' } },
-          font: { bold: true, color: { rgb: 'FFFFFF' } },
-          alignment: { horizontal: 'center', vertical: 'center' },
-          border: {
-            top: { style: 'thin', color: { rgb: 'D1D5DB' } },
-            bottom: { style: 'thin', color: { rgb: 'D1D5DB' } },
-            left: { style: 'thin', color: { rgb: 'D1D5DB' } },
-            right: { style: 'thin', color: { rgb: 'D1D5DB' } },
-          },
-        };
-      }
-      for (let row = 6; row < lastRow; row += 1) {
-        for (const column of [4, 5, 6, 7, 8, 9, 10]) {
-          worksheet[XLSX.utils.encode_cell({ r: row, c: column })].z =
-            column === 4 || column === 5 || column === 7 || column === 8
-              ? '#,##0'
-              : '#,##0.00';
-        }
-      }
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, 'พื้นที่ตาม ทบก.');
-      XLSX.writeFile(
-        workbook,
-        `tbk-cultivation-${meta?.dataYear || 'report'}-${meta?.snapshotDate || 'snapshot'}.xlsx`
+          ['พื้นที่เพาะปลูกตาม ทบก. จังหวัดนครปฐม'],
+          [
+            `ปีการผลิต ${meta?.dataYear || '-'} | รอบข้อมูล ${meta?.snapshotDate || '-'}`,
+          ],
+          [
+            `กลุ่มข้อมูล ${groups.find((group) => group.value === groupCode)?.label || 'ทั้งหมด'} | ค้นหา ${search || '-'}`,
+          ],
+          [
+            `จำนวน ${formatInteger(summary.rowCount)} รายการ | พื้นที่ ${formatDecimal(summary.areaRai)} ไร่`,
+          ],
+          [],
+          [
+            'รหัส',
+            'จังหวัด/อำเภอ/ตำบล/หมู่',
+            'กลุ่มข้อมูล',
+            'พืช/พันธุ์พืช',
+            'ครัวเรือน',
+            'แปลง',
+            'เนื้อที่ (ไร่)',
+            'ครัวเรือนประสบภัย',
+            'แปลงประสบภัย',
+            'เนื้อที่ประสบภัย (ไร่)',
+            'เนื้อที่คงเหลือ (ไร่)',
+          ],
+          ...filteredRows.map((row) => [
+            row.locationCode,
+            row.locationName,
+            row.groupName,
+            row.itemBreed,
+            row.householdCount,
+            row.plotCount,
+            row.areaRai,
+            row.disasterHouseholdCount,
+            row.disasterPlotCount,
+            row.disasterAreaRai,
+            row.remainingAreaRai,
+          ]),
+        ]
       );
     } catch (exportError) {
-      message.error(exportError.message || 'ส่งออก Excel ไม่สำเร็จ');
+      message.error(exportError.message || 'ส่งออก CSV ไม่สำเร็จ');
     } finally {
       setExporting(false);
     }
@@ -592,9 +548,9 @@ export default function TbkCultivationArea() {
                   <Button
                     icon={<DownloadOutlined />}
                     loading={exporting}
-                    onClick={exportExcel}
+                    onClick={exportCsv}
                   >
-                    ส่งออก Excel
+                    ส่งออก CSV
                   </Button>
                   {isAdmin() && (
                     <Button

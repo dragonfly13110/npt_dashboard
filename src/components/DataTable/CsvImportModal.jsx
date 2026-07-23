@@ -375,7 +375,7 @@ export default function CsvImportModal({
 
   return (
     <Modal
-      title="นำเข้าข้อมูลจาก CSV / Excel"
+      title="นำเข้าข้อมูลจาก CSV"
       open={open}
       onCancel={handleClose}
       width={900}
@@ -399,18 +399,17 @@ export default function CsvImportModal({
         {step === 0 && (
           <div className="csv-upload-zone">
             <Dragger
-              accept=".csv,.txt,.xlsx,.xls"
+              accept=".csv,.txt"
               showUploadList={false}
               beforeUpload={handleFile}
               multiple={false}
             >
               <div className="csv-upload-inner">
                 <CloudUploadOutlined className="csv-upload-icon" />
-                <p className="csv-upload-text">
-                  ลากไฟล์ CSV หรือ Excel มาวางที่นี่
-                </p>
+                <p className="csv-upload-text">ลากไฟล์ CSV มาวางที่นี่</p>
                 <p className="csv-upload-hint">
-                  รองรับ .csv, .txt, .xlsx, .xls ขนาดไม่เกิน 4 MB และใช้แถวแรกเป็นหัวคอลัมน์
+                  รองรับ .csv และ .txt ขนาดไม่เกิน 4 MB
+                  และใช้แถวแรกเป็นหัวคอลัมน์
                 </p>
               </div>
             </Dragger>

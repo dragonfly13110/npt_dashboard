@@ -21,6 +21,7 @@ import {
 import EChart from '../../components/widgets/EChart';
 import { PageHeader } from '../../components/widgets/SharedDashboardUI';
 import { supabase } from '../../supabaseClient';
+import { downloadCsv } from '../../utils/csv';
 
 const MONTH_LABELS = [
   '\u0e21.\u0e04.',
@@ -66,7 +67,7 @@ const COPY = {
   allDistricts: '\u0e17\u0e38\u0e01\u0e2d\u0e33\u0e40\u0e20\u0e2d',
   allMonths: '\u0e17\u0e38\u0e01\u0e40\u0e14\u0e37\u0e2d\u0e19',
   rows: '\u0e23\u0e32\u0e22\u0e01\u0e32\u0e23',
-  exportExcel: '\u0e2a\u0e48\u0e07\u0e2d\u0e2d\u0e01 Excel',
+  exportCsv: '\u0e2a\u0e48\u0e07\u0e2d\u0e2d\u0e01 CSV',
   changedFrom: (date) =>
     `\u0e40\u0e1b\u0e25\u0e35\u0e48\u0e22\u0e19\u0e08\u0e32\u0e01 ${date} (\u0e15\u0e31\u0e19)`,
 };
@@ -149,11 +150,6 @@ function formatHarvestMonth(month, cropYear) {
   const years = String(cropYear || '').split('/');
   const year = (years[month >= 7 ? 0 : 1] || years[0] || '').slice(-2);
   return `${MONTH_LABELS[month - 1]}${year ? ` (${year})` : ''}`;
-}
-
-function spreadsheetText(value) {
-  const text = String(value ?? '');
-  return /^\s*[=+\-@]/.test(text) ? `'${text}` : text;
 }
 
 function summarize(rows) {
@@ -329,84 +325,46 @@ export default function RiceHarvestSituation() {
     [activeCropYear]
   );
 
-  async function exportExcel() {
+  function exportCsv() {
     setExporting(true);
     try {
-      const XLSX = await import('xlsx');
       const selectedDistrict = districtOptions.find(
         (option) => option.value === districtCode
       )?.label;
       const selectedMonth = monthOptions.find(
         (option) => option.value === harvestMonth
       )?.label;
-      const worksheet = XLSX.utils.aoa_to_sheet([
-        [COPY.title],
+      downloadCsv(
+        `rice-harvest-${String(activeCropYear || 'report').replace('/', '-')}-${activeSnapshotDate || 'snapshot'}.csv`,
         [
-          `${COPY.cropYear}: ${activeCropYear || '-'} | ${COPY.snapshot}: ${activeSnapshotDate || '-'}`,
-        ],
-        [
-          `${COPY.district}: ${selectedDistrict || COPY.allDistricts} | ${COPY.month}: ${selectedMonth || COPY.allMonths}`,
-        ],
-        [
-          `${COPY.totalArea}: ${formatDecimal(summary.areaRai)} | ${COPY.totalRice}: ${formatDecimal(summary.estimatedTons)}`,
-        ],
-        [],
-        [
-          COPY.district,
-          COPY.month,
-          '\u0e04\u0e23\u0e31\u0e27\u0e40\u0e23\u0e37\u0e2d\u0e19',
-          '\u0e41\u0e1b\u0e25\u0e07',
-          '\u0e40\u0e19\u0e37\u0e49\u0e2d\u0e17\u0e35\u0e48 (\u0e44\u0e23\u0e48)',
-          '\u0e04\u0e32\u0e14\u0e01\u0e32\u0e23\u0e13\u0e4c\u0e02\u0e49\u0e32\u0e27 (\u0e15\u0e31\u0e19)',
-        ],
-        ...summary.districtRows.map((row) => [
-          spreadsheetText(row.district),
-          row.monthLabel,
-          row.householdCount,
-          row.plotCount,
-          row.areaRai,
-          row.estimatedTons,
-        ]),
-      ]);
-      const lastRow = summary.districtRows.length + 6;
-      worksheet['!merges'] = [0, 1, 2, 3].map((row) => ({
-        s: { r: row, c: 0 },
-        e: { r: row, c: 5 },
-      }));
-      worksheet['!cols'] = [
-        { wch: 28 },
-        { wch: 18 },
-        { wch: 14 },
-        { wch: 12 },
-        { wch: 16 },
-        { wch: 20 },
-      ];
-      worksheet['!rows'] = [{ hpt: 28 }, { hpt: 20 }, { hpt: 20 }, { hpt: 20 }];
-      worksheet['!autofilter'] = { ref: `A6:F${lastRow}` };
-      worksheet['!freeze'] = { xSplit: 0, ySplit: 6 };
-      for (let column = 0; column < 6; column += 1) {
-        const header = XLSX.utils.encode_cell({ r: 5, c: column });
-        worksheet[header].s = {
-          fill: { fgColor: { rgb: '15803D' } },
-          font: { bold: true, color: { rgb: 'FFFFFF' } },
-          alignment: { horizontal: 'center' },
-        };
-      }
-      for (let row = 6; row < lastRow; row += 1) {
-        for (const column of [2, 3, 4, 5]) {
-          worksheet[XLSX.utils.encode_cell({ r: row, c: column })].z =
-            '#,##0.00';
-        }
-      }
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(
-        workbook,
-        worksheet,
-        '\u0e2a\u0e16\u0e32\u0e19\u0e01\u0e32\u0e23\u0e13\u0e4c\u0e02\u0e49\u0e32\u0e27'
-      );
-      XLSX.writeFile(
-        workbook,
-        `rice-harvest-${String(activeCropYear || 'report').replace('/', '-')}-${activeSnapshotDate || 'snapshot'}.xlsx`
+          [COPY.title],
+          [
+            `${COPY.cropYear}: ${activeCropYear || '-'} | ${COPY.snapshot}: ${activeSnapshotDate || '-'}`,
+          ],
+          [
+            `${COPY.district}: ${selectedDistrict || COPY.allDistricts} | ${COPY.month}: ${selectedMonth || COPY.allMonths}`,
+          ],
+          [
+            `${COPY.totalArea}: ${formatDecimal(summary.areaRai)} | ${COPY.totalRice}: ${formatDecimal(summary.estimatedTons)}`,
+          ],
+          [],
+          [
+            COPY.district,
+            COPY.month,
+            '\u0e04\u0e23\u0e31\u0e27\u0e40\u0e23\u0e37\u0e2d\u0e19',
+            '\u0e41\u0e1b\u0e25\u0e07',
+            '\u0e40\u0e19\u0e37\u0e49\u0e2d\u0e17\u0e35\u0e48 (\u0e44\u0e23\u0e48)',
+            '\u0e04\u0e32\u0e14\u0e01\u0e32\u0e23\u0e13\u0e4c\u0e02\u0e49\u0e32\u0e27 (\u0e15\u0e31\u0e19)',
+          ],
+          ...summary.districtRows.map((row) => [
+            row.district,
+            row.monthLabel,
+            row.householdCount,
+            row.plotCount,
+            row.areaRai,
+            row.estimatedTons,
+          ]),
+        ]
       );
     } catch (exportError) {
       setError(exportError.message || COPY.readError);
@@ -505,10 +463,10 @@ export default function RiceHarvestSituation() {
               <Button
                 icon={<DownloadOutlined />}
                 loading={exporting}
-                onClick={exportExcel}
+                onClick={exportCsv}
                 type="primary"
               >
-                {COPY.exportExcel}
+                {COPY.exportCsv}
               </Button>
             }
             style={{ marginBottom: 16 }}

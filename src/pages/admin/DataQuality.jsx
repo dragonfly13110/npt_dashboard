@@ -60,6 +60,7 @@ const TABLE_LABELS = {
 export default function DataQuality() {
   const [stats, setStats] = useState([]);
   const [spatialStats, setSpatialStats] = useState([]);
+  const [health, setHealth] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchText, setSearchText] = useState('');
@@ -68,6 +69,13 @@ export default function DataQuality() {
     setLoading(true);
     setError(null);
     try {
+      const healthRequest = fetch('/api/health')
+        .then((response) => response.json())
+        .catch(() => ({
+          status: 'unavailable',
+          database: { status: 'unavailable' },
+          datasets: [],
+        }));
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -91,6 +99,7 @@ export default function DataQuality() {
       if (data.error) {
         throw new Error(data.error);
       }
+      setHealth(await healthRequest);
       setStats(data.stats || []);
       setSpatialStats(data.spatialStats || []);
     } catch (err) {
@@ -384,6 +393,31 @@ export default function DataQuality() {
         />
       ) : (
         <div style={{ padding: '0 24px 24px 24px' }}>
+          {health && (
+            <Alert
+              type={health.status === 'healthy' ? 'success' : 'warning'}
+              showIcon
+              message={`สถานะระบบ: ${health.status}`}
+              description={
+                <div>
+                  <span>ฐานข้อมูล: {health.database?.status || '-'}</span>
+                  {(health.datasets || [])
+                    .filter((dataset) => dataset.status !== 'healthy')
+                    .map((dataset) => (
+                      <Tag
+                        key={dataset.id}
+                        color="warning"
+                        style={{ marginLeft: 8 }}
+                      >
+                        {dataset.id}: {dataset.status}
+                      </Tag>
+                    ))}
+                </div>
+              }
+              style={{ marginBottom: 20 }}
+            />
+          )}
+
           {/* Dashboard Summary Cards */}
           <Row gutter={[16, 16]} style={{ marginBottom: 20 }}>
             <Col xs={24} sm={12} md={6}>

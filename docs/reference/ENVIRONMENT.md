@@ -27,6 +27,13 @@ This project must not rely on hardcoded service keys. Configure these values in 
 
 The AI proxy rate limiter also requires `VITE_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, and `VISITOR_IP_HASH_SALT`, plus the `supabase/api_rate_limits.sql` migration applied to the target project. It returns `503` instead of calling the AI provider when the shared rate-limit store is unavailable.
 
+## Operations Health
+
+- `GET /api/health` checks Supabase connectivity and freshness SLAs for automated weather, farmer registry, geoplots, rice harvest, and TBK cultivation datasets.
+- `system-health-monitor` runs daily at `01:00 UTC` (`08:00 Asia/Bangkok`).
+- Unhealthy checks use the existing `LINE_CHANNEL_ACCESS_TOKEN` and `ERROR_ALERT_LINE_USER_IDS` alert channel.
+- The endpoint returns `503` only when Supabase is down or server configuration is missing. Stale datasets return `200` with `status: "degraded"`.
+
 ## GitHub Actions
 
 The main CI workflow does not need production secrets. Keep E2E disabled until separate CI-safe Supabase credentials are available.

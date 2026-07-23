@@ -119,8 +119,8 @@ export const MAX_TABLE_IMPORT_BYTES = 4 * 1024 * 1024;
 
 export function validateTableImportFile(file) {
   const extension = file?.name?.split('.').pop()?.toLowerCase();
-  if (!['csv', 'txt', 'xlsx', 'xls'].includes(extension)) {
-    throw new Error('รองรับเฉพาะไฟล์ CSV หรือ Excel');
+  if (!['csv', 'txt'].includes(extension)) {
+    throw new Error('รองรับเฉพาะไฟล์ CSV หรือ TXT');
   }
   if (!Number.isFinite(file.size) || file.size > MAX_TABLE_IMPORT_BYTES) {
     throw new Error('ไฟล์นำเข้าต้องมีขนาดไม่เกิน 4 MB');
@@ -129,22 +129,7 @@ export function validateTableImportFile(file) {
 }
 
 export async function parseTableFile(file) {
-  const extension = validateTableImportFile(file);
-
-  if (extension === 'xlsx' || extension === 'xls') {
-    const XLSX = await import('xlsx');
-    const buffer = await file.arrayBuffer();
-    const workbook = XLSX.read(buffer, { type: 'array' });
-    const firstSheetName = workbook.SheetNames[0];
-    if (!firstSheetName) return { headers: [], rows: [] };
-    const matrix = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheetName], {
-      header: 1,
-      defval: '',
-      raw: false,
-    });
-    return csvMatrixToObjects(matrix);
-  }
-
+  validateTableImportFile(file);
   const text = await file.text();
   return parseCsvTable(text);
 }

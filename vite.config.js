@@ -527,9 +527,6 @@ export default defineConfig(({ mode }) => {
               if (id.includes('echarts')) {
                 return 'echarts';
               }
-              if (id.includes('xlsx')) {
-                return 'xlsx';
-              }
             }
           },
         },

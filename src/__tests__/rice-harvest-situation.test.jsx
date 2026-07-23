@@ -94,7 +94,7 @@ describe('RiceHarvestSituation page', () => {
     ).toBeInTheDocument();
     expect(screen.getAllByText('district 1')).not.toHaveLength(0);
     expect(
-      screen.getByText('\u0e2a\u0e48\u0e07\u0e2d\u0e2d\u0e01 Excel')
+      screen.getByText('\u0e2a\u0e48\u0e07\u0e2d\u0e2d\u0e01 CSV')
     ).toBeInTheDocument();
     expect(
       screen.getByText('\u0e17\u0e38\u0e01\u0e2d\u0e33\u0e40\u0e20\u0e2d')
