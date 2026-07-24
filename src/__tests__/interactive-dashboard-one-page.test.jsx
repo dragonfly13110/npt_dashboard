@@ -191,6 +191,8 @@ it('renders the approved module order and keeps expansion on one route', () => {
     'href',
     '#land'
   );
+  fireEvent.click(container.querySelector('a[href="#land"]'));
+  expect(document.querySelector('#land details')).toHaveProperty('open', true);
   expect(
     [...container.querySelectorAll('.module-section')].map(
       (section) => section.id

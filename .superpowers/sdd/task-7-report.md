@@ -3,6 +3,7 @@
 ## Verification
 
 - Added a page-level test proving a failed lazy Production module leaves the overview map and Groups module usable.
+- Navigation links now open their target native module before scrolling; live preview verification confirmed the Land module opens.
 - Focused integration test: 47 passed.
 - Full suite: 494 passed, 17 skipped.
 - Lint: clean. Production build passed with temporary non-secret Supabase placeholders.

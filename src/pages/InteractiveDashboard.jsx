@@ -65,13 +65,19 @@ const MODULES = [
   ['extras', 'ข้อมูลเพิ่มเติม'],
 ];
 
-const scrollToModule = (id) =>
-  document.getElementById(id)?.scrollIntoView({
+const scrollToModule = (id) => {
+  const module = document.getElementById(id);
+  if (!module) return;
+  const details =
+    module.tagName === 'DETAILS' ? module : module.querySelector('details');
+  if (details) details.open = true;
+  module.scrollIntoView({
     behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
       ? 'auto'
       : 'smooth',
     block: 'start',
   });
+};
 
 const MetricCard = React.memo(function MetricCard({
   title,
@@ -577,6 +583,10 @@ export default function InteractiveDashboard() {
               key={id}
               href={`#${id}`}
               aria-current={activeModule === id ? 'location' : undefined}
+              onClick={(event) => {
+                event.preventDefault();
+                scrollToModule(id);
+              }}
             >
               {label}
             </a>
