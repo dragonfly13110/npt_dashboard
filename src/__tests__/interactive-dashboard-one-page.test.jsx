@@ -951,7 +951,50 @@ it('keeps missing extra metrics null when their records exist', () => {
   expect(missingYears.rice).toBeNull();
 });
 
-it('keeps extras lazy, public-only, and isolated when one dataset fails', async () => {
+it('treats an AI forecast with no details as unavailable', () => {
+  const summary = summarizeExtras(
+    {
+      tbk: [],
+      rice: [],
+      costs: [],
+      forecast: { forecast_date: '2026-07-24', details: [] },
+      soils: [],
+    },
+    { district: BANG_LEN, year: '2569' }
+  );
+
+  expect(summary.forecast).toBeNull();
+});
+
+it.each(['2568', '2569'])(
+  'matches rice crop-year 2568/69 when selected year is %s',
+  (year) => {
+    const summary = summarizeExtras(
+      {
+        tbk: [],
+        rice: [
+          {
+            snapshot_date: '2026-07-24',
+            crop_year: '2568/69',
+            district: BANG_LEN,
+            area_rai: 1,
+          },
+        ],
+        costs: [],
+        forecast: null,
+        soils: [],
+      },
+      { district: BANG_LEN, year }
+    );
+
+    expect(summary.rice).toMatchObject({
+      cropYear: '2568/69',
+      areaRai: 1,
+    });
+  }
+);
+
+it('keeps extras lazy and public-only while retaining keyed failures', async () => {
   const columnsByTable = {};
   const results = {
     tbk_cultivation_snapshots: {
@@ -968,17 +1011,7 @@ it('keeps extras lazy, public-only, and isolated when one dataset fails', async 
       error: null,
     },
     rice_harvest_snapshots: {
-      data: [
-        {
-          snapshot_date: '2026-07-24',
-          crop_year: '2568/69',
-          district: BANG_LEN,
-          household_count: 4,
-          plot_count: 5,
-          area_rai: 6,
-          estimated_tons: 7,
-        },
-      ],
+      data: [],
       error: null,
     },
     production_costs: {
@@ -986,13 +1019,8 @@ it('keeps extras lazy, public-only, and isolated when one dataset fails', async 
       error: new Error('costs unavailable'),
     },
     ai_disease_forecasts: {
-      data: [
-        {
-          forecast_date: '2026-07-24',
-          details: [{ risk_level: 'สูง' }],
-        },
-      ],
-      error: null,
+      data: null,
+      error: new Error('forecast unavailable'),
     },
     soil_series: {
       data: [
@@ -1068,14 +1096,19 @@ it('keeps extras lazy, public-only, and isolated when one dataset fails', async 
     );
   });
   expect(result.current.tbk).toMatchObject({ areaRai: 3 });
-  expect(result.current.rice).toMatchObject({ estimatedTons: 7 });
+  expect(result.current.rice).toBeNull();
   expect(result.current.costs).toBeNull();
-  expect(result.current.forecast).toMatchObject({ high: 1 });
+  expect(result.current.forecast).toBeNull();
   expect(result.current.soils).toMatchObject({ areaRai: 8 });
+  expect(result.current.errors).toMatchObject({
+    costs: expect.objectContaining({ message: 'costs unavailable' }),
+    forecast: expect.objectContaining({ message: 'forecast unavailable' }),
+  });
+  expect(result.current.errors.rice).toBeUndefined();
   expect(result.current.error).toHaveProperty('message', 'costs unavailable');
 });
 
-it('renders five accessible extra summaries while leaving failed data unavailable', () => {
+it('distinguishes a failed extra card from a successful empty card', () => {
   const refetch = vi.fn();
   mockUseApiCache.mockReturnValue({
     data: {
@@ -1095,20 +1128,14 @@ it('renders five accessible extra summaries while leaving failed data unavailabl
         estimatedTons: 14,
       },
       costs: null,
-      forecast: {
-        forecastDate: '2026-07-24',
-        total: 3,
-        high: 1,
-        medium: 0,
-        low: 2,
-        status: LATEST_LABEL,
-      },
+      forecast: null,
       soils: {
         seriesCount: 1,
         groupCount: 1,
         areaRai: 12,
         status: LATEST_LABEL,
       },
+      errors: { costs: new Error('costs unavailable') },
       error: new Error('costs unavailable'),
     },
     isLoading: false,
@@ -1131,11 +1158,14 @@ it('renders five accessible extra summaries while leaving failed data unavailabl
   );
   expect(screen.getByText('ปี 2569 · รอบ 2026-07-24')).toBeVisible();
   expect(screen.getByText('ปีเพาะปลูก 2568/69 · รอบ 2026-07-24')).toBeVisible();
-  expect(screen.getByText('ข้อมูลล่าสุด · 2026-07-24')).toBeVisible();
   const costsCard = screen
     .getByRole('heading', { level: 3, name: 'ต้นทุนการผลิต' })
     .closest('.ant-card, .bento-card');
-  expect(within(costsCard).getByText('ไม่พร้อมใช้งาน')).toBeVisible();
+  const forecastCard = screen
+    .getByRole('heading', { level: 3, name: 'โรคและแมลง AI' })
+    .closest('.ant-card, .bento-card');
+  expect(within(costsCard).getByText('โหลดไม่สำเร็จ')).toBeVisible();
+  expect(within(forecastCard).getByText('ไม่พร้อมใช้งาน')).toBeVisible();
   fireEvent.click(screen.getByRole('button', { name: 'ลองใหม่' }));
   expect(refetch).toHaveBeenCalledOnce();
 });

@@ -6,6 +6,7 @@ import { supabase } from '../supabaseClient';
 import { useApiCache } from './useApiCache';
 
 const LATEST_LABEL = 'ข้อมูลล่าสุด';
+const DATASETS = ['tbk', 'rice', 'costs', 'forecast', 'soils'];
 
 function finiteValues(rows, key) {
   return rows
@@ -141,7 +142,13 @@ function summarizeCosts(rows, filters) {
 }
 
 function summarizeForecast(forecast) {
-  if (!forecast || !Array.isArray(forecast.details)) return null;
+  if (
+    !forecast ||
+    !Array.isArray(forecast.details) ||
+    forecast.details.length === 0
+  ) {
+    return null;
+  }
   return {
     forecastDate: forecast.forecast_date,
     total: forecast.details.length,
@@ -207,14 +214,14 @@ export function useInteractiveExtrasData(filters, { enabled = true } = {}) {
           .from('soil_series')
           .select('district,soil_series_name,soil_group,area_rai'),
       ]);
-      let firstError = null;
-      const rows = results.map((result) => {
+      const errors = {};
+      const rows = results.map((result, index) => {
         if (result.status === 'rejected') {
-          firstError ||= result.reason;
+          errors[DATASETS[index]] = result.reason;
           return null;
         }
         if (result.value.error) {
-          firstError ||= result.value.error;
+          errors[DATASETS[index]] = result.value.error;
           return null;
         }
         return result.value.data || [];
@@ -230,7 +237,7 @@ export function useInteractiveExtrasData(filters, { enabled = true } = {}) {
           },
           filters
         ),
-        error: firstError,
+        errors,
       };
     },
     { enabled }
@@ -242,7 +249,11 @@ export function useInteractiveExtrasData(filters, { enabled = true } = {}) {
     forecast: query.data?.forecast ?? null,
     soils: query.data?.soils ?? null,
     loading: query.isLoading,
-    error: query.error || query.data?.error || null,
+    errors: query.data?.errors || {},
+    error:
+      query.error ||
+      Object.values(query.data?.errors || {}).find(Boolean) ||
+      null,
     refetch: query.refetch,
   };
 }

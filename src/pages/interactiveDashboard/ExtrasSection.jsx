@@ -8,6 +8,7 @@ import EChart from '../../components/widgets/EChart';
 import { useInteractiveExtrasData } from '../../hooks/useInteractiveExtrasData';
 
 const UNAVAILABLE = 'ไม่พร้อมใช้งาน';
+const LOAD_FAILED = 'โหลดไม่สำเร็จ';
 
 function hasNumber(value) {
   return (
@@ -36,7 +37,7 @@ function SourceStatus({ children }) {
 }
 
 export function ExtrasSection({ filters, enabled = true }) {
-  const { loading, error, refetch, tbk, rice, costs, forecast, soils } =
+  const { loading, error, errors, refetch, tbk, rice, costs, forecast, soils } =
     useInteractiveExtrasData(filters, { enabled });
   const costSeries = [
     hasNumber(costs?.averageCostBaht) && {
@@ -80,7 +81,11 @@ export function ExtrasSection({ filters, enabled = true }) {
           <CategoryBentoCard
             title="พื้นที่ตาม ทบก."
             totalLabel={
-              tbk ? `ปี ${tbk.dataYear} · รอบ ${tbk.snapshotDate}` : UNAVAILABLE
+              errors.tbk
+                ? LOAD_FAILED
+                : tbk
+                  ? `ปี ${tbk.dataYear} · รอบ ${tbk.snapshotDate}`
+                  : UNAVAILABLE
             }
             mainStatsTitle="สรุปพื้นที่เพาะปลูก"
             mainStats={
@@ -108,9 +113,11 @@ export function ExtrasSection({ filters, enabled = true }) {
           <CategoryBentoCard
             title="สถานการณ์เก็บเกี่ยวข้าว"
             totalLabel={
-              rice
-                ? `ปีเพาะปลูก ${rice.cropYear} · รอบ ${rice.snapshotDate}`
-                : UNAVAILABLE
+              errors.rice
+                ? LOAD_FAILED
+                : rice
+                  ? `ปีเพาะปลูก ${rice.cropYear} · รอบ ${rice.snapshotDate}`
+                  : UNAVAILABLE
             }
             mainStatsTitle="สรุปการเก็บเกี่ยว"
             mainStats={
@@ -165,7 +172,9 @@ export function ExtrasSection({ filters, enabled = true }) {
                 </div>
               </>
             ) : (
-              <SourceStatus>{UNAVAILABLE}</SourceStatus>
+              <SourceStatus>
+                {errors.costs ? LOAD_FAILED : UNAVAILABLE}
+              </SourceStatus>
             )}
           </CategoryChartCard>
         </Col>
@@ -173,9 +182,11 @@ export function ExtrasSection({ filters, enabled = true }) {
           <CategoryBentoCard
             title="โรคและแมลง AI"
             totalLabel={
-              forecast
-                ? `${forecast.status} · ${forecast.forecastDate}`
-                : UNAVAILABLE
+              errors.forecast
+                ? LOAD_FAILED
+                : forecast
+                  ? `${forecast.status} · ${forecast.forecastDate}`
+                  : UNAVAILABLE
             }
             mainStatsTitle="ระดับความเสี่ยง"
             mainStats={
@@ -224,7 +235,9 @@ export function ExtrasSection({ filters, enabled = true }) {
                 </div>
               </>
             ) : (
-              <SourceStatus>{UNAVAILABLE}</SourceStatus>
+              <SourceStatus>
+                {errors.soils ? LOAD_FAILED : UNAVAILABLE}
+              </SourceStatus>
             )}
           </CategoryChartCard>
         </Col>
