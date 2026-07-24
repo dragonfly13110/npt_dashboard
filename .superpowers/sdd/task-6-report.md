@@ -4,10 +4,20 @@
 
 `5b1ee2e0c38bf43a939b29ab625cfdd188b546dd` — `feat: build one-page agricultural module stream`
 
+## Important-review fix commit
+
+`6624e2985967b90efba85091d851a956f3b3d77d` — `fix: address task 6 dashboard review`
+
 ## Files changed
 
 - `src/pages/InteractiveDashboard.jsx`
 - `src/pages/InteractiveDashboard.css`
+- `src/pages/interactiveDashboard/ModuleSection.jsx`
+- `src/pages/interactiveDashboard/ModuleSection.test.jsx`
+- `src/pages/strategy/StrategyDashboard.jsx`
+- `src/pages/development/DevelopmentDashboard.jsx`
+- `src/pages/protection/ProtectionDashboard.jsx`
+- `src/hooks/useProtectionData.js`
 - `src/__tests__/interactive-dashboard-one-page.test.jsx`
 
 ## Implementation decisions
@@ -22,18 +32,31 @@
 - Narrowed the overview AI warning query from `*` to the public fields `forecast_date,details`.
 - A network-only component boundary does not exist. To avoid duplicating the development/protection dashboards or creating a broad abstraction, `#networks` reuses overview center/tourism counts and scrolls to the existing land, groups, and risk detail modules.
 
+## Important-review fixes
+
+- Kept the top bar, filters, navigation, print metadata, footer, and all seven module shells mounted during overview loading and failure. Loading/error/retry now live inside `#overview`; overview-derived network cards render `ไม่พร้อมใช้งาน` instead of invented zeroes.
+- Reduced the default-open overview to metrics, the public map, and two compact summary charts. Detailed production, group, and risk visualizations now belong only to their lazy modules. Splitting `useDashboardData` would require a broader data-contract refactor, so this fix deliberately removes duplicate rendering without adding a second hook abstraction.
+- Reworked the single active-navigation observer around a callback-persistent `Set`. Every callback updates entries, selects the currently intersecting section nearest the viewport top through `getBoundingClientRect()`, and clears/disconnects on cleanup.
+- Suppressed separate-route detail links in embedded Strategy and Development dashboards while preserving their standalone actions and routes.
+- Marked the latest-only overview as `ข้อมูลล่าสุด` for every selected year. The global controls and print metadata continue to show the active URL-backed year.
+- Added a district-filtered community plant-doctor summary to Networks without mounting another `ProtectionDashboard`. It reuses the existing `protection-dashboard-data` React Query cache key, is mounted/enabled only with the lazy Networks module, and selects only the public aggregate fields required by the protection views.
+- Changed each native module summary title to a semantic `h2` and updated the matching CSS.
+- Added page-level integration coverage for loading/error isolation, lazy activation and filter propagation, embedded-route containment, standalone action preservation, duplicate-overview exclusion, year disclosure, district-filtered plant doctors, public projections, and multi-entry/exit observer behavior.
+
 ## TDD and verification
 
 - RED: three integration tests failed because module navigation/order, the filtered map, metric scrolling, and the seven-section observer were absent.
 - GREEN: focused integration suite passed 32/32.
 - Privacy RED: the overview forecast test received `*` instead of `forecast_date,details`.
-- Final focused: `npm test -- src/__tests__/interactive-dashboard-one-page.test.jsx` — 33/33 passed.
+- Important-review RED: seven focused regressions failed for the semantic heading, overview shell isolation, persistent observer state, duplicate overview blocks, latest-only disclosure, embedded links, and missing Networks doctor summary.
+- Important-review GREEN: `npm test -- src/pages/interactiveDashboard/ModuleSection.test.jsx src/__tests__/interactive-dashboard-one-page.test.jsx` — 2 files and 45/45 tests passed.
 - Lint: `npm run lint:src` — passed with zero warnings.
-- Full suite: `npm test` — 100 files passed, 1 skipped; 477 tests passed, 17 skipped.
-- Commit hook: repeated the full suite with the same passing result.
-- Build: `npm run build` passed with temporary non-secret placeholder Supabase variables after the first attempt correctly stopped on missing required environment variables.
+- Full suite: `npm test` — 100 files passed, 1 skipped; 486 tests passed, 17 skipped.
+- Fix commit hook: repeated the full suite with the same passing result.
+- Build: `npm run build` passed with temporary non-secret placeholder Supabase variables.
 - CSS check: the modified `InteractiveDashboard.css` minified directly with esbuild without warnings.
-- `git diff --check` passed. `progress.md` was not edited.
+- UTF-8 check: affected JSX/tests contain no replacement characters, and focused tests assert the valid Thai runtime labels.
+- `git diff --check` passed. Mobile, print, reduced-motion, observer cleanup, lazy gating, and public-data projections were rechecked. `progress.md` was not edited.
 
 ## Concerns
 
