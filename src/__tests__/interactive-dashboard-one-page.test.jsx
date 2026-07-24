@@ -307,6 +307,31 @@ it('keeps the page shell and lazy sections usable when overview fails', async ()
   expect(screen.getAllByText('ไม่พร้อมใช้งาน').length).toBeGreaterThan(0);
 });
 
+it('keeps other modules usable when the lazy production module fails', async () => {
+  mockUseApiCache.mockImplementation((key) => {
+    if (key === 'interactive-dashboard-years') {
+      return { data: [2569], isLoading: false, error: null, refetch: vi.fn() };
+    }
+    if (key === 'production-dashboard-data') {
+      return {
+        data: undefined,
+        isLoading: false,
+        error: new Error('production unavailable'),
+        refetch: vi.fn(),
+      };
+    }
+    return { data: {}, isLoading: false, error: null, refetch: vi.fn() };
+  });
+
+  renderDashboard('/interactive-dashboard');
+  fireEvent.click(document.querySelector('#production summary'));
+  await activateModule('production');
+
+  expect(await screen.findByText('production unavailable')).toBeVisible();
+  expect(document.querySelector('#groups summary')).toBeVisible();
+  expect(screen.getByTestId('landing-map')).toBeVisible();
+});
+
 it('keeps navigation and module shells visible while overview loads', () => {
   mockUseDashboardData.mockReturnValue({
     ...overviewData(),
