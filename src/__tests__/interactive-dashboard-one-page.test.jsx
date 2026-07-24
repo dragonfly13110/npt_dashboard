@@ -14,7 +14,9 @@ import InteractiveDashboard from '../pages/InteractiveDashboard';
 import StrategyDashboard from '../pages/strategy/StrategyDashboard';
 import ProductionDashboard from '../pages/production/ProductionDashboard';
 import DevelopmentDashboard from '../pages/development/DevelopmentDashboard';
-import ProtectionDashboard from '../pages/protection/ProtectionDashboard';
+import ProtectionDashboard, {
+  ProtectionNetworkSummary,
+} from '../pages/protection/ProtectionDashboard';
 import { useProductionData } from '../hooks/useProductionData';
 import { useDevelopmentData } from '../hooks/useDevelopmentData';
 import { useProtectionData } from '../hooks/useProtectionData';
@@ -59,6 +61,7 @@ vi.mock('../hooks/useApiCache', () => ({ useApiCache: mockUseApiCache }));
 vi.mock('../hooks/useDashboardData', async (importOriginal) => ({
   ...(await importOriginal()),
   useDashboardData: mockUseDashboardData,
+  useInteractiveOverviewData: mockUseDashboardData,
 }));
 vi.mock('../supabaseClient', () => ({
   supabase: { from: mockFrom },
@@ -419,6 +422,62 @@ it('propagates filters to lazy modules without embedded detail-route actions', a
   );
 });
 
+it('opens real agricultural price content inline without leaving the page', async () => {
+  mockUseApiCache.mockImplementation((key) => {
+    if (key === 'strategy-dashboard-data-v3') {
+      return {
+        data: {
+          agriData: [],
+          learningData: [],
+          registryData: [],
+          weatherData: [],
+          geoplotsData: [],
+        },
+        isLoading: false,
+        error: null,
+        refetch: vi.fn(),
+      };
+    }
+    if (Array.isArray(key) && key[0] === 'moc-agri-prices') {
+      return {
+        data: {
+          category: 'ผลไม้',
+          items: [
+            {
+              id: 1,
+              product_name: 'ส้มโอขาวน้ำผึ้ง',
+              price_range: '45 - 55',
+              unit: 'บาท/กก.',
+            },
+          ],
+        },
+        isLoading: false,
+        error: null,
+      };
+    }
+    if (Array.isArray(key) && key[0] === 'bangchak-oil-prices-api-v2') {
+      return {
+        data: { items: [{ name: 'ไฮดีเซล S', today: '32.94' }] },
+        isLoading: false,
+        error: null,
+      };
+    }
+    return { data: [2569], isLoading: false };
+  });
+
+  renderDashboard('/interactive-dashboard');
+  fireEvent.click(document.querySelector('#land summary'));
+  await activateModule('land');
+  fireEvent.click(screen.getByText('ดูรายละเอียดราคาภายในหน้านี้'));
+
+  expect(await screen.findByText('ส้มโอขาวน้ำผึ้ง')).toBeVisible();
+  expect(screen.getByText('32.94')).toBeVisible();
+  expect(screen.getByTestId('location')).toHaveAttribute(
+    'data-pathname',
+    '/interactive-dashboard'
+  );
+});
+
 it('loads a district-filtered plant-doctor summary only with networks', async () => {
   mockUseApiCache.mockImplementation((key, _fetcher, options) => {
     if (key === 'interactive-dashboard-years') {
@@ -478,6 +537,35 @@ it('selects only public forecast fields for the overview warning', async () => {
   renderDashboard('/interactive-dashboard');
 
   await waitFor(() => expect(forecastColumns).toBe('forecast_date,details'));
+});
+
+it('shows overview AI forecast failures as unavailable instead of zero', async () => {
+  const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+  mockFrom.mockImplementation((table) => ({
+    select: () => {
+      const result =
+        table === 'ai_disease_forecasts'
+          ? { data: null, error: new Error('offline') }
+          : { data: [], error: null };
+      const query = {
+        order: () => query,
+        limit: () => query,
+        then: (resolve, reject) =>
+          Promise.resolve(result).then(resolve, reject),
+      };
+      return query;
+    },
+  }));
+
+  renderDashboard('/interactive-dashboard');
+
+  const card = screen
+    .getByText('เฝ้าระวังโรค/แมลง (AI)', { selector: '.metric-title' })
+    .closest('button');
+  await waitFor(() => expect(errorSpy).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(within(card).getByText('ไม่พร้อมใช้งาน')).toBeVisible()
+  );
 });
 
 it('restores district and year from the URL', async () => {
@@ -908,6 +996,9 @@ it('selects only public learning-center fields for the strategy module', async (
   expect(selectedColumns.learning_centers).not.toMatch(
     /chairman_name|phone|custom_fields/
   );
+  expect(selectedColumns.farmer_registry).toBe(
+    'district,data_year,target,total_updated_households,total_updated_area_rai,cutoff_date'
+  );
 });
 
 it('selects only public protection fields used by network summaries', async () => {
@@ -1074,6 +1165,21 @@ it('discloses that protection observations do not support the selected year', ()
   expect(
     screen.getByText('ข้อมูลชุดนี้ไม่รองรับตัวกรองปี แสดงข้อมูลล่าสุด')
   ).toBeVisible();
+});
+
+it('offers retry when the network plant-doctor summary fails', () => {
+  const refetch = vi.fn();
+  mockUseApiCache.mockReturnValue({
+    data: undefined,
+    isLoading: false,
+    error: new Error('offline'),
+    refetch,
+  });
+
+  renderGroup(ProtectionNetworkSummary, { enabled: true });
+
+  fireEvent.click(screen.getByRole('button', { name: 'ลองใหม่' }));
+  expect(refetch).toHaveBeenCalledOnce();
 });
 
 it.each([

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Card, Spin, Button, Result } from 'antd';
 import { ArrowRightOutlined, PieChartOutlined } from '@ant-design/icons';
@@ -16,6 +16,7 @@ import {
   CROP_COLORS,
 } from '../../components/charts/echartOptions';
 import { useApiCache } from '../../hooks/useApiCache';
+import AgriPricesWidget from '../../components/widgets/AgriPricesWidget';
 import { filterRows, LATEST_YEAR } from '../interactiveDashboard/filters';
 const LEARN_COLORS = [
   '#0288d1',
@@ -177,13 +178,16 @@ function LinkBentoCard({
 }
 
 export default function StrategyDashboard({ embedded = false, filters = {} }) {
+  const [priceDetailsOpen, setPriceDetailsOpen] = useState(false);
   const fetchStrategyData = async () => {
     const [agri, learn, registry, weather, geoplots] = await Promise.all([
       supabase.from('agricultural_areas').select('*'),
       supabase.from('learning_centers').select('district, featured_product'),
       supabase
         .from('farmer_registry')
-        .select('*')
+        .select(
+          'district,data_year,target,total_updated_households,total_updated_area_rai,cutoff_date'
+        )
         .order('data_year', { ascending: false })
         .order('district'),
       supabase
@@ -648,7 +652,11 @@ export default function StrategyDashboard({ embedded = false, filters = {} }) {
             <LinkBentoCard
               title="ราคาสินค้าเกษตรและพลังงาน"
               icon="📈"
-              description="ข้อมูลราคาจากกรมการค้าภายในและราคาน้ำมันบางจาก แยกไว้ที่หน้ารายละเอียดเพื่อให้ dashboard รวมโหลดไว"
+              description={
+                embedded
+                  ? 'ข้อมูลราคาจากกรมการค้าภายในและราคาน้ำมันบางจาก เปิดดูได้ภายในส่วนนี้'
+                  : 'ข้อมูลราคาจากกรมการค้าภายในและราคาน้ำมันบางจาก แยกไว้ที่หน้ารายละเอียดเพื่อให้ dashboard รวมโหลดไว'
+              }
               to="/dashboard/strategy/agricultural-prices"
               accent="#f57c00"
               showAction={!embedded}
@@ -659,6 +667,30 @@ export default function StrategyDashboard({ embedded = false, filters = {} }) {
                 { label: 'สินค้า', value: 'MOC' },
               ]}
             />
+
+            {embedded && (
+              <details
+                style={{
+                  gridColumn: '1 / -1',
+                  border: '1px solid #fed7aa',
+                  borderRadius: 12,
+                  padding: 14,
+                  background: '#fff7ed',
+                }}
+              >
+                <summary
+                  onClick={() => setPriceDetailsOpen(true)}
+                  style={{ cursor: 'pointer', fontWeight: 700 }}
+                >
+                  ดูรายละเอียดราคาภายในหน้านี้
+                </summary>
+                {priceDetailsOpen && (
+                  <div style={{ marginTop: 14 }}>
+                    <AgriPricesWidget mini />
+                  </div>
+                )}
+              </details>
+            )}
 
             <CategoryBentoCard
               title="ศูนย์ ศพก."

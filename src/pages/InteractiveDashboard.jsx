@@ -4,7 +4,7 @@ import EChart from '../components/widgets/EChart';
 import LandingMap from '../components/widgets/LandingMap';
 import { barOption, pieOption } from '../components/charts/echartOptions';
 import {
-  useDashboardData,
+  useInteractiveOverviewData,
   PIE_COLORS,
   DISTRICT_LIST,
 } from '../hooks/useDashboardData';
@@ -184,7 +184,7 @@ export default function InteractiveDashboard() {
     tourism,
     agriPie,
     mapData,
-  } = useDashboardData();
+  } = useInteractiveOverviewData();
   const {
     district: selectedDistrict,
     districts,
@@ -193,7 +193,10 @@ export default function InteractiveDashboard() {
     setYear,
   } = useInteractiveFilters();
   const { years } = useInteractiveYears();
-  const [latestForecast, setLatestForecast] = useState(null);
+  const [forecastState, setForecastState] = useState({
+    status: 'loading',
+    details: null,
+  });
   const [activeModule, setActiveModule] = useState('overview');
   const filters = useMemo(
     () => ({ district: selectedDistrict, year }),
@@ -211,6 +214,7 @@ export default function InteractiveDashboard() {
 
   useEffect(() => {
     document.title = 'Interactive Dashboard | ศูนย์ข้อมูลการเกษตรนครปฐม';
+    let cancelled = false;
 
     const fetchLatestForecast = async () => {
       try {
@@ -220,10 +224,19 @@ export default function InteractiveDashboard() {
           .order('forecast_date', { ascending: false })
           .limit(1);
         if (error) throw error;
-        if (data && data.length > 0) {
-          setLatestForecast(data[0]);
+        if (cancelled) return;
+        if (data?.length && Array.isArray(data[0].details)) {
+          setForecastState({
+            status: 'success',
+            details: data[0].details,
+          });
+        } else {
+          setForecastState({ status: 'missing', details: null });
         }
       } catch (err) {
+        if (!cancelled) {
+          setForecastState({ status: 'error', details: null });
+        }
         console.error(
           'Error fetching latest forecast for dashboard:',
           err.message
@@ -232,6 +245,9 @@ export default function InteractiveDashboard() {
     };
 
     fetchLatestForecast();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -268,14 +284,14 @@ export default function InteractiveDashboard() {
   const metrics = useMemo(() => {
     const getGlobalStat = (table) =>
       stats?.find((s) => s.table === table)?.count || 0;
+    const forecastDetails =
+      forecastState.status === 'success' ? forecastState.details : null;
     const warningCount =
-      latestForecast?.details?.filter((d) => d.risk_level === 'สูง').length ||
-      0;
-    const totalDiseases = latestForecast?.details?.length || 0;
+      forecastDetails?.filter((d) => d.risk_level === 'สูง').length || 0;
 
     const aiWarningCard = {
       title: 'เฝ้าระวังโรค/แมลง (AI)',
-      value: totalDiseases,
+      value: forecastDetails?.length ?? null,
       unit: 'ชนิด',
       color: warningCount > 0 ? '#ef4444' : '#ea580c',
       icon: '🐛',
@@ -395,7 +411,7 @@ export default function InteractiveDashboard() {
     enterprises,
     lpStats,
     stats,
-    latestForecast,
+    forecastState,
   ]);
 
   const networkMetrics = useMemo(() => {

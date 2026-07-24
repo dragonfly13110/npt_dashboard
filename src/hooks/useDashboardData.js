@@ -23,6 +23,7 @@ import {
   createLpPieData,
   selectEnrichedStats,
 } from './dashboard/selectors';
+import { latestYearRows } from '../pages/interactiveDashboard/filters';
 
 export { DISTRICT_LIST, allTables, groupConfig } from './dashboard/config';
 export { createAgriPieData, createLpPieData } from './dashboard/selectors';
@@ -217,4 +218,149 @@ export function useDashboardData() {
     lpPie,
     largePlotsList,
   };
+}
+
+export function useInteractiveOverviewData() {
+  const fetchOverviewData = async () => {
+    const [
+      enterprises,
+      largePlots,
+      agriAreas,
+      learning,
+      pest,
+      soil,
+      gis,
+      tourism,
+    ] = await Promise.all([
+      supabase
+        .from('community_enterprises')
+        .select('district', { count: 'exact' }),
+      supabase
+        .from('large_plots')
+        .select('district,member_count,area_rai,commodity_group,year'),
+      supabase
+        .from('agricultural_areas')
+        .select(
+          'district,farmer_households,total_area_rai,agri_crop_area_rai,rice_in_season_rai,rice_off_season_rai,field_crops_rai,horticulture_rai,fruit_trees_rai,vegetables_rai,flowers_rai,herbs_spices_rai'
+        )
+        .neq('district', 'รวม'),
+      supabase.from('learning_centers').select('district'),
+      supabase.from('pest_centers').select('district'),
+      supabase.from('soil_fertilizer_centers').select('district'),
+      supabase
+        .from('gis_areas')
+        .select('area_name,district,latitude,longitude')
+        .not('latitude', 'is', null)
+        .limit(20),
+      supabase
+        .from('agri_tourism')
+        .select('spot_name,district,spot_type,latitude,longitude'),
+    ]);
+    const error = [
+      enterprises,
+      largePlots,
+      agriAreas,
+      learning,
+      pest,
+      soil,
+      gis,
+      tourism,
+    ].find((result) => result.error)?.error;
+    if (error) throw error;
+
+    return {
+      enterprises: {
+        data: enterprises.data || [],
+        count: enterprises.count ?? enterprises.data?.length ?? 0,
+      },
+      largePlots: largePlots.data || [],
+      agriAreas: agriAreas.data || [],
+      learningCenters: learning.data || [],
+      pestCenters: pest.data || [],
+      soilFertilizerCenters: soil.data || [],
+      gisAreas: gis.data || [],
+      tourism: tourism.data || [],
+    };
+  };
+
+  const {
+    data = {},
+    isLoading: loading,
+    error,
+    refetch,
+  } = useApiCache('interactive-dashboard-overview-v1', fetchOverviewData);
+  const overview = useMemo(() => {
+    const districtStats = createEmptyDistrictStats();
+    const enterpriseResult = selectEnterpriseStats({
+      ceData: data.enterprises || { data: [], count: 0 },
+      dStats: districtStats,
+    });
+    const currentLargePlots = latestYearRows(data.largePlots || [], 'year');
+    const { lpStats } = selectLargePlotStats({
+      lpData: currentLargePlots,
+      dStats: districtStats,
+    });
+    const { agriStats } = selectAgriStats({
+      agriAreaData: data.agriAreas || [],
+      dStats: districtStats,
+    });
+    selectCenterCounts({
+      lcData: data.learningCenters || [],
+      pcData: data.pestCenters || [],
+      sfcData: data.soilFertilizerCenters || [],
+      dStats: districtStats,
+    });
+    const tourism = data.tourism || [];
+    const mapData = [
+      ...(data.gisAreas || [])
+        .filter((row) => row.latitude && row.longitude)
+        .map((row) => ({
+          name: row.area_name,
+          district: row.district,
+          lat: row.latitude,
+          lon: row.longitude,
+          type: 'gis',
+          typeLabel: 'พื้นที่ GIS',
+        })),
+      ...tourism
+        .filter((row) => row.latitude && row.longitude)
+        .slice(0, 20)
+        .map((row) => ({
+          name: row.spot_name,
+          district: row.district,
+          lat: row.latitude,
+          lon: row.longitude,
+          type: 'tourism',
+          typeLabel: 'ท่องเที่ยวเกษตร',
+        })),
+    ];
+
+    return {
+      stats: [
+        {
+          table: 'learning_centers',
+          count: data.learningCenters?.length || 0,
+        },
+        { table: 'pest_centers', count: data.pestCenters?.length || 0 },
+        {
+          table: 'soil_fertilizer_centers',
+          count: data.soilFertilizerCenters?.length || 0,
+        },
+      ],
+      mapData,
+      districtStats,
+      lpStats,
+      agriStats,
+      enterprises: {
+        count: enterpriseResult.ceCount,
+      },
+      tourism: {
+        list: tourism,
+        count: tourism.length,
+      },
+      agriPie: createAgriPieData(data.agriAreas || []),
+    };
+  }, [data]);
+
+  return { ...overview, loading, error, refetch };
 }

@@ -5,14 +5,8 @@ import {
   ALL_DISTRICTS,
   LATEST_YEAR,
   filterRows,
+  latestYearRows,
 } from '../pages/interactiveDashboard/filters';
-
-const latestYearRows = (rows, yearKey) => {
-  const years = rows.map((row) => Number(row[yearKey])).filter(Number.isFinite);
-  if (!years.length) return rows;
-  const latestYear = Math.max(...years);
-  return rows.filter((row) => Number(row[yearKey]) === latestYear);
-};
 
 export function useProductionData(
   filters = { district: ALL_DISTRICTS, year: LATEST_YEAR }

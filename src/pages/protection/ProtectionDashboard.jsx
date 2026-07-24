@@ -87,9 +87,10 @@ function EmptyChart({ label }) {
 }
 
 export function ProtectionNetworkSummary({ filters = {}, enabled = true }) {
-  const { loading, error, plantDoctorStats } = useProtectionData(filters, {
-    enabled,
-  });
+  const { loading, error, refetch, plantDoctorStats } = useProtectionData(
+    filters,
+    { enabled }
+  );
 
   if (loading) {
     return (
@@ -101,7 +102,16 @@ export function ProtectionNetworkSummary({ filters = {}, enabled = true }) {
 
   if (error) {
     return (
-      <Alert showIcon type="warning" message="ไม่พร้อมแสดงข้อมูลหมอพืชชุมชน" />
+      <Alert
+        showIcon
+        type="warning"
+        message="ไม่พร้อมแสดงข้อมูลหมอพืชชุมชน"
+        action={
+          <Button size="small" onClick={refetch}>
+            ลองใหม่
+          </Button>
+        }
+      />
     );
   }
 

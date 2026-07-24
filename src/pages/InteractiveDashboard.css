@@ -213,6 +213,11 @@
 }
 
 .module-section summary h2 {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
   margin: 0;
   font-size: 18px;
 }
@@ -565,6 +570,10 @@
   .module-section summary {
     align-items: flex-start;
     padding: 16px;
+  }
+
+  .module-section summary h2 {
+    align-items: flex-start;
   }
 
   .module-section-body {

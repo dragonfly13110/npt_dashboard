@@ -26,21 +26,23 @@ export function ModuleSection({
     <section id={id} ref={rootRef} className="module-section">
       <details open={defaultOpen}>
         <summary>
-          <span>
-            <h2>{title}</h2>
-            {summary && (
+          <h2>
+            <span>
+              {title}
+              {summary && (
+                <>
+                  {' '}
+                  <small>{summary}</small>
+                </>
+              )}
+            </span>
+            {status && (
               <>
                 {' '}
-                <small>{summary}</small>
+                <span className="module-status">{status}</span>
               </>
             )}
-          </span>
-          {status && (
-            <>
-              {' '}
-              <span className="module-status">{status}</span>
-            </>
-          )}
+          </h2>
         </summary>
         <div className="module-section-body">
           {nearViewport ? children : <div className="module-skeleton" />}

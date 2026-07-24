@@ -50,9 +50,6 @@ export function useInteractiveYears() {
       supabase.from('farmer_registry').select('data_year'),
       supabase.from('tbk_cultivation_snapshots').select('data_year'),
       supabase.from('large_plots').select('year'),
-      supabase.from('crop_production').select('year'),
-      supabase.from('production_costs').select('data_year'),
-      supabase.from('disasters').select('year'),
     ]);
     const rows = results.map((result) =>
       result.status === 'fulfilled' ? result.value.data || [] : []
@@ -61,9 +58,6 @@ export function useInteractiveYears() {
       { rows: rows[0], yearKey: 'data_year' },
       { rows: rows[1], yearKey: 'data_year' },
       { rows: rows[2], yearKey: 'year' },
-      { rows: rows[3], yearKey: 'year' },
-      { rows: rows[4], yearKey: 'data_year' },
-      { rows: rows[5], yearKey: 'year' },
     ]).filter((year) => normalizeYear(year) !== LATEST_YEAR);
   });
   return { years: query.data || [], loading: query.isLoading };

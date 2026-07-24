@@ -83,9 +83,13 @@ it('uses native summary semantics with the complete accessible name', () => {
 
   expect(summary).toBeInstanceOf(HTMLElement);
   expect(summary.tagName).toBe('SUMMARY');
-  expect(
-    within(summary).getByRole('heading', { level: 2, name: 'ชุดดิน' })
-  ).toBeVisible();
+  const heading = within(summary).getByRole('heading', {
+    level: 2,
+    name: 'ชุดดิน ชนิดดิน ข้อมูลล่าสุด',
+  });
+  expect(heading).toBeVisible();
+  expect(summary.firstElementChild).toBe(heading);
+  expect(summary.children).toHaveLength(1);
   expect(summary).toHaveAccessibleName('ชุดดิน ชนิดดิน ข้อมูลล่าสุด');
   summary.focus();
   expect(summary).toHaveFocus();
