@@ -1,4 +1,4 @@
-export const ALL_DISTRICTS = 'เธ—เธฑเนเธเธซเธกเธ”';
+export const ALL_DISTRICTS = '\u0e17\u0e31\u0e49\u0e07\u0e2b\u0e21\u0e14';
 export const LATEST_YEAR = 'latest';
 
 export function normalizeYear(value) {
@@ -42,5 +42,9 @@ export function collectYears(sources) {
 export function yearStatus(selectedYear, yearKey) {
   return yearKey
     ? { supported: true, label: selectedYear }
-    : { supported: false, label: 'เธเนเธญเธกเธนเธฅเธฅเนเธฒเธชเธธเธ”' };
+    : {
+        supported: false,
+        label:
+          '\u0e02\u0e49\u0e2d\u0e21\u0e39\u0e25\u0e25\u0e48\u0e32\u0e2a\u0e38\u0e14',
+      };
 }

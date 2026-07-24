@@ -62,3 +62,17 @@ The suite emitted existing warnings that `VITE_SUPABASE_URL` and `VITE_SUPABASE_
 ## Concerns
 
 Only the pre-existing missing Supabase environment-variable warnings appeared during tests. No functional concerns remain.
+
+## Encoding fix follow-up
+
+Corrected the runtime contract and test fixtures to use Unicode escapes for `ทั้งหมด`, `ข้อมูลล่าสุด`, `เมืองนครปฐม`, and `บางเลน`, preventing terminal encoding corruption.
+
+Focused verification command:
+
+```text
+npm test -- src/pages/interactiveDashboard/filters.test.js
+```
+
+Result: passed — 1 test file, 4 tests. The existing missing Supabase environment-variable warning remained and did not affect the result.
+
+Self-review: confirmed source and tests contain the requested escape sequences, and the test assertions now evaluate against the exact Thai runtime values.

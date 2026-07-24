@@ -9,14 +9,24 @@ import {
 
 describe('interactive dashboard filters', () => {
   const rows = [
-    { district: 'เน€เธกเธทเธญเธเธเธเธฃเธเธเธก', data_year: 2569, value: 1 },
-    { district: 'เธเธฒเธเน€เธฅเธ', data_year: 2568, value: 2 },
+    {
+      district:
+        '\u0e40\u0e21\u0e37\u0e2d\u0e07\u0e19\u0e04\u0e23\u0e1b\u0e10\u0e21',
+      data_year: 2569,
+      value: 1,
+    },
+    {
+      district: '\u0e1a\u0e32\u0e07\u0e40\u0e25\u0e19',
+      data_year: 2568,
+      value: 2,
+    },
   ];
 
   it('filters supported district and year fields', () => {
     expect(
       filterRows(rows, {
-        district: 'เน€เธกเธทเธญเธเธเธเธฃเธเธเธก',
+        district:
+          '\u0e40\u0e21\u0e37\u0e2d\u0e07\u0e19\u0e04\u0e23\u0e1b\u0e10\u0e21',
         year: '2569',
       })
     ).toEqual([rows[0]]);
@@ -25,8 +35,8 @@ describe('interactive dashboard filters', () => {
   it('keeps rows when a dataset has no year field', () => {
     expect(
       filterRows(
-        [{ district: 'เธเธฒเธเน€เธฅเธ', value: 2 }],
-        { district: 'เธเธฒเธเน€เธฅเธ', year: '2569' },
+        [{ district: '\u0e1a\u0e32\u0e07\u0e40\u0e25\u0e19', value: 2 }],
+        { district: '\u0e1a\u0e32\u0e07\u0e40\u0e25\u0e19', year: '2569' },
         { yearKey: null }
       )
     ).toHaveLength(1);
@@ -42,7 +52,8 @@ describe('interactive dashboard filters', () => {
   it('discloses unsupported year filters', () => {
     expect(yearStatus('2569', null)).toEqual({
       supported: false,
-      label: 'เธเนเธญเธกเธนเธฅเธฅเนเธฒเธชเธธเธ”',
+      label:
+        '\u0e02\u0e49\u0e2d\u0e21\u0e39\u0e25\u0e25\u0e48\u0e32\u0e2a\u0e38\u0e14',
     });
   });
 });
