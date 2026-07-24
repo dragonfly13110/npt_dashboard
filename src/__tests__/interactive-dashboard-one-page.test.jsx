@@ -231,6 +231,24 @@ it('filters map markers and scrolls metric cards instead of routing', async () =
   );
 });
 
+it('shows one dashboard module at a time when switching tabs', () => {
+  const { container } = renderDashboard('/interactive-dashboard');
+
+  expect(container.querySelector('#overview')).toHaveClass(
+    'module-section-active'
+  );
+  expect(container.querySelector('#land')).not.toHaveClass(
+    'module-section-active'
+  );
+
+  fireEvent.click(container.querySelector('a[href="#land"]'));
+
+  expect(container.querySelector('#land')).toHaveClass('module-section-active');
+  expect(container.querySelector('#overview')).not.toHaveClass(
+    'module-section-active'
+  );
+});
+
 it('keeps the intersecting module set across callbacks and cleans it up', async () => {
   const { unmount } = renderDashboard('/interactive-dashboard');
   const navObserver = await waitFor(() => {

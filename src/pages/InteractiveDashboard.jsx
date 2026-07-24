@@ -87,6 +87,7 @@ const MetricCard = React.memo(function MetricCard({
   icon,
   target,
   isWarning,
+  onNavigate,
 }) {
   return (
     <button
@@ -95,7 +96,10 @@ const MetricCard = React.memo(function MetricCard({
       style={{
         borderTop: `3px solid ${color}`,
       }}
-      onClick={() => scrollToModule(target)}
+      onClick={() => {
+        onNavigate?.(target);
+        scrollToModule(target);
+      }}
     >
       <div
         style={{
@@ -585,6 +589,7 @@ export default function InteractiveDashboard() {
               aria-current={activeModule === id ? 'location' : undefined}
               onClick={(event) => {
                 event.preventDefault();
+                setActiveModule(id);
                 scrollToModule(id);
               }}
             >
@@ -603,6 +608,7 @@ export default function InteractiveDashboard() {
 
         <ModuleSection
           id="overview"
+          active={activeModule === 'overview'}
           title="ภาพรวมจังหวัด"
           summary="ตัวชี้วัดสำคัญ แผนภูมิ และแผนที่"
           status="ข้อมูลล่าสุด"
@@ -639,7 +645,7 @@ export default function InteractiveDashboard() {
                     className="metric-col"
                     key={`${m.title}-${animationKey}`}
                   >
-                    <MetricCard {...m} />
+                    <MetricCard {...m} onNavigate={setActiveModule} />
                   </div>
                 ))}
               </div>
@@ -734,6 +740,7 @@ export default function InteractiveDashboard() {
 
         <ModuleSection
           id="land"
+          active={activeModule === 'land'}
           title="พื้นที่และสารสนเทศการเกษตร"
           summary="ทะเบียนเกษตรกร พื้นที่เพาะปลูก ผังแปลง ศพก. และสภาพอากาศ"
           status={year === LATEST_YEAR ? 'ข้อมูลล่าสุด' : `ปี ${year}`}
@@ -747,6 +754,7 @@ export default function InteractiveDashboard() {
 
         <ModuleSection
           id="production"
+          active={activeModule === 'production'}
           title="การผลิต"
           summary="ข้าว พืช แปลงใหญ่ มาตรฐาน GAP และต้นทุน"
           status={year === LATEST_YEAR ? 'ข้อมูลล่าสุด' : `ปี ${year}`}
@@ -760,6 +768,7 @@ export default function InteractiveDashboard() {
 
         <ModuleSection
           id="groups"
+          active={activeModule === 'groups'}
           title="กลุ่มเกษตรกร"
           summary="วิสาหกิจชุมชน Smart Farmer และสถาบันเกษตรกร"
           status={year === LATEST_YEAR ? 'ข้อมูลล่าสุด' : `ปี ${year}`}
@@ -773,6 +782,7 @@ export default function InteractiveDashboard() {
 
         <ModuleSection
           id="networks"
+          active={activeModule === 'networks'}
           title="ศูนย์และเครือข่าย"
           summary="ศูนย์เรียนรู้ ศูนย์อารักขาพืช และเครือข่ายท่องเที่ยว"
           status="ข้อมูลล่าสุด"
@@ -784,7 +794,7 @@ export default function InteractiveDashboard() {
           <div className="metrics-row">
             {networkMetrics.map((metric) => (
               <div className="metric-col" key={metric.title}>
-                <MetricCard {...metric} />
+                <MetricCard {...metric} onNavigate={setActiveModule} />
               </div>
             ))}
           </div>
@@ -799,6 +809,7 @@ export default function InteractiveDashboard() {
 
         <ModuleSection
           id="risk"
+          active={activeModule === 'risk'}
           title="ความเสี่ยงและการอารักขาพืช"
           summary="ภัยพิบัติ โรคและแมลง แปลงพยากรณ์ ศูนย์ และ PM2.5"
           status="ข้อมูลล่าสุด"
@@ -812,6 +823,7 @@ export default function InteractiveDashboard() {
 
         <ModuleSection
           id="extras"
+          active={activeModule === 'extras'}
           title="ข้อมูลเพิ่มเติม"
           summary="ทบก. การเก็บเกี่ยว ต้นทุน โรคและแมลง AI และชุดดิน"
           status={year === LATEST_YEAR ? 'ข้อมูลล่าสุด' : `ปี ${year}`}

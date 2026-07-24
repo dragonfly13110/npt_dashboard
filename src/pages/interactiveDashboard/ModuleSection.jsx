@@ -6,12 +6,17 @@ export function ModuleSection({
   summary,
   status,
   defaultOpen = false,
+  active = false,
   children,
 }) {
   const rootRef = useRef(null);
-  const [nearViewport, setNearViewport] = useState(defaultOpen);
+  const [nearViewport, setNearViewport] = useState(defaultOpen || active);
 
   useEffect(() => {
+    if (active) {
+      setNearViewport(true);
+      return undefined;
+    }
     if (nearViewport || !rootRef.current) return;
 
     const observer = new IntersectionObserver(
@@ -20,11 +25,15 @@ export function ModuleSection({
     );
     observer.observe(rootRef.current);
     return () => observer.disconnect();
-  }, [nearViewport]);
+  }, [active, nearViewport]);
 
   return (
-    <section id={id} ref={rootRef} className="module-section">
-      <details open={defaultOpen}>
+    <section
+      id={id}
+      ref={rootRef}
+      className={`module-section${active ? ' module-section-active' : ''}`}
+    >
+      <details open={defaultOpen || active}>
         <summary>
           <h2>
             <span>

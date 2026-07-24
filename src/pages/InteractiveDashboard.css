@@ -189,6 +189,10 @@
   margin-bottom: 20px;
 }
 
+.module-section:not(.module-section-active) {
+  display: none;
+}
+
 .module-section details {
   overflow: hidden;
   border: 1px solid #e2e8f0;
@@ -499,6 +503,7 @@
     color: #0f172a;
   }
   .module-section {
+    display: block !important;
     break-inside: avoid;
     scroll-margin-top: 0;
   }
