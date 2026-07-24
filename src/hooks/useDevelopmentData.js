@@ -5,7 +5,6 @@ import {
   ALL_DISTRICTS,
   LATEST_YEAR,
   filterRows,
-  yearStatus,
 } from '../pages/interactiveDashboard/filters';
 
 const DISTRICT_COLORS = {
@@ -377,7 +376,17 @@ export function useDevelopmentData(
     loading,
     error,
     refetch,
-    yearSupported: yearStatus(filters.year, 'data_year').supported,
+    yearSupported: {
+      community_enterprises: false,
+      smart_farmer_sf: true,
+      young_smart_farmer_ysf: true,
+      agricultural_career_groups: true,
+      housewife_farmer_groups: true,
+      young_farmer_groups_detailed: true,
+      farmer_institutes: false,
+      agri_tourism: false,
+      disasters: true,
+    },
     ceStats,
     peopleStats,
     groupStats,

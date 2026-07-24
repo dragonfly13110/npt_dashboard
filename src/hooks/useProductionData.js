@@ -5,8 +5,14 @@ import {
   ALL_DISTRICTS,
   LATEST_YEAR,
   filterRows,
-  yearStatus,
 } from '../pages/interactiveDashboard/filters';
+
+const latestYearRows = (rows, yearKey) => {
+  const years = rows.map((row) => Number(row[yearKey])).filter(Number.isFinite);
+  if (!years.length) return rows;
+  const latestYear = Math.max(...years);
+  return rows.filter((row) => Number(row[yearKey]) === latestYear);
+};
 
 export function useProductionData(
   filters = { district: ALL_DISTRICTS, year: LATEST_YEAR }
@@ -49,17 +55,21 @@ export function useProductionData(
     certs: [],
     crops: [],
   };
-  const { largePlots, certs, crops } = useMemo(
-    () => ({
-      largePlots: filterRows(allLargePlots, filters, { yearKey: 'year' }),
+  const { largePlots, certs, crops } = useMemo(() => {
+    const filterDatedRows = (rows) => {
+      const activeRows =
+        filters.year === LATEST_YEAR ? latestYearRows(rows, 'year') : rows;
+      return filterRows(activeRows, filters, { yearKey: 'year' });
+    };
+    return {
+      largePlots: filterDatedRows(allLargePlots),
       certs: filterRows(allCerts, filters, {
         districtKey: 'plot_district',
         yearKey: null,
       }),
-      crops: filterRows(allCrops, filters, { yearKey: 'year' }),
-    }),
-    [allLargePlots, allCerts, allCrops, filters]
-  );
+      crops: filterDatedRows(allCrops),
+    };
+  }, [allLargePlots, allCerts, allCrops, filters]);
 
   // ============================================
   // Large Plots Charts
@@ -256,7 +266,11 @@ export function useProductionData(
     loading,
     error,
     refetch,
-    yearSupported: yearStatus(filters.year, 'year').supported,
+    yearSupported: {
+      large_plots: true,
+      certifications: false,
+      crop_production: true,
+    },
     lpPie,
     lpBar,
     lpGroups,

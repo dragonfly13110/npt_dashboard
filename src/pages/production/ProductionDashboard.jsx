@@ -7,6 +7,7 @@ import {
   pieOption,
 } from '../../components/charts/echartOptions';
 import { useProductionData } from '../../hooks/useProductionData';
+import { LATEST_YEAR } from '../interactiveDashboard/filters';
 import {
   PageHeader,
   CategoryBentoCard,
@@ -62,6 +63,7 @@ export default function ProductionDashboard({
     loading,
     error,
     refetch,
+    yearSupported,
     lpPie,
     lpBar,
     lpGroups,
@@ -75,6 +77,12 @@ export default function ProductionDashboard({
     cropBar,
     cropStats,
   } = useProductionData(filters);
+  const latestOnly =
+    filters.year &&
+    filters.year !== LATEST_YEAR &&
+    !yearSupported.certifications
+      ? ' · ข้อมูลล่าสุด'
+      : '';
 
   return (
     <div className={embedded ? 'embedded-dashboard' : undefined}>
@@ -144,7 +152,7 @@ export default function ProductionDashboard({
 
             {/* 2. Certifications */}
             <CategoryBentoCard
-              title="การรับรองมาตรฐาน (GAP)"
+              title={`การรับรองมาตรฐาน (GAP)${latestOnly}`}
               icon="✅"
               totalLabel="ทั้งหมด"
               totalCount={`${certStats.total} แปลง`}
@@ -220,7 +228,9 @@ export default function ProductionDashboard({
 
             {/* --- Certifications --- */}
             <Col xs={24} lg={12}>
-              <CategoryChartCard title="✅ จำนวนรายการรับรอง GAP แยกตามชนิดพืช (Top 10)">
+              <CategoryChartCard
+                title={`✅ จำนวนรายการรับรอง GAP แยกตามชนิดพืช (Top 10)${latestOnly}`}
+              >
                 {certPie.length > 0 ? (
                   <EChart
                     option={pieOption(certPie, {
@@ -235,7 +245,9 @@ export default function ProductionDashboard({
             </Col>
 
             <Col xs={24} lg={12}>
-              <CategoryChartCard title="✅ จำนวนรายการรับรองแยกตามอำเภอ (Top 10 พืชมาตรฐาน GAP)">
+              <CategoryChartCard
+                title={`✅ จำนวนรายการรับรองแยกตามอำเภอ (Top 10 พืชมาตรฐาน GAP)${latestOnly}`}
+              >
                 {certBar.length > 0 ? (
                   <EChart
                     option={barOption(
@@ -254,7 +266,9 @@ export default function ProductionDashboard({
             </Col>
 
             <Col xs={24} lg={12}>
-              <CategoryChartCard title="✅ ปริมาณผลผลิตรวม GAP (กิโลกรัม) - 10 อันดับแรก">
+              <CategoryChartCard
+                title={`✅ ปริมาณผลผลิตรวม GAP (กิโลกรัม) - 10 อันดับแรก${latestOnly}`}
+              >
                 {certVolumeData.length > 0 ? (
                   <EChart
                     option={barOption(
@@ -275,7 +289,9 @@ export default function ProductionDashboard({
             </Col>
 
             <Col xs={24} lg={12}>
-              <CategoryChartCard title="✅ แนวโน้มใบรับรอง GAP หมดอายุ (แบ่งตามปี)">
+              <CategoryChartCard
+                title={`✅ แนวโน้มใบรับรอง GAP หมดอายุ (แบ่งตามปี)${latestOnly}`}
+              >
                 {certExpireData.length > 0 ? (
                   <EChart
                     option={comboOption(

@@ -5,7 +5,6 @@ import {
   ALL_DISTRICTS,
   LATEST_YEAR,
   filterRows,
-  yearStatus,
 } from '../pages/interactiveDashboard/filters';
 
 const PLOT_TYPE_COLORS = {
@@ -305,7 +304,13 @@ export function useProtectionData(
     loading,
     error,
     refetch,
-    yearSupported: yearStatus(filters.year, null).supported,
+    yearSupported: {
+      forecast_plots: false,
+      pest_centers: false,
+      plant_doctors: false,
+      soil_fertilizer_centers: false,
+      fire_hotspots: false,
+    },
     poPie,
     poBar,
     poTypes,

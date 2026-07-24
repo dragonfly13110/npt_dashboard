@@ -237,7 +237,71 @@ it('filters production summaries by district and each table report-year contract
   expect(result.current.lpStats).toMatchObject({ total: 1, members: 4 });
   expect(result.current.certStats).toMatchObject({ total: 1, area: 3 });
   expect(result.current.cropStats.total).toBe(1);
-  expect(result.current.yearSupported).toBe(true);
+  expect(result.current.yearSupported).toEqual({
+    large_plots: true,
+    certifications: false,
+    crop_production: true,
+  });
+});
+
+it('uses each production dataset maximum year for the latest filter', async () => {
+  const rowsByTable = {
+    large_plots: [
+      { commodity_group: 'ข้าว', district: BANG_LEN, year: 2568 },
+      { commodity_group: 'ผัก/สมุนไพร', district: BANG_LEN, year: 2567 },
+      { commodity_group: 'ไม้ผล', district: 'สามพราน', year: 2569 },
+    ],
+    certifications: [
+      { crop_name: 'ส้มโอ', plot_district: BANG_LEN, area_rai: 3 },
+      { crop_name: 'ฝรั่ง', plot_district: 'สามพราน', area_rai: 5 },
+    ],
+    crop_production: [
+      { crop_name: 'ข้าว', district: BANG_LEN, year: 2569 },
+      { crop_name: 'อ้อย', district: BANG_LEN, year: 2568 },
+      { crop_name: 'ทุเรียน', district: 'สามพราน', year: 2570 },
+    ],
+  };
+  let fetchProductionData;
+  mockFrom.mockImplementation((table) => ({
+    select: () => Promise.resolve({ data: rowsByTable[table], error: null }),
+  }));
+  mockUseApiCache.mockImplementation((_key, fetcher) => {
+    fetchProductionData = fetcher;
+    return {
+      data: undefined,
+      isLoading: true,
+      error: null,
+      refetch: vi.fn(),
+    };
+  });
+  const { result, rerender } = renderHook(() =>
+    useProductionData({ district: BANG_LEN, year: LATEST_YEAR })
+  );
+
+  const data = await fetchProductionData();
+  mockUseApiCache.mockReturnValue({
+    data,
+    isLoading: false,
+    error: null,
+    refetch: vi.fn(),
+  });
+  rerender();
+
+  expect(result.current.lpStats.total).toBe(0);
+  expect(result.current.cropStats.total).toBe(0);
+  expect(result.current.certStats).toMatchObject({ total: 1, area: 3 });
+
+  const allDistricts = renderHook(() =>
+    useProductionData({ district: ALL_DISTRICTS, year: LATEST_YEAR })
+  );
+  expect(allDistricts.result.current.lpStats).toMatchObject({
+    total: 1,
+    fruit: 1,
+  });
+  expect(allDistricts.result.current.cropStats).toMatchObject({
+    total: 1,
+    topCrops: [['ทุเรียน', 1]],
+  });
 });
 
 it('filters development summaries with the actual year key for every dated table', () => {
@@ -295,7 +359,17 @@ it('filters development summaries with the actual year key for every dated table
     year: 2569,
     total: 1,
   });
-  expect(result.current.yearSupported).toBe(true);
+  expect(result.current.yearSupported).toEqual({
+    community_enterprises: false,
+    smart_farmer_sf: true,
+    young_smart_farmer_ysf: true,
+    agricultural_career_groups: true,
+    housewife_farmer_groups: true,
+    young_farmer_groups_detailed: true,
+    farmer_institutes: false,
+    agri_tourism: false,
+    disasters: true,
+  });
 });
 
 it('applies only district filtering to protection observations', () => {
@@ -340,7 +414,13 @@ it('applies only district filtering to protection observations', () => {
   expect(result.current.pcStats.total).toBe(2);
   expect(result.current.plantDoctorStats.total).toBe(2);
   expect(result.current.sfStats.total).toBe(2);
-  expect(result.current.yearSupported).toBe(false);
+  expect(result.current.yearSupported).toEqual({
+    forecast_plots: false,
+    pest_centers: false,
+    plant_doctors: false,
+    soil_fertilizer_centers: false,
+    fire_hotspots: false,
+  });
 });
 
 it('filters strategy rows before calculating the existing summaries', () => {
@@ -378,15 +458,10 @@ it('filters strategy rows before calculating the existing summaries', () => {
       geoplotsData: [
         {
           district: BANG_LEN,
-          year: 2569,
+          year: 2568,
           target_plots: 4,
           drawn_plots: 2,
-        },
-        {
-          district: BANG_LEN,
-          year: 2568,
-          target_plots: 40,
-          drawn_plots: 20,
+          snapshot_date: '2026-07-24',
         },
         {
           district: 'สามพราน',
@@ -413,6 +488,9 @@ it('filters strategy rows before calculating the existing summaries', () => {
   expect(summary.getByText('วาดแปลง').parentElement).toHaveTextContent(
     '2 / 4 แปลง'
   );
+  expect(summary.getByText('วาดแปลง').parentElement).toHaveTextContent(
+    'ข้อมูลล่าสุด'
+  );
   expect(summary.getByText('พื้นที่เพาะปลูก').parentElement).toHaveTextContent(
     '5'
   );
@@ -426,6 +504,112 @@ it('filters strategy rows before calculating the existing summaries', () => {
   expect(summary.getByText('ราคาเกษตร').parentElement).toHaveTextContent(
     'ข้อมูลล่าสุด'
   );
+});
+
+it('selects only public learning-center fields for the strategy module', async () => {
+  const selectedColumns = {};
+  let fetchStrategyData;
+  mockFrom.mockImplementation((table) => ({
+    select: (columns) => {
+      selectedColumns[table] = columns;
+      const result = { data: [], error: null };
+      const query = {
+        order: () => query,
+        limit: () => query,
+        then: (resolve, reject) =>
+          Promise.resolve(result).then(resolve, reject),
+      };
+      return query;
+    },
+  }));
+  mockUseApiCache.mockImplementation((_key, fetcher) => {
+    fetchStrategyData = fetcher;
+    return {
+      data: {},
+      isLoading: false,
+      error: null,
+      refetch: vi.fn(),
+    };
+  });
+
+  renderGroup(StrategyDashboard, { embedded: true });
+  await fetchStrategyData();
+
+  expect(selectedColumns.learning_centers).toBe('district, featured_product');
+  expect(selectedColumns.learning_centers).not.toMatch(
+    /chairman_name|phone|custom_fields/
+  );
+});
+
+it('labels every undated production certification view for a specific year', () => {
+  mockUseApiCache.mockReturnValue({
+    data: {},
+    isLoading: false,
+    error: null,
+    refetch: vi.fn(),
+  });
+
+  renderGroup(ProductionDashboard, {
+    embedded: true,
+    filters: { district: BANG_LEN, year: '2569' },
+  });
+
+  [
+    '✅ การรับรองมาตรฐาน (GAP) · ข้อมูลล่าสุด',
+    '✅ จำนวนรายการรับรอง GAP แยกตามชนิดพืช (Top 10) · ข้อมูลล่าสุด',
+    '✅ จำนวนรายการรับรองแยกตามอำเภอ (Top 10 พืชมาตรฐาน GAP) · ข้อมูลล่าสุด',
+    '✅ ปริมาณผลผลิตรวม GAP (กิโลกรัม) - 10 อันดับแรก · ข้อมูลล่าสุด',
+    '✅ แนวโน้มใบรับรอง GAP หมดอายุ (แบ่งตามปี) · ข้อมูลล่าสุด',
+  ].forEach((label) => expect(screen.getByText(label)).toBeVisible());
+});
+
+it('labels every undated development card and chart for a specific year', () => {
+  mockUseApiCache.mockReturnValue({
+    data: {},
+    isLoading: false,
+    error: null,
+    refetch: vi.fn(),
+  });
+
+  renderGroup(DevelopmentDashboard, {
+    embedded: true,
+    filters: { district: BANG_LEN, year: '2569' },
+  });
+
+  expect(screen.getByText('วิสาหกิจชุมชน · ข้อมูลล่าสุด')).toBeVisible();
+  [
+    '🤝 วิสาหกิจชุมชน · ข้อมูลล่าสุด',
+    'ท่องเที่ยวเกษตร · ข้อมูลล่าสุด',
+    '👥 สถาบันเกษตรกร · ข้อมูลล่าสุด',
+    '🗺️ ท่องเที่ยวและภัยพิบัติ (ท่องเที่ยว: ข้อมูลล่าสุด)',
+    'ภาพรวมประเภทข้อมูลในกลุ่มพัฒนา (วิสาหกิจ/ท่องเที่ยว: ข้อมูลล่าสุด)',
+    'ข้อมูลกลุ่มและเหตุการณ์แยกตามอำเภอ (วิสาหกิจ/ท่องเที่ยว: ข้อมูลล่าสุด)',
+    'สัดส่วนประเภทกลุ่มสถาบันเกษตรกร · ข้อมูลล่าสุด',
+    'แหล่งท่องเที่ยวเกษตรแยกตามอำเภอ · ข้อมูลล่าสุด',
+  ].forEach((label) => expect(screen.getByText(label)).toBeVisible());
+});
+
+it('labels every parcel-progress view as latest for a specific year', () => {
+  mockUseApiCache.mockReturnValue({
+    data: {},
+    isLoading: false,
+    error: null,
+    refetch: vi.fn(),
+  });
+
+  renderGroup(StrategyDashboard, {
+    embedded: true,
+    filters: { district: BANG_LEN, year: '2569' },
+  });
+
+  expect(
+    screen.getByText('🗺️ การวาดผังแปลงเกษตรกรรมดิจิทัล · ข้อมูลล่าสุด')
+  ).toBeVisible();
+  expect(
+    screen.getByText(
+      '🗺️ การวาดผังแปลงเกษตรกรรมดิจิทัล: เป้าหมายเทียบวาดแล้วรายอำเภอ · ข้อมูลล่าสุด'
+    )
+  ).toBeVisible();
 });
 
 it.each([

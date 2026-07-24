@@ -16,7 +16,7 @@ import {
   CROP_COLORS,
 } from '../../components/charts/echartOptions';
 import { useApiCache } from '../../hooks/useApiCache';
-import { filterRows } from '../interactiveDashboard/filters';
+import { filterRows, LATEST_YEAR } from '../interactiveDashboard/filters';
 const LEARN_COLORS = [
   '#0288d1',
   '#0097a7',
@@ -177,7 +177,7 @@ export default function StrategyDashboard({ embedded = false, filters = {} }) {
   const fetchStrategyData = async () => {
     const [agri, learn, registry, weather, geoplots] = await Promise.all([
       supabase.from('agricultural_areas').select('*'),
-      supabase.from('learning_centers').select('*'),
+      supabase.from('learning_centers').select('district, featured_product'),
       supabase
         .from('farmer_registry')
         .select('*')
@@ -216,11 +216,6 @@ export default function StrategyDashboard({ embedded = false, filters = {} }) {
 
   const { agriData, learningData, registryData, weatherData, geoplotsData } =
     useMemo(() => {
-      const geoplotsYearKey = data?.geoplotsData?.some(
-        (row) => row.year != null
-      )
-        ? 'year'
-        : null;
       return {
         agriData: filterRows(data?.agriData || [], filters, { yearKey: null }),
         learningData: filterRows(data?.learningData || [], filters, {
@@ -236,7 +231,7 @@ export default function StrategyDashboard({ embedded = false, filters = {} }) {
           }),
         ].reverse(),
         geoplotsData: filterRows(data?.geoplotsData || [], filters, {
-          yearKey: geoplotsYearKey,
+          yearKey: null,
         }),
       };
     }, [data, filters]);
@@ -444,6 +439,8 @@ export default function StrategyDashboard({ embedded = false, filters = {} }) {
       weakest,
     };
   }, [geoplotsData]);
+  const latestOnly =
+    filters.year && filters.year !== LATEST_YEAR ? ' · ข้อมูลล่าสุด' : '';
 
   return (
     <div className={embedded ? 'embedded-dashboard' : undefined}>
@@ -493,7 +490,7 @@ export default function StrategyDashboard({ embedded = false, filters = {} }) {
               {
                 label: 'วาดแปลง',
                 value: `${geoplots.percent}%`,
-                note: `${formatNumber(geoplots.drawn)} / ${formatNumber(geoplots.target)} แปลง`,
+                note: `${formatNumber(geoplots.drawn)} / ${formatNumber(geoplots.target)} แปลง${latestOnly}`,
               },
               {
                 label: 'พื้นที่เพาะปลูก',
@@ -592,7 +589,7 @@ export default function StrategyDashboard({ embedded = false, filters = {} }) {
             />
 
             <CategoryBentoCard
-              title="การวาดผังแปลงเกษตรกรรมดิจิทัล"
+              title={`การวาดผังแปลงเกษตรกรรมดิจิทัล${latestOnly}`}
               icon="🗺️"
               totalLabel="อัปเดตล่าสุด"
               totalCount={formatDate(geoplots.latestScrapedAt)}
@@ -725,7 +722,9 @@ export default function StrategyDashboard({ embedded = false, filters = {} }) {
             </Col>
 
             <Col xs={24} lg={12}>
-              <CategoryChartCard title="🗺️ การวาดผังแปลงเกษตรกรรมดิจิทัล: เป้าหมายเทียบวาดแล้วรายอำเภอ">
+              <CategoryChartCard
+                title={`🗺️ การวาดผังแปลงเกษตรกรรมดิจิทัล: เป้าหมายเทียบวาดแล้วรายอำเภอ${latestOnly}`}
+              >
                 {geoplots.rows.length > 0 ? (
                   <EChart
                     option={barOption(

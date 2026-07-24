@@ -4,6 +4,7 @@ import { ArrowRightOutlined, PieChartOutlined } from '@ant-design/icons';
 import EChart from '../../components/widgets/EChart';
 import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { useDevelopmentData } from '../../hooks/useDevelopmentData';
+import { LATEST_YEAR } from '../interactiveDashboard/filters';
 import {
   PageHeader,
   CategoryBentoCard,
@@ -163,6 +164,7 @@ export default function DevelopmentDashboard({
     loading,
     error,
     refetch,
+    yearSupported,
     ceStats,
     peopleStats,
     groupStats,
@@ -175,6 +177,13 @@ export default function DevelopmentDashboard({
     peopleDistrictStack,
     farmerInstTypes,
   } = useDevelopmentData(filters);
+  const latestOnly = (supported) =>
+    filters.year && filters.year !== LATEST_YEAR && !supported
+      ? ' · ข้อมูลล่าสุด'
+      : '';
+  const communityStatus = latestOnly(yearSupported.community_enterprises);
+  const instituteStatus = latestOnly(yearSupported.farmer_institutes);
+  const tourismStatus = latestOnly(yearSupported.agri_tourism);
 
   return (
     <div className={embedded ? 'embedded-dashboard' : undefined}>
@@ -217,7 +226,7 @@ export default function DevelopmentDashboard({
           >
             {[
               {
-                label: 'วิสาหกิจชุมชน',
+                label: `วิสาหกิจชุมชน${communityStatus}`,
                 value: formatNumber(ceStats.total),
                 note: 'แห่งในระบบ',
               },
@@ -232,7 +241,7 @@ export default function DevelopmentDashboard({
                 note: `${formatNumber(groupStats.totalMembers)} สมาชิก`,
               },
               {
-                label: 'ท่องเที่ยวเกษตร',
+                label: `ท่องเที่ยวเกษตร${tourismStatus}`,
                 value: formatNumber(tourismStats.total),
                 note: 'แหล่งท่องเที่ยว',
               },
@@ -281,7 +290,7 @@ export default function DevelopmentDashboard({
             }}
           >
             <CategoryBentoCard
-              title="วิสาหกิจชุมชน"
+              title={`วิสาหกิจชุมชน${communityStatus}`}
               icon="🤝"
               totalLabel="ทั้งหมด"
               totalCount={`${formatNumber(ceStats.total)} แห่ง`}
@@ -316,7 +325,7 @@ export default function DevelopmentDashboard({
             />
 
             <CategoryBentoCard
-              title="สถาบันเกษตรกร"
+              title={`สถาบันเกษตรกร${instituteStatus}`}
               icon="👥"
               totalLabel="ทั้งหมด"
               totalCount={`${formatNumber(fiStats.total)} กลุ่ม`}
@@ -388,7 +397,11 @@ export default function DevelopmentDashboard({
             />
 
             <CategoryBentoCard
-              title="ท่องเที่ยวและภัยพิบัติ"
+              title={
+                tourismStatus
+                  ? 'ท่องเที่ยวและภัยพิบัติ (ท่องเที่ยว: ข้อมูลล่าสุด)'
+                  : 'ท่องเที่ยวและภัยพิบัติ'
+              }
               icon="🗺️"
               totalLabel="ปีภัย"
               totalCount={disasterStats.year || '-'}
@@ -420,7 +433,13 @@ export default function DevelopmentDashboard({
 
           <Row gutter={[20, 20]}>
             <Col xs={24} lg={12}>
-              <CategoryChartCard title="ภาพรวมประเภทข้อมูลในกลุ่มพัฒนา">
+              <CategoryChartCard
+                title={
+                  communityStatus || tourismStatus
+                    ? 'ภาพรวมประเภทข้อมูลในกลุ่มพัฒนา (วิสาหกิจ/ท่องเที่ยว: ข้อมูลล่าสุด)'
+                    : 'ภาพรวมประเภทข้อมูลในกลุ่มพัฒนา'
+                }
+              >
                 {groupComposition.length > 0 ? (
                   <EChart
                     option={pieOption(groupComposition, {
@@ -437,7 +456,13 @@ export default function DevelopmentDashboard({
             </Col>
 
             <Col xs={24} lg={12}>
-              <CategoryChartCard title="ข้อมูลกลุ่มและเหตุการณ์แยกตามอำเภอ">
+              <CategoryChartCard
+                title={
+                  communityStatus || tourismStatus
+                    ? 'ข้อมูลกลุ่มและเหตุการณ์แยกตามอำเภอ (วิสาหกิจ/ท่องเที่ยว: ข้อมูลล่าสุด)'
+                    : 'ข้อมูลกลุ่มและเหตุการณ์แยกตามอำเภอ'
+                }
+              >
                 {districtStack.length > 0 ? (
                   <EChart
                     option={barOption(districtStack, districtSeries, {
@@ -471,7 +496,9 @@ export default function DevelopmentDashboard({
             </Col>
 
             <Col xs={24} lg={12}>
-              <CategoryChartCard title="สัดส่วนประเภทกลุ่มสถาบันเกษตรกร">
+              <CategoryChartCard
+                title={`สัดส่วนประเภทกลุ่มสถาบันเกษตรกร${instituteStatus}`}
+              >
                 {fiPie.length > 0 ? (
                   <EChart
                     option={pieOption(fiPie, {
@@ -488,7 +515,9 @@ export default function DevelopmentDashboard({
             </Col>
 
             <Col xs={24} lg={12}>
-              <CategoryChartCard title="แหล่งท่องเที่ยวเกษตรแยกตามอำเภอ">
+              <CategoryChartCard
+                title={`แหล่งท่องเที่ยวเกษตรแยกตามอำเภอ${tourismStatus}`}
+              >
                 {tourismStats.byDistrict.length > 0 ? (
                   <EChart
                     option={barOption(

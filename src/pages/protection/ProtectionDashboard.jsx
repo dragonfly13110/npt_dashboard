@@ -111,6 +111,9 @@ export default function ProtectionDashboard({
     sfStats,
     firePie,
   } = useProtectionData(filters);
+  const yearUnsupported = Object.values(yearSupported).every(
+    (supported) => !supported
+  );
 
   return (
     <div className={embedded ? 'embedded-dashboard' : undefined}>
@@ -121,7 +124,7 @@ export default function ProtectionDashboard({
           icon={PieChartOutlined}
         />
       )}
-      {!yearSupported && filters.year && filters.year !== 'latest' && (
+      {yearUnsupported && filters.year && filters.year !== 'latest' && (
         <Alert
           showIcon
           type="info"
