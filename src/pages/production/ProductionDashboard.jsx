@@ -58,6 +58,7 @@ function EmptyChart({ label }) {
 export default function ProductionDashboard({
   embedded = false,
   filters = {},
+  sharedRows = null,
 }) {
   const {
     loading,
@@ -76,7 +77,7 @@ export default function ProductionDashboard({
     certStats,
     cropBar,
     cropStats,
-  } = useProductionData(filters);
+  } = useProductionData(filters, { sharedRows });
   const latestOnly =
     filters.year &&
     filters.year !== LATEST_YEAR &&

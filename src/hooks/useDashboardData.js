@@ -244,9 +244,13 @@ export function useInteractiveOverviewData() {
           'district,farmer_households,total_area_rai,agri_crop_area_rai,rice_in_season_rai,rice_off_season_rai,field_crops_rai,horticulture_rai,fruit_trees_rai,vegetables_rai,flowers_rai,herbs_spices_rai'
         )
         .neq('district', 'รวม'),
-      supabase.from('learning_centers').select('district'),
-      supabase.from('pest_centers').select('district'),
-      supabase.from('soil_fertilizer_centers').select('district'),
+      supabase.from('learning_centers').select('district,featured_product'),
+      supabase
+        .from('pest_centers')
+        .select('main_crop_type,district,grade_level'),
+      supabase
+        .from('soil_fertilizer_centers')
+        .select('main_crop_type,district,grade_level'),
       supabase
         .from('gis_areas')
         .select('area_name,district,latitude,longitude')
@@ -359,8 +363,23 @@ export function useInteractiveOverviewData() {
         count: tourism.length,
       },
       agriPie: createAgriPieData(data.agriAreas || []),
+      sharedRows: {
+        agriculturalAreas: data.agriAreas || [],
+        learningCenters: data.learningCenters || [],
+        largePlots: data.largePlots || [],
+        communityEnterprises: data.enterprises?.data || [],
+        tourism,
+        pestCenters: data.pestCenters || [],
+        soilFertilizerCenters: data.soilFertilizerCenters || [],
+      },
     };
   }, [data]);
 
-  return { ...overview, loading, error, refetch };
+  return {
+    ...overview,
+    sharedRows: !loading && !error ? overview.sharedRows : null,
+    loading,
+    error,
+    refetch,
+  };
 }

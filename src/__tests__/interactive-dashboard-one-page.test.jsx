@@ -654,6 +654,61 @@ it('keeps years from successful metadata sources when one source fails', async (
   await expect(fetchYears()).resolves.toEqual([2569, 2568]);
 });
 
+it('discovers and canonicalizes years from every dated module source', async () => {
+  let fetchYears;
+  const selectedColumns = {};
+  const sourceRows = {
+    farmer_registry: [{ data_year: 2569 }],
+    tbk_cultivation_snapshots: [{ data_year: '2568' }],
+    large_plots: [{ year: 2567 }],
+    crop_production: [{ year: '2566' }],
+    production_costs: [{ data_year: 2565 }],
+    disasters: [{ year: '2564' }],
+    smart_farmer_sf: [{ data_year: 2563 }],
+    young_smart_farmer_ysf: [{ data_year: '2562' }],
+    agricultural_career_groups: [{ data_year: 2561 }],
+    housewife_farmer_groups: [{ year: '2560' }],
+    young_farmer_groups_detailed: [{ data_year: 2559 }],
+    rice_harvest_snapshots: [{ crop_year: '2557/58' }],
+  };
+  mockUseApiCache.mockImplementation((_key, fetcher) => {
+    fetchYears = fetcher;
+    return { data: [], isLoading: false };
+  });
+  mockFrom.mockImplementation((table) => ({
+    select: (columns) => {
+      selectedColumns[table] = columns;
+      return Promise.resolve({ data: sourceRows[table] || [], error: null });
+    },
+  }));
+
+  function YearsProbe() {
+    useInteractiveYears();
+    return null;
+  }
+
+  render(<YearsProbe />);
+
+  await expect(fetchYears()).resolves.toEqual([
+    2569, 2568, 2567, 2566, 2565, 2564, 2563, 2562, 2561, 2560, 2559, 2558,
+    2557,
+  ]);
+  expect(selectedColumns).toEqual({
+    farmer_registry: 'data_year',
+    tbk_cultivation_snapshots: 'data_year',
+    large_plots: 'year',
+    crop_production: 'year',
+    production_costs: 'data_year',
+    disasters: 'year',
+    smart_farmer_sf: 'data_year',
+    young_smart_farmer_ysf: 'data_year',
+    agricultural_career_groups: 'data_year',
+    housewife_farmer_groups: 'year',
+    young_farmer_groups_detailed: 'data_year',
+    rice_harvest_snapshots: 'crop_year',
+  });
+});
+
 it('filters production summaries by district and each table report-year contract', () => {
   mockUseApiCache.mockReturnValue({
     data: {
@@ -963,7 +1018,7 @@ it('filters strategy rows before calculating the existing summaries', () => {
   );
 });
 
-it('selects only public learning-center fields for the strategy module', async () => {
+it('selects only exact public fields for the strategy module', async () => {
   const selectedColumns = {};
   let fetchStrategyData;
   mockFrom.mockImplementation((table) => ({
@@ -999,6 +1054,16 @@ it('selects only public learning-center fields for the strategy module', async (
   expect(selectedColumns.farmer_registry).toBe(
     'district,data_year,target,total_updated_households,total_updated_area_rai,cutoff_date'
   );
+  expect(selectedColumns.agricultural_areas).toBe(
+    'district,rice_in_season_rai,rice_off_season_rai,field_crops_rai,horticulture_rai,fruit_trees_rai,vegetables_rai,flowers_rai,herbs_spices_rai'
+  );
+  expect(selectedColumns.geoplots_parcel_progress).toBe(
+    'district,target_plots,drawn_plots,remaining_target_plots,remaining_list_68,remaining_list_67,progress_percent,scraped_at'
+  );
+  Object.values(selectedColumns).forEach((columns) => {
+    expect(columns).not.toContain('*');
+    expect(columns).not.toContain('custom_fields');
+  });
 });
 
 it('selects only public protection fields used by network summaries', async () => {

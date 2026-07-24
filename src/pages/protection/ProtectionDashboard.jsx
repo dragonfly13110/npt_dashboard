@@ -86,10 +86,14 @@ function EmptyChart({ label }) {
   );
 }
 
-export function ProtectionNetworkSummary({ filters = {}, enabled = true }) {
+export function ProtectionNetworkSummary({
+  filters = {},
+  enabled = true,
+  sharedRows = null,
+}) {
   const { loading, error, refetch, plantDoctorStats } = useProtectionData(
     filters,
-    { enabled }
+    { enabled, sharedRows }
   );
 
   if (loading) {
@@ -143,6 +147,7 @@ export function ProtectionNetworkSummary({ filters = {}, enabled = true }) {
 export default function ProtectionDashboard({
   embedded = false,
   filters = {},
+  sharedRows = null,
 }) {
   const {
     loading,
@@ -164,7 +169,7 @@ export default function ProtectionDashboard({
     sfTypes,
     sfStats,
     firePie,
-  } = useProtectionData(filters);
+  } = useProtectionData(filters, { sharedRows });
   const yearUnsupported = Object.values(yearSupported).every(
     (supported) => !supported
   );

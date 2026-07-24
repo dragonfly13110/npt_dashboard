@@ -31,18 +31,22 @@ const SF_GRADE_COLORS = {
 
 export function useProtectionData(
   filters = { district: ALL_DISTRICTS, year: LATEST_YEAR },
-  { enabled = true } = {}
+  { enabled = true, sharedRows = null } = {}
 ) {
   const fetchProtectionData = async () => {
     const [po, pc, pd, sf, fh] = await Promise.all([
       supabase.from('forecast_plots').select('crop_type, district, plot_type'),
-      supabase
-        .from('pest_centers')
-        .select('main_crop_type, district, grade_level'),
+      sharedRows?.pestCenters !== undefined
+        ? { data: sharedRows.pestCenters, error: null }
+        : supabase
+            .from('pest_centers')
+            .select('main_crop_type, district, grade_level'),
       supabase.from('plant_doctors').select('district, subdistrict'),
-      supabase
-        .from('soil_fertilizer_centers')
-        .select('main_crop_type, district, grade_level'),
+      sharedRows?.soilFertilizerCenters !== undefined
+        ? { data: sharedRows.soilFertilizerCenters, error: null }
+        : supabase
+            .from('soil_fertilizer_centers')
+            .select('main_crop_type, district, grade_level'),
       supabase.from('fire_hotspots').select('district, subdistrict'),
     ]);
     const error = [po, pc, pd, sf, fh].find((result) => result.error)?.error;

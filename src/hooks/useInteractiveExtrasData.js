@@ -1,6 +1,7 @@
 import {
   ALL_DISTRICTS,
   LATEST_YEAR,
+  cropYears,
 } from '../pages/interactiveDashboard/filters';
 import { supabase } from '../supabaseClient';
 import { useApiCache } from './useApiCache';
@@ -58,21 +59,6 @@ function selectYear(rows, key, selectedYear) {
       ? rows.filter((row) => Number(row[key]) === year)
       : [],
   };
-}
-
-function cropYears(label) {
-  if (label === null || label === undefined || String(label).trim() === '') {
-    return [];
-  }
-  const [startText, endText] = String(label).split(/[/-]/);
-  const start = Number(startText);
-  const shortEnd = Number(endText);
-  if (!Number.isFinite(start)) return [];
-  if (!Number.isFinite(shortEnd)) return [start];
-  let end =
-    endText.length < 4 ? Math.floor(start / 100) * 100 + shortEnd : shortEnd;
-  if (end < start) end += 100;
-  return [start, end];
 }
 
 function summarizeTbk(rows, filters) {

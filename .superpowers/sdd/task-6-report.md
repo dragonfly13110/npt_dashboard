@@ -84,5 +84,12 @@
 
 ## Concerns
 
+## Third important-review fixes
+
+- Restored public year discovery for crop production, production costs, disasters, farmer programs, and rice crop years; year metadata remains a narrow projection.
+- Reused the minimal overview's overlapping public rows in embedded Strategy, Production, Development, and Protection modules, preventing repeat requests after lazy activation while retaining lazy-only detail queries.
+- Removed the remaining Strategy wildcard projections for agricultural areas and parcel progress.
+- Takeover verification: focused 52/52, lint clean, full suite 493 passed / 17 skipped, and `git diff --check` passed.
+
 - The production build still reports repository-wide pre-existing warnings for an unexpected closing brace in the combined CSS and oversized chunks. Direct minification of the modified Task 6 stylesheet is clean.
 - Tests emit the existing warning that local `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` are unset; mocked tests pass and no credentials were added.

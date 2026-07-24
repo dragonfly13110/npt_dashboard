@@ -184,6 +184,7 @@ export default function InteractiveDashboard() {
     tourism,
     agriPie,
     mapData,
+    sharedRows,
   } = useInteractiveOverviewData();
   const {
     district: selectedDistrict,
@@ -727,7 +728,11 @@ export default function InteractiveDashboard() {
           summary="ทะเบียนเกษตรกร พื้นที่เพาะปลูก ผังแปลง ศพก. และสภาพอากาศ"
           status={year === LATEST_YEAR ? 'ข้อมูลล่าสุด' : `ปี ${year}`}
         >
-          <StrategyDashboard embedded filters={filters} />
+          <StrategyDashboard
+            embedded
+            filters={filters}
+            sharedRows={sharedRows}
+          />
         </ModuleSection>
 
         <ModuleSection
@@ -736,7 +741,11 @@ export default function InteractiveDashboard() {
           summary="ข้าว พืช แปลงใหญ่ มาตรฐาน GAP และต้นทุน"
           status={year === LATEST_YEAR ? 'ข้อมูลล่าสุด' : `ปี ${year}`}
         >
-          <ProductionDashboard embedded filters={filters} />
+          <ProductionDashboard
+            embedded
+            filters={filters}
+            sharedRows={sharedRows}
+          />
         </ModuleSection>
 
         <ModuleSection
@@ -745,7 +754,11 @@ export default function InteractiveDashboard() {
           summary="วิสาหกิจชุมชน Smart Farmer และสถาบันเกษตรกร"
           status={year === LATEST_YEAR ? 'ข้อมูลล่าสุด' : `ปี ${year}`}
         >
-          <DevelopmentDashboard embedded filters={filters} />
+          <DevelopmentDashboard
+            embedded
+            filters={filters}
+            sharedRows={sharedRows}
+          />
         </ModuleSection>
 
         <ModuleSection
@@ -766,7 +779,11 @@ export default function InteractiveDashboard() {
             ))}
           </div>
           <div style={{ marginTop: 16 }}>
-            <ProtectionNetworkSummary filters={filters} enabled />
+            <ProtectionNetworkSummary
+              filters={filters}
+              enabled
+              sharedRows={sharedRows}
+            />
           </div>
         </ModuleSection>
 
@@ -776,7 +793,11 @@ export default function InteractiveDashboard() {
           summary="ภัยพิบัติ โรคและแมลง แปลงพยากรณ์ ศูนย์ และ PM2.5"
           status="ข้อมูลล่าสุด"
         >
-          <ProtectionDashboard embedded filters={filters} />
+          <ProtectionDashboard
+            embedded
+            filters={filters}
+            sharedRows={sharedRows}
+          />
         </ModuleSection>
 
         <ModuleSection

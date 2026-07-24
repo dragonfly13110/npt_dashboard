@@ -16,6 +16,21 @@ export function normalizeYear(value) {
     : LATEST_YEAR;
 }
 
+export function cropYears(label) {
+  if (label === null || label === undefined || String(label).trim() === '') {
+    return [];
+  }
+  const [startText, endText] = String(label).split(/[/-]/);
+  const start = Number(startText);
+  const shortEnd = Number(endText);
+  if (!Number.isFinite(start)) return [];
+  if (!Number.isFinite(shortEnd)) return [start];
+  let end =
+    endText.length < 4 ? Math.floor(start / 100) * 100 + shortEnd : shortEnd;
+  if (end < start) end += 100;
+  return [start, end];
+}
+
 export function filterRows(
   rows,
   { district = ALL_DISTRICTS, year = LATEST_YEAR } = {},
@@ -37,9 +52,13 @@ export function filterRows(
 export function collectYears(sources) {
   return [
     ...new Set(
-      sources.flatMap(({ rows, yearKey }) =>
+      sources.flatMap(({ rows, yearKey, parseYear }) =>
         yearKey
-          ? rows.map((row) => Number(row[yearKey])).filter(Number.isFinite)
+          ? rows
+              .flatMap((row) =>
+                parseYear ? parseYear(row[yearKey]) : [Number(row[yearKey])]
+              )
+              .filter(Number.isFinite)
           : []
       )
     ),

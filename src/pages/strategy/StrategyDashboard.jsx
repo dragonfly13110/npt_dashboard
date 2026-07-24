@@ -177,12 +177,26 @@ function LinkBentoCard({
   );
 }
 
-export default function StrategyDashboard({ embedded = false, filters = {} }) {
+export default function StrategyDashboard({
+  embedded = false,
+  filters = {},
+  sharedRows = null,
+}) {
   const [priceDetailsOpen, setPriceDetailsOpen] = useState(false);
   const fetchStrategyData = async () => {
     const [agri, learn, registry, weather, geoplots] = await Promise.all([
-      supabase.from('agricultural_areas').select('*'),
-      supabase.from('learning_centers').select('district, featured_product'),
+      sharedRows?.agriculturalAreas !== undefined
+        ? { data: sharedRows.agriculturalAreas, error: null }
+        : supabase
+            .from('agricultural_areas')
+            .select(
+              'district,rice_in_season_rai,rice_off_season_rai,field_crops_rai,horticulture_rai,fruit_trees_rai,vegetables_rai,flowers_rai,herbs_spices_rai'
+            ),
+      sharedRows?.learningCenters !== undefined
+        ? { data: sharedRows.learningCenters, error: null }
+        : supabase
+            .from('learning_centers')
+            .select('district, featured_product'),
       supabase
         .from('farmer_registry')
         .select(
@@ -197,7 +211,9 @@ export default function StrategyDashboard({ embedded = false, filters = {} }) {
         .limit(90),
       supabase
         .from('geoplots_parcel_progress')
-        .select('*')
+        .select(
+          'district,target_plots,drawn_plots,remaining_target_plots,remaining_list_68,remaining_list_67,progress_percent,scraped_at'
+        )
         .order('district_code'),
     ]);
     const error = [agri, learn, registry, weather, geoplots].find(

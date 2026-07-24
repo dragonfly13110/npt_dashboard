@@ -7,8 +7,28 @@ import {
   ALL_DISTRICTS,
   LATEST_YEAR,
   collectYears,
+  cropYears,
   normalizeYear,
 } from './filters';
+
+const YEAR_SOURCES = [
+  { table: 'farmer_registry', yearKey: 'data_year' },
+  { table: 'tbk_cultivation_snapshots', yearKey: 'data_year' },
+  { table: 'large_plots', yearKey: 'year' },
+  { table: 'crop_production', yearKey: 'year' },
+  { table: 'production_costs', yearKey: 'data_year' },
+  { table: 'disasters', yearKey: 'year' },
+  { table: 'smart_farmer_sf', yearKey: 'data_year' },
+  { table: 'young_smart_farmer_ysf', yearKey: 'data_year' },
+  { table: 'agricultural_career_groups', yearKey: 'data_year' },
+  { table: 'housewife_farmer_groups', yearKey: 'year' },
+  { table: 'young_farmer_groups_detailed', yearKey: 'data_year' },
+  {
+    table: 'rice_harvest_snapshots',
+    yearKey: 'crop_year',
+    parseYear: cropYears,
+  },
+];
 
 export function useInteractiveFilters() {
   const [params, setParams] = useSearchParams();
@@ -46,19 +66,21 @@ export function useInteractiveFilters() {
 
 export function useInteractiveYears() {
   const query = useApiCache('interactive-dashboard-years', async () => {
-    const results = await Promise.allSettled([
-      supabase.from('farmer_registry').select('data_year'),
-      supabase.from('tbk_cultivation_snapshots').select('data_year'),
-      supabase.from('large_plots').select('year'),
-    ]);
-    const rows = results.map((result) =>
-      result.status === 'fulfilled' ? result.value.data || [] : []
+    const results = await Promise.allSettled(
+      YEAR_SOURCES.map(({ table, yearKey }) =>
+        supabase.from(table).select(yearKey)
+      )
     );
-    return collectYears([
-      { rows: rows[0], yearKey: 'data_year' },
-      { rows: rows[1], yearKey: 'data_year' },
-      { rows: rows[2], yearKey: 'year' },
-    ]).filter((year) => normalizeYear(year) !== LATEST_YEAR);
+    return collectYears(
+      YEAR_SOURCES.map(({ yearKey, parseYear }, index) => ({
+        rows:
+          results[index].status === 'fulfilled'
+            ? results[index].value.data || []
+            : [],
+        yearKey,
+        parseYear,
+      }))
+    ).filter((year) => normalizeYear(year) !== LATEST_YEAR);
   });
   return { years: query.data || [], loading: query.isLoading };
 }

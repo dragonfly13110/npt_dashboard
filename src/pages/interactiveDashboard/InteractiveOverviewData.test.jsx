@@ -1,11 +1,12 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { act, render, screen, waitFor, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, expect, it, vi } from 'vitest';
 import InteractiveDashboard from '../InteractiveDashboard';
 
 const { mockFrom } = vi.hoisted(() => ({ mockFrom: vi.fn() }));
 const selectedQueries = [];
+let intersectionObservers = [];
 const BANG_LEN = 'บางเลน';
 
 vi.mock('../../components/widgets/EChart', () => ({ default: () => null }));
@@ -99,13 +100,40 @@ function renderPage(path = '/interactive-dashboard') {
   );
 }
 
+async function activateModule(id) {
+  const observer = await waitFor(() => {
+    const candidate = intersectionObservers.find(
+      (item) => item.targets.length === 1 && item.targets[0]?.id === id
+    );
+    expect(candidate).toBeDefined();
+    return candidate;
+  });
+  act(() =>
+    observer.callback([
+      { isIntersecting: true, target: document.getElementById(id) },
+    ])
+  );
+}
+
 beforeEach(() => {
   selectedQueries.length = 0;
+  intersectionObservers = [];
   vi.stubGlobal(
     'IntersectionObserver',
     class {
-      observe() {}
-      disconnect() {}
+      constructor(callback) {
+        this.callback = callback;
+        this.targets = [];
+        intersectionObservers.push(this);
+      }
+
+      observe(target) {
+        this.targets.push(target);
+      }
+
+      disconnect() {
+        this.disconnected = true;
+      }
     }
   );
   vi.stubGlobal(
@@ -145,15 +173,46 @@ it('initial overview requests only minimal public summary datasets', async () =>
   const requestedTables = new Set(selectedQueries.map(({ table }) => table));
   [
     'certifications',
-    'crop_production',
-    'smart_farmer_sf',
-    'young_smart_farmer_ysf',
-    'disasters',
     'pest_outbreaks',
     'fire_hotspots',
     'forecast_plots',
     'plant_doctors',
   ].forEach((table) => expect(requestedTables).not.toContain(table));
+
+  expect(selectedQueries).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({ table: 'crop_production', columns: 'year' }),
+      expect.objectContaining({
+        table: 'production_costs',
+        columns: 'data_year',
+      }),
+      expect.objectContaining({ table: 'disasters', columns: 'year' }),
+      expect.objectContaining({
+        table: 'smart_farmer_sf',
+        columns: 'data_year',
+      }),
+      expect.objectContaining({
+        table: 'young_smart_farmer_ysf',
+        columns: 'data_year',
+      }),
+      expect.objectContaining({
+        table: 'agricultural_career_groups',
+        columns: 'data_year',
+      }),
+      expect.objectContaining({
+        table: 'housewife_farmer_groups',
+        columns: 'year',
+      }),
+      expect.objectContaining({
+        table: 'young_farmer_groups_detailed',
+        columns: 'data_year',
+      }),
+      expect.objectContaining({
+        table: 'rice_harvest_snapshots',
+        columns: 'crop_year',
+      }),
+    ])
+  );
 
   expect(selectedQueries).toContainEqual(
     expect.objectContaining({
@@ -186,4 +245,77 @@ it('uses the global latest large-plot year before district aggregation', async (
 
   await waitFor(() => expect(within(card).getByText('1')).toBeVisible());
   expect(within(card).queryByText('3')).not.toBeInTheDocument();
+});
+
+it('reuses overview rows when lazy domain modules activate', async () => {
+  renderPage();
+  await screen.findByTestId('overview-map-ready');
+
+  for (const id of [
+    'land',
+    'production',
+    'groups',
+    'networks',
+    'risk',
+    'extras',
+  ]) {
+    await activateModule(id);
+  }
+  await waitFor(() =>
+    expect(selectedQueries.some(({ table }) => table === 'soil_series')).toBe(
+      true
+    )
+  );
+
+  const requestCount = (table, columns) =>
+    selectedQueries.filter(
+      (query) => query.table === table && query.columns === columns
+    ).length;
+
+  expect(
+    requestCount(
+      'large_plots',
+      'district,member_count,area_rai,commodity_group,year'
+    )
+  ).toBe(1);
+  expect(requestCount('large_plots', 'year')).toBe(1);
+  expect(
+    requestCount(
+      'agricultural_areas',
+      'district,farmer_households,total_area_rai,agri_crop_area_rai,rice_in_season_rai,rice_off_season_rai,field_crops_rai,horticulture_rai,fruit_trees_rai,vegetables_rai,flowers_rai,herbs_spices_rai'
+    )
+  ).toBe(1);
+  expect(requestCount('community_enterprises', 'district')).toBe(1);
+  expect(requestCount('learning_centers', 'district,featured_product')).toBe(1);
+  expect(
+    requestCount('pest_centers', 'main_crop_type,district,grade_level')
+  ).toBe(1);
+  expect(
+    requestCount(
+      'soil_fertilizer_centers',
+      'main_crop_type,district,grade_level'
+    )
+  ).toBe(1);
+  expect(
+    requestCount(
+      'agri_tourism',
+      'spot_name,district,spot_type,latitude,longitude'
+    )
+  ).toBe(1);
+  expect(requestCount('crop_production', 'year')).toBe(1);
+  expect(requestCount('crop_production', 'crop_name, district, year')).toBe(1);
+  expect(requestCount('production_costs', 'data_year')).toBe(1);
+  expect(
+    requestCount(
+      'production_costs',
+      'data_year,crop_name,total_cost_baht,revenue_baht_per_rai'
+    )
+  ).toBe(1);
+  expect(requestCount('disasters', 'year')).toBe(1);
+  expect(
+    requestCount(
+      'disasters',
+      'year, district, disaster_type, damaged_area, affected_farmers'
+    )
+  ).toBe(1);
 });

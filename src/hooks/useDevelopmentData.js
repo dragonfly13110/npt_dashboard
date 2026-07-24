@@ -72,12 +72,15 @@ const makeDistrictStack = (configs) => {
 };
 
 export function useDevelopmentData(
-  filters = { district: ALL_DISTRICTS, year: LATEST_YEAR }
+  filters = { district: ALL_DISTRICTS, year: LATEST_YEAR },
+  { sharedRows = null } = {}
 ) {
   const fetchDevelopmentData = async () => {
     const [ce, sf, ysf, career, housewife, young, fi, tourism, disasters] =
       await Promise.all([
-        supabase.from('community_enterprises').select('district'),
+        sharedRows?.communityEnterprises !== undefined
+          ? { data: sharedRows.communityEnterprises, error: null }
+          : supabase.from('community_enterprises').select('district'),
         supabase.from('smart_farmer_sf').select('district, data_year'),
         supabase.from('young_smart_farmer_ysf').select('district, data_year'),
         supabase
@@ -94,7 +97,9 @@ export function useDevelopmentData(
           .select(
             'district, total_groups, community_enterprise_groups, housewives_groups, young_farmer_groups, career_promotion_groups, village_farmers_count, smart_farmer_count, young_smart_farmer_count'
           ),
-        supabase.from('agri_tourism').select('spot_type, district'),
+        sharedRows?.tourism !== undefined
+          ? { data: sharedRows.tourism, error: null }
+          : supabase.from('agri_tourism').select('spot_type, district'),
         supabase
           .from('disasters')
           .select(

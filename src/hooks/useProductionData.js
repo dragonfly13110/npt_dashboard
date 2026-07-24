@@ -9,13 +9,16 @@ import {
 } from '../pages/interactiveDashboard/filters';
 
 export function useProductionData(
-  filters = { district: ALL_DISTRICTS, year: LATEST_YEAR }
+  filters = { district: ALL_DISTRICTS, year: LATEST_YEAR },
+  { sharedRows = null } = {}
 ) {
   const fetchProductionData = async () => {
     const [lp, ct, cr] = await Promise.all([
-      supabase
-        .from('large_plots')
-        .select('commodity_group, district, member_count, area_rai, year'),
+      sharedRows?.largePlots !== undefined
+        ? { data: sharedRows.largePlots, error: null }
+        : supabase
+            .from('large_plots')
+            .select('commodity_group, district, member_count, area_rai, year'),
       supabase
         .from('certifications')
         .select(

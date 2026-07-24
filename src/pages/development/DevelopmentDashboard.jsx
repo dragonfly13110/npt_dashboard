@@ -162,6 +162,7 @@ function LinkBentoCard({
 export default function DevelopmentDashboard({
   embedded = false,
   filters = {},
+  sharedRows = null,
 }) {
   const {
     loading,
@@ -179,7 +180,7 @@ export default function DevelopmentDashboard({
     districtStack,
     peopleDistrictStack,
     farmerInstTypes,
-  } = useDevelopmentData(filters);
+  } = useDevelopmentData(filters, { sharedRows });
   const latestOnly = (supported) =>
     filters.year && filters.year !== LATEST_YEAR && !supported
       ? ' · ข้อมูลล่าสุด'
