@@ -1,6 +1,12 @@
 import { useMemo } from 'react';
 import { supabase } from '../supabaseClient';
 import { useApiCache } from './useApiCache';
+import {
+  ALL_DISTRICTS,
+  LATEST_YEAR,
+  filterRows,
+  yearStatus,
+} from '../pages/interactiveDashboard/filters';
 
 const DISTRICT_COLORS = {
   เมืองนครปฐม: '#0969da',
@@ -66,7 +72,9 @@ const makeDistrictStack = (configs) => {
   return Object.values(map).sort((a, b) => b.total - a.total);
 };
 
-export function useDevelopmentData() {
+export function useDevelopmentData(
+  filters = { district: ALL_DISTRICTS, year: LATEST_YEAR }
+) {
   const fetchDevelopmentData = async () => {
     const [ce, sf, ysf, career, housewife, young, fi, tourism, disasters] =
       await Promise.all([
@@ -85,7 +93,7 @@ export function useDevelopmentData() {
         supabase
           .from('farmer_institutes')
           .select(
-            'total_groups, community_enterprise_groups, housewives_groups, young_farmer_groups, career_promotion_groups, village_farmers_count, smart_farmer_count, young_smart_farmer_count'
+            'district, total_groups, community_enterprise_groups, housewives_groups, young_farmer_groups, career_promotion_groups, village_farmers_count, smart_farmer_count, young_smart_farmer_count'
           ),
         supabase.from('agri_tourism').select('spot_type, district'),
         supabase
@@ -94,6 +102,18 @@ export function useDevelopmentData() {
             'year, district, disaster_type, damaged_area, affected_farmers'
           ),
       ]);
+    const error = [
+      ce,
+      sf,
+      ysf,
+      career,
+      housewife,
+      young,
+      fi,
+      tourism,
+      disasters,
+    ].find((result) => result.error)?.error;
+    if (error) throw error;
 
     return {
       communityData: ce.data || [],
@@ -108,21 +128,62 @@ export function useDevelopmentData() {
     };
   };
 
-  const { data, isLoading: loading } = useApiCache(
-    'development-dashboard-data-v2',
-    fetchDevelopmentData
-  );
   const {
-    communityData = [],
-    sfData = [],
-    ysfData = [],
-    careerData = [],
-    housewifeData = [],
-    youngGroupData = [],
-    farmerInstData = [],
-    tourismData = [],
-    disasterData = [],
+    data,
+    isLoading: loading,
+    error,
+    refetch,
+  } = useApiCache('development-dashboard-data-v2', fetchDevelopmentData);
+  const {
+    communityData: allCommunityData = [],
+    sfData: allSfData = [],
+    ysfData: allYsfData = [],
+    careerData: allCareerData = [],
+    housewifeData: allHousewifeData = [],
+    youngGroupData: allYoungGroupData = [],
+    farmerInstData: allFarmerInstData = [],
+    tourismData: allTourismData = [],
+    disasterData: allDisasterData = [],
   } = data || {};
+  const {
+    communityData,
+    sfData,
+    ysfData,
+    careerData,
+    housewifeData,
+    youngGroupData,
+    farmerInstData,
+    tourismData,
+    disasterData,
+  } = useMemo(
+    () => ({
+      communityData: filterRows(allCommunityData, filters, { yearKey: null }),
+      sfData: filterRows(allSfData, filters, { yearKey: 'data_year' }),
+      ysfData: filterRows(allYsfData, filters, { yearKey: 'data_year' }),
+      careerData: filterRows(allCareerData, filters, {
+        yearKey: 'data_year',
+      }),
+      housewifeData: filterRows(allHousewifeData, filters, { yearKey: 'year' }),
+      youngGroupData: filterRows(allYoungGroupData, filters, {
+        yearKey: 'data_year',
+      }),
+      farmerInstData: filterRows(allFarmerInstData, filters, { yearKey: null }),
+      tourismData: filterRows(allTourismData, filters, { yearKey: null }),
+      disasterData: filterRows(allDisasterData, filters, { yearKey: 'year' }),
+    }),
+    [
+      allCommunityData,
+      allSfData,
+      allYsfData,
+      allCareerData,
+      allHousewifeData,
+      allYoungGroupData,
+      allFarmerInstData,
+      allTourismData,
+      allDisasterData,
+      filters,
+    ]
+  );
 
   const activeSf = useMemo(() => latestYearRows(sfData), [sfData]);
   const activeYsf = useMemo(() => latestYearRows(ysfData), [ysfData]);
@@ -314,6 +375,9 @@ export function useDevelopmentData() {
 
   return {
     loading,
+    error,
+    refetch,
+    yearSupported: yearStatus(filters.year, 'data_year').supported,
     ceStats,
     peopleStats,
     groupStats,

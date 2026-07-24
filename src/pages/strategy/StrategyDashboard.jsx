@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Col, Card, Spin, Button } from 'antd';
+import { Row, Col, Card, Spin, Button, Result } from 'antd';
 import { ArrowRightOutlined, PieChartOutlined } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
 import {
@@ -16,6 +16,7 @@ import {
   CROP_COLORS,
 } from '../../components/charts/echartOptions';
 import { useApiCache } from '../../hooks/useApiCache';
+import { filterRows } from '../interactiveDashboard/filters';
 const LEARN_COLORS = [
   '#0288d1',
   '#0097a7',
@@ -172,7 +173,7 @@ function LinkBentoCard({
   );
 }
 
-export default function StrategyDashboard() {
+export default function StrategyDashboard({ embedded = false, filters = {} }) {
   const fetchStrategyData = async () => {
     const [agri, learn, registry, weather, geoplots] = await Promise.all([
       supabase.from('agricultural_areas').select('*'),
@@ -192,6 +193,10 @@ export default function StrategyDashboard() {
         .select('*')
         .order('district_code'),
     ]);
+    const error = [agri, learn, registry, weather, geoplots].find(
+      (result) => result.error
+    )?.error;
+    if (error) throw error;
 
     return {
       agriData: agri.data || [],
@@ -202,28 +207,39 @@ export default function StrategyDashboard() {
     };
   };
 
-  const { data, isLoading: loading } = useApiCache(
-    'strategy-dashboard-data-v3',
-    fetchStrategyData
-  );
+  const {
+    data,
+    isLoading: loading,
+    error,
+    refetch,
+  } = useApiCache('strategy-dashboard-data-v3', fetchStrategyData);
 
-  const agriData = useMemo(() => data?.agriData || [], [data?.agriData]);
-  const learningData = useMemo(
-    () => data?.learningData || [],
-    [data?.learningData]
-  );
-  const registryData = useMemo(
-    () => data?.registryData || [],
-    [data?.registryData]
-  );
-  const weatherData = useMemo(
-    () => [...(data?.weatherData || [])].reverse(),
-    [data?.weatherData]
-  );
-  const geoplotsData = useMemo(
-    () => data?.geoplotsData || [],
-    [data?.geoplotsData]
-  );
+  const { agriData, learningData, registryData, weatherData, geoplotsData } =
+    useMemo(() => {
+      const geoplotsYearKey = data?.geoplotsData?.some(
+        (row) => row.year != null
+      )
+        ? 'year'
+        : null;
+      return {
+        agriData: filterRows(data?.agriData || [], filters, { yearKey: null }),
+        learningData: filterRows(data?.learningData || [], filters, {
+          yearKey: null,
+        }),
+        registryData: filterRows(data?.registryData || [], filters, {
+          yearKey: 'data_year',
+        }),
+        weatherData: [
+          ...filterRows(data?.weatherData || [], filters, {
+            districtKey: null,
+            yearKey: null,
+          }),
+        ].reverse(),
+        geoplotsData: filterRows(data?.geoplotsData || [], filters, {
+          yearKey: geoplotsYearKey,
+        }),
+      };
+    }, [data, filters]);
 
   const agriPie = useMemo(() => {
     return CROP_FIELDS.map((field) => ({
@@ -430,14 +446,23 @@ export default function StrategyDashboard() {
   }, [geoplotsData]);
 
   return (
-    <div>
-      <PageHeader
-        title="ยุทธศาสตร์และสารสนเทศ"
-        subtitle="ภาพรวมข้อมูลทะเบียนเกษตรกร พื้นที่การเกษตร ราคาสินค้าเกษตรและพลังงาน ศพก. และสภาพอากาศ/น้ำฝน"
-        icon={PieChartOutlined}
-      />
+    <div className={embedded ? 'embedded-dashboard' : undefined}>
+      {!embedded && (
+        <PageHeader
+          title="ยุทธศาสตร์และสารสนเทศ"
+          subtitle="ภาพรวมข้อมูลทะเบียนเกษตรกร พื้นที่การเกษตร ราคาสินค้าเกษตรและพลังงาน ศพก. และสภาพอากาศ/น้ำฝน"
+          icon={PieChartOutlined}
+        />
+      )}
 
-      {loading ? (
+      {error ? (
+        <Result
+          status="warning"
+          title="โหลดข้อมูลยุทธศาสตร์ไม่สำเร็จ"
+          subTitle={error.message}
+          extra={<Button onClick={refetch}>ลองใหม่</Button>}
+        />
+      ) : loading ? (
         <div
           style={{
             height: 400,
@@ -473,12 +498,12 @@ export default function StrategyDashboard() {
               {
                 label: 'พื้นที่เพาะปลูก',
                 value: formatNumber(agriStats.totalPlanted),
-                note: 'ไร่ รวมทุกชนิดพืช',
+                note: 'ไร่ รวมทุกชนิดพืช · ข้อมูลล่าสุด',
               },
               {
                 label: 'ศพก.',
                 value: formatNumber(learnStats.total),
-                note: 'ศูนย์ในระบบ',
+                note: 'ศูนย์ในระบบ · ข้อมูลล่าสุด',
               },
               {
                 label: 'ฝน 7 วัน',
@@ -488,7 +513,7 @@ export default function StrategyDashboard() {
               {
                 label: 'ราคาเกษตร',
                 value: 'Live',
-                note: 'เปิดดูข้อมูลจากหน้าราคา',
+                note: 'ข้อมูลล่าสุดจากหน้าราคา',
               },
             ].map((item) => (
               <Card

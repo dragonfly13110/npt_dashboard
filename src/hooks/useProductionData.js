@@ -1,20 +1,30 @@
 import { useMemo } from 'react';
 import { supabase } from '../supabaseClient';
 import { useApiCache } from './useApiCache';
+import {
+  ALL_DISTRICTS,
+  LATEST_YEAR,
+  filterRows,
+  yearStatus,
+} from '../pages/interactiveDashboard/filters';
 
-export function useProductionData() {
+export function useProductionData(
+  filters = { district: ALL_DISTRICTS, year: LATEST_YEAR }
+) {
   const fetchProductionData = async () => {
     const [lp, ct, cr] = await Promise.all([
       supabase
         .from('large_plots')
-        .select('commodity_group, district, member_count, area_rai'),
+        .select('commodity_group, district, member_count, area_rai, year'),
       supabase
         .from('certifications')
         .select(
           'crop_name, area_rai, production_volume_kg, exp_date, plot_district'
         ),
-      supabase.from('crop_production').select('crop_name, district'),
+      supabase.from('crop_production').select('crop_name, district, year'),
     ]);
+    const error = [lp, ct, cr].find((result) => result.error)?.error;
+    if (error) throw error;
 
     return {
       largePlots: lp.data || [],
@@ -23,16 +33,33 @@ export function useProductionData() {
     };
   };
 
-  const { data, isLoading: loading } = useApiCache(
-    'production-dashboard-data',
-    fetchProductionData
-  );
+  const {
+    data,
+    isLoading: loading,
+    error,
+    refetch,
+  } = useApiCache('production-dashboard-data', fetchProductionData);
 
-  const { largePlots, certs, crops } = data || {
+  const {
+    largePlots: allLargePlots = [],
+    certs: allCerts = [],
+    crops: allCrops = [],
+  } = data || {
     largePlots: [],
     certs: [],
     crops: [],
   };
+  const { largePlots, certs, crops } = useMemo(
+    () => ({
+      largePlots: filterRows(allLargePlots, filters, { yearKey: 'year' }),
+      certs: filterRows(allCerts, filters, {
+        districtKey: 'plot_district',
+        yearKey: null,
+      }),
+      crops: filterRows(allCrops, filters, { yearKey: 'year' }),
+    }),
+    [allLargePlots, allCerts, allCrops, filters]
+  );
 
   // ============================================
   // Large Plots Charts
@@ -227,6 +254,9 @@ export function useProductionData() {
 
   return {
     loading,
+    error,
+    refetch,
+    yearSupported: yearStatus(filters.year, 'year').supported,
     lpPie,
     lpBar,
     lpGroups,

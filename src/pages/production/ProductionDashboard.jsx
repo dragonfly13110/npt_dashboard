@@ -1,4 +1,4 @@
-import { Row, Col, Spin } from 'antd';
+import { Row, Col, Spin, Result, Button } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
 import EChart from '../../components/widgets/EChart';
 import {
@@ -54,9 +54,14 @@ function EmptyChart({ label }) {
   );
 }
 
-export default function ProductionDashboard() {
+export default function ProductionDashboard({
+  embedded = false,
+  filters = {},
+}) {
   const {
     loading,
+    error,
+    refetch,
     lpPie,
     lpBar,
     lpGroups,
@@ -69,17 +74,26 @@ export default function ProductionDashboard() {
     certStats,
     cropBar,
     cropStats,
-  } = useProductionData();
+  } = useProductionData(filters);
 
   return (
-    <div>
-      <PageHeader
-        title="🌱 ส่งเสริมและพัฒนาการผลิต"
-        subtitle="ภาพรวมข้อมูลแปลงใหญ่, มาตรฐาน GAP และผลผลิตพืช"
-        icon={PieChartOutlined}
-      />
+    <div className={embedded ? 'embedded-dashboard' : undefined}>
+      {!embedded && (
+        <PageHeader
+          title="🌱 ส่งเสริมและพัฒนาการผลิต"
+          subtitle="ภาพรวมข้อมูลแปลงใหญ่, มาตรฐาน GAP และผลผลิตพืช"
+          icon={PieChartOutlined}
+        />
+      )}
 
-      {loading ? (
+      {error ? (
+        <Result
+          status="warning"
+          title="โหลดข้อมูลการผลิตไม่สำเร็จ"
+          subTitle={error.message}
+          extra={<Button onClick={refetch}>ลองใหม่</Button>}
+        />
+      ) : loading ? (
         <div
           style={{
             height: 400,

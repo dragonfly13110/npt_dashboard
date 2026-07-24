@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Row, Col, Spin, Card, Button } from 'antd';
+import { Row, Col, Spin, Card, Button, Result } from 'antd';
 import { ArrowRightOutlined, PieChartOutlined } from '@ant-design/icons';
 import EChart from '../../components/widgets/EChart';
 import { barOption, pieOption } from '../../components/charts/echartOptions';
@@ -155,9 +155,14 @@ function LinkBentoCard({
   );
 }
 
-export default function DevelopmentDashboard() {
+export default function DevelopmentDashboard({
+  embedded = false,
+  filters = {},
+}) {
   const {
     loading,
+    error,
+    refetch,
     ceStats,
     peopleStats,
     groupStats,
@@ -169,17 +174,26 @@ export default function DevelopmentDashboard() {
     districtStack,
     peopleDistrictStack,
     farmerInstTypes,
-  } = useDevelopmentData();
+  } = useDevelopmentData(filters);
 
   return (
-    <div>
-      <PageHeader
-        title="กลุ่มส่งเสริมและพัฒนาเกษตรกร"
-        subtitle="ภาพรวมวิสาหกิจชุมชน SF/YSF กลุ่มอาชีพ แม่บ้าน ยุวเกษตรกร สถาบันเกษตรกร ท่องเที่ยวเกษตร และภัยพิบัติ"
-        icon={PieChartOutlined}
-      />
+    <div className={embedded ? 'embedded-dashboard' : undefined}>
+      {!embedded && (
+        <PageHeader
+          title="กลุ่มส่งเสริมและพัฒนาเกษตรกร"
+          subtitle="ภาพรวมวิสาหกิจชุมชน SF/YSF กลุ่มอาชีพ แม่บ้าน ยุวเกษตรกร สถาบันเกษตรกร ท่องเที่ยวเกษตร และภัยพิบัติ"
+          icon={PieChartOutlined}
+        />
+      )}
 
-      {loading ? (
+      {error ? (
+        <Result
+          status="warning"
+          title="โหลดข้อมูลกลุ่มพัฒนาไม่สำเร็จ"
+          subTitle={error.message}
+          extra={<Button onClick={refetch}>ลองใหม่</Button>}
+        />
+      ) : loading ? (
         <div
           style={{
             height: 400,

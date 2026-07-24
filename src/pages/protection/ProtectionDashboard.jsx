@@ -1,4 +1,4 @@
-import { Row, Col, Spin } from 'antd';
+import { Row, Col, Spin, Result, Button, Alert } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
 import EChart from '../../components/widgets/EChart';
 import {
@@ -86,9 +86,15 @@ function EmptyChart({ label }) {
   );
 }
 
-export default function ProtectionDashboard() {
+export default function ProtectionDashboard({
+  embedded = false,
+  filters = {},
+}) {
   const {
     loading,
+    error,
+    refetch,
+    yearSupported,
     poPie,
     poBar,
     poTypes,
@@ -104,17 +110,34 @@ export default function ProtectionDashboard() {
     sfTypes,
     sfStats,
     firePie,
-  } = useProtectionData();
+  } = useProtectionData(filters);
 
   return (
-    <div>
-      <PageHeader
-        title="🛡️ กลุ่มอารักขาพืช"
-        subtitle="ภาพรวมข้อมูลแปลงพยากรณ์, ศจช., หมอพืช, ศดปช. และจุดเฝ้าระวัง PM2.5"
-        icon={PieChartOutlined}
-      />
+    <div className={embedded ? 'embedded-dashboard' : undefined}>
+      {!embedded && (
+        <PageHeader
+          title="🛡️ กลุ่มอารักขาพืช"
+          subtitle="ภาพรวมข้อมูลแปลงพยากรณ์, ศจช., หมอพืช, ศดปช. และจุดเฝ้าระวัง PM2.5"
+          icon={PieChartOutlined}
+        />
+      )}
+      {!yearSupported && filters.year && filters.year !== 'latest' && (
+        <Alert
+          showIcon
+          type="info"
+          message="ข้อมูลชุดนี้ไม่รองรับตัวกรองปี แสดงข้อมูลล่าสุด"
+          style={{ marginBottom: 16 }}
+        />
+      )}
 
-      {loading ? (
+      {error ? (
+        <Result
+          status="warning"
+          title="โหลดข้อมูลอารักขาพืชไม่สำเร็จ"
+          subTitle={error.message}
+          extra={<Button onClick={refetch}>ลองใหม่</Button>}
+        />
+      ) : loading ? (
         <div
           style={{
             height: 400,
