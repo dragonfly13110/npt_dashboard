@@ -19,6 +19,11 @@ import { useProductionData } from '../hooks/useProductionData';
 import { useDevelopmentData } from '../hooks/useDevelopmentData';
 import { useProtectionData } from '../hooks/useProtectionData';
 import {
+  summarizeExtras,
+  useInteractiveExtrasData,
+} from '../hooks/useInteractiveExtrasData';
+import { ExtrasSection } from '../pages/interactiveDashboard/ExtrasSection';
+import {
   useInteractiveFilters,
   useInteractiveYears,
 } from '../pages/interactiveDashboard/useInteractiveFilters';
@@ -681,3 +686,456 @@ it.each([
     expect(refetch).toHaveBeenCalledOnce();
   }
 );
+
+it('summarizes the newest filtered public extras without inventing zeroes', () => {
+  const summary = summarizeExtras(
+    {
+      tbk: [
+        {
+          data_year: 2569,
+          snapshot_date: '2026-07-23',
+          location_name: BANG_LEN,
+          household_count: 1,
+          plot_count: 2,
+          area_rai: 3,
+        },
+        {
+          data_year: 2569,
+          snapshot_date: '2026-07-24',
+          location_name: BANG_LEN,
+          household_count: 4,
+          plot_count: 5,
+          area_rai: 6,
+        },
+        {
+          data_year: 2569,
+          snapshot_date: '2026-07-24',
+          location_name: 'สามพราน',
+          household_count: 40,
+          plot_count: 50,
+          area_rai: 60,
+        },
+      ],
+      rice: [
+        {
+          snapshot_date: '2026-07-23',
+          crop_year: '2568/69',
+          district: BANG_LEN,
+          household_count: 1,
+          plot_count: 1,
+          area_rai: 1,
+          estimated_tons: 1,
+        },
+        {
+          snapshot_date: '2026-07-24',
+          crop_year: '2568/69',
+          district: BANG_LEN,
+          household_count: 2,
+          plot_count: 3,
+          area_rai: 4,
+          estimated_tons: 5,
+        },
+        {
+          snapshot_date: '2026-07-24',
+          crop_year: '2568/69',
+          district: BANG_LEN,
+          household_count: 6,
+          plot_count: 7,
+          area_rai: 8,
+          estimated_tons: 9,
+        },
+        {
+          snapshot_date: '2026-07-24',
+          crop_year: '2568/69',
+          district: 'สามพราน',
+          household_count: 60,
+          plot_count: 70,
+          area_rai: 80,
+          estimated_tons: 90,
+        },
+      ],
+      costs: [
+        {
+          data_year: 2569,
+          crop_name: 'ข้าว',
+          total_cost_baht: 100,
+          revenue_baht_per_rai: 150,
+        },
+        {
+          data_year: 2569,
+          crop_name: 'ฝรั่ง',
+          total_cost_baht: 300,
+          revenue_baht_per_rai: 450,
+        },
+        {
+          data_year: 2568,
+          crop_name: 'อ้อย',
+          total_cost_baht: 999,
+          revenue_baht_per_rai: 999,
+        },
+      ],
+      forecast: {
+        forecast_date: '2026-07-24',
+        details: [
+          { risk_level: 'สูง' },
+          { risk_level: 'ต่ำ' },
+          { risk_level: 'ต่ำ' },
+        ],
+      },
+      soils: [
+        {
+          district: BANG_LEN,
+          soil_series_name: 'ชุดดินบางเลน',
+          soil_group: 'กลุ่ม 1',
+          area_rai: 5,
+        },
+        {
+          district: BANG_LEN,
+          soil_series_name: 'ชุดดินบางเลน',
+          soil_group: 'กลุ่ม 1',
+          area_rai: 7,
+        },
+        {
+          district: 'สามพราน',
+          soil_series_name: 'ชุดดินสามพราน',
+          soil_group: 'กลุ่ม 2',
+          area_rai: 100,
+        },
+      ],
+    },
+    { district: BANG_LEN, year: '2569' }
+  );
+
+  expect(summary).toMatchObject({
+    tbk: {
+      dataYear: 2569,
+      snapshotDate: '2026-07-24',
+      householdCount: 4,
+      plotCount: 5,
+      areaRai: 6,
+    },
+    rice: {
+      cropYear: '2568/69',
+      snapshotDate: '2026-07-24',
+      householdCount: 8,
+      plotCount: 10,
+      areaRai: 12,
+      estimatedTons: 14,
+    },
+    costs: {
+      dataYear: 2569,
+      cropCount: 2,
+      averageCostBaht: 200,
+      averageRevenueBahtPerRai: 300,
+    },
+    forecast: {
+      forecastDate: '2026-07-24',
+      total: 3,
+      high: 1,
+      medium: 0,
+      low: 2,
+      status: LATEST_LABEL,
+    },
+    soils: {
+      seriesCount: 1,
+      groupCount: 1,
+      areaRai: 12,
+      status: LATEST_LABEL,
+    },
+  });
+  expect(
+    summarizeExtras(
+      { tbk: [], rice: [], costs: [], forecast: null, soils: [] },
+      { district: BANG_LEN, year: '2569' }
+    )
+  ).toEqual({
+    tbk: null,
+    rice: null,
+    costs: null,
+    forecast: null,
+    soils: null,
+  });
+});
+
+it('keeps missing extra metrics null when their records exist', () => {
+  const summary = summarizeExtras(
+    {
+      tbk: [
+        {
+          data_year: 2569,
+          snapshot_date: '2026-07-24',
+          location_name: BANG_LEN,
+          household_count: null,
+          plot_count: null,
+          area_rai: null,
+        },
+      ],
+      rice: [
+        {
+          snapshot_date: '2026-07-24',
+          crop_year: '2568/69',
+          district: BANG_LEN,
+          household_count: null,
+          plot_count: null,
+          area_rai: null,
+          estimated_tons: null,
+        },
+      ],
+      costs: [
+        {
+          data_year: 2569,
+          crop_name: 'ข้าว',
+          total_cost_baht: null,
+          revenue_baht_per_rai: null,
+        },
+      ],
+      forecast: null,
+      soils: [
+        {
+          district: BANG_LEN,
+          soil_series_name: null,
+          soil_group: null,
+          area_rai: null,
+        },
+      ],
+    },
+    { district: BANG_LEN, year: '2569' }
+  );
+
+  expect(summary.tbk).toMatchObject({
+    householdCount: null,
+    plotCount: null,
+    areaRai: null,
+  });
+  expect(summary.rice).toMatchObject({
+    householdCount: null,
+    plotCount: null,
+    areaRai: null,
+    estimatedTons: null,
+  });
+  expect(summary.costs).toMatchObject({
+    cropCount: 1,
+    averageCostBaht: null,
+    averageRevenueBahtPerRai: null,
+  });
+  expect(summary.soils).toMatchObject({
+    seriesCount: null,
+    groupCount: null,
+    areaRai: null,
+  });
+  const missingYears = summarizeExtras(
+    {
+      tbk: [
+        {
+          data_year: null,
+          snapshot_date: '2026-07-24',
+          location_name: BANG_LEN,
+          area_rai: 1,
+        },
+      ],
+      rice: [
+        {
+          crop_year: null,
+          snapshot_date: '2026-07-24',
+          district: BANG_LEN,
+          area_rai: 1,
+        },
+      ],
+      costs: [],
+      forecast: null,
+      soils: [],
+    },
+    { district: BANG_LEN, year: LATEST_YEAR }
+  );
+  expect(missingYears.tbk).toBeNull();
+  expect(missingYears.rice).toBeNull();
+});
+
+it('keeps extras lazy, public-only, and isolated when one dataset fails', async () => {
+  const columnsByTable = {};
+  const results = {
+    tbk_cultivation_snapshots: {
+      data: [
+        {
+          data_year: 2569,
+          snapshot_date: '2026-07-24',
+          location_name: BANG_LEN,
+          household_count: 1,
+          plot_count: 2,
+          area_rai: 3,
+        },
+      ],
+      error: null,
+    },
+    rice_harvest_snapshots: {
+      data: [
+        {
+          snapshot_date: '2026-07-24',
+          crop_year: '2568/69',
+          district: BANG_LEN,
+          household_count: 4,
+          plot_count: 5,
+          area_rai: 6,
+          estimated_tons: 7,
+        },
+      ],
+      error: null,
+    },
+    production_costs: {
+      data: null,
+      error: new Error('costs unavailable'),
+    },
+    ai_disease_forecasts: {
+      data: [
+        {
+          forecast_date: '2026-07-24',
+          details: [{ risk_level: 'สูง' }],
+        },
+      ],
+      error: null,
+    },
+    soil_series: {
+      data: [
+        {
+          district: BANG_LEN,
+          soil_series_name: 'ชุดดินบางเลน',
+          soil_group: 'กลุ่ม 1',
+          area_rai: 8,
+        },
+      ],
+      error: null,
+    },
+  };
+  let fetchExtras;
+  let cacheOptions;
+  let cacheResult = {
+    data: undefined,
+    isLoading: false,
+    error: null,
+    refetch: vi.fn(),
+  };
+  mockFrom.mockImplementation((table) => {
+    const query = {
+      select: (columns) => {
+        columnsByTable[table] = columns;
+        return query;
+      },
+      order: () => query,
+      limit: () => query,
+      then: (resolve, reject) =>
+        Promise.resolve(results[table]).then(resolve, reject),
+    };
+    return query;
+  });
+  mockUseApiCache.mockImplementation((_key, fetcher, options) => {
+    fetchExtras = fetcher;
+    cacheOptions = options;
+    return cacheResult;
+  });
+
+  const { result, rerender } = renderHook(() =>
+    useInteractiveExtrasData(
+      { district: BANG_LEN, year: '2569' },
+      { enabled: false }
+    )
+  );
+
+  expect(cacheOptions).toEqual({ enabled: false });
+  expect(mockFrom).not.toHaveBeenCalled();
+
+  cacheResult = {
+    data: await fetchExtras(),
+    isLoading: false,
+    error: null,
+    refetch: vi.fn(),
+  };
+  rerender();
+
+  expect(columnsByTable).toEqual({
+    tbk_cultivation_snapshots:
+      'data_year,snapshot_date,location_name,area_rai,household_count,plot_count',
+    rice_harvest_snapshots:
+      'snapshot_date,crop_year,district,household_count,plot_count,area_rai,estimated_tons',
+    production_costs:
+      'data_year,crop_name,total_cost_baht,revenue_baht_per_rai',
+    ai_disease_forecasts: 'forecast_date,details',
+    soil_series: 'district,soil_series_name,soil_group,area_rai',
+  });
+  Object.values(columnsByTable).forEach((columns) => {
+    expect(columns).not.toContain('*');
+    expect(columns).not.toMatch(
+      /admin|personnel|budget|phone|email|created_by|updated_by/
+    );
+  });
+  expect(result.current.tbk).toMatchObject({ areaRai: 3 });
+  expect(result.current.rice).toMatchObject({ estimatedTons: 7 });
+  expect(result.current.costs).toBeNull();
+  expect(result.current.forecast).toMatchObject({ high: 1 });
+  expect(result.current.soils).toMatchObject({ areaRai: 8 });
+  expect(result.current.error).toHaveProperty('message', 'costs unavailable');
+});
+
+it('renders five accessible extra summaries while leaving failed data unavailable', () => {
+  const refetch = vi.fn();
+  mockUseApiCache.mockReturnValue({
+    data: {
+      tbk: {
+        dataYear: 2569,
+        snapshotDate: '2026-07-24',
+        householdCount: 4,
+        plotCount: 5,
+        areaRai: 6,
+      },
+      rice: {
+        cropYear: '2568/69',
+        snapshotDate: '2026-07-24',
+        householdCount: 8,
+        plotCount: 10,
+        areaRai: 12,
+        estimatedTons: 14,
+      },
+      costs: null,
+      forecast: {
+        forecastDate: '2026-07-24',
+        total: 3,
+        high: 1,
+        medium: 0,
+        low: 2,
+        status: LATEST_LABEL,
+      },
+      soils: {
+        seriesCount: 1,
+        groupCount: 1,
+        areaRai: 12,
+        status: LATEST_LABEL,
+      },
+      error: new Error('costs unavailable'),
+    },
+    isLoading: false,
+    error: null,
+    refetch,
+  });
+
+  render(
+    <ExtrasSection filters={{ district: BANG_LEN, year: '2569' }} enabled />
+  );
+
+  [
+    'พื้นที่ตาม ทบก.',
+    'สถานการณ์เก็บเกี่ยวข้าว',
+    'ต้นทุนการผลิต',
+    'โรคและแมลง AI',
+    'ชุดดิน',
+  ].forEach((name) =>
+    expect(screen.getByRole('heading', { level: 3, name })).toBeVisible()
+  );
+  expect(screen.getByText('ปี 2569 · รอบ 2026-07-24')).toBeVisible();
+  expect(screen.getByText('ปีเพาะปลูก 2568/69 · รอบ 2026-07-24')).toBeVisible();
+  expect(screen.getByText('ข้อมูลล่าสุด · 2026-07-24')).toBeVisible();
+  const costsCard = screen
+    .getByRole('heading', { level: 3, name: 'ต้นทุนการผลิต' })
+    .closest('.ant-card, .bento-card');
+  expect(within(costsCard).getByText('ไม่พร้อมใช้งาน')).toBeVisible();
+  fireEvent.click(screen.getByRole('button', { name: 'ลองใหม่' }));
+  expect(refetch).toHaveBeenCalledOnce();
+});
