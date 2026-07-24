@@ -25,6 +25,11 @@ import {
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+import {
+  useInteractiveFilters,
+  useInteractiveYears,
+} from './interactiveDashboard/useInteractiveFilters';
+import { LATEST_YEAR } from './interactiveDashboard/filters';
 import './InteractiveDashboard.css';
 
 // ── Shared Chart Constants ─────────────────────────────────────
@@ -180,7 +185,14 @@ export default function InteractiveDashboard() {
     agriPie,
     lpPie,
   } = useDashboardData();
-  const [selectedDistrict, setSelectedDistrict] = useState('ทั้งหมด');
+  const {
+    district: selectedDistrict,
+    districts,
+    setDistrict: setSelectedDistrict,
+    year,
+    setYear,
+  } = useInteractiveFilters();
+  const { years } = useInteractiveYears();
   const [latestForecast, setLatestForecast] = useState(null);
 
   useEffect(() => {
@@ -207,8 +219,6 @@ export default function InteractiveDashboard() {
 
     fetchLatestForecast();
   }, []);
-
-  const districts = ['ทั้งหมด', ...DISTRICT_LIST];
 
   // ── Metric cards data ──────────────────────────────────
   const metrics = useMemo(() => {
@@ -576,6 +586,24 @@ export default function InteractiveDashboard() {
               options={districts.map((d) => ({ label: d, value: d }))}
               size="middle"
               aria-label="เลือกอำเภอ"
+            />
+            <Select
+              value={year}
+              onChange={setYear}
+              style={{ width: 160 }}
+              options={[
+                {
+                  label:
+                    '\u0e02\u0e49\u0e2d\u0e21\u0e39\u0e25\u0e25\u0e48\u0e32\u0e2a\u0e38\u0e14',
+                  value: LATEST_YEAR,
+                },
+                ...years.map((availableYear) => ({
+                  label: String(availableYear),
+                  value: String(availableYear),
+                })),
+              ]}
+              size="middle"
+              aria-label="เลือกปีข้อมูล"
             />
           </div>
           <button
