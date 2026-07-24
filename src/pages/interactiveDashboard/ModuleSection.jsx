@@ -27,7 +27,7 @@ export function ModuleSection({
       <details open={defaultOpen}>
         <summary>
           <span>
-            <strong>{title}</strong>
+            <h2>{title}</h2>
             {summary && (
               <>
                 {' '}

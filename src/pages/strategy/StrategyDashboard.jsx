@@ -84,6 +84,7 @@ function LinkBentoCard({
   stats,
   to,
   accent = '#1a7f37',
+  showAction = true,
 }) {
   return (
     <Card
@@ -125,9 +126,11 @@ function LinkBentoCard({
             {description}
           </p>
         </div>
-        <Link to={to} aria-label={`เปิดหน้า${title}`}>
-          <Button shape="circle" icon={<ArrowRightOutlined />} />
-        </Link>
+        {showAction && (
+          <Link to={to} aria-label={`เปิดหน้า${title}`}>
+            <Button shape="circle" icon={<ArrowRightOutlined />} />
+          </Link>
+        )}
       </div>
       <div
         style={{
@@ -648,6 +651,7 @@ export default function StrategyDashboard({ embedded = false, filters = {} }) {
               description="ข้อมูลราคาจากกรมการค้าภายในและราคาน้ำมันบางจาก แยกไว้ที่หน้ารายละเอียดเพื่อให้ dashboard รวมโหลดไว"
               to="/dashboard/strategy/agricultural-prices"
               accent="#f57c00"
+              showAction={!embedded}
               stats={[
                 { label: 'หมวดราคา', value: '5', highlight: true },
                 { label: 'แหล่งข้อมูล', value: 'Live' },

@@ -1,4 +1,10 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  within,
+} from '@testing-library/react';
 import { act } from 'react';
 import { afterEach, beforeEach, expect, it } from 'vitest';
 import { ModuleSection } from './ModuleSection';
@@ -77,6 +83,9 @@ it('uses native summary semantics with the complete accessible name', () => {
 
   expect(summary).toBeInstanceOf(HTMLElement);
   expect(summary.tagName).toBe('SUMMARY');
+  expect(
+    within(summary).getByRole('heading', { level: 2, name: 'ชุดดิน' })
+  ).toBeVisible();
   expect(summary).toHaveAccessibleName('ชุดดิน ชนิดดิน ข้อมูลล่าสุด');
   summary.focus();
   expect(summary).toHaveFocus();

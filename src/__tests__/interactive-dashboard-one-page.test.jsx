@@ -32,9 +32,10 @@ import {
   LATEST_YEAR,
 } from '../pages/interactiveDashboard/filters';
 
-const { mockFrom, mockUseApiCache } = vi.hoisted(() => ({
+const { mockFrom, mockUseApiCache, mockUseDashboardData } = vi.hoisted(() => ({
   mockFrom: vi.fn(),
   mockUseApiCache: vi.fn(),
+  mockUseDashboardData: vi.fn(),
 }));
 const scrollIntoView = vi.fn();
 let intersectionObservers = [];
@@ -57,30 +58,32 @@ vi.mock('../components/widgets/LandingMap', () => ({
 vi.mock('../hooks/useApiCache', () => ({ useApiCache: mockUseApiCache }));
 vi.mock('../hooks/useDashboardData', async (importOriginal) => ({
   ...(await importOriginal()),
-  useDashboardData: () => ({
-    loading: false,
-    error: null,
-    refetch: vi.fn(),
-    stats: [{ table: 'learning_centers', count: 0 }],
-    mapData: [
-      { district: BANG_LEN, type: 'gis' },
-      { district: 'สามพราน', type: 'gis' },
-    ],
-    districtStats: { [BANG_LEN]: {} },
-    instituteStats: {},
-    lpStats: {},
-    agriStats: {},
-    smartFarmers: {},
-    enterprises: {},
-    tourism: {},
-    ceDistrictStats: {},
-    agriPie: [],
-    lpPie: [],
-  }),
+  useDashboardData: mockUseDashboardData,
 }));
 vi.mock('../supabaseClient', () => ({
   supabase: { from: mockFrom },
 }));
+
+const overviewData = () => ({
+  loading: false,
+  error: null,
+  refetch: vi.fn(),
+  stats: [{ table: 'learning_centers', count: 0 }],
+  mapData: [
+    { district: BANG_LEN, type: 'gis' },
+    { district: 'สามพราน', type: 'gis' },
+  ],
+  districtStats: { [BANG_LEN]: {} },
+  instituteStats: {},
+  lpStats: {},
+  agriStats: {},
+  smartFarmers: {},
+  enterprises: {},
+  tourism: {},
+  ceDistrictStats: {},
+  agriPie: [],
+  lpPie: [],
+});
 
 beforeEach(() => {
   intersectionObservers = [];
@@ -119,6 +122,8 @@ beforeEach(() => {
   });
   mockUseApiCache.mockReset();
   mockUseApiCache.mockReturnValue({ data: [2569], isLoading: false });
+  mockUseDashboardData.mockReset();
+  mockUseDashboardData.mockReturnValue(overviewData());
   mockFrom.mockReset();
   mockFrom.mockImplementation(() => ({
     select: () => ({
@@ -157,6 +162,21 @@ function renderGroup(Component, props = {}) {
     <MemoryRouter>
       <Component {...props} />
     </MemoryRouter>
+  );
+}
+
+async function activateModule(id) {
+  const observer = await waitFor(() => {
+    const candidate = intersectionObservers.find(
+      (item) => item.targets.length === 1 && item.targets[0]?.id === id
+    );
+    expect(candidate).toBeDefined();
+    return candidate;
+  });
+  act(() =>
+    observer.callback([
+      { isIntersecting: true, target: document.getElementById(id) },
+    ])
   );
 }
 
@@ -206,7 +226,7 @@ it('filters map markers and scrolls metric cards instead of routing', async () =
   );
 });
 
-it('uses one observed module set for active navigation and cleans it up', async () => {
+it('keeps the intersecting module set across callbacks and cleans it up', async () => {
   const { unmount } = renderDashboard('/interactive-dashboard');
   const navObserver = await waitFor(() => {
     const observer = intersectionObservers.find(
@@ -216,22 +236,227 @@ it('uses one observed module set for active navigation and cleans it up', async 
     return observer;
   });
 
+  const overview = document.getElementById('overview');
+  const risk = document.getElementById('risk');
+  const networks = document.getElementById('networks');
+  overview.getBoundingClientRect = () => ({ top: 20 });
+  risk.getBoundingClientRect = () => ({ top: 90 });
+  networks.getBoundingClientRect = () => ({ top: 8 });
+
   act(() =>
     navObserver.callback([
       {
         isIntersecting: true,
-        target: document.getElementById('risk'),
-        boundingClientRect: { top: 12 },
+        target: overview,
+      },
+      {
+        isIntersecting: true,
+        target: risk,
       },
     ])
+  );
+  expect(screen.getByRole('link', { name: 'ภาพรวม' })).toHaveAttribute(
+    'aria-current',
+    'location'
+  );
+
+  act(() =>
+    navObserver.callback([{ isIntersecting: false, target: overview }])
   );
   expect(screen.getByRole('link', { name: 'ความเสี่ยง' })).toHaveAttribute(
     'aria-current',
     'location'
   );
 
+  act(() =>
+    navObserver.callback([
+      { isIntersecting: true, target: networks },
+      { isIntersecting: false, target: risk },
+    ])
+  );
+  expect(screen.getByRole('link', { name: 'ศูนย์/เครือข่าย' })).toHaveAttribute(
+    'aria-current',
+    'location'
+  );
+
   unmount();
   expect(navObserver.disconnected).toBe(true);
+});
+
+it('keeps the page shell and lazy sections usable when overview fails', async () => {
+  const refetch = vi.fn();
+  mockUseDashboardData.mockReturnValue({
+    ...overviewData(),
+    error: new Error('offline'),
+    stats: [],
+    refetch,
+  });
+
+  const { container } = renderDashboard('/interactive-dashboard');
+
+  expect(screen.getByRole('navigation', { name: 'หมวดข้อมูล' })).toBeVisible();
+  expect(container.querySelectorAll('.module-section')).toHaveLength(7);
+  expect(screen.getByText('ไม่สามารถโหลดข้อมูลได้')).toBeVisible();
+  fireEvent.click(screen.getByRole('button', { name: /โหลดข้อมูลใหม่/ }));
+  expect(refetch).toHaveBeenCalledOnce();
+
+  await activateModule('networks');
+  expect(screen.getAllByText('ไม่พร้อมใช้งาน').length).toBeGreaterThan(0);
+});
+
+it('keeps navigation and module shells visible while overview loads', () => {
+  mockUseDashboardData.mockReturnValue({
+    ...overviewData(),
+    loading: true,
+    stats: [],
+  });
+
+  const { container } = renderDashboard('/interactive-dashboard');
+
+  expect(screen.getByRole('navigation', { name: 'หมวดข้อมูล' })).toBeVisible();
+  expect(container.querySelectorAll('.module-section')).toHaveLength(7);
+  expect(
+    screen.getByText('กำลังโหลดข้อมูล Interactive Dashboard...')
+  ).toBeVisible();
+});
+
+it('does not mount duplicated detailed overview blocks before lazy modules', async () => {
+  renderDashboard('/interactive-dashboard');
+
+  expect(
+    screen.queryByText('🍚 ผลผลิตข้าว — นาปี vs นาปรัง รายอำเภอ')
+  ).not.toBeInTheDocument();
+  expect(
+    screen.queryByText('🌾 แปลงใหญ่ — ประเภทสินค้า')
+  ).not.toBeInTheDocument();
+  expect(
+    screen.queryByText('👥 สถาบันเกษตรกร — ประเภทกลุ่ม')
+  ).not.toBeInTheDocument();
+  expect(
+    screen.queryByText('🗂️ ภาพรวมข้อมูลในระบบ — Treemap ตามกลุ่มงาน')
+  ).not.toBeInTheDocument();
+  expect(
+    screen.queryByText('🌾 ภาพรวมสัดส่วนแต่ละกลุ่มสินค้าแปลงใหญ่')
+  ).not.toBeInTheDocument();
+
+  fireEvent.click(document.querySelector('#production summary'));
+  await activateModule('production');
+  expect(
+    screen.getByText('🌾 ภาพรวมสัดส่วนแต่ละกลุ่มสินค้าแปลงใหญ่')
+  ).toBeVisible();
+});
+
+it('labels the latest-only overview while retaining the selected year for print', () => {
+  const { container } = renderDashboard(
+    '/interactive-dashboard?district=บางเลน&year=2569'
+  );
+
+  expect(container.querySelector('#overview summary')).toHaveTextContent(
+    'ข้อมูลล่าสุด'
+  );
+  expect(container.querySelector('#overview summary')).not.toHaveTextContent(
+    'ปี 2569'
+  );
+  expect(container.querySelector('.dashboard-print-meta')).toHaveTextContent(
+    'ปี 2569'
+  );
+});
+
+it('propagates filters to lazy modules without embedded detail-route actions', async () => {
+  mockUseApiCache.mockImplementation((key) => {
+    if (key === 'interactive-dashboard-years') {
+      return { data: [2569], isLoading: false };
+    }
+    if (key === 'strategy-dashboard-data-v3') {
+      return {
+        data: {
+          agriData: [{ district: BANG_LEN, rice_in_season_rai: 5 }],
+          learningData: [{ district: BANG_LEN, featured_product: 'ข้าว' }],
+          registryData: [
+            {
+              district: BANG_LEN,
+              data_year: 2569,
+              target: 8,
+              total_updated_households: 4,
+            },
+          ],
+          weatherData: [],
+          geoplotsData: [],
+        },
+        isLoading: false,
+        error: null,
+        refetch: vi.fn(),
+      };
+    }
+    return {
+      data: {},
+      isLoading: false,
+      error: null,
+      refetch: vi.fn(),
+    };
+  });
+
+  renderDashboard(`/interactive-dashboard?district=${BANG_LEN}&year=2569`);
+  await activateModule('land');
+  await activateModule('groups');
+
+  const summary = within(screen.getByLabelText('สัญญาณภาพรวมกลุ่มยุทธศาสตร์'));
+  expect(summary.getByText('ทะเบียนคืบหน้า').parentElement).toHaveTextContent(
+    '4 / 8 ครัวเรือน'
+  );
+  expect(
+    screen.queryByRole('link', { name: 'เปิดหน้าราคาสินค้าเกษตรและพลังงาน' })
+  ).not.toBeInTheDocument();
+  expect(
+    screen.queryByRole('link', { name: 'เปิดหน้าSF / YSF' })
+  ).not.toBeInTheDocument();
+  expect(
+    screen.queryByRole('link', { name: 'เปิดหน้ากลุ่มเกษตรกร' })
+  ).not.toBeInTheDocument();
+  expect(screen.getByTestId('location')).toHaveAttribute(
+    'data-pathname',
+    '/interactive-dashboard'
+  );
+});
+
+it('loads a district-filtered plant-doctor summary only with networks', async () => {
+  mockUseApiCache.mockImplementation((key, _fetcher, options) => {
+    if (key === 'interactive-dashboard-years') {
+      return { data: [2569], isLoading: false };
+    }
+    if (key === 'protection-dashboard-data') {
+      expect(options).toMatchObject({ enabled: true });
+      return {
+        data: {
+          pestOutbreaks: [],
+          pestCenters: [],
+          plantDoctors: [
+            { district: BANG_LEN, subdistrict: 'บางปลา' },
+            { district: BANG_LEN, subdistrict: 'บางภาษี' },
+            { district: 'สามพราน', subdistrict: 'ไร่ขิง' },
+          ],
+          soilFertilizer: [],
+          fireHotspots: [],
+        },
+        isLoading: false,
+        error: null,
+        refetch: vi.fn(),
+      };
+    }
+    return { data: {}, isLoading: false, error: null, refetch: vi.fn() };
+  });
+
+  renderDashboard(`/interactive-dashboard?district=${BANG_LEN}`);
+  expect(
+    mockUseApiCache.mock.calls.some(
+      ([key]) => key === 'protection-dashboard-data'
+    )
+  ).toBe(false);
+
+  await activateModule('networks');
+  const doctorSummary = screen.getByLabelText('สรุปหมอพืชชุมชน');
+  expect(doctorSummary).toHaveTextContent('2 ราย');
+  expect(doctorSummary).toHaveTextContent('2 ตำบล');
 });
 
 it('selects only public forecast fields for the overview warning', async () => {
@@ -685,6 +910,40 @@ it('selects only public learning-center fields for the strategy module', async (
   );
 });
 
+it('selects only public protection fields used by network summaries', async () => {
+  const selectedColumns = {};
+  let fetchProtectionData;
+  mockFrom.mockImplementation((table) => ({
+    select: (columns) => {
+      selectedColumns[table] = columns;
+      return Promise.resolve({ data: [], error: null });
+    },
+  }));
+  mockUseApiCache.mockImplementation((_key, fetcher) => {
+    fetchProtectionData = fetcher;
+    return {
+      data: {},
+      isLoading: false,
+      error: null,
+      refetch: vi.fn(),
+    };
+  });
+
+  renderHook(() => useProtectionData());
+  await fetchProtectionData();
+
+  expect(selectedColumns).toMatchObject({
+    forecast_plots: 'crop_type, district, plot_type',
+    pest_centers: 'main_crop_type, district, grade_level',
+    plant_doctors: 'district, subdistrict',
+    soil_fertilizer_centers: 'main_crop_type, district, grade_level',
+    fire_hotspots: 'district, subdistrict',
+  });
+  Object.values(selectedColumns).forEach((columns) =>
+    expect(columns).not.toContain('*')
+  );
+});
+
 it('labels every undated production certification view for a specific year', () => {
   mockUseApiCache.mockReturnValue({
     data: {},
@@ -782,6 +1041,22 @@ it.each([
     );
   }
 );
+
+it.each([
+  [StrategyDashboard, 'เปิดหน้าราคาสินค้าเกษตรและพลังงาน'],
+  [DevelopmentDashboard, 'เปิดหน้าSF / YSF'],
+])('%s keeps standalone detail actions', (Component, actionName) => {
+  mockUseApiCache.mockReturnValue({
+    data: {},
+    isLoading: false,
+    error: null,
+    refetch: vi.fn(),
+  });
+
+  renderGroup(Component);
+
+  expect(screen.getByRole('link', { name: actionName })).toBeVisible();
+});
 
 it('discloses that protection observations do not support the selected year', () => {
   mockUseApiCache.mockReturnValue({

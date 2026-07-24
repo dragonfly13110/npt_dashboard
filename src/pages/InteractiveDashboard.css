@@ -212,7 +212,8 @@
   border-bottom-color: #e2e8f0;
 }
 
-.module-section summary strong {
+.module-section summary h2 {
+  margin: 0;
   font-size: 18px;
 }
 

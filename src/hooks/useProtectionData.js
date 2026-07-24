@@ -30,7 +30,8 @@ const SF_GRADE_COLORS = {
 };
 
 export function useProtectionData(
-  filters = { district: ALL_DISTRICTS, year: LATEST_YEAR }
+  filters = { district: ALL_DISTRICTS, year: LATEST_YEAR },
+  { enabled = true } = {}
 ) {
   const fetchProtectionData = async () => {
     const [po, pc, pd, sf, fh] = await Promise.all([
@@ -61,7 +62,9 @@ export function useProtectionData(
     isLoading: loading,
     error,
     refetch,
-  } = useApiCache('protection-dashboard-data', fetchProtectionData);
+  } = useApiCache('protection-dashboard-data', fetchProtectionData, {
+    enabled,
+  });
   const {
     pestOutbreaks: allPestOutbreaks = [],
     pestCenters: allPestCenters = [],

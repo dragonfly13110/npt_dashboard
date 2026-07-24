@@ -67,6 +67,7 @@ function LinkBentoCard({
   stats,
   to,
   accent = '#0969da',
+  showAction = true,
 }) {
   return (
     <Card
@@ -108,9 +109,11 @@ function LinkBentoCard({
             {description}
           </p>
         </div>
-        <Link to={to} aria-label={`เปิดหน้า${title}`}>
-          <Button shape="circle" icon={<ArrowRightOutlined />} />
-        </Link>
+        {showAction && (
+          <Link to={to} aria-label={`เปิดหน้า${title}`}>
+            <Button shape="circle" icon={<ArrowRightOutlined />} />
+          </Link>
+        )}
       </div>
       <div
         style={{
@@ -308,6 +311,7 @@ export default function DevelopmentDashboard({
               description="เกษตรกรปราดเปรื่องและเกษตรกรรุ่นใหม่ แยกทะเบียนรายปี"
               to="/dashboard/development/smart-farmer-sf"
               accent="#10b981"
+              showAction={!embedded}
               stats={[
                 {
                   label: 'SF',
@@ -375,6 +379,7 @@ export default function DevelopmentDashboard({
               description="กลุ่มส่งเสริมอาชีพ กลุ่มแม่บ้าน และกลุ่มยุวเกษตรกร"
               to="/dashboard/development/agricultural-career-groups"
               accent="#8250df"
+              showAction={!embedded}
               stats={[
                 {
                   label: 'ส่งเสริมอาชีพ',

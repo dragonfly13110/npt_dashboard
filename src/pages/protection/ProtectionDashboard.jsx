@@ -86,6 +86,50 @@ function EmptyChart({ label }) {
   );
 }
 
+export function ProtectionNetworkSummary({ filters = {}, enabled = true }) {
+  const { loading, error, plantDoctorStats } = useProtectionData(filters, {
+    enabled,
+  });
+
+  if (loading) {
+    return (
+      <div aria-label="สรุปหมอพืชชุมชน">
+        <Spin size="small" /> กำลังโหลดข้อมูลหมอพืชชุมชน...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <Alert showIcon type="warning" message="ไม่พร้อมแสดงข้อมูลหมอพืชชุมชน" />
+    );
+  }
+
+  return (
+    <div aria-label="สรุปหมอพืชชุมชน">
+      <CategoryBentoCard
+        title="หมอพืชชุมชน"
+        icon="🩺"
+        totalLabel="ทั้งหมด"
+        totalCount={`${plantDoctorStats.total} ราย`}
+        mainStatsTitle="พื้นที่ครอบคลุม"
+        mainStats={[
+          {
+            label: 'ตำบล',
+            value: `${plantDoctorStats.subdistricts} ตำบล`,
+            colorType: 'green',
+          },
+          {
+            label: 'อำเภอ',
+            value: `${plantDoctorStats.districts} อำเภอ`,
+            colorType: 'blue',
+          },
+        ]}
+      />
+    </div>
+  );
+}
+
 export default function ProtectionDashboard({
   embedded = false,
   filters = {},
