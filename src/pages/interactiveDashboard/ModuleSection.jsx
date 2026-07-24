@@ -25,12 +25,22 @@ export function ModuleSection({
   return (
     <section id={id} ref={rootRef} className="module-section">
       <details open={defaultOpen}>
-        <summary aria-label={title}>
+        <summary>
           <span>
             <strong>{title}</strong>
-            {summary && <small>{summary}</small>}
+            {summary && (
+              <>
+                {' '}
+                <small>{summary}</small>
+              </>
+            )}
           </span>
-          {status && <span className="module-status">{status}</span>}
+          {status && (
+            <>
+              {' '}
+              <span className="module-status">{status}</span>
+            </>
+          )}
         </summary>
         <div className="module-section-body">
           {nearViewport ? children : <div className="module-skeleton" />}
