@@ -99,7 +99,7 @@ export default function Dashboard() {
     trackVisit();
   }, []);
 
-  const totalRecords = stats.reduce((sum, s) => sum + s.count, 0);
+  const totalRecords = stats.reduce((sum, s) => sum + (s.count ?? 0), 0);
   const hasDashboardError = Boolean(error) || failedTables.length > 0;
 
   const handleExportPdf = async () => {
@@ -433,7 +433,7 @@ export default function Dashboard() {
                             color: '#111111',
                           }}
                         >
-                          {s.count.toLocaleString()}
+                          {s.error ? '—' : s.count.toLocaleString()}
                         </span>
                         <span style={{ fontSize: 12, color: '#888888' }}>
                           →

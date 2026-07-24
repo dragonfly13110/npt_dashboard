@@ -3,6 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": ">=22 <23"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -17,7 +21,7 @@
     "build:line-knowledge": "node scripts/build-line-manual-index.mjs",
     "build:pesticides": "node scripts/build-pesticide-knowledge.mjs",
     "build:farmer-knowledge": "node scripts/build-farmer-knowledge.mjs",
-    "build:netlify": "npm run build:line-knowledge && npm run build:pesticides && npm run build:farmer-knowledge && vite build",
+    "build:netlify": "pnpm run build:line-knowledge && pnpm run build:pesticides && pnpm run build:farmer-knowledge && vite build",
     "prepare": "husky"
   },
   "dependencies": {

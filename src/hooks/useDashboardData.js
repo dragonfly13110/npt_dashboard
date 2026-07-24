@@ -52,34 +52,36 @@ export function useDashboardData() {
   const fetchDashboardData = async () => {
     // 1. Load Stats Counts
     const publicCertificationsCount = await fetchPublicCertificationsCount();
-    const statsResults = [];
-    const failedTables = [];
-    for (const tbl of allTables) {
-      try {
-        if (
-          tbl.table === 'certifications' &&
-          publicCertificationsCount !== null
-        ) {
-          statsResults.push({ ...tbl, count: publicCertificationsCount });
-          continue;
-        }
+    const statsResults = await Promise.all(
+      allTables.map(async (tbl) => {
+        try {
+          if (
+            tbl.table === 'certifications' &&
+            publicCertificationsCount !== null
+          ) {
+            return { ...tbl, count: publicCertificationsCount, error: false };
+          }
 
-        let query = supabase
-          .from(tbl.table)
-          .select('id', { count: 'exact', head: true });
-        if (tbl.table === 'personnel') {
-          query = query.neq('status', 'สำนักงาน');
+          let query = supabase
+            .from(tbl.table)
+            .select('id', { count: 'exact', head: true });
+          if (tbl.table === 'personnel') {
+            query = query.neq('status', 'สำนักงาน');
+          }
+          const { count, error } = await query;
+          return {
+            ...tbl,
+            count: error ? null : (count ?? 0),
+            error: Boolean(error),
+          };
+        } catch {
+          return { ...tbl, count: null, error: true };
         }
-        const { count, error } = await query;
-        if (error) {
-          failedTables.push(tbl.table);
-        }
-        statsResults.push({ ...tbl, count: error ? 0 : (count ?? 0) });
-      } catch {
-        failedTables.push(tbl.table);
-        statsResults.push({ ...tbl, count: 0 });
-      }
-    }
+      })
+    );
+    const failedTables = statsResults
+      .filter((item) => item.error)
+      .map((item) => item.table);
 
     // 2. Load Chart Data
     const {

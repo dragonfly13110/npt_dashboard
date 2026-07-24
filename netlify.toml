@@ -2,7 +2,10 @@
 
 [build]
   publish = "dist"
-  command = "npm run build:netlify"
+  command = "pnpm run build:netlify"
+
+  [build.environment]
+    NODE_VERSION = "22"
 
 [functions]
   node_bundler = "esbuild"

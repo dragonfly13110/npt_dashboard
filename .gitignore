@@ -27,8 +27,6 @@ venv/
 scratch/
 
 # Lock files (npm only — not pnpm)
-pnpm-lock.yaml
-pnpm-workspace.yaml
 
 # Agent generated
 skills-lock.json

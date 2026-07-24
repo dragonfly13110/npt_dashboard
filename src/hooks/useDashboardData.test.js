@@ -48,7 +48,9 @@ describe('useDashboardData', () => {
 
     const data = await mocks.queryFn();
 
-    expect(data.stats.find((item) => item.table === 'agricultural_career_groups')).toMatchObject({ count: 0 });
+    expect(
+      data.stats.find((item) => item.table === 'agricultural_career_groups')
+    ).toMatchObject({ count: null, error: true });
     expect(data.failedTables).toContain('agricultural_career_groups');
   });
 });

@@ -277,10 +277,10 @@ export default function Certifications({ publicMode = false }) {
 
   const fetchCertifications = async () => {
     if (isPublic) {
-      const res = await fetch('/api/public-certifications');
+      const res = await fetch('/api/public-certifications?count=1');
       const payload = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(payload.error || `HTTP ${res.status}`);
-      return payload.data || [];
+      return [];
     }
 
     const { data, error } = await supabase.from('certifications').select('*');
@@ -301,40 +301,23 @@ export default function Certifications({ publicMode = false }) {
     sorter,
     defaultSort,
   }) => {
-    let rows = [...dashboardData];
-
-    if (search) {
-      const term = search.toLowerCase();
-      rows = rows.filter(
-        (row) =>
-          String(row.plot_code || '')
-            .toLowerCase()
-            .includes(term) ||
-          String(row.crop_name || '')
-            .toLowerCase()
-            .includes(term)
-      );
-    }
-
-    rows = rows.filter((row) => matchesFilters(row, filters));
-
     const activeSort = sorter?.field && sorter?.order ? sorter : defaultSort;
-    if (activeSort?.field && activeSort?.order) {
-      rows.sort((a, b) => {
-        const av = a[activeSort.field] ?? '';
-        const bv = b[activeSort.field] ?? '';
-        const result =
-          typeof av === 'number' && typeof bv === 'number'
-            ? av - bv
-            : String(av).localeCompare(String(bv), 'th');
-        return activeSort.order === 'ascend' ? result : -result;
-      });
-    }
-
-    const current = pagination.current || 1;
-    const pageSize = pagination.pageSize || 10;
-    const from = (current - 1) * pageSize;
-    return { data: rows.slice(from, from + pageSize), total: rows.length };
+    const params = new URLSearchParams({
+      page: String(pagination.current || 1),
+      pageSize: String(pagination.pageSize || 10),
+      sort: activeSort?.field || 'created_at',
+      order: activeSort?.order === 'ascend' ? 'asc' : 'desc',
+    });
+    if (search) params.set('search', search);
+    Object.entries(filters || {}).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        params.set(key, value);
+      }
+    });
+    const res = await fetch(`/api/public-certifications?${params}`);
+    const payload = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(payload.error || `HTTP ${res.status}`);
+    return { data: payload.data || [], total: payload.count || 0 };
   };
 
   const cropOptions = useMemo(() => {
@@ -429,8 +412,11 @@ export default function Certifications({ publicMode = false }) {
 
   // Derived filtered data
   const filteredData = useMemo(
-    () => dashboardData.filter((item) => matchesFilters(item, pageFilters)),
-    [dashboardData, pageFilters]
+    () =>
+      isPublic
+        ? []
+        : dashboardData.filter((item) => matchesFilters(item, pageFilters)),
+    [dashboardData, isPublic, pageFilters]
   );
 
   // 1. Calculate and find the TRUE Top 10 Crops by Total Planted Area (Rai)
@@ -839,7 +825,7 @@ export default function Certifications({ publicMode = false }) {
         hideFilterBar
         readOnly={isPublic}
         fetchDataOverride={isPublic ? fetchPublicTableData : null}
-        fetchAllOverride={isPublic ? async () => dashboardData : null}
+        fetchAllOverride={isPublic ? async () => [] : null}
       />
     </div>
   );

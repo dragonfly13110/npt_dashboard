@@ -170,59 +170,53 @@ function publicCertificationsPlugin(env) {
   const supabaseKey = env.VITE_SUPABASE_ANON_KEY;
   let supabase = null;
 
-  const fetchAllCertifications = async () => {
-    const pageSize = 1000;
-    const rows = [];
-    for (let from = 0; ; from += pageSize) {
-      const { data, error } = await supabase
-        .from('certifications')
-        .select(
-          'id,crop_name,plot_type,area_rai,production_volume_kg,cert_date,exp_date,plot_moo,plot_subdistrict,plot_district,farmer_moo,farmer_subdistrict,farmer_district,created_at'
-        )
-        .order('id', { ascending: true })
-        .range(from, from + pageSize - 1);
-      if (error) throw error;
-      rows.push(...(data || []));
-      if (!data || data.length < pageSize) return rows;
-    }
-  };
-
   return {
     name: 'local-public-certifications',
     configureServer(server) {
-      server.middlewares.use(
-        '/api/public-certifications',
-        async (_req, res) => {
-          try {
-            if (!supabaseUrl || !supabaseKey) {
-              json(res, 503, {
-                error:
-                  'Supabase env is not configured for this local API route.',
-              });
-              return;
-            }
-            supabase ||= createClient(supabaseUrl, supabaseKey);
-            const { count, error: countError } = await supabase
-              .from('certifications')
-              .select('*', { count: 'exact', head: true });
-            if (countError) throw countError;
-
-            const rows = await fetchAllCertifications();
-
-            json(res, 200, {
-              data: rows.map((row) => ({
-                ...row,
-                farmer_name: null,
-                plot_code: null,
-                farmer_key: row.id ? `cert-${row.id}` : null,
-              })),
-              count: count || 0,
+      server.middlewares.use('/api/public-certifications', async (req, res) => {
+        try {
+          if (!supabaseUrl || !supabaseKey) {
+            json(res, 503, {
+              error: 'Supabase env is not configured for this local API route.',
             });
-          } catch (err) {
-            json(res, 500, { error: err.message });
+            return;
           }
+          supabase ||= createClient(supabaseUrl, supabaseKey);
+          const params = new URL(`http://localhost${req.url}`).searchParams;
+          const { count, error: countError } = await supabase
+            .from('certifications')
+            .select('id', { count: 'exact', head: true });
+          if (countError) throw countError;
+
+          if (params.get('count') === '1') {
+            json(res, 200, { count: count || 0 });
+            return;
+          }
+          const page = Math.max(
+            Number.parseInt(params.get('page'), 10) || 1,
+            1
+          );
+          const pageSize = Math.min(
+            Math.max(Number.parseInt(params.get('pageSize'), 10) || 25, 1),
+            100
+          );
+          const { data: rows, error } = await supabase
+            .from('certifications')
+            .select(
+              'id,crop_name,plot_type,area_rai,production_volume_kg,cert_date,exp_date,plot_moo,plot_subdistrict,plot_district,farmer_moo,farmer_subdistrict,farmer_district,created_at'
+            )
+            .order('created_at', { ascending: false })
+            .range((page - 1) * pageSize, page * pageSize - 1);
+          if (error) throw error;
+
+          json(res, 200, {
+            data: rows || [],
+            count: count || 0,
+          });
+        } catch (err) {
+          json(res, 500, { error: err.message });
         }
-      );
+      });
     },
   };
 }
