@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { DISTRICT_LIST } from '../../hooks/useDashboardData';
+import { DISTRICT_LIST } from '../../hooks/dashboard/config';
 import { useApiCache } from '../../hooks/useApiCache';
 import { supabase } from '../../supabaseClient';
 import {
@@ -34,14 +34,19 @@ export function useInteractiveFilters() {
     district,
     year,
     districts: [ALL_DISTRICTS, ...DISTRICT_LIST],
-    setDistrict: (value) => update('district', value, ALL_DISTRICTS),
+    setDistrict: (value) =>
+      update(
+        'district',
+        DISTRICT_LIST.includes(value) ? value : ALL_DISTRICTS,
+        ALL_DISTRICTS
+      ),
     setYear: (value) => update('year', normalizeYear(value), LATEST_YEAR),
   };
 }
 
 export function useInteractiveYears() {
   const query = useApiCache('interactive-dashboard-years', async () => {
-    const results = await Promise.all([
+    const results = await Promise.allSettled([
       supabase.from('farmer_registry').select('data_year'),
       supabase.from('tbk_cultivation_snapshots').select('data_year'),
       supabase.from('large_plots').select('year'),
@@ -49,14 +54,17 @@ export function useInteractiveYears() {
       supabase.from('production_costs').select('data_year'),
       supabase.from('disasters').select('year'),
     ]);
+    const rows = results.map((result) =>
+      result.status === 'fulfilled' ? result.value.data || [] : []
+    );
     return collectYears([
-      { rows: results[0].data || [], yearKey: 'data_year' },
-      { rows: results[1].data || [], yearKey: 'data_year' },
-      { rows: results[2].data || [], yearKey: 'year' },
-      { rows: results[3].data || [], yearKey: 'year' },
-      { rows: results[4].data || [], yearKey: 'data_year' },
-      { rows: results[5].data || [], yearKey: 'year' },
-    ]);
+      { rows: rows[0], yearKey: 'data_year' },
+      { rows: rows[1], yearKey: 'data_year' },
+      { rows: rows[2], yearKey: 'year' },
+      { rows: rows[3], yearKey: 'year' },
+      { rows: rows[4], yearKey: 'data_year' },
+      { rows: rows[5], yearKey: 'year' },
+    ]).filter((year) => normalizeYear(year) !== LATEST_YEAR);
   });
   return { years: query.data || [], loading: query.isLoading };
 }
