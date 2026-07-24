@@ -36,6 +36,8 @@ const { mockFrom, mockUseApiCache } = vi.hoisted(() => ({
   mockFrom: vi.fn(),
   mockUseApiCache: vi.fn(),
 }));
+const scrollIntoView = vi.fn();
+let intersectionObservers = [];
 const DISTRICT_LABEL =
   '\u0e40\u0e25\u0e37\u0e2d\u0e01\u0e2d\u0e33\u0e40\u0e20\u0e2d';
 const YEAR_LABEL =
@@ -45,6 +47,13 @@ const LATEST_LABEL =
   '\u0e02\u0e49\u0e2d\u0e21\u0e39\u0e25\u0e25\u0e48\u0e32\u0e2a\u0e38\u0e14';
 
 vi.mock('../components/widgets/EChart', () => ({ default: () => null }));
+vi.mock('../components/widgets/LandingMap', () => ({
+  default: ({ mapData }) => (
+    <output data-testid="landing-map">
+      {mapData.map((point) => point.district).join('|')}
+    </output>
+  ),
+}));
 vi.mock('../hooks/useApiCache', () => ({ useApiCache: mockUseApiCache }));
 vi.mock('../hooks/useDashboardData', async (importOriginal) => ({
   ...(await importOriginal()),
@@ -53,7 +62,11 @@ vi.mock('../hooks/useDashboardData', async (importOriginal) => ({
     error: null,
     refetch: vi.fn(),
     stats: [{ table: 'learning_centers', count: 0 }],
-    districtStats: {},
+    mapData: [
+      { district: BANG_LEN, type: 'gis' },
+      { district: 'สามพราน', type: 'gis' },
+    ],
+    districtStats: { [BANG_LEN]: {} },
     instituteStats: {},
     lpStats: {},
     agriStats: {},
@@ -70,6 +83,27 @@ vi.mock('../supabaseClient', () => ({
 }));
 
 beforeEach(() => {
+  intersectionObservers = [];
+  vi.stubGlobal(
+    'IntersectionObserver',
+    class {
+      constructor(callback, options) {
+        this.callback = callback;
+        this.options = options;
+        this.targets = [];
+        intersectionObservers.push(this);
+      }
+
+      observe(target) {
+        this.targets.push(target);
+      }
+
+      unobserve() {}
+      disconnect() {
+        this.disconnected = true;
+      }
+    }
+  );
   vi.stubGlobal(
     'ResizeObserver',
     class {
@@ -78,6 +112,11 @@ beforeEach(() => {
       disconnect() {}
     }
   );
+  scrollIntoView.mockReset();
+  Object.defineProperty(Element.prototype, 'scrollIntoView', {
+    configurable: true,
+    value: scrollIntoView,
+  });
   mockUseApiCache.mockReset();
   mockUseApiCache.mockReturnValue({ data: [2569], isLoading: false });
   mockFrom.mockReset();
@@ -91,7 +130,12 @@ beforeEach(() => {
 });
 
 function Location() {
-  return <output data-testid="location">{useLocation().search}</output>;
+  const location = useLocation();
+  return (
+    <output data-testid="location" data-pathname={location.pathname}>
+      {location.search}
+    </output>
+  );
 }
 
 function renderDashboard(path) {
@@ -115,6 +159,101 @@ function renderGroup(Component, props = {}) {
     </MemoryRouter>
   );
 }
+
+it('renders the approved module order and keeps expansion on one route', () => {
+  const { container } = renderDashboard('/interactive-dashboard');
+
+  expect(screen.getByRole('navigation', { name: 'หมวดข้อมูล' })).toBeVisible();
+  expect(screen.getByRole('link', { name: 'พื้นที่' })).toHaveAttribute(
+    'href',
+    '#land'
+  );
+  expect(
+    [...container.querySelectorAll('.module-section')].map(
+      (section) => section.id
+    )
+  ).toEqual([
+    'overview',
+    'land',
+    'production',
+    'groups',
+    'networks',
+    'risk',
+    'extras',
+  ]);
+
+  fireEvent.click(container.querySelector('#groups summary'));
+  expect(screen.getByTestId('location')).toHaveAttribute(
+    'data-pathname',
+    '/interactive-dashboard'
+  );
+});
+
+it('filters map markers and scrolls metric cards instead of routing', async () => {
+  renderDashboard(`/interactive-dashboard?district=${BANG_LEN}`);
+
+  expect(await screen.findByTestId('landing-map')).toHaveTextContent(BANG_LEN);
+  expect(screen.getByTestId('landing-map')).not.toHaveTextContent('สามพราน');
+
+  fireEvent.click(screen.getByText('พื้นที่เพาะปลูก').closest('button'));
+  expect(scrollIntoView).toHaveBeenCalledWith({
+    behavior: 'smooth',
+    block: 'start',
+  });
+  expect(screen.getByTestId('location')).toHaveAttribute(
+    'data-pathname',
+    '/interactive-dashboard'
+  );
+});
+
+it('uses one observed module set for active navigation and cleans it up', async () => {
+  const { unmount } = renderDashboard('/interactive-dashboard');
+  const navObserver = await waitFor(() => {
+    const observer = intersectionObservers.find(
+      (candidate) => candidate.targets.length === 7
+    );
+    expect(observer).toBeDefined();
+    return observer;
+  });
+
+  act(() =>
+    navObserver.callback([
+      {
+        isIntersecting: true,
+        target: document.getElementById('risk'),
+        boundingClientRect: { top: 12 },
+      },
+    ])
+  );
+  expect(screen.getByRole('link', { name: 'ความเสี่ยง' })).toHaveAttribute(
+    'aria-current',
+    'location'
+  );
+
+  unmount();
+  expect(navObserver.disconnected).toBe(true);
+});
+
+it('selects only public forecast fields for the overview warning', async () => {
+  let forecastColumns;
+  mockFrom.mockImplementation((table) => ({
+    select: (columns) => {
+      if (table === 'ai_disease_forecasts') forecastColumns = columns;
+      const result = { data: [], error: null };
+      const query = {
+        order: () => query,
+        limit: () => query,
+        then: (resolve, reject) =>
+          Promise.resolve(result).then(resolve, reject),
+      };
+      return query;
+    },
+  }));
+
+  renderDashboard('/interactive-dashboard');
+
+  await waitFor(() => expect(forecastColumns).toBe('forecast_date,details'));
+});
 
 it('restores district and year from the URL', async () => {
   renderDashboard(`/interactive-dashboard?district=${BANG_LEN}&year=2569`);
@@ -140,7 +279,7 @@ it('writes filter changes to the URL and removes default parameters', async () =
   );
 
   fireEvent.mouseDown(screen.getByLabelText(YEAR_LABEL));
-  fireEvent.click(await screen.findByText(LATEST_LABEL));
+  fireEvent.click(await screen.findByRole('option', { name: LATEST_LABEL }));
   await waitFor(() =>
     expect(screen.getByTestId('location')).toHaveTextContent('?view=map')
   );

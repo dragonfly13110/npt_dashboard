@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Select, Spin, Row, Col, Card, Tag, Result, Button } from 'antd';
 import EChart from '../components/widgets/EChart';
+import LandingMap from '../components/widgets/LandingMap';
 import {
   areaOption,
   barOption,
@@ -20,11 +21,15 @@ import {
   DashboardOutlined,
   PrinterOutlined,
   ReloadOutlined,
-  BugOutlined,
-  AlertOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+import StrategyDashboard from './strategy/StrategyDashboard';
+import ProductionDashboard from './production/ProductionDashboard';
+import DevelopmentDashboard from './development/DevelopmentDashboard';
+import ProtectionDashboard from './protection/ProtectionDashboard';
+import { ExtrasSection } from './interactiveDashboard/ExtrasSection';
+import { ModuleSection } from './interactiveDashboard/ModuleSection';
 import {
   useInteractiveFilters,
   useInteractiveYears,
@@ -67,6 +72,23 @@ const TREEMAP_COLORS = [
   '#14b8a6',
   '#6366f1',
 ];
+const MODULES = [
+  ['overview', 'ภาพรวม'],
+  ['land', 'พื้นที่'],
+  ['production', 'ผลผลิต'],
+  ['groups', 'กลุ่ม'],
+  ['networks', 'ศูนย์/เครือข่าย'],
+  ['risk', 'ความเสี่ยง'],
+  ['extras', 'ข้อมูลเพิ่มเติม'],
+];
+
+const scrollToModule = (id) =>
+  document.getElementById(id)?.scrollIntoView({
+    behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+      ? 'auto'
+      : 'smooth',
+    block: 'start',
+  });
 
 const MetricCard = React.memo(function MetricCard({
   title,
@@ -74,21 +96,17 @@ const MetricCard = React.memo(function MetricCard({
   unit,
   color,
   icon,
-  link,
+  target,
   isWarning,
 }) {
-  const navigate = useNavigate();
-  const handleClick = () => {
-    if (link) navigate(link);
-  };
   return (
-    <div
-      className={`metric-card ${link ? 'clickable-metric-card' : ''} ${isWarning ? 'warning-metric-card' : ''}`}
+    <button
+      type="button"
+      className={`metric-card clickable-metric-card ${isWarning ? 'warning-metric-card' : ''}`}
       style={{
         borderTop: `3px solid ${color}`,
-        cursor: link ? 'pointer' : 'default',
       }}
-      onClick={handleClick}
+      onClick={() => scrollToModule(target)}
     >
       <div
         style={{
@@ -111,7 +129,7 @@ const MetricCard = React.memo(function MetricCard({
         </span>
       </div>
       <div className="metric-bg-circle" style={{ background: color }} />
-    </div>
+    </button>
   );
 });
 
@@ -184,6 +202,7 @@ export default function InteractiveDashboard() {
     ceDistrictStats,
     agriPie,
     lpPie,
+    mapData,
   } = useDashboardData();
   const {
     district: selectedDistrict,
@@ -194,6 +213,19 @@ export default function InteractiveDashboard() {
   } = useInteractiveFilters();
   const { years } = useInteractiveYears();
   const [latestForecast, setLatestForecast] = useState(null);
+  const [activeModule, setActiveModule] = useState('overview');
+  const filters = useMemo(
+    () => ({ district: selectedDistrict, year }),
+    [selectedDistrict, year]
+  );
+  const generatedAt = useMemo(() => new Date().toLocaleString('th-TH'), []);
+  const visibleMapData = useMemo(
+    () =>
+      selectedDistrict === 'ทั้งหมด'
+        ? mapData
+        : mapData.filter((point) => point.district === selectedDistrict),
+    [selectedDistrict, mapData]
+  );
 
   useEffect(() => {
     document.title = 'Interactive Dashboard | ศูนย์ข้อมูลการเกษตรนครปฐม';
@@ -202,7 +234,7 @@ export default function InteractiveDashboard() {
       try {
         const { data, error } = await supabase
           .from('ai_disease_forecasts')
-          .select('*')
+          .select('forecast_date,details')
           .order('forecast_date', { ascending: false })
           .limit(1);
         if (error) throw error;
@@ -220,6 +252,29 @@ export default function InteractiveDashboard() {
     fetchLatestForecast();
   }, []);
 
+  useEffect(() => {
+    if (loading || error || stats.length === 0) return;
+
+    const sections = MODULES.map(([id]) => document.getElementById(id)).filter(
+      Boolean
+    );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const nearest = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort(
+            (a, b) =>
+              Math.abs(a.boundingClientRect.top) -
+              Math.abs(b.boundingClientRect.top)
+          )[0];
+        if (nearest) setActiveModule(nearest.target.id);
+      },
+      { rootMargin: '-140px 0px -60% 0px', threshold: [0, 0.25] }
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [error, loading, stats.length]);
+
   // ── Metric cards data ──────────────────────────────────
   const metrics = useMemo(() => {
     const getGlobalStat = (table) =>
@@ -235,7 +290,7 @@ export default function InteractiveDashboard() {
       unit: 'ชนิด',
       color: warningCount > 0 ? '#ef4444' : '#ea580c',
       icon: '🐛',
-      link: '/public/disease-forecast',
+      target: 'risk',
       isWarning: warningCount > 0,
     };
 
@@ -247,6 +302,7 @@ export default function InteractiveDashboard() {
           unit: 'ครัวเรือน',
           color: '#1a7f37',
           icon: '👨‍🌾',
+          target: 'groups',
         },
         {
           title: 'พื้นที่เพาะปลูก',
@@ -254,6 +310,7 @@ export default function InteractiveDashboard() {
           unit: 'ไร่',
           color: '#2563eb',
           icon: '🌱',
+          target: 'land',
         },
         {
           title: 'วิสาหกิจชุมชน',
@@ -261,6 +318,7 @@ export default function InteractiveDashboard() {
           unit: 'แห่ง',
           color: '#9333ea',
           icon: '🤝',
+          target: 'groups',
         },
         {
           title: 'แปลงใหญ่',
@@ -268,6 +326,7 @@ export default function InteractiveDashboard() {
           unit: 'แปลง',
           color: '#ea580c',
           icon: '🌾',
+          target: 'production',
         },
         {
           title: 'ศูนย์เรียนรู้ (ศพก.)',
@@ -275,6 +334,7 @@ export default function InteractiveDashboard() {
           unit: 'แห่ง',
           color: '#0891b2',
           icon: '📚',
+          target: 'networks',
         },
         {
           title: 'จุดเฝ้าระวัง',
@@ -282,6 +342,7 @@ export default function InteractiveDashboard() {
           unit: 'แห่ง',
           color: '#d946ef',
           icon: '🛡️',
+          target: 'risk',
         },
         aiWarningCard,
       ];
@@ -294,6 +355,7 @@ export default function InteractiveDashboard() {
         unit: 'ครัวเรือน',
         color: '#1a7f37',
         icon: '👨‍🌾',
+        target: 'groups',
       },
       {
         title: 'พื้นที่เพาะปลูก',
@@ -301,6 +363,7 @@ export default function InteractiveDashboard() {
         unit: 'ไร่',
         color: '#2563eb',
         icon: '🌱',
+        target: 'land',
       },
       {
         title: 'วิสาหกิจชุมชน',
@@ -308,6 +371,7 @@ export default function InteractiveDashboard() {
         unit: 'แห่ง',
         color: '#9333ea',
         icon: '🤝',
+        target: 'groups',
       },
       {
         title: 'แปลงใหญ่',
@@ -315,6 +379,7 @@ export default function InteractiveDashboard() {
         unit: 'แปลง',
         color: '#ea580c',
         icon: '🌾',
+        target: 'production',
       },
       {
         title: 'ศูนย์เรียนรู้ (ศพก.)',
@@ -322,6 +387,7 @@ export default function InteractiveDashboard() {
         unit: 'แห่ง',
         color: '#0891b2',
         icon: '📚',
+        target: 'networks',
       },
       {
         title: 'จุดเฝ้าระวัง',
@@ -329,6 +395,7 @@ export default function InteractiveDashboard() {
         unit: 'แห่ง',
         color: '#d946ef',
         icon: '🛡️',
+        target: 'risk',
       },
       aiWarningCard,
     ];
@@ -341,6 +408,53 @@ export default function InteractiveDashboard() {
     stats,
     latestForecast,
   ]);
+
+  const networkMetrics = useMemo(() => {
+    const selected = districtStats[selectedDistrict] || {};
+    const count = (table) =>
+      stats.find((item) => item.table === table)?.count || 0;
+    const allDistricts = selectedDistrict === 'ทั้งหมด';
+
+    return [
+      {
+        title: 'ศูนย์เรียนรู้ (ศพก.)',
+        value: allDistricts ? count('learning_centers') : selected.lc || 0,
+        unit: 'แห่ง',
+        color: '#0891b2',
+        icon: '📚',
+        target: 'land',
+      },
+      {
+        title: 'ศูนย์จัดการศัตรูพืช (ศจช.)',
+        value: allDistricts ? count('pest_centers') : selected.pc || 0,
+        unit: 'แห่ง',
+        color: '#8250df',
+        icon: '🏥',
+        target: 'risk',
+      },
+      {
+        title: 'ศูนย์จัดการดินปุ๋ย (ศดปช.)',
+        value: allDistricts
+          ? count('soil_fertilizer_centers')
+          : selected.sfc || 0,
+        unit: 'แห่ง',
+        color: '#1a7f37',
+        icon: '🧪',
+        target: 'risk',
+      },
+      {
+        title: 'ท่องเที่ยวเกษตร',
+        value: allDistricts
+          ? tourism.count || 0
+          : tourism.list?.filter((item) => item.district === selectedDistrict)
+              .length || 0,
+        unit: 'แห่ง',
+        color: '#0ea5e9',
+        icon: '🗺️',
+        target: 'groups',
+      },
+    ];
+  }, [districtStats, selectedDistrict, stats, tourism]);
 
   // ── Update Agri Pie to respect filters ────────────────
   const displayAgriPie = useMemo(() => {
@@ -616,336 +730,439 @@ export default function InteractiveDashboard() {
         </div>
       </div>
 
-      <div className="dashboard-content">
-        {/* ═══ Row 1: Metric Cards ═══ */}
-        <div className="metrics-row" style={{ marginBottom: 24 }}>
-          {metrics.map((m) => (
-            <div className="metric-col" key={`${m.title}-${animationKey}`}>
-              <MetricCard {...m} />
-            </div>
+      <nav className="dashboard-module-nav" aria-label="หมวดข้อมูล">
+        <div className="dashboard-module-nav-inner">
+          {MODULES.map(([id, label]) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              aria-current={activeModule === id ? 'location' : undefined}
+            >
+              {label}
+            </a>
           ))}
         </div>
+      </nav>
 
-        {/* ═══ Row 2: District Groups + Crop Pie ═══ */}
-        <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
-          <Col xs={24} lg={15}>
-            <ChartCard title="📊 เปรียบเทียบรายอำเภอ — กลุ่มเกษตรกร & โครงสร้างพื้นฐาน">
-              <div style={{ height: 300 }} key={animationKey}>
-                <EChart
-                  option={barOption(
-                    districtGroupBar.map((item) => {
-                      const [, ce, lp, lc, pc, sfc] = Object.values(item);
-                      return { name: item.name, ce, lp, lc, pc, sfc };
-                    }),
-                    [
-                      {
-                        key: 'ce',
-                        name: 'วิสาหกิจ',
-                        color: (item) =>
-                          isTargetDistrict(item.name) ? '#10b981' : '#e2e8f0',
-                      },
-                      {
-                        key: 'lp',
-                        name: 'แปลงใหญ่',
-                        color: (item) =>
-                          isTargetDistrict(item.name) ? '#3b82f6' : '#e2e8f0',
-                      },
-                      {
-                        key: 'lc',
-                        name: 'ศพก.',
-                        color: (item) =>
-                          isTargetDistrict(item.name) ? '#f59e0b' : '#e2e8f0',
-                      },
-                      {
-                        key: 'pc',
-                        name: 'ศจช.',
-                        color: (item) =>
-                          isTargetDistrict(item.name) ? '#8b5cf6' : '#e2e8f0',
-                      },
-                      {
-                        key: 'sfc',
-                        name: 'ศดปช.',
-                        color: (item) =>
-                          isTargetDistrict(item.name) ? '#f43f5e' : '#e2e8f0',
-                      },
-                    ],
-                    { colors: CHART_COLORS, unit: 'แห่ง', rotate: 25 }
-                  )}
-                />
-              </div>
-            </ChartCard>
-          </Col>
-          <Col xs={24} lg={9}>
-            <ChartCard
-              title={`🌾 สัดส่วนพื้นที่เพาะปลูก (${selectedDistrict === 'ทั้งหมด' ? 'ทั้งจังหวัด' : selectedDistrict})`}
-            >
-              <div style={{ height: 240 }} key={animationKey}>
-                <EChart
-                  option={pieOption(displayAgriPie, {
-                    colors: PIE_COLORS,
-                    unit: 'ไร่',
-                  })}
-                />
-              </div>
-              <PieLegend data={displayAgriPie} colors={PIE_COLORS} />
-            </ChartCard>
-          </Col>
-        </Row>
+      <div className="dashboard-content">
+        <p className="dashboard-print-meta">
+          ตัวกรอง: อำเภอ {selectedDistrict} · ปี{' '}
+          {year === LATEST_YEAR ? 'ข้อมูลล่าสุด' : year} · สร้างเมื่อ{' '}
+          <time>{generatedAt}</time>
+        </p>
 
-        {/* ═══ Row 3: Rice + Crop breakdown ═══ */}
-        <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
-          <Col xs={24} lg={12}>
-            <ChartCard title="🍚 ผลผลิตข้าว — นาปี vs นาปรัง รายอำเภอ">
-              <div style={{ height: 280 }} key={animationKey}>
-                <EChart
-                  option={barOption(
-                    riceBar.map((item) => {
-                      const [, inSeason, offSeason] = Object.values(item);
-                      return { name: item.name, inSeason, offSeason };
-                    }),
-                    [
-                      {
-                        key: 'inSeason',
-                        name: 'ข้าวนาปี',
-                        color: (item) =>
-                          isTargetDistrict(item.name) ? '#16a34a' : '#e2e8f0',
-                      },
-                      {
-                        key: 'offSeason',
-                        name: 'ข้าวนาปรัง',
-                        color: (item) =>
-                          isTargetDistrict(item.name) ? '#86efac' : '#f1f5f9',
-                      },
-                    ],
-                    { stacked: true, unit: 'ไร่', rotate: 25 }
-                  )}
-                />
+        <ModuleSection
+          id="overview"
+          title="ภาพรวมจังหวัด"
+          summary="ตัวชี้วัดสำคัญ แผนภูมิ และแผนที่"
+          status={year === LATEST_YEAR ? 'ข้อมูลล่าสุด' : `ปี ${year}`}
+          defaultOpen
+        >
+          {/* ═══ Row 1: Metric Cards ═══ */}
+          <div className="metrics-row" style={{ marginBottom: 24 }}>
+            {metrics.map((m) => (
+              <div className="metric-col" key={`${m.title}-${animationKey}`}>
+                <MetricCard {...m} />
               </div>
-            </ChartCard>
-          </Col>
-          <Col xs={24} lg={12}>
-            <ChartCard title="🌿 พืชอื่นๆ รายอำเภอ">
-              <div style={{ height: 280 }} key={animationKey}>
-                <EChart
-                  option={barOption(
-                    cropDistrictBar.map((item) => {
-                      const [, field, fruit, veg, flower, herb] =
-                        Object.values(item);
-                      return {
-                        name: item.name,
-                        field,
-                        fruit,
-                        veg,
-                        flower,
-                        herb,
-                      };
-                    }),
-                    [
-                      {
-                        key: 'field',
-                        name: 'พืชไร่',
-                        color: (item) =>
-                          isTargetDistrict(item.name) ? '#f59e0b' : '#e2e8f0',
-                      },
-                      {
-                        key: 'fruit',
-                        name: 'ไม้ผล',
-                        color: (item) =>
-                          isTargetDistrict(item.name) ? '#ef4444' : '#e2e8f0',
-                      },
-                      {
-                        key: 'veg',
-                        name: 'พืชผัก',
-                        color: (item) =>
-                          isTargetDistrict(item.name) ? '#22c55e' : '#e2e8f0',
-                      },
-                      {
-                        key: 'flower',
-                        name: 'ไม้ดอก',
-                        color: (item) =>
-                          isTargetDistrict(item.name) ? '#ec4899' : '#e2e8f0',
-                      },
-                      {
-                        key: 'herb',
-                        name: 'สมุนไพร',
-                        color: (item) =>
-                          isTargetDistrict(item.name) ? '#14b8a6' : '#e2e8f0',
-                      },
-                    ],
-                    { stacked: true, unit: 'ไร่', rotate: 25 }
-                  )}
-                />
-              </div>
-            </ChartCard>
-          </Col>
-        </Row>
+            ))}
+          </div>
 
-        {/* ═══ Row 4: LP Pie + Institute Bar + CE Dist ═══ */}
-        <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
-          <Col xs={24} sm={12} lg={8}>
-            <ChartCard title="🌾 แปลงใหญ่ — ประเภทสินค้า">
-              <div style={{ height: 220 }} key={animationKey}>
-                <EChart
-                  option={pieOption(lpPie, {
-                    colors: CHART_COLORS,
-                    unit: 'แปลง',
-                  })}
-                />
-              </div>
-              <PieLegend data={lpPie} colors={CHART_COLORS} />
-              <div className="chart-footer-note">
-                สมาชิกรวม {(lpStats.members || 0).toLocaleString()} ราย ·
-                พื้นที่ {(lpStats.area || 0).toLocaleString()} ไร่
-              </div>
-            </ChartCard>
-          </Col>
-          <Col xs={24} sm={12} lg={8}>
-            <ChartCard title="👥 สถาบันเกษตรกร — ประเภทกลุ่ม">
-              <div style={{ height: 260 }} key={animationKey}>
-                <EChart
-                  option={barOption(
-                    instituteBar,
-                    [
-                      {
-                        key: 'value',
-                        name: 'จำนวน',
-                        color: (item, index) =>
-                          CHART_COLORS[index % CHART_COLORS.length],
-                      },
-                    ],
-                    { layout: 'vertical', unit: 'กลุ่ม', grid: { left: 84 } }
-                  )}
-                />
-              </div>
-              <div className="chart-footer-note">
-                รวม {(instituteStats.total || 0).toLocaleString()} กลุ่ม · SF{' '}
-                {(instituteStats.sf || 0).toLocaleString()} คน · YSF{' '}
-                {(instituteStats.ysf || 0).toLocaleString()} คน
-              </div>
-            </ChartCard>
-          </Col>
-          <Col xs={24} lg={8}>
-            <ChartCard title="🤝 วิสาหกิจชุมชน — แยกตามอำเภอ">
-              <div style={{ height: 280 }} key={animationKey}>
-                <EChart
-                  option={barOption(
-                    ceDistBar.map((item) => {
-                      const [, value] = Object.values(item);
-                      return { name: item.name, value };
-                    }),
-                    [
-                      {
-                        key: 'value',
-                        name: 'จำนวน',
-                        color: (item, index) =>
-                          isTargetDistrict(item.name)
-                            ? PIE_COLORS[index % PIE_COLORS.length]
-                            : '#e2e8f0',
-                      },
-                    ],
-                    { layout: 'vertical', unit: 'แห่ง', grid: { left: 78 } }
-                  )}
-                />
-              </div>
-            </ChartCard>
-          </Col>
-        </Row>
+          <ChartCard title="🗺️ แผนที่ข้อมูลการเกษตรสาธารณะ">
+            <div className="dashboard-overview-map">
+              <LandingMap
+                mapData={visibleMapData}
+                districtStats={districtStats}
+              />
+            </div>
+          </ChartCard>
 
-        {/* ═══ Row 5: Area Chart + Radar (district) / Treemap ═══ */}
-        <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
-          <Col xs={24} lg={selectedDistrict !== 'ทั้งหมด' ? 14 : 24}>
-            <ChartCard title="📈 ครัวเรือนเกษตรกร & พื้นที่เพาะปลูก รายอำเภอ">
-              <div style={{ height: 280 }} key={animationKey}>
-                <EChart
-                  option={areaOption(
-                    householdsArea.map((item) => {
-                      const [, households, area] = Object.values(item);
-                      return { name: item.name, households, area };
-                    }),
-                    [
-                      {
-                        key: 'households',
-                        name: 'ครัวเรือน',
-                        color: '#10b981',
-                      },
-                      { key: 'area', name: 'พื้นที่', color: '#3b82f6' },
-                    ],
-                    { unit: '', rotate: 25 }
-                  )}
-                />
-              </div>
-            </ChartCard>
-          </Col>
-          {selectedDistrict !== 'ทั้งหมด' && (
-            <Col xs={24} lg={10}>
-              <ChartCard title={`🎯 Radar — ${selectedDistrict}`}>
+          {/* ═══ Row 2: District Groups + Crop Pie ═══ */}
+          <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+            <Col xs={24} lg={15}>
+              <ChartCard title="📊 เปรียบเทียบรายอำเภอ — กลุ่มเกษตรกร & โครงสร้างพื้นฐาน">
+                <div style={{ height: 300 }} key={animationKey}>
+                  <EChart
+                    option={barOption(
+                      districtGroupBar.map((item) => {
+                        const [, ce, lp, lc, pc, sfc] = Object.values(item);
+                        return { name: item.name, ce, lp, lc, pc, sfc };
+                      }),
+                      [
+                        {
+                          key: 'ce',
+                          name: 'วิสาหกิจ',
+                          color: (item) =>
+                            isTargetDistrict(item.name) ? '#10b981' : '#e2e8f0',
+                        },
+                        {
+                          key: 'lp',
+                          name: 'แปลงใหญ่',
+                          color: (item) =>
+                            isTargetDistrict(item.name) ? '#3b82f6' : '#e2e8f0',
+                        },
+                        {
+                          key: 'lc',
+                          name: 'ศพก.',
+                          color: (item) =>
+                            isTargetDistrict(item.name) ? '#f59e0b' : '#e2e8f0',
+                        },
+                        {
+                          key: 'pc',
+                          name: 'ศจช.',
+                          color: (item) =>
+                            isTargetDistrict(item.name) ? '#8b5cf6' : '#e2e8f0',
+                        },
+                        {
+                          key: 'sfc',
+                          name: 'ศดปช.',
+                          color: (item) =>
+                            isTargetDistrict(item.name) ? '#f43f5e' : '#e2e8f0',
+                        },
+                      ],
+                      { colors: CHART_COLORS, unit: 'แห่ง', rotate: 25 }
+                    )}
+                  />
+                </div>
+              </ChartCard>
+            </Col>
+            <Col xs={24} lg={9}>
+              <ChartCard
+                title={`🌾 สัดส่วนพื้นที่เพาะปลูก (${selectedDistrict === 'ทั้งหมด' ? 'ทั้งจังหวัด' : selectedDistrict})`}
+              >
+                <div style={{ height: 240 }} key={animationKey}>
+                  <EChart
+                    option={pieOption(displayAgriPie, {
+                      colors: PIE_COLORS,
+                      unit: 'ไร่',
+                    })}
+                  />
+                </div>
+                <PieLegend data={displayAgriPie} colors={PIE_COLORS} />
+              </ChartCard>
+            </Col>
+          </Row>
+
+          {/* ═══ Row 3: Rice + Crop breakdown ═══ */}
+          <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+            <Col xs={24} lg={12}>
+              <ChartCard title="🍚 ผลผลิตข้าว — นาปี vs นาปรัง รายอำเภอ">
                 <div style={{ height: 280 }} key={animationKey}>
                   <EChart
-                    option={radarOption(radarData, {
-                      name: selectedDistrict,
-                      labelKey: 'subject',
-                      valueKey: 'pct',
-                      max: 100,
-                      color: '#10b981',
+                    option={barOption(
+                      riceBar.map((item) => {
+                        const [, inSeason, offSeason] = Object.values(item);
+                        return { name: item.name, inSeason, offSeason };
+                      }),
+                      [
+                        {
+                          key: 'inSeason',
+                          name: 'ข้าวนาปี',
+                          color: (item) =>
+                            isTargetDistrict(item.name) ? '#16a34a' : '#e2e8f0',
+                        },
+                        {
+                          key: 'offSeason',
+                          name: 'ข้าวนาปรัง',
+                          color: (item) =>
+                            isTargetDistrict(item.name) ? '#86efac' : '#f1f5f9',
+                        },
+                      ],
+                      { stacked: true, unit: 'ไร่', rotate: 25 }
+                    )}
+                  />
+                </div>
+              </ChartCard>
+            </Col>
+            <Col xs={24} lg={12}>
+              <ChartCard title="🌿 พืชอื่นๆ รายอำเภอ">
+                <div style={{ height: 280 }} key={animationKey}>
+                  <EChart
+                    option={barOption(
+                      cropDistrictBar.map((item) => {
+                        const [, field, fruit, veg, flower, herb] =
+                          Object.values(item);
+                        return {
+                          name: item.name,
+                          field,
+                          fruit,
+                          veg,
+                          flower,
+                          herb,
+                        };
+                      }),
+                      [
+                        {
+                          key: 'field',
+                          name: 'พืชไร่',
+                          color: (item) =>
+                            isTargetDistrict(item.name) ? '#f59e0b' : '#e2e8f0',
+                        },
+                        {
+                          key: 'fruit',
+                          name: 'ไม้ผล',
+                          color: (item) =>
+                            isTargetDistrict(item.name) ? '#ef4444' : '#e2e8f0',
+                        },
+                        {
+                          key: 'veg',
+                          name: 'พืชผัก',
+                          color: (item) =>
+                            isTargetDistrict(item.name) ? '#22c55e' : '#e2e8f0',
+                        },
+                        {
+                          key: 'flower',
+                          name: 'ไม้ดอก',
+                          color: (item) =>
+                            isTargetDistrict(item.name) ? '#ec4899' : '#e2e8f0',
+                        },
+                        {
+                          key: 'herb',
+                          name: 'สมุนไพร',
+                          color: (item) =>
+                            isTargetDistrict(item.name) ? '#14b8a6' : '#e2e8f0',
+                        },
+                      ],
+                      { stacked: true, unit: 'ไร่', rotate: 25 }
+                    )}
+                  />
+                </div>
+              </ChartCard>
+            </Col>
+          </Row>
+
+          {/* ═══ Row 4: LP Pie + Institute Bar + CE Dist ═══ */}
+          <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+            <Col xs={24} sm={12} lg={8}>
+              <ChartCard title="🌾 แปลงใหญ่ — ประเภทสินค้า">
+                <div style={{ height: 220 }} key={animationKey}>
+                  <EChart
+                    option={pieOption(lpPie, {
+                      colors: CHART_COLORS,
+                      unit: 'แปลง',
+                    })}
+                  />
+                </div>
+                <PieLegend data={lpPie} colors={CHART_COLORS} />
+                <div className="chart-footer-note">
+                  สมาชิกรวม {(lpStats.members || 0).toLocaleString()} ราย ·
+                  พื้นที่ {(lpStats.area || 0).toLocaleString()} ไร่
+                </div>
+              </ChartCard>
+            </Col>
+            <Col xs={24} sm={12} lg={8}>
+              <ChartCard title="👥 สถาบันเกษตรกร — ประเภทกลุ่ม">
+                <div style={{ height: 260 }} key={animationKey}>
+                  <EChart
+                    option={barOption(
+                      instituteBar,
+                      [
+                        {
+                          key: 'value',
+                          name: 'จำนวน',
+                          color: (item, index) =>
+                            CHART_COLORS[index % CHART_COLORS.length],
+                        },
+                      ],
+                      { layout: 'vertical', unit: 'กลุ่ม', grid: { left: 84 } }
+                    )}
+                  />
+                </div>
+                <div className="chart-footer-note">
+                  รวม {(instituteStats.total || 0).toLocaleString()} กลุ่ม · SF{' '}
+                  {(instituteStats.sf || 0).toLocaleString()} คน · YSF{' '}
+                  {(instituteStats.ysf || 0).toLocaleString()} คน
+                </div>
+              </ChartCard>
+            </Col>
+            <Col xs={24} lg={8}>
+              <ChartCard title="🤝 วิสาหกิจชุมชน — แยกตามอำเภอ">
+                <div style={{ height: 280 }} key={animationKey}>
+                  <EChart
+                    option={barOption(
+                      ceDistBar.map((item) => {
+                        const [, value] = Object.values(item);
+                        return { name: item.name, value };
+                      }),
+                      [
+                        {
+                          key: 'value',
+                          name: 'จำนวน',
+                          color: (item, index) =>
+                            isTargetDistrict(item.name)
+                              ? PIE_COLORS[index % PIE_COLORS.length]
+                              : '#e2e8f0',
+                        },
+                      ],
+                      { layout: 'vertical', unit: 'แห่ง', grid: { left: 78 } }
+                    )}
+                  />
+                </div>
+              </ChartCard>
+            </Col>
+          </Row>
+
+          {/* ═══ Row 5: Area Chart + Radar (district) / Treemap ═══ */}
+          <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+            <Col xs={24} lg={selectedDistrict !== 'ทั้งหมด' ? 14 : 24}>
+              <ChartCard title="📈 ครัวเรือนเกษตรกร & พื้นที่เพาะปลูก รายอำเภอ">
+                <div style={{ height: 280 }} key={animationKey}>
+                  <EChart
+                    option={areaOption(
+                      householdsArea.map((item) => {
+                        const [, households, area] = Object.values(item);
+                        return { name: item.name, households, area };
+                      }),
+                      [
+                        {
+                          key: 'households',
+                          name: 'ครัวเรือน',
+                          color: '#10b981',
+                        },
+                        { key: 'area', name: 'พื้นที่', color: '#3b82f6' },
+                      ],
+                      { unit: '', rotate: 25 }
+                    )}
+                  />
+                </div>
+              </ChartCard>
+            </Col>
+            {selectedDistrict !== 'ทั้งหมด' && (
+              <Col xs={24} lg={10}>
+                <ChartCard title={`🎯 Radar — ${selectedDistrict}`}>
+                  <div style={{ height: 280 }} key={animationKey}>
+                    <EChart
+                      option={radarOption(radarData, {
+                        name: selectedDistrict,
+                        labelKey: 'subject',
+                        valueKey: 'pct',
+                        max: 100,
+                        color: '#10b981',
+                      })}
+                    />
+                  </div>
+                </ChartCard>
+              </Col>
+            )}
+          </Row>
+
+          {/* ═══ Row 6: Data Treemap + Summary Table ═══ */}
+          <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+            <Col xs={24} lg={14}>
+              <ChartCard title="🗂️ ภาพรวมข้อมูลในระบบ — Treemap ตามกลุ่มงาน">
+                <div style={{ height: 280 }} key={animationKey}>
+                  <EChart
+                    option={treemapOption(flatTreemap, {
+                      colors: TREEMAP_COLORS,
+                      valueKey: 'size',
+                      unit: 'รายการ',
                     })}
                   />
                 </div>
               </ChartCard>
             </Col>
-          )}
-        </Row>
+            <Col xs={24} lg={10}>
+              <ChartCard title="📋 สรุปจำนวนข้อมูลทั้งหมดในระบบ">
+                <div className="summary-table-container">
+                  {groupConfig.map((g) => (
+                    <div key={g.group} style={{ marginBottom: 16 }}>
+                      <div
+                        className="summary-group-title"
+                        style={{ color: g.color }}
+                      >
+                        <span>{g.icon}</span> {g.group}
+                      </div>
+                      <div
+                        style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}
+                      >
+                        {g.tables.map((t) => {
+                          const found = stats?.find((s) => s.table === t.table);
+                          return (
+                            <Tag key={t.table} className="summary-tag">
+                              {t.label}:{' '}
+                              <strong>
+                                {(found?.count || 0).toLocaleString()}
+                              </strong>
+                            </Tag>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </ChartCard>
+            </Col>
+          </Row>
+        </ModuleSection>
 
-        {/* ═══ Row 6: Data Treemap + Summary Table ═══ */}
-        <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
-          <Col xs={24} lg={14}>
-            <ChartCard title="🗂️ ภาพรวมข้อมูลในระบบ — Treemap ตามกลุ่มงาน">
-              <div style={{ height: 280 }} key={animationKey}>
-                <EChart
-                  option={treemapOption(flatTreemap, {
-                    colors: TREEMAP_COLORS,
-                    valueKey: 'size',
-                    unit: 'รายการ',
-                  })}
-                />
+        <ModuleSection
+          id="land"
+          title="พื้นที่และสารสนเทศการเกษตร"
+          summary="ทะเบียนเกษตรกร พื้นที่เพาะปลูก ผังแปลง ศพก. และสภาพอากาศ"
+          status={year === LATEST_YEAR ? 'ข้อมูลล่าสุด' : `ปี ${year}`}
+        >
+          <StrategyDashboard embedded filters={filters} />
+        </ModuleSection>
+
+        <ModuleSection
+          id="production"
+          title="การผลิต"
+          summary="ข้าว พืช แปลงใหญ่ มาตรฐาน GAP และต้นทุน"
+          status={year === LATEST_YEAR ? 'ข้อมูลล่าสุด' : `ปี ${year}`}
+        >
+          <ProductionDashboard embedded filters={filters} />
+        </ModuleSection>
+
+        <ModuleSection
+          id="groups"
+          title="กลุ่มเกษตรกร"
+          summary="วิสาหกิจชุมชน Smart Farmer และสถาบันเกษตรกร"
+          status={year === LATEST_YEAR ? 'ข้อมูลล่าสุด' : `ปี ${year}`}
+        >
+          <DevelopmentDashboard embedded filters={filters} />
+        </ModuleSection>
+
+        <ModuleSection
+          id="networks"
+          title="ศูนย์และเครือข่าย"
+          summary="ศูนย์เรียนรู้ ศูนย์อารักขาพืช และเครือข่ายท่องเที่ยว"
+          status="ข้อมูลล่าสุด"
+        >
+          <p className="module-intro">
+            สรุปเครือข่ายจากข้อมูลภาพรวม
+            เลือกการ์ดเพื่อไปยังรายละเอียดในหน้าเดียวกัน
+          </p>
+          <div className="metrics-row">
+            {networkMetrics.map((metric) => (
+              <div className="metric-col" key={metric.title}>
+                <MetricCard {...metric} />
               </div>
-            </ChartCard>
-          </Col>
-          <Col xs={24} lg={10}>
-            <ChartCard title="📋 สรุปจำนวนข้อมูลทั้งหมดในระบบ">
-              <div className="summary-table-container">
-                {groupConfig.map((g) => (
-                  <div key={g.group} style={{ marginBottom: 16 }}>
-                    <div
-                      className="summary-group-title"
-                      style={{ color: g.color }}
-                    >
-                      <span>{g.icon}</span> {g.group}
-                    </div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                      {g.tables.map((t) => {
-                        const found = stats?.find((s) => s.table === t.table);
-                        return (
-                          <Tag key={t.table} className="summary-tag">
-                            {t.label}:{' '}
-                            <strong>
-                              {(found?.count || 0).toLocaleString()}
-                            </strong>
-                          </Tag>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </ChartCard>
-          </Col>
-        </Row>
+            ))}
+          </div>
+        </ModuleSection>
+
+        <ModuleSection
+          id="risk"
+          title="ความเสี่ยงและการอารักขาพืช"
+          summary="ภัยพิบัติ โรคและแมลง แปลงพยากรณ์ ศูนย์ และ PM2.5"
+          status="ข้อมูลล่าสุด"
+        >
+          <ProtectionDashboard embedded filters={filters} />
+        </ModuleSection>
+
+        <ModuleSection
+          id="extras"
+          title="ข้อมูลเพิ่มเติม"
+          summary="ทบก. การเก็บเกี่ยว ต้นทุน โรคและแมลง AI และชุดดิน"
+          status={year === LATEST_YEAR ? 'ข้อมูลล่าสุด' : `ปี ${year}`}
+        >
+          <ExtrasSection filters={filters} enabled />
+        </ModuleSection>
 
         {/* Footer note */}
-        <div className="dashboard-footer">
+        <footer className="dashboard-footer">
           ข้อมูลจากระบบฐานข้อมูลกลาง สำนักงานเกษตรจังหวัดนครปฐม ·
           อัปเดตตามข้อมูลจริงในระบบ
-        </div>
+        </footer>
       </div>
     </div>
   );
