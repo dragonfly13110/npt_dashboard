@@ -9,22 +9,46 @@
 }
 
 .pesticides-header {
-  text-align: center;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px;
+  border-radius: 24px;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(5, 46, 22, 0.92) 0%,
+      rgba(5, 46, 22, 0.7) 42%,
+      transparent 75%
+    ),
+    url('https://res.cloudinary.com/dzksawh1d/image/upload/v1784998041/pesticide-safety-hero.webp')
+      center / cover;
   margin-bottom: 36px;
 }
 
 .pesticides-header h1 {
   font-size: clamp(1.8rem, 4vw, 2.5rem);
   font-weight: 800;
-  color: #0f172a;
+  color: #ffffff;
   margin-bottom: 8px;
+  max-width: 680px;
 }
 
 .pesticides-header p {
   font-size: 1.1rem;
-  color: #64748b;
+  color: #dcfce7;
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .pesticides-header {
+    min-height: 320px;
+    padding: 28px 24px;
+    background-position: 62% center;
+  }
 }
 
 /* Search and Filters */

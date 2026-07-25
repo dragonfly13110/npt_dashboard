@@ -16,6 +16,7 @@ import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { supabase } from '../../supabaseClient';
 import { useApiCache } from '../../hooks/useApiCache';
 import EChart from '../../components/widgets/EChart';
+import { IllustratedPageHeader } from '../../components/widgets/SharedDashboardUI';
 
 const districts = [
   'เมืองนครปฐม',
@@ -313,6 +314,11 @@ export default function CommunityEnterprises() {
 
   return (
     <div>
+      <IllustratedPageHeader
+        title="วิสาหกิจชุมชนจังหวัดนครปฐม"
+        subtitle="รวมพลังคนในชุมชน พัฒนาผลิตภัณฑ์เกษตร และสร้างเศรษฐกิจท้องถิ่นอย่างยั่งยืน"
+        image="https://res.cloudinary.com/dzksawh1d/image/upload/v1785001485/npt-community-enterprises-header.webp"
+      />
       <div
         style={{
           padding: 20,

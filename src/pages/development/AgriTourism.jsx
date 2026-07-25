@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Form, Input, InputNumber } from 'antd';
 import CrudTable from '../../components/DataTable/CrudTable';
+import { IllustratedPageHeader } from '../../components/widgets/SharedDashboardUI';
 import { supabase } from '../../supabaseClient';
 import seedRows from '../../data/agri_tourism_seed.json';
 
@@ -177,45 +178,52 @@ export default function AgriTourism() {
   }, []);
 
   return (
-    <CrudTable
-      tableName="agri_tourism"
-      title="แหล่งท่องเที่ยวเชิงเกษตร"
-      columns={columns}
-      formFields={formFields}
-      searchField="spot_name"
-      searchFields={[
-        'spot_name',
-        'district',
-        'subdistrict',
-        'description',
-        'registration_code',
-      ]}
-      filterConfig={[
-        {
-          key: 'district',
-          label: 'อำเภอ',
-          options: [...new Set(seedRows.map((row) => row.district))],
-        },
-        {
-          key: 'evaluation',
-          label: 'ผลประเมิน',
-          options: [
-            ...new Set(seedRows.map((row) => row.evaluation).filter(Boolean)),
-          ],
-        },
-      ]}
-      fetchDataOverride={async (query) =>
-        applyLocalQuery(await getRows(), query)
-      }
-      fetchAllOverride={getRows}
-      defaultColumns={[
-        'phone',
-        'evaluation',
-        'latitude',
-        'longitude',
-        'description',
-      ]}
-      scrollX={1570}
-    />
+    <>
+      <IllustratedPageHeader
+        title="แหล่งท่องเที่ยวเชิงเกษตร"
+        subtitle="สัมผัสวิถีเกษตร เรียนรู้ภูมิปัญญาท้องถิ่น และค้นหาแหล่งท่องเที่ยวทั่วจังหวัดนครปฐม"
+        image="https://res.cloudinary.com/dzksawh1d/image/upload/v1785001478/npt-agri-tourism-header.webp"
+      />
+      <CrudTable
+        tableName="agri_tourism"
+        title="แหล่งท่องเที่ยวเชิงเกษตร"
+        columns={columns}
+        formFields={formFields}
+        searchField="spot_name"
+        searchFields={[
+          'spot_name',
+          'district',
+          'subdistrict',
+          'description',
+          'registration_code',
+        ]}
+        filterConfig={[
+          {
+            key: 'district',
+            label: 'อำเภอ',
+            options: [...new Set(seedRows.map((row) => row.district))],
+          },
+          {
+            key: 'evaluation',
+            label: 'ผลประเมิน',
+            options: [
+              ...new Set(seedRows.map((row) => row.evaluation).filter(Boolean)),
+            ],
+          },
+        ]}
+        fetchDataOverride={async (query) =>
+          applyLocalQuery(await getRows(), query)
+        }
+        fetchAllOverride={getRows}
+        defaultColumns={[
+          'phone',
+          'evaluation',
+          'latitude',
+          'longitude',
+          'description',
+        ]}
+        scrollX={1570}
+      />
+    </>
   );
 }

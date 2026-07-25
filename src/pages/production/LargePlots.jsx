@@ -6,6 +6,7 @@ import CrudTable from '../../components/DataTable/CrudTable';
 import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { useApiCache } from '../../hooks/useApiCache';
 import EChart from '../../components/widgets/EChart';
+import { IllustratedPageHeader } from '../../components/widgets/SharedDashboardUI';
 import { useAuth } from '../../contexts/AuthContext';
 import { getPublicSelectColumns } from '../../utils/dataPrivacy';
 import nptSubdistrictsGeoJSON from '../../data/nakhon_pathom_subdistricts.json';
@@ -406,6 +407,11 @@ export default function LargePlots() {
 
   return (
     <div>
+      <IllustratedPageHeader
+        title="ระบบส่งเสริมการเกษตรแบบแปลงใหญ่"
+        subtitle="เชื่อมโยงเกษตรกร วางแผนการผลิตร่วมกัน และเพิ่มประสิทธิภาพพื้นที่เกษตรจังหวัดนครปฐม"
+        image="https://res.cloudinary.com/dzksawh1d/image/upload/v1785001492/npt-large-plots-header.webp"
+      />
       {/* ===== Dashboard Section ===== */}
       <div
         style={{

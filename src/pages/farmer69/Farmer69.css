@@ -60,7 +60,15 @@
 
 .farmer69-header {
   margin-bottom: 40px;
-  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(15, 118, 110, 0.96),
+      rgba(15, 118, 110, 0.6) 50%,
+      transparent 80%
+    ),
+    url('https://res.cloudinary.com/dzksawh1d/image/upload/v1785001470/npt-farmer-guide-header.webp')
+      center / cover;
   padding: 36px;
   border-radius: 20px;
   color: #ffffff;
@@ -420,7 +428,6 @@
   flex-wrap: wrap;
   gap: 4px;
   margin-top: 4px;
-}
 }
 
 /* Responsive tweaks */
