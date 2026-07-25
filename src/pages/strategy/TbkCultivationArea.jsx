@@ -81,56 +81,52 @@ function aggregateChartItems(rows, labelKey, valueKey = 'areaRai', limit = 8) {
     .slice(0, limit);
 }
 
-function cultivationChartOption(items, metric) {
+function CultivationRanking({ items, metric }) {
   const { unit } = CHART_METRICS[metric];
-  return {
-    aria: {
-      enabled: true,
-      description: 'กราฟ 10 ชนิดหรือพันธุ์ที่มีพื้นที่เพาะปลูกมากที่สุด',
-    },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: { type: 'shadow' },
-      valueFormatter: (value) => `${formatDecimal(value)} ${unit}`,
-    },
-    grid: { left: 16, right: 96, top: 16, bottom: 16, containLabel: true },
-    xAxis: {
-      type: 'value',
-      axisLabel: { formatter: (value) => formatInteger(value) },
-    },
-    yAxis: {
-      type: 'category',
-      inverse: true,
-      data: items.map((item) => item.name),
-      axisLabel: { width: 220, overflow: 'truncate' },
-    },
-    series: [
-      {
-        name: unit,
-        type: 'bar',
-        barMaxWidth: 30,
-        data: items.map((item) => Number(item.value.toFixed(2))),
-        label: {
-          show: true,
-          position: 'right',
-          formatter: ({ value }) => formatDecimal(value),
-        },
-        itemStyle: {
-          color: {
-            type: 'linear',
-            x: 0,
-            y: 0,
-            x2: 1,
-            y2: 0,
-            colorStops: [
-              { offset: 0, color: '#15803d' },
-              { offset: 1, color: '#4ade80' },
-            ],
-          },
-        },
-      },
-    ],
-  };
+  return (
+    <Row gutter={[24, 8]}>
+      {[items.slice(0, 5), items.slice(5)].map((column, columnIndex) => (
+        <Col xs={24} md={12} key={columnIndex}>
+          {column.map((item, rowIndex) => {
+            const rank = columnIndex * 5 + rowIndex + 1;
+            return (
+              <div
+                key={item.name}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  minHeight: 30,
+                }}
+              >
+                <Tag
+                  color={rank <= 3 ? 'green' : undefined}
+                  style={{ margin: 0 }}
+                >
+                  {rank}
+                </Tag>
+                <span
+                  title={item.name}
+                  style={{
+                    flex: 1,
+                    minWidth: 0,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {item.name}
+                </span>
+                <strong style={{ whiteSpace: 'nowrap' }}>
+                  {formatDecimal(item.value)} {unit}
+                </strong>
+              </div>
+            );
+          })}
+        </Col>
+      ))}
+    </Row>
+  );
 }
 
 function pieChartOption(items) {
@@ -588,7 +584,23 @@ export default function TbkCultivationArea() {
               </span>
             }
             extra={
-              <Tag color="green">หน่วย: {CHART_METRICS[chartMetric].unit}</Tag>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Select
+                  aria-label="ตัวชี้วัดกราฟ"
+                  value={chartMetric}
+                  onChange={setChartMetric}
+                  options={Object.entries(CHART_METRICS).map(
+                    ([value, metric]) => ({
+                      value,
+                      label: `${metric.label} (${metric.unit})`,
+                    })
+                  )}
+                  style={{ width: 180 }}
+                />
+                <Tag color="green">
+                  หน่วย: {CHART_METRICS[chartMetric].unit}
+                </Tag>
+              </div>
             }
             style={{ marginBottom: 16 }}
             styles={{
@@ -599,24 +611,7 @@ export default function TbkCultivationArea() {
             }}
           >
             {chartItems.length ? (
-              <>
-                <Select
-                  aria-label="ตัวชี้วัดกราฟ"
-                  value={chartMetric}
-                  onChange={setChartMetric}
-                  options={[
-                    ...Object.entries(CHART_METRICS).map(([value, metric]) => ({
-                      value,
-                      label: `${metric.label} (${metric.unit})`,
-                    })),
-                  ]}
-                  style={{ width: 180, marginBottom: 8 }}
-                />
-                <EChart
-                  option={cultivationChartOption(chartItems, chartMetric)}
-                  style={{ height: 250 }}
-                />
-              </>
+              <CultivationRanking items={chartItems} metric={chartMetric} />
             ) : (
               <Empty description="ไม่พบข้อมูลสำหรับสร้างกราฟ" />
             )}

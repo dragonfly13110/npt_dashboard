@@ -121,8 +121,8 @@ describe('TbkCultivationArea page', () => {
         .getAllByTestId('tbk-chart')
         .some((chart) => chart.textContent === '100,1.5')
     ).toBe(true);
-    expect(screen.getByText('ข้าวเจ้า (กข41)')).toBeInTheDocument();
-    expect(screen.getByText('ไก่ (ไก่ไข่)')).toBeInTheDocument();
+    expect(screen.getAllByText('ข้าวเจ้า (กข41)')).not.toHaveLength(0);
+    expect(screen.getAllByText('ไก่ (ไก่ไข่)')).not.toHaveLength(0);
 
     fireEvent.mouseDown(screen.getByLabelText('กลุ่มข้อมูล'));
     const riceLabels = await screen.findAllByText('ข้าว');
