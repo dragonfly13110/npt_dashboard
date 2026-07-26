@@ -386,6 +386,7 @@ export default function RiceHarvestSituation() {
         title={COPY.title}
         subtitle={COPY.subtitle}
         icon={BarChartOutlined}
+        image="/images/headers/production.webp"
       />
 
       {error && (

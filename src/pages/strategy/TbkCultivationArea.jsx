@@ -448,6 +448,7 @@ export default function TbkCultivationArea() {
         title="พื้นที่เพาะปลูกตาม ทบก."
         subtitle="ผลการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกรตามที่ตั้งแปลง จังหวัดนครปฐม"
         icon={DatabaseOutlined}
+        image="/images/headers/strategy.webp"
       />
 
       {error && (

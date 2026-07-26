@@ -265,6 +265,7 @@ export default function ParcelDrawingProgress() {
         title="การวาดผังแปลงเกษตรกรรมดิจิทัล"
         subtitle="ความก้าวหน้า GEOPLOTS รอบตัวชี้วัด 2/69 แยกรายอำเภอ จังหวัดนครปฐม"
         icon={EnvironmentOutlined}
+        image="/images/headers/strategy.webp"
       />
       {isAdmin() && (
         <div

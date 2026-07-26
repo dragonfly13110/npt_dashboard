@@ -1,6 +1,12 @@
 import { Card } from 'antd';
 
-export function PageHeader({ title, subtitle, icon: Icon }) {
+export function PageHeader({ title, subtitle, icon: Icon, image }) {
+  if (image) {
+    return (
+      <IllustratedPageHeader title={title} subtitle={subtitle} image={image} />
+    );
+  }
+
   return (
     <div
       style={{

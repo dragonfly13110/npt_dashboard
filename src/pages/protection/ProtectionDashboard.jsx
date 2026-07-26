@@ -181,6 +181,7 @@ export default function ProtectionDashboard({
           title="🛡️ กลุ่มอารักขาพืช"
           subtitle="ภาพรวมข้อมูลแปลงพยากรณ์, ศจช., หมอพืช, ศดปช. และจุดเฝ้าระวัง PM2.5"
           icon={PieChartOutlined}
+          image="/images/headers/protection.webp"
         />
       )}
       {yearUnsupported && filters.year && filters.year !== 'latest' && (

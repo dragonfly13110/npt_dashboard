@@ -196,6 +196,7 @@ export default function DevelopmentDashboard({
           title="กลุ่มส่งเสริมและพัฒนาเกษตรกร"
           subtitle="ภาพรวมวิสาหกิจชุมชน SF/YSF กลุ่มอาชีพ แม่บ้าน ยุวเกษตรกร สถาบันเกษตรกร ท่องเที่ยวเกษตร และภัยพิบัติ"
           icon={PieChartOutlined}
+          image="/images/headers/development.webp"
         />
       )}
 

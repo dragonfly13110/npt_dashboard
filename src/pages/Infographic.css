@@ -1,0 +1,126 @@
+.infographic-page {
+  min-height: 100vh;
+  background: #f3f8f4;
+  color: #12351f;
+}
+
+.infographic-hero {
+  padding: 28px 24px 44px;
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(135, 198, 112, 0.35),
+      transparent 30%
+    ),
+    linear-gradient(135deg, #063b23, #0b6b3a);
+  color: white;
+}
+
+.infographic-hero-inner,
+.infographic-gallery {
+  width: min(1440px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.infographic-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.infographic-eyebrow {
+  margin: 38px 0 8px;
+  color: #b9efc8;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.infographic-hero h1 {
+  margin: 0;
+  font-size: clamp(38px, 6vw, 72px);
+  line-height: 1;
+}
+
+.infographic-hero p:last-child {
+  max-width: 720px;
+  margin: 16px 0 0;
+  color: #e5f6e9;
+  font-size: clamp(16px, 2vw, 20px);
+}
+
+.infographic-gallery {
+  display: grid;
+  gap: 28px;
+  padding: 40px 0 72px;
+}
+
+.infographic-card {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid #dce8de;
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0 14px 40px rgba(20, 73, 40, 0.09);
+}
+
+.infographic-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  border-bottom: 1px solid #e5eee7;
+  font-weight: 700;
+}
+
+.infographic-card-heading a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #08783f;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.infographic-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 640px) {
+  .infographic-hero {
+    padding-inline: 8px;
+  }
+
+  .infographic-gallery {
+    width: calc(100% - 20px);
+    padding-top: 20px;
+  }
+
+  .infographic-card {
+    border-radius: 12px;
+  }
+}
+
+@media print {
+  .infographic-hero,
+  .infographic-card-heading {
+    display: none;
+  }
+
+  .infographic-gallery {
+    width: 100%;
+    padding: 0;
+  }
+
+  .infographic-card {
+    break-after: page;
+    border: 0;
+    box-shadow: none;
+  }
+}

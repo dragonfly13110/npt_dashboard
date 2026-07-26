@@ -29,6 +29,13 @@ describe('LandingFooter', () => {
     expect(
       screen.getByRole('link', { name: /คำอธิบายข้อมูล/ })
     ).toHaveAttribute('href', '/public/data-dictionary');
+    expect(screen.getByRole('link', { name: /Infographic/ })).toHaveAttribute(
+      'href',
+      '/infographic'
+    );
+    expect(
+      screen.queryByRole('link', { name: /เข้าสู่ระบบเจ้าหน้าที่/ })
+    ).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /ประเมินเว็บไซต์/ }));
 

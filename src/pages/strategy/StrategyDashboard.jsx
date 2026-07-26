@@ -472,6 +472,7 @@ export default function StrategyDashboard({
           title="ยุทธศาสตร์และสารสนเทศ"
           subtitle="ภาพรวมข้อมูลทะเบียนเกษตรกร พื้นที่การเกษตร ราคาสินค้าเกษตรและพลังงาน ศพก. และสภาพอากาศ/น้ำฝน"
           icon={PieChartOutlined}
+          image="/images/headers/strategy.webp"
         />
       )}
 

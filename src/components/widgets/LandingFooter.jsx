@@ -1,8 +1,8 @@
 import {
   EnvironmentOutlined,
   FacebookOutlined,
-  LoginOutlined,
   MailOutlined,
+  PictureOutlined,
   PhoneOutlined,
   LikeOutlined,
   TableOutlined,
@@ -89,7 +89,7 @@ export default function LandingFooter({ onOpenPanel = () => {} }) {
       href: '/public/data-dictionary',
       Icon: BookOutlined,
     },
-    { label: 'เข้าสู่ระบบเจ้าหน้าที่', href: '/login', Icon: LoginOutlined },
+    { label: 'Infographic', href: '/infographic', Icon: PictureOutlined },
   ];
 
   return (

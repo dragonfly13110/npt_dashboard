@@ -92,6 +92,7 @@ export default function ProductionDashboard({
           title="🌱 ส่งเสริมและพัฒนาการผลิต"
           subtitle="ภาพรวมข้อมูลแปลงใหญ่, มาตรฐาน GAP และผลผลิตพืช"
           icon={PieChartOutlined}
+          image="/images/headers/production.webp"
         />
       )}
 
