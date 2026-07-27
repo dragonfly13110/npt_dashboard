@@ -25,6 +25,12 @@ describe('buildSmartMapSummary', () => {
         largePlots: [{ district: 'เมืองนครปฐม' }, { district: 'สามพราน' }],
         smartFarmers: [{ district: 'เมืองนครปฐม' }],
         youngSmartFarmers: [{ district: 'เมืองนครปฐม' }],
+        learningCenters: [{ district: 'เมืองนครปฐม' }],
+        pestCenters: [{ district: 'เมืองนครปฐม' }],
+        soilFertilizerCenters: [{ district: 'เมืองนครปฐม' }],
+        housewifeGroups: [{ district: 'เมืองนครปฐม' }],
+        youngFarmerGroups: [{ district: 'เมืองนครปฐม' }],
+        careerGroups: [{ district: 'เมืองนครปฐม' }],
         fireHotspots: [{ district: 'เมืองนครปฐม' }],
       }
     );
@@ -37,12 +43,38 @@ describe('buildSmartMapSummary', () => {
       largePlots: 1,
       smartFarmers: 1,
       youngSmartFarmers: 1,
+      learningCenters: 1,
+      pestCenters: 1,
+      soilFertilizerCenters: 1,
+      housewifeGroups: 1,
+      youngFarmerGroups: 1,
+      careerGroups: 1,
       hotspotCount: 1,
     });
     expect(summary.updatedAt).toBe('2026-07-14T00:00:00Z');
     expect(summary.sources).toContainEqual({
       table: 'agricultural_areas',
       updatedAt: '2026-07-14T00:00:00Z',
+    });
+  });
+
+  test('matches district rows that use a prefixed place name', () => {
+    const summary = buildSmartMapSummary(
+      { level: 'district', districtName: 'Mueang' },
+      {
+        agriculturalAreas: [
+          {
+            district: 'อำเภอ Mueang',
+            total_area_rai: 100,
+            farmer_households: 10,
+          },
+        ],
+      }
+    );
+
+    expect(summary.metrics).toMatchObject({
+      farmAreaRai: 100,
+      farmerHouseholds: 10,
     });
   });
 
@@ -133,7 +165,7 @@ test('parseSummaryScope requires the name needed for the requested level', () =>
   ).toThrow('districtName is required');
 });
 
-test('summary queries only the selected district and subdistrict', () => {
+test('summary leaves place-name matching to the normalized summary builder', () => {
   const query = { eq: vi.fn(() => query) };
 
   expect(
@@ -144,11 +176,10 @@ test('summary queries only the selected district and subdistrict', () => {
     })
   ).toBe(query);
 
-  expect(query.eq).toHaveBeenNthCalledWith(1, 'district', 'Mueang');
-  expect(query.eq).toHaveBeenNthCalledWith(2, 'subdistrict', 'Phra Pathom');
+  expect(query.eq).not.toHaveBeenCalled();
 });
 
-test('district-only source queries keep the district fallback', () => {
+test('district-only sources also avoid exact place-name filtering', () => {
   const query = { eq: vi.fn(() => query) };
 
   applySummaryScope(
@@ -161,8 +192,7 @@ test('district-only source queries keep the district fallback', () => {
     false
   );
 
-  expect(query.eq).toHaveBeenCalledTimes(1);
-  expect(query.eq).toHaveBeenCalledWith('district', 'Mueang');
+  expect(query.eq).not.toHaveBeenCalled();
 });
 
 test('summary endpoint rejects incomplete scopes before querying data', async () => {
