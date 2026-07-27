@@ -33,12 +33,9 @@ async function fetchRows(query) {
   return data || [];
 }
 
-export function applySummaryScope(query, scope, hasSubdistrict = true) {
-  if (scope.level === 'province') return query;
-  query = query.eq('district', scope.districtName);
-  return scope.level === 'subdistrict' && hasSubdistrict
-    ? query.eq('subdistrict', scope.subdistrictName)
-    : query;
+export function applySummaryScope(query) {
+  // ponytail: source tables are small; normalize mixed Thai place names in memory.
+  return query;
 }
 
 async function loadSummaryData(supabase, searchParams, scope) {
@@ -64,6 +61,9 @@ async function loadSummaryData(supabase, searchParams, scope) {
     largePlots,
     smartFarmers,
     youngSmartFarmers,
+    learningCenters,
+    pestCenters,
+    soilFertilizerCenters,
     geoplotsDistrict,
     geoplotsSubdistrict,
     youngFarmerGroups,
@@ -87,15 +87,14 @@ async function loadSummaryData(supabase, searchParams, scope) {
     fetchRows(
       scoped('community_enterprises', 'district,subdistrict,created_at')
     ),
-    fetchRows(
-      scoped('large_plots', 'district,subdistrict,created_at')
-    ),
-    fetchRows(
-      scoped('smart_farmer_sf', 'district,created_at', false)
-    ),
+    fetchRows(scoped('large_plots', 'district,subdistrict,created_at')),
+    fetchRows(scoped('smart_farmer_sf', 'district,created_at', false)),
     fetchRows(
       scoped('young_smart_farmer_ysf', 'district,subdistrict,created_at')
     ),
+    fetchRows(scoped('learning_centers', 'district,subdistrict')),
+    fetchRows(scoped('pest_centers', 'district,subdistrict')),
+    fetchRows(scoped('soil_fertilizer_centers', 'district,subdistrict')),
     fetchRows(
       scoped(
         'geoplots_parcel_progress',
@@ -127,6 +126,9 @@ async function loadSummaryData(supabase, searchParams, scope) {
     largePlots,
     smartFarmers,
     youngSmartFarmers,
+    learningCenters,
+    pestCenters,
+    soilFertilizerCenters,
     geoplotsDistrict,
     geoplotsSubdistrict,
     youngFarmerGroups,
