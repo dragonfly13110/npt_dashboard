@@ -22,6 +22,13 @@ const PRIVATE_KEY =
   /full_name|first_name|last_name|owner_name|farmer_name|contact_person|chairman|president|leader|manager|phone|mobile|tel|address|email|line_id|facebook/i;
 
 function canAccess(identity, entry) {
+  if (
+    entry.kind === 'dataset' &&
+    entry.visibility === 'internal' &&
+    identity?.role === 'guest'
+  ) {
+    return false;
+  }
   return (ROLE_RANK[identity?.role] ?? 0) >= (ROLE_RANK[entry.minRole] ?? 99);
 }
 

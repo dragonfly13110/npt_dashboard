@@ -23,6 +23,10 @@ import {
 import { supabase } from '../../supabaseClient';
 import { rowsToCsv } from '../../utils/csv';
 import EChart from '../../components/widgets/EChart';
+import {
+  getDatasetFreshnessStatus,
+  getDatasetMetadata,
+} from '../../domain/datasetCatalog';
 import '../../styles/dashboard.css';
 
 const TABLE_LABELS = {
@@ -114,7 +118,17 @@ export default function DataQuality() {
     fetchStats();
   }, []);
 
-  const filteredStats = stats.filter((item) => {
+  const datasetStats = stats.map((item) => ({
+    ...item,
+    ...getDatasetMetadata(item.tableName),
+    freshnessStatus: getDatasetFreshnessStatus(
+      item.tableName,
+      item.lastUpdated,
+      { error: Boolean(item.error) }
+    ),
+  }));
+
+  const filteredStats = datasetStats.filter((item) => {
     const label = TABLE_LABELS[item.tableName] || item.tableName;
     return (
       label.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -123,8 +137,8 @@ export default function DataQuality() {
   });
 
   // Calculate totals
-  const totalTables = stats.length;
-  const validStats = stats.filter((s) => !s.error);
+  const totalTables = datasetStats.length;
+  const validStats = datasetStats.filter((s) => !s.error);
   const overallCompleteness =
     validStats.length > 0
       ? validStats.reduce((sum, item) => sum + item.completeness, 0) /
@@ -258,6 +272,27 @@ export default function DataQuality() {
             พบซ้ำ {num.toLocaleString()} แถว
           </Tag>
         );
+      },
+    },
+    {
+      title: 'เจ้าของข้อมูล',
+      dataIndex: 'owner',
+      key: 'owner',
+      render: (value) => value || 'unassigned',
+    },
+    {
+      title: 'สถานะข้อมูล',
+      dataIndex: 'freshnessStatus',
+      key: 'freshnessStatus',
+      render: (value) => {
+        const colors = {
+          fresh: 'success',
+          stale: 'warning',
+          missing: 'default',
+          error: 'error',
+          unmonitored: 'processing',
+        };
+        return <Tag color={colors[value]}>{value}</Tag>;
       },
     },
     {

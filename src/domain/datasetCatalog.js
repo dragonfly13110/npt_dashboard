@@ -84,6 +84,10 @@ export const LINE_DATASET_POLICY = catalog.LINE_DATASETS;
 export const SYSTEM_PAGES = catalog.SYSTEM_PAGES;
 export const MANUALS = catalog.MANUALS;
 
+const DATASET_METADATA_BY_SOURCE = new Map(
+  LINE_DATASET_POLICY.map((entry) => [entry.source, entry])
+);
+
 const LINE_KNOWLEDGE = new Map(
   [...LINE_DATASET_POLICY, ...SYSTEM_PAGES, ...MANUALS].map((entry) => [
     entry.id,
@@ -102,6 +106,13 @@ export function getLineKnowledgeEntry(id) {
 export function canRoleAccessLineKnowledge(role, id) {
   const entry = getLineKnowledgeEntry(id);
   if (!entry) return false;
+  if (
+    entry.kind === 'dataset' &&
+    entry.visibility === 'internal' &&
+    role === 'guest'
+  ) {
+    return false;
+  }
   return (ROLE_RANK[role] ?? -1) >= (ROLE_RANK[entry.minRole] ?? 99);
 }
 
@@ -259,6 +270,7 @@ export const DATASET_CATALOG = Object.fromEntries(
       districtColumn: DISTRICT_COLS[table] || 'district',
       numericColumns: NUMERIC_COLS[table] || [],
       categoryColumns: CATEGORY_COLS[table] || [],
+      ...DATASET_METADATA_BY_SOURCE.get(table),
       ...(DASHBOARD_GROUP_BY_TABLE[table] || {}),
     },
   ])
@@ -268,6 +280,37 @@ export const TABLE_CONFIG = CHATBOT_TABLE_CONFIG;
 
 export function getDataset(table) {
   return DATASET_CATALOG[table] || null;
+}
+
+export function getDatasetMetadata(table) {
+  const dataset = getDataset(table);
+  if (!dataset) return null;
+  return {
+    owner: dataset.owner,
+    updateFrequency: dataset.updateFrequency,
+    freshnessSlaHours: dataset.freshnessSlaHours,
+    visibility: dataset.visibility,
+    containsPii: dataset.containsPii,
+    status: dataset.status,
+    license: dataset.license,
+    freshnessField: dataset.freshnessField,
+  };
+}
+
+export function getDatasetFreshnessStatus(
+  table,
+  lastUpdated,
+  { now = new Date(), error = false } = {}
+) {
+  if (error) return 'error';
+  if (!lastUpdated) return 'missing';
+  const { freshnessSlaHours } = getDatasetMetadata(table) || {};
+  if (!freshnessSlaHours) return 'unmonitored';
+  const updatedAt = new Date(lastUpdated).getTime();
+  if (!Number.isFinite(updatedAt)) return 'error';
+  return now.getTime() - updatedAt <= freshnessSlaHours * 3_600_000
+    ? 'fresh'
+    : 'stale';
 }
 
 export function listDatasetKeys() {
@@ -281,7 +324,11 @@ export function getDatasetRoute(table) {
 export function getSearchColumns(table, role = 'viewer') {
   const columns = getDataset(table)?.searchColumns || [];
   if (role !== 'guest') return columns;
-  return columns.filter((dataIndex) => !isPrivateColumn(table, { dataIndex }));
+  const piiFields = getDataset(table)?.piiFields || [];
+  return columns.filter(
+    (dataIndex) =>
+      !piiFields.includes(dataIndex) && !isPrivateColumn(table, { dataIndex })
+  );
 }
 
 export function getDistrictColumn(table) {
@@ -330,7 +377,9 @@ export function getDatasetSelectColumns(
   const safeColumns =
     purpose === 'ai'
       ? baseColumns.filter(
-          (dataIndex) => !isPrivateColumn(table, { dataIndex })
+          (dataIndex) =>
+            !dataset?.piiFields?.includes(dataIndex) &&
+            !isPrivateColumn(table, { dataIndex })
         )
       : baseColumns;
   const uniqueColumns = [...new Set(safeColumns)];

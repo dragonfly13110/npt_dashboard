@@ -11,6 +11,8 @@ import {
   canGuestAccessGroup,
   canGuestAccessTable,
   getDatasetRoute,
+  getDatasetMetadata,
+  getDatasetFreshnessStatus,
   getLineKnowledgeEntry,
   getDatasetSelectColumns,
   getDepartmentGroupKey,
@@ -84,6 +86,65 @@ describe('datasetCatalog', () => {
     expect(getDatasetRoute('assets')).toBe('/dashboard/admin/assets');
     expect(getSearchColumns('assets')).toContain('name');
     expect(getSearchColumns('ai_disease_forecasts')).toContain('target_crop');
+  });
+
+  it('registers operational metadata for every dataset', () => {
+    const requiredFields = [
+      'owner',
+      'updateFrequency',
+      'freshnessSlaHours',
+      'visibility',
+      'containsPii',
+      'status',
+      'license',
+    ];
+
+    for (const entry of catalogJson.LINE_DATASETS) {
+      expect(Object.keys(entry)).toEqual(
+        expect.arrayContaining(requiredFields)
+      );
+    }
+
+    expect(getDatasetMetadata('daily_weather')).toMatchObject({
+      owner: 'strategy',
+      updateFrequency: 'daily',
+      freshnessSlaHours: 48,
+      visibility: 'public',
+      status: 'active',
+      license: 'not_specified',
+      freshnessField: 'date',
+    });
+    expect(getDatasetMetadata('personnel')).toMatchObject({
+      owner: 'admin',
+      visibility: 'internal',
+      containsPii: true,
+      license: 'internal',
+    });
+  });
+
+  it('classifies runtime freshness from catalog SLA', () => {
+    const now = new Date('2026-07-27T12:00:00Z');
+    expect(
+      getDatasetFreshnessStatus('daily_weather', '2026-07-26T12:00:00Z', {
+        now,
+      })
+    ).toBe('fresh');
+    expect(
+      getDatasetFreshnessStatus('daily_weather', '2026-07-24T12:00:00Z', {
+        now,
+      })
+    ).toBe('stale');
+    expect(getDatasetFreshnessStatus('daily_weather', null, { now })).toBe(
+      'missing'
+    );
+    expect(
+      getDatasetFreshnessStatus('learning_centers', '2026-01-01T00:00:00Z', {
+        now,
+      })
+    ).toBe('unmonitored');
+    expect(
+      getDatasetFreshnessStatus('daily_weather', null, { now, error: true })
+    ).toBe('error');
   });
 
   it('keeps RPC global search aligned with app search metadata', () => {

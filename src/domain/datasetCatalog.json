@@ -56,7 +56,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "updated_at"
+      "freshnessField": "updated_at",
+      "owner": "strategy",
+      "updateFrequency": "as_needed",
+      "freshnessSlaHours": null,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:learning_centers",
@@ -78,7 +85,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "updated_at"
+      "freshnessField": "updated_at",
+      "owner": "strategy",
+      "updateFrequency": "as_needed",
+      "freshnessSlaHours": null,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:disasters",
@@ -110,7 +124,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "year"
+      "freshnessField": "year",
+      "owner": "development",
+      "updateFrequency": "annual",
+      "freshnessSlaHours": 13140,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:farmer_registry",
@@ -132,7 +153,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "data_year"
+      "freshnessField": "data_year",
+      "owner": "strategy",
+      "updateFrequency": "annual",
+      "freshnessSlaHours": 13140,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:gis_areas",
@@ -154,7 +182,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "updated_at"
+      "freshnessField": "updated_at",
+      "owner": "strategy",
+      "updateFrequency": "as_needed",
+      "freshnessSlaHours": null,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "empty",
+      "license": "not_specified"
     },
     {
       "id": "dataset:large_plots",
@@ -176,7 +211,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "year"
+      "freshnessField": "year",
+      "owner": "production",
+      "updateFrequency": "annual",
+      "freshnessSlaHours": 13140,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:certifications",
@@ -198,7 +240,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "updated_at"
+      "freshnessField": "updated_at",
+      "owner": "production",
+      "updateFrequency": "as_needed",
+      "freshnessSlaHours": null,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:crop_production",
@@ -220,7 +269,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "year"
+      "freshnessField": "year",
+      "owner": "production",
+      "updateFrequency": "annual",
+      "freshnessSlaHours": 13140,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:production_costs",
@@ -242,7 +298,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "data_year"
+      "freshnessField": "data_year",
+      "owner": "production",
+      "updateFrequency": "annual",
+      "freshnessSlaHours": 13140,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:community_enterprises",
@@ -264,7 +327,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "updated_at"
+      "freshnessField": "updated_at",
+      "owner": "development",
+      "updateFrequency": "as_needed",
+      "freshnessSlaHours": null,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:smart_farmers",
@@ -286,7 +356,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "updated_at"
+      "freshnessField": "updated_at",
+      "owner": "development",
+      "updateFrequency": "as_needed",
+      "freshnessSlaHours": null,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:smart_farmer_sf",
@@ -308,7 +385,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "data_year"
+      "freshnessField": "data_year",
+      "owner": "development",
+      "updateFrequency": "annual",
+      "freshnessSlaHours": 13140,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:young_smart_farmer_ysf",
@@ -330,7 +414,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "data_year"
+      "freshnessField": "data_year",
+      "owner": "development",
+      "updateFrequency": "annual",
+      "freshnessSlaHours": 13140,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:agricultural_career_groups",
@@ -352,7 +443,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "data_year"
+      "freshnessField": "data_year",
+      "owner": "development",
+      "updateFrequency": "annual",
+      "freshnessSlaHours": 13140,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:housewife_farmer_groups",
@@ -374,7 +472,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "year"
+      "freshnessField": "year",
+      "owner": "development",
+      "updateFrequency": "annual",
+      "freshnessSlaHours": 13140,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:young_farmer_groups_detailed",
@@ -396,7 +501,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "data_year"
+      "freshnessField": "data_year",
+      "owner": "development",
+      "updateFrequency": "annual",
+      "freshnessSlaHours": 13140,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:farmer_institutes",
@@ -418,7 +530,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "updated_at"
+      "freshnessField": "updated_at",
+      "owner": "development",
+      "updateFrequency": "as_needed",
+      "freshnessSlaHours": null,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:agri_tourism",
@@ -440,7 +559,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "updated_at"
+      "freshnessField": "updated_at",
+      "owner": "development",
+      "updateFrequency": "as_needed",
+      "freshnessSlaHours": null,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "coordinate_incomplete",
+      "license": "not_specified"
     },
     {
       "id": "dataset:forecast_plots",
@@ -462,7 +588,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "updated_at"
+      "freshnessField": "updated_at",
+      "owner": "protection",
+      "updateFrequency": "as_needed",
+      "freshnessSlaHours": null,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:ai_disease_forecasts",
@@ -484,7 +617,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "forecast_date"
+      "freshnessField": "forecast_date",
+      "owner": "protection",
+      "updateFrequency": "daily",
+      "freshnessSlaHours": 48,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:pest_outbreaks",
@@ -506,7 +646,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "report_date"
+      "freshnessField": "report_date",
+      "owner": "protection",
+      "updateFrequency": "daily",
+      "freshnessSlaHours": 48,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:pest_centers",
@@ -528,7 +675,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "updated_at"
+      "freshnessField": "updated_at",
+      "owner": "protection",
+      "updateFrequency": "as_needed",
+      "freshnessSlaHours": null,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:plant_doctors",
@@ -550,7 +704,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "updated_at"
+      "freshnessField": "updated_at",
+      "owner": "protection",
+      "updateFrequency": "as_needed",
+      "freshnessSlaHours": null,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:soil_fertilizer_centers",
@@ -572,7 +733,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "updated_at"
+      "freshnessField": "updated_at",
+      "owner": "protection",
+      "updateFrequency": "as_needed",
+      "freshnessSlaHours": null,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:soil_series",
@@ -594,7 +762,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "updated_at"
+      "freshnessField": "updated_at",
+      "owner": "protection",
+      "updateFrequency": "as_needed",
+      "freshnessSlaHours": null,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:biocontrol_stock",
@@ -616,7 +791,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "updated_at"
+      "freshnessField": "updated_at",
+      "owner": "protection",
+      "updateFrequency": "as_needed",
+      "freshnessSlaHours": null,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:fire_hotspots",
@@ -638,7 +820,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "year"
+      "freshnessField": "year",
+      "owner": "protection",
+      "updateFrequency": "daily",
+      "freshnessSlaHours": 48,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:daily_weather",
@@ -660,7 +849,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "date"
+      "freshnessField": "date",
+      "owner": "strategy",
+      "updateFrequency": "daily",
+      "freshnessSlaHours": 48,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:budgets",
@@ -682,7 +878,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "fiscal_year"
+      "freshnessField": "fiscal_year",
+      "owner": "admin",
+      "updateFrequency": "annual",
+      "freshnessSlaHours": 13140,
+      "visibility": "internal",
+      "containsPii": true,
+      "status": "active",
+      "license": "internal"
     },
     {
       "id": "dataset:assets",
@@ -704,7 +907,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "updated_at"
+      "freshnessField": "updated_at",
+      "owner": "admin",
+      "updateFrequency": "as_needed",
+      "freshnessSlaHours": null,
+      "visibility": "internal",
+      "containsPii": true,
+      "status": "active",
+      "license": "internal"
     },
     {
       "id": "dataset:personnel",
@@ -726,7 +936,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "updated_at"
+      "freshnessField": "updated_at",
+      "owner": "admin",
+      "updateFrequency": "as_needed",
+      "freshnessSlaHours": null,
+      "visibility": "internal",
+      "containsPii": true,
+      "status": "active",
+      "license": "internal"
     },
     {
       "id": "dataset:geoplots_parcel_progress",
@@ -748,7 +965,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "snapshot_date"
+      "freshnessField": "snapshot_date",
+      "owner": "strategy",
+      "updateFrequency": "daily",
+      "freshnessSlaHours": 48,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     },
     {
       "id": "dataset:geoplots_parcel_subdistrict_progress",
@@ -770,7 +994,14 @@
         "line_id",
         "owner_name"
       ],
-      "freshnessField": "snapshot_date"
+      "freshnessField": "snapshot_date",
+      "owner": "strategy",
+      "updateFrequency": "daily",
+      "freshnessSlaHours": 48,
+      "visibility": "public",
+      "containsPii": true,
+      "status": "active",
+      "license": "not_specified"
     }
   ],
   "SYSTEM_PAGES": [
