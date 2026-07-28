@@ -118,6 +118,22 @@
   gap: 8px;
 }
 
+.category-select {
+  width: min(100%, 560px);
+  padding: 10px 12px;
+  font: inherit;
+  color: #334155;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.category-select:focus {
+  outline: 3px solid rgba(22, 163, 74, 0.15);
+  border-color: #16a34a;
+}
+
 .filter-tag {
   padding: 6px 14px;
   font-size: 0.875rem;

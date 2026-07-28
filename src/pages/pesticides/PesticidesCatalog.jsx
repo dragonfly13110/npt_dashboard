@@ -120,18 +120,21 @@ export default function PesticidesCatalog() {
 
         {/* Category Filters */}
         <div className="filter-group" style={{ marginBottom: 16 }}>
-          <div className="filter-label">หมวดหมู่ความรู้</div>
-          <div className="filter-tags">
+          <label className="filter-label" htmlFor="pesticide-category">
+            หมวดหมู่ความรู้
+          </label>
+          <select
+            id="pesticide-category"
+            className="category-select"
+            value={selectedCategory}
+            onChange={(event) => setSelectedCategory(event.target.value)}
+          >
             {categories.map((cat) => (
-              <button
-                key={cat}
-                className={`filter-tag ${selectedCategory === cat ? 'active' : ''}`}
-                onClick={() => setSelectedCategory(cat)}
-              >
+              <option key={cat} value={cat}>
                 {cat}
-              </button>
+              </option>
             ))}
-          </div>
+          </select>
         </div>
 
         {/* Plant Filters */}
