@@ -525,6 +525,7 @@
   color: #ffffff;
   margin: 0 0 10px 0;
   line-height: 1.3;
+  white-space: nowrap;
 }
 
 .entrance-content p {
@@ -623,6 +624,9 @@
   }
   .entrance-action {
     width: 100%;
+  }
+  .entrance-content h2 {
+    white-space: normal;
   }
   .entrance-btn {
     width: 100%;
