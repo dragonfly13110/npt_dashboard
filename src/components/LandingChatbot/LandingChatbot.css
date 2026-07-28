@@ -1,10 +1,3 @@
-/* Hide on mobile & tablet devices - Only show on Desktop (> 1024px) */
-@media (max-width: 1023px) {
-  .landing-chatbot-container {
-    display: none !important;
-  }
-}
-
 /* Container */
 .landing-chatbot-container {
   position: fixed;
@@ -496,5 +489,27 @@
   }
   100% {
     opacity: 1;
+  }
+}
+
+@media (max-width: 1023px) {
+  .landing-chatbot-toggle-btn {
+    right: 16px;
+    bottom: calc(72px + env(safe-area-inset-bottom));
+    width: 68px;
+    height: 68px;
+  }
+
+  .landing-chatbot-welcome-bubble {
+    right: 16px;
+    bottom: calc(145px + env(safe-area-inset-bottom));
+    width: min(280px, calc(100vw - 32px));
+  }
+
+  .landing-chatbot-panel {
+    inset: 12px 12px max(12px, env(safe-area-inset-bottom));
+    width: auto;
+    height: auto;
+    border-radius: 16px;
   }
 }
