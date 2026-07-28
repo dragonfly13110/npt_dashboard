@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { Spin } from 'antd';
 import './Pesticides.css';
 
+export const sortThaiLabels = (labels) =>
+  [...labels].sort((a, b) => a.localeCompare(b, 'th'));
+
 export default function PesticidesCatalog() {
   const [catalog, setCatalog] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,7 +36,9 @@ export default function PesticidesCatalog() {
   ];
   const plants = [
     'ทั้งหมด',
-    ...new Set(catalog.map((item) => item.plant).filter(Boolean)),
+    ...sortThaiLabels(
+      new Set(catalog.map((item) => item.plant).filter(Boolean))
+    ),
   ];
 
   // Filtering logic
