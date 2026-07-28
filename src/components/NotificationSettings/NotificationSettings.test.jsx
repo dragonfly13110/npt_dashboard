@@ -4,6 +4,13 @@ import NotificationSettings from './NotificationSettings';
 
 const subscribeToPush = vi.fn();
 const unsubscribeFromPush = vi.fn();
+vi.mock('antd', async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    notification: { success: vi.fn(), error: vi.fn() },
+  };
+});
 vi.mock('../../services/pushNotifications', () => ({
   subscribeToPush: (...args) => subscribeToPush(...args),
   unsubscribeFromPush: (...args) => unsubscribeFromPush(...args),
