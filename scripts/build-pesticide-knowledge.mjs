@@ -124,12 +124,17 @@ function buildPesticideKnowledge() {
   }
 
   // Clear previous output to prevent stale files (like draft templates)
+  const matrixPath = path.join(outputDir, 'mixing_matrix.json');
+  const matrixData = existsSync(matrixPath)
+    ? readFileSync(matrixPath, 'utf8')
+    : null;
   if (existsSync(outputDir)) {
     rmSync(outputDir, { recursive: true, force: true });
   }
 
   // Ensure output directories exist
   mkdirSync(articlesOutputDir, { recursive: true });
+  if (matrixData) writeFileSync(matrixPath, matrixData, 'utf8');
 
   const catalog = [];
   const slugMap = {}; // Maps relative path (e.g., '01_พื้นฐานก่อนใช้สาร/01_วิธีอ่านเอกสารคำแนะนำ.md') to slug
