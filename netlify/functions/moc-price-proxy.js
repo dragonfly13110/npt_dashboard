@@ -307,7 +307,7 @@ export default async (request) => {
         'Cache-Control': 'public, max-age=1800, stale-while-revalidate=3600',
       },
     });
-  } catch (err) {
+  } catch {
     return new Response(
       JSON.stringify({
         success: false,

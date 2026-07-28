@@ -50,14 +50,11 @@ export default async (request) => {
         'Cache-Control': 'public, max-age=300', // cache 5 minutes
       },
     });
-  } catch (err) {
-    return new Response(
-      JSON.stringify({ error: 'Proxy error' }),
-      {
-        status: 502,
-        headers: { ...baseHeaders, 'Content-Type': 'application/json' },
-      }
-    );
+  } catch {
+    return new Response(JSON.stringify({ error: 'Proxy error' }), {
+      status: 502,
+      headers: { ...baseHeaders, 'Content-Type': 'application/json' },
+    });
   }
 };
 

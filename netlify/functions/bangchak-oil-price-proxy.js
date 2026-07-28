@@ -110,7 +110,7 @@ export default async (request) => {
         },
       }
     );
-  } catch (err) {
+  } catch {
     return new Response(
       JSON.stringify({
         success: false,

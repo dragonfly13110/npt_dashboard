@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Spin } from 'antd';
 import './Pesticides.css';
 
-export const sortThaiLabels = (labels) =>
+const sortThaiLabels = (labels) =>
   [...labels].sort((a, b) => a.localeCompare(b, 'th'));
 
 export default function PesticidesCatalog() {
