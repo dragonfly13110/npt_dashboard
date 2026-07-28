@@ -309,12 +309,13 @@ describe('ai-proxy', () => {
     expect(response.status).toBe(200);
     const [, init] = fetch.mock.calls[1];
     const body = JSON.parse(init.body);
-    expect(body.generationConfig.maxOutputTokens).toBe(1400);
+    expect(body.generationConfig.maxOutputTokens).toBe(3000);
     expect(body.systemInstruction.parts[0].text).toContain('ข้าวหลามเคมี');
     expect(JSON.stringify(body.contents)).toContain(
       '/public/pesticides/mango-anthracnose-recommendation-2568'
     );
     expect(body.systemInstruction.parts[0].text).toContain('แหล่งข้อมูล');
+    expect(body.systemInstruction.parts[0].text).toContain('ห้ามเติมโดเมน');
   });
 
   it('rejects landing payloads without a bounded user question', async () => {

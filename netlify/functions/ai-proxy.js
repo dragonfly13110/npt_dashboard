@@ -263,6 +263,11 @@ function validatePayload(payload) {
     body,
     landing: payload.landing === true,
     pesticideBot: payload.pesticideBot === true,
+    pesticideArticleSlug:
+      typeof payload.pesticideArticleSlug === 'string' &&
+      /^[a-z0-9-]{1,120}$/.test(payload.pesticideArticleSlug)
+        ? payload.pesticideArticleSlug
+        : '',
   };
 }
 
@@ -480,12 +485,13 @@ export default async (req, context) => {
             ).slice(0, 1000);
       const history = contents
         .filter((item) => item?.role === 'user' || item?.role === 'model')
-        .slice(-5);
+        .slice(-9);
       validation.body = buildPesticideBody(
         validation.provider,
         validation.body,
         questionText,
-        history
+        history,
+        validation.pesticideArticleSlug
       );
     } else if (validation.landing && validation.provider === 'gemini') {
       validation.body = await buildLandingBody(validation.body);

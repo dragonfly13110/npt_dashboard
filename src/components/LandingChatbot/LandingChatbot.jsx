@@ -388,6 +388,9 @@ export default function LandingChatbot() {
         provider: 'gemini',
         landing: true,
         pesticideBot: isPesticideBot,
+        pesticideArticleSlug: isPesticideBot
+          ? location.pathname.split('/').filter(Boolean).at(-1)
+          : undefined,
         body: {
           model: MODEL_NAME,
           contents,
@@ -408,6 +411,9 @@ export default function LandingChatbot() {
         provider: 'kku',
         landing: isPesticideBot,
         pesticideBot: isPesticideBot,
+        pesticideArticleSlug: isPesticideBot
+          ? location.pathname.split('/').filter(Boolean).at(-1)
+          : undefined,
         body: {
           model: MODEL_NAME,
           messages: apiMessages,

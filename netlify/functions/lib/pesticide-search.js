@@ -85,6 +85,7 @@ const QUERY_STOPWORDS = new Set([
   'ยา',
   'สาร',
   'สารเคมี',
+  'มัน',
   'หน่อย',
   'ครับ',
   'ค่ะ',
@@ -102,7 +103,11 @@ function queryTerms(query) {
   ];
 }
 
-export function searchPesticideChunks(queryText, limit = 6) {
+export function searchPesticideChunks(
+  queryText,
+  limit = 6,
+  preferredDocumentSlug = ''
+) {
   const query = String(queryText || '')
     .toLowerCase()
     .trim();
@@ -110,13 +115,25 @@ export function searchPesticideChunks(queryText, limit = 6) {
   if (query.length < 2 || terms.length === 0) return [];
 
   const chunks = loadPesticideChunks();
-  const plantTerms = terms.filter((term) =>
-    chunks.some((chunk) =>
-      String(chunk.plant || '')
-        .toLowerCase()
-        .includes(term)
+  const plantTerms = terms.filter(
+    (term) =>
+      term.length >= 3 &&
+      chunks.some((chunk) =>
+        String(chunk.plant || '')
+          .toLowerCase()
+          .includes(term)
+      )
+  );
+  const exactPlantTerms = plantTerms.filter((term) =>
+    chunks.some(
+      (chunk) =>
+        String(chunk.plant || '')
+          .toLowerCase()
+          .trim() === term
     )
   );
+  const selectedPlantTerms =
+    exactPlantTerms.length > 0 ? exactPlantTerms : plantTerms;
   const ranked = chunks
     .map((chunk) => {
       const title = String(chunk.title || '').toLowerCase();
@@ -128,8 +145,10 @@ export function searchPesticideChunks(queryText, limit = 6) {
         .toLowerCase();
       const text = String(chunk.text || '').toLowerCase();
       if (
-        plantTerms.length > 0 &&
-        !plantTerms.some((term) => plant.includes(term) || title.includes(term))
+        selectedPlantTerms.length > 0 &&
+        !selectedPlantTerms.some(
+          (term) => plant.includes(term) || title.includes(term)
+        )
       ) {
         return { chunk, score: 0 };
       }
@@ -141,6 +160,12 @@ export function searchPesticideChunks(queryText, limit = 6) {
         if (metadata.includes(term)) score += 7;
         if (heading.includes(term)) score += 5;
         if (text.includes(term)) score += 2;
+      }
+      if (
+        selectedPlantTerms.length === 0 &&
+        chunk.document_slug === preferredDocumentSlug
+      ) {
+        score += 12;
       }
 
       return { chunk, score };
