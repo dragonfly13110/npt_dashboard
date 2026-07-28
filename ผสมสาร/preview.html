@@ -1,0 +1,5967 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light" />
+    <title>MixLab แล็บจำลองการผสมสารป้องกันกำจัดศัตรูพืช</title>
+    <style>
+      :root {
+        --bg: #f5f7e9;
+        --paper: #fffef8;
+        --ink: #26342c;
+        --muted: #68766d;
+        --line: #dfe7d8;
+        --green: #4e8e63;
+        --green-2: #dcefdc;
+        --yellow: #f3d879;
+        --yellow-2: #fff2b8;
+        --red: #bf4b4b;
+        --red-2: #ffe3df;
+        --blue: #4f7ca6;
+        --blue-2: #e4f0ff;
+        --purple: #7454a4;
+        --purple-2: #eee5ff;
+        --gray: #717b77;
+        --gray-2: #ecefed;
+        --shadow: 0 18px 50px rgba(48, 71, 53, 0.13);
+        --shadow-sm: 0 8px 22px rgba(48, 71, 53, 0.1);
+        --radius: 24px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background:
+          radial-gradient(
+            circle at 12% 8%,
+            rgba(246, 220, 117, 0.26),
+            transparent 27rem
+          ),
+          radial-gradient(
+            circle at 91% 6%,
+            rgba(100, 170, 112, 0.17),
+            transparent 30rem
+          ),
+          var(--bg);
+        color: var(--ink);
+        font-family:
+          'Itim', 'Noto Sans Thai', 'Leelawadee UI', Tahoma, sans-serif;
+        line-height: 1.55;
+      }
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      .wrap {
+        width: min(1240px, calc(100% - 28px));
+        margin: auto;
+      }
+      header {
+        padding: 24px 0 16px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .brand-mark {
+        width: 58px;
+        height: 58px;
+        border-radius: 18px;
+        background: linear-gradient(145deg, #ecf8db, #b9e1b5);
+        display: grid;
+        place-items: center;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid rgba(78, 142, 99, 0.18);
+      }
+      .brand h1 {
+        font-size: clamp(1.55rem, 3vw, 2.35rem);
+        line-height: 1.1;
+        margin: 0;
+        font-weight: 700;
+      }
+      .brand p {
+        margin: 5px 0 0;
+        color: var(--muted);
+        font-family: 'Noto Sans Thai', 'Leelawadee UI', sans-serif;
+        font-size: 0.92rem;
+      }
+      .warning-strip {
+        margin-top: 18px;
+        background: #fff7d6;
+        border: 1px solid #ead47e;
+        border-radius: 18px;
+        padding: 12px 16px;
+        display: flex;
+        gap: 11px;
+        align-items: flex-start;
+        font-family: 'Noto Sans Thai', 'Leelawadee UI', sans-serif;
+        font-size: 0.9rem;
+      }
+      .warning-strip strong {
+        display: block;
+        color: #705a10;
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.28fr) minmax(330px, 0.72fr);
+        gap: 18px;
+        align-items: start;
+        padding-bottom: 30px;
+      }
+      .panel {
+        background: rgba(255, 254, 248, 0.93);
+        border: 1px solid rgba(201, 215, 196, 0.9);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .panel-head {
+        padding: 20px 22px 14px;
+        border-bottom: 1px solid var(--line);
+      }
+      .panel-head h2 {
+        margin: 0;
+        font-size: 1.38rem;
+      }
+      .panel-head p {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-family: 'Noto Sans Thai', 'Leelawadee UI', sans-serif;
+        font-size: 0.88rem;
+      }
+      .bench {
+        padding: 22px;
+      }
+      .lab-stage {
+        position: relative;
+        min-height: 420px;
+        border-radius: 22px;
+        background: linear-gradient(
+          180deg,
+          #eff8ee 0 62%,
+          #d8b689 62% 65%,
+          #b88b5e 65% 100%
+        );
+        overflow: hidden;
+        border: 1px solid #d8e4d3;
+      }
+      .lab-stage:before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          90deg,
+          transparent 49.7%,
+          rgba(255, 255, 255, 0.5) 50%,
+          transparent 50.3%
+        );
+        opacity: 0.35;
+        pointer-events: none;
+      }
+      .shelf-line {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 112px;
+        height: 7px;
+        background: #9d7a55;
+        box-shadow: 0 5px 9px rgba(69, 43, 24, 0.17);
+      }
+      .flasks {
+        height: 100%;
+        min-height: 420px;
+        display: grid;
+        grid-template-columns: 1fr 120px 1fr;
+        align-items: end;
+        gap: 12px;
+        padding: 30px 22px 56px;
+        position: relative;
+        z-index: 2;
+      }
+      .slot {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        min-width: 0;
+      }
+      .slot-label {
+        font-size: 0.88rem;
+        color: #44534a;
+        margin-bottom: 8px;
+        background: rgba(255, 255, 255, 0.83);
+        border-radius: 999px;
+        padding: 4px 10px;
+        border: 1px solid #dce5d9;
+      }
+      .tube {
+        width: min(178px, 92%);
+        height: 230px;
+        position: relative;
+        filter: drop-shadow(0 12px 13px rgba(39, 55, 43, 0.16));
+      }
+      .tube svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .tube .liquid {
+        transition:
+          y 0.6s ease,
+          height 0.6s ease,
+          fill 0.4s ease;
+      }
+      .tube-name {
+        min-height: 62px;
+        width: min(230px, 100%);
+        margin-top: 8px;
+        padding: 8px 10px;
+        text-align: center;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid #dbe4d8;
+        font-size: 0.96rem;
+        display: grid;
+        place-items: center;
+        overflow-wrap: anywhere;
+      }
+      .tube-name small {
+        display: block;
+        color: var(--muted);
+        font-family: 'Noto Sans Thai', 'Leelawadee UI', sans-serif;
+        font-size: 0.72rem;
+      }
+      .tube.empty .tube-name {
+        color: #839086;
+        border-style: dashed;
+        background: rgba(255, 255, 255, 0.62);
+      }
+      .tube-clear {
+        margin-top: 7px;
+        border: 0;
+        background: transparent;
+        color: #6e766f;
+        text-decoration: underline;
+        font-size: 0.83rem;
+      }
+      .mixer {
+        align-self: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+      .mix-arrow {
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: #fff9d8;
+        border: 1px solid #ead98c;
+        box-shadow: var(--shadow-sm);
+        font-size: 2rem;
+        transition: 0.25s;
+      }
+      .mix-btn {
+        border: 0;
+        border-radius: 16px;
+        padding: 12px 18px;
+        background: linear-gradient(135deg, #4d9365, #75ac69);
+        color: white;
+        font-weight: 700;
+        box-shadow: 0 9px 20px rgba(62, 123, 78, 0.25);
+        min-width: 112px;
+      }
+      .mix-btn:hover {
+        transform: translateY(-1px);
+      }
+      .mix-btn:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .secondary-btn {
+        border: 1px solid #cfdacb;
+        background: #fffef8;
+        color: var(--ink);
+        border-radius: 14px;
+        padding: 9px 12px;
+      }
+      .bubble {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.72);
+        animation: bubble 1.1s ease-out forwards;
+        pointer-events: none;
+      }
+      @keyframes bubble {
+        0% {
+          transform: translateY(0) scale(0.6);
+          opacity: 0;
+        }
+        20% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-140px) scale(1.2);
+          opacity: 0;
+        }
+      }
+      .shake {
+        animation: shake 0.45s ease-in-out;
+      }
+      @keyframes shake {
+        0%,
+        100% {
+          transform: rotate(0);
+        }
+        25% {
+          transform: rotate(-5deg);
+        }
+        75% {
+          transform: rotate(5deg);
+        }
+      }
+      .result-card {
+        margin-top: 18px;
+        border-radius: 20px;
+        border: 1px solid var(--line);
+        padding: 18px;
+        display: none;
+        background: #fff;
+      }
+      .result-card.show {
+        display: block;
+        animation: rise 0.35s ease-out;
+      }
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .result-top {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+      }
+      .status-icon {
+        width: 58px;
+        height: 58px;
+        border-radius: 18px;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        font-size: 1.35rem;
+        flex: 0 0 auto;
+      }
+      .result-card h3 {
+        margin: 0;
+        font-size: 1.28rem;
+      }
+      .result-card p {
+        margin: 5px 0 0;
+      }
+      .result-detail {
+        margin-top: 13px;
+        background: rgba(255, 255, 255, 0.62);
+        border-radius: 14px;
+        padding: 12px 14px;
+        font-family: 'Noto Sans Thai', 'Leelawadee UI', sans-serif;
+        font-size: 0.9rem;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+      }
+      .result-foot {
+        margin-top: 12px;
+        color: #5f695f;
+        font-size: 0.79rem;
+        font-family: 'Noto Sans Thai', 'Leelawadee UI', sans-serif;
+      }
+      .status-plus {
+        --accent: #4e8e63;
+        --soft: #e3f3e1;
+      }
+      .status-caution {
+        --accent: #497aa6;
+        --soft: #e3efff;
+      }
+      .status-query {
+        --accent: #4b8f73;
+        --soft: #dcf2e8;
+      }
+      .status-note {
+        --accent: #7454a4;
+        --soft: #eee4ff;
+      }
+      .status-zero {
+        --accent: #8f7117;
+        --soft: #fff0b0;
+      }
+      .status-minus {
+        --accent: #b94a4a;
+        --soft: #ffe2df;
+      }
+      .status-na {
+        --accent: #69736f;
+        --soft: #eaeeec;
+      }
+      .result-card[class*='status-'] {
+        border-color: color-mix(in srgb, var(--accent) 35%, white);
+        background: linear-gradient(135deg, var(--soft), #fff);
+      }
+      .result-card[class*='status-'] .status-icon {
+        background: var(--accent);
+        color: #fff;
+      }
+      .tools {
+        padding: 18px 22px;
+        border-top: 1px solid var(--line);
+        background: #fbfcf5;
+      }
+      .search-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 9px;
+      }
+      .search {
+        width: 100%;
+        border: 1px solid #cad8c6;
+        border-radius: 15px;
+        padding: 10px 13px;
+        background: white;
+        outline: none;
+      }
+      .search:focus {
+        border-color: #6b9d72;
+        box-shadow: 0 0 0 3px rgba(78, 142, 99, 0.13);
+      }
+      .tabs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 11px;
+      }
+      .tab {
+        border: 1px solid #cfdacb;
+        background: #fff;
+        border-radius: 999px;
+        padding: 7px 12px;
+        color: #536058;
+      }
+      .tab.active {
+        background: #e1f0dd;
+        border-color: #86b08b;
+        color: #315c3b;
+        font-weight: 700;
+      }
+      .chemical-grid {
+        max-height: 450px;
+        overflow: auto;
+        padding: 16px 22px 22px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+        scrollbar-width: thin;
+      }
+      .chemical {
+        border: 1px solid #d6e0d2;
+        border-radius: 16px;
+        background: white;
+        padding: 11px 12px;
+        text-align: left;
+        color: var(--ink);
+        min-height: 72px;
+        box-shadow: 0 4px 11px rgba(52, 75, 57, 0.05);
+        transition: 0.18s;
+        position: relative;
+        overflow: hidden;
+      }
+      .chemical:before {
+        content: '';
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 5px;
+        background: var(--stripe);
+      }
+      .chemical:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-sm);
+        border-color: #a8c0a4;
+      }
+      .chemical strong {
+        display: block;
+        font-size: 0.93rem;
+        line-height: 1.35;
+      }
+      .chemical small {
+        display: block;
+        color: var(--muted);
+        font-family: 'Noto Sans Thai', 'Leelawadee UI', sans-serif;
+        font-size: 0.69rem;
+        margin-top: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .chemical.insecticide {
+        --stripe: #e1a750;
+      }
+      .chemical.fungicide {
+        --stripe: #6aa475;
+      }
+      .chemical.selected-a {
+        outline: 3px solid rgba(80, 128, 183, 0.35);
+      }
+      .chemical.selected-b {
+        outline: 3px solid rgba(213, 150, 48, 0.38);
+      }
+      .chemical.hidden {
+        display: none;
+      }
+      .sidebar {
+        display: grid;
+        gap: 18px;
+        position: sticky;
+        top: 12px;
+      }
+      .side-card {
+        padding: 20px 20px 18px;
+      }
+      .side-card h3 {
+        margin: 0 0 10px;
+        font-size: 1.18rem;
+      }
+      .legend {
+        display: grid;
+        gap: 8px;
+      }
+      .legend-row {
+        display: grid;
+        grid-template-columns: 42px 1fr;
+        gap: 10px;
+        align-items: center;
+        border-bottom: 1px dashed #e0e5dc;
+        padding: 7px 0;
+      }
+      .legend-row:last-child {
+        border-bottom: 0;
+      }
+      .legend-code {
+        height: 34px;
+        border-radius: 11px;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        color: #fff;
+      }
+      .legend-row div:last-child {
+        font-family: 'Noto Sans Thai', 'Leelawadee UI', sans-serif;
+        font-size: 0.84rem;
+      }
+      .history {
+        display: grid;
+        gap: 8px;
+        max-height: 260px;
+        overflow: auto;
+      }
+      .history-empty {
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+      .history-item {
+        border: 1px solid #dce4d8;
+        background: #fff;
+        border-radius: 13px;
+        padding: 9px 10px;
+        text-align: left;
+        width: 100%;
+      }
+      .history-item b {
+        display: block;
+        font-size: 0.85rem;
+      }
+      .history-item span {
+        font-size: 0.75rem;
+        color: var(--muted);
+      }
+      .source-box {
+        font-family: 'Noto Sans Thai', 'Leelawadee UI', sans-serif;
+        font-size: 0.84rem;
+        color: #556159;
+      }
+      .source-box p {
+        margin: 7px 0;
+      }
+      .source-box .dataset {
+        display: flex;
+        gap: 7px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      .pill {
+        background: #edf4e8;
+        border: 1px solid #d3e0cc;
+        border-radius: 999px;
+        padding: 4px 9px;
+        font-size: 0.75rem;
+      }
+      .accordion {
+        border: 1px solid #dae3d6;
+        border-radius: 15px;
+        overflow: hidden;
+        background: #fff;
+      }
+      .accordion button {
+        width: 100%;
+        text-align: left;
+        background: #fff;
+        border: 0;
+        padding: 11px 13px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .accordion-content {
+        display: none;
+        padding: 0 13px 12px;
+        font-family: 'Noto Sans Thai', 'Leelawadee UI', sans-serif;
+        font-size: 0.82rem;
+        color: #59645c;
+      }
+      .accordion.open .accordion-content {
+        display: block;
+      }
+      footer {
+        padding: 8px 0 28px;
+        color: #68746b;
+        text-align: center;
+        font-family: 'Noto Sans Thai', 'Leelawadee UI', sans-serif;
+        font-size: 0.78rem;
+      }
+      .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(27, 39, 31, 0.58);
+        display: grid;
+        place-items: center;
+        padding: 18px;
+        z-index: 30;
+        backdrop-filter: blur(4px);
+      }
+      .modal.hidden {
+        display: none;
+      }
+      .modal-card {
+        width: min(620px, 100%);
+        background: #fffef8;
+        border-radius: 26px;
+        box-shadow: 0 30px 90px rgba(0, 0, 0, 0.28);
+        padding: 26px;
+        border: 1px solid #e0e6db;
+      }
+      .modal-card h2 {
+        margin: 0 0 9px;
+        font-size: 1.65rem;
+      }
+      .modal-card p {
+        font-family: 'Noto Sans Thai', 'Leelawadee UI', sans-serif;
+        color: #58645c;
+      }
+      .modal-list {
+        margin: 14px 0;
+        padding-left: 20px;
+        font-family: 'Noto Sans Thai', 'Leelawadee UI', sans-serif;
+        font-size: 0.9rem;
+      }
+      .modal-card button {
+        width: 100%;
+        border: 0;
+        border-radius: 16px;
+        background: #4e8e63;
+        color: white;
+        padding: 12px 16px;
+        font-weight: 700;
+        margin-top: 10px;
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 22px;
+        transform: translate(-50%, 20px);
+        background: #26342c;
+        color: white;
+        padding: 10px 14px;
+        border-radius: 999px;
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.25s;
+        z-index: 40;
+        font-family: 'Noto Sans Thai', 'Leelawadee UI', sans-serif;
+        font-size: 0.84rem;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      @media (max-width: 930px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          position: static;
+          grid-template-columns: 1fr 1fr;
+        }
+        .sidebar .panel:last-child {
+          grid-column: 1/-1;
+        }
+      }
+      @media (max-width: 650px) {
+        .wrap {
+          width: min(100% - 18px, 1240px);
+        }
+        header {
+          padding-top: 15px;
+        }
+        .brand-mark {
+          width: 48px;
+          height: 48px;
+        }
+        .warning-strip {
+          font-size: 0.82rem;
+        }
+        .bench {
+          padding: 12px;
+        }
+        .lab-stage {
+          min-height: 500px;
+        }
+        .flasks {
+          grid-template-columns: 1fr 1fr;
+          grid-template-areas: 'a b' 'm m';
+          padding: 24px 10px 35px;
+          align-content: end;
+        }
+        .slot:first-child {
+          grid-area: a;
+        }
+        .slot:last-child {
+          grid-area: b;
+        }
+        .mixer {
+          grid-area: m;
+          align-self: end;
+          flex-direction: row;
+          justify-content: center;
+        }
+        .tube {
+          height: 190px;
+          width: min(140px, 95%);
+        }
+        .tube-name {
+          font-size: 0.82rem;
+          min-height: 70px;
+        }
+        .chemical-grid {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          grid-template-columns: 1fr;
+        }
+        .sidebar .panel:last-child {
+          grid-column: auto;
+        }
+        .panel-head {
+          padding: 17px;
+        }
+        .chemical-grid {
+          padding: 13px 17px 18px;
+        }
+        .tools {
+          padding: 15px 17px;
+        }
+        .result-top {
+          align-items: flex-start;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          scroll-behavior: auto !important;
+          animation-duration: 0.001ms !important;
+          transition-duration: 0.001ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="modal"
+      id="introModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="introTitle"
+    >
+      <div class="modal-card">
+        <h2 id="introTitle">แล็บจำลองเพื่อการเรียนรู้</h2>
+        <p>
+          ระบบนี้ให้ลองเลือกสาร 2 กลุ่ม
+          แล้วดูผลจากผังการเข้ากันได้ในเอกสารอ้างอิง เป็นการจำลองข้อมูล
+          ไม่ใช่คำสั่งให้ผสมสารจริง
+        </p>
+        <ul class="modal-list">
+          <li>
+            ผล “ผสมกันได้” ไม่ได้แปลว่าปลอดภัย เหมาะกับพืช หรือใช้อัตราใดก็ได้
+          </li>
+          <li>สูตรผลิตภัณฑ์แต่ละบริษัทอาจให้ผลต่างกัน</li>
+          <li>
+            การใช้งานจริงต้องอ่านฉลาก ตรวจทะเบียน
+            และทำตามคำแนะนำผู้ผลิตหรือเจ้าหน้าที่
+          </li>
+        </ul>
+        <button id="enterBtn">เข้าใจแล้ว เริ่มทดลอง</button>
+      </div>
+    </div>
+
+    <header class="wrap">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" width="42" height="42">
+            <path
+              d="M23 7h18v7l-3 3v7l12 21c3 6-1 12-8 12H22c-7 0-11-6-8-12l12-21v-7l-3-3z"
+              fill="#fff"
+              stroke="#4e8e63"
+              stroke-width="3"
+            />
+            <path
+              d="M19 43c7-4 17 6 28-1l4 8c1 3-2 6-6 6H20c-4 0-7-3-5-7z"
+              fill="#f3d879"
+            />
+            <circle cx="28" cy="36" r="3" fill="#7db582" />
+            <circle cx="39" cy="31" r="2.5" fill="#7db582" />
+          </svg>
+        </div>
+        <div>
+          <h1>MixLab ห้องทดลองจับคู่สาร</h1>
+          <p>หยิบสารจากชั้น เลือก 2 กลุ่ม แล้วดูผลจากฐานข้อมูล 528 คู่</p>
+        </div>
+      </div>
+      <div class="warning-strip">
+        <span aria-hidden="true">⚠</span>
+        <div>
+          <strong>ใช้เพื่อการเรียนรู้เท่านั้น</strong
+          >ผังนี้บอกความเข้ากันได้เบื้องต้น ไม่ได้บอกอัตราใช้ ประสิทธิภาพ
+          ความปลอดภัยต่อพืช หรือการอนุญาตตามทะเบียน
+        </div>
+      </div>
+    </header>
+
+    <main class="wrap layout">
+      <section class="panel">
+        <div class="panel-head">
+          <h2>โต๊ะทดลอง</h2>
+          <p>คลิกการ์ดด้านล่างเพื่อใส่สาร A และสาร B หรือกดสุ่มคู่ตัวอย่าง</p>
+        </div>
+        <div class="bench">
+          <div class="lab-stage" id="labStage">
+            <div class="shelf-line"></div>
+            <div class="flasks">
+              <div class="slot">
+                <div class="slot-label">สาร A</div>
+                <div class="tube empty" id="tubeA">
+                  <svg viewBox="0 0 180 250" aria-hidden="true">
+                    <defs>
+                      <clipPath id="clipA">
+                        <path
+                          d="M58 18h64v27l-15 20v22l43 125c5 15-5 27-21 27H51c-16 0-26-12-21-27L73 87V65L58 45z"
+                        />
+                      </clipPath>
+                    </defs>
+                    <path
+                      d="M58 18h64v27l-15 20v22l43 125c5 15-5 27-21 27H51c-16 0-26-12-21-27L73 87V65L58 45z"
+                      fill="rgba(255,255,255,.64)"
+                      stroke="#66816d"
+                      stroke-width="5"
+                    />
+                    <rect
+                      class="liquid"
+                      id="liquidA"
+                      x="20"
+                      y="213"
+                      width="140"
+                      height="0"
+                      fill="#78aee8"
+                      clip-path="url(#clipA)"
+                    />
+                    <path
+                      d="M64 30h52"
+                      stroke="#a9b9ac"
+                      stroke-width="4"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                  <div class="tube-name" id="nameA">ยังไม่ได้เลือกสาร</div>
+                </div>
+                <button class="tube-clear" id="clearA">ล้างสาร A</button>
+              </div>
+              <div class="mixer">
+                <div class="mix-arrow" id="mixIcon">＋</div>
+                <button class="mix-btn" id="mixBtn" disabled>ทดลองผสม</button>
+                <button class="secondary-btn" id="randomBtn">สุ่มคู่สาร</button>
+              </div>
+              <div class="slot">
+                <div class="slot-label">สาร B</div>
+                <div class="tube empty" id="tubeB">
+                  <svg viewBox="0 0 180 250" aria-hidden="true">
+                    <defs>
+                      <clipPath id="clipB">
+                        <path
+                          d="M58 18h64v27l-15 20v22l43 125c5 15-5 27-21 27H51c-16 0-26-12-21-27L73 87V65L58 45z"
+                        />
+                      </clipPath>
+                    </defs>
+                    <path
+                      d="M58 18h64v27l-15 20v22l43 125c5 15-5 27-21 27H51c-16 0-26-12-21-27L73 87V65L58 45z"
+                      fill="rgba(255,255,255,.64)"
+                      stroke="#66816d"
+                      stroke-width="5"
+                    />
+                    <rect
+                      class="liquid"
+                      id="liquidB"
+                      x="20"
+                      y="213"
+                      width="140"
+                      height="0"
+                      fill="#f1bd55"
+                      clip-path="url(#clipB)"
+                    />
+                    <path
+                      d="M64 30h52"
+                      stroke="#a9b9ac"
+                      stroke-width="4"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                  <div class="tube-name" id="nameB">ยังไม่ได้เลือกสาร</div>
+                </div>
+                <button class="tube-clear" id="clearB">ล้างสาร B</button>
+              </div>
+            </div>
+          </div>
+          <article
+            class="result-card"
+            id="resultCard"
+            aria-live="polite"
+          ></article>
+        </div>
+        <div class="tools">
+          <div class="search-row">
+            <input
+              class="search"
+              id="searchInput"
+              type="search"
+              placeholder="ค้นชื่อสาร ภาษาไทยหรืออังกฤษ"
+              aria-label="ค้นชื่อสาร"
+            /><button class="secondary-btn" id="resetBtn">เริ่มใหม่</button>
+          </div>
+          <div class="tabs" role="tablist" aria-label="กรองประเภทสาร">
+            <button class="tab active" data-filter="all">ทั้งหมด 33</button>
+            <button class="tab" data-filter="insecticide">
+              สารกำจัดแมลง 22
+            </button>
+            <button class="tab" data-filter="fungicide">
+              สารป้องกันโรคพืช 11
+            </button>
+          </div>
+        </div>
+        <div
+          class="chemical-grid"
+          id="chemicalGrid"
+          aria-label="ชั้นวางสาร"
+        ></div>
+      </section>
+
+      <aside class="sidebar">
+        <section class="panel side-card">
+          <h3>ความหมายของผล</h3>
+          <div class="legend">
+            <div class="legend-row">
+              <div class="legend-code" style="background: #4e8e63">+</div>
+              <div>
+                <b>ผสมกันได้ตามผัง</b><br />ยังต้องตรวจฉลากและสูตรผลิตภัณฑ์
+              </div>
+            </div>
+            <div class="legend-row">
+              <div class="legend-code" style="background: #4f7ca6">+!</div>
+              <div>
+                <b>ผสมได้ แต่ต้องระวัง</b><br />มีเงื่อนไขหรือความเสี่ยงเพิ่ม
+              </div>
+            </div>
+            <div class="legend-row">
+              <div class="legend-code" style="background: #4b8f73">?</div>
+              <div><b>รอคำรับรองผู้ผลิต</b><br />อย่าผสมโดยสรุปเอง</div>
+            </div>
+            <div class="legend-row">
+              <div class="legend-code" style="background: #7454a4">*n</div>
+              <div>
+                <b>มีหมายเหตุเฉพาะ</b><br />ต้องอ่านรายละเอียดหมายเลขนั้น
+              </div>
+            </div>
+            <div class="legend-row">
+              <div class="legend-code" style="background: #9a7916">0</div>
+              <div><b>ไม่มีความจำเป็นต้องผสม</b></div>
+            </div>
+            <div class="legend-row">
+              <div class="legend-code" style="background: #bf4b4b">−</div>
+              <div><b>ผสมกันไม่ได้</b></div>
+            </div>
+            <div class="legend-row">
+              <div class="legend-code" style="background: #717b77">NA</div>
+              <div><b>ข้อมูลไม่ปรากฏ</b><br />ระบบจะไม่เดาผลให้</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel side-card">
+          <h3>ประวัติการทดลอง</h3>
+          <div class="history" id="history">
+            <div class="history-empty">ยังไม่มีรายการทดลอง</div>
+          </div>
+        </section>
+
+        <section class="panel side-card source-box">
+          <h3>ข้อมูลอ้างอิง</h3>
+          <p>
+            สกัดจาก 2 หน้าท้ายของเอกสารวิชาการ
+            “คำแนะนำการใช้สารป้องกันกำจัดศัตรูพืชจากงานวิจัย ปี 2568”
+            กรมวิชาการเกษตร
+          </p>
+          <p>
+            ตารางต้นฉบับระบุว่าเป็นฉบับปรับปรุงเดือนสิงหาคม 2564
+            และมีคู่ข้อมูลบางส่วนที่ชื่อแถวหรือคอลัมน์ไม่แสดงครบในภาพต้นฉบับ
+          </p>
+          <div class="dataset">
+            <span class="pill">สาร 33 กลุ่ม</span
+            ><span class="pill">คู่ทั้งหมด 528</span
+            ><span class="pill">อ่านผลได้ 508 คู่</span
+            ><span class="pill">ไม่ปรากฏ 20 คู่</span>
+          </div>
+          <div style="height: 12px"></div>
+          <div class="accordion" id="generalNotesAcc">
+            <button type="button">
+              <span>หมายเหตุทั่วไป 17 ถึง 23</span><span>＋</span>
+            </button>
+            <div class="accordion-content" id="generalNotes"></div>
+          </div>
+        </section>
+      </aside>
+    </main>
+    <footer class="wrap">
+      ไฟล์ HTML เดียว ใช้งานแบบออฟไลน์ได้ • รุ่นข้อมูล 2568 •
+      เพื่อการศึกษาและสื่อสารความรู้
+    </footer>
+    <div class="toast" id="toast"></div>
+
+    <script>
+      const PAIRS = [
+        {
+          id: 1,
+          a: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 2,
+          a: 'ไบเฟนทริน',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 3,
+          a: 'ไบเฟนทริน',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 4,
+          a: 'คาร์บาริล',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 5,
+          a: 'คาร์บาริล',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 6,
+          a: 'คาร์บาริล',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 7,
+          a: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          b: 'อะมิทราซ',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 8,
+          a: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 9,
+          a: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 10,
+          a: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          b: 'คาร์บาริล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 11,
+          a: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'อะมิทราซ',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 12,
+          a: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 13,
+          a: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'ไบเฟนทริน',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 14,
+          a: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'คาร์บาริล',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 15,
+          a: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 16,
+          a: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 17,
+          a: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 18,
+          a: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          b: 'ไบเฟนทริน',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 19,
+          a: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          b: 'คาร์บาริล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 20,
+          a: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 21,
+          a: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 22,
+          a: 'ไดอะซินอน, เมทิดาไทออน',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 23,
+          a: 'ไดอะซินอน, เมทิดาไทออน',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 24,
+          a: 'ไดอะซินอน, เมทิดาไทออน',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 25,
+          a: 'ไดอะซินอน, เมทิดาไทออน',
+          b: 'คาร์บาริล',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 26,
+          a: 'ไดอะซินอน, เมทิดาไทออน',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 27,
+          a: 'ไดอะซินอน, เมทิดาไทออน',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 28,
+          a: 'ไดอะซินอน, เมทิดาไทออน',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 29,
+          a: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 30,
+          a: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 31,
+          a: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 32,
+          a: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          b: 'คาร์บาริล',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 33,
+          a: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 34,
+          a: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 35,
+          a: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 36,
+          a: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 37,
+          a: 'ไดเมโทเอต, ไดคลอร์วอส',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 38,
+          a: 'ไดเมโทเอต, ไดคลอร์วอส',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 39,
+          a: 'ไดเมโทเอต, ไดคลอร์วอส',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 40,
+          a: 'ไดเมโทเอต, ไดคลอร์วอส',
+          b: 'คาร์บาริล',
+          status: '*2',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 2',
+          note: 2,
+        },
+        {
+          id: 41,
+          a: 'ไดเมโทเอต, ไดคลอร์วอส',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 42,
+          a: 'ไดเมโทเอต, ไดคลอร์วอส',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 43,
+          a: 'ไดเมโทเอต, ไดคลอร์วอส',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 44,
+          a: 'ไดเมโทเอต, ไดคลอร์วอส',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 45,
+          a: 'ไดเมโทเอต, ไดคลอร์วอส',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 46,
+          a: 'เดลทาเมทริน',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 47,
+          a: 'เดลทาเมทริน',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 48,
+          a: 'เดลทาเมทริน',
+          b: 'ไบเฟนทริน',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 49,
+          a: 'เดลทาเมทริน',
+          b: 'คาร์บาริล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 50,
+          a: 'เดลทาเมทริน',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 51,
+          a: 'เดลทาเมทริน',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 52,
+          a: 'เดลทาเมทริน',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 53,
+          a: 'เดลทาเมทริน',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 54,
+          a: 'เดลทาเมทริน',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 55,
+          a: 'เดลทาเมทริน',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 56,
+          a: 'เฟนิโทรไทออน',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 57,
+          a: 'เฟนิโทรไทออน',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 58,
+          a: 'เฟนิโทรไทออน',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 59,
+          a: 'เฟนิโทรไทออน',
+          b: 'คาร์บาริล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 60,
+          a: 'เฟนิโทรไทออน',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 61,
+          a: 'เฟนิโทรไทออน',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 62,
+          a: 'เฟนิโทรไทออน',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 63,
+          a: 'เฟนิโทรไทออน',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 64,
+          a: 'เฟนิโทรไทออน',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 65,
+          a: 'เฟนิโทรไทออน',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 66,
+          a: 'เฟนิโทรไทออน',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 67,
+          a: 'อิมิดาโคลพริด',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 68,
+          a: 'อิมิดาโคลพริด',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 69,
+          a: 'อิมิดาโคลพริด',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 70,
+          a: 'อิมิดาโคลพริด',
+          b: 'คาร์บาริล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 71,
+          a: 'อิมิดาโคลพริด',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 72,
+          a: 'อิมิดาโคลพริด',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 73,
+          a: 'อิมิดาโคลพริด',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 74,
+          a: 'อิมิดาโคลพริด',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 75,
+          a: 'อิมิดาโคลพริด',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 76,
+          a: 'อิมิดาโคลพริด',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 77,
+          a: 'อิมิดาโคลพริด',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 78,
+          a: 'อิมิดาโคลพริด',
+          b: 'เฟนิโทรไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 79,
+          a: 'แลมบ์ดาไซฮาโลทริน',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 80,
+          a: 'แลมบ์ดาไซฮาโลทริน',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 81,
+          a: 'แลมบ์ดาไซฮาโลทริน',
+          b: 'ไบเฟนทริน',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 82,
+          a: 'แลมบ์ดาไซฮาโลทริน',
+          b: 'คาร์บาริล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 83,
+          a: 'แลมบ์ดาไซฮาโลทริน',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 84,
+          a: 'แลมบ์ดาไซฮาโลทริน',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 85,
+          a: 'แลมบ์ดาไซฮาโลทริน',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 86,
+          a: 'แลมบ์ดาไซฮาโลทริน',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 87,
+          a: 'แลมบ์ดาไซฮาโลทริน',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 88,
+          a: 'แลมบ์ดาไซฮาโลทริน',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 89,
+          a: 'แลมบ์ดาไซฮาโลทริน',
+          b: 'เดลทาเมทริน',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 90,
+          a: 'แลมบ์ดาไซฮาโลทริน',
+          b: 'เฟนิโทรไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 91,
+          a: 'แลมบ์ดาไซฮาโลทริน',
+          b: 'อิมิดาโคลพริด',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 92,
+          a: 'มาลาไทออน',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 93,
+          a: 'มาลาไทออน',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 94,
+          a: 'มาลาไทออน',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 95,
+          a: 'มาลาไทออน',
+          b: 'คาร์บาริล',
+          status: '*2',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 2',
+          note: 2,
+        },
+        {
+          id: 96,
+          a: 'มาลาไทออน',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 97,
+          a: 'มาลาไทออน',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 98,
+          a: 'มาลาไทออน',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 99,
+          a: 'มาลาไทออน',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 100,
+          a: 'มาลาไทออน',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 101,
+          a: 'มาลาไทออน',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 102,
+          a: 'มาลาไทออน',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 103,
+          a: 'มาลาไทออน',
+          b: 'เฟนิโทรไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 104,
+          a: 'มาลาไทออน',
+          b: 'อิมิดาโคลพริด',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 105,
+          a: 'มาลาไทออน',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 106,
+          a: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'อะมิทราซ',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 107,
+          a: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 108,
+          a: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'ไบเฟนทริน',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 109,
+          a: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'คาร์บาริล',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 110,
+          a: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 111,
+          a: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 112,
+          a: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 113,
+          a: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 114,
+          a: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 115,
+          a: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 116,
+          a: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'เดลทาเมทริน',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 117,
+          a: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'เฟนิโทรไทออน',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 118,
+          a: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'อิมิดาโคลพริด',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 119,
+          a: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 120,
+          a: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          b: 'มาลาไทออน',
+          status: 'NA',
+          meaning: 'ข้อมูลช่องคู่นี้ไม่ปรากฏในหน้าปี 2568',
+          note: null,
+        },
+        {
+          id: 121,
+          a: 'ไทโอดิคาร์บ',
+          b: 'อะมิทราซ',
+          status: '*13',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 13',
+          note: 13,
+        },
+        {
+          id: 122,
+          a: 'ไทโอดิคาร์บ',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 123,
+          a: 'ไทโอดิคาร์บ',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 124,
+          a: 'ไทโอดิคาร์บ',
+          b: 'คาร์บาริล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 125,
+          a: 'ไทโอดิคาร์บ',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 126,
+          a: 'ไทโอดิคาร์บ',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 127,
+          a: 'ไทโอดิคาร์บ',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 128,
+          a: 'ไทโอดิคาร์บ',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 129,
+          a: 'ไทโอดิคาร์บ',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 130,
+          a: 'ไทโอดิคาร์บ',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 131,
+          a: 'ไทโอดิคาร์บ',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 132,
+          a: 'ไทโอดิคาร์บ',
+          b: 'เฟนิโทรไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 133,
+          a: 'ไทโอดิคาร์บ',
+          b: 'อิมิดาโคลพริด',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 134,
+          a: 'ไทโอดิคาร์บ',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 135,
+          a: 'ไทโอดิคาร์บ',
+          b: 'มาลาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 136,
+          a: 'ไทโอดิคาร์บ',
+          b: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 137,
+          a: 'ปิโตรเลียมสเปรย์ออยล์',
+          b: 'อะมิทราซ',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 138,
+          a: 'ปิโตรเลียมสเปรย์ออยล์',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 139,
+          a: 'ปิโตรเลียมสเปรย์ออยล์',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 140,
+          a: 'ปิโตรเลียมสเปรย์ออยล์',
+          b: 'คาร์บาริล',
+          status: '*3',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 3',
+          note: 3,
+        },
+        {
+          id: 141,
+          a: 'ปิโตรเลียมสเปรย์ออยล์',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 142,
+          a: 'ปิโตรเลียมสเปรย์ออยล์',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 143,
+          a: 'ปิโตรเลียมสเปรย์ออยล์',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 144,
+          a: 'ปิโตรเลียมสเปรย์ออยล์',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 145,
+          a: 'ปิโตรเลียมสเปรย์ออยล์',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 146,
+          a: 'ปิโตรเลียมสเปรย์ออยล์',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '*7',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 7',
+          note: 7,
+        },
+        {
+          id: 147,
+          a: 'ปิโตรเลียมสเปรย์ออยล์',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 148,
+          a: 'ปิโตรเลียมสเปรย์ออยล์',
+          b: 'เฟนิโทรไทออน',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 149,
+          a: 'ปิโตรเลียมสเปรย์ออยล์',
+          b: 'อิมิดาโคลพริด',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 150,
+          a: 'ปิโตรเลียมสเปรย์ออยล์',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 151,
+          a: 'ปิโตรเลียมสเปรย์ออยล์',
+          b: 'มาลาไทออน',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 152,
+          a: 'ปิโตรเลียมสเปรย์ออยล์',
+          b: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 153,
+          a: 'ปิโตรเลียมสเปรย์ออยล์',
+          b: 'ไทโอดิคาร์บ',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 154,
+          a: 'พิริมิฟอส-เมทิล',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 155,
+          a: 'พิริมิฟอส-เมทิล',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 156,
+          a: 'พิริมิฟอส-เมทิล',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 157,
+          a: 'พิริมิฟอส-เมทิล',
+          b: 'คาร์บาริล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 158,
+          a: 'พิริมิฟอส-เมทิล',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 159,
+          a: 'พิริมิฟอส-เมทิล',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 160,
+          a: 'พิริมิฟอส-เมทิล',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 161,
+          a: 'พิริมิฟอส-เมทิล',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 162,
+          a: 'พิริมิฟอส-เมทิล',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 163,
+          a: 'พิริมิฟอส-เมทิล',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 164,
+          a: 'พิริมิฟอส-เมทิล',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 165,
+          a: 'พิริมิฟอส-เมทิล',
+          b: 'เฟนิโทรไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 166,
+          a: 'พิริมิฟอส-เมทิล',
+          b: 'อิมิดาโคลพริด',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 167,
+          a: 'พิริมิฟอส-เมทิล',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 168,
+          a: 'พิริมิฟอส-เมทิล',
+          b: 'มาลาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 169,
+          a: 'พิริมิฟอส-เมทิล',
+          b: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 170,
+          a: 'พิริมิฟอส-เมทิล',
+          b: 'ไทโอดิคาร์บ',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 171,
+          a: 'พิริมิฟอส-เมทิล',
+          b: 'ปิโตรเลียมสเปรย์ออยล์',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 172,
+          a: 'โพรพาไกต์',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 173,
+          a: 'โพรพาไกต์',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 174,
+          a: 'โพรพาไกต์',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 175,
+          a: 'โพรพาไกต์',
+          b: 'คาร์บาริล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 176,
+          a: 'โพรพาไกต์',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 177,
+          a: 'โพรพาไกต์',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 178,
+          a: 'โพรพาไกต์',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 179,
+          a: 'โพรพาไกต์',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 180,
+          a: 'โพรพาไกต์',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 181,
+          a: 'โพรพาไกต์',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 182,
+          a: 'โพรพาไกต์',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 183,
+          a: 'โพรพาไกต์',
+          b: 'เฟนิโทรไทออน',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 184,
+          a: 'โพรพาไกต์',
+          b: 'อิมิดาโคลพริด',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 185,
+          a: 'โพรพาไกต์',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 186,
+          a: 'โพรพาไกต์',
+          b: 'มาลาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 187,
+          a: 'โพรพาไกต์',
+          b: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 188,
+          a: 'โพรพาไกต์',
+          b: 'ไทโอดิคาร์บ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 189,
+          a: 'โพรพาไกต์',
+          b: 'ปิโตรเลียมสเปรย์ออยล์',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 190,
+          a: 'โพรพาไกต์',
+          b: 'พิริมิฟอส-เมทิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 191,
+          a: 'โพรพีโนฟอส',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 192,
+          a: 'โพรพีโนฟอส',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 193,
+          a: 'โพรพีโนฟอส',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 194,
+          a: 'โพรพีโนฟอส',
+          b: 'คาร์บาริล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 195,
+          a: 'โพรพีโนฟอส',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 196,
+          a: 'โพรพีโนฟอส',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 197,
+          a: 'โพรพีโนฟอส',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 198,
+          a: 'โพรพีโนฟอส',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 199,
+          a: 'โพรพีโนฟอส',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 200,
+          a: 'โพรพีโนฟอส',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 201,
+          a: 'โพรพีโนฟอส',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 202,
+          a: 'โพรพีโนฟอส',
+          b: 'เฟนิโทรไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 203,
+          a: 'โพรพีโนฟอส',
+          b: 'อิมิดาโคลพริด',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 204,
+          a: 'โพรพีโนฟอส',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 205,
+          a: 'โพรพีโนฟอส',
+          b: 'มาลาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 206,
+          a: 'โพรพีโนฟอส',
+          b: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 207,
+          a: 'โพรพีโนฟอส',
+          b: 'ไทโอดิคาร์บ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 208,
+          a: 'โพรพีโนฟอส',
+          b: 'ปิโตรเลียมสเปรย์ออยล์',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 209,
+          a: 'โพรพีโนฟอส',
+          b: 'พิริมิฟอส-เมทิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 210,
+          a: 'โพรพีโนฟอส',
+          b: 'โพรพาไกต์',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 211,
+          a: 'ไตรอะโซฟอส',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 212,
+          a: 'ไตรอะโซฟอส',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 213,
+          a: 'ไตรอะโซฟอส',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 214,
+          a: 'ไตรอะโซฟอส',
+          b: 'คาร์บาริล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 215,
+          a: 'ไตรอะโซฟอส',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 216,
+          a: 'ไตรอะโซฟอส',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 217,
+          a: 'ไตรอะโซฟอส',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 218,
+          a: 'ไตรอะโซฟอส',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 219,
+          a: 'ไตรอะโซฟอส',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 220,
+          a: 'ไตรอะโซฟอส',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 221,
+          a: 'ไตรอะโซฟอส',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 222,
+          a: 'ไตรอะโซฟอส',
+          b: 'เฟนิโทรไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 223,
+          a: 'ไตรอะโซฟอส',
+          b: 'อิมิดาโคลพริด',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 224,
+          a: 'ไตรอะโซฟอส',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 225,
+          a: 'ไตรอะโซฟอส',
+          b: 'มาลาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 226,
+          a: 'ไตรอะโซฟอส',
+          b: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 227,
+          a: 'ไตรอะโซฟอส',
+          b: 'ไทโอดิคาร์บ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 228,
+          a: 'ไตรอะโซฟอส',
+          b: 'ปิโตรเลียมสเปรย์ออยล์',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 229,
+          a: 'ไตรอะโซฟอส',
+          b: 'พิริมิฟอส-เมทิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 230,
+          a: 'ไตรอะโซฟอส',
+          b: 'โพรพาไกต์',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 231,
+          a: 'ไตรอะโซฟอส',
+          b: 'โพรพีโนฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 232,
+          a: 'เบโนมิล',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 233,
+          a: 'เบโนมิล',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 234,
+          a: 'เบโนมิล',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 235,
+          a: 'เบโนมิล',
+          b: 'คาร์บาริล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 236,
+          a: 'เบโนมิล',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 237,
+          a: 'เบโนมิล',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 238,
+          a: 'เบโนมิล',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 239,
+          a: 'เบโนมิล',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 240,
+          a: 'เบโนมิล',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 241,
+          a: 'เบโนมิล',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 242,
+          a: 'เบโนมิล',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 243,
+          a: 'เบโนมิล',
+          b: 'เฟนิโทรไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 244,
+          a: 'เบโนมิล',
+          b: 'อิมิดาโคลพริด',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 245,
+          a: 'เบโนมิล',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 246,
+          a: 'เบโนมิล',
+          b: 'มาลาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 247,
+          a: 'เบโนมิล',
+          b: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 248,
+          a: 'เบโนมิล',
+          b: 'ไทโอดิคาร์บ',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 249,
+          a: 'เบโนมิล',
+          b: 'ปิโตรเลียมสเปรย์ออยล์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 250,
+          a: 'เบโนมิล',
+          b: 'พิริมิฟอส-เมทิล',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 251,
+          a: 'เบโนมิล',
+          b: 'โพรพาไกต์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 252,
+          a: 'เบโนมิล',
+          b: 'โพรพีโนฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 253,
+          a: 'เบโนมิล',
+          b: 'ไตรอะโซฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 254,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 255,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 256,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 257,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'คาร์บาริล',
+          status: '*4',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 4',
+          note: 4,
+        },
+        {
+          id: 258,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 259,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 260,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 261,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 262,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '*6',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 6',
+          note: 6,
+        },
+        {
+          id: 263,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 264,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 265,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'เฟนิโทรไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 266,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'อิมิดาโคลพริด',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 267,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 268,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'มาลาไทออน',
+          status: '*8',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 8',
+          note: 8,
+        },
+        {
+          id: 269,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 270,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'ไทโอดิคาร์บ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 271,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'ปิโตรเลียมสเปรย์ออยล์',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 272,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'พิริมิฟอส-เมทิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 273,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'โพรพาไกต์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 274,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'โพรพีโนฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 275,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'ไตรอะโซฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 276,
+          a: 'แคปแทน, แคปทาโฟล',
+          b: 'เบโนมิล',
+          status: '*10',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 10',
+          note: 10,
+        },
+        {
+          id: 277,
+          a: 'คลอโรทาโลนิล',
+          b: 'อะมิทราซ',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 278,
+          a: 'คลอโรทาโลนิล',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 279,
+          a: 'คลอโรทาโลนิล',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 280,
+          a: 'คลอโรทาโลนิล',
+          b: 'คาร์บาริล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 281,
+          a: 'คลอโรทาโลนิล',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 282,
+          a: 'คลอโรทาโลนิล',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '*12',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 12',
+          note: 12,
+        },
+        {
+          id: 283,
+          a: 'คลอโรทาโลนิล',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '*12',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 12',
+          note: 12,
+        },
+        {
+          id: 284,
+          a: 'คลอโรทาโลนิล',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 285,
+          a: 'คลอโรทาโลนิล',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 286,
+          a: 'คลอโรทาโลนิล',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 287,
+          a: 'คลอโรทาโลนิล',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 288,
+          a: 'คลอโรทาโลนิล',
+          b: 'เฟนิโทรไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 289,
+          a: 'คลอโรทาโลนิล',
+          b: 'อิมิดาโคลพริด',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 290,
+          a: 'คลอโรทาโลนิล',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 291,
+          a: 'คลอโรทาโลนิล',
+          b: 'มาลาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 292,
+          a: 'คลอโรทาโลนิล',
+          b: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 293,
+          a: 'คลอโรทาโลนิล',
+          b: 'ไทโอดิคาร์บ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 294,
+          a: 'คลอโรทาโลนิล',
+          b: 'ปิโตรเลียมสเปรย์ออยล์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 295,
+          a: 'คลอโรทาโลนิล',
+          b: 'พิริมิฟอส-เมทิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 296,
+          a: 'คลอโรทาโลนิล',
+          b: 'โพรพาไกต์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 297,
+          a: 'คลอโรทาโลนิล',
+          b: 'โพรพีโนฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 298,
+          a: 'คลอโรทาโลนิล',
+          b: 'ไตรอะโซฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 299,
+          a: 'คลอโรทาโลนิล',
+          b: 'เบโนมิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 300,
+          a: 'คลอโรทาโลนิล',
+          b: 'แคปแทน, แคปทาโฟล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 301,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'อะมิทราซ',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 302,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 303,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 304,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'คาร์บาริล',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 305,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 306,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 307,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 308,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 309,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 310,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 311,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 312,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'เฟนิโทรไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 313,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'อิมิดาโคลพริด',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 314,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 315,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'มาลาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 316,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 317,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'ไทโอดิคาร์บ',
+          status: '*13',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 13',
+          note: 13,
+        },
+        {
+          id: 318,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'ปิโตรเลียมสเปรย์ออยล์',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 319,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'พิริมิฟอส-เมทิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 320,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'โพรพาไกต์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 321,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'โพรพีโนฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 322,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'ไตรอะโซฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 323,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'เบโนมิล',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 324,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'แคปแทน, แคปทาโฟล',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 325,
+          a: 'คอปเปอร์ออกซีคลอไรด์',
+          b: 'คลอโรทาโลนิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 326,
+          a: 'ไอโพรไดโอน',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 327,
+          a: 'ไอโพรไดโอน',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 328,
+          a: 'ไอโพรไดโอน',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 329,
+          a: 'ไอโพรไดโอน',
+          b: 'คาร์บาริล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 330,
+          a: 'ไอโพรไดโอน',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 331,
+          a: 'ไอโพรไดโอน',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 332,
+          a: 'ไอโพรไดโอน',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 333,
+          a: 'ไอโพรไดโอน',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 334,
+          a: 'ไอโพรไดโอน',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 335,
+          a: 'ไอโพรไดโอน',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 336,
+          a: 'ไอโพรไดโอน',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 337,
+          a: 'ไอโพรไดโอน',
+          b: 'เฟนิโทรไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 338,
+          a: 'ไอโพรไดโอน',
+          b: 'อิมิดาโคลพริด',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 339,
+          a: 'ไอโพรไดโอน',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 340,
+          a: 'ไอโพรไดโอน',
+          b: 'มาลาไทออน',
+          status: '*9',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 9',
+          note: 9,
+        },
+        {
+          id: 341,
+          a: 'ไอโพรไดโอน',
+          b: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 342,
+          a: 'ไอโพรไดโอน',
+          b: 'ไทโอดิคาร์บ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 343,
+          a: 'ไอโพรไดโอน',
+          b: 'ปิโตรเลียมสเปรย์ออยล์',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 344,
+          a: 'ไอโพรไดโอน',
+          b: 'พิริมิฟอส-เมทิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 345,
+          a: 'ไอโพรไดโอน',
+          b: 'โพรพาไกต์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 346,
+          a: 'ไอโพรไดโอน',
+          b: 'โพรพีโนฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 347,
+          a: 'ไอโพรไดโอน',
+          b: 'ไตรอะโซฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 348,
+          a: 'ไอโพรไดโอน',
+          b: 'เบโนมิล',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 349,
+          a: 'ไอโพรไดโอน',
+          b: 'แคปแทน, แคปทาโฟล',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 350,
+          a: 'ไอโพรไดโอน',
+          b: 'คลอโรทาโลนิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 351,
+          a: 'ไอโพรไดโอน',
+          b: 'คอปเปอร์ออกซีคลอไรด์',
+          status: '*15',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 15',
+          note: 15,
+        },
+        {
+          id: 352,
+          a: 'เมทาแลกซิล',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 353,
+          a: 'เมทาแลกซิล',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 354,
+          a: 'เมทาแลกซิล',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 355,
+          a: 'เมทาแลกซิล',
+          b: 'คาร์บาริล',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 356,
+          a: 'เมทาแลกซิล',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 357,
+          a: 'เมทาแลกซิล',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 358,
+          a: 'เมทาแลกซิล',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 359,
+          a: 'เมทาแลกซิล',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 360,
+          a: 'เมทาแลกซิล',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 361,
+          a: 'เมทาแลกซิล',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 362,
+          a: 'เมทาแลกซิล',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 363,
+          a: 'เมทาแลกซิล',
+          b: 'เฟนิโทรไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 364,
+          a: 'เมทาแลกซิล',
+          b: 'อิมิดาโคลพริด',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 365,
+          a: 'เมทาแลกซิล',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 366,
+          a: 'เมทาแลกซิล',
+          b: 'มาลาไทออน',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 367,
+          a: 'เมทาแลกซิล',
+          b: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 368,
+          a: 'เมทาแลกซิล',
+          b: 'ไทโอดิคาร์บ',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 369,
+          a: 'เมทาแลกซิล',
+          b: 'ปิโตรเลียมสเปรย์ออยล์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 370,
+          a: 'เมทาแลกซิล',
+          b: 'พิริมิฟอส-เมทิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 371,
+          a: 'เมทาแลกซิล',
+          b: 'โพรพาไกต์',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 372,
+          a: 'เมทาแลกซิล',
+          b: 'โพรพีโนฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 373,
+          a: 'เมทาแลกซิล',
+          b: 'ไตรอะโซฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 374,
+          a: 'เมทาแลกซิล',
+          b: 'เบโนมิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 375,
+          a: 'เมทาแลกซิล',
+          b: 'แคปแทน, แคปทาโฟล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 376,
+          a: 'เมทาแลกซิล',
+          b: 'คลอโรทาโลนิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 377,
+          a: 'เมทาแลกซิล',
+          b: 'คอปเปอร์ออกซีคลอไรด์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 378,
+          a: 'เมทาแลกซิล',
+          b: 'ไอโพรไดโอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 379,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'อะมิทราซ',
+          status: '*1',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 1',
+          note: 1,
+        },
+        {
+          id: 380,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 381,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 382,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'คาร์บาริล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 383,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 384,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 385,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 386,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 387,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 388,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 389,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 390,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'เฟนิโทรไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 391,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'อิมิดาโคลพริด',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 392,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 393,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'มาลาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 394,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 395,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'ไทโอดิคาร์บ',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 396,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'ปิโตรเลียมสเปรย์ออยล์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 397,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'พิริมิฟอส-เมทิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 398,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'โพรพาไกต์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 399,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'โพรพีโนฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 400,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'ไตรอะโซฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 401,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'เบโนมิล',
+          status: '*11',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 11',
+          note: 11,
+        },
+        {
+          id: 402,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'แคปแทน, แคปทาโฟล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 403,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'คลอโรทาโลนิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 404,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'คอปเปอร์ออกซีคลอไรด์',
+          status: '*16',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 16',
+          note: 16,
+        },
+        {
+          id: 405,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'ไอโพรไดโอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 406,
+          a: 'แมนโคเซบ, ไทแรม',
+          b: 'เมทาแลกซิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 407,
+          a: 'คาร์เบนดาซิม',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 408,
+          a: 'คาร์เบนดาซิม',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 409,
+          a: 'คาร์เบนดาซิม',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 410,
+          a: 'คาร์เบนดาซิม',
+          b: 'คาร์บาริล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 411,
+          a: 'คาร์เบนดาซิม',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 412,
+          a: 'คาร์เบนดาซิม',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 413,
+          a: 'คาร์เบนดาซิม',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 414,
+          a: 'คาร์เบนดาซิม',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 415,
+          a: 'คาร์เบนดาซิม',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 416,
+          a: 'คาร์เบนดาซิม',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 417,
+          a: 'คาร์เบนดาซิม',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 418,
+          a: 'คาร์เบนดาซิม',
+          b: 'เฟนิโทรไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 419,
+          a: 'คาร์เบนดาซิม',
+          b: 'อิมิดาโคลพริด',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 420,
+          a: 'คาร์เบนดาซิม',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 421,
+          a: 'คาร์เบนดาซิม',
+          b: 'มาลาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 422,
+          a: 'คาร์เบนดาซิม',
+          b: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 423,
+          a: 'คาร์เบนดาซิม',
+          b: 'ไทโอดิคาร์บ',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 424,
+          a: 'คาร์เบนดาซิม',
+          b: 'ปิโตรเลียมสเปรย์ออยล์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 425,
+          a: 'คาร์เบนดาซิม',
+          b: 'พิริมิฟอส-เมทิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 426,
+          a: 'คาร์เบนดาซิม',
+          b: 'โพรพาไกต์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 427,
+          a: 'คาร์เบนดาซิม',
+          b: 'โพรพีโนฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 428,
+          a: 'คาร์เบนดาซิม',
+          b: 'ไตรอะโซฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 429,
+          a: 'คาร์เบนดาซิม',
+          b: 'เบโนมิล',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 430,
+          a: 'คาร์เบนดาซิม',
+          b: 'แคปแทน, แคปทาโฟล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 431,
+          a: 'คาร์เบนดาซิม',
+          b: 'คลอโรทาโลนิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 432,
+          a: 'คาร์เบนดาซิม',
+          b: 'คอปเปอร์ออกซีคลอไรด์',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 433,
+          a: 'คาร์เบนดาซิม',
+          b: 'ไอโพรไดโอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 434,
+          a: 'คาร์เบนดาซิม',
+          b: 'เมทาแลกซิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 435,
+          a: 'คาร์เบนดาซิม',
+          b: 'แมนโคเซบ, ไทแรม',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 436,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'อะมิทราซ',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 437,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 438,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'ไบเฟนทริน',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 439,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'คาร์บาริล',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 440,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 441,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 442,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 443,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 444,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 445,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 446,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'เดลทาเมทริน',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 447,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'เฟนิโทรไทออน',
+          status: '*14',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 14',
+          note: 14,
+        },
+        {
+          id: 448,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'อิมิดาโคลพริด',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 449,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 450,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'มาลาไทออน',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 451,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 452,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'ไทโอดิคาร์บ',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 453,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'ปิโตรเลียมสเปรย์ออยล์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 454,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'พิริมิฟอส-เมทิล',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 455,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'โพรพาไกต์',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 456,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'โพรพีโนฟอส',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 457,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'ไตรอะโซฟอส',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 458,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'เบโนมิล',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 459,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'แคปแทน, แคปทาโฟล',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 460,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'คลอโรทาโลนิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 461,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'คอปเปอร์ออกซีคลอไรด์',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 462,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'ไอโพรไดโอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 463,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'เมทาแลกซิล',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 464,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'แมนโคเซบ, ไทแรม',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 465,
+          a: 'บอร์โดมิกเจอร์',
+          b: 'คาร์เบนดาซิม',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 466,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 467,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 468,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 469,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'คาร์บาริล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 470,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 471,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 472,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 473,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 474,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 475,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 476,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 477,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'เฟนิโทรไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 478,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'อิมิดาโคลพริด',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 479,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 480,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'มาลาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 481,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 482,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'ไทโอดิคาร์บ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 483,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'ปิโตรเลียมสเปรย์ออยล์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 484,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'พิริมิฟอส-เมทิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 485,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'โพรพาไกต์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 486,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'โพรพีโนฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 487,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'ไตรอะโซฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 488,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'เบโนมิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 489,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'แคปแทน, แคปทาโฟล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 490,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'คลอโรทาโลนิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 491,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'คอปเปอร์ออกซีคลอไรด์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 492,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'ไอโพรไดโอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 493,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'เมทาแลกซิล',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 494,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'แมนโคเซบ, ไทแรม',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 495,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'คาร์เบนดาซิม',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 496,
+          a: 'ไตรอะดิมีฟอน',
+          b: 'บอร์โดมิกเจอร์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 497,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'อะมิทราซ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 498,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 499,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'ไบเฟนทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 500,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'คาร์บาริล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 501,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 502,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 503,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 504,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'ไดอะซินอน, เมทิดาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 505,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          status: '*5',
+          meaning: 'ดูหมายเหตุเฉพาะ หมายเหตุ 5',
+          note: 5,
+        },
+        {
+          id: 506,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'ไดเมโทเอต, ไดคลอร์วอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 507,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'เดลทาเมทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 508,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'เฟนิโทรไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 509,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'อิมิดาโคลพริด',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 510,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'แลมบ์ดาไซฮาโลทริน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 511,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'มาลาไทออน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 512,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 513,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'ไทโอดิคาร์บ',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 514,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'ปิโตรเลียมสเปรย์ออยล์',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 515,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'พิริมิฟอส-เมทิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 516,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'โพรพาไกต์',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 517,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'โพรพีโนฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 518,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'ไตรอะโซฟอส',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 519,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'เบโนมิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 520,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'แคปแทน, แคปทาโฟล',
+          status: '?',
+          meaning: 'อย่าผสมจนกว่าจะได้รับคำรับรองจากผู้ผลิต',
+          note: null,
+        },
+        {
+          id: 521,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'คลอโรทาโลนิล',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 522,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'คอปเปอร์ออกซีคลอไรด์',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 523,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'ไอโพรไดโอน',
+          status: '0',
+          meaning: 'ไม่มีความจำเป็นต้องผสมกัน',
+          note: null,
+        },
+        {
+          id: 524,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'เมทาแลกซิล',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 525,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'แมนโคเซบ, ไทแรม',
+          status: '+!',
+          meaning: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          note: null,
+        },
+        {
+          id: 526,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'คาร์เบนดาซิม',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+        {
+          id: 527,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'บอร์โดมิกเจอร์',
+          status: '-',
+          meaning: 'ผสมกันไม่ได้',
+          note: null,
+        },
+        {
+          id: 528,
+          a: 'ซัลเฟอร์ (ผง)',
+          b: 'ไตรอะดิมีฟอน',
+          status: '+',
+          meaning: 'ผสมกันได้',
+          note: null,
+        },
+      ];
+      const SUBSTANCES = [
+        {
+          id: 1,
+          name: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          display: 'เบตาไซฟลูทริน, ไซฟลูทริน',
+          english: 'beta-cyfluthrin, cyfluthrin',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 2,
+          name: 'อะมิทราซ',
+          display: 'อะมิทราซ',
+          english: 'amitraz',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 3,
+          name: 'ไบเฟนทริน',
+          display: 'ไบเฟนทริน',
+          english: 'bifenthrin',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 4,
+          name: 'คาร์บาริล',
+          display: 'คาร์บาริล',
+          english: 'carbaryl',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 5,
+          name: 'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          display:
+            'คลอร์ฟลูอาซูรอน, ไดฟลูเบนซูรอน, ฟลูเฟนนอกซูรอน, ไตรฟลูมูรอน',
+          english: 'chlorfluazuron, diflubenzuron, flufenoxuron, triflumuron',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 6,
+          name: 'คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          display: 'คลอร์ไพริฟอส',
+          english: 'chlorpyrifos',
+          category: 'insecticide',
+          sourceUncertainLabel: true,
+        },
+        {
+          id: 7,
+          name: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          display: 'ไซเพอร์เมทริน, เพอร์เมทริน',
+          english: 'cypermethrin, permethrin',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 8,
+          name: 'ไดอะซินอน, เมทิดาไทออน',
+          display: 'ไดอะซินอน, เมทิดาไทออน',
+          english: 'diazinon, methidathion',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 9,
+          name: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          display: 'ไดโคโฟล, คลอร์โรเบนซิเลท',
+          english: 'dicofol, chlorobenzilate',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 10,
+          name: 'ไดเมโทเอต, ไดคลอร์วอส',
+          display: 'ไดเมโทเอต, ไดคลอร์วอส',
+          english: 'dimethoate, dichlorvos',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 11,
+          name: 'เดลทาเมทริน',
+          display: 'เดลทาเมทริน',
+          english: 'deltamethrin',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 12,
+          name: 'เฟนิโทรไทออน',
+          display: 'เฟนิโทรไทออน',
+          english: 'fenitrothion',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 13,
+          name: 'อิมิดาโคลพริด',
+          display: 'อิมิดาโคลพริด',
+          english: 'imidacloprid',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 14,
+          name: 'แลมบ์ดาไซฮาโลทริน',
+          display: 'แลมบ์ดาไซฮาโลทริน',
+          english: 'lambda-cyhalothrin',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 15,
+          name: 'มาลาไทออน',
+          display: 'มาลาไทออน',
+          english: 'malathion',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 16,
+          name: 'เมโทมิล [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]',
+          display: 'เมโทมิล',
+          english: 'methomyl',
+          category: 'insecticide',
+          sourceUncertainLabel: true,
+        },
+        {
+          id: 17,
+          name: 'ไทโอดิคาร์บ',
+          display: 'ไทโอดิคาร์บ',
+          english: 'thiodicarb',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 18,
+          name: 'ปิโตรเลียมสเปรย์ออยล์',
+          display: 'ปิโตรเลียมสเปรย์ออยล์',
+          english: 'petroleum spray oil',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 19,
+          name: 'พิริมิฟอส-เมทิล',
+          display: 'พิริมิฟอส-เมทิล',
+          english: 'pirimiphos-methyl',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 20,
+          name: 'โพรพาไกต์',
+          display: 'โพรพาไกต์',
+          english: 'propargite',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 21,
+          name: 'โพรพีโนฟอส',
+          display: 'โพรพีโนฟอส',
+          english: 'profenofos',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 22,
+          name: 'ไตรอะโซฟอส',
+          display: 'ไตรอะโซฟอส',
+          english: 'triazophos',
+          category: 'insecticide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 23,
+          name: 'เบโนมิล',
+          display: 'เบโนมิล',
+          english: 'benomyl',
+          category: 'fungicide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 24,
+          name: 'แคปแทน, แคปทาโฟล',
+          display: 'แคปแทน, แคปทาโฟล',
+          english: 'captan, captafol',
+          category: 'fungicide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 25,
+          name: 'คลอโรทาโลนิล',
+          display: 'คลอโรทาโลนิล',
+          english: 'chlorothalonil',
+          category: 'fungicide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 26,
+          name: 'คอปเปอร์ออกซีคลอไรด์',
+          display: 'คอปเปอร์ออกซีคลอไรด์',
+          english: 'copper oxychloride',
+          category: 'fungicide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 27,
+          name: 'ไอโพรไดโอน',
+          display: 'ไอโพรไดโอน',
+          english: 'iprodione',
+          category: 'fungicide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 28,
+          name: 'เมทาแลกซิล',
+          display: 'เมทาแลกซิล',
+          english: 'metalaxyl',
+          category: 'fungicide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 29,
+          name: 'แมนโคเซบ, ไทแรม',
+          display: 'แมนโคเซบ, ไทแรม',
+          english: 'mancozeb, thiram',
+          category: 'fungicide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 30,
+          name: 'คาร์เบนดาซิม',
+          display: 'คาร์เบนดาซิม',
+          english: 'carbendazim',
+          category: 'fungicide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 31,
+          name: 'บอร์โดมิกเจอร์',
+          display: 'บอร์โดมิกเจอร์',
+          english: 'Bordeaux mixture',
+          category: 'fungicide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 32,
+          name: 'ไตรอะดิมีฟอน',
+          display: 'ไตรอะดิมีฟอน',
+          english: 'triadimefon',
+          category: 'fungicide',
+          sourceUncertainLabel: false,
+        },
+        {
+          id: 33,
+          name: 'ซัลเฟอร์ (ผง)',
+          display: 'ซัลเฟอร์ (ผง)',
+          english: 'sulfur (dust)',
+          category: 'fungicide',
+          sourceUncertainLabel: false,
+        },
+      ];
+      const NOTES = {
+        1: {
+          pairs: 'แมนโคเซบ, ไทแรม + อะมิทราซ',
+          detail:
+            'อะมิทราซผสมกับซีเนบ มาเนบ และแมนโคเซบได้ แต่ผสมกับไทแรมไม่ได้',
+        },
+        2: {
+          pairs: 'ไดเมโทเอต, ไดคลอร์วอส + คาร์บาริล; มาลาไทออน + คาร์บาริล',
+          detail:
+            'คาร์บาริลร่วมกับไดเมโทเอตอาจเป็นอันตรายต่อถั่วเหลืองและมะเขือเทศ และคาร์บาริลร่วมกับไดเมโทเอตหรือมาลาไทออนอาจเป็นอันตรายต่อฝ้าย',
+        },
+        3: {
+          pairs: 'ปิโตรเลียมสเปรย์ออยล์ + คาร์บาริล',
+          detail:
+            'คาร์บาริลร่วมกับปิโตรเลียมสเปรย์ออยล์อาจเป็นอันตรายต่อแอปเปิล',
+        },
+        4: {
+          pairs: 'แคปแทน, แคปทาโฟล + คาร์บาริล',
+          detail:
+            'คาร์บาริลร่วมกับแคปทาโฟลอาจทำให้ผลมะเขือเทศอ่อนเป็นจุดในฤดูร้อนหรือเมื่อขาดน้ำ',
+        },
+        5: {
+          pairs: 'ซัลเฟอร์ (ผง) + ไดโคโฟล, คลอร์โรเบนซิเลท',
+          detail: 'หลังพ่นซัลเฟอร์ชนิดผง ให้เว้น 2 สัปดาห์ก่อนพ่นไดโคโฟล',
+        },
+        6: {
+          pairs: 'แคปแทน, แคปทาโฟล + ไดโคโฟล, คลอร์โรเบนซิเลท',
+          detail: 'ไดโคโฟลผสมกับแคปแทนได้เฉพาะรูปผง',
+        },
+        7: {
+          pairs: 'ปิโตรเลียมสเปรย์ออยล์ + ไดเมโทเอต, ไดคลอร์วอส',
+          detail: 'อย่าผสมไดเมโทเอตกับปิโตรเลียมสเปรย์ออยล์เพื่อพ่นบนไม้ประดับ',
+        },
+        8: {
+          pairs: 'แคปแทน, แคปทาโฟล + มาลาไทออน',
+          detail: 'มาลาไทออนผสมกับแคปแทนได้เฉพาะรูปผง',
+        },
+        9: {
+          pairs: 'ไอโพรไดโอน + มาลาไทออน',
+          detail:
+            'มาลาไทออนร่วมกับไอโพรไดโอน ต้องผสมในเครื่องพ่นที่มีระบบกวนและรีบพ่นทันที',
+        },
+        10: {
+          pairs: 'แคปแทน, แคปทาโฟล + เบโนมิล',
+          detail: 'อย่าผสมเบโนมิลกับแคปแทนเพื่อพ่นส้ม',
+        },
+        11: {
+          pairs: 'แมนโคเซบ, ไทแรม + เบโนมิล',
+          detail:
+            'เบโนมิลผสมกับมาเนบและแมนโคเซบได้ แต่ไม่มีความจำเป็นต้องผสมกับไทแรม',
+        },
+        12: {
+          pairs:
+            'คลอโรทาโลนิล + คลอร์ไพริฟอส [คอลัมน์เดิมที่ชื่อไม่แสดงในหน้าปี 2568]; คลอโรทาโลนิล + ไซเพอร์เมทริน, เพอร์เมทริน',
+          detail: 'ต้องผสมสารจับใบตามที่ฉลากระบุ',
+        },
+        13: {
+          pairs: 'ไทโอดิคาร์บ + อะมิทราซ; คอปเปอร์ออกซีคลอไรด์ + ไทโอดิคาร์บ',
+          detail: 'ผสมกันได้ แต่ต้องใช้ให้หมดภายใน 6 ชั่วโมง',
+        },
+        14: {
+          pairs: 'บอร์โดมิกเจอร์ + เฟนิโทรไทออน',
+          detail: 'ผสมกันได้ แต่ต้องรีบใช้ทันที',
+        },
+        15: {
+          pairs: 'ไอโพรไดโอน + คอปเปอร์ออกซีคลอไรด์',
+          detail:
+            'อย่าผสมไอโพรไดโอนสูตรน้ำกับคอปเปอร์ออกซีคลอไรด์เพื่อพ่นบนมันฝรั่ง',
+        },
+        16: {
+          pairs: 'แมนโคเซบ, ไทแรม + คอปเปอร์ออกซีคลอไรด์',
+          detail: 'อย่าผสมสารที่มีส่วนประกอบของทองแดงหรือคอปเปอร์กับไทแรม',
+        },
+      };
+      const GENERAL_NOTES = [
+        {
+          n: 17,
+          title: 'สารฮอร์โมนพืช',
+          detail:
+            'สารควบคุมการเจริญเติบโตกลุ่ม NAA และกลุ่ม phenoxy ส่วนใหญ่เข้ากับสารกำจัดแมลงและสารป้องกันโรคพืชได้ ยกเว้นสารที่มีฤทธิ์เป็นด่างมาก ควรแยกพ่นหรือทำตามคำแนะนำผู้ผลิต',
+        },
+        {
+          n: 18,
+          title: 'สารปฏิชีวนะ',
+          detail:
+            'ให้ผลดีที่สุดเมื่อไม่ผสมสารอื่น สเตรปโตมัยซิน แอกริ-สเตรป และแอกริมัยซินผสมกับไดเมโทเอต แคปแทน และซัลเฟอร์ชนิดผงได้ แต่ห้ามผสมกับบอร์โดมิกเจอร์หรือสารที่เป็นด่างมาก',
+        },
+        {
+          n: 19,
+          title: 'ไวรัส NPV',
+          detail:
+            'ต้นฉบับระบุว่า NPV ผสมกับสารกำจัดแมลงได้ทุกชนิด โดยเฉพาะสารที่มีประสิทธิภาพทำลายไข่ เช่น คลอร์ไดมีฟอร์มและเมโทมิล',
+        },
+        {
+          n: 20,
+          title: 'แบคทีเรีย BT',
+          detail:
+            'โดยทั่วไปเข้ากับสารกำจัดแมลงและสารป้องกันโรคพืชได้ แต่ต้องผสมแล้วพ่นทันที และมีรายการยกเว้นตามต้นฉบับ',
+        },
+        {
+          n: 21,
+          title: 'หลีกเลี่ยงด่างจัด',
+          detail:
+            'อย่าผสมสารป้องกันกำจัดศัตรูพืชในสภาพด่างจัด รวมถึงปุ๋ยบางชนิดที่เมื่อละลายแล้วมีสภาพเป็นด่าง',
+        },
+        {
+          n: 22,
+          title: 'ชื่อที่ใช้ในผัง',
+          detail: 'ชื่อสารในผังเป็นชื่อสามัญ ไม่ใช่ชื่อการค้า',
+        },
+        {
+          n: 23,
+          title: 'สถานะของผัง',
+          detail:
+            'ผังเป็นข้อมูลรวบรวม ไม่ใช่คำแนะนำให้ใช้โดยตรง การผสมบางคู่อาจเป็นอันตรายต่อคน สัตว์ หรือพืช',
+        },
+      ];
+
+      const STATUS = {
+        '+': {
+          label: 'ผสมกันได้ตามผัง',
+          icon: '+',
+          cls: 'status-plus',
+          detail:
+            'ผังอ้างอิงระบุว่าเข้ากันได้ แต่ยังต้องตรวจฉลาก สูตรผลิตภัณฑ์ พืชเป้าหมาย และทะเบียนก่อนใช้งานจริง',
+        },
+        '+!': {
+          label: 'ผสมกันได้ แต่ต้องระมัดระวัง',
+          icon: '+!',
+          cls: 'status-caution',
+          detail:
+            'คู่นี้อยู่ในกลุ่มที่ผสมได้แต่มีข้อควรระวัง ควรตรวจฉลากและขอคำแนะนำจากผู้ผลิตหรือเจ้าหน้าที่',
+        },
+        '?': {
+          label: 'อย่าผสมจนกว่าจะได้รับคำรับรอง',
+          icon: '?',
+          cls: 'status-query',
+          detail:
+            'ข้อมูลยังไม่เพียงพอสำหรับสรุป ควรรอคำรับรองจากผู้ผลิตและไม่ทดลองผสมเอง',
+        },
+        0: {
+          label: 'ไม่มีความจำเป็นต้องผสมกัน',
+          icon: '0',
+          cls: 'status-zero',
+          detail: 'ผังระบุว่าไม่มีความจำเป็นต้องนำสารสองกลุ่มนี้มาผสมร่วมกัน',
+        },
+        '-': {
+          label: 'ผสมกันไม่ได้',
+          icon: '−',
+          cls: 'status-minus',
+          detail: 'ผังอ้างอิงระบุว่าไม่เข้ากัน จึงไม่ควรผสมร่วมกัน',
+        },
+        NA: {
+          label: 'ข้อมูลคู่นี้ไม่ปรากฏ',
+          icon: 'NA',
+          cls: 'status-na',
+          detail:
+            'ช่องข้อมูลคู่นี้ไม่ปรากฏครบในหน้าต้นฉบับ ระบบจึงไม่เดาหรือกำหนดผลให้',
+        },
+      };
+      const byName = new Map(SUBSTANCES.map((x) => [x.name, x]));
+      const pairKey = (a, b) => [a, b].sort().join('|||');
+      const pairMap = new Map(PAIRS.map((p) => [pairKey(p.a, p.b), p]));
+      let selectedA = null,
+        selectedB = null,
+        activeFilter = 'all',
+        history = [];
+
+      const $ = (s) => document.querySelector(s);
+      const grid = $('#chemicalGrid'),
+        resultCard = $('#resultCard'),
+        mixBtn = $('#mixBtn');
+
+      function esc(s) {
+        return String(s ?? '').replace(
+          /[&<>"]/g,
+          (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]
+        );
+      }
+      function toast(msg) {
+        const t = $('#toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(toast.timer);
+        toast.timer = setTimeout(() => t.classList.remove('show'), 1800);
+      }
+      function renderShelf() {
+        const q = $('#searchInput').value.trim().toLowerCase();
+        grid.innerHTML = '';
+        SUBSTANCES.forEach((s) => {
+          const searchable = (s.display + ' ' + s.english).toLowerCase();
+          if (activeFilter !== 'all' && s.category !== activeFilter) return;
+          if (q && !searchable.includes(q)) return;
+          const b = document.createElement('button');
+          b.className =
+            'chemical ' +
+            s.category +
+            (selectedA === s.name ? ' selected-a' : '') +
+            (selectedB === s.name ? ' selected-b' : '');
+          b.dataset.name = s.name;
+          b.innerHTML = `<strong>${esc(s.display)}</strong><small>${esc(s.english || 'ชื่อสามัญตามผัง')}${s.sourceUncertainLabel ? ' • ชื่อคอลัมน์เดิมไม่แสดงครบ' : ''}</small>`;
+          b.title = 'คลิกเพื่อเลือกสารนี้';
+          b.addEventListener('click', () => pick(s.name));
+          grid.appendChild(b);
+        });
+        if (!grid.children.length)
+          grid.innerHTML =
+            '<div style="grid-column:1/-1;color:#728078;padding:20px;text-align:center">ไม่พบชื่อสารที่ค้นหา</div>';
+      }
+      function pick(name) {
+        if (selectedA === name) {
+          selectedA = null;
+        } else if (selectedB === name) {
+          selectedB = null;
+        } else if (!selectedA) {
+          selectedA = name;
+          toast('ใส่สาร A แล้ว');
+        } else if (!selectedB) {
+          selectedB = name;
+          toast('ใส่สาร B แล้ว');
+        } else {
+          selectedA = selectedB;
+          selectedB = name;
+          toast('เลื่อนสารเดิมไปช่อง A แล้ว');
+        }
+        resultCard.className = 'result-card';
+        resultCard.innerHTML = '';
+        updateBench();
+        renderShelf();
+      }
+      function updateTube(which, name) {
+        const tube = $('#tube' + which),
+          label = $('#name' + which),
+          liquid = $('#liquid' + which);
+        if (!name) {
+          tube.classList.add('empty');
+          label.textContent = 'ยังไม่ได้เลือกสาร';
+          liquid.setAttribute('y', '213');
+          liquid.setAttribute('height', '0');
+          return;
+        }
+        const s = byName.get(name);
+        tube.classList.remove('empty');
+        label.innerHTML = `${esc(s.display)}${s.english ? `<small>${esc(s.english)}</small>` : ''}`;
+        liquid.setAttribute('y', '112');
+        liquid.setAttribute('height', '127');
+      }
+      function updateBench() {
+        updateTube('A', selectedA);
+        updateTube('B', selectedB);
+        mixBtn.disabled = !(selectedA && selectedB && selectedA !== selectedB);
+      }
+      function createBubbles() {
+        const stage = $('#labStage');
+        for (let i = 0; i < 11; i++) {
+          const b = document.createElement('span');
+          b.className = 'bubble';
+          const size = 5 + Math.random() * 11;
+          b.style.width = b.style.height = size + 'px';
+          b.style.left = 42 + Math.random() * 16 + '%';
+          b.style.top = 55 + Math.random() * 18 + '%';
+          b.style.animationDelay = Math.random() * 0.28 + 's';
+          stage.appendChild(b);
+          setTimeout(() => b.remove(), 1500);
+        }
+      }
+      function getResult() {
+        return pairMap.get(pairKey(selectedA, selectedB));
+      }
+      function mix() {
+        const p = getResult();
+        if (!p) return;
+        $('#tubeA').classList.add('shake');
+        $('#tubeB').classList.add('shake');
+        $('#mixIcon').classList.add('shake');
+        createBubbles();
+        setTimeout(() => {
+          $('#tubeA').classList.remove('shake');
+          $('#tubeB').classList.remove('shake');
+          $('#mixIcon').classList.remove('shake');
+          showResult(p);
+        }, 430);
+      }
+      function showResult(p) {
+        let cfg, detail;
+        if (p.status.startsWith('*')) {
+          const n = p.note;
+          cfg = {
+            label: `ต้องอ่านหมายเหตุ ${n}`,
+            icon: `*${n}`,
+            cls: 'status-note',
+          };
+          detail = NOTES[n]?.detail || p.meaning;
+        } else {
+          cfg = STATUS[p.status] || STATUS.NA;
+          detail = cfg.detail;
+        }
+        const a = byName.get(p.a)?.display || p.a,
+          b = byName.get(p.b)?.display || p.b;
+        resultCard.className = 'result-card show ' + cfg.cls;
+        resultCard.innerHTML = `
+    <div class="result-top"><div class="status-icon">${esc(cfg.icon)}</div><div><h3>${esc(cfg.label)}</h3><p>${esc(a)} + ${esc(b)}</p></div></div>
+    <div class="result-detail"><b>คำอธิบาย:</b> ${esc(detail)}${p.status.startsWith('*') && NOTES[p.note]?.pairs ? `<br><small>ตำแหน่งหมายเหตุในผัง: ${esc(NOTES[p.note].pairs)}</small>` : ''}</div>
+    <div class="result-foot">ผลนี้เป็นข้อมูลความเข้ากันได้เบื้องต้น ไม่ใช่คำแนะนำอัตราผสมหรือการรับรองความปลอดภัยในการใช้งานจริง</div>`;
+        addHistory(p, cfg.label);
+        resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      function addHistory(p, label) {
+        history.unshift({ a: p.a, b: p.b, status: p.status, label });
+        history = history.slice(0, 8);
+        renderHistory();
+      }
+      function renderHistory() {
+        const box = $('#history');
+        if (!history.length) {
+          box.innerHTML =
+            '<div class="history-empty">ยังไม่มีรายการทดลอง</div>';
+          return;
+        }
+        box.innerHTML = '';
+        history.forEach((h) => {
+          const b = document.createElement('button');
+          b.className = 'history-item';
+          b.innerHTML = `<b>${esc(byName.get(h.a)?.display || h.a)} + ${esc(byName.get(h.b)?.display || h.b)}</b><span>${esc(h.status)} • ${esc(h.label)}</span>`;
+          b.onclick = () => {
+            selectedA = h.a;
+            selectedB = h.b;
+            updateBench();
+            renderShelf();
+            mix();
+          };
+          box.appendChild(b);
+        });
+      }
+      function resetAll() {
+        selectedA = null;
+        selectedB = null;
+        resultCard.className = 'result-card';
+        resultCard.innerHTML = '';
+        updateBench();
+        renderShelf();
+      }
+      function randomPair() {
+        const p = PAIRS[Math.floor(Math.random() * PAIRS.length)];
+        selectedA = p.a;
+        selectedB = p.b;
+        updateBench();
+        renderShelf();
+        toast('สุ่มคู่สารแล้ว กดทดลองผสมเพื่อดูผล');
+      }
+
+      $('#enterBtn').onclick = () => $('#introModal').classList.add('hidden');
+      $('#mixBtn').onclick = mix;
+      $('#randomBtn').onclick = randomPair;
+      $('#resetBtn').onclick = resetAll;
+      $('#clearA').onclick = () => {
+        selectedA = null;
+        resultCard.className = 'result-card';
+        updateBench();
+        renderShelf();
+      };
+      $('#clearB').onclick = () => {
+        selectedB = null;
+        resultCard.className = 'result-card';
+        updateBench();
+        renderShelf();
+      };
+      $('#searchInput').addEventListener('input', renderShelf);
+      document.querySelectorAll('.tab').forEach(
+        (t) =>
+          (t.onclick = () => {
+            document
+              .querySelectorAll('.tab')
+              .forEach((x) => x.classList.remove('active'));
+            t.classList.add('active');
+            activeFilter = t.dataset.filter;
+            renderShelf();
+          })
+      );
+      const acc = $('#generalNotesAcc');
+      acc.querySelector('button').onclick = () => {
+        acc.classList.toggle('open');
+        acc.querySelector('button span:last-child').textContent =
+          acc.classList.contains('open') ? '−' : '＋';
+      };
+      $('#generalNotes').innerHTML = GENERAL_NOTES.map(
+        (n) => `<p><b>${n.n}. ${esc(n.title)}</b><br>${esc(n.detail)}</p>`
+      ).join('');
+      renderShelf();
+      updateBench();
+    </script>
+  </body>
+</html>

@@ -92,6 +92,32 @@ export default function PesticidesCatalog() {
         </p>
       </div>
 
+      {/* MixLab Feature Entrance Banner */}
+      <div className="mixlab-entrance-banner">
+        <div className="entrance-content">
+          <div className="entrance-badge">
+            <span className="badge-sparkle">✨</span> เครื่องมือวิชาการใหม่ 2568
+          </div>
+          <h2>MixLab: ห้องทดลองจำลองการผสมสารป้องกันกำจัดศัตรูพืช</h2>
+          <p>
+            หยิบสารจากชั้น เลือก 2
+            กลุ่มสารเคมีเพื่อวิเคราะห์ความเข้ากันได้เบื้องต้นทันที
+            ถอดรหัสจากผังมาตรฐานกรมวิชาการเกษตร 528 คู่ผสม
+            พร้อมหมายเหตุข้อควรระวังวิชาการ
+          </p>
+          <div className="entrance-pills">
+            <span className="entrance-pill">🧪 33 กลุ่มสารเคมี</span>
+            <span className="entrance-pill">📊 528 คู่ผสม</span>
+            <span className="entrance-pill">📜 หมายเหตุวิชาการ 23 ข้อ</span>
+          </div>
+          <div className="entrance-action">
+            <Link to="/public/pesticides/mixlab" className="entrance-btn">
+              เปิดห้องทดลอง MixLab 🧪 →
+            </Link>
+          </div>
+        </div>
+      </div>
+
       <div className="search-filter-section">
         {/* Search Input */}
         <div className="search-wrapper">

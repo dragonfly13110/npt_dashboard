@@ -69,6 +69,9 @@ const PesticidesCatalog = lazy(
 const PesticideArticle = lazy(
   () => import('./pages/pesticides/PesticideArticle')
 );
+const PesticideMixLab = lazy(
+  () => import('./pages/pesticides/PesticideMixLab')
+);
 const Farmer69Catalog = lazy(() => import('./pages/farmer69/Farmer69Catalog'));
 const Farmer69Article = lazy(() => import('./pages/farmer69/Farmer69Article'));
 
@@ -238,6 +241,20 @@ function AppRoutes() {
               }}
             >
               <PesticidesCatalog />
+            </div>
+          }
+        />
+        <Route
+          path="/public/pesticides/mixlab"
+          element={
+            <div
+              style={{
+                padding: '16px 12px',
+                minHeight: '100vh',
+                backgroundColor: '#f8fafc',
+              }}
+            >
+              <PesticideMixLab />
             </div>
           }
         />
