@@ -232,7 +232,7 @@ function AppRoutes() {
           element={
             <div
               style={{
-                padding: '20px 24px',
+                padding: '16px 12px',
                 minHeight: '100vh',
                 backgroundColor: '#f8fafc',
               }}
@@ -246,7 +246,7 @@ function AppRoutes() {
           element={
             <div
               style={{
-                padding: '20px 24px',
+                padding: '16px 12px',
                 minHeight: '100vh',
                 backgroundColor: '#f8fafc',
               }}

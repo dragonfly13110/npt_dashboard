@@ -133,7 +133,6 @@ export const GROUP_TABLES = {
     'agricultural_areas',
     'gis_areas',
     'learning_centers',
-    'disasters',
     'daily_weather',
   ],
   production: [

@@ -33,7 +33,6 @@ const GROUP_TABLES = {
     'tbk_cultivation_snapshots',
     'agricultural_areas',
     'learning_centers',
-    'disasters',
     'daily_weather',
   ],
   production: [

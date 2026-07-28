@@ -23,12 +23,12 @@
 
 Supabase ใช้ทำงานหลัก 4 ส่วน
 
-| ส่วน | ใช้ทำอะไร |
-|---|---|
+| ส่วน     | ใช้ทำอะไร                                                                        |
+| -------- | -------------------------------------------------------------------------------- |
 | Database | เก็บข้อมูลเกษตรจังหวัด ตารางกลุ่มงาน ข้อมูลผู้ใช้ ข้อมูลคำขอข้อมูล และ audit log |
-| Auth | จัดการ login/logout และ session ของผู้ใช้ |
-| RLS | จำกัดสิทธิ์อ่าน/เพิ่ม/แก้ไข/ลบข้อมูลในระดับฐานข้อมูล |
-| RPC | สร้าง function ฝั่ง database เช่น `global_search` เพื่อค้นหาข้ามหลายตาราง |
+| Auth     | จัดการ login/logout และ session ของผู้ใช้                                        |
+| RLS      | จำกัดสิทธิ์อ่าน/เพิ่ม/แก้ไข/ลบข้อมูลในระดับฐานข้อมูล                             |
+| RPC      | สร้าง function ฝั่ง database เช่น `global_search` เพื่อค้นหาข้ามหลายตาราง        |
 
 ระบบ frontend เชื่อม Supabase ผ่านไฟล์หลัก
 
@@ -63,12 +63,12 @@ src/services/chatbotDataService.js
 
 ใน repo มีไฟล์ SQL หลักที่ใช้ตั้งค่าฐานข้อมูล
 
-| ไฟล์ | ใช้ทำอะไร | ควรรันเมื่อไร |
-|---|---|---|
-| `supabase/schema.sql` | สร้างตารางหลัก เช่น `profiles`, ตารางกลุ่มงาน และเปิด RLS เบื้องต้น | ครั้งแรกที่ตั้ง project |
-| `supabase/migration_rbac_audit.sql` | ปรับ role default เป็น `viewer` และสร้าง `audit_logs` | หลังรัน schema หลัก |
-| `supabase/data_requests.sql` | สร้างระบบคำขอข้อมูลจากจังหวัดไปอำเภอ | เมื่อต้องใช้ Data Request |
-| `supabase/forecast_plots.sql` | สร้างตารางแปลงพยากรณ์ | เมื่อต้องใช้โมดูลอารักขาพืชส่วนนี้ |
+| ไฟล์                                | ใช้ทำอะไร                                                           | ควรรันเมื่อไร                      |
+| ----------------------------------- | ------------------------------------------------------------------- | ---------------------------------- |
+| `supabase/schema.sql`               | สร้างตารางหลัก เช่น `profiles`, ตารางกลุ่มงาน และเปิด RLS เบื้องต้น | ครั้งแรกที่ตั้ง project            |
+| `supabase/migration_rbac_audit.sql` | ปรับ role default เป็น `viewer` และสร้าง `audit_logs`               | หลังรัน schema หลัก                |
+| `supabase/data_requests.sql`        | สร้างระบบคำขอข้อมูลจากจังหวัดไปอำเภอ                                | เมื่อต้องใช้ Data Request          |
+| `supabase/forecast_plots.sql`       | สร้างตารางแปลงพยากรณ์                                               | เมื่อต้องใช้โมดูลอารักขาพืชส่วนนี้ |
 
 ลำดับแนะนำในการรัน SQL
 
@@ -88,68 +88,68 @@ src/services/chatbotDataService.js
 
 ### 5.1 ตารางระบบผู้ใช้
 
-| ตาราง | ใช้ทำอะไร |
-|---|---|
-| `profiles` | เก็บข้อมูลผู้ใช้ที่ต่อจาก Supabase Auth เช่น email, full_name, department, role |
-| `audit_logs` | เก็บประวัติการเพิ่ม แก้ไข ลบข้อมูล |
-| `site_statistics` | เก็บสถิติการเข้าชมเว็บ ถ้ามีการเปิดใช้ |
+| ตาราง             | ใช้ทำอะไร                                                                       |
+| ----------------- | ------------------------------------------------------------------------------- |
+| `profiles`        | เก็บข้อมูลผู้ใช้ที่ต่อจาก Supabase Auth เช่น email, full_name, department, role |
+| `audit_logs`      | เก็บประวัติการเพิ่ม แก้ไข ลบข้อมูล                                              |
+| `site_statistics` | เก็บสถิติการเข้าชมเว็บ ถ้ามีการเปิดใช้                                          |
 
 ### 5.2 ตารางฝ่ายบริหารทั่วไป
 
-| ตาราง | ใช้ทำอะไร |
-|---|---|
-| `personnel` | ข้อมูลบุคลากร |
-| `assets` | ข้อมูลทรัพย์สิน/ครุภัณฑ์ |
-| `budgets` | ข้อมูลงบประมาณ แผนงาน โครงการ กิจกรรม และสถานะการใช้จ่าย |
+| ตาราง       | ใช้ทำอะไร                                                |
+| ----------- | -------------------------------------------------------- |
+| `personnel` | ข้อมูลบุคลากร                                            |
+| `assets`    | ข้อมูลทรัพย์สิน/ครุภัณฑ์                                 |
+| `budgets`   | ข้อมูลงบประมาณ แผนงาน โครงการ กิจกรรม และสถานะการใช้จ่าย |
 
 ### 5.3 ตารางกลุ่มยุทธศาสตร์และสารสนเทศ
 
-| ตาราง | ใช้ทำอะไร |
-|---|---|
-| `farmer_registry` | ทะเบียนเกษตรกรหรือสรุปครัวเรือนเกษตรกร |
-| `gis_areas` | ข้อมูลพื้นที่ GIS หรือจุดพิกัด |
-| `agricultural_areas` | พื้นที่การเกษตรรายอำเภอ |
-| `learning_centers` | ศูนย์เรียนรู้หรือ ศพก. |
-| `disasters` | ข้อมูลภัยพิบัติด้านการเกษตร |
-| `kpi_plans` | แผนงาน ตัวชี้วัด และเป้าหมาย |
-| `daily_weather` | ข้อมูลสภาพอากาศและน้ำฝนรายวัน |
+| ตาราง                | ใช้ทำอะไร                              |
+| -------------------- | -------------------------------------- |
+| `farmer_registry`    | ทะเบียนเกษตรกรหรือสรุปครัวเรือนเกษตรกร |
+| `gis_areas`          | ข้อมูลพื้นที่ GIS หรือจุดพิกัด         |
+| `agricultural_areas` | พื้นที่การเกษตรรายอำเภอ                |
+| `learning_centers`   | ศูนย์เรียนรู้หรือ ศพก.                 |
+| `kpi_plans`          | แผนงาน ตัวชี้วัด และเป้าหมาย           |
+| `daily_weather`      | ข้อมูลสภาพอากาศและน้ำฝนรายวัน          |
 
 ### 5.4 ตารางกลุ่มส่งเสริมและพัฒนาการผลิต
 
-| ตาราง | ใช้ทำอะไร |
-|---|---|
-| `large_plots` | ข้อมูลแปลงใหญ่ |
-| `certifications` | ข้อมูลมาตรฐาน GAP หรือใบรับรอง |
-| `crop_production` | ข้อมูลการผลิตพืช |
+| ตาราง             | ใช้ทำอะไร                      |
+| ----------------- | ------------------------------ |
+| `large_plots`     | ข้อมูลแปลงใหญ่                 |
+| `certifications`  | ข้อมูลมาตรฐาน GAP หรือใบรับรอง |
+| `crop_production` | ข้อมูลการผลิตพืช               |
 
 ### 5.5 ตารางกลุ่มส่งเสริมและพัฒนาเกษตรกร
 
-| ตาราง | ใช้ทำอะไร |
-|---|---|
-| `community_enterprises` | วิสาหกิจชุมชน |
-| `smart_farmers` | Smart Farmer / Young Smart Farmer |
-| `farmer_groups` | กลุ่มแม่บ้านเกษตรกร ยุวเกษตรกร หรือกลุ่มเกษตรกรอื่น |
-| `farmer_institutes` | สถาบันเกษตรกร |
-| `agri_tourism` | ท่องเที่ยวเชิงเกษตร |
+| ตาราง                   | ใช้ทำอะไร                                           |
+| ----------------------- | --------------------------------------------------- |
+| `community_enterprises` | วิสาหกิจชุมชน                                       |
+| `smart_farmers`         | Smart Farmer / Young Smart Farmer                   |
+| `farmer_groups`         | กลุ่มแม่บ้านเกษตรกร ยุวเกษตรกร หรือกลุ่มเกษตรกรอื่น |
+| `farmer_institutes`     | สถาบันเกษตรกร                                       |
+| `agri_tourism`          | ท่องเที่ยวเชิงเกษตร                                 |
+| `disasters`             | ข้อมูลภัยพิบัติด้านการเกษตร                         |
 
 ### 5.6 ตารางกลุ่มอารักขาพืช
 
-| ตาราง | ใช้ทำอะไร |
-|---|---|
-| `forecast_plots` | แปลงพยากรณ์และเฝ้าระวังศัตรูพืช |
-| `pest_centers` | ศูนย์จัดการศัตรูพืชชุมชน หรือ ศจช. |
+| ตาราง                     | ใช้ทำอะไร                          |
+| ------------------------- | ---------------------------------- |
+| `forecast_plots`          | แปลงพยากรณ์และเฝ้าระวังศัตรูพืช    |
+| `pest_centers`            | ศูนย์จัดการศัตรูพืชชุมชน หรือ ศจช. |
 | `soil_fertilizer_centers` | ศูนย์จัดการดินปุ๋ยชุมชน หรือ ศดปช. |
-| `fire_hotspots` | จุดความร้อนหรือจุดเฝ้าระวัง PM2.5 |
-| `pest_outbreaks` | ข้อมูลการระบาดศัตรูพืช |
-| `biocontrol_stock` | สต็อกชีวภัณฑ์ |
+| `fire_hotspots`           | จุดความร้อนหรือจุดเฝ้าระวัง PM2.5  |
+| `pest_outbreaks`          | ข้อมูลการระบาดศัตรูพืช             |
+| `biocontrol_stock`        | สต็อกชีวภัณฑ์                      |
 
 ### 5.7 ตารางระบบคำขอข้อมูล
 
-| ตาราง | ใช้ทำอะไร |
-|---|---|
-| `data_requests` | หัวข้อคำขอข้อมูล schema แบบฟอร์ม สถานะ และกำหนดส่ง |
-| `data_request_assignments` | รายการมอบหมายให้อำเภอส่งข้อมูล |
-| `data_request_responses` | คำตอบที่อำเภอส่งกลับมา |
+| ตาราง                      | ใช้ทำอะไร                                          |
+| -------------------------- | -------------------------------------------------- |
+| `data_requests`            | หัวข้อคำขอข้อมูล schema แบบฟอร์ม สถานะ และกำหนดส่ง |
+| `data_request_assignments` | รายการมอบหมายให้อำเภอส่งข้อมูล                     |
+| `data_request_responses`   | คำตอบที่อำเภอส่งกลับมา                             |
 
 ## 6. มาตรฐานการออกแบบตาราง
 
@@ -157,24 +157,24 @@ src/services/chatbotDataService.js
 
 คอลัมน์ที่แนะนำให้มีในเกือบทุกตาราง
 
-| คอลัมน์ | ชนิดข้อมูล | เหตุผล |
-|---|---|---|
-| `id` | `uuid` | primary key ของแต่ละรายการ |
-| `district` | `text` | ใช้กรองและสรุปรายอำเภอ |
-| `subdistrict` | `text` | ใช้กรองระดับตำบล ถ้ามี |
-| `created_at` | `timestamptz` | วันที่สร้างข้อมูล |
-| `updated_at` | `timestamptz` | วันที่แก้ไขล่าสุด |
-| `notes` | `text` | เก็บหมายเหตุหรือข้อมูลประกอบ |
+| คอลัมน์       | ชนิดข้อมูล    | เหตุผล                       |
+| ------------- | ------------- | ---------------------------- |
+| `id`          | `uuid`        | primary key ของแต่ละรายการ   |
+| `district`    | `text`        | ใช้กรองและสรุปรายอำเภอ       |
+| `subdistrict` | `text`        | ใช้กรองระดับตำบล ถ้ามี       |
+| `created_at`  | `timestamptz` | วันที่สร้างข้อมูล            |
+| `updated_at`  | `timestamptz` | วันที่แก้ไขล่าสุด            |
+| `notes`       | `text`        | เก็บหมายเหตุหรือข้อมูลประกอบ |
 
 คอลัมน์ตามประเภทข้อมูล
 
-| ประเภทข้อมูล | คอลัมน์ที่ควรมี |
-|---|---|
-| ข้อมูลสถานที่ | `latitude`, `longitude`, `address`, `location_name` |
-| ข้อมูลปีงบประมาณ | `fiscal_year`, `budget_amount`, `spent_amount` |
-| ข้อมูลแปลง/พื้นที่ | `area_rai`, `member_count`, `commodity` |
-| ข้อมูลการรับรอง | `cert_type`, `commodity`, `status`, `issued_date`, `expired_date` |
-| ข้อมูลเหตุการณ์ | `report_date`, `severity`, `status` |
+| ประเภทข้อมูล       | คอลัมน์ที่ควรมี                                                   |
+| ------------------ | ----------------------------------------------------------------- |
+| ข้อมูลสถานที่      | `latitude`, `longitude`, `address`, `location_name`               |
+| ข้อมูลปีงบประมาณ   | `fiscal_year`, `budget_amount`, `spent_amount`                    |
+| ข้อมูลแปลง/พื้นที่ | `area_rai`, `member_count`, `commodity`                           |
+| ข้อมูลการรับรอง    | `cert_type`, `commodity`, `status`, `issued_date`, `expired_date` |
+| ข้อมูลเหตุการณ์    | `report_date`, `severity`, `status`                               |
 
 หลักการตั้งชื่อ field
 
@@ -231,15 +231,15 @@ Supabase Auth เก็บข้อมูล login ของผู้ใช้ �
 
 โครงสร้างพื้นฐานของ `profiles`
 
-| คอลัมน์ | ความหมาย |
-|---|---|
-| `id` | UUID เดียวกับ `auth.users.id` |
-| `email` | email ของผู้ใช้ |
-| `full_name` | ชื่อผู้ใช้ |
-| `department` | กลุ่มงานหรืออำเภอที่สังกัด |
-| `role` | สิทธิ์การใช้งาน เช่น `admin`, `editor`, `viewer` |
-| `created_at` | วันที่สร้าง profile |
-| `updated_at` | วันที่แก้ไขล่าสุด |
+| คอลัมน์      | ความหมาย                                         |
+| ------------ | ------------------------------------------------ |
+| `id`         | UUID เดียวกับ `auth.users.id`                    |
+| `email`      | email ของผู้ใช้                                  |
+| `full_name`  | ชื่อผู้ใช้                                       |
+| `department` | กลุ่มงานหรืออำเภอที่สังกัด                       |
+| `role`       | สิทธิ์การใช้งาน เช่น `admin`, `editor`, `viewer` |
+| `created_at` | วันที่สร้าง profile                              |
+| `updated_at` | วันที่แก้ไขล่าสุด                                |
 
 ใน `schema.sql` มี function `handle_new_user()` เพื่อสร้าง profile อัตโนมัติเมื่อมีผู้ใช้สมัครหรือถูกสร้างใน Auth
 
@@ -261,12 +261,12 @@ frontend อ่าน role และ department จาก profiles
 
 ระบบนี้ใช้ role หลักตามแนวคิดใน frontend
 
-| role | ความหมาย | สิทธิ์ที่ควรมี |
-|---|---|---|
-| `guest` | ผู้ใช้แบบไม่ login หรือโหมดสาธารณะ | ดูเฉพาะข้อมูล public หรือข้อมูลที่ระบบอนุญาต |
-| `viewer` | ผู้ใช้ภายในที่ดูข้อมูลได้ | อ่านข้อมูลตามกลุ่มงานหรือข้อมูลที่เปิดให้ดู |
-| `editor` | เจ้าหน้าที่ที่จัดการข้อมูลได้ | อ่านและแก้ไขข้อมูลในกลุ่มงาน/อำเภอของตัวเอง |
-| `admin` | ผู้ดูแลระบบ | จัดการผู้ใช้ ข้อมูลทั้งหมด audit log และระบบโดยรวม |
+| role     | ความหมาย                           | สิทธิ์ที่ควรมี                                     |
+| -------- | ---------------------------------- | -------------------------------------------------- |
+| `guest`  | ผู้ใช้แบบไม่ login หรือโหมดสาธารณะ | ดูเฉพาะข้อมูล public หรือข้อมูลที่ระบบอนุญาต       |
+| `viewer` | ผู้ใช้ภายในที่ดูข้อมูลได้          | อ่านข้อมูลตามกลุ่มงานหรือข้อมูลที่เปิดให้ดู        |
+| `editor` | เจ้าหน้าที่ที่จัดการข้อมูลได้      | อ่านและแก้ไขข้อมูลในกลุ่มงาน/อำเภอของตัวเอง        |
+| `admin`  | ผู้ดูแลระบบ                        | จัดการผู้ใช้ ข้อมูลทั้งหมด audit log และระบบโดยรวม |
 
 คำแนะนำ:
 
@@ -280,13 +280,13 @@ frontend อ่าน role และ department จาก profiles
 
 ใน frontend มี mapping กลุ่มงานประมาณนี้
 
-| department | group key | ตารางหลักที่เกี่ยวข้อง |
-|---|---|---|
-| `ฝ่ายบริหารทั่วไป` | `admin` | `personnel`, `assets`, `budgets` |
-| `กลุ่มยุทธศาสตร์และสารสนเทศ` | `strategy` | `farmer_registry`, `gis_areas`, `disasters`, `kpi_plans` และข้อมูลยุทธศาสตร์อื่น |
-| `กลุ่มส่งเสริมและพัฒนาการผลิต` | `production` | `large_plots`, `learning_centers`, `certifications`, `crop_production` |
-| `กลุ่มส่งเสริมและพัฒนาเกษตรกร` | `development` | `community_enterprises`, `smart_farmers`, `farmer_groups`, `agri_tourism` |
-| `กลุ่มอารักขาพืช` | `protection` | `forecast_plots`, `pest_centers`, `soil_fertilizer_centers`, `fire_hotspots` |
+| department                     | group key     | ตารางหลักที่เกี่ยวข้อง                                                                 |
+| ------------------------------ | ------------- | -------------------------------------------------------------------------------------- |
+| `ฝ่ายบริหารทั่วไป`             | `admin`       | `personnel`, `assets`, `budgets`                                                       |
+| `กลุ่มยุทธศาสตร์และสารสนเทศ`   | `strategy`    | `farmer_registry`, `gis_areas`, `kpi_plans` และข้อมูลยุทธศาสตร์อื่น                    |
+| `กลุ่มส่งเสริมและพัฒนาการผลิต` | `production`  | `large_plots`, `learning_centers`, `certifications`, `crop_production`                 |
+| `กลุ่มส่งเสริมและพัฒนาเกษตรกร` | `development` | `community_enterprises`, `smart_farmers`, `farmer_groups`, `agri_tourism`, `disasters` |
+| `กลุ่มอารักขาพืช`              | `protection`  | `forecast_plots`, `pest_centers`, `soil_fertilizer_centers`, `fire_hotspots`           |
 
 ถ้าใช้ Data Request สำหรับอำเภอ อาจใช้ `department` เป็นชื่ออำเภอ เช่น `พุทธมณฑล`, `สามพราน`, `บางเลน` เพื่อให้ policy ใน `data_requests.sql` เทียบกับ field `district` ได้
 
@@ -550,11 +550,11 @@ WHERE visibility = 'public';
 
 ระบบ Data Request ใช้ตาราง 3 ตัว
 
-| ตาราง | policy ที่ควรใช้ |
-|---|---|
-| `data_requests` | admin จัดการทั้งหมด, editor อ่านเฉพาะคำขอที่มอบหมายให้อำเภอตัวเอง |
-| `data_request_assignments` | admin จัดการทั้งหมด, editor อ่านเฉพาะ assignment ของอำเภอตัวเอง |
-| `data_request_responses` | admin ดูทั้งหมด, editor upsert เฉพาะคำตอบของอำเภอตัวเอง |
+| ตาราง                      | policy ที่ควรใช้                                                  |
+| -------------------------- | ----------------------------------------------------------------- |
+| `data_requests`            | admin จัดการทั้งหมด, editor อ่านเฉพาะคำขอที่มอบหมายให้อำเภอตัวเอง |
+| `data_request_assignments` | admin จัดการทั้งหมด, editor อ่านเฉพาะ assignment ของอำเภอตัวเอง   |
+| `data_request_responses`   | admin ดูทั้งหมด, editor upsert เฉพาะคำตอบของอำเภอตัวเอง           |
 
 แนวคิดสำคัญคือ editor ที่เป็นอำเภอไม่ควรเห็นหรือแก้คำตอบของอำเภออื่น
 
@@ -569,11 +569,11 @@ AND district = public.current_profile_department()
 
 ตัวอย่าง:
 
-| email | role | department |
-|---|---|---|
+| email                        | role     | department |
+| ---------------------------- | -------- | ---------- |
 | `phutthamonthon@example.com` | `editor` | `พุทธมณฑล` |
-| `samphran@example.com` | `editor` | `สามพราน` |
-| `banglen@example.com` | `editor` | `บางเลน` |
+| `samphran@example.com`       | `editor` | `สามพราน`  |
+| `banglen@example.com`        | `editor` | `บางเลน`   |
 
 ## 18. Audit Log
 
@@ -581,16 +581,16 @@ AND district = public.current_profile_department()
 
 โครงสร้างหลัก
 
-| คอลัมน์ | ความหมาย |
-|---|---|
-| `user_id` | ผู้ใช้ที่ทำรายการ |
-| `user_email` | email ของผู้ใช้ |
-| `action` | `CREATE`, `UPDATE`, `DELETE` |
-| `table_name` | ตารางที่ถูกแก้ไข |
-| `record_id` | id ของรายการที่ถูกแก้ไข |
-| `old_data` | ข้อมูลเดิม |
-| `new_data` | ข้อมูลใหม่ |
-| `created_at` | เวลาที่เกิดรายการ |
+| คอลัมน์      | ความหมาย                     |
+| ------------ | ---------------------------- |
+| `user_id`    | ผู้ใช้ที่ทำรายการ            |
+| `user_email` | email ของผู้ใช้              |
+| `action`     | `CREATE`, `UPDATE`, `DELETE` |
+| `table_name` | ตารางที่ถูกแก้ไข             |
+| `record_id`  | id ของรายการที่ถูกแก้ไข      |
+| `old_data`   | ข้อมูลเดิม                   |
+| `new_data`   | ข้อมูลใหม่                   |
+| `created_at` | เวลาที่เกิดรายการ            |
 
 แนวทางใช้งาน:
 
@@ -614,13 +614,13 @@ Index ช่วยให้ Dashboard, Search และ filter ทำงาน�
 
 คอลัมน์ที่ควรทำ index
 
-| ประเภทคอลัมน์ | ตัวอย่าง | เหตุผล |
-|---|---|---|
-| พื้นที่ | `district`, `subdistrict` | ใช้กรองและสรุปรายอำเภอ |
-| วันที่ | `created_at`, `updated_at`, `report_date` | ใช้เรียงและกรองช่วงเวลา |
-| ปีข้อมูล | `year`, `fiscal_year`, `data_year` | ใช้ filter ปีงบประมาณ |
-| สถานะ | `status`, `visibility` | ใช้กรองข้อมูลที่แสดงหรือรอตรวจ |
-| ประเภท | `commodity`, `cert_type`, `site_type` | ใช้ทำ chart และ filter |
+| ประเภทคอลัมน์ | ตัวอย่าง                                  | เหตุผล                         |
+| ------------- | ----------------------------------------- | ------------------------------ |
+| พื้นที่       | `district`, `subdistrict`                 | ใช้กรองและสรุปรายอำเภอ         |
+| วันที่        | `created_at`, `updated_at`, `report_date` | ใช้เรียงและกรองช่วงเวลา        |
+| ปีข้อมูล      | `year`, `fiscal_year`, `data_year`        | ใช้ filter ปีงบประมาณ          |
+| สถานะ         | `status`, `visibility`                    | ใช้กรองข้อมูลที่แสดงหรือรอตรวจ |
+| ประเภท        | `commodity`, `cert_type`, `site_type`     | ใช้ทำ chart และ filter         |
 
 ตัวอย่าง SQL
 
@@ -637,14 +637,14 @@ CREATE INDEX IF NOT EXISTS idx_large_plots_created_at ON large_plots(created_at 
 
 Dashboard ต้องการข้อมูลที่สรุปได้ง่าย จึงควรมี field มาตรฐาน
 
-| สิ่งที่ Dashboard ต้องใช้ | field ที่ควรมี |
-|---|---|
-| สรุปรายอำเภอ | `district` |
-| สรุปตามประเภท | `commodity`, `site_type`, `cert_type`, `farmer_type` |
-| สรุปตามปี | `year`, `fiscal_year`, `data_year` |
-| ตัวเลขรวม | `area_rai`, `member_count`, `budget_amount`, `production_ton` |
-| แผนที่ | `latitude`, `longitude` |
-| สถานะ | `status`, `visibility` |
+| สิ่งที่ Dashboard ต้องใช้ | field ที่ควรมี                                                |
+| ------------------------- | ------------------------------------------------------------- |
+| สรุปรายอำเภอ              | `district`                                                    |
+| สรุปตามประเภท             | `commodity`, `site_type`, `cert_type`, `farmer_type`          |
+| สรุปตามปี                 | `year`, `fiscal_year`, `data_year`                            |
+| ตัวเลขรวม                 | `area_rai`, `member_count`, `budget_amount`, `production_ton` |
+| แผนที่                    | `latitude`, `longitude`                                       |
+| สถานะ                     | `status`, `visibility`                                        |
 
 ถ้าตารางใดไม่มี `district` Dashboard จะสรุปรายอำเภอยากขึ้น
 
@@ -674,13 +674,13 @@ TABLE_CONFIG.field_learning_sites = {
   label: 'แหล่งเรียนรู้ภาคสนาม',
   icon: '📍',
   group: 'ยุทธศาสตร์',
-  descTh: 'ข้อมูลจุดเรียนรู้และแหล่งเรียนรู้ด้านการเกษตร'
+  descTh: 'ข้อมูลจุดเรียนรู้และแหล่งเรียนรู้ด้านการเกษตร',
 };
 
 TABLE_SEARCH_COLS.field_learning_sites = [
   'site_name',
   'site_type',
-  'main_activity'
+  'main_activity',
 ];
 
 TABLE_ROUTES.field_learning_sites = '/dashboard/strategy/field-learning-sites';
@@ -754,13 +754,13 @@ src/utils/chatbotConstants.js
 
 ถ้าเพิ่มตารางใหม่ให้ AI ใช้ได้ ต้องพิจารณา
 
-| จุดที่ต้องเพิ่ม | ใช้ทำอะไร |
-|---|---|
-| `TABLE_CONFIG` | ให้ AI รู้ว่าตารางคือข้อมูลเรื่องอะไร |
-| `TABLE_SEARCH_COLS` | ใช้เลือกแถวตัวอย่างหรือค้นหา keyword |
-| `DISTRICT_COLS` | บอกว่าคอลัมน์อำเภอชื่ออะไร ถ้าไม่ใช่ `district` |
-| `NUMERIC_COLS` | บอกว่าคอลัมน์ไหนเอาไป sum/average ได้ |
-| `CATEGORY_COLS` | บอกว่าคอลัมน์ไหนเอาไป group by ได้ |
+| จุดที่ต้องเพิ่ม     | ใช้ทำอะไร                                       |
+| ------------------- | ----------------------------------------------- |
+| `TABLE_CONFIG`      | ให้ AI รู้ว่าตารางคือข้อมูลเรื่องอะไร           |
+| `TABLE_SEARCH_COLS` | ใช้เลือกแถวตัวอย่างหรือค้นหา keyword            |
+| `DISTRICT_COLS`     | บอกว่าคอลัมน์อำเภอชื่ออะไร ถ้าไม่ใช่ `district` |
+| `NUMERIC_COLS`      | บอกว่าคอลัมน์ไหนเอาไป sum/average ได้           |
+| `CATEGORY_COLS`     | บอกว่าคอลัมน์ไหนเอาไป group by ได้              |
 
 ตัวอย่างสำหรับตารางใหม่
 
@@ -841,13 +841,13 @@ CHECK (visibility IN ('public', 'internal', 'restricted'));
 
 แนวทางที่ใช้ได้จริง
 
-| แนวทาง | เหมาะกับกรณี |
-|---|---|
-| แยก public view | ตารางเดียวมีทั้งข้อมูล public และ internal |
-| แยกตาราง contact | ข้อมูลติดต่อควรให้เฉพาะเจ้าหน้าที่ดู |
-| ใช้ `visibility` | ต้องการกำหนดระดับข้อมูลรายแถว |
-| จำกัด RLS ตาม role | ต้องการให้ admin/editor เท่านั้นดูข้อมูลบางส่วน |
-| ไม่ import ข้อมูลอ่อนไหว | ถ้าข้อมูลนั้นไม่จำเป็นต่อ Dashboard |
+| แนวทาง                   | เหมาะกับกรณี                                    |
+| ------------------------ | ----------------------------------------------- |
+| แยก public view          | ตารางเดียวมีทั้งข้อมูล public และ internal      |
+| แยกตาราง contact         | ข้อมูลติดต่อควรให้เฉพาะเจ้าหน้าที่ดู            |
+| ใช้ `visibility`         | ต้องการกำหนดระดับข้อมูลรายแถว                   |
+| จำกัด RLS ตาม role       | ต้องการให้ admin/editor เท่านั้นดูข้อมูลบางส่วน |
+| ไม่ import ข้อมูลอ่อนไหว | ถ้าข้อมูลนั้นไม่จำเป็นต่อ Dashboard             |
 
 ตัวอย่างแยกตาราง contact
 
@@ -1002,12 +1002,12 @@ ORDER BY created_at DESC;
 
 ควรทดสอบด้วยบัญชีอย่างน้อย 4 แบบ
 
-| บัญชีทดสอบ | สิ่งที่ต้องตรวจ |
-|---|---|
-| admin | เห็นเมนูทั้งหมด เพิ่ม แก้ ลบ และดู audit log ได้ |
-| viewer | ดูข้อมูลได้ แต่เพิ่ม/แก้/ลบไม่ได้ |
+| บัญชีทดสอบ      | สิ่งที่ต้องตรวจ                                       |
+| --------------- | ----------------------------------------------------- |
+| admin           | เห็นเมนูทั้งหมด เพิ่ม แก้ ลบ และดู audit log ได้      |
+| viewer          | ดูข้อมูลได้ แต่เพิ่ม/แก้/ลบไม่ได้                     |
 | editor กลุ่มงาน | เห็นเมนูกลุ่มงานตัวเอง และแก้ข้อมูลที่ได้รับอนุญาตได้ |
-| editor อำเภอ | เห็น Data Request เฉพาะอำเภอตัวเอง และส่งคำตอบได้ |
+| editor อำเภอ    | เห็น Data Request เฉพาะอำเภอตัวเอง และส่งคำตอบได้     |
 
 Checklist ทดสอบ
 
@@ -1066,17 +1066,17 @@ VITE_SUPABASE_ANON_KEY
 
 ## 33. ข้อผิดพลาดที่พบบ่อยและวิธีแก้
 
-| อาการ | สาเหตุที่เป็นไปได้ | วิธีตรวจ/แก้ |
-|---|---|---|
-| login แล้วไม่เห็นเมนู | `profiles.role` หรือ `department` ไม่ถูก | ตรวจตาราง `profiles` |
-| import CSV ไม่สำเร็จ | field type ไม่ตรง เช่น text เข้า numeric | ตรวจ error แถวที่ระบบแจ้ง และแก้ CSV |
-| Dashboard ตัวเลขไม่ขึ้น | ชื่อตารางหรือ field ไม่ตรงกับ hook/frontend | ตรวจ config และ query ที่ frontend ใช้ |
-| Search ไม่เจอตารางใหม่ | ยังไม่ได้เพิ่ม `TABLE_CONFIG`, `TABLE_SEARCH_COLS` หรือ RPC | เพิ่ม config และทดสอบ fallback/RPC |
-| AI ไม่รู้จักข้อมูลใหม่ | ยังไม่ได้เพิ่ม config ใน `chatbotConstants.js` | เพิ่ม table config, numeric cols, category cols |
-| public เห็นข้อมูลมากเกินไป | policy เปิดกว้าง หรือใช้ตารางจริงแทน view | จำกัด RLS หรือสร้าง public view |
-| editor แก้ข้อมูลไม่ได้ | RLS ไม่มี policy สำหรับ INSERT/UPDATE | ตรวจ `pg_policies` |
-| editor เห็นข้อมูลอำเภออื่น | policy ไม่กรอง district/department | แก้ USING และ WITH CHECK |
-| ข้อมูลซ้ำหลัง import | import เป็น insert และไม่ได้ตรวจซ้ำก่อน | clean CSV หรือใช้ unique constraint/upsert ในอนาคต |
+| อาการ                      | สาเหตุที่เป็นไปได้                                          | วิธีตรวจ/แก้                                       |
+| -------------------------- | ----------------------------------------------------------- | -------------------------------------------------- |
+| login แล้วไม่เห็นเมนู      | `profiles.role` หรือ `department` ไม่ถูก                    | ตรวจตาราง `profiles`                               |
+| import CSV ไม่สำเร็จ       | field type ไม่ตรง เช่น text เข้า numeric                    | ตรวจ error แถวที่ระบบแจ้ง และแก้ CSV               |
+| Dashboard ตัวเลขไม่ขึ้น    | ชื่อตารางหรือ field ไม่ตรงกับ hook/frontend                 | ตรวจ config และ query ที่ frontend ใช้             |
+| Search ไม่เจอตารางใหม่     | ยังไม่ได้เพิ่ม `TABLE_CONFIG`, `TABLE_SEARCH_COLS` หรือ RPC | เพิ่ม config และทดสอบ fallback/RPC                 |
+| AI ไม่รู้จักข้อมูลใหม่     | ยังไม่ได้เพิ่ม config ใน `chatbotConstants.js`              | เพิ่ม table config, numeric cols, category cols    |
+| public เห็นข้อมูลมากเกินไป | policy เปิดกว้าง หรือใช้ตารางจริงแทน view                   | จำกัด RLS หรือสร้าง public view                    |
+| editor แก้ข้อมูลไม่ได้     | RLS ไม่มี policy สำหรับ INSERT/UPDATE                       | ตรวจ `pg_policies`                                 |
+| editor เห็นข้อมูลอำเภออื่น | policy ไม่กรอง district/department                          | แก้ USING และ WITH CHECK                           |
+| ข้อมูลซ้ำหลัง import       | import เป็น insert และไม่ได้ตรวจซ้ำก่อน                     | clean CSV หรือใช้ unique constraint/upsert ในอนาคต |
 
 ## 34. แนวทางปรับ RLS จากระบบทดลองเป็นระบบใช้งานจริง
 
