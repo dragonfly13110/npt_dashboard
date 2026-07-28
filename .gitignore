@@ -57,6 +57,9 @@ output/vite-cache/
 playwright-report/
 test-results/
 public/data/pesticides/
+!public/data/pesticides/
+public/data/pesticides/*
+!public/data/pesticides/mixing_matrix.json
 supabase/.temp/
 .playwright-cli/
 .codex-hero-split.png
