@@ -52,12 +52,12 @@ BEGIN
     RETURN;
   END IF;
 
-  UPDATE public.line_link_codes
+  UPDATE public.line_link_codes AS c
   SET used_at = now()
-  WHERE id = v_code_id;
+  WHERE c.id = v_code_id;
 
-  DELETE FROM public.line_account_links
-  WHERE profile_id = v_profile_id OR line_user_id = p_line_user_id;
+  DELETE FROM public.line_account_links AS l
+  WHERE l.profile_id = v_profile_id OR l.line_user_id = p_line_user_id;
 
   INSERT INTO public.line_account_links (line_user_id, profile_id)
   VALUES (p_line_user_id, v_profile_id);

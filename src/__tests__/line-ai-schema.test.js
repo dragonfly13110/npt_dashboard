@@ -25,6 +25,9 @@ describe('LINE AI schema', () => {
     );
     expect(linkingSql).toMatch(/profile_id\s+uuid\s+not null unique/i);
     expect(linkingSql).toMatch(/for update/i);
+    expect(linkingSql).toMatch(
+      /delete from public\.line_account_links as l\s+where l\.profile_id/i
+    );
     expect(linkingSql).toMatch(/revoke all[\s\S]*anon, authenticated/i);
     expect(linkingSql).toMatch(/grant execute[\s\S]*service_role/i);
   });
