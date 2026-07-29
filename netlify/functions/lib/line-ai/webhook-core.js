@@ -1268,7 +1268,10 @@ export async function handleMessageEvent(event) {
   const replyToken = event.replyToken;
   if (event.message.type !== 'text') return;
 
-  const text = event.message.text.trim();
+  const text = event.message.text
+    .normalize('NFC')
+    .replace(/[\u200B-\u200D\uFEFF]/g, '')
+    .trim();
   console.log('💬 Processing text message event');
 
   if (/^(สวัสดี|หวัดดี|hello|hi)(ครับ|ค่ะ|คะ)?/i.test(text)) {

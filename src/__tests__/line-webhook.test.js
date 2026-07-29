@@ -95,7 +95,7 @@ describe('line-webhook.js', () => {
           type: 'message',
           replyToken: 'mockReplyToken',
           source: { type: 'user', userId: 'U-staff' },
-          message: { type: 'text', text: 'เชื่อม ABCDEF1234' },
+          message: { type: 'text', text: 'เชื่อม\u200B ABCDEF1234' },
         },
       ],
     });
