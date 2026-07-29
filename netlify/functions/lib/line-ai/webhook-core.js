@@ -1295,7 +1295,7 @@ export async function handleMessageEvent(event) {
     return;
   }
 
-  const linkMatch = text.match(/^เชื่อม\s+([A-F0-9]{10})$/i);
+  const linkMatch = text.match(/^(?:เช\S*|link)[\s:=-]*([A-F0-9]{10})$/iu);
   if (linkMatch) {
     const linked =
       supabase && event.source?.userId
