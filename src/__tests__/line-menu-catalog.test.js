@@ -62,4 +62,20 @@ describe('LINE Menu Catalog Contract', () => {
       }
     }
   });
+
+  it('handles account-link commands in both webhook runtimes', () => {
+    for (const webhookPath of [
+      '../../netlify/functions/lib/line-ai/webhook-core.js',
+      '../../supabase/functions/line-webhook/index.ts',
+    ]) {
+      const webhookCode = fs.readFileSync(
+        path.resolve(__dirname, webhookPath),
+        'utf8'
+      );
+      expect(webhookCode).toContain('.consumeLinkCode(');
+      expect(webhookCode.indexOf('.consumeLinkCode(')).toBeLessThan(
+        webhookCode.indexOf('// AI-only for every free-text message')
+      );
+    }
+  });
 });

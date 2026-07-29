@@ -1245,7 +1245,10 @@ async function handleMessageEvent(event: any) {
   const replyToken = event.replyToken;
   if (event.message.type !== 'text') return;
 
-  const text = event.message.text.trim();
+  const text = event.message.text
+    .normalize('NFC')
+    .replace(/[\u200B-\u200D\uFEFF]/g, '')
+    .trim();
   console.log('💬 Processing text message event');
 
   if (/^(สวัสดี|หวัดดี|hello|hi)(ครับ|ค่ะ|คะ)?/i.test(text)) {
@@ -1266,6 +1269,25 @@ async function handleMessageEvent(event: any) {
     text === 'เริ่มต้น'
   ) {
     await sendLineReply(replyToken, [createHelpMessage()]);
+    return;
+  }
+
+  const linkMatch = text.match(/^(?:เช\S*|link)[\s:=-]*([A-F0-9]{10})$/iu);
+  if (linkMatch) {
+    const linked = event.source?.userId
+      ? await createLineAiStore(supabase).consumeLinkCode(
+          event.source.userId,
+          linkMatch[1]
+        )
+      : null;
+    await sendLineReply(replyToken, [
+      {
+        type: 'text',
+        text: linked
+          ? 'เชื่อมบัญชีสำเร็จแล้วค่ะ สิทธิ์ LINE จะอ้างอิงจากบัญชีระบบปัจจุบัน'
+          : 'รหัสไม่ถูกต้อง หมดอายุ หรือถูกใช้แล้ว กรุณาสร้างรหัสใหม่จากหน้าโปรไฟล์',
+      },
+    ]);
     return;
   }
 
