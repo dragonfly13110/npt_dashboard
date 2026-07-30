@@ -10,6 +10,7 @@ import {
   Empty,
   Badge,
   Button,
+  Drawer,
   message,
 } from 'antd';
 import {
@@ -23,10 +24,18 @@ import {
   DashboardOutlined,
   ArrowLeftOutlined,
   SyncOutlined,
+  EyeOutlined,
 } from '@ant-design/icons';
 
 import { supabase } from '../../supabaseClient';
 import { useAuth } from '../../contexts/AuthContext';
+import {
+  getActionSummary,
+  getForecastWindow,
+  getPriorityDetails,
+  hasChemicalAdvice,
+} from './forecastGuidance';
+import { resolveDiseaseKnowledge } from './diseaseKnowledge';
 import './AiDiseaseForecast.css';
 
 const { RangePicker } = DatePicker;
@@ -68,6 +77,8 @@ export default function AiDiseaseForecast() {
   const [selectedCrop, setSelectedCrop] = useState('ALL');
   const [selectedRisk, setSelectedRisk] = useState('ALL');
   const [targetRunDate, setTargetRunDate] = useState(null);
+  const [activeKnowledge, setActiveKnowledge] = useState(null);
+  const [inspectionChecks, setInspectionChecks] = useState({});
 
   // Fetch all forecasts function
   const fetchForecasts = async (selectDate = null) => {
@@ -305,6 +316,34 @@ export default function AiDiseaseForecast() {
     };
   }, [selectedForecast]);
 
+  const priorityDetails = useMemo(
+    () => getPriorityDetails(selectedForecast?.details),
+    [selectedForecast]
+  );
+  const forecastWindow = useMemo(
+    () => getForecastWindow(selectedForecast?.forecast_date),
+    [selectedForecast]
+  );
+  const todayActions = useMemo(
+    () =>
+      priorityDetails
+        .map((item) => ({
+          crop: item.target_crop,
+          disease: item.name,
+          action: getActionSummary(item.prevention),
+        }))
+        .filter((item) => item.action)
+        .slice(0, 3),
+    [priorityDetails]
+  );
+
+  const openKnowledge = (item) => {
+    const knowledge = resolveDiseaseKnowledge(item);
+    if (!knowledge) return;
+    setActiveKnowledge({ ...knowledge, forecast: item });
+    setInspectionChecks({});
+  };
+
   return (
     <div className="forecast-history-container">
       {/* Page Header */}
@@ -440,6 +479,48 @@ export default function AiDiseaseForecast() {
                   </span>
                 </div>
 
+                <section className="forecast-decision-board">
+                  <div className="decision-priority">
+                    <span className="decision-eyebrow">จุดเฝ้าระวังสูงสุด</span>
+                    <strong>
+                      {priorityDetails[0]?.name || 'ไม่พบความเสี่ยง'}
+                    </strong>
+                    <p>
+                      {priorityDetails[0]
+                        ? `${priorityDetails[0].target_crop} · ความเสี่ยง${priorityDetails[0].risk_level}`
+                        : 'ยังไม่มีรายการที่ต้องเฝ้าระวัง'}
+                    </p>
+                  </div>
+                  <div className="forecast-window-card">
+                    <div className="window-heading">
+                      <strong>ช่วงเฝ้าระวัง 7 วัน</strong>
+                      <span>ความเสี่ยงรวมทั้งช่วง ไม่ใช่คะแนนรายวัน</span>
+                    </div>
+                    <div className="forecast-window-days">
+                      {forecastWindow.map((day) => (
+                        <span key={day}>{day}</span>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+
+                {todayActions.length > 0 && (
+                  <section className="today-actions-card">
+                    <div>
+                      <span className="decision-eyebrow">ลงมือวันนี้</span>
+                      <h4>3 งานเร่งด่วนก่อนโรคระบาด</h4>
+                    </div>
+                    <ol>
+                      {todayActions.map((item) => (
+                        <li key={`${item.crop}-${item.disease}`}>
+                          <strong>{item.crop}</strong>
+                          <span>{item.action}</span>
+                        </li>
+                      ))}
+                    </ol>
+                  </section>
+                )}
+
                 {/* Overall Summary Block */}
                 <div className="overall-summary-card">
                   <h4>
@@ -475,6 +556,18 @@ export default function AiDiseaseForecast() {
 
                 {/* Filter Controls */}
                 <div className="detail-filter-card">
+                  <div className="crop-quick-filter" aria-label="เลือกชนิดพืช">
+                    {cropOptions.map((crop) => (
+                      <button
+                        type="button"
+                        key={crop.value}
+                        className={selectedCrop === crop.value ? 'active' : ''}
+                        onClick={() => setSelectedCrop(crop.value)}
+                      >
+                        {crop.label}
+                      </button>
+                    ))}
+                  </div>
                   <div className="detail-filter-flex">
                     <div
                       className="filter-group"
@@ -537,6 +630,7 @@ export default function AiDiseaseForecast() {
                           : 'risk-low';
                       const typeClass =
                         item.type === 'โรคพืช' ? 'tag-disease' : 'tag-pest';
+                      const knowledge = resolveDiseaseKnowledge(item);
 
                       return (
                         <div
@@ -567,10 +661,32 @@ export default function AiDiseaseForecast() {
                             <p className="card-description">
                               {item.description}
                             </p>
+                            {knowledge && (
+                              <button
+                                type="button"
+                                className="inspect-disease-button"
+                                onClick={() => openKnowledge(item)}
+                              >
+                                <EyeOutlined />
+                                ตรวจอาการก่อนจัดการ
+                              </button>
+                            )}
                             <div className="card-prevention-block">
-                              <h6>🛡️ คำแนะนำและมาตรการป้องกันเฝ้าระวัง:</h6>
+                              <h6>🛡️ แนวทาง IPM และการป้องกัน:</h6>
                               <p>{item.prevention}</p>
                             </div>
+                            {hasChemicalAdvice(item.prevention) && (
+                              <div className="chemical-safety-note">
+                                <strong>มีคำแนะนำเกี่ยวกับสารเคมี</strong>
+                                <span>
+                                  ข้อมูลส่วนนี้สร้างจาก AI ต้องตรวจฉลาก
+                                  พืชเป้าหมาย และทะเบียนก่อนใช้
+                                </span>
+                                <a href="/public/pesticides">
+                                  เปิดคลังความรู้สารเคมี →
+                                </a>
+                              </div>
+                            )}
                           </div>
                         </div>
                       );
@@ -586,6 +702,97 @@ export default function AiDiseaseForecast() {
           </div>
         </div>
       )}
+
+      <Drawer
+        className="disease-knowledge-drawer"
+        title={activeKnowledge?.forecast?.name || 'คู่มือตรวจแปลง'}
+        open={Boolean(activeKnowledge)}
+        onClose={() => setActiveKnowledge(null)}
+        width={620}
+      >
+        {activeKnowledge && (
+          <div className="knowledge-drawer-content">
+            <div className="knowledge-status">
+              <span>ฐานความรู้ตรวจสอบเบื้องต้น</span>
+              <strong>รอเจ้าหน้าที่รับรอง</strong>
+            </div>
+
+            <section>
+              <h3>อาการสำคัญ</h3>
+              <ul>
+                {activeKnowledge.symptoms.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+
+            <section className="confused-section">
+              <h3>อาจสับสนกับ</h3>
+              <div className="knowledge-tags">
+                {activeKnowledge.confusedWith.map((item) => (
+                  <span key={item}>{item}</span>
+                ))}
+              </div>
+            </section>
+
+            <section>
+              <h3>วิธีสำรวจแปลง</h3>
+              <ol>
+                {activeKnowledge.scoutingSteps.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ol>
+            </section>
+
+            <section className="inspection-checklist">
+              <h3>Checklist ก่อนจัดการ</h3>
+              {[
+                'พบอาการจริงในแปลง',
+                'ตรวจหลายจุด ไม่ใช่ต้นเดียว',
+                'อาการตรงกับคำอธิบาย',
+                'แยกสาเหตุที่มักสับสนแล้ว',
+              ].map((label) => (
+                <label key={label}>
+                  <input
+                    type="checkbox"
+                    checked={Boolean(inspectionChecks[label])}
+                    onChange={(event) =>
+                      setInspectionChecks((current) => ({
+                        ...current,
+                        [label]: event.target.checked,
+                      }))
+                    }
+                  />
+                  <span>{label}</span>
+                </label>
+              ))}
+            </section>
+
+            <section className="ipm-section">
+              <h3>เริ่มด้วย IPM</h3>
+              <ul>
+                {activeKnowledge.ipmMethods.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+
+            {activeKnowledge.pesticideSlug ? (
+              <a
+                className="verified-knowledge-link"
+                href={`/public/pesticides/${activeKnowledge.pesticideSlug}`}
+              >
+                เปิดคำแนะนำสารที่ตรงกับพืชและโรค →
+              </a>
+            ) : (
+              <p className="no-pesticide-match">
+                ยังไม่มีเอกสารสารเคมีที่ตรงทั้งพืชและโรคในคลัง
+                จึงไม่แนะนำสารจากชื่อโรคใกล้เคียง
+              </p>
+            )}
+          </div>
+        )}
+      </Drawer>
     </div>
   );
 }
