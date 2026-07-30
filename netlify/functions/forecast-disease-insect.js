@@ -1,12 +1,16 @@
 import { createClient } from '@supabase/supabase-js';
 import { reportCriticalError } from './lib/error-alert.js';
 import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
+import { getConfig as getLineAiConfig } from './lib/line-ai/config.js';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY =
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
-const GEMINI_API_KEY =
-  process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
+const GEMINI_API_KEYS = [
+  ...getLineAiConfig().geminiApiKeys.values(),
+  process.env.GEMINI_API_KEY,
+  process.env.VITE_GEMINI_API_KEY,
+].filter((key, index, keys) => key && keys.indexOf(key) === index);
 const GEMINI_MODEL = 'gemini-3.6-flash';
 const WEATHER_TIMEOUT_MS = 8000;
 const GEMINI_TIMEOUT_MS = 120000;
@@ -262,11 +266,10 @@ export const generateForecast = async (event = {}, context) => {
         : 'No recent pest outbreaks reported.';
 
     // 4. Generate a grounded, evidence-rich forecast.
-    if (!GEMINI_API_KEY) {
+    if (!GEMINI_API_KEYS.length) {
       throw new Error('GEMINI_API_KEY is not configured in env variables.');
     }
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
     const prompt = `คุณคือผู้เชี่ยวชาญโรคพืชและแมลงศัตรูพืชของจังหวัดนครปฐม ประเทศไทย
 พยากรณ์ความเสี่ยงล่วงหน้า 7 วัน เริ่ม ${bangkokDateStr}
 
@@ -318,13 +321,15 @@ ${outbreakSummary}
   ]
 }`;
 
-    const maxRetries = 3;
+    const maxRetries = Math.max(3, GEMINI_API_KEYS.length);
     let resultJson = null;
     let grounding = null;
     let aiFailureReason = '';
 
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
+        const apiKey = GEMINI_API_KEYS[(attempt - 1) % GEMINI_API_KEYS.length];
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
         console.log(
           `Grounded Gemini forecast attempt ${attempt} of ${maxRetries}...`
         );
