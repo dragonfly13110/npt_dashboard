@@ -175,17 +175,6 @@ export default function AiDiseaseForecast() {
     });
     try {
       const forecastDate = getRunDate(customDateStr);
-      const existingForecast = await fetchForecastByDate(forecastDate);
-      if (isUsableForecast(existingForecast)) {
-        setSelectedForecast(existingForecast);
-        await fetchForecasts(forecastDate);
-        message.success({
-          content: `มีข้อมูลพยากรณ์วันที่ ${forecastDate} อยู่แล้ว`,
-          key: msgKey,
-          duration: 4,
-        });
-        return;
-      }
 
       const {
         data: { session },
