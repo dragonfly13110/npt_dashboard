@@ -529,38 +529,6 @@ export default function AiDiseaseForecast() {
                   <p>{selectedForecast.summary}</p>
                 </div>
 
-                <details className="forecast-sources-card" open>
-                  <summary>
-                    แหล่งข้อมูลที่ AI ใช้วิเคราะห์ (
-                    {selectedForecast.sources?.length || 0})
-                  </summary>
-                  {selectedForecast.search_queries?.length > 0 && (
-                    <div className="search-query-list">
-                      {selectedForecast.search_queries.map((query) => (
-                        <span key={query}>{query}</span>
-                      ))}
-                    </div>
-                  )}
-                  {selectedForecast.sources?.length > 0 ? (
-                    <ol>
-                      {selectedForecast.sources.map((source, index) => (
-                        <li key={`${source.url}-${index}`}>
-                          <a href={source.url} target="_blank" rel="noreferrer">
-                            {source.title || source.url}
-                          </a>
-                          {source.cited_texts?.[0] && (
-                            <p>{source.cited_texts[0]}</p>
-                          )}
-                        </li>
-                      ))}
-                    </ol>
-                  ) : (
-                    <p className="missing-citations">
-                      ผลวิเคราะห์เดิมนี้ไม่ได้บันทึก URL และ citation ไว้
-                    </p>
-                  )}
-                </details>
-
                 {/* Stats Cards Grid */}
                 <div className="forecast-stats-grid">
                   <div className="forecast-stat-card stat-total">
@@ -787,6 +755,38 @@ export default function AiDiseaseForecast() {
                     })}
                   </div>
                 )}
+
+                <details className="forecast-sources-card" open>
+                  <summary>
+                    แหล่งข้อมูลที่ AI ใช้วิเคราะห์ (
+                    {selectedForecast.sources?.length || 0})
+                  </summary>
+                  {selectedForecast.search_queries?.length > 0 && (
+                    <div className="search-query-list">
+                      {selectedForecast.search_queries.map((query) => (
+                        <span key={query}>{query}</span>
+                      ))}
+                    </div>
+                  )}
+                  {selectedForecast.sources?.length > 0 ? (
+                    <ol>
+                      {selectedForecast.sources.map((source, index) => (
+                        <li key={`${source.url}-${index}`}>
+                          <a href={source.url} target="_blank" rel="noreferrer">
+                            {source.title || source.url}
+                          </a>
+                          {source.cited_texts?.[0] && (
+                            <p>{source.cited_texts[0]}</p>
+                          )}
+                        </li>
+                      ))}
+                    </ol>
+                  ) : (
+                    <p className="missing-citations">
+                      ผลวิเคราะห์เดิมนี้ไม่ได้บันทึก URL และ citation ไว้
+                    </p>
+                  )}
+                </details>
               </>
             ) : (
               <Card bordered={false} style={{ borderRadius: 16 }}>
