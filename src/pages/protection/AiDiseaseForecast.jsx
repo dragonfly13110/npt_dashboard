@@ -140,8 +140,7 @@ export default function AiDiseaseForecast() {
       typeof forecast.summary === 'string' &&
       forecast.summary.trim() &&
       !forecast.summary.startsWith('Pending AI analysis') &&
-      Array.isArray(forecast.details) &&
-      forecast.details.length > 0
+      Array.isArray(forecast.details)
     );
   };
 
@@ -475,7 +474,10 @@ export default function AiDiseaseForecast() {
                     {parseThaiFullDateStr(selectedForecast.forecast_date)}
                   </h3>
                   <span className="generation-badge">
-                    🤖 โมเดล: Gemini 3.6 Flash + Grounding
+                    🤖{' '}
+                    {selectedForecast.model
+                      ? `${selectedForecast.model} · Google Search`
+                      : 'ผลวิเคราะห์เดิม · ไม่ได้บันทึกโมเดล'}
                   </span>
                 </div>
 
@@ -529,6 +531,38 @@ export default function AiDiseaseForecast() {
                   </h4>
                   <p>{selectedForecast.summary}</p>
                 </div>
+
+                <details className="forecast-sources-card" open>
+                  <summary>
+                    แหล่งข้อมูลที่ AI ใช้วิเคราะห์ (
+                    {selectedForecast.sources?.length || 0})
+                  </summary>
+                  {selectedForecast.search_queries?.length > 0 && (
+                    <div className="search-query-list">
+                      {selectedForecast.search_queries.map((query) => (
+                        <span key={query}>{query}</span>
+                      ))}
+                    </div>
+                  )}
+                  {selectedForecast.sources?.length > 0 ? (
+                    <ol>
+                      {selectedForecast.sources.map((source, index) => (
+                        <li key={`${source.url}-${index}`}>
+                          <a href={source.url} target="_blank" rel="noreferrer">
+                            {source.title || source.url}
+                          </a>
+                          {source.cited_texts?.[0] && (
+                            <p>{source.cited_texts[0]}</p>
+                          )}
+                        </li>
+                      ))}
+                    </ol>
+                  ) : (
+                    <p className="missing-citations">
+                      ผลวิเคราะห์เดิมนี้ไม่ได้บันทึก URL และ citation ไว้
+                    </p>
+                  )}
+                </details>
 
                 {/* Stats Cards Grid */}
                 <div className="forecast-stats-grid">
@@ -616,7 +650,13 @@ export default function AiDiseaseForecast() {
                 {/* Detailed Outbreak Cards Grid */}
                 {filteredDetails.length === 0 ? (
                   <Card bordered={false} style={{ borderRadius: 16 }}>
-                    <Empty description="ไม่พบโรคพืชหรือแมลงศัตรูพืชที่ตรงกับตัวกรองที่เลือก" />
+                    <Empty
+                      description={
+                        selectedForecast.details?.length === 0
+                          ? 'รอบนี้ไม่พบความเสี่ยงสำคัญที่มีหลักฐานเพียงพอ'
+                          : 'ไม่พบโรคพืชหรือแมลงศัตรูพืชที่ตรงกับตัวกรองที่เลือก'
+                      }
+                    />
                   </Card>
                 ) : (
                   <div className="detail-cards-grid">
@@ -661,6 +701,63 @@ export default function AiDiseaseForecast() {
                             <p className="card-description">
                               {item.description}
                             </p>
+                            <div className="confidence-row">
+                              ความมั่นใจของหลักฐาน:{' '}
+                              <strong>{item.confidence || 'ไม่ระบุ'}</strong>
+                            </div>
+                            {(item.evidence?.length > 0 ||
+                              item.symptoms_to_watch?.length > 0 ||
+                              item.monitoring_actions?.length > 0 ||
+                              item.ipm_actions?.length > 0) && (
+                              <details className="analysis-evidence">
+                                <summary>ดูหลักฐานและแผนตรวจแปลง</summary>
+                                {item.evidence?.length > 0 && (
+                                  <section>
+                                    <h6>หลักฐานที่ใช้ประเมิน</h6>
+                                    <ul>
+                                      {item.evidence.map((evidence, index) => (
+                                        <li key={`${evidence.factor}-${index}`}>
+                                          <strong>{evidence.factor}:</strong>{' '}
+                                          {evidence.observation}
+                                          {evidence.implication &&
+                                            ` — ${evidence.implication}`}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </section>
+                                )}
+                                {item.symptoms_to_watch?.length > 0 && (
+                                  <section>
+                                    <h6>อาการที่ต้องเฝ้าดู</h6>
+                                    <ul>
+                                      {item.symptoms_to_watch.map((text) => (
+                                        <li key={text}>{text}</li>
+                                      ))}
+                                    </ul>
+                                  </section>
+                                )}
+                                {item.monitoring_actions?.length > 0 && (
+                                  <section>
+                                    <h6>แผนตรวจแปลง</h6>
+                                    <ul>
+                                      {item.monitoring_actions.map((text) => (
+                                        <li key={text}>{text}</li>
+                                      ))}
+                                    </ul>
+                                  </section>
+                                )}
+                                {item.ipm_actions?.length > 0 && (
+                                  <section>
+                                    <h6>แนวทาง IPM</h6>
+                                    <ul>
+                                      {item.ipm_actions.map((text) => (
+                                        <li key={text}>{text}</li>
+                                      ))}
+                                    </ul>
+                                  </section>
+                                )}
+                              </details>
+                            )}
                             {knowledge && (
                               <button
                                 type="button"

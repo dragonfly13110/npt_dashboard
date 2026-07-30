@@ -7,16 +7,9 @@ const SUPABASE_KEY =
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
 const GEMINI_API_KEY =
   process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
-const KKU_API_KEY =
-  process.env.VITE_LANDING_CHATBOT_API_KEY ||
-  process.env.LANDING_CHATBOT_API_KEY;
-const KKU_API_BASE =
-  process.env.VITE_LANDING_CHATBOT_API_URL ||
-  'https://gen.ai.kku.ac.th/okmd/api/v1';
-const KKU_FORECAST_MODEL = process.env.FORECAST_KKU_MODEL || 'gemini-3.5-flash';
+const GEMINI_MODEL = 'gemini-3.6-flash';
 const WEATHER_TIMEOUT_MS = 8000;
-const GEMINI_TIMEOUT_MS = 30000;
-const KKU_TIMEOUT_MS = 45000;
+const GEMINI_TIMEOUT_MS = 120000;
 
 const getResponseHeaders = (origin = '') => ({
   ...corsHeaders(origin, { methods: 'GET, POST, OPTIONS' }),
@@ -33,56 +26,62 @@ const fetchWithTimeout = async (url, options = {}, timeoutMs = 12000) => {
   }
 };
 
-// Fallback removed - we now retry and fail cleanly
-async function callKkuForecast(prompt) {
-  if (!KKU_API_KEY) {
-    throw new Error('KKU API key is not configured.');
-  }
+export function extractGroundingMetadata(candidate) {
+  const metadata =
+    candidate?.groundingMetadata || candidate?.grounding_metadata || {};
+  const chunks = metadata.groundingChunks || metadata.grounding_chunks || [];
+  const supports =
+    metadata.groundingSupports || metadata.grounding_supports || [];
 
-  const kkuBaseUrl = KKU_API_BASE.startsWith('/api/kku/')
-    ? `https://gen.ai.kku.ac.th/${KKU_API_BASE.replace(/^\/api\/kku\//, '')}`
-    : KKU_API_BASE;
+  const chunkSources = chunks
+    .map((chunk, index) => {
+      const web = chunk.web;
+      if (!web?.uri) return null;
+      const citedTexts = supports
+        .filter((support) =>
+          (
+            support.groundingChunkIndices ||
+            support.grounding_chunk_indices ||
+            []
+          ).includes(index)
+        )
+        .map((support) => support.segment?.text)
+        .filter(Boolean);
+      return {
+        title: web.title || web.uri,
+        url: web.uri,
+        cited_texts: [...new Set(citedTexts)],
+      };
+    })
+    .filter(Boolean);
+  const sources = [
+    ...chunkSources
+      .reduce((unique, source) => {
+        const existing = unique.get(source.url);
+        unique.set(
+          source.url,
+          existing
+            ? {
+                ...existing,
+                cited_texts: [
+                  ...new Set([...existing.cited_texts, ...source.cited_texts]),
+                ],
+              }
+            : source
+        );
+        return unique;
+      }, new Map())
+      .values(),
+  ];
 
-  const response = await fetchWithTimeout(
-    `${kkuBaseUrl.replace(/\/$/, '')}/chat/completions`,
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${KKU_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: KKU_FORECAST_MODEL,
-        messages: [
-          {
-            role: 'system',
-            content:
-              'You are an expert crop disease and pest forecast analyst for Nakhon Pathom. Return only valid JSON.',
-          },
-          {
-            role: 'user',
-            content: prompt,
-          },
-        ],
-        temperature: 0.2,
-        max_tokens: 4096,
-      }),
-    },
-    KKU_TIMEOUT_MS
-  );
-
-  if (!response.ok) {
-    const errText = await response.text().catch(() => '');
-    throw new Error(
-      `KKU ${KKU_FORECAST_MODEL} Error (status ${response.status}): ${errText}`
-    );
-  }
-
-  const data = await response.json();
-  return data.choices?.[0]?.message?.content || '';
+  return {
+    sources,
+    searchQueries:
+      metadata.webSearchQueries || metadata.web_search_queries || [],
+  };
 }
 
-function parseForecastJson(generatedText) {
+export function parseForecastJson(generatedText) {
   if (!generatedText) {
     throw new Error('AI returned empty response.');
   }
@@ -107,8 +106,7 @@ function isUsableForecast(row) {
     typeof row.summary === 'string' &&
     row.summary.trim() &&
     !row.summary.startsWith('Pending AI analysis') &&
-    Array.isArray(row.details) &&
-    row.details.length > 0
+    Array.isArray(row.details)
   );
 }
 
@@ -157,11 +155,6 @@ export const generateForecast = async (event = {}, context) => {
     }
 
     // 0. Check if forecast for this date already exists (to prevent redundant API calls during cron retries)
-    const isManualTrigger =
-      (event && event.httpMethod === 'POST') ||
-      (event &&
-        event.queryStringParameters &&
-        event.queryStringParameters.force === 'true');
     const isForceTrigger =
       (event &&
         event.queryStringParameters &&
@@ -268,197 +261,119 @@ export const generateForecast = async (event = {}, context) => {
             .join('\n')
         : 'No recent pest outbreaks reported.';
 
-    // 4. Set up Gemini API request and retry loop
-    const model = 'gemini-3.6-flash';
-    const url = GEMINI_API_KEY
-      ? `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`
-      : '';
+    // 4. Generate a grounded, evidence-rich forecast.
+    if (!GEMINI_API_KEY) {
+      throw new Error('GEMINI_API_KEY is not configured in env variables.');
+    }
 
-    const basePrompt = `คุณคือผู้เชี่ยวชาญด้านโรคพืชและแมลงศัตรูพืชในเขตจังหวัดนครปฐม ประเทศไทย (พืชสำคัญ 7 ชนิด: ข้าว, ส้มโอ, มะพร้าว, ฝรั่ง, กล้วยไม้, สมุนไพร, พืชผัก)
-วิเคราะห์สถานการณ์และพยากรณ์ความเสี่ยงโรคพืชและแมลงศัตรูพืชที่มีโอกาสระบาด "ล่วงหน้า 7 วัน" ในจังหวัดนครปฐม นับตั้งแต่วันที่ ${bangkokDateStr} เป็นต้นไป โดยจะต้องมีข้อมูลวิเคราะห์โรคหรือแมลงศัตรูพืชสำหรับพืชสำคัญทั้ง 7 ชนิดนี้ในผลลัพธ์ทุกครั้ง (ชนิดละอย่างน้อย 1 รายการในหัวข้อรายละเอียด)
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+    const prompt = `คุณคือผู้เชี่ยวชาญโรคพืชและแมลงศัตรูพืชของจังหวัดนครปฐม ประเทศไทย
+พยากรณ์ความเสี่ยงล่วงหน้า 7 วัน เริ่ม ${bangkokDateStr}
 
-โดยใช้ข้อมูลสนับสนุนด้านล่างนี้:
-1. ข้อมูลสภาพอากาศย้อนหลัง 14 วันล่าสุดในนครปฐม:
+พืชสำคัญที่ต้องพิจารณาเป็นพิเศษ: ข้าว, ส้มโอ, มะพร้าว, ฝรั่ง, กล้วยไม้, สมุนไพร, พืชผัก
+รายการนี้เป็นขอบเขตเฝ้าระวัง ไม่ใช่รายการบังคับ ห้ามสร้างความเสี่ยงเพื่อให้ครบทุกพืช ให้ใส่เฉพาะภัยที่มีหลักฐานสนับสนุนและควรลงมือเฝ้าระวังจริง หากไม่พบความเสี่ยงสำคัญให้ details เป็น []
+
+ข้อมูลอากาศย้อนหลัง 14 วัน:
 ${weatherSummary}
 
-2. ข้อมูลพยากรณ์สภาพอากาศล่วงหน้า 7 วันในนครปฐม:
+พยากรณ์อากาศล่วงหน้า 7 วัน:
 ${weatherForecastSummary}
 
-3. ข้อมูลรายงานการระบาดของโรค/แมลง ล่าสุดในพื้นที่:
-${outbreakSummary}`;
+รายงานการระบาดล่าสุดในระบบ:
+${outbreakSummary}
 
-    const groundingInstruction = `
+ใช้ Google Search ค้นหลายคำค้นเพื่อยืนยันข้อมูลล่าสุด โดยให้ความสำคัญกับกรมส่งเสริมการเกษตร กรมวิชาการเกษตร กรมอุตุนิยมวิทยา หน่วยงานรัฐ มหาวิทยาลัย และแหล่งอารักขาพืชที่ตรวจสอบได้ ค้นทั้งคำเตือนช่วงเดือน/ปีปัจจุบัน เงื่อนไขอากาศที่เอื้อต่อภัย อาการจำแนก และแนวทาง IPM
 
-4. ทำการค้นหาข้อมูลทางอินเทอร์เน็ตเพิ่มเติม (Google Search Grounding) เกี่ยวกับ "คำเตือนระบาดโรคพืชและแมลงศัตรูพืช กรมส่งเสริมการเกษตร หรือ กรมวิชาการเกษตร ช่วงเดือน/ปีนี้ ในภาคกลางและจังหวัดนครปฐม"`;
+หลักการวิเคราะห์:
+- เชื่อมโยงหลักฐาน 4 ส่วน: อากาศย้อนหลัง, อากาศล่วงหน้า, รายงานพื้นที่, ผลค้นเว็บ
+- แยกข้อเท็จจริงออกจากข้ออนุมาน และระบุ confidence ตามความแข็งแรงของหลักฐาน
+- ไม่อ้างว่าพบการระบาดในนครปฐมหากแหล่งข้อมูลไม่ได้ระบุจริง
+- ไม่แนะนำชื่อสาร อัตราใช้ หรือช่วงเว้นเก็บเกี่ยวจากการคาดเดา หากกล่าวถึงสารเคมีให้เตือนว่าต้องตรวจทะเบียนและฉลากปัจจุบันก่อนใช้
+- ให้รายละเอียดมากพอที่เจ้าหน้าที่ใช้ตรวจแปลงและตัดสินใจได้
 
-    const responseFormatInstruction = `
-
-วิเคราะห์และตอบกลับในรูปแบบ JSON วัตถุที่มีโครงสร้างต่อไปนี้อย่างเคร่งครัด (ตอบเป็นภาษาไทยทั้งหมด):
+ตอบเป็น JSON ภาษาไทยเท่านั้น ห้ามมี Markdown:
 {
-  "summary": "บทสรุปคาดการณ์ภาพรวมสถานการณ์และเตือนภัยโรค/แมลงศัตรูพืชล่วงหน้า 7 วัน (ความยาว 3-4 ประโยคกระชับ เข้าใจง่าย อ้างอิงอากาศย้อนหลังและล่วงหน้า)",
+  "summary": "สรุปภาพรวม 5-8 ประโยค พร้อมเหตุผลหลัก ช่วงเวลาที่ควรเฝ้าระวัง และสิ่งที่ควรทำก่อน",
   "details": [
     {
-      "disease_id": "รหัสคงที่ของรายการ (เลือกหนึ่งค่าเท่านั้น: 'rice-blast', 'pomelo-canker', 'coconut-bud-rot', 'guava-anthracnose-fruit-rot', 'orchid-black-rot', 'herb-root-collar-rot', 'vegetable-soft-rot' หรือ 'other' เมื่อไม่ตรงทุกข้อ ห้ามเลือกรหัสจากชื่อคล้ายกัน)",
-      "name": "ชื่อโรคพืชหรือแมลงศัตรูพืช (เช่น เพลี้ยกระโดดสีน้ำตาล, โรคใบด่างมันสำปะหลัง, หนอนหัวดำมะพร้าว)",
-      "type": "ประเภท (เลือกระหว่าง: 'โรคพืช' หรือ 'แมลงศัตรูพืช')",
-      "target_crop": "พืชเจ้าบ้านที่ได้รับผลกระทบ (ระบุตรงตามข้อใดข้อหนึ่งจากพืชสำคัญ 7 ชนิดนี้เท่านั้น: ข้าว, ส้มโอ, มะพร้าว, ฝรั่ง, กล้วยไม้, สมุนไพร, พืชผัก)",
-      "risk_level": "ระดับความเสี่ยง (เลือกระหว่าง: 'สูง' หรือ 'ปานกลาง' หรือ 'ต่ำ')",
-      "description": "อธิบายสาเหตุความเสี่ยงล่วงหน้า 7 วัน โดยวิเคราะห์ทิศทางความชื้น/ฝน/ความร้อนจากอากาศที่ผ่านมาและอากาศล่วงหน้า 7 วัน และข้อมูลเตือนภัย",
-      "prevention": "ข้อแนะนำในการเฝ้าระวัง ป้องกัน หรือการดูแลรักษาล่วงหน้า (สำหรับเกษตรกรและเจ้าหน้าที่)"
+      "disease_id": "เลือกหนึ่งค่า: rice-blast, pomelo-canker, coconut-bud-rot, guava-anthracnose-fruit-rot, orchid-black-rot, herb-root-collar-rot, vegetable-soft-rot, other",
+      "name": "ชื่อภัย",
+      "type": "โรคพืช หรือ แมลงศัตรูพืช",
+      "target_crop": "หนึ่งในพืชสำคัญ 7 กลุ่ม",
+      "risk_level": "สูง หรือ ปานกลาง หรือ ต่ำ",
+      "confidence": "สูง หรือ ปานกลาง หรือ ต่ำ",
+      "description": "บทวิเคราะห์ละเอียดว่าทำไมจึงเสี่ยงใน 7 วันนี้ โดยชี้ว่าข้อใดเป็นข้อมูลและข้อใดเป็นการอนุมาน",
+      "evidence": [
+        {
+          "factor": "อากาศย้อนหลัง/อากาศล่วงหน้า/รายงานพื้นที่/ข้อมูลเว็บ",
+          "observation": "ข้อมูลที่พบพร้อมวันที่หรือพื้นที่เมื่อมี",
+          "implication": "ความหมายต่อความเสี่ยง"
+        }
+      ],
+      "symptoms_to_watch": ["อาการสำคัญที่ใช้ตรวจแยกในแปลง"],
+      "monitoring_actions": ["วิธีตรวจแปลง ช่วงเวลา และจุดที่ต้องดู"],
+      "ipm_actions": ["การจัดการแบบผสมผสาน เรียงจากวิธีที่เสี่ยงต่ำก่อน"],
+      "prevention": "สรุปสิ่งที่เกษตรกรและเจ้าหน้าที่ควรทำทันที"
     }
   ]
 }`;
 
     const maxRetries = 3;
     let resultJson = null;
+    let grounding = null;
     let aiFailureReason = '';
-    const preferKkuFirst = isManualTrigger && KKU_API_KEY;
 
-    if (preferKkuFirst) {
-      console.log(
-        `Manual forecast request detected. Trying KKU ${KKU_FORECAST_MODEL} first to avoid request timeout...`
-      );
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
-        const prompt = `${basePrompt}${responseFormatInstruction}`;
-        const generatedText = await callKkuForecast(prompt);
-        resultJson = parseForecastJson(generatedText);
         console.log(
-          `Successfully generated forecast using KKU ${KKU_FORECAST_MODEL}.`
+          `Grounded Gemini forecast attempt ${attempt} of ${maxRetries}...`
         );
-      } catch (kkuErr) {
-        aiFailureReason = kkuErr.message;
-        console.warn(
-          `KKU ${KKU_FORECAST_MODEL} first attempt failed:`,
-          kkuErr.message
+        const response = await fetchWithTimeout(
+          url,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: prompt }] }],
+              tools: [{ google_search: {} }],
+              generationConfig: { maxOutputTokens: 32768 },
+            }),
+          },
+          GEMINI_TIMEOUT_MS
         );
-      }
-    }
 
-    if (!GEMINI_API_KEY) {
-      aiFailureReason = 'GEMINI_API_KEY is not configured in env variables.';
-      console.warn(aiFailureReason);
-    }
-
-    for (
-      let attempt = 1;
-      !resultJson && GEMINI_API_KEY && attempt <= maxRetries;
-      attempt++
-    ) {
-      console.log(`Forecast generation attempt ${attempt} of ${maxRetries}...`);
-      try {
-        let generatedText = '';
-        let isGroundingSuccess = false;
-
-        // 1. Try with Google Search Grounding
-        try {
-          console.log(
-            `[Attempt ${attempt}] Attempting forecast generation with Google Search Grounding...`
+        if (!response.ok) {
+          const errText = await response.text();
+          throw new Error(
+            `Gemini API Error (status ${response.status}): ${errText}`
           );
-          const prompt = `${basePrompt}${groundingInstruction}${responseFormatInstruction}`;
-          const requestBody = {
-            contents: [{ parts: [{ text: prompt }] }],
-            tools: [{ google_search: {} }],
-            generationConfig: { temperature: 0.2 },
-          };
-
-          const response = await fetchWithTimeout(
-            url,
-            {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(requestBody),
-            },
-            GEMINI_TIMEOUT_MS
-          );
-
-          if (!response.ok) {
-            const errText = await response.text();
-            throw new Error(
-              `Gemini API Error (status ${response.status}): ${errText}`
-            );
-          }
-
-          const data = await response.json();
-          generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (generatedText) {
-            isGroundingSuccess = true;
-            console.log(
-              `[Attempt ${attempt}] Successfully generated forecast using Google Search Grounding.`
-            );
-          }
-        } catch (groundingErr) {
-          console.warn(
-            `[Attempt ${attempt}] Google Search Grounding failed:`,
-            groundingErr.message
-          );
-          aiFailureReason = groundingErr.message;
         }
 
-        // 2. Fallback to standard model without Search Grounding
-        if (!isGroundingSuccess) {
-          console.log(
-            `[Attempt ${attempt}] Falling back to standard model without Search Grounding...`
-          );
-          const prompt = `${basePrompt}${responseFormatInstruction}`;
-          const requestBody = {
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { temperature: 0.2 },
-          };
-
-          const response = await fetchWithTimeout(
-            url,
-            {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(requestBody),
-            },
-            GEMINI_TIMEOUT_MS
-          );
-
-          if (!response.ok) {
-            const errText = await response.text();
-            throw new Error(
-              `Gemini API Fallback Error (status ${response.status}): ${errText}`
-            );
-          }
-
-          const data = await response.json();
-          generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        const data = await response.json();
+        const candidate = data.candidates?.[0];
+        const generatedText = candidate?.content?.parts
+          ?.filter((part) => part.text && !part.thought)
+          .map((part) => part.text)
+          .join('');
+        grounding = extractGroundingMetadata(candidate);
+        if (!grounding.sources.length) {
+          throw new Error('Gemini returned no Google Search citations.');
         }
-
         resultJson = parseForecastJson(generatedText);
-        console.log(
-          `[Attempt ${attempt}] Successfully generated and parsed forecast.`
-        );
-        break; // Break the retry loop on success
+        break;
       } catch (err) {
-        console.error(`[Attempt ${attempt}] Failed:`, err.message);
         aiFailureReason = err.message;
-
+        console.error(`[Attempt ${attempt}] Failed:`, err.message);
         if (attempt < maxRetries) {
-          const delayMs = 2000 * attempt; // 2s, 4s delay
-          console.log(`Waiting ${delayMs}ms before next attempt...`);
-          await new Promise((resolve) => setTimeout(resolve, delayMs));
+          await new Promise((resolve) => setTimeout(resolve, 2000 * attempt));
         }
       }
     }
 
     if (!resultJson) {
-      console.log(
-        `Google Gemini forecast failed after ${maxRetries} attempts. Trying KKU ${KKU_FORECAST_MODEL} fallback...`
+      throw new Error(
+        `Grounded Gemini forecast failed after ${maxRetries} attempts: ${aiFailureReason}`
       );
-      try {
-        const prompt = `${basePrompt}${responseFormatInstruction}`;
-        const generatedText = await callKkuForecast(prompt);
-        resultJson = parseForecastJson(generatedText);
-        console.log(
-          `Successfully generated forecast using KKU ${KKU_FORECAST_MODEL}.`
-        );
-      } catch (kkuErr) {
-        throw new Error(
-          `Failed to generate forecast after Google and KKU attempts. Google last error: ${aiFailureReason}. KKU error: ${kkuErr.message}`
-        );
-      }
     }
 
     // 5. Store/Upsert in Supabase
@@ -469,6 +384,10 @@ ${outbreakSummary}`;
           forecast_date: bangkokDateStr,
           summary: resultJson.summary,
           details: resultJson.details,
+          sources: grounding.sources,
+          search_queries: grounding.searchQueries,
+          model: GEMINI_MODEL,
+          generation_mode: 'google_search_grounded',
           updated_at: new Date().toISOString(),
         },
         { onConflict: 'forecast_date' }
@@ -487,7 +406,13 @@ ${outbreakSummary}`;
       headers: responseHeaders,
       body: JSON.stringify({
         message: `Forecast generated and saved successfully for ${bangkokDateStr}`,
-        data: resultJson,
+        data: {
+          ...resultJson,
+          sources: grounding.sources,
+          search_queries: grounding.searchQueries,
+          model: GEMINI_MODEL,
+          generation_mode: 'google_search_grounded',
+        },
       }),
     };
   } catch (err) {

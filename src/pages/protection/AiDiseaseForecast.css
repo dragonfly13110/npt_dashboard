@@ -356,6 +356,55 @@
   margin: 0;
 }
 
+.forecast-sources-card {
+  padding: 18px 20px;
+  border: 1px solid #bae6fd;
+  border-radius: 16px;
+  background: #f0f9ff;
+}
+
+.forecast-sources-card > summary,
+.analysis-evidence > summary {
+  color: #075985;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.forecast-sources-card ol {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0 0;
+  padding-left: 22px;
+}
+
+.forecast-sources-card a {
+  color: #0369a1;
+  font-weight: 700;
+}
+
+.forecast-sources-card li p,
+.missing-citations {
+  margin: 4px 0 0;
+  color: #475569;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.search-query-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.search-query-list span {
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: #e0f2fe;
+  color: #075985;
+  font-size: 11px;
+}
+
 /* Statistics Row */
 .forecast-stats-grid {
   display: grid;
@@ -619,6 +668,38 @@
   color: #334155;
   line-height: 1.6;
   margin: 0;
+}
+
+.confidence-row {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.analysis-evidence {
+  padding: 12px 14px;
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.analysis-evidence section {
+  margin-top: 12px;
+}
+
+.analysis-evidence h6 {
+  margin: 0 0 6px;
+  color: #1e3a8a;
+  font-size: 12px;
+}
+
+.analysis-evidence ul {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding-left: 18px;
+  color: #475569;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .card-prevention-block {

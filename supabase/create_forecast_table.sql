@@ -7,6 +7,10 @@ CREATE TABLE IF NOT EXISTS ai_disease_forecasts (
     forecast_date DATE UNIQUE NOT NULL,
     summary TEXT NOT NULL,
     details JSONB,
+    sources JSONB NOT NULL DEFAULT '[]'::JSONB,
+    search_queries JSONB NOT NULL DEFAULT '[]'::JSONB,
+    model TEXT,
+    generation_mode TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
