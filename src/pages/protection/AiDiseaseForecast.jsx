@@ -155,11 +155,15 @@ export default function AiDiseaseForecast() {
     return data;
   };
 
-  const waitForForecast = async (forecastDate) => {
+  const waitForForecast = async (forecastDate, previousUpdatedAt) => {
     const maxAttempts = 24;
     for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
       const forecast = await fetchForecastByDate(forecastDate);
-      if (isUsableForecast(forecast)) return forecast;
+      if (
+        isUsableForecast(forecast) &&
+        (!previousUpdatedAt || forecast.updated_at !== previousUpdatedAt)
+      )
+        return forecast;
       await new Promise((resolve) => setTimeout(resolve, 5000));
     }
     return null;
@@ -175,6 +179,7 @@ export default function AiDiseaseForecast() {
     });
     try {
       const forecastDate = getRunDate(customDateStr);
+      const previousForecast = await fetchForecastByDate(forecastDate);
 
       const {
         data: { session },
@@ -207,7 +212,10 @@ export default function AiDiseaseForecast() {
         content: `ส่งงานวิเคราะห์วันที่ ${forecastDate} แล้ว กำลังรอผล...`,
         key: msgKey,
       });
-      const generatedForecast = await waitForForecast(forecastDate);
+      const generatedForecast = await waitForForecast(
+        forecastDate,
+        previousForecast?.updated_at
+      );
       if (!generatedForecast) {
         throw new Error(
           'ระบบยังสร้างผลไม่เสร็จภายในเวลาที่กำหนด กรุณากดรีเฟรชประวัติอีกครั้ง'
