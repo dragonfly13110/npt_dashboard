@@ -1,4 +1,4 @@
-.landing-page {
+.landing-page.bento-theme {
   --agri-green: #174a35;
   --agri-green-dark: #0d3525;
   --data-navy: #173b57;
@@ -7,7 +7,31 @@
   --ink: #15231b;
   --muted: #64736a;
   --line: #dce5dd;
-  background: var(--canvas);
+  background-color: var(--canvas);
+  background-image:
+    radial-gradient(
+      circle at 8% 22%,
+      rgba(72, 187, 164, 0.16),
+      transparent 28rem
+    ),
+    radial-gradient(
+      circle at 92% 38%,
+      rgba(87, 170, 204, 0.14),
+      transparent 32rem
+    ),
+    radial-gradient(
+      circle at 48% 78%,
+      rgba(174, 203, 105, 0.12),
+      transparent 30rem
+    ),
+    linear-gradient(rgba(23, 74, 53, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 74, 53, 0.035) 1px, transparent 1px);
+  background-size:
+    auto,
+    auto,
+    auto,
+    48px 48px,
+    48px 48px;
   color: var(--ink);
   font-family: 'IBM Plex Sans Thai', 'Noto Sans Thai', 'Kanit', sans-serif;
 }
