@@ -1,19 +1,22 @@
 import { createClient } from '@supabase/supabase-js';
 import { reportCriticalError } from './lib/error-alert.js';
 import { corsHeaders, isOriginAllowed } from './lib/http-security.js';
-import { getConfig as getLineAiConfig } from './lib/line-ai/config.js';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY =
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
-const GEMINI_API_KEYS = [
-  ...getLineAiConfig().geminiApiKeys.values(),
-  process.env.GEMINI_API_KEY,
-  process.env.VITE_GEMINI_API_KEY,
-].filter((key, index, keys) => key && keys.indexOf(key) === index);
-const GEMINI_MODEL = 'gemini-3.6-flash';
+const KKU_API_KEY =
+  process.env.LANDING_CHATBOT_API_KEY ||
+  process.env.VITE_LANDING_CHATBOT_API_KEY;
+const CONFIGURED_KKU_API_URL =
+  process.env.VITE_LANDING_CHATBOT_API_URL ||
+  'https://gen.ai.kku.ac.th/okmd/api/v1';
+const KKU_API_URL = CONFIGURED_KKU_API_URL.startsWith('/api/kku/')
+  ? `https://gen.ai.kku.ac.th/${CONFIGURED_KKU_API_URL.replace(/^\/api\/kku\//, '')}`
+  : CONFIGURED_KKU_API_URL;
+const KKU_MODEL = process.env.FORECAST_KKU_MODEL || 'gemini-3.5-flash';
 const WEATHER_TIMEOUT_MS = 8000;
-const GEMINI_TIMEOUT_MS = 120000;
+const KKU_TIMEOUT_MS = 120000;
 
 const getResponseHeaders = (origin = '') => ({
   ...corsHeaders(origin, { methods: 'GET, POST, OPTIONS' }),
@@ -30,58 +33,67 @@ const fetchWithTimeout = async (url, options = {}, timeoutMs = 12000) => {
   }
 };
 
-export function extractGroundingMetadata(candidate) {
-  const metadata =
-    candidate?.groundingMetadata || candidate?.grounding_metadata || {};
-  const chunks = metadata.groundingChunks || metadata.grounding_chunks || [];
-  const supports =
-    metadata.groundingSupports || metadata.grounding_supports || [];
+export function parseKkuSse(streamText) {
+  let text = '';
+  let finishReason = '';
+  let remainingTokens = null;
 
-  const chunkSources = chunks
-    .map((chunk, index) => {
-      const web = chunk.web;
-      if (!web?.uri) return null;
-      const citedTexts = supports
-        .filter((support) =>
-          (
-            support.groundingChunkIndices ||
-            support.grounding_chunk_indices ||
-            []
-          ).includes(index)
-        )
-        .map((support) => support.segment?.text)
-        .filter(Boolean);
-      return {
-        title: web.title || web.uri,
-        url: web.uri,
-        cited_texts: [...new Set(citedTexts)],
-      };
+  for (const match of streamText.matchAll(/^data:\s*(.+)$/gm)) {
+    const data = match[1].trim();
+    if (data === '[DONE]') continue;
+    const chunk = JSON.parse(data);
+    text += chunk.choices?.[0]?.delta?.content || '';
+    finishReason = chunk.choices?.[0]?.finish_reason || finishReason;
+    remainingTokens =
+      chunk.model_quota?.daily_remaining_tokens ?? remainingTokens;
+  }
+
+  return { text, finishReason, remainingTokens };
+}
+
+export function extractKkuGrounding(result) {
+  const sources = (Array.isArray(result?.sources) ? result.sources : [])
+    .filter((source) => {
+      try {
+        return ['http:', 'https:'].includes(new URL(source?.url).protocol);
+      } catch {
+        return false;
+      }
     })
-    .filter(Boolean);
-  const sources = [
-    ...chunkSources
-      .reduce((unique, source) => {
-        const existing = unique.get(source.url);
-        unique.set(
-          source.url,
-          existing
-            ? {
-                ...existing,
-                cited_texts: [
-                  ...new Set([...existing.cited_texts, ...source.cited_texts]),
-                ],
-              }
-            : source
-        );
-        return unique;
-      }, new Map())
-      .values(),
-  ];
+    .map((source) => ({
+      title: source.title || source.url,
+      url: source.url,
+      cited_texts: Array.isArray(source.cited_texts)
+        ? source.cited_texts.filter(Boolean)
+        : [],
+    }));
 
   return {
-    sources,
-    searchQueries:
-      metadata.webSearchQueries || metadata.web_search_queries || [],
+    sources: [
+      ...sources
+        .reduce((unique, source) => {
+          const existing = unique.get(source.url);
+          unique.set(
+            source.url,
+            existing
+              ? {
+                  ...existing,
+                  cited_texts: [
+                    ...new Set([
+                      ...existing.cited_texts,
+                      ...source.cited_texts,
+                    ]),
+                  ],
+                }
+              : source
+          );
+          return unique;
+        }, new Map())
+        .values(),
+    ],
+    searchQueries: Array.isArray(result?.search_queries)
+      ? result.search_queries.filter(Boolean)
+      : [],
   };
 }
 
@@ -266,8 +278,8 @@ export const generateForecast = async (event = {}, context) => {
         : 'No recent pest outbreaks reported.';
 
     // 4. Generate a grounded, evidence-rich forecast.
-    if (!GEMINI_API_KEYS.length) {
-      throw new Error('GEMINI_API_KEY is not configured in env variables.');
+    if (!KKU_API_KEY) {
+      throw new Error('LANDING_CHATBOT_API_KEY is not configured.');
     }
 
     const prompt = `คุณคือผู้เชี่ยวชาญโรคพืชและแมลงศัตรูพืชของจังหวัดนครปฐม ประเทศไทย
@@ -318,53 +330,70 @@ ${outbreakSummary}
       "ipm_actions": ["การจัดการแบบผสมผสาน เรียงจากวิธีที่เสี่ยงต่ำก่อน"],
       "prevention": "สรุปสิ่งที่เกษตรกรและเจ้าหน้าที่ควรทำทันที"
     }
-  ]
+  ],
+  "sources": [
+    {
+      "title": "ชื่อหน้าเว็บหรือหน่วยงาน",
+      "url": "URL ที่ได้จากผลค้นเว็บจริงเท่านั้น",
+      "cited_texts": ["ข้อเท็จจริงที่นำมาใช้วิเคราะห์จากแหล่งนี้"]
+    }
+  ],
+  "search_queries": ["คำค้นที่ใช้จริง"]
 }`;
 
-    const maxRetries = Math.max(3, GEMINI_API_KEYS.length);
+    const maxRetries = 2;
     let resultJson = null;
     let grounding = null;
     let aiFailureReason = '';
 
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
-        const apiKey = GEMINI_API_KEYS[(attempt - 1) % GEMINI_API_KEYS.length];
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
         console.log(
-          `Grounded Gemini forecast attempt ${attempt} of ${maxRetries}...`
+          `Grounded KKU forecast attempt ${attempt} of ${maxRetries}...`
         );
         const response = await fetchWithTimeout(
-          url,
+          `${KKU_API_URL.replace(/\/$/, '')}/chat/completions`,
           {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              Authorization: `Bearer ${KKU_API_KEY}`,
+              'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
-              contents: [{ parts: [{ text: prompt }] }],
-              tools: [{ google_search: {} }],
-              generationConfig: { maxOutputTokens: 32768 },
+              model: KKU_MODEL,
+              messages: [{ role: 'user', content: prompt }],
+              tools: [{ type: 'web_search' }],
+              temperature: 0.2,
+              max_tokens: 24000,
+              stream: true,
             }),
           },
-          GEMINI_TIMEOUT_MS
+          KKU_TIMEOUT_MS
         );
 
         if (!response.ok) {
           const errText = await response.text();
           throw new Error(
-            `Gemini API Error (status ${response.status}): ${errText}`
+            `KKU API Error (status ${response.status}): ${errText}`
           );
         }
 
-        const data = await response.json();
-        const candidate = data.candidates?.[0];
-        const generatedText = candidate?.content?.parts
-          ?.filter((part) => part.text && !part.thought)
-          .map((part) => part.text)
-          .join('');
-        grounding = extractGroundingMetadata(candidate);
-        if (!grounding.sources.length) {
-          throw new Error('Gemini returned no Google Search citations.');
+        const stream = parseKkuSse(await response.text());
+        if (stream.finishReason === 'error') {
+          throw new Error('KKU returned finish_reason=error.');
         }
-        resultJson = parseForecastJson(generatedText);
+        if (stream.finishReason === 'length') {
+          throw new Error('KKU response exceeded max_tokens.');
+        }
+        resultJson = parseForecastJson(stream.text);
+        grounding = extractKkuGrounding(resultJson);
+        if (!grounding.sources.length) {
+          throw new Error('KKU returned no web search citations.');
+        }
+        console.log('KKU forecast completed.', {
+          remainingTokens: stream.remainingTokens,
+          sources: grounding.sources.length,
+        });
         break;
       } catch (err) {
         aiFailureReason = err.message;
@@ -377,7 +406,7 @@ ${outbreakSummary}
 
     if (!resultJson) {
       throw new Error(
-        `Grounded Gemini forecast failed after ${maxRetries} attempts: ${aiFailureReason}`
+        `Grounded KKU forecast failed after ${maxRetries} attempts: ${aiFailureReason}`
       );
     }
 
@@ -391,8 +420,8 @@ ${outbreakSummary}
           details: resultJson.details,
           sources: grounding.sources,
           search_queries: grounding.searchQueries,
-          model: GEMINI_MODEL,
-          generation_mode: 'google_search_grounded',
+          model: KKU_MODEL,
+          generation_mode: 'kku_web_search_grounded',
           updated_at: new Date().toISOString(),
         },
         { onConflict: 'forecast_date' }
@@ -415,8 +444,8 @@ ${outbreakSummary}
           ...resultJson,
           sources: grounding.sources,
           search_queries: grounding.searchQueries,
-          model: GEMINI_MODEL,
-          generation_mode: 'google_search_grounded',
+          model: KKU_MODEL,
+          generation_mode: 'kku_web_search_grounded',
         },
       }),
     };
