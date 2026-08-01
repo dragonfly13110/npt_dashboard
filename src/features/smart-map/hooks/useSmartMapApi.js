@@ -9,13 +9,17 @@ import {
 } from '../services/smartMapApi';
 
 const QUERY_OPTIONS = { staleTime: 2 * 60 * 1000, refetchOnWindowFocus: false };
+const LONG_QUERY_OPTIONS = {
+  staleTime: 10 * 60 * 1000,
+  refetchOnWindowFocus: false,
+};
 
 export function useSmartMapSummary(scope, { enabled = true } = {}) {
   return useQuery({
     queryKey: smartMapQueryKeys.summary(scope),
     queryFn: ({ signal }) => fetchSmartMapSummary(scope, { signal }),
     enabled,
-    ...QUERY_OPTIONS,
+    ...LONG_QUERY_OPTIONS,
   });
 }
 
@@ -23,7 +27,7 @@ export function useSmartMapLayerStatus() {
   return useQuery({
     queryKey: smartMapQueryKeys.layerStatus(),
     queryFn: ({ signal }) => fetchSmartMapLayerStatus({ signal }),
-    ...QUERY_OPTIONS,
+    ...LONG_QUERY_OPTIONS,
   });
 }
 
