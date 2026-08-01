@@ -179,7 +179,8 @@ export default async (request) => {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
-        'Cache-Control': 'public, max-age=120',
+        'Netlify-CDN-Cache-Control': 'public, durable, max-age=600',
+        'Cache-Control': 'public, max-age=600',
         ...corsHeaders(origin, { methods: 'GET, OPTIONS' }),
       },
     });

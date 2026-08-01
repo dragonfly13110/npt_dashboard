@@ -8,12 +8,13 @@ function getEnv(name) {
   return globalThis.Netlify?.env?.get?.(name) || process.env[name] || '';
 }
 
-function response(origin, status, payload) {
+function response(origin, status, payload, extraHeaders = {}) {
   return new Response(JSON.stringify(payload), {
     status,
     headers: {
       'Content-Type': 'application/json',
       ...corsHeaders(origin, { methods: 'GET, OPTIONS' }),
+      ...extraHeaders,
     },
   });
 }
@@ -88,11 +89,19 @@ export default async (request) => {
     const supabase = createClient(supabaseUrl, supabaseKey, {
       auth: { persistSession: false, autoRefreshToken: false },
     });
-    return response(origin, 200, {
-      layers: await Promise.all(
-        SMART_MAP_LAYERS.map((layer) => statusForLayer(supabase, layer))
-      ),
-    });
+    return response(
+      origin,
+      200,
+      {
+        layers: await Promise.all(
+          SMART_MAP_LAYERS.map((layer) => statusForLayer(supabase, layer))
+        ),
+      },
+      {
+        'Netlify-CDN-Cache-Control': 'public, durable, max-age=600',
+        'Cache-Control': 'public, max-age=600',
+      }
+    );
   } catch (error) {
     console.error('public-smart-map-layer-status failed', error);
     return response(origin, 500, { error: 'Public map data is unavailable' });
