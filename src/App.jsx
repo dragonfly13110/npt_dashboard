@@ -72,6 +72,10 @@ const PesticideArticle = lazy(
 const PesticideMixLab = lazy(
   () => import('./pages/pesticides/PesticideMixLab')
 );
+const KnowledgeHub = lazy(() => import('./pages/knowledge/KnowledgeHub'));
+const OrchidHub = lazy(() => import('./pages/orchids/OrchidHub'));
+const OrchidCatalog = lazy(() => import('./pages/orchids/OrchidCatalog'));
+const OrchidArticle = lazy(() => import('./pages/orchids/OrchidArticle'));
 const Farmer69Catalog = lazy(() => import('./pages/farmer69/Farmer69Catalog'));
 const Farmer69Article = lazy(() => import('./pages/farmer69/Farmer69Article'));
 
@@ -193,7 +197,9 @@ function PublicLandingChatbot() {
   const location = useLocation();
   const chatbotKind = location.pathname.startsWith('/public/pesticides')
     ? 'pesticide'
-    : 'general';
+    : location.pathname.startsWith('/public/orchids')
+      ? 'orchid'
+      : 'general';
   const isPublicRoute =
     location.pathname === '/' ||
     location.pathname === '/interactive-dashboard' ||
@@ -230,6 +236,7 @@ function AppRoutes() {
         <Route path="/manual" element={<Manual />} />
         <Route path="/manual/:slug" element={<ManualArticle />} />
         <Route path="/bmc" element={<Bmc />} />
+        <Route path="/public/knowledge-hub" element={<KnowledgeHub />} />
         <Route
           path="/public/pesticides"
           element={
@@ -269,6 +276,90 @@ function AppRoutes() {
               }}
             >
               <PesticideArticle />
+            </div>
+          }
+        />
+        <Route
+          path="/public/orchids"
+          element={
+            <div
+              style={{
+                padding: '16px 12px',
+                minHeight: '100vh',
+                backgroundColor: '#f8fafc',
+              }}
+            >
+              <OrchidHub />
+            </div>
+          }
+        />
+        <Route
+          path="/public/orchids/production"
+          element={
+            <div
+              style={{
+                padding: '16px 12px',
+                minHeight: '100vh',
+                backgroundColor: '#f8fafc',
+              }}
+            >
+              <OrchidCatalog collection="production" />
+            </div>
+          }
+        />
+        <Route
+          path="/public/orchids/research"
+          element={
+            <div
+              style={{
+                padding: '16px 12px',
+                minHeight: '100vh',
+                backgroundColor: '#f8fafc',
+              }}
+            >
+              <OrchidCatalog collection="research" />
+            </div>
+          }
+        />
+        <Route
+          path="/public/orchids/research/:slug"
+          element={
+            <div
+              style={{
+                padding: '16px 12px',
+                minHeight: '100vh',
+                backgroundColor: '#f8fafc',
+              }}
+            >
+              <OrchidArticle collection="research" />
+            </div>
+          }
+        />
+        <Route
+          path="/public/orchids/production/:slug"
+          element={
+            <div
+              style={{
+                padding: '16px 12px',
+                minHeight: '100vh',
+                backgroundColor: '#f8fafc',
+              }}
+            >
+              <OrchidArticle collection="production" />
+            </div>
+          }
+        />
+        <Route
+          path="/public/orchids/:slug"
+          element={
+            <div
+              style={{
+                padding: '16px 12px',
+                minHeight: '100vh',
+                backgroundColor: '#f8fafc',
+              }}
+            >
+              <OrchidArticle collection="production" />
             </div>
           }
         />

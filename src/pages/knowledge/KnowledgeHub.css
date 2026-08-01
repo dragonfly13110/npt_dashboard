@@ -1,0 +1,149 @@
+.knowledge-hub {
+  min-height: 100vh;
+  padding: 32px 20px 64px;
+  background: linear-gradient(180deg, #f0fdf4 0%, #f8fafc 38%);
+  color: #0f172a;
+  font-family: 'Kanit', 'Prompt', 'IBM Plex Sans Thai', sans-serif;
+}
+
+.knowledge-hub-nav,
+.knowledge-hub-hero,
+.knowledge-hub-grid {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.knowledge-hub-nav {
+  margin-bottom: 28px;
+}
+
+.knowledge-hub-nav a {
+  color: #15803d;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.knowledge-hub-hero {
+  padding: clamp(32px, 7vw, 72px);
+  border-radius: 28px;
+  color: #ecfdf5;
+  background: linear-gradient(120deg, #14532d, #166534 55%, #0f766e);
+  box-shadow: 0 20px 50px rgba(22, 101, 52, 0.18);
+}
+
+.knowledge-hub-kicker {
+  color: #bbf7d0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.knowledge-hub-hero h1 {
+  margin: 10px 0;
+  color: #fff;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.15;
+}
+
+.knowledge-hub-hero p {
+  max-width: 720px;
+  margin: 0;
+  color: #dcfce7;
+  font-size: 1.1rem;
+}
+
+.knowledge-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 28px;
+}
+
+.knowledge-hub-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 18px;
+  padding: 28px;
+  border: 1px solid #e2e8f0;
+  border-radius: 22px;
+  color: inherit;
+  background: #fff;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.knowledge-hub-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.1);
+}
+
+.knowledge-hub-card-icon {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  border-radius: 16px;
+  font-size: 26px;
+}
+
+.knowledge-hub-card.chemical .knowledge-hub-card-icon {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.knowledge-hub-card.orchid .knowledge-hub-card-icon {
+  color: #9d174d;
+  background: #fce7f3;
+}
+
+.knowledge-hub-card.manual .knowledge-hub-card-icon {
+  color: #1d4ed8;
+  background: #dbeafe;
+}
+
+.knowledge-hub-card-body {
+  min-width: 0;
+}
+
+.knowledge-hub-card-detail {
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.knowledge-hub-card h2 {
+  margin: 6px 0 8px;
+  font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+}
+
+.knowledge-hub-card p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.7;
+}
+
+.knowledge-hub-card-action {
+  grid-column: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #15803d;
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .knowledge-hub {
+    padding: 20px 14px 48px;
+  }
+
+  .knowledge-hub-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .knowledge-hub-card {
+    padding: 22px;
+  }
+}

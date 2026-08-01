@@ -60,6 +60,7 @@ public/data/pesticides/
 !public/data/pesticides/
 public/data/pesticides/*
 !public/data/pesticides/mixing_matrix.json
+public/data/orchids/
 supabase/.temp/
 .playwright-cli/
 .codex-hero-split.png

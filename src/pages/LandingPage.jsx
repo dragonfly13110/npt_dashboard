@@ -19,7 +19,6 @@ import {
   FacebookOutlined,
   LinkOutlined,
   LoginOutlined,
-  ReadOutlined,
   SearchOutlined,
   TeamOutlined,
   UpOutlined,
@@ -202,10 +201,10 @@ const externalSystemLinks = [
     isInternal: true,
   },
   {
-    href: '/public/pesticides',
-    title: 'คู่มือสารเคมีปราบศัตรูพืช',
-    subtitle: 'คำแนะนำการใช้สารเคมี',
-    Icon: ReadOutlined,
+    href: '/public/knowledge-hub',
+    title: 'องค์ความรู้',
+    subtitle: 'สารเคมี · กล้วยไม้',
+    Icon: BookOutlined,
     isInternal: true,
   },
   {
@@ -1308,12 +1307,12 @@ export default function LandingPage() {
                 <span>Interactive Dashboard</span>
               </a>
               <a
-                href="/public/pesticides"
+                href="/public/knowledge-hub"
                 className="mobile-more-item"
                 onClick={closeMoreDrawer}
               >
-                <ReadOutlined />
-                <span>คู่มือสารเคมีพืช</span>
+                <BookOutlined />
+                <span>องค์ความรู้</span>
               </a>
               <a
                 href="/public/farmer-manual"

@@ -1,0 +1,213 @@
+.orchid-catalog-container .orchid-header {
+  background: linear-gradient(
+    120deg,
+    rgba(88, 28, 135, 0.96),
+    rgba(157, 23, 77, 0.82)
+  );
+}
+
+.orchid-source-note {
+  margin-bottom: 28px;
+  padding: 14px 18px;
+  border: 1px solid #fbcfe8;
+  border-radius: 12px;
+  color: #831843;
+  background: #fdf2f8;
+  line-height: 1.6;
+}
+
+.orchid-catalog-container .pesticide-card:hover {
+  border-color: #f9a8d4;
+}
+
+.orchid-catalog-container .card-category {
+  color: #be185d;
+}
+
+.orchid-article-container .article-back-link,
+.orchid-article-container .card-category {
+  color: #be185d;
+}
+
+.orchid-article-container .article-main {
+  border-top: 4px solid #db2777;
+}
+
+.orchid-article-container .article-sidebar .sidebar-widget {
+  border-top: 3px solid #f9a8d4;
+}
+
+.orchid-hub {
+  min-height: 100vh;
+  padding: 32px 20px 64px;
+  background: linear-gradient(180deg, #fdf4ff 0%, #f8fafc 42%);
+  color: #0f172a;
+  font-family: 'Kanit', 'Prompt', 'IBM Plex Sans Thai', sans-serif;
+}
+
+.orchid-hub-nav,
+.orchid-hub-hero,
+.orchid-hub-grid {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.orchid-hub-nav {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.orchid-hub-nav a {
+  color: #7e22ce;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.orchid-hub-hero {
+  padding: clamp(32px, 7vw, 72px);
+  border-radius: 28px;
+  color: #fdf4ff;
+  background: linear-gradient(120deg, #581c87, #9d174d 58%, #be185d);
+  box-shadow: 0 20px 50px rgba(126, 34, 206, 0.18);
+}
+
+.orchid-hub-kicker {
+  color: #f5d0fe;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.orchid-hub-hero h1 {
+  margin: 10px 0;
+  color: #fff;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.15;
+}
+
+.orchid-hub-hero p {
+  max-width: 760px;
+  margin: 0;
+  color: #fce7f3;
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+.orchid-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 28px;
+}
+
+.orchid-hub-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 18px;
+  padding: 28px;
+  border: 1px solid #e2e8f0;
+  border-radius: 22px;
+  color: inherit;
+  background: #fff;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.orchid-hub-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.1);
+}
+
+.orchid-hub-card-icon {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  border-radius: 16px;
+  font-size: 26px;
+}
+
+.orchid-hub-card.production .orchid-hub-card-icon {
+  color: #9d174d;
+  background: #fce7f3;
+}
+
+.orchid-hub-card.research .orchid-hub-card-icon {
+  color: #6d28d9;
+  background: #ede9fe;
+}
+
+.orchid-hub-card-detail {
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.orchid-hub-card h2 {
+  margin: 6px 0 8px;
+  font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+}
+
+.orchid-hub-card p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.7;
+}
+
+.orchid-hub-card-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  color: #7e22ce;
+  font-weight: 700;
+}
+
+.orchid-collection-research .orchid-header {
+  background: linear-gradient(
+    120deg,
+    rgba(76, 29, 149, 0.96),
+    rgba(109, 40, 217, 0.84)
+  );
+}
+
+.orchid-collection-research .orchid-source-note {
+  border-color: #ddd6fe;
+  color: #5b21b6;
+  background: #f5f3ff;
+}
+
+.orchid-collection-research .pesticide-card:hover {
+  border-color: #c4b5fd;
+}
+
+.orchid-collection-research .card-category,
+.orchid-collection-research .article-back-link {
+  color: #6d28d9;
+}
+
+.orchid-article-research .article-main {
+  border-top-color: #7c3aed;
+}
+
+.orchid-article-research .article-sidebar .sidebar-widget {
+  border-top-color: #c4b5fd;
+}
+
+@media (max-width: 700px) {
+  .orchid-hub {
+    padding: 20px 14px 48px;
+  }
+
+  .orchid-hub-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .orchid-hub-card {
+    padding: 22px;
+  }
+}

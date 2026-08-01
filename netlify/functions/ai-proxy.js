@@ -4,6 +4,7 @@ import { createKeyPool } from './lib/line-ai/key-pool.js';
 import { createLineAiStore } from './lib/line-ai/store.js';
 import { reportCriticalError } from './lib/error-alert.js';
 import { buildPesticideBody } from './lib/pesticide-chat.js';
+import { buildOrchidBody } from './lib/orchid-chat.js';
 
 // netlify/functions/ai-proxy.js
 const MAX_BODY_BYTES = 4 * 1024 * 1024; // 4MB to support larger dashboard contexts
@@ -19,9 +20,10 @@ const LANDING_SYSTEM_PROMPT = `คุณคือน้องข้าวหล�
 - วิสาหกิจชุมชน /public/community-enterprises, กลุ่มส่งเสริมอาชีพ /public/agricultural-career-groups, กลุ่มแม่บ้าน /public/housewife-farmer-groups, กลุ่มยุวเกษตรกร /public/young-farmer-groups
 - ท่องเที่ยวเกษตร /public/agri-tourism, ราคาสินค้าเกษตรและพลังงาน /public/agricultural-prices
 - พยากรณ์โรคและแมลง /public/disease-forecast, จุดความร้อน /public/fire-hotspots, ภัยพิบัติ /public/disasters
-- คลังสารป้องกันศัตรูพืช /public/pesticides, คู่มือเกษตรกร /public/farmer-manual, คำอธิบายข้อมูล /public/data-dictionary
+- ศูนย์องค์ความรู้ /public/knowledge-hub, คลังสารป้องกันศัตรูพืช /public/pesticides, องค์ความรู้การผลิตกล้วยไม้ /public/orchids, คู่มือเกษตรกร /public/farmer-manual, คำอธิบายข้อมูล /public/data-dictionary
 - คู่มือระบบ /manual และ /manual/:slug, BMC /bmc, เข้าสู่ระบบเจ้าหน้าที่ /login
 - หน้าบทความเฉพาะเรื่อง /public/pesticides/:slug และ /public/farmer-manual/:slug
+- หน้าบทความกล้วยไม้ /public/orchids/:slug
 
 เส้นทางภายในต่อไปนี้ต้องเข้าสู่ระบบ และบางหน้าเปิดตามบทบาทเท่านั้น:
 - หลัก: /dashboard, /dashboard/profile, /dashboard/situation-room, /dashboard/chatbot, /dashboard/data-dictionary, /dashboard/search, /dashboard/data-requests, /dashboard/community/forum
@@ -264,10 +266,16 @@ function validatePayload(payload) {
     body,
     landing: payload.landing === true,
     pesticideBot: payload.pesticideBot === true,
+    orchidBot: payload.orchidBot === true,
     pesticideArticleSlug:
       typeof payload.pesticideArticleSlug === 'string' &&
       /^[a-z0-9-]{1,120}$/.test(payload.pesticideArticleSlug)
         ? payload.pesticideArticleSlug
+        : '',
+    orchidArticleSlug:
+      typeof payload.orchidArticleSlug === 'string' &&
+      /^[a-z0-9-]{1,120}$/.test(payload.orchidArticleSlug)
+        ? payload.orchidArticleSlug
         : '',
   };
 }
@@ -493,6 +501,30 @@ export default async (req, context) => {
         questionText,
         history,
         validation.pesticideArticleSlug
+      );
+    } else if (validation.landing && validation.orchidBot) {
+      const contents = Array.isArray(validation.body.contents)
+        ? validation.body.contents
+        : [];
+      const questionText =
+        validation.provider === 'gemini'
+          ? textFromGeminiContent(
+              [...contents].reverse().find((item) => item?.role === 'user')
+            ).slice(0, 1000)
+          : String(
+              [...(validation.body.messages || [])]
+                .reverse()
+                .find((item) => item?.role === 'user')?.content || ''
+            ).slice(0, 1000);
+      const history = contents
+        .filter((item) => item?.role === 'user' || item?.role === 'model')
+        .slice(-9);
+      validation.body = buildOrchidBody(
+        validation.provider,
+        validation.body,
+        questionText,
+        history,
+        validation.orchidArticleSlug
       );
     } else if (validation.landing && validation.provider === 'gemini') {
       validation.body = await buildLandingBody(validation.body);

@@ -20,8 +20,9 @@
     "prerender": "node scripts/prerender.js",
     "build:line-knowledge": "node scripts/build-line-manual-index.mjs",
     "build:pesticides": "node scripts/build-pesticide-knowledge.mjs",
+    "build:orchid-knowledge": "node scripts/build-orchid-knowledge.mjs",
     "build:farmer-knowledge": "node scripts/build-farmer-knowledge.mjs",
-    "build:netlify": "pnpm run build:line-knowledge && pnpm run build:pesticides && pnpm run build:farmer-knowledge && vite build",
+    "build:netlify": "pnpm run build:line-knowledge && pnpm run build:pesticides && pnpm run build:orchid-knowledge && pnpm run build:farmer-knowledge && vite build",
     "prepare": "husky"
   },
   "dependencies": {

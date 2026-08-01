@@ -128,6 +128,13 @@ const PESTICIDE_QUICK_PROMPTS = [
   { text: 'การสลับกลุ่มสารเคมีเพื่อเลี่ยงเชื้อดื้อยาทำอย่างไร? 🦠' },
 ];
 
+const ORCHID_QUICK_PROMPTS = [
+  { text: 'กล้วยไม้ควรจัดโรงเรือนและให้น้ำอย่างไร? 🌿' },
+  { text: 'โรคกล้วยไม้ที่พบบ่อยมีอะไรบ้าง? 🪴' },
+  { text: 'การจัดการศัตรูกล้วยไม้แบบผสมผสานทำอย่างไร? 🐛' },
+  { text: 'กล้วยไม้หลังการเก็บเกี่ยวควรดูแลอย่างไร? ✂️' },
+];
+
 // eslint-disable-next-line react-refresh/only-export-components
 export const parseMarkdownText = (text) => {
   if (!text) return '';
@@ -192,28 +199,45 @@ export const parseMarkdownText = (text) => {
 export default function LandingChatbot() {
   const location = useLocation();
   const isPesticideBot = location.pathname.startsWith('/public/pesticides');
-  const botName = isPesticideBot ? 'ข้าวหลามเคมี' : 'น้องข้าวหลาม';
+  const isOrchidBot = location.pathname.startsWith('/public/orchids');
+  const isKnowledgeBot = isPesticideBot || isOrchidBot;
+  const botName = isPesticideBot
+    ? 'ข้าวหลามเคมี'
+    : isOrchidBot
+      ? 'ข้าวหลามกล้วยไม้'
+      : 'น้องข้าวหลาม';
   const botStatus = isPesticideBot
     ? 'แนะนำการใช้สารเคมีเกษตร'
-    : 'แนะนำการใช้งานทั่วไป';
+    : isOrchidBot
+      ? 'แนะนำการผลิตและงานวิจัยกล้วยไม้'
+      : 'แนะนำการใช้งานทั่วไป';
   const botWelcomeTooltip = isPesticideBot
     ? 'คุยกับข้าวหลามเคมี'
-    : 'คุยกับน้องข้าวหลาม';
+    : isOrchidBot
+      ? 'คุยกับข้าวหลามกล้วยไม้'
+      : 'คุยกับน้องข้าวหลาม';
   const quickPrompts = isPesticideBot
     ? PESTICIDE_QUICK_PROMPTS
-    : GENERAL_QUICK_PROMPTS;
+    : isOrchidBot
+      ? ORCHID_QUICK_PROMPTS
+      : GENERAL_QUICK_PROMPTS;
   const limitStorageKey = isPesticideBot
     ? 'npt_pesticide_chatbot_limit'
-    : 'npt_landing_chatbot_limit';
+    : isOrchidBot
+      ? 'npt_orchid_chatbot_limit'
+      : 'npt_landing_chatbot_limit';
 
   const [isOpen, setIsOpen] = useState(false);
   const [showWelcomeBubble, setShowWelcomeBubble] = useState(true);
   const [messages, setMessages] = useState(() => {
     const isPesticide =
       window.location.pathname.startsWith('/public/pesticides');
+    const isOrchid = window.location.pathname.startsWith('/public/orchids');
     const storageKey = isPesticide
       ? 'npt_pesticide_chatbot_messages'
-      : 'npt_landing_chatbot_messages';
+      : isOrchid
+        ? 'npt_orchid_chatbot_messages'
+        : 'npt_landing_chatbot_messages';
     const defaultMessages = isPesticide
       ? [
           {
@@ -221,12 +245,19 @@ export default function LandingChatbot() {
             content: `สวัสดีค่ะ! 🧪 หนูนามว่า **ข้าวหลามเคมี** ยินดีต้อนรับสู่คลังความรู้สารเคมีและยากำจัดศัตรูพืชค่ะ!\n\nหนูสามารถช่วยแนะนำการใช้ยาปราบศัตรูพืช อัตราการใช้ การเลือกผสมหรือฉีดพ่น หรือข้อมูลกลุ่มดื้อยาได้ค่ะ\n\nพิมพ์คุยกับหนูได้เลยนะคะ 👇`,
           },
         ]
-      : [
-          {
-            role: 'assistant',
-            content: `สวัสดีค่ะ! 🌾 หนูนามว่า **น้องข้าวหลาม** ยินดีต้อนรับสู่ศูนย์ข้อมูลเกษตรนครปฐมค่ะ!\n\nหนูสามารถช่วยแนะนำได้ว่าในระบบของเรามีข้อมูลอะไรบ้าง ค้นหาข้อมูลอะไรได้บ้าง หรือช่วยแนะแนวทางการเดินทางไปยังเมนูต่างๆ ค่ะ\n\nอยากรู้เรื่องไหน เลือกคำถามแนะนำด้านล่าง หรือพิมพ์คุยกับหนูได้เลยนะคะ 👇`,
-          },
-        ];
+      : isOrchid
+        ? [
+            {
+              role: 'assistant',
+              content: `สวัสดีค่ะ! 🌸 หนูนามว่า **ข้าวหลามกล้วยไม้** ยินดีต้อนรับสู่องค์ความรู้กล้วยไม้ค่ะ!\n\nหนูช่วยค้นข้อมูลจากคู่มือการผลิตและงานวิจัยเรื่องการปลูกเลี้ยง โรงเรือน น้ำ ปุ๋ย โรค แมลง การขยายพันธุ์ และนวัตกรรมกล้วยไม้ได้ค่ะ\n\nพิมพ์คุยกับหนูได้เลยนะคะ 👇`,
+            },
+          ]
+        : [
+            {
+              role: 'assistant',
+              content: `สวัสดีค่ะ! 🌾 หนูนามว่า **น้องข้าวหลาม** ยินดีต้อนรับสู่ศูนย์ข้อมูลเกษตรนครปฐมค่ะ!\n\nหนูสามารถช่วยแนะนำได้ว่าในระบบของเรามีข้อมูลอะไรบ้าง ค้นหาข้อมูลอะไรได้บ้าง หรือช่วยแนะแนวทางการเดินทางไปยังเมนูต่างๆ ค่ะ\n\nอยากรู้เรื่องไหน เลือกคำถามแนะนำด้านล่าง หรือพิมพ์คุยกับหนูได้เลยนะคะ 👇`,
+            },
+          ];
     try {
       const stored = localStorage.getItem(storageKey);
       if (stored) {
@@ -388,7 +419,11 @@ export default function LandingChatbot() {
         provider: 'gemini',
         landing: true,
         pesticideBot: isPesticideBot,
+        orchidBot: isOrchidBot,
         pesticideArticleSlug: isPesticideBot
+          ? location.pathname.split('/').filter(Boolean).at(-1)
+          : undefined,
+        orchidArticleSlug: isOrchidBot
           ? location.pathname.split('/').filter(Boolean).at(-1)
           : undefined,
         body: {
@@ -409,9 +444,13 @@ export default function LandingChatbot() {
 
       requestPayload = {
         provider: 'kku',
-        landing: isPesticideBot,
+        landing: isKnowledgeBot,
         pesticideBot: isPesticideBot,
+        orchidBot: isOrchidBot,
         pesticideArticleSlug: isPesticideBot
+          ? location.pathname.split('/').filter(Boolean).at(-1)
+          : undefined,
+        orchidArticleSlug: isOrchidBot
           ? location.pathname.split('/').filter(Boolean).at(-1)
           : undefined,
         body: {
@@ -427,7 +466,7 @@ export default function LandingChatbot() {
     try {
       const response = await fetch(AI_PROXY_URL, {
         signal: AbortSignal.timeout(
-          isPesticideBot
+          isKnowledgeBot
             ? PESTICIDE_CHATBOT_TIMEOUT_MS
             : LANDING_CHATBOT_TIMEOUT_MS
         ),
@@ -578,7 +617,9 @@ export default function LandingChatbot() {
   const handleClear = () => {
     const storageKey = isPesticideBot
       ? 'npt_pesticide_chatbot_messages'
-      : 'npt_landing_chatbot_messages';
+      : isOrchidBot
+        ? 'npt_orchid_chatbot_messages'
+        : 'npt_landing_chatbot_messages';
     try {
       localStorage.removeItem(storageKey);
     } catch (e) {
@@ -592,12 +633,19 @@ export default function LandingChatbot() {
               content: `เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🧪 ข้าวหลามเคมี ยินดีบริการค่ะ ถามคำถามเรื่องยาและสารเคมีกำจัดศัตรูพืชได้เลยนะคะ!`,
             },
           ]
-        : [
-            {
-              role: 'assistant',
-              content: `เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🌾 น้องข้าวหลามยินดีบริการค่ะ มีตรงไหนให้หนูช่วยแนะนำ สอบถามมาได้เลยนะคะ!`,
-            },
-          ]
+        : isOrchidBot
+          ? [
+              {
+                role: 'assistant',
+                content: `เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🌸 ข้าวหลามกล้วยไม้ยินดีบริการค่ะ ถามเรื่องการผลิตหรืองานวิจัยกล้วยไม้ได้เลยนะคะ!`,
+              },
+            ]
+          : [
+              {
+                role: 'assistant',
+                content: `เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🌾 น้องข้าวหลามยินดีบริการค่ะ มีตรงไหนให้หนูช่วยแนะนำ สอบถามมาได้เลยนะคะ!`,
+              },
+            ]
     );
     inputRef.current?.focus();
   };
@@ -801,7 +849,9 @@ export default function LandingChatbot() {
                   remainingLimit > 0
                     ? isPesticideBot
                       ? 'ถามจากคลังความรู้สารป้องกันกำจัดศัตรูพืช...'
-                      : 'สอบถามเรื่องระบบเกษตรนครปฐม...'
+                      : isOrchidBot
+                        ? 'ถามจากองค์ความรู้กล้วยไม้...'
+                        : 'สอบถามเรื่องระบบเกษตรนครปฐม...'
                     : 'โควตาหมดแล้วค่ะ'
                 }
                 disabled={loading || remainingLimit <= 0}
