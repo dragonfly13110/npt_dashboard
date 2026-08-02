@@ -95,4 +95,22 @@ describe('forecast background authorization', () => {
       'https://npt.example'
     );
   });
+
+  it('runs generation for the scheduled internal trigger', async () => {
+    const requestEvent = event({
+      authorization: undefined,
+      'x-forecast-scheduler-key': 'service-role-key',
+    });
+
+    const response = await handler(requestEvent, {
+      requestId: 'req-forecast-scheduled',
+    });
+
+    expect(response.statusCode).toBe(200);
+    expect(generateForecast).toHaveBeenCalledWith(
+      requestEvent,
+      expect.objectContaining({ requestId: 'req-forecast-scheduled' })
+    );
+    expect(mockSupabase.auth.getUser).not.toHaveBeenCalled();
+  });
 });

@@ -41,6 +41,12 @@ export const handler = async (event = {}, context) => {
       throw new Error('Missing Supabase service configuration');
     }
 
+    // ponytail: the scheduler reuses the server-only key; browser callers still need a user token.
+    const schedulerKey = getHeader(event, 'x-forecast-scheduler-key');
+    if (schedulerKey && schedulerKey === serviceRoleKey) {
+      return generateForecast(event, context);
+    }
+
     const token = getHeader(event, 'authorization')
       .replace(/^Bearer\s+/i, '')
       .trim();
