@@ -4,7 +4,7 @@ import {
   UserOutlined,
   AppstoreOutlined,
 } from '@ant-design/icons';
-import khaolamAvatar from '../../assets/khaolam-avatar.png';
+import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 import SmartTable from './SmartTable';
 import SmartChart from './SmartChart';
 import { AI_MODELS } from '../../utils/chatbotConstants';
@@ -92,7 +92,7 @@ export default function ChatMessage({ message, isLast }) {
     >
       <Avatar
         size={36}
-        src={isBot ? khaolamAvatar : undefined}
+        src={isBot ? CLOUDINARY_ASSETS.avatars.khaolam : undefined}
         icon={isBot ? undefined : <UserOutlined />}
         style={{
           background: isBot

@@ -1,9 +1,10 @@
 import { ArrowLeftOutlined, ExpandOutlined } from '@ant-design/icons';
+import { CLOUDINARY_ASSETS } from '../config/cloudinaryAssets';
 import './Infographic.css';
 
 const infographics = [1, 2, 3, 4].map((number) => ({
   number,
-  src: `/images/infographics/npt-smart-agri-${number}.webp`,
+  src: CLOUDINARY_ASSETS.infographics(number),
   alt: `อินโฟกราฟิก NPT Smart Agri Dashboard แผ่นที่ ${number}`,
 }));
 

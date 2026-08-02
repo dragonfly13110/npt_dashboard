@@ -1,4 +1,11 @@
-import { useEffect, lazy, Suspense, useState, useCallback } from 'react';
+import {
+  useEffect,
+  lazy,
+  Suspense,
+  useState,
+  useCallback,
+  useRef,
+} from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDashboardData } from '../hooks/useDashboardData';
 import { FloatButton, Modal, Spin, Button, message } from 'antd';
@@ -48,6 +55,34 @@ const WidgetSkeleton = () => (
     </span>
   </div>
 );
+
+function useNearViewport(rootMargin = '400px') {
+  // ponytail: one observer per section; below-fold chunks load when needed.
+  const ref = useRef(null);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element || !('IntersectionObserver' in window)) {
+      setReady(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setReady(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin }
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [rootMargin]);
+
+  return [ref, ready];
+}
 
 // ========== WIDGET COMPONENT IMPORTS (Lazy Loading) ==========
 const WeatherWidget = lazy(() => import('../components/widgets/WeatherWidget'));
@@ -263,6 +298,9 @@ export default function LandingPage() {
   const [forecastData, setForecastData] = useState(null);
   const [forecastReportDays, setForecastReportDays] = useState(null);
   const [forecastLoading, setForecastLoading] = useState(false);
+  const [overviewRef, loadOverview] = useNearViewport();
+  const [bentoRef, loadBento] = useNearViewport();
+  const [newsRef, loadNews] = useNearViewport();
 
   const enterDashboard = async (path) => {
     if (guestAccessLoading) return;
@@ -727,45 +765,61 @@ export default function LandingPage() {
           <h2>📊 ข้อมูลการเกษตรจังหวัดนครปฐม</h2>
           <p>สถิติและข้อมูลสารสนเทศการเกษตรในพื้นที่</p>
         </div>
-        <div className="agri-kpi-strip">
-          <Suspense fallback={<WidgetSkeleton />}>
-            <FarmerInstitutesV2Widget
-              summary
-              onOpen={(typeKey) => {
-                setSelectedFarmerType(typeKey);
-                setActiveInfoModal('liveFarmerDevelopment');
-              }}
-            />
-            <AgriTourismWidget
-              data={tourism}
-              loading={loading}
-              summary
-              onOpen={() => setActiveInfoModal('liveAgriTourism')}
-            />
-          </Suspense>
+        <div ref={overviewRef} className="agri-kpi-strip">
+          {loadOverview ? (
+            <Suspense fallback={<WidgetSkeleton />}>
+              <FarmerInstitutesV2Widget
+                summary
+                onOpen={(typeKey) => {
+                  setSelectedFarmerType(typeKey);
+                  setActiveInfoModal('liveFarmerDevelopment');
+                }}
+              />
+              <AgriTourismWidget
+                data={tourism}
+                loading={loading}
+                summary
+                onOpen={() => setActiveInfoModal('liveAgriTourism')}
+              />
+            </Suspense>
+          ) : (
+            <WidgetSkeleton />
+          )}
         </div>
-        <section className="bento-container bento-container-no-tourism">
-          {/* 1. Map Card (Large) */}
-          <div className="bento-card bento-card-map">
-            <div className="bento-card-header">
-              <h3>🗺️ แผนที่ข้อมูลการเกษตร</h3>
-              <span>พิกัดพื้นที่เชิงเกษตร (GIS)</span>
-            </div>
-            <div className="bento-card-body p-0" data-testid="landing-map">
-              <Suspense fallback={<WidgetSkeleton />}>
-                <LandingMap mapData={mapData} districtStats={districtStats} />
-              </Suspense>
-            </div>
-          </div>
+        <section
+          ref={bentoRef}
+          className="bento-container bento-container-no-tourism"
+        >
+          {loadBento ? (
+            <>
+              {/* 1. Map Card (Large) */}
+              <div className="bento-card bento-card-map">
+                <div className="bento-card-header">
+                  <h3>🗺️ แผนที่ข้อมูลการเกษตร</h3>
+                  <span>พิกัดพื้นที่เชิงเกษตร (GIS)</span>
+                </div>
+                <div className="bento-card-body p-0" data-testid="landing-map">
+                  <Suspense fallback={<WidgetSkeleton />}>
+                    <LandingMap
+                      mapData={mapData}
+                      districtStats={districtStats}
+                    />
+                  </Suspense>
+                </div>
+              </div>
 
-          {/* 6. Agri Areas */}
-          <Suspense fallback={<WidgetSkeleton />}>
-            <AgriAreasCard
-              stats={agriStats}
-              districtStats={districtStats}
-              loading={loading}
-            />
-          </Suspense>
+              {/* 6. Agri Areas */}
+              <Suspense fallback={<WidgetSkeleton />}>
+                <AgriAreasCard
+                  stats={agriStats}
+                  districtStats={districtStats}
+                  loading={loading}
+                />
+              </Suspense>
+            </>
+          ) : (
+            <WidgetSkeleton />
+          )}
         </section>
 
         <section
@@ -807,36 +861,40 @@ export default function LandingPage() {
         </section>
 
         {/* ===== AGRI NEWS ACCORDION ===== */}
-        <div id="agri-news" className="widget-section-container">
-          <NewsAccordion
-            ariaLabel="ข่าวและประกาศด้านการเกษตร"
-            sections={[
-              {
-                key: 'gov',
-                title: 'ข่าวจากหน่วยงานภาครัฐ',
-                description:
-                  'กรมส่งเสริมการเกษตร • เกษตรจังหวัด • หน่วยงานวิชาการ',
-                tone: 'gov',
-                defaultOpen: true,
-                renderContent: () => (
-                  <Suspense fallback={<WidgetSkeleton />}>
-                    <AgriGovNewsWidget />
-                  </Suspense>
-                ),
-              },
-              {
-                key: 'media',
-                title: 'ข่าวเกษตรจากสื่อมวลชน',
-                description: 'สำนักข่าวและสื่อเกษตรหลายแหล่ง',
-                tone: 'media',
-                renderContent: () => (
-                  <Suspense fallback={<WidgetSkeleton />}>
-                    <AgriMediaNewsWidget />
-                  </Suspense>
-                ),
-              },
-            ]}
-          />
+        <div ref={newsRef} id="agri-news" className="widget-section-container">
+          {loadNews ? (
+            <NewsAccordion
+              ariaLabel="ข่าวและประกาศด้านการเกษตร"
+              sections={[
+                {
+                  key: 'gov',
+                  title: 'ข่าวจากหน่วยงานภาครัฐ',
+                  description:
+                    'กรมส่งเสริมการเกษตร • เกษตรจังหวัด • หน่วยงานวิชาการ',
+                  tone: 'gov',
+                  defaultOpen: true,
+                  renderContent: () => (
+                    <Suspense fallback={<WidgetSkeleton />}>
+                      <AgriGovNewsWidget />
+                    </Suspense>
+                  ),
+                },
+                {
+                  key: 'media',
+                  title: 'ข่าวเกษตรจากสื่อมวลชน',
+                  description: 'สำนักข่าวและสื่อเกษตรหลายแหล่ง',
+                  tone: 'media',
+                  renderContent: () => (
+                    <Suspense fallback={<WidgetSkeleton />}>
+                      <AgriMediaNewsWidget />
+                    </Suspense>
+                  ),
+                },
+              ]}
+            />
+          ) : (
+            <WidgetSkeleton />
+          )}
         </div>
       </main>
 

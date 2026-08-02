@@ -7,6 +7,7 @@ import {
   getCropColor,
 } from '../../components/charts/echartOptions';
 import { useProtectionData } from '../../hooks/useProtectionData';
+import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 import {
   PageHeader,
   CategoryBentoCard,
@@ -181,7 +182,7 @@ export default function ProtectionDashboard({
           title="🛡️ กลุ่มอารักขาพืช"
           subtitle="ภาพรวมข้อมูลแปลงพยากรณ์, ศจช., หมอพืช, ศดปช. และจุดเฝ้าระวัง PM2.5"
           icon={PieChartOutlined}
-          image="/images/headers/protection.webp"
+          image={CLOUDINARY_ASSETS.headers.protection}
         />
       )}
       {yearUnsupported && filters.year && filters.year !== 'latest' && (

@@ -7,6 +7,7 @@ import {
   pieOption,
 } from '../../components/charts/echartOptions';
 import { useProductionData } from '../../hooks/useProductionData';
+import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 import { LATEST_YEAR } from '../interactiveDashboard/filters';
 import {
   PageHeader,
@@ -92,7 +93,7 @@ export default function ProductionDashboard({
           title="🌱 ส่งเสริมและพัฒนาการผลิต"
           subtitle="ภาพรวมข้อมูลแปลงใหญ่, มาตรฐาน GAP และผลผลิตพืช"
           icon={PieChartOutlined}
-          image="/images/headers/production.webp"
+          image={CLOUDINARY_ASSETS.headers.production}
         />
       )}
 

@@ -1,0 +1,121 @@
+.machinery-page {
+  color: #1c1917;
+  background: linear-gradient(180deg, #fff7ed 0%, #f8fafc 44%);
+}
+
+.machinery-page .rice-nav a,
+.machinery-page .rice-card-action {
+  color: #b45309;
+}
+
+.machinery-page .rice-hero,
+.machinery-page .rice-catalog-header {
+  color: #fff7ed;
+  background: linear-gradient(120deg, #7c2d12, #c2410c 56%, #b45309);
+  box-shadow: 0 20px 50px rgba(154, 52, 18, 0.18);
+}
+
+.machinery-page .rice-kicker {
+  color: #fed7aa;
+}
+
+.machinery-page .rice-hero p,
+.machinery-page .rice-catalog-header p {
+  color: #ffedd5;
+}
+
+.machinery-page .rice-hub-card,
+.machinery-page .rice-card,
+.machinery-page .rice-article-main,
+.machinery-page .rice-aside-card,
+.machinery-page .rice-aside-note {
+  border-color: #fed7aa;
+}
+
+.machinery-page .rice-hub-card.overview .rice-hub-card-icon,
+.machinery-page .rice-card-icon {
+  color: #9a3412;
+  background: #ffedd5;
+}
+
+.machinery-page .rice-hub-card.topics .rice-hub-card-icon {
+  color: #1d4ed8;
+  background: #dbeafe;
+}
+
+.machinery-page .rice-search input:focus {
+  outline-color: #fed7aa;
+  border-color: #ea580c;
+}
+
+.machinery-page .rice-tabs button {
+  border-color: #fed7aa;
+  color: #9a3412;
+}
+
+.machinery-page .rice-tabs button.is-active,
+.machinery-page .rice-tabs button:hover {
+  border-color: #ea580c;
+  background: #c2410c;
+}
+
+.machinery-filters {
+  display: grid;
+  gap: 14px;
+}
+
+.machinery-topic-filter {
+  display: grid;
+  gap: 6px;
+  max-width: 520px;
+  color: #7c2d12;
+  font-weight: 700;
+}
+
+.machinery-topic-filter select {
+  padding: 10px 12px;
+  border: 1px solid #fed7aa;
+  border-radius: 12px;
+  color: #431407;
+  background: #fff;
+  font: inherit;
+}
+
+.machinery-page .rice-article-main {
+  border-top-color: #ea580c;
+}
+
+.machinery-page .rice-article-header span,
+.machinery-page .rice-markdown h2,
+.machinery-page .rice-markdown h3,
+.machinery-page .rice-markdown h4 {
+  color: #9a3412;
+}
+
+.machinery-page .rice-markdown a {
+  color: #b45309;
+}
+
+.machinery-page .rice-markdown blockquote {
+  border-left-color: #fb923c;
+  color: #9a3412;
+  background: #fff7ed;
+}
+
+.machinery-page .rice-markdown th {
+  color: #7c2d12;
+  background: #fff7ed;
+}
+
+.machinery-page .rice-aside-card {
+  border-top-color: #fb923c;
+}
+
+.machinery-page .rice-aside-card strong,
+.machinery-page .rice-aside-note {
+  color: #9a3412;
+}
+
+.machinery-page .rice-aside-note {
+  background: #fff7ed;
+}

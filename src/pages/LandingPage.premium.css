@@ -227,7 +227,8 @@
   border-radius: 20px;
   background:
     linear-gradient(0deg, rgba(13, 53, 37, 0.2), transparent 48%),
-    url('/nakhon-pathom-agri-hero.jpg') center 38% / cover no-repeat;
+    url('https://res.cloudinary.com/dzksawh1d/image/upload/f_auto,q_auto/npt-dashboard/nakhon-pathom-agri-hero')
+      center 38% / cover no-repeat;
 }
 
 .premium-hero-visual::after {

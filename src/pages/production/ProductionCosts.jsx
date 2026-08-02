@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 import { Card, Col, Row, Select, Spin, Table, Tag } from 'antd';
 import { DollarOutlined } from '@ant-design/icons';
 import EChart from '../../components/widgets/EChart';
@@ -167,7 +168,7 @@ export default function ProductionCosts() {
         title="ต้นทุนการผลิต ปี 2567"
         subtitle="เปรียบเทียบผลผลิต มูลค่า ต้นทุน และกำไรสุทธิต่อไร่จากตารางต้นทุนการผลิต"
         icon={DollarOutlined}
-        image="/images/headers/production.webp"
+        image={CLOUDINARY_ASSETS.headers.production}
       />
 
       {isLoading ? (

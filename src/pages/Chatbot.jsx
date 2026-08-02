@@ -40,7 +40,7 @@ import {
 
 import ChatMessage from '../components/Chatbot/ChatMessage';
 import LoadingIndicator from '../components/Chatbot/LoadingIndicator';
-import khaolamAvatar from '../assets/khaolam-avatar.png';
+import { CLOUDINARY_ASSETS } from '../config/cloudinaryAssets';
 
 const { Text } = Typography;
 
@@ -734,7 +734,7 @@ ${dbContext}
         <div style={styles.toolbarTitle}>
           <Avatar
             size={32}
-            src={khaolamAvatar}
+            src={CLOUDINARY_ASSETS.avatars.khaolam}
             style={{
               background: `linear-gradient(135deg, ${currentModelConfig.color}, ${currentModelConfig.color}aa)`,
               boxShadow: `0 0 12px ${currentModelConfig.color}40`,

@@ -12,8 +12,24 @@ import path from 'node:path';
 const SCRIPT_PATH = fileURLToPath(import.meta.url);
 const rootDir = path.resolve(path.dirname(SCRIPT_PATH), '..');
 
-const inputDir = path.join(rootDir, 'pesticide_knowledge_md');
-const outputDir = path.join(rootDir, 'public/data/pesticides');
+const knowledgeType =
+  process.argv[2] === 'fertilizer' ? 'fertilizer' : 'pesticide';
+const knowledgeConfig =
+  knowledgeType === 'fertilizer'
+    ? {
+        label: 'fertilizer',
+        inputDir: path.join(rootDir, 'fertilizer_knowledge_md'),
+        outputDir: path.join(rootDir, 'public/data/fertilizers'),
+        routePrefix: '/public/fertilizers',
+      }
+    : {
+        label: 'pesticide',
+        inputDir: path.join(rootDir, 'pesticide_knowledge_md'),
+        outputDir: path.join(rootDir, 'public/data/pesticides'),
+        routePrefix: '/public/pesticides',
+      };
+
+const { inputDir, outputDir } = knowledgeConfig;
 const articlesOutputDir = path.join(outputDir, 'articles');
 
 function parseFrontmatter(fileContent) {
@@ -115,8 +131,10 @@ function extractTableKeywords(markdownContent) {
   return Array.from(keywords);
 }
 
-function buildPesticideKnowledge() {
-  console.log('Starting pesticide knowledge build (Pass 1 - Indexing)...');
+function buildKnowledge() {
+  console.log(
+    `Starting ${knowledgeConfig.label} knowledge build (Pass 1 - Indexing)...`
+  );
 
   if (!existsSync(inputDir)) {
     console.error(`Input directory not found: ${inputDir}`);
@@ -125,9 +143,10 @@ function buildPesticideKnowledge() {
 
   // Clear previous output to prevent stale files (like draft templates)
   const matrixPath = path.join(outputDir, 'mixing_matrix.json');
-  const matrixData = existsSync(matrixPath)
-    ? readFileSync(matrixPath, 'utf8')
-    : null;
+  const matrixData =
+    knowledgeType === 'pesticide' && existsSync(matrixPath)
+      ? readFileSync(matrixPath, 'utf8')
+      : null;
   if (existsSync(outputDir)) {
     rmSync(outputDir, { recursive: true, force: true });
   }
@@ -139,7 +158,7 @@ function buildPesticideKnowledge() {
   const catalog = [];
   const slugMap = {}; // Maps relative path (e.g., '01_พื้นฐานก่อนใช้สาร/01_วิธีอ่านเอกสารคำแนะนำ.md') to slug
 
-  // Read all directories in pesticide_knowledge_md
+  // Read all knowledge directories in the selected source folder.
   const items = readdirSync(inputDir, { withFileTypes: true });
   const subDirs = items
     .filter((item) => item.isDirectory() && /^(0[1-9]|1[0-1])_/.test(item.name))
@@ -172,7 +191,7 @@ function buildPesticideKnowledge() {
     `Indexed ${Object.keys(slugMap).length} articles for link rewriting.`
   );
   console.log(
-    'Starting pesticide knowledge build (Pass 2 - Compilation & Link Rewriting)...'
+    `Starting ${knowledgeConfig.label} knowledge build (Pass 2 - Compilation & Link Rewriting)...`
   );
 
   // --- PASS 2: Parse and rewrite relative links ---
@@ -208,7 +227,7 @@ function buildPesticideKnowledge() {
 
             if (slug) {
               const hashPart = hash ? `#${hash}` : '';
-              return `[${label}](/public/pesticides/${slug}${hashPart})`;
+              return `[${label}](${knowledgeConfig.routePrefix}/${slug}${hashPart})`;
             } else {
               console.warn(
                 `Could not resolve relative link: "${targetUrl}" in file: "${dir}/${file}"`
@@ -277,8 +296,8 @@ function buildPesticideKnowledge() {
   }
 
   console.log(
-    `Pesticide build completed! Generated ${catalog.length} article JSONs and catalog.json`
+    `${knowledgeConfig.label} build completed! Generated ${catalog.length} article JSONs and catalog.json`
   );
 }
 
-buildPesticideKnowledge();
+buildKnowledge();

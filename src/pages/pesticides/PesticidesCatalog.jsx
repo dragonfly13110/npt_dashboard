@@ -6,7 +6,15 @@ import './Pesticides.css';
 const sortThaiLabels = (labels) =>
   [...labels].sort((a, b) => a.localeCompare(b, 'th'));
 
-export default function PesticidesCatalog() {
+export default function PesticidesCatalog({
+  dataPath = '/data/pesticides/catalog.json',
+  basePath = '/public/pesticides',
+  pageTitle = 'คลังความรู้การใช้สารป้องกันกำจัดศัตรูพืช',
+  pageDescription = 'ฐานข้อมูลคำแนะนำทางวิชาการและแนวทางการหมุนเวียนสารอย่างปลอดภัย สำหรับกลุ่มงานส่งเสริมการเกษตรและเกษตรกรจังหวัดนครปฐม',
+  loadingTip = 'กำลังโหลดคลังความรู้ยากำจัดศัตรูพืช...',
+  searchPlaceholder = 'ค้นหาชื่อเรื่อง พืช ศัตรูพืช หรือสารเคมี...',
+  showMixLab = true,
+}) {
   const [catalog, setCatalog] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -14,7 +22,7 @@ export default function PesticidesCatalog() {
   const [selectedPlant, setSelectedPlant] = useState('ทั้งหมด');
 
   useEffect(() => {
-    fetch('/data/pesticides/catalog.json')
+    fetch(dataPath)
       .then((res) => {
         if (!res.ok) throw new Error('Failed to load catalog');
         return res.json();
@@ -24,10 +32,10 @@ export default function PesticidesCatalog() {
         setLoading(false);
       })
       .catch((err) => {
-        console.error('Error fetching pesticides catalog:', err);
+        console.error(`Error fetching knowledge catalog ${dataPath}:`, err);
         setLoading(false);
       });
-  }, []);
+  }, [dataPath]);
 
   // Extract unique categories and plants
   const categories = [
@@ -72,7 +80,7 @@ export default function PesticidesCatalog() {
           height: '60vh',
         }}
       >
-        <Spin size="large" tip="กำลังโหลดคลังความรู้ยากำจัดศัตรูพืช..." />
+        <Spin size="large" tip={loadingTip} />
       </div>
     );
   }
@@ -85,38 +93,38 @@ export default function PesticidesCatalog() {
         </Link>
       </div>
       <div className="pesticides-header">
-        <h1>คลังความรู้การใช้สารป้องกันกำจัดศัตรูพืช</h1>
-        <p>
-          ฐานข้อมูลคำแนะนำทางวิชาการและแนวทางการหมุนเวียนสารอย่างปลอดภัย
-          สำหรับกลุ่มงานส่งเสริมการเกษตรและเกษตรกรจังหวัดนครปฐม
-        </p>
+        <h1>{pageTitle}</h1>
+        <p>{pageDescription}</p>
       </div>
 
       {/* MixLab Feature Entrance Banner */}
-      <div className="mixlab-entrance-banner">
-        <div className="entrance-content">
-          <div className="entrance-badge">
-            <span className="badge-sparkle">✨</span> เครื่องมือวิชาการใหม่ 2568
-          </div>
-          <h2>MixLab: ห้องทดลองจำลองการผสมสารป้องกันกำจัดศัตรูพืช</h2>
-          <p>
-            หยิบสารจากชั้น เลือก 2
-            กลุ่มสารเคมีเพื่อวิเคราะห์ความเข้ากันได้เบื้องต้นทันที
-            ถอดรหัสจากผังมาตรฐานกรมวิชาการเกษตร 528 คู่ผสม
-            พร้อมหมายเหตุข้อควรระวังวิชาการ
-          </p>
-          <div className="entrance-pills">
-            <span className="entrance-pill">🧪 33 กลุ่มสารเคมี</span>
-            <span className="entrance-pill">📊 528 คู่ผสม</span>
-            <span className="entrance-pill">📜 หมายเหตุวิชาการ 23 ข้อ</span>
-          </div>
-          <div className="entrance-action">
-            <Link to="/public/pesticides/mixlab" className="entrance-btn">
-              เปิดห้องทดลอง MixLab 🧪 →
-            </Link>
+      {showMixLab && (
+        <div className="mixlab-entrance-banner">
+          <div className="entrance-content">
+            <div className="entrance-badge">
+              <span className="badge-sparkle">✨</span> เครื่องมือวิชาการใหม่
+              2568
+            </div>
+            <h2>MixLab: ห้องทดลองจำลองการผสมสารป้องกันกำจัดศัตรูพืช</h2>
+            <p>
+              หยิบสารจากชั้น เลือก 2
+              กลุ่มสารเคมีเพื่อวิเคราะห์ความเข้ากันได้เบื้องต้นทันที
+              ถอดรหัสจากผังมาตรฐานกรมวิชาการเกษตร 528 คู่ผสม
+              พร้อมหมายเหตุข้อควรระวังวิชาการ
+            </p>
+            <div className="entrance-pills">
+              <span className="entrance-pill">🧪 33 กลุ่มสารเคมี</span>
+              <span className="entrance-pill">📊 528 คู่ผสม</span>
+              <span className="entrance-pill">📜 หมายเหตุวิชาการ 23 ข้อ</span>
+            </div>
+            <div className="entrance-action">
+              <Link to="/public/pesticides/mixlab" className="entrance-btn">
+                เปิดห้องทดลอง MixLab 🧪 →
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       <div className="search-filter-section">
         {/* Search Input */}
@@ -138,7 +146,7 @@ export default function PesticidesCatalog() {
           <input
             type="text"
             className="search-input"
-            placeholder="ค้นหาชื่อเรื่อง พืช ศัตรูพืช หรือสารเคมี..."
+            placeholder={searchPlaceholder}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -186,7 +194,7 @@ export default function PesticidesCatalog() {
           {filteredCatalog.map((item) => (
             <Link
               key={item.slug}
-              to={`/public/pesticides/${item.slug}`}
+              to={`${basePath}/${item.slug}`}
               className="pesticide-card"
             >
               <div>

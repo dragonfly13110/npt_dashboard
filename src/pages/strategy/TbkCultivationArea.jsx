@@ -14,6 +14,7 @@ import {
   Tag,
   message,
 } from 'antd';
+import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 import {
   BarChartOutlined,
   DatabaseOutlined,
@@ -448,7 +449,7 @@ export default function TbkCultivationArea() {
         title="พื้นที่เพาะปลูกตาม ทบก."
         subtitle="ผลการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกรตามที่ตั้งแปลง จังหวัดนครปฐม"
         icon={DatabaseOutlined}
-        image="/images/headers/strategy.webp"
+        image={CLOUDINARY_ASSETS.headers.strategy}
       />
 
       {error && (

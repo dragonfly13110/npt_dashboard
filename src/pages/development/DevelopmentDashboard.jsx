@@ -4,6 +4,7 @@ import { ArrowRightOutlined, PieChartOutlined } from '@ant-design/icons';
 import EChart from '../../components/widgets/EChart';
 import { barOption, pieOption } from '../../components/charts/echartOptions';
 import { useDevelopmentData } from '../../hooks/useDevelopmentData';
+import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 import { LATEST_YEAR } from '../interactiveDashboard/filters';
 import {
   PageHeader,
@@ -196,7 +197,7 @@ export default function DevelopmentDashboard({
           title="กลุ่มส่งเสริมและพัฒนาเกษตรกร"
           subtitle="ภาพรวมวิสาหกิจชุมชน SF/YSF กลุ่มอาชีพ แม่บ้าน ยุวเกษตรกร สถาบันเกษตรกร ท่องเที่ยวเกษตร และภัยพิบัติ"
           icon={PieChartOutlined}
-          image="/images/headers/development.webp"
+          image={CLOUDINARY_ASSETS.headers.development}
         />
       )}
 

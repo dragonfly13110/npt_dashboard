@@ -467,7 +467,8 @@
       rgba(4, 78, 59, 0.92) 43%,
       rgba(4, 78, 59, 0.08) 72%
     ),
-    url('/images/pesticides/mixlab_hero_v2.png') center right / cover no-repeat;
+    url('https://res.cloudinary.com/dzksawh1d/image/upload/f_auto,q_auto/npt-dashboard/images/pesticides/mixlab_hero_v2')
+      center right / cover no-repeat;
   border-radius: 20px;
   padding: 40px 36px;
   min-height: 340px;
@@ -690,7 +691,8 @@
       rgba(4, 78, 59, 0.9) 46%,
       rgba(4, 78, 59, 0.04) 74%
     ),
-    url('/images/pesticides/mixlab_hero_v2.png') center right / cover no-repeat;
+    url('https://res.cloudinary.com/dzksawh1d/image/upload/f_auto,q_auto/npt-dashboard/images/pesticides/mixlab_hero_v2')
+      center right / cover no-repeat;
   border-radius: 20px;
   padding: 36px 32px;
   min-height: 320px;

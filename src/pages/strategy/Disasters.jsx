@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 import {
   Button,
   Card,
@@ -247,7 +248,7 @@ export default function Disasters() {
         title="ข้อมูลอุทกภัยจังหวัดนครปฐม ปี 2563–2568"
         subtitle="สรุปพื้นที่เพาะปลูกและพื้นที่ประสบภัยจากข้อมูลรายแปลง พร้อมกราฟและพิกัด UTM บนแผนที่"
         icon={ThunderboltOutlined}
-        image="/images/headers/strategy.webp"
+        image={CLOUDINARY_ASSETS.headers.strategy}
       />
 
       <Card size="small" style={{ borderRadius: 8, marginBottom: 16 }}>

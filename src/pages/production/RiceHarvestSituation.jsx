@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 import {
   Alert,
   Button,
@@ -386,7 +387,7 @@ export default function RiceHarvestSituation() {
         title={COPY.title}
         subtitle={COPY.subtitle}
         icon={BarChartOutlined}
-        image="/images/headers/production.webp"
+        image={CLOUDINARY_ASSETS.headers.production}
       />
 
       {error && (

@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 import {
   Button,
   Card,
@@ -265,7 +266,7 @@ export default function ParcelDrawingProgress() {
         title="การวาดผังแปลงเกษตรกรรมดิจิทัล"
         subtitle="ความก้าวหน้า GEOPLOTS รอบตัวชี้วัด 2/69 แยกรายอำเภอ จังหวัดนครปฐม"
         icon={EnvironmentOutlined}
-        image="/images/headers/strategy.webp"
+        image={CLOUDINARY_ASSETS.headers.strategy}
       />
       {isAdmin() && (
         <div

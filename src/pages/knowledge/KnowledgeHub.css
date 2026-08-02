@@ -94,6 +94,11 @@
   background: #dcfce7;
 }
 
+.knowledge-hub-card.fertilizer .knowledge-hub-card-icon {
+  color: #854d0e;
+  background: #fef9c3;
+}
+
 .knowledge-hub-card.orchid .knowledge-hub-card-icon {
   color: #9d174d;
   background: #fce7f3;
@@ -102,6 +107,16 @@
 .knowledge-hub-card.manual .knowledge-hub-card-icon {
   color: #1d4ed8;
   background: #dbeafe;
+}
+
+.knowledge-hub-card.rice .knowledge-hub-card-icon {
+  color: #3f6212;
+  background: #ecfccb;
+}
+
+.knowledge-hub-card.machinery .knowledge-hub-card-icon {
+  color: #b45309;
+  background: #ffedd5;
 }
 
 .knowledge-hub-card-body {

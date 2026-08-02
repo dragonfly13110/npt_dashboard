@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Avatar, Spin, Typography } from 'antd';
 import { RobotOutlined } from '@ant-design/icons';
-import khaolamAvatar from '../../assets/khaolam-avatar.png';
+import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 
 const { Text } = Typography;
 
@@ -30,7 +30,7 @@ export default function LoadingIndicator({ currentModelConfig }) {
     <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
       <Avatar
         size={36}
-        src={khaolamAvatar}
+        src={CLOUDINARY_ASSETS.avatars.khaolam}
         style={{
           background: `linear-gradient(135deg, ${currentModelConfig.color}, ${currentModelConfig.color}88)`,
           flexShrink: 0,

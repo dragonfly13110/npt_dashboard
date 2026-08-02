@@ -12,7 +12,7 @@ import {
   WarningOutlined,
 } from '@ant-design/icons';
 import './LandingChatbot.css';
-import landingChatbotAvatar from '../../assets/landing-chatbot-avatar-transparent.png';
+import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 import {
   LANDING_CHATBOT_LINK_POLICY_PROMPT,
   normalizeLandingChatbotLink,
@@ -700,7 +700,7 @@ export default function LandingChatbot() {
           style={{ padding: 0 }}
         >
           <img
-            src={landingChatbotAvatar}
+            src={CLOUDINARY_ASSETS.avatars.landingChatbot}
             alt={botName}
             style={{
               width: '100%',
@@ -719,7 +719,7 @@ export default function LandingChatbot() {
             <div className="header-info">
               <Avatar
                 size={36}
-                src={landingChatbotAvatar}
+                src={CLOUDINARY_ASSETS.avatars.landingChatbot}
                 className="header-avatar"
                 style={{ background: 'rgba(255, 255, 255, 0.2)' }}
               />
@@ -757,7 +757,7 @@ export default function LandingChatbot() {
                   {msg.role === 'assistant' && (
                     <Avatar
                       size={28}
-                      src={landingChatbotAvatar}
+                      src={CLOUDINARY_ASSETS.avatars.landingChatbot}
                       className="message-avatar"
                     />
                   )}
@@ -782,7 +782,7 @@ export default function LandingChatbot() {
                 <div className="message-row assistant loading">
                   <Avatar
                     size={28}
-                    src={landingChatbotAvatar}
+                    src={CLOUDINARY_ASSETS.avatars.landingChatbot}
                     className="message-avatar"
                   />
                   <div className="message-bubble loading-bubble">

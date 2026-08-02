@@ -2,6 +2,8 @@ import {
   ArrowRightOutlined,
   BookOutlined,
   ExperimentOutlined,
+  ReadOutlined,
+  ToolOutlined,
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import './KnowledgeHub.css';
@@ -15,6 +17,15 @@ const knowledgeCollections = [
     detail: 'คลังสารเคมีและ MixLab',
     Icon: ExperimentOutlined,
     tone: 'chemical',
+  },
+  {
+    to: '/public/fertilizers',
+    title: 'การใช้ปุ๋ยสำหรับไม้ผล',
+    description:
+      'รวมคำแนะนำการจัดการธาตุอาหาร วิเคราะห์ดิน คำนวณแม่ปุ๋ย และการใช้ปุ๋ยสำหรับไม้ผลเศรษฐกิจ',
+    detail: '9 บทไม้ผล · ตัวอย่างคำนวณ · เอกสารอ้างอิง',
+    Icon: ReadOutlined,
+    tone: 'fertilizer',
   },
   {
     to: '/public/orchids',
@@ -33,6 +44,24 @@ const knowledgeCollections = [
     detail: 'คลังคู่มือทะเบียนเกษตรกร',
     Icon: BookOutlined,
     tone: 'manual',
+  },
+  {
+    to: '/public/rice',
+    title: 'องค์ความรู้ข้าว',
+    description:
+      'รวมบทสรุปและงานวิจัยข้าวเชิงลึก ตั้งแต่จีโนมิกส์ CRISPR ความทนทานต่อสภาพอากาศ ข้าวคาร์บอนต่ำ ไปจนถึง AI และข้าวไทย',
+    detail: '17 เอกสารวิจัยและบทสรุป',
+    Icon: ReadOutlined,
+    tone: 'rice',
+  },
+  {
+    to: '/public/machinery',
+    title: 'เครื่องจักรการเกษตรล้ำสมัย',
+    description:
+      'รวมองค์ความรู้ Agriculture 4.0 ตั้งแต่รถแทรกเตอร์อัตโนมัติ โดรน หุ่นยนต์ ระบบพ่นสาร พลังงานทางเลือก ไปจนถึงเครื่องจักรสำหรับไทย',
+    detail: '26 เอกสาร · 12 ด้านเทคโนโลยี',
+    Icon: ToolOutlined,
+    tone: 'machinery',
   },
 ];
 

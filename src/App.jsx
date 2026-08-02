@@ -72,12 +72,22 @@ const PesticideArticle = lazy(
 const PesticideMixLab = lazy(
   () => import('./pages/pesticides/PesticideMixLab')
 );
+const FertilizersCatalog = lazy(
+  () => import('./pages/fertilizers/FertilizersCatalog')
+);
+const FertilizerArticle = lazy(
+  () => import('./pages/fertilizers/FertilizerArticle')
+);
 const KnowledgeHub = lazy(() => import('./pages/knowledge/KnowledgeHub'));
 const OrchidHub = lazy(() => import('./pages/orchids/OrchidHub'));
 const OrchidCatalog = lazy(() => import('./pages/orchids/OrchidCatalog'));
 const OrchidArticle = lazy(() => import('./pages/orchids/OrchidArticle'));
 const Farmer69Catalog = lazy(() => import('./pages/farmer69/Farmer69Catalog'));
 const Farmer69Article = lazy(() => import('./pages/farmer69/Farmer69Article'));
+const RiceKnowledge = lazy(() => import('./pages/rice/RiceKnowledge'));
+const MachineryKnowledge = lazy(
+  () => import('./pages/machinery/MachineryKnowledge')
+);
 
 // Strategy
 const Disasters = lazy(() => import('./pages/strategy/Disasters'));
@@ -280,6 +290,34 @@ function AppRoutes() {
           }
         />
         <Route
+          path="/public/fertilizers"
+          element={
+            <div
+              style={{
+                padding: '16px 12px',
+                minHeight: '100vh',
+                backgroundColor: '#f8fafc',
+              }}
+            >
+              <FertilizersCatalog />
+            </div>
+          }
+        />
+        <Route
+          path="/public/fertilizers/:slug"
+          element={
+            <div
+              style={{
+                padding: '16px 12px',
+                minHeight: '100vh',
+                backgroundColor: '#f8fafc',
+              }}
+            >
+              <FertilizerArticle />
+            </div>
+          }
+        />
+        <Route
           path="/public/orchids"
           element={
             <div
@@ -390,6 +428,18 @@ function AppRoutes() {
               <Farmer69Article />
             </div>
           }
+        />
+        <Route path="/public/rice" element={<RiceKnowledge />} />
+        <Route path="/public/rice/catalog" element={<RiceKnowledge />} />
+        <Route path="/public/rice/:slug" element={<RiceKnowledge />} />
+        <Route path="/public/machinery" element={<MachineryKnowledge />} />
+        <Route
+          path="/public/machinery/catalog"
+          element={<MachineryKnowledge />}
+        />
+        <Route
+          path="/public/machinery/:slug"
+          element={<MachineryKnowledge />}
         />
 
         {/* Interactive Dashboard — PUBLIC */}

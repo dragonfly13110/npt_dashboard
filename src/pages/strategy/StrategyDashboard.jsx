@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Row, Col, Card, Spin, Button, Result } from 'antd';
 import { ArrowRightOutlined, PieChartOutlined } from '@ant-design/icons';
 import { supabase } from '../../supabaseClient';
+import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 import {
   PageHeader,
   CategoryBentoCard,
@@ -472,7 +473,7 @@ export default function StrategyDashboard({
           title="ยุทธศาสตร์และสารสนเทศ"
           subtitle="ภาพรวมข้อมูลทะเบียนเกษตรกร พื้นที่การเกษตร ราคาสินค้าเกษตรและพลังงาน ศพก. และสภาพอากาศ/น้ำฝน"
           icon={PieChartOutlined}
-          image="/images/headers/strategy.webp"
+          image={CLOUDINARY_ASSETS.headers.strategy}
         />
       )}
 

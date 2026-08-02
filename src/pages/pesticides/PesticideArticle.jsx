@@ -93,7 +93,12 @@ function MarkdownBlock({ block }) {
   return <p>{renderInline(block.text)}</p>;
 }
 
-export default function PesticideArticle() {
+export default function PesticideArticle({
+  dataPath = '/data/pesticides/articles',
+  basePath = '/public/pesticides',
+  loadingTip = 'กำลังโหลดบทความยากำจัดศัตรูพืช...',
+  typeLabel = 'ชนิดศัตรูพืช',
+}) {
   const { slug } = useParams();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -103,7 +108,7 @@ export default function PesticideArticle() {
     setLoading(true);
     setError(false);
 
-    fetch(`/data/pesticides/articles/${slug}.json`)
+    fetch(`${dataPath}/${slug}.json`)
       .then((res) => {
         if (!res.ok) throw new Error('Article not found');
         return res.json();
@@ -113,11 +118,11 @@ export default function PesticideArticle() {
         setLoading(false);
       })
       .catch((err) => {
-        console.error('Error loading article:', err);
+        console.error(`Error loading article ${slug}:`, err);
         setError(true);
         setLoading(false);
       });
-  }, [slug]);
+  }, [dataPath, slug]);
 
   if (loading) {
     return (
@@ -129,13 +134,13 @@ export default function PesticideArticle() {
           height: '60vh',
         }}
       >
-        <Spin size="large" tip="กำลังโหลดบทความยากำจัดศัตรูพืช..." />
+        <Spin size="large" tip={loadingTip} />
       </div>
     );
   }
 
   if (error || !article) {
-    return <Navigate to="/public/pesticides" replace />;
+    return <Navigate to={basePath} replace />;
   }
 
   const blocks = parseMarkdownBlocks(article.content || '');
@@ -148,7 +153,7 @@ export default function PesticideArticle() {
       >
         <Link
           className="article-back-link"
-          to="/public/pesticides"
+          to={basePath}
           style={{ marginBottom: 0 }}
         >
           ← กลับไปยังคลังความรู้
@@ -188,7 +193,7 @@ export default function PesticideArticle() {
                 <span className="meta-info-value">{article.plant || '-'}</span>
               </div>
               <div className="meta-info-item">
-                <span className="meta-info-label">ชนิดศัตรูพืช</span>
+                <span className="meta-info-label">{typeLabel}</span>
                 <span className="meta-info-value">
                   {article.pest_type || '-'}
                 </span>
