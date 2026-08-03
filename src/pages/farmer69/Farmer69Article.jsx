@@ -2,97 +2,9 @@ import { useState, useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { Spin, Alert, Card, Tag, Button } from 'antd';
 import { ArrowLeftOutlined, FilePdfOutlined } from '@ant-design/icons';
-import { parseMarkdownBlocks } from '../../utils/markdownBlocks';
+import { MarkdownBlock } from '../../components/MarkdownBlock';
+import { parseArticleBlocks } from '../../utils/markdownBlocks';
 import './Farmer69.css';
-
-function renderInline(text) {
-  if (!text) return '';
-  const regex = /(`[^`]+`|\[[^\]]+\]\([^)]+\))/g;
-  const parts = text.split(regex);
-  return parts.map((part, index) => {
-    if (part.startsWith('`') && part.endsWith('`')) {
-      return <code key={index}>{part.slice(1, -1)}</code>;
-    }
-    if (part.startsWith('[') && part.endsWith(')')) {
-      const match = part.match(/\[([^\]]+)\]\(([^)]+)\)/);
-      if (match) {
-        const [, label, url] = match;
-        if (url.startsWith('/')) {
-          return (
-            <Link
-              key={index}
-              to={url}
-              style={{ color: '#16a34a', fontWeight: 600 }}
-            >
-              {label}
-            </Link>
-          );
-        }
-        return (
-          <a
-            key={index}
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: '#16a34a', fontWeight: 600 }}
-          >
-            {label}
-          </a>
-        );
-      }
-    }
-    return part;
-  });
-}
-
-function MarkdownBlock({ block }) {
-  if (block.type === 'heading') {
-    const Tag = `h${Math.min(block.level + 1, 4)}`;
-    return <Tag>{renderInline(block.text)}</Tag>;
-  }
-  if (block.type === 'list') {
-    return (
-      <ul>
-        {block.items.map((item, index) => (
-          <li key={index}>{renderInline(item)}</li>
-        ))}
-      </ul>
-    );
-  }
-  if (block.type === 'table') {
-    const [head = [], ...body] = block.rows;
-    return (
-      <div className="manual-table-wrap">
-        <table>
-          <thead>
-            <tr>
-              {head.map((cell, idx) => (
-                <th key={idx}>{renderInline(cell)}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {body.map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                {row.map((cell, cellIndex) => (
-                  <td key={cellIndex}>{renderInline(cell)}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-  if (block.type === 'code') {
-    return (
-      <pre>
-        <code>{block.text}</code>
-      </pre>
-    );
-  }
-  return <p>{renderInline(block.text)}</p>;
-}
 
 const FLAG_DETAILS = {
   'RF-001': 'ตัวสะกด น.ค. 3 (มีตัวเลข 13 ติดมากับชื่อเอกสาร)',
@@ -170,7 +82,7 @@ export default function Farmer69Article() {
     return <Navigate to="/public/farmer-manual" replace />;
   }
 
-  const blocks = parseMarkdownBlocks(article.body_markdown || '');
+  const blocks = parseArticleBlocks(article.body_markdown || '');
 
   return (
     <div className="farmer69-article-container">
@@ -197,7 +109,11 @@ export default function Farmer69Article() {
 
           <div className="farmer69-markdown">
             {blocks.map((block, blockIndex) => (
-              <MarkdownBlock block={block} key={blockIndex} />
+              <MarkdownBlock
+                block={block}
+                key={blockIndex}
+                tableClassName="manual-table-wrap"
+              />
             ))}
           </div>
         </article>

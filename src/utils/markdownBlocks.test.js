@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { parseMarkdownBlocks } from './markdownBlocks';
+import { parseArticleBlocks, parseMarkdownBlocks } from './markdownBlocks';
 
 describe('parseMarkdownBlocks', () => {
   it('keeps headings, lists, tables, and code separate', () => {
@@ -51,6 +51,33 @@ describe('parseMarkdownBlocks', () => {
         ],
       },
       { type: 'paragraph', text: 'ประโยค ที่ต่อบรรทัด' },
+    ]);
+  });
+
+  it('parses ordered lists and multiline blockquotes as blocks', () => {
+    const blocks = parseMarkdownBlocks(`
+> แหล่งข้อมูล
+> รายละเอียดเพิ่มเติม
+
+1. ขั้นแรก
+   ข้อความต่อเนื่อง
+2. ขั้นถัดไป`);
+
+    expect(blocks).toEqual([
+      { type: 'blockquote', text: 'แหล่งข้อมูล รายละเอียดเพิ่มเติม' },
+      {
+        type: 'ordered-list',
+        items: ['ขั้นแรก ข้อความต่อเนื่อง', 'ขั้นถัดไป'],
+      },
+    ]);
+  });
+
+  it('removes an article heading already shown by the page header', () => {
+    expect(
+      parseArticleBlocks('# ชื่อบทความ\n\n## หัวข้อแรก\n\nเนื้อหา')
+    ).toEqual([
+      { type: 'heading', level: 2, text: 'หัวข้อแรก' },
+      { type: 'paragraph', text: 'เนื้อหา' },
     ]);
   });
 });

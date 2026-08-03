@@ -1,69 +1,9 @@
 import { Link, Navigate, useParams } from 'react-router-dom';
 import { manualContentByFile } from '../data/manualContent';
 import { manualRegistry } from '../data/manualRegistry';
-import { parseMarkdownBlocks } from '../utils/markdownBlocks';
+import { MarkdownBlock } from '../components/MarkdownBlock';
+import { parseArticleBlocks } from '../utils/markdownBlocks';
 import './Manual.css';
-
-function renderInline(text) {
-  return text
-    .split(/(`[^`]+`)/g)
-    .map((part, index) =>
-      part.startsWith('`') && part.endsWith('`') ? (
-        <code key={index}>{part.slice(1, -1)}</code>
-      ) : (
-        part
-      )
-    );
-}
-
-function MarkdownBlock({ block }) {
-  if (block.type === 'heading') {
-    const Tag = `h${Math.min(block.level + 1, 4)}`;
-    return <Tag>{renderInline(block.text)}</Tag>;
-  }
-  if (block.type === 'list') {
-    return (
-      <ul>
-        {block.items.map((item, index) => (
-          <li key={index}>{renderInline(item)}</li>
-        ))}
-      </ul>
-    );
-  }
-  if (block.type === 'table') {
-    const [head = [], ...body] = block.rows;
-    return (
-      <div className="manual-table-wrap">
-        <table>
-          <thead>
-            <tr>
-              {head.map((cell) => (
-                <th key={cell}>{renderInline(cell)}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {body.map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                {row.map((cell, cellIndex) => (
-                  <td key={cellIndex}>{renderInline(cell)}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-  if (block.type === 'code') {
-    return (
-      <pre>
-        <code>{block.text}</code>
-      </pre>
-    );
-  }
-  return <p>{renderInline(block.text)}</p>;
-}
 
 export default function ManualArticle() {
   const { slug } = useParams();
@@ -76,7 +16,7 @@ export default function ManualArticle() {
   const index = manualRegistry.indexOf(article);
   const previous = manualRegistry[index - 1];
   const next = manualRegistry[index + 1];
-  const blocks = parseMarkdownBlocks(manualContentByFile[article.file] || '');
+  const blocks = parseArticleBlocks(manualContentByFile[article.file] || '');
 
   return (
     <main className="manual-page manual-article-page">
@@ -110,7 +50,11 @@ export default function ManualArticle() {
           <p className="manual-article-audience">{article.audience}</p>
           <div className="manual-markdown">
             {blocks.map((block, blockIndex) => (
-              <MarkdownBlock block={block} key={blockIndex} />
+              <MarkdownBlock
+                block={block}
+                key={blockIndex}
+                tableClassName="manual-table-wrap"
+              />
             ))}
           </div>
         </article>

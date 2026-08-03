@@ -1,4 +1,56 @@
 const TOC_ENTRY_PATTERN = /^(.*?)\s*(?:\.{3,}|…{2,})\s*(\d+)\s*$/;
+const HEADING_PATTERN = /^(#{1,4})\s+\S/;
+const FENCE_PATTERN = /^```/;
+const COMMENT_PATTERN = /^\s*<!--.*-->\s*$/;
+const BULLET_PATTERN = /^\s*[-*]\s+/;
+const ORDERED_LIST_PATTERN = /^\s*\d+[.)]\s+/;
+const BLOCKQUOTE_PATTERN = /^\s*>\s?/;
+const HORIZONTAL_RULE_PATTERN = /^\s*(?:---+|\*\*\*+|___+)\s*$/;
+
+function isTableStart(lines, index) {
+  return (
+    lines[index]?.includes('|') && lines[index + 1]?.match(/^\s*\|?\s*:?-{3,}/)
+  );
+}
+
+function isStructuralLine(lines, index) {
+  return (
+    !lines[index]?.trim() ||
+    COMMENT_PATTERN.test(lines[index]) ||
+    HEADING_PATTERN.test(lines[index]) ||
+    FENCE_PATTERN.test(lines[index]) ||
+    BULLET_PATTERN.test(lines[index]) ||
+    ORDERED_LIST_PATTERN.test(lines[index]) ||
+    BLOCKQUOTE_PATTERN.test(lines[index]) ||
+    HORIZONTAL_RULE_PATTERN.test(lines[index]) ||
+    isTableStart(lines, index)
+  );
+}
+
+function parseListBlock(lines, start, pattern, type) {
+  const items = [];
+  let i = start;
+
+  while (i < lines.length && pattern.test(lines[i])) {
+    const itemLines = [lines[i].replace(pattern, '').trim()];
+    i += 1;
+
+    while (
+      i < lines.length &&
+      lines[i].trim() &&
+      !pattern.test(lines[i]) &&
+      /^\s{2,}\S/.test(lines[i]) &&
+      !isStructuralLine(lines, i)
+    ) {
+      itemLines.push(lines[i].trim());
+      i += 1;
+    }
+
+    items.push(itemLines.join(' ').replace(/\s+/g, ' ').trim());
+  }
+
+  return { type, items, nextIndex: i };
+}
 
 function parseTocEntry(line) {
   const match = line.match(TOC_ENTRY_PATTERN);
@@ -18,13 +70,7 @@ function parseTocBlock(lines, start) {
   while (i < lines.length) {
     const line = lines[i];
     const trimmed = line.trim();
-    const isBoundary =
-      !trimmed ||
-      /^\s*<!--.*-->\s*$/.test(line) ||
-      /^(#{1,4})\s+/.test(line) ||
-      /^```/.test(line) ||
-      /^\s*[-*]\s+/.test(line) ||
-      (line.includes('|') && lines[i + 1]?.match(/^\s*\|?\s*:?-{3,}/));
+    const isBoundary = isStructuralLine(lines, i);
 
     if (isBoundary) break;
 
@@ -71,6 +117,22 @@ export function parseMarkdownBlocks(markdown) {
       continue;
     }
 
+    if (HORIZONTAL_RULE_PATTERN.test(line)) {
+      blocks.push({ type: 'hr' });
+      i += 1;
+      continue;
+    }
+
+    if (BLOCKQUOTE_PATTERN.test(line)) {
+      const quoteLines = [];
+      while (i < lines.length && BLOCKQUOTE_PATTERN.test(lines[i])) {
+        quoteLines.push(lines[i].replace(BLOCKQUOTE_PATTERN, '').trim());
+        i += 1;
+      }
+      blocks.push({ type: 'blockquote', text: quoteLines.join(' ') });
+      continue;
+    }
+
     const fence = line.match(/^```(\w+)?/);
     if (fence) {
       const code = [];
@@ -104,7 +166,7 @@ export function parseMarkdownBlocks(markdown) {
       continue;
     }
 
-    if (line.includes('|') && lines[i + 1]?.match(/^\s*\|?\s*:?-{3,}/)) {
+    if (isTableStart(lines, i)) {
       const rows = [];
       while (i < lines.length && lines[i].includes('|')) {
         if (!lines[i].match(/^\s*\|?\s*:?-{3,}/)) {
@@ -119,13 +181,19 @@ export function parseMarkdownBlocks(markdown) {
       continue;
     }
 
-    if (/^\s*[-*]\s+/.test(line)) {
-      const items = [];
-      while (i < lines.length && /^\s*[-*]\s+/.test(lines[i])) {
-        items.push(lines[i].replace(/^\s*[-*]\s+/, ''));
-        i += 1;
-      }
-      blocks.push({ type: 'list', items });
+    if (BULLET_PATTERN.test(line)) {
+      blocks.push(parseListBlock(lines, i, BULLET_PATTERN, 'list'));
+      i = blocks[blocks.length - 1].nextIndex;
+      delete blocks[blocks.length - 1].nextIndex;
+      continue;
+    }
+
+    if (ORDERED_LIST_PATTERN.test(line)) {
+      blocks.push(
+        parseListBlock(lines, i, ORDERED_LIST_PATTERN, 'ordered-list')
+      );
+      i = blocks[blocks.length - 1].nextIndex;
+      delete blocks[blocks.length - 1].nextIndex;
       continue;
     }
 
@@ -133,16 +201,27 @@ export function parseMarkdownBlocks(markdown) {
     while (
       i < lines.length &&
       lines[i].trim() &&
-      !/^(#{1,4})\s+/.test(lines[i]) &&
-      !/^```/.test(lines[i]) &&
-      !/^\s*<!--.*-->\s*$/.test(lines[i]) &&
-      !/^\s*[-*]\s+/.test(lines[i]) &&
-      !(lines[i].includes('|') && lines[i + 1]?.match(/^\s*\|?\s*:?-{3,}/))
+      !HEADING_PATTERN.test(lines[i]) &&
+      !FENCE_PATTERN.test(lines[i]) &&
+      !COMMENT_PATTERN.test(lines[i]) &&
+      !BULLET_PATTERN.test(lines[i]) &&
+      !ORDERED_LIST_PATTERN.test(lines[i]) &&
+      !BLOCKQUOTE_PATTERN.test(lines[i]) &&
+      !HORIZONTAL_RULE_PATTERN.test(lines[i]) &&
+      !isTableStart(lines, i)
     ) {
       paragraph.push(lines[i++].trim());
     }
     blocks.push({ type: 'paragraph', text: paragraph.join(' ') });
   }
 
+  return blocks;
+}
+
+export function parseArticleBlocks(markdown) {
+  const blocks = parseMarkdownBlocks(markdown);
+  if (blocks[0]?.type === 'heading' && blocks[0].level === 1) {
+    return blocks.slice(1);
+  }
   return blocks;
 }
