@@ -34,4 +34,23 @@ describe('parseMarkdownBlocks', () => {
       { type: 'paragraph', text: 'Body' },
     ]);
   });
+
+  it('keeps table-of-contents entries separate without changing prose', () => {
+    const blocks = parseMarkdownBlocks(
+      '## สารบัญ\n\nคำนิยม ........................................3\nบทนำ ............................................5\nการสำรวจและติดตามสถานการณ์\nแมลงศัตรูข้าว ................................127\n\nประโยค\nที่ต่อบรรทัด'
+    );
+
+    expect(blocks).toEqual([
+      { type: 'heading', level: 2, text: 'สารบัญ' },
+      {
+        type: 'toc',
+        items: [
+          { label: 'คำนิยม', page: '3' },
+          { label: 'บทนำ', page: '5' },
+          { label: 'การสำรวจและติดตามสถานการณ์ แมลงศัตรูข้าว', page: '127' },
+        ],
+      },
+      { type: 'paragraph', text: 'ประโยค ที่ต่อบรรทัด' },
+    ]);
+  });
 });

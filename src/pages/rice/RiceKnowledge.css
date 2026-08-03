@@ -281,6 +281,39 @@
   padding-left: 24px;
 }
 
+.rice-toc {
+  margin: 0 0 16px;
+}
+
+.rice-toc-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: baseline;
+  padding: 4px 0;
+}
+
+.rice-toc-label {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+}
+
+.rice-toc-label::after {
+  flex: 1;
+  min-width: 18px;
+  margin: 0 8px 4px;
+  border-bottom: 1px dotted #94a3b8;
+  content: '';
+}
+
+.rice-toc-page {
+  min-width: 2ch;
+  text-align: right;
+  color: #475569;
+  font-variant-numeric: tabular-nums;
+}
+
 .rice-markdown a {
   color: #3f6212;
   font-weight: 600;

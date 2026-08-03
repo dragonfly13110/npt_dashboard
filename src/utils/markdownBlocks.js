@@ -1,3 +1,57 @@
+const TOC_ENTRY_PATTERN = /^(.*?)\s*(?:\.{3,}|…{2,})\s*(\d+)\s*$/;
+
+function parseTocEntry(line) {
+  const match = line.match(TOC_ENTRY_PATTERN);
+  if (!match) return null;
+
+  return {
+    label: match[1].replace(/\s+/g, ' ').trim(),
+    page: match[2],
+  };
+}
+
+function parseTocBlock(lines, start) {
+  const items = [];
+  const pending = [];
+  let i = start;
+
+  while (i < lines.length) {
+    const line = lines[i];
+    const trimmed = line.trim();
+    const isBoundary =
+      !trimmed ||
+      /^\s*<!--.*-->\s*$/.test(line) ||
+      /^(#{1,4})\s+/.test(line) ||
+      /^```/.test(line) ||
+      /^\s*[-*]\s+/.test(line) ||
+      (line.includes('|') && lines[i + 1]?.match(/^\s*\|?\s*:?-{3,}/));
+
+    if (isBoundary) break;
+
+    const entry = parseTocEntry(trimmed);
+    if (entry) {
+      items.push({
+        label: [...pending, entry.label].join(' ').replace(/\s+/g, ' ').trim(),
+        page: entry.page,
+      });
+      pending.length = 0;
+    } else if (items.length) {
+      pending.push(trimmed);
+    } else {
+      return null;
+    }
+
+    i += 1;
+  }
+
+  if (!items.length) return null;
+  if (pending.length) {
+    items.push({ label: pending.join(' '), page: '' });
+  }
+
+  return { type: 'toc', items, nextIndex: i };
+}
+
 export function parseMarkdownBlocks(markdown) {
   const blocks = [];
   const lines = markdown
@@ -40,6 +94,13 @@ export function parseMarkdownBlocks(markdown) {
         text: heading[2],
       });
       i += 1;
+      continue;
+    }
+
+    const toc = parseTocBlock(lines, i);
+    if (toc) {
+      blocks.push({ type: toc.type, items: toc.items });
+      i = toc.nextIndex;
       continue;
     }
 

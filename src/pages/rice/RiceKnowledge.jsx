@@ -466,6 +466,18 @@ function MarkdownBlock({ block }) {
       </ul>
     );
   }
+  if (block.type === 'toc') {
+    return (
+      <div className="rice-toc" aria-label="สารบัญ">
+        {block.items.map((item, index) => (
+          <div className="rice-toc-item" key={`${item.label}-${index}`}>
+            <span className="rice-toc-label">{renderInline(item.label)}</span>
+            <span className="rice-toc-page">{item.page}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
   if (block.type === 'table') {
     const [head = [], ...body] = block.rows;
     return (
