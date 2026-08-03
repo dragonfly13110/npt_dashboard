@@ -153,6 +153,70 @@ const RICE_ARTICLES = [
     detail: 'แนวโน้มอนาคต',
     collection: 'deep-research',
   },
+  {
+    slug: 'rice-pest-document-overview-2562',
+    file: 'rice-pest-document-overview-2562.md',
+    title: 'เอกสารต้นฉบับ: ศัตรูข้าว และการป้องกันกำจัด',
+    category: 'ศัตรูข้าวและการป้องกันกำจัด',
+    detail: 'ข้อมูลเอกสาร พ.ศ. 2562',
+    collection: 'pests-control',
+  },
+  {
+    slug: 'rice-pest-insects-rice-field-part-1-2562',
+    file: 'rice-pest-insects-rice-field-part-1-2562.md',
+    title: 'แมลงและไรศัตรูข้าวนาสวน: ส่วนที่ 1',
+    category: 'แมลงและไรศัตรูข้าว',
+    detail: 'หน้า 11–80',
+    collection: 'pests-control',
+  },
+  {
+    slug: 'rice-pest-insects-rice-field-part-2-2562',
+    file: 'rice-pest-insects-rice-field-part-2-2562.md',
+    title: 'แมลงและไรศัตรูข้าวนาสวน: ส่วนที่ 2',
+    category: 'แมลงและไรศัตรูข้าว',
+    detail: 'หน้า 81–106',
+    collection: 'pests-control',
+  },
+  {
+    slug: 'rice-pest-upland-rice-wheat-2562',
+    file: 'rice-pest-upland-rice-wheat-2562.md',
+    title: 'แมลงศัตรูข้าวไร่และข้าวสาลี',
+    category: 'แมลงศัตรูข้าวไร่และข้าวสาลี',
+    detail: 'การสำรวจและระดับเศรษฐกิจ',
+    collection: 'pests-control',
+  },
+  {
+    slug: 'rice-disease-diagnosis-2562',
+    file: 'rice-disease-diagnosis-2562.md',
+    title: 'โรคข้าวและการวินิจฉัย',
+    category: 'โรคข้าว',
+    detail: 'หลักการวินิจฉัย หน้า 137–146',
+    collection: 'pests-control',
+  },
+  {
+    slug: 'rice-disease-major-part-1-2562',
+    file: 'rice-disease-major-part-1-2562.md',
+    title: 'โรคข้าวที่สำคัญของประเทศไทย: ส่วนที่ 1',
+    category: 'โรคข้าว',
+    detail: 'โรคไหม้ถึงโรคเมล็ดด่าง',
+    collection: 'pests-control',
+  },
+  {
+    slug: 'rice-disease-major-part-2-2562',
+    file: 'rice-disease-major-part-2-2562.md',
+    title: 'โรคข้าวที่สำคัญของประเทศไทย: ส่วนที่ 2',
+    category: 'โรคข้าว',
+    detail: 'โรคกล้าเน่าถึงโรคเมาตอซัง',
+    collection: 'pests-control',
+  },
+  {
+    slug: 'rice-disease-index-bibliography-2562',
+    file: 'rice-disease-index-bibliography-2562.md',
+    title: 'ดัชนีสารป้องกันกำจัดโรคข้าวและบรรณานุกรม',
+    category: 'ภาคผนวก',
+    detail: 'ดัชนีสารและบรรณานุกรม',
+    collection: 'pests-control',
+  },
 ];
 
 const RICE_COLLECTIONS = [
@@ -172,6 +236,15 @@ const RICE_COLLECTIONS = [
     description:
       'อ่านต่อเป็นรายบท ตั้งแต่จีโนมิกส์ CRISPR ความทนทานต่อสภาพอากาศ ข้าวคาร์บอนต่ำ ไปจนถึง AI และการประยุกต์ใช้ในประเทศไทย',
     Icon: ExperimentOutlined,
+    tone: 'research',
+  },
+  {
+    key: 'pests-control',
+    title: 'ศัตรูข้าวและการป้องกันกำจัด',
+    detail: '8 เอกสารจากคู่มือ พ.ศ. 2562',
+    description:
+      'ค้นหาแมลง ไร โรคข้าว การสำรวจ ระดับเศรษฐกิจ ตารางสารป้องกันกำจัด และดัชนีสารจากเอกสารต้นฉบับ',
+    Icon: FileTextOutlined,
     tone: 'research',
   },
 ];
@@ -196,8 +269,8 @@ function RiceHub() {
         <span className="rice-kicker">RICE KNOWLEDGE</span>
         <h1>องค์ความรู้ข้าว</h1>
         <p>
-          คลังงานวิจัยข้าวจากข้อมูลที่อ่านและสรุปไว้ในชุดความรู้ข้าว
-          แยกเป็นภาพรวมสำหรับเริ่มต้น และบทวิจัยเชิงลึกสำหรับอ่านต่อ
+          คลังเอกสารและงานวิจัยข้าวที่จัดโครงสร้างให้อ่านและค้นหาได้ง่าย
+          รวมทั้งชุดศัตรูข้าวและการป้องกันกำจัดจากเอกสารต้นฉบับ
         </p>
       </section>
 
@@ -233,13 +306,17 @@ function RiceCatalog() {
   const requestedCollection = searchParams.get('collection');
   const [query, setQuery] = useState('');
   const [collection, setCollection] = useState(
-    requestedCollection === 'deep-research' ? 'deep-research' : 'all'
+    requestedCollection === 'deep-research' ||
+      requestedCollection === 'pests-control'
+      ? requestedCollection
+      : 'all'
   );
 
   useEffect(() => {
     setCollection(
       requestedCollection === 'deep-research' ||
-        requestedCollection === 'overview'
+        requestedCollection === 'overview' ||
+        requestedCollection === 'pests-control'
         ? requestedCollection
         : 'all'
     );
@@ -261,8 +338,8 @@ function RiceCatalog() {
     <main className="rice-page rice-catalog">
       <PageNav backTo="/public/rice" backLabel="← กลับองค์ความรู้ข้าว" />
       <section className="rice-catalog-header">
-        <span className="rice-kicker">RICE RESEARCH LIBRARY</span>
-        <h1>คลังบทความวิจัยข้าว</h1>
+        <span className="rice-kicker">RICE KNOWLEDGE LIBRARY</span>
+        <h1>คลังเอกสารองค์ความรู้ข้าว</h1>
         <p>
           รวม {RICE_ARTICLES.length} เอกสารจากชุดความรู้ข้าว พร้อมค้นหาตามหัวข้อ
         </p>
@@ -273,7 +350,7 @@ function RiceCatalog() {
           <span className="sr-only">ค้นหาบทความข้าว</span>
           <input
             type="search"
-            placeholder="ค้นหา เช่น CRISPR, จีโนมิกส์, มีเทน, AI..."
+            placeholder="ค้นหา เช่น CRISPR, เพลี้ย, โรคไหม้, มีเทน, AI..."
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
@@ -337,9 +414,12 @@ function RiceCatalog() {
 function renderInline(text) {
   if (!text) return '';
   const parts = text.split(
-    /(`[^`]+`|\[[^\]]+\]\([^)]+\)|\*\*.+?\*\*|\*[^*]+\*)/g
+    /(<br\s*\/?\s*>|`[^`]+`|\[[^\]]+\]\([^)]+\)|\*\*.+?\*\*|\*[^*]+\*)/gi
   );
   return parts.map((part, index) => {
+    if (/^<br\s*\/?\s*>$/i.test(part)) {
+      return <br key={index} />;
+    }
     if (part.startsWith('`') && part.endsWith('`')) {
       return <code key={index}>{part.slice(1, -1)}</code>;
     }
@@ -489,8 +569,8 @@ function RiceArticle() {
             </dl>
           </div>
           <div className="rice-aside-note">
-            เนื้อหาเป็นบทสรุปงานวิจัยเพื่อการเรียนรู้
-            ควรตรวจสอบงานต้นฉบับและบริบทการใช้งานก่อนนำไปอ้างอิงเชิงวิชาการหรือปฏิบัติจริง
+            เนื้อหาถอดจากเอกสารต้นฉบับและจัดรูปแบบเพื่อการค้นคว้า
+            ควรตรวจสอบต้นฉบับและฉลากสารก่อนนำไปใช้จริง
           </div>
         </aside>
       </div>

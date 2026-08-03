@@ -1,10 +1,17 @@
 export function parseMarkdownBlocks(markdown) {
   const blocks = [];
-  const lines = markdown.replace(/\r\n/g, '\n').split('\n');
+  const lines = markdown
+    .replace(/\r\n/g, '\n')
+    .replace(/^\uFEFF?---\n[\s\S]*?\n---\n?/, '')
+    .split('\n');
   let i = 0;
 
   while (i < lines.length) {
     const line = lines[i];
+    if (/^\s*<!--.*-->\s*$/.test(line)) {
+      i += 1;
+      continue;
+    }
     if (!line.trim()) {
       i += 1;
       continue;
@@ -40,12 +47,10 @@ export function parseMarkdownBlocks(markdown) {
       const rows = [];
       while (i < lines.length && lines[i].includes('|')) {
         if (!lines[i].match(/^\s*\|?\s*:?-{3,}/)) {
-          rows.push(
-            lines[i]
-              .split('|')
-              .map((cell) => cell.trim())
-              .filter(Boolean)
-          );
+          const cells = lines[i].split('|').map((cell) => cell.trim());
+          if (!cells[0]) cells.shift();
+          if (!cells[cells.length - 1]) cells.pop();
+          rows.push(cells);
         }
         i += 1;
       }
@@ -69,6 +74,7 @@ export function parseMarkdownBlocks(markdown) {
       lines[i].trim() &&
       !/^(#{1,4})\s+/.test(lines[i]) &&
       !/^```/.test(lines[i]) &&
+      !/^\s*<!--.*-->\s*$/.test(lines[i]) &&
       !/^\s*[-*]\s+/.test(lines[i]) &&
       !(lines[i].includes('|') && lines[i + 1]?.match(/^\s*\|?\s*:?-{3,}/))
     ) {
