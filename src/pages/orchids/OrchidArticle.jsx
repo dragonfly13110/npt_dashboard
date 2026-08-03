@@ -1,91 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import { Spin } from 'antd';
-import { parseMarkdownBlocks } from '../../utils/markdownBlocks';
+import { MarkdownBlock } from '../../components/MarkdownBlock';
+import { parseArticleBlocks } from '../../utils/markdownBlocks';
 import '../pesticides/Pesticides.css';
 import './OrchidKnowledge.css';
-
-function renderInline(text) {
-  if (!text) return '';
-  const parts = text.split(/(`[^`]+`|\[[^\]]+\]\([^)]+\)|\*\*.+?\*\*)/g);
-  return parts.map((part, index) => {
-    if (part.startsWith('`') && part.endsWith('`')) {
-      return <code key={index}>{part.slice(1, -1)}</code>;
-    }
-    if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={index}>{part.slice(2, -2)}</strong>;
-    }
-    if (part.startsWith('[') && part.endsWith(')')) {
-      const match = part.match(/\[([^\]]+)\]\(([^)]+)\)/);
-      if (match) {
-        const [, label, url] = match;
-        if (url.startsWith('/'))
-          return (
-            <Link key={index} to={url}>
-              {label}
-            </Link>
-          );
-        return (
-          <a key={index} href={url} target="_blank" rel="noopener noreferrer">
-            {label}
-          </a>
-        );
-      }
-    }
-    return part;
-  });
-}
-
-function MarkdownBlock({ block }) {
-  if (block.type === 'paragraph' && block.text.trim() === '---') {
-    return <hr />;
-  }
-  if (block.type === 'heading') {
-    const Tag = `h${Math.min(block.level + 1, 4)}`;
-    return <Tag>{renderInline(block.text)}</Tag>;
-  }
-  if (block.type === 'list') {
-    return (
-      <ul>
-        {block.items.map((item, index) => (
-          <li key={index}>{renderInline(item)}</li>
-        ))}
-      </ul>
-    );
-  }
-  if (block.type === 'table') {
-    const [head = [], ...body] = block.rows;
-    return (
-      <div className="manual-table-wrap">
-        <table>
-          <thead>
-            <tr>
-              {head.map((cell, index) => (
-                <th key={index}>{renderInline(cell)}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {body.map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                {row.map((cell, cellIndex) => (
-                  <td key={cellIndex}>{renderInline(cell)}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-  if (block.type === 'code')
-    return (
-      <pre>
-        <code>{block.text}</code>
-      </pre>
-    );
-  return <p>{renderInline(block.text)}</p>;
-}
 
 const ORCHID_ARTICLE_COLLECTIONS = {
   production: {
@@ -136,7 +55,7 @@ export default function OrchidArticle({ collection = 'production' }) {
   }
   if (error || !article) return <Navigate to={settings.catalogPath} replace />;
 
-  const blocks = parseMarkdownBlocks(article.content || '');
+  const blocks = parseArticleBlocks(article.content || '');
   return (
     <div
       className={`pesticide-article-container orchid-article-container orchid-article-${collection}`}
@@ -185,7 +104,11 @@ export default function OrchidArticle({ collection = 'production' }) {
           </div>
           <div className="pesticide-markdown">
             {blocks.map((block, index) => (
-              <MarkdownBlock block={block} key={index} />
+              <MarkdownBlock
+                block={block}
+                key={index}
+                tableClassName="manual-table-wrap"
+              />
             ))}
           </div>
         </article>
