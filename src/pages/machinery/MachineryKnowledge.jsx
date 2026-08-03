@@ -13,7 +13,8 @@ import {
   useParams,
   useSearchParams,
 } from 'react-router-dom';
-import { parseMarkdownBlocks } from '../../utils/markdownBlocks';
+import { MarkdownBlock } from '../../components/MarkdownBlock';
+import { parseArticleBlocks } from '../../utils/markdownBlocks';
 import '../rice/RiceKnowledge.css';
 import './MachineryKnowledge.css';
 
@@ -281,89 +282,6 @@ function MachineryCatalog() {
   );
 }
 
-function renderInline(text) {
-  if (!text) return '';
-  const parts = text.split(
-    /(`[^`]+`|\[[^\]]+\]\([^)]+\)|\*\*.+?\*\*|\*[^*]+\*)/g
-  );
-  return parts.map((part, index) => {
-    if (part.startsWith('`') && part.endsWith('`'))
-      return <code key={index}>{part.slice(1, -1)}</code>;
-    if (part.startsWith('**') && part.endsWith('**'))
-      return <strong key={index}>{part.slice(2, -2)}</strong>;
-    if (part.startsWith('*') && part.endsWith('*'))
-      return <em key={index}>{part.slice(1, -1)}</em>;
-    if (part.startsWith('[') && part.endsWith(')')) {
-      const match = part.match(/\[([^\]]+)\]\(([^)]+)\)/);
-      if (match) {
-        const [, label, url] = match;
-        return url.startsWith('/') ? (
-          <Link key={index} to={url}>
-            {label}
-          </Link>
-        ) : (
-          <a key={index} href={url} target="_blank" rel="noopener noreferrer">
-            {label}
-          </a>
-        );
-      }
-    }
-    return part;
-  });
-}
-
-function MarkdownBlock({ block }) {
-  if (block.type === 'paragraph' && block.text.trim() === '---') return <hr />;
-  if (block.type === 'paragraph' && block.text.startsWith('> ')) {
-    return <blockquote>{renderInline(block.text.slice(2))}</blockquote>;
-  }
-  if (block.type === 'heading') {
-    const Tag = `h${Math.min(block.level + 1, 4)}`;
-    return <Tag>{renderInline(block.text)}</Tag>;
-  }
-  if (block.type === 'list') {
-    return (
-      <ul>
-        {block.items.map((item, index) => (
-          <li key={index}>{renderInline(item)}</li>
-        ))}
-      </ul>
-    );
-  }
-  if (block.type === 'table') {
-    const [head = [], ...body] = block.rows;
-    return (
-      <div className="rice-table-wrap">
-        <table>
-          <thead>
-            <tr>
-              {head.map((cell, index) => (
-                <th key={index}>{renderInline(cell)}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {body.map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                {row.map((cell, cellIndex) => (
-                  <td key={cellIndex}>{renderInline(cell)}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-  if (block.type === 'code')
-    return (
-      <pre>
-        <code>{block.text}</code>
-      </pre>
-    );
-  return <p>{renderInline(block.text)}</p>;
-}
-
 function MachineryArticle() {
   const { slug } = useParams();
   const article = MACHINERY_ARTICLES.find((item) => item.slug === slug);
@@ -411,8 +329,13 @@ function MachineryArticle() {
             <p>{article.category} · เครื่องจักรการเกษตรล้ำสมัย</p>
           </header>
           <div className="rice-markdown">
-            {parseMarkdownBlocks(content).map((block, index) => (
-              <MarkdownBlock key={index} block={block} />
+            {parseArticleBlocks(content).map((block, index) => (
+              <MarkdownBlock
+                key={index}
+                block={block}
+                tableClassName="rice-table-wrap"
+                tocClassName="rice-toc"
+              />
             ))}
           </div>
         </article>

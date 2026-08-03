@@ -13,7 +13,8 @@ import {
   useParams,
   useSearchParams,
 } from 'react-router-dom';
-import { parseMarkdownBlocks } from '../../utils/markdownBlocks';
+import { MarkdownBlock } from '../../components/MarkdownBlock';
+import { parseArticleBlocks } from '../../utils/markdownBlocks';
 import './RiceKnowledge.css';
 
 const RICE_ARTICLES = [
@@ -411,108 +412,6 @@ function RiceCatalog() {
   );
 }
 
-function renderInline(text) {
-  if (!text) return '';
-  const parts = text.split(
-    /(<br\s*\/?\s*>|`[^`]+`|\[[^\]]+\]\([^)]+\)|\*\*.+?\*\*|\*[^*]+\*)/gi
-  );
-  return parts.map((part, index) => {
-    if (/^<br\s*\/?\s*>$/i.test(part)) {
-      return <br key={index} />;
-    }
-    if (part.startsWith('`') && part.endsWith('`')) {
-      return <code key={index}>{part.slice(1, -1)}</code>;
-    }
-    if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={index}>{part.slice(2, -2)}</strong>;
-    }
-    if (part.startsWith('*') && part.endsWith('*')) {
-      return <em key={index}>{part.slice(1, -1)}</em>;
-    }
-    if (part.startsWith('[') && part.endsWith(')')) {
-      const match = part.match(/\[([^\]]+)\]\(([^)]+)\)/);
-      if (match) {
-        const [, label, url] = match;
-        return url.startsWith('/') ? (
-          <Link key={index} to={url}>
-            {label}
-          </Link>
-        ) : (
-          <a key={index} href={url} target="_blank" rel="noopener noreferrer">
-            {label}
-          </a>
-        );
-      }
-    }
-    return part;
-  });
-}
-
-function MarkdownBlock({ block }) {
-  if (block.type === 'paragraph' && block.text.trim() === '---') return <hr />;
-  if (block.type === 'paragraph' && block.text.startsWith('> ')) {
-    return <blockquote>{renderInline(block.text.slice(2))}</blockquote>;
-  }
-  if (block.type === 'heading') {
-    const Tag = `h${Math.min(block.level + 1, 4)}`;
-    return <Tag>{renderInline(block.text)}</Tag>;
-  }
-  if (block.type === 'list') {
-    return (
-      <ul>
-        {block.items.map((item, index) => (
-          <li key={index}>{renderInline(item)}</li>
-        ))}
-      </ul>
-    );
-  }
-  if (block.type === 'toc') {
-    return (
-      <div className="rice-toc" aria-label="สารบัญ">
-        {block.items.map((item, index) => (
-          <div className="rice-toc-item" key={`${item.label}-${index}`}>
-            <span className="rice-toc-label">{renderInline(item.label)}</span>
-            <span className="rice-toc-page">{item.page}</span>
-          </div>
-        ))}
-      </div>
-    );
-  }
-  if (block.type === 'table') {
-    const [head = [], ...body] = block.rows;
-    return (
-      <div className="rice-table-wrap">
-        <table>
-          <thead>
-            <tr>
-              {head.map((cell, index) => (
-                <th key={index}>{renderInline(cell)}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {body.map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                {row.map((cell, cellIndex) => (
-                  <td key={cellIndex}>{renderInline(cell)}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-  if (block.type === 'code') {
-    return (
-      <pre>
-        <code>{block.text}</code>
-      </pre>
-    );
-  }
-  return <p>{renderInline(block.text)}</p>;
-}
-
 function RiceArticle() {
   const { slug } = useParams();
   const article = RICE_ARTICLES.find((item) => item.slug === slug);
@@ -557,8 +456,13 @@ function RiceArticle() {
             <p>{article.category} · แหล่งข้อมูลจากชุดความรู้ข้าว</p>
           </header>
           <div className="rice-markdown">
-            {parseMarkdownBlocks(content).map((block, index) => (
-              <MarkdownBlock key={index} block={block} />
+            {parseArticleBlocks(content).map((block, index) => (
+              <MarkdownBlock
+                key={index}
+                block={block}
+                tableClassName="rice-table-wrap"
+                tocClassName="rice-toc"
+              />
             ))}
           </div>
         </article>
