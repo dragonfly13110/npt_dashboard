@@ -77,7 +77,7 @@
       rgba(19, 65, 47, 0.87) 42%,
       rgba(19, 65, 47, 0.25) 83%
     ),
-    url('/nong_khaolam_richmenu.jpg') 67% 51% / cover;
+    url('/farmer69-registration-hero.png') 69% 22% / cover;
   box-shadow: 0 24px 60px rgba(28, 69, 51, 0.18);
 }
 
@@ -111,12 +111,13 @@
 }
 
 .farmer69-hero h1 {
+  max-width: 780px;
   margin: 12px 0 14px;
   color: #fffdf5;
-  font-size: clamp(2.25rem, 6vw, 5.5rem);
+  font-size: clamp(2.2rem, 4.7vw, 4.8rem);
   font-weight: 900;
   letter-spacing: -0.045em;
-  line-height: 0.98;
+  line-height: 1.04;
 }
 
 .farmer69-hero-lead {
@@ -723,7 +724,7 @@
     min-height: 500px;
     align-items: flex-start;
     flex-direction: column;
-    background-position: 72% center;
+    background-position: 72% 22%;
   }
 
   .farmer69-hero-stamp {
