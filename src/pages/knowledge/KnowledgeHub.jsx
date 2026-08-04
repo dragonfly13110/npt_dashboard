@@ -3,6 +3,7 @@ import {
   BookOutlined,
   ExperimentOutlined,
   ReadOutlined,
+  RobotOutlined,
   ToolOutlined,
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -38,12 +39,12 @@ const knowledgeCollections = [
   },
   {
     to: '/public/farmer-manual',
-    title: 'คู่มือขึ้นทะเบียนเกษตรกร 2569',
+    title: 'น้องข้าวหลาม ทบก.',
     description:
-      'คู่มือและแนวทางปฏิบัติสำหรับการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ประจำปี 2569',
-    detail: 'คลังคู่มือทะเบียนเกษตรกร',
-    Icon: BookOutlined,
-    tone: 'manual',
+      'ผู้ช่วยเฉพาะทางที่ค้นตอบเรื่องขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569 จากคู่มือฉบับเต็ม',
+    detail: '114 บทความ · 119 FAQ · PDF 90 หน้า',
+    Icon: RobotOutlined,
+    tone: 'farmer',
   },
   {
     to: '/public/rice',
