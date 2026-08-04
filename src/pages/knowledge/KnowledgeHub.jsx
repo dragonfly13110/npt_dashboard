@@ -7,6 +7,7 @@ import {
   ToolOutlined,
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 import './KnowledgeHub.css';
 
 const knowledgeCollections = [
@@ -73,7 +74,12 @@ export default function KnowledgeHub() {
         <Link to="/">🏠 กลับหน้าหลักแดชบอร์ด</Link>
       </div>
 
-      <section className="knowledge-hub-hero">
+      <section
+        className="knowledge-hub-hero"
+        style={{
+          '--knowledge-hub-image': `url("${CLOUDINARY_ASSETS.agriHero}")`,
+        }}
+      >
         <span className="knowledge-hub-kicker">KNOWLEDGE CENTER</span>
         <h1>องค์ความรู้การเกษตร</h1>
         <p>

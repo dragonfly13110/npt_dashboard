@@ -14,6 +14,8 @@ export default function PesticidesCatalog({
   loadingTip = 'กำลังโหลดคลังความรู้ยากำจัดศัตรูพืช...',
   searchPlaceholder = 'ค้นหาชื่อเรื่อง พืช ศัตรูพืช หรือสารเคมี...',
   showMixLab = true,
+  headerImage = 'https://res.cloudinary.com/dzksawh1d/image/upload/v1784998041/pesticide-safety-hero.webp',
+  headerTone = 'chemical',
 }) {
   const [catalog, setCatalog] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -92,7 +94,12 @@ export default function PesticidesCatalog({
           🏠 กลับหน้าหลักแดชบอร์ด
         </Link>
       </div>
-      <div className="pesticides-header">
+      <div
+        className={`pesticides-header ${headerTone}-header`}
+        style={{
+          '--knowledge-header-image': `url("${headerImage}")`,
+        }}
+      >
         <h1>{pageTitle}</h1>
         <p>{pageDescription}</p>
       </div>

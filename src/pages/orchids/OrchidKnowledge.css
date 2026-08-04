@@ -1,9 +1,12 @@
 .orchid-catalog-container .orchid-header {
-  background: linear-gradient(
-    120deg,
-    rgba(88, 28, 135, 0.96),
-    rgba(157, 23, 77, 0.82)
-  );
+  background:
+    linear-gradient(
+      90deg,
+      rgba(88, 28, 135, 0.94) 0%,
+      rgba(157, 23, 77, 0.74) 48%,
+      transparent 80%
+    ),
+    var(--knowledge-header-image) center / cover;
 }
 
 .orchid-source-note {
@@ -68,7 +71,9 @@
   padding: clamp(32px, 7vw, 72px);
   border-radius: 28px;
   color: #fdf4ff;
-  background: linear-gradient(120deg, #581c87, #9d174d 58%, #be185d);
+  background:
+    linear-gradient(90deg, rgba(88, 28, 135, 0.94), rgba(157, 23, 77, 0.68)),
+    var(--knowledge-header-image) center / cover;
   box-shadow: 0 20px 50px rgba(126, 34, 206, 0.18);
 }
 

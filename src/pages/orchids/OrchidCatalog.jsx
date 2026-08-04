@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Spin } from 'antd';
+import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 import '../pesticides/Pesticides.css';
 import './OrchidKnowledge.css';
 
@@ -33,6 +34,10 @@ const ORCHID_COLLECTIONS = {
 export default function OrchidCatalog({ collection = 'production' }) {
   const settings =
     ORCHID_COLLECTIONS[collection] || ORCHID_COLLECTIONS.production;
+  const headerImage =
+    collection === 'research'
+      ? CLOUDINARY_ASSETS.headers.strategy
+      : CLOUDINARY_ASSETS.agriHero;
   const [catalog, setCatalog] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -100,7 +105,12 @@ export default function OrchidCatalog({ collection = 'production' }) {
         </Link>
       </div>
 
-      <div className="pesticides-header orchid-header">
+      <div
+        className="pesticides-header orchid-header"
+        style={{
+          '--knowledge-header-image': `url("${headerImage}")`,
+        }}
+      >
         <h1>{settings.title}</h1>
         <p>
           {settings.description} รวม {catalog.length} รายการ

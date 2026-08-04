@@ -1,4 +1,5 @@
 import PesticidesCatalog from '../pesticides/PesticidesCatalog';
+import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 
 export default function FertilizersCatalog() {
   return (
@@ -10,6 +11,8 @@ export default function FertilizersCatalog() {
       loadingTip="กำลังโหลดคลังองค์ความรู้การใช้ปุ๋ย..."
       searchPlaceholder="ค้นหาชื่อเรื่อง ชนิดไม้ผล หรือธาตุอาหาร..."
       showMixLab={false}
+      headerImage={CLOUDINARY_ASSETS.headers.production}
+      headerTone="fertilizer"
     />
   );
 }
