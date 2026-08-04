@@ -318,6 +318,40 @@ describe('ai-proxy', () => {
     expect(body.systemInstruction.parts[0].text).toContain('ห้ามเติมโดเมน');
   });
 
+  it('routes fertilizer knowledge chat through the fertilizer corpus', async () => {
+    process.env.GEMINI_API_KEY_1 = 'test-key';
+    mockAllowedRateClaim();
+    fetch.mockResolvedValueOnce(
+      new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      })
+    );
+
+    const response = await handler(
+      request({
+        provider: 'gemini',
+        landing: true,
+        knowledgeKind: 'fertilizer',
+        knowledgeArticleSlug: 'citrus-fertilizer-recommendation-2566',
+        body: {
+          model: 'gemini-3.5-flash-lite',
+          contents: [
+            { role: 'user', parts: [{ text: 'ส้มควรใส่ปุ๋ยอย่างไร' }] },
+          ],
+          stream: true,
+        },
+      })
+    );
+
+    expect(response.status).toBe(200);
+    const [, init] = fetch.mock.calls[1];
+    const body = JSON.parse(init.body);
+    expect(body.systemInstruction.parts[0].text).toContain('ข้าวหลามปุ๋ย');
+    expect(JSON.stringify(body.contents)).toContain('/public/fertilizers/');
+    expect(JSON.stringify(body.contents)).not.toContain('/public/rice/');
+  });
+
   it('rejects landing payloads without a bounded user question', async () => {
     process.env.GEMINI_API_KEY = 'test-key';
     const response = await handler(

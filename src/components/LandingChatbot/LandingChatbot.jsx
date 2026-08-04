@@ -20,6 +20,7 @@ import {
 import { LANDING_CHATBOT_CONTEXT_MESSAGE_LIMIT } from './conversationStorage';
 import { getLandingQuickReply } from './quickReply';
 import { LANDING_CHATBOT_PUBLIC_KNOWLEDGE_PROMPT } from './publicKnowledge';
+import { getKnowledgeBotKind } from './knowledgeBotKind';
 
 const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
 const RAW_PROVIDER_NAME =
@@ -142,6 +143,141 @@ const ORCHID_QUICK_PROMPTS = [
   { text: 'กล้วยไม้หลังการเก็บเกี่ยวควรดูแลอย่างไร? ✂️' },
 ];
 
+const FERTILIZER_QUICK_PROMPTS = [
+  { text: 'ปุ๋ยสำหรับส้มควรใส่ช่วงไหนและอัตราเท่าไร? 🍊' },
+  { text: 'จะเลือกปุ๋ยตามผลวิเคราะห์ดินอย่างไร? 🌱' },
+  { text: 'พืชขาดธาตุอาหารดูจากอาการอะไรได้บ้าง? 🧪' },
+  { text: 'การใส่ปุ๋ยอินทรีย์ร่วมกับปุ๋ยเคมีมีหลักฐานอย่างไร? 🌾' },
+];
+
+const RICE_QUICK_PROMPTS = [
+  { text: 'โรคข้าวที่พบบ่อยมีวิธีวินิจฉัยอย่างไร? 🌾' },
+  { text: 'แมลงศัตรูข้าวตัวไหนควรเฝ้าระวัง? 🐛' },
+  { text: 'งานวิจัยข้าวใหม่มีประเด็นเด่นอะไรบ้าง? 🔬' },
+  { text: 'เทคโนโลยี AI ช่วยจัดการนาข้าวอย่างไร? 🤖' },
+];
+
+const MACHINERY_QUICK_PROMPTS = [
+  { text: 'รถแทรกเตอร์อัตโนมัติทำงานอย่างไร? 🚜' },
+  { text: 'โดรนการเกษตรเหมาะกับงานอะไรบ้าง? 🛸' },
+  { text: 'เครื่องจักรแบบไหนเหมาะกับบริบทฟาร์มไทย? 🇹🇭' },
+  { text: 'ระบบ RTK และ auto-steer ต่างกันอย่างไร? 📍' },
+];
+
+const KNOWLEDGE_HUB_QUICK_PROMPTS = [
+  { text: 'ในศูนย์องค์ความรู้มีคลังอะไรให้ค้นบ้าง? 📚' },
+  { text: 'ค้นหลักฐานเรื่องปุ๋ยสำหรับพืชได้ไหม? 🌱' },
+  { text: 'มีข้อมูลโรคและแมลงข้าวหรือไม่? 🌾' },
+  { text: 'ค้นข้อมูลเครื่องจักรการเกษตรให้หน่อย 🚜' },
+];
+
+const KNOWLEDGE_BOT_CONFIGS = {
+  general: {
+    name: 'น้องข้าวหลาม',
+    status: 'แนะนำการใช้งานทั่วไป',
+    tooltip: 'คุยกับน้องข้าวหลาม',
+    quickPrompts: GENERAL_QUICK_PROMPTS,
+    limitStorageKey: 'npt_landing_chatbot_limit',
+    messageStorageKey: 'npt_landing_chatbot_messages',
+    placeholder: 'สอบถามเรื่องระบบเกษตรนครปฐม...',
+    welcomeMessage:
+      'สวัสดีค่ะ! 🌾 หนูนามว่า **น้องข้าวหลาม** ยินดีต้อนรับสู่ศูนย์ข้อมูลเกษตรนครปฐมค่ะ!\n\nหนูสามารถช่วยแนะนำได้ว่าในระบบของเรามีข้อมูลอะไรบ้าง ค้นหาข้อมูลอะไรได้บ้าง หรือช่วยแนะแนวทางการเดินทางไปยังเมนูต่างๆ ค่ะ\n\nอยากรู้เรื่องไหน เลือกคำถามแนะนำด้านล่าง หรือพิมพ์คุยกับหนูได้เลยนะคะ 👇',
+    clearMessage:
+      'เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🌾 น้องข้าวหลามยินดีบริการค่ะ มีตรงไหนให้หนูช่วยแนะนำ สอบถามมาได้เลยนะคะ!',
+  },
+  hub: {
+    name: 'น้องข้าวหลาม ศูนย์องค์ความรู้',
+    status: 'ค้นหลักฐานจากคลังความรู้เกษตร',
+    tooltip: 'คุยกับศูนย์องค์ความรู้',
+    quickPrompts: KNOWLEDGE_HUB_QUICK_PROMPTS,
+    limitStorageKey: 'npt_knowledge_hub_chatbot_limit',
+    messageStorageKey: 'npt_knowledge_hub_chatbot_messages',
+    placeholder: 'ค้นหลักฐานจากคลังความรู้...',
+    welcomeMessage:
+      'สวัสดีค่ะ! 📚 หนูคือผู้ช่วยศูนย์องค์ความรู้ค่ะ\n\nหนูช่วยค้นหลักฐานจากคลังสารป้องกันกำจัดศัตรูพืช ปุ๋ย กล้วยไม้ ทะเบียนเกษตรกร ข้าว และเครื่องจักร พร้อมลิงก์กลับไปยังเอกสารต้นทางค่ะ\n\nลองถามหัวข้อที่ต้องการค้นได้เลยนะคะ 👇',
+    clearMessage:
+      'เริ่มการพูดคุยรอบใหม่แล้วค่ะ 📚 ถามหาหลักฐานจากคลังความรู้ได้เลยนะคะ!',
+  },
+  pesticide: {
+    name: 'ข้าวหลามเคมี',
+    status: 'แนะนำการใช้สารเคมีเกษตร',
+    tooltip: 'คุยกับข้าวหลามเคมี',
+    quickPrompts: PESTICIDE_QUICK_PROMPTS,
+    limitStorageKey: 'npt_pesticide_chatbot_limit',
+    messageStorageKey: 'npt_pesticide_chatbot_messages',
+    placeholder: 'ถามจากคลังความรู้สารป้องกันกำจัดศัตรูพืช...',
+    welcomeMessage:
+      'สวัสดีค่ะ! 🧪 หนูนามว่า **ข้าวหลามเคมี** ยินดีต้อนรับสู่คลังความรู้สารเคมีและยากำจัดศัตรูพืชค่ะ!\n\nหนูสามารถช่วยแนะนำการใช้ยาปราบศัตรูพืช อัตราการใช้ การเลือกผสมหรือฉีดพ่น หรือข้อมูลกลุ่มดื้อยาได้ค่ะ\n\nพิมพ์คุยกับหนูได้เลยนะคะ 👇',
+    clearMessage:
+      'เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🧪 ข้าวหลามเคมี ยินดีบริการค่ะ ถามคำถามเรื่องยาและสารเคมีกำจัดศัตรูพืชได้เลยนะคะ!',
+  },
+  fertilizer: {
+    name: 'ข้าวหลามปุ๋ย',
+    status: 'ผู้ช่วยเฉพาะทางปุ๋ยและธาตุอาหาร',
+    tooltip: 'คุยกับข้าวหลามปุ๋ย',
+    quickPrompts: FERTILIZER_QUICK_PROMPTS,
+    limitStorageKey: 'npt_fertilizer_chatbot_limit',
+    messageStorageKey: 'npt_fertilizer_chatbot_messages',
+    placeholder: 'ถามจากคลังความรู้ปุ๋ยและธาตุอาหาร...',
+    welcomeMessage:
+      'สวัสดีค่ะ! 🌱 หนูคือ **ข้าวหลามปุ๋ย** ผู้ช่วยค้นหลักฐานเรื่องปุ๋ยและธาตุอาหารพืชค่ะ\n\nหนูจะยึดชนิดพืช ระยะการเจริญเติบโต ค่าวิเคราะห์ดินหรือใบ และแหล่งอ้างอิงในคลังเป็นหลักค่ะ\n\nถามเรื่องที่ต้องการค้นได้เลยนะคะ 👇',
+    clearMessage:
+      'เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🌱 ถามเรื่องปุ๋ยและธาตุอาหารพืชได้เลยนะคะ!',
+  },
+  orchid: {
+    name: 'ข้าวหลามกล้วยไม้',
+    status: 'แนะนำการผลิตและงานวิจัยกล้วยไม้',
+    tooltip: 'คุยกับข้าวหลามกล้วยไม้',
+    quickPrompts: ORCHID_QUICK_PROMPTS,
+    limitStorageKey: 'npt_orchid_chatbot_limit',
+    messageStorageKey: 'npt_orchid_chatbot_messages',
+    placeholder: 'ถามจากองค์ความรู้กล้วยไม้...',
+    welcomeMessage:
+      'สวัสดีค่ะ! 🌸 หนูนามว่า **ข้าวหลามกล้วยไม้** ยินดีต้อนรับสู่องค์ความรู้กล้วยไม้ค่ะ!\n\nหนูช่วยค้นข้อมูลจากคู่มือการผลิตและงานวิจัยเรื่องการปลูกเลี้ยง โรงเรือน น้ำ ปุ๋ย โรค แมลง การขยายพันธุ์ และนวัตกรรมกล้วยไม้ได้ค่ะ\n\nพิมพ์คุยกับหนูได้เลยนะคะ 👇',
+    clearMessage:
+      'เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🌸 ข้าวหลามกล้วยไม้ยินดีบริการค่ะ ถามเรื่องการผลิตหรืองานวิจัยกล้วยไม้ได้เลยนะคะ!',
+  },
+  farmer: {
+    name: 'น้องข้าวหลาม ทบก.',
+    status: 'ผู้ช่วยเฉพาะทางทะเบียนเกษตรกร 2569',
+    tooltip: 'คุยกับน้องข้าวหลาม ทบก.',
+    quickPrompts: FARMER69_QUICK_PROMPTS,
+    limitStorageKey: 'npt_farmer69_chatbot_limit',
+    messageStorageKey: 'npt_farmer69_chatbot_messages',
+    placeholder: 'ถามจากคลังความรู้ทะเบียนเกษตรกร 2569...',
+    welcomeMessage:
+      'สวัสดีค่ะ หนูคือน้องข้าวหลาม ทบก. ผู้ช่วยเฉพาะทางด้านการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569\n\nหนูตอบเรื่องคุณสมบัติ เอกสาร ที่ดิน ระยะเวลา แบบ ทบก.01 การตรวจสอบ การแก้ไข การยกเลิก สมุดทะเบียน และรายงานจากระบบ โดยจะยึดหลักฐานจากคู่มือพร้อมระบุหน้า PDF ให้ค่ะ',
+    clearMessage:
+      'เริ่มการพูดคุยรอบใหม่แล้วค่ะ น้องข้าวหลาม ทบก. ยินดีบริการค่ะ ถามเรื่องการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกรปี 2569 ได้เลยนะคะ',
+  },
+  rice: {
+    name: 'ข้าวหลามข้าว',
+    status: 'ผู้ช่วยเฉพาะทางองค์ความรู้ข้าว',
+    tooltip: 'คุยกับข้าวหลามข้าว',
+    quickPrompts: RICE_QUICK_PROMPTS,
+    limitStorageKey: 'npt_rice_chatbot_limit',
+    messageStorageKey: 'npt_rice_chatbot_messages',
+    placeholder: 'ถามจากคลังองค์ความรู้ข้าว...',
+    welcomeMessage:
+      'สวัสดีค่ะ! 🌾 หนูคือ **ข้าวหลามข้าว** ผู้ช่วยค้นหลักฐานเรื่องพันธุ์ งานวิจัย โรค และแมลงศัตรูข้าวค่ะ\n\nหนูจะแยกงานวิจัยออกจากเอกสารศัตรูข้าว พร้อมแนบลิงก์เอกสารที่ใช้ตอบค่ะ\n\nถามเรื่องที่ต้องการค้นได้เลยนะคะ 👇',
+    clearMessage:
+      'เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🌾 ถามเรื่ององค์ความรู้ข้าวได้เลยนะคะ!',
+  },
+  machinery: {
+    name: 'ข้าวหลามเครื่องจักร',
+    status: 'ผู้ช่วยเฉพาะทางเครื่องจักรการเกษตร',
+    tooltip: 'คุยกับข้าวหลามเครื่องจักร',
+    quickPrompts: MACHINERY_QUICK_PROMPTS,
+    limitStorageKey: 'npt_machinery_chatbot_limit',
+    messageStorageKey: 'npt_machinery_chatbot_messages',
+    placeholder: 'ถามจากคลังเครื่องจักรการเกษตร...',
+    welcomeMessage:
+      'สวัสดีค่ะ! 🚜 หนูคือ **ข้าวหลามเครื่องจักร** ผู้ช่วยค้นข้อมูลเครื่องจักร ระบบอัตโนมัติ หุ่นยนต์ และการใช้งานในไทยค่ะ\n\nหนูจะแยกข้อมูลจากงานวิจัย ข่าวผลิตภัณฑ์ และข้อควรระวังตามหลักฐานในเอกสารค่ะ\n\nถามเรื่องที่ต้องการค้นได้เลยนะคะ 👇',
+    clearMessage:
+      'เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🚜 ถามเรื่องเครื่องจักรการเกษตรได้เลยนะคะ!',
+  },
+};
+
 // eslint-disable-next-line react-refresh/only-export-components
 export const parseMarkdownText = (text) => {
   if (!text) return '';
@@ -205,90 +341,31 @@ export const parseMarkdownText = (text) => {
 
 export default function LandingChatbot() {
   const location = useLocation();
-  const isPesticideBot = location.pathname.startsWith('/public/pesticides');
-  const isOrchidBot = location.pathname.startsWith('/public/orchids');
-  const isFarmerBot = location.pathname.startsWith('/public/farmer-manual');
-  const isKnowledgeBot = isPesticideBot || isOrchidBot || isFarmerBot;
-  const botName = isPesticideBot
-    ? 'ข้าวหลามเคมี'
-    : isOrchidBot
-      ? 'ข้าวหลามกล้วยไม้'
-      : isFarmerBot
-        ? 'น้องข้าวหลาม ทบก.'
-        : 'น้องข้าวหลาม';
-  const botStatus = isPesticideBot
-    ? 'แนะนำการใช้สารเคมีเกษตร'
-    : isOrchidBot
-      ? 'แนะนำการผลิตและงานวิจัยกล้วยไม้'
-      : isFarmerBot
-        ? 'ผู้ช่วยเฉพาะทางทะเบียนเกษตรกร 2569'
-        : 'แนะนำการใช้งานทั่วไป';
-  const botWelcomeTooltip = isPesticideBot
-    ? 'คุยกับข้าวหลามเคมี'
-    : isOrchidBot
-      ? 'คุยกับข้าวหลามกล้วยไม้'
-      : isFarmerBot
-        ? 'คุยกับน้องข้าวหลาม ทบก.'
-        : 'คุยกับน้องข้าวหลาม';
-  const quickPrompts = isPesticideBot
-    ? PESTICIDE_QUICK_PROMPTS
-    : isOrchidBot
-      ? ORCHID_QUICK_PROMPTS
-      : isFarmerBot
-        ? FARMER69_QUICK_PROMPTS
-        : GENERAL_QUICK_PROMPTS;
-  const limitStorageKey = isPesticideBot
-    ? 'npt_pesticide_chatbot_limit'
-    : isOrchidBot
-      ? 'npt_orchid_chatbot_limit'
-      : isFarmerBot
-        ? 'npt_farmer69_chatbot_limit'
-        : 'npt_landing_chatbot_limit';
+  const knowledgeKind = getKnowledgeBotKind(location.pathname);
+  const botConfig = KNOWLEDGE_BOT_CONFIGS[knowledgeKind];
+  const isPesticideBot = knowledgeKind === 'pesticide';
+  const isOrchidBot = knowledgeKind === 'orchid';
+  const isFarmerBot = knowledgeKind === 'farmer';
+  const isKnowledgeBot = knowledgeKind !== 'general';
+  const botName = botConfig.name;
+  const botStatus = botConfig.status;
+  const botWelcomeTooltip = botConfig.tooltip;
+  const quickPrompts = botConfig.quickPrompts;
+  const limitStorageKey = botConfig.limitStorageKey;
+  const messageStorageKey = botConfig.messageStorageKey;
+  const routeSegments = location.pathname.split('/').filter(Boolean);
+  const knowledgeArticleSlug =
+    isKnowledgeBot && routeSegments.length > 2
+      ? routeSegments.at(-1)
+      : undefined;
 
   const [isOpen, setIsOpen] = useState(false);
   const [showWelcomeBubble, setShowWelcomeBubble] = useState(true);
   const [messages, setMessages] = useState(() => {
-    const isPesticide =
-      window.location.pathname.startsWith('/public/pesticides');
-    const isOrchid = window.location.pathname.startsWith('/public/orchids');
-    const isFarmer = window.location.pathname.startsWith(
-      '/public/farmer-manual'
-    );
-    const storageKey = isPesticide
-      ? 'npt_pesticide_chatbot_messages'
-      : isOrchid
-        ? 'npt_orchid_chatbot_messages'
-        : isFarmer
-          ? 'npt_farmer69_chatbot_messages'
-          : 'npt_landing_chatbot_messages';
-    const defaultMessages = isPesticide
-      ? [
-          {
-            role: 'assistant',
-            content: `สวัสดีค่ะ! 🧪 หนูนามว่า **ข้าวหลามเคมี** ยินดีต้อนรับสู่คลังความรู้สารเคมีและยากำจัดศัตรูพืชค่ะ!\n\nหนูสามารถช่วยแนะนำการใช้ยาปราบศัตรูพืช อัตราการใช้ การเลือกผสมหรือฉีดพ่น หรือข้อมูลกลุ่มดื้อยาได้ค่ะ\n\nพิมพ์คุยกับหนูได้เลยนะคะ 👇`,
-          },
-        ]
-      : isOrchid
-        ? [
-            {
-              role: 'assistant',
-              content: `สวัสดีค่ะ! 🌸 หนูนามว่า **ข้าวหลามกล้วยไม้** ยินดีต้อนรับสู่องค์ความรู้กล้วยไม้ค่ะ!\n\nหนูช่วยค้นข้อมูลจากคู่มือการผลิตและงานวิจัยเรื่องการปลูกเลี้ยง โรงเรือน น้ำ ปุ๋ย โรค แมลง การขยายพันธุ์ และนวัตกรรมกล้วยไม้ได้ค่ะ\n\nพิมพ์คุยกับหนูได้เลยนะคะ 👇`,
-            },
-          ]
-        : isFarmer
-          ? [
-              {
-                role: 'assistant',
-                content:
-                  'สวัสดีค่ะ หนูคือน้องข้าวหลาม ทบก. ผู้ช่วยเฉพาะทางด้านการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569\n\nหนูตอบเรื่องคุณสมบัติ เอกสาร ที่ดิน ระยะเวลา แบบ ทบก.01 การตรวจสอบ การแก้ไข การยกเลิก สมุดทะเบียน และรายงานจากระบบ โดยจะยึดหลักฐานจากคู่มือพร้อมระบุหน้า PDF ให้ค่ะ',
-              },
-            ]
-          : [
-              {
-                role: 'assistant',
-                content: `สวัสดีค่ะ! 🌾 หนูนามว่า **น้องข้าวหลาม** ยินดีต้อนรับสู่ศูนย์ข้อมูลเกษตรนครปฐมค่ะ!\n\nหนูสามารถช่วยแนะนำได้ว่าในระบบของเรามีข้อมูลอะไรบ้าง ค้นหาข้อมูลอะไรได้บ้าง หรือช่วยแนะแนวทางการเดินทางไปยังเมนูต่างๆ ค่ะ\n\nอยากรู้เรื่องไหน เลือกคำถามแนะนำด้านล่าง หรือพิมพ์คุยกับหนูได้เลยนะคะ 👇`,
-              },
-            ];
+    const storageKey = messageStorageKey;
+    const defaultMessages = [
+      { role: 'assistant', content: botConfig.welcomeMessage },
+    ];
     try {
       const stored = localStorage.getItem(storageKey);
       if (stored) {
@@ -375,19 +452,12 @@ export default function LandingChatbot() {
   }, [updateLimitState]);
 
   useEffect(() => {
-    const storageKey = isPesticideBot
-      ? 'npt_pesticide_chatbot_messages'
-      : isOrchidBot
-        ? 'npt_orchid_chatbot_messages'
-        : isFarmerBot
-          ? 'npt_farmer69_chatbot_messages'
-          : 'npt_landing_chatbot_messages';
     try {
-      localStorage.setItem(storageKey, JSON.stringify(messages));
+      localStorage.setItem(messageStorageKey, JSON.stringify(messages));
     } catch (e) {
       console.error('Error saving messages', e);
     }
-  }, [messages, isFarmerBot, isOrchidBot, isPesticideBot]);
+  }, [messages, messageStorageKey]);
 
   // Scroll to bottom when messages change or open status changes
   useEffect(() => {
@@ -466,15 +536,11 @@ export default function LandingChatbot() {
         pesticideBot: isPesticideBot,
         orchidBot: isOrchidBot,
         farmerBot: isFarmerBot,
-        pesticideArticleSlug: isPesticideBot
-          ? location.pathname.split('/').filter(Boolean).at(-1)
-          : undefined,
-        orchidArticleSlug: isOrchidBot
-          ? location.pathname.split('/').filter(Boolean).at(-1)
-          : undefined,
-        farmerArticleSlug: isFarmerBot
-          ? location.pathname.split('/').filter(Boolean).at(-1)
-          : undefined,
+        knowledgeKind,
+        pesticideArticleSlug: isPesticideBot ? knowledgeArticleSlug : undefined,
+        orchidArticleSlug: isOrchidBot ? knowledgeArticleSlug : undefined,
+        farmerArticleSlug: isFarmerBot ? knowledgeArticleSlug : undefined,
+        knowledgeArticleSlug,
         body: {
           model: MODEL_NAME,
           contents,
@@ -497,15 +563,11 @@ export default function LandingChatbot() {
         pesticideBot: isPesticideBot,
         orchidBot: isOrchidBot,
         farmerBot: isFarmerBot,
-        pesticideArticleSlug: isPesticideBot
-          ? location.pathname.split('/').filter(Boolean).at(-1)
-          : undefined,
-        orchidArticleSlug: isOrchidBot
-          ? location.pathname.split('/').filter(Boolean).at(-1)
-          : undefined,
-        farmerArticleSlug: isFarmerBot
-          ? location.pathname.split('/').filter(Boolean).at(-1)
-          : undefined,
+        knowledgeKind,
+        pesticideArticleSlug: isPesticideBot ? knowledgeArticleSlug : undefined,
+        orchidArticleSlug: isOrchidBot ? knowledgeArticleSlug : undefined,
+        farmerArticleSlug: isFarmerBot ? knowledgeArticleSlug : undefined,
+        knowledgeArticleSlug,
         body: {
           model: MODEL_NAME,
           messages: apiMessages,
@@ -668,48 +730,12 @@ export default function LandingChatbot() {
   };
 
   const handleClear = () => {
-    const storageKey = isPesticideBot
-      ? 'npt_pesticide_chatbot_messages'
-      : isOrchidBot
-        ? 'npt_orchid_chatbot_messages'
-        : isFarmerBot
-          ? 'npt_farmer69_chatbot_messages'
-          : 'npt_landing_chatbot_messages';
     try {
-      localStorage.removeItem(storageKey);
+      localStorage.removeItem(messageStorageKey);
     } catch (e) {
       console.error('Error clearing messages', e);
     }
-    setMessages(
-      isPesticideBot
-        ? [
-            {
-              role: 'assistant',
-              content: `เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🧪 ข้าวหลามเคมี ยินดีบริการค่ะ ถามคำถามเรื่องยาและสารเคมีกำจัดศัตรูพืชได้เลยนะคะ!`,
-            },
-          ]
-        : isOrchidBot
-          ? [
-              {
-                role: 'assistant',
-                content: `เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🌸 ข้าวหลามกล้วยไม้ยินดีบริการค่ะ ถามเรื่องการผลิตหรืองานวิจัยกล้วยไม้ได้เลยนะคะ!`,
-              },
-            ]
-          : isFarmerBot
-            ? [
-                {
-                  role: 'assistant',
-                  content:
-                    'เริ่มการพูดคุยรอบใหม่แล้วค่ะ น้องข้าวหลาม ทบก. ยินดีบริการค่ะ ถามเรื่องการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกรปี 2569 ได้เลยนะคะ',
-                },
-              ]
-            : [
-                {
-                  role: 'assistant',
-                  content: `เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🌾 น้องข้าวหลามยินดีบริการค่ะ มีตรงไหนให้หนูช่วยแนะนำ สอบถามมาได้เลยนะคะ!`,
-                },
-              ]
-    );
+    setMessages([{ role: 'assistant', content: botConfig.clearMessage }]);
     inputRef.current?.focus();
   };
 
@@ -744,6 +770,11 @@ export default function LandingChatbot() {
                 <>
                   สวัสดีค่ะ! ถามเรื่องการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกรปี
                   2569 กับ <b>{botName}</b> ได้ตรงนี้นะคะ
+                </>
+              ) : isKnowledgeBot ? (
+                <>
+                  💬 สวัสดีค่ะ! ค้นหลักฐานจากคลังนี้กับ <b>{botName}</b>{' '}
+                  ได้ตรงนี้นะคะ 📚
                 </>
               ) : (
                 <>
@@ -914,15 +945,7 @@ export default function LandingChatbot() {
                 onChange={(e) => setInputValue(e.target.value)}
                 onPressEnter={() => handleSend()}
                 placeholder={
-                  remainingLimit > 0
-                    ? isPesticideBot
-                      ? 'ถามจากคลังความรู้สารป้องกันกำจัดศัตรูพืช...'
-                      : isOrchidBot
-                        ? 'ถามจากองค์ความรู้กล้วยไม้...'
-                        : isFarmerBot
-                          ? 'ถามจากคลังความรู้ทะเบียนเกษตรกร 2569...'
-                          : 'สอบถามเรื่องระบบเกษตรนครปฐม...'
-                    : 'โควตาหมดแล้วค่ะ'
+                  remainingLimit > 0 ? botConfig.placeholder : 'โควตาหมดแล้วค่ะ'
                 }
                 disabled={loading || remainingLimit <= 0}
                 suffix={

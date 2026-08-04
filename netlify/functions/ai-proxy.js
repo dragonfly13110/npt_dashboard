@@ -6,12 +6,22 @@ import { reportCriticalError } from './lib/error-alert.js';
 import { buildPesticideBody } from './lib/pesticide-chat.js';
 import { buildOrchidBody } from './lib/orchid-chat.js';
 import { buildFarmer69Body } from './lib/farmer69-chat.js';
+import { buildKnowledgeBody } from './lib/knowledge-chat.js';
 
 // netlify/functions/ai-proxy.js
 const MAX_BODY_BYTES = 4 * 1024 * 1024; // 4MB to support larger dashboard contexts
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 30;
 const memoryRateLimits = new Map();
+const KNOWLEDGE_KINDS = new Set([
+  'pesticide',
+  'fertilizer',
+  'orchid',
+  'farmer',
+  'rice',
+  'machinery',
+  'hub',
+]);
 const LANDING_SYSTEM_PROMPT = `คุณคือน้องข้าวหลาม ผู้ช่วยนำทางระบบข้อมูลเกษตรนครปฐม ตอบภาษาไทยสุภาพ กระชับ 2-5 บรรทัด
 
 หน้าที่หลักคือแนะนำว่าผู้ใช้ควรเปิดหน้าใด โดยใช้เฉพาะลิงก์สาธารณะต่อไปนี้:
@@ -269,6 +279,9 @@ function validatePayload(payload) {
     pesticideBot: payload.pesticideBot === true,
     orchidBot: payload.orchidBot === true,
     farmerBot: payload.farmerBot === true,
+    knowledgeKind: KNOWLEDGE_KINDS.has(payload.knowledgeKind)
+      ? payload.knowledgeKind
+      : '',
     pesticideArticleSlug:
       typeof payload.pesticideArticleSlug === 'string' &&
       /^[a-z0-9-]{1,120}$/.test(payload.pesticideArticleSlug)
@@ -283,6 +296,11 @@ function validatePayload(payload) {
       typeof payload.farmerArticleSlug === 'string' &&
       /^[a-z0-9-]{1,120}$/.test(payload.farmerArticleSlug)
         ? payload.farmerArticleSlug
+        : '',
+    knowledgeArticleSlug:
+      typeof payload.knowledgeArticleSlug === 'string' &&
+      /^[a-z0-9-]{1,120}$/.test(payload.knowledgeArticleSlug)
+        ? payload.knowledgeArticleSlug
         : '',
   };
 }
@@ -556,6 +574,36 @@ export default async (req, context) => {
         questionText,
         history,
         validation.farmerArticleSlug
+      );
+    } else if (
+      validation.landing &&
+      ['fertilizer', 'rice', 'machinery', 'hub'].includes(
+        validation.knowledgeKind
+      )
+    ) {
+      const contents = Array.isArray(validation.body.contents)
+        ? validation.body.contents
+        : [];
+      const questionText =
+        validation.provider === 'gemini'
+          ? textFromGeminiContent(
+              [...contents].reverse().find((item) => item?.role === 'user')
+            ).slice(0, 1000)
+          : String(
+              [...(validation.body.messages || [])]
+                .reverse()
+                .find((item) => item?.role === 'user')?.content || ''
+            ).slice(0, 1000);
+      const history = contents
+        .filter((item) => item?.role === 'user' || item?.role === 'model')
+        .slice(-9);
+      validation.body = buildKnowledgeBody(
+        validation.provider,
+        validation.body,
+        questionText,
+        history,
+        validation.knowledgeKind,
+        validation.knowledgeArticleSlug
       );
     } else if (validation.landing && validation.provider === 'gemini') {
       validation.body = await buildLandingBody(validation.body);

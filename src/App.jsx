@@ -14,6 +14,7 @@ import PageSkeleton from './components/PageSkeleton';
 import AppLayout from './components/Layout/AppLayout';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import LandingChatbot from './components/LandingChatbot/LandingChatbot';
+import { getKnowledgeBotKind } from './components/LandingChatbot/knowledgeBotKind';
 import {
   canAccessAdminDataPage,
   canAccessDataRequests,
@@ -205,13 +206,7 @@ function NonGuestRoute({ children }) {
 
 function PublicLandingChatbot() {
   const location = useLocation();
-  const chatbotKind = location.pathname.startsWith('/public/pesticides')
-    ? 'pesticide'
-    : location.pathname.startsWith('/public/orchids')
-      ? 'orchid'
-      : location.pathname.startsWith('/public/farmer-manual')
-        ? 'farmer'
-        : 'general';
+  const chatbotKind = getKnowledgeBotKind(location.pathname);
   const isPublicRoute =
     location.pathname === '/' ||
     location.pathname === '/interactive-dashboard' ||
