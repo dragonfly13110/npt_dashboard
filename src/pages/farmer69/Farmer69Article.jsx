@@ -73,7 +73,7 @@ export default function Farmer69Article() {
   if (loading) {
     return (
       <div className="farmer69-loading-container">
-        <Spin size="large" tip="กำลังโหลดเนื้อหาคู่มือขึ้นทะเบียน..." />
+        <Spin size="large" tip="กำลังโหลดคลังความรู้ทะเบียนเกษตรกร..." />
       </div>
     );
   }
@@ -88,7 +88,7 @@ export default function Farmer69Article() {
     <div className="farmer69-article-container">
       <div className="farmer69-nav-wrapper">
         <Link className="farmer69-back-link" to="/public/farmer-manual">
-          <ArrowLeftOutlined /> กลับไปยังคลังคู่มือ
+          <ArrowLeftOutlined /> กลับคลังน้องข้าวหลาม ทบก.
         </Link>
         <Link className="farmer69-back-link text-muted" to="/">
           🏠 กลับหน้าหลักแดชบอร์ด

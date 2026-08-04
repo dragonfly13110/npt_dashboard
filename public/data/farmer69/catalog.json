@@ -11,34 +11,34 @@
       "ฉบับเดือนพฤษภาคม 2569"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      1
-    ],
-    "source_printed_pages": [
-      -1
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [1],
+    "source_printed_pages": [-1],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "-1",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-source-table-of-contents",
     "title": "สารบัญเอกสารต้นฉบับ",
     "category": "ข้อมูลเอกสาร",
     "citation_text": "PDF หน้า 2; หน้าเอกสาร 0",
-    "topics": [
-      "สารบัญ",
-      "โครงสร้างคู่มือ",
-      "เลขหน้า"
-    ],
-    "review_flags": [
-      "RF-034"
-    ],
-    "source_pdf_pages": [
-      2
-    ],
-    "source_printed_pages": [
-      0
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "topics": ["สารบัญ", "โครงสร้างคู่มือ", "เลขหน้า"],
+    "review_flags": ["RF-034"],
+    "source_pdf_pages": [2],
+    "source_printed_pages": [0],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "0",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 4
   },
   {
     "slug": "farmer69-source-advisers-and-authors",
@@ -52,13 +52,16 @@
       "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      90
-    ],
-    "source_printed_pages": [
-      88
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [90],
+    "source_printed_pages": [88],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "88",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 4
   },
   {
     "slug": "farmer69-general-terms-and-roles",
@@ -74,13 +77,16 @@
       "แบบคำร้อง"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      3
-    ],
-    "source_printed_pages": [
-      1
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [3],
+    "source_printed_pages": [1],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "1",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 13
   },
   {
     "slug": "farmer69-household-occupation-income-debt",
@@ -96,35 +102,34 @@
       "หนี้สิน"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      4,
-      5
-    ],
-    "source_printed_pages": [
-      2,
-      3
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [4, 5],
+    "source_printed_pages": [2, 3],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "2, 3",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 12
   },
   {
     "slug": "farmer69-smart-farm-definitions",
     "title": "ระบบเกษตรอัจฉริยะในแบบทะเบียนเกษตรกร",
     "category": "นิยามศัพท์",
     "citation_text": "PDF หน้า 4; หน้าเอกสาร 2",
-    "topics": [
-      "เกษตรอัจฉริยะ",
-      "โรงเรือนอัจฉริยะ",
-      "เซ็นเซอร์",
-      "IoT"
-    ],
+    "topics": ["เกษตรอัจฉริยะ", "โรงเรือนอัจฉริยะ", "เซ็นเซอร์", "IoT"],
     "review_flags": [],
-    "source_pdf_pages": [
-      4
-    ],
-    "source_printed_pages": [
-      2
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [4],
+    "source_printed_pages": [2],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "2",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-agricultural-machinery-categories",
@@ -140,18 +145,17 @@
       "เก็บเกี่ยว",
       "สูบน้ำ"
     ],
-    "review_flags": [
-      "RF-002"
-    ],
-    "source_pdf_pages": [
-      5,
-      6
-    ],
-    "source_printed_pages": [
-      3,
-      4
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-002"],
+    "source_pdf_pages": [5, 6],
+    "source_printed_pages": [3, 4],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "3, 4",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 11
   },
   {
     "slug": "farmer69-plot-tenure-and-land-documents",
@@ -168,20 +172,17 @@
       "ส.ท.ก.",
       "ส.ค.1"
     ],
-    "review_flags": [
-      "RF-001"
-    ],
-    "source_pdf_pages": [
-      7,
-      8,
-      9
-    ],
-    "source_printed_pages": [
-      5,
-      6,
-      7
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-001"],
+    "source_pdf_pages": [7, 8, 9],
+    "source_printed_pages": [5, 6, 7],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "5, 6, 7",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 11
   },
   {
     "slug": "farmer69-no-title-water-and-coordinates",
@@ -198,39 +199,34 @@
       "ลองจิจูด"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      9,
-      10,
-      11
-    ],
-    "source_printed_pages": [
-      7,
-      8,
-      9
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [9, 10, 11],
+    "source_printed_pages": [7, 8, 9],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "7, 8, 9",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 9
   },
   {
     "slug": "farmer69-orchard-and-mixed-planting",
     "title": "สวนเดี่ยว สวนแซม และสวนผสม",
     "category": "นิยามศัพท์",
     "citation_text": "PDF หน้า 11, 12; หน้าเอกสาร 9, 10",
-    "topics": [
-      "สวนเดี่ยว",
-      "สวนแซม",
-      "สวนผสม",
-      "การคิดพื้นที่ปลูก"
-    ],
+    "topics": ["สวนเดี่ยว", "สวนแซม", "สวนผสม", "การคิดพื้นที่ปลูก"],
     "review_flags": [],
-    "source_pdf_pages": [
-      11,
-      12
-    ],
-    "source_printed_pages": [
-      9,
-      10
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [11, 12],
+    "source_printed_pages": [9, 10],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "9, 10",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 8
   },
   {
     "slug": "farmer69-economic-insects-and-beehive-movement",
@@ -245,18 +241,17 @@
       "ครั่ง",
       "เคลื่อนย้ายรังผึ้ง"
     ],
-    "review_flags": [
-      "RF-003"
-    ],
-    "source_pdf_pages": [
-      12,
-      13
-    ],
-    "source_printed_pages": [
-      10,
-      11
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-003"],
+    "source_pdf_pages": [12, 13],
+    "source_printed_pages": [10, 11],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "10, 11",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 11
   },
   {
     "slug": "farmer69-sustainable-agriculture-and-certification",
@@ -274,20 +269,17 @@
       "Organic Thailand",
       "IFOAM"
     ],
-    "review_flags": [
-      "RF-004"
-    ],
-    "source_pdf_pages": [
-      13,
-      14,
-      15
-    ],
-    "source_printed_pages": [
-      11,
-      12,
-      13
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-004"],
+    "source_pdf_pages": [13, 14, 15],
+    "source_printed_pages": [11, 12, 13],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "11, 12, 13",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 13
   },
   {
     "slug": "farmer69-sea-salt-witness-community-and-contract-farming",
@@ -304,15 +296,16 @@
       "เกษตรพันธสัญญา"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      15,
-      16
-    ],
-    "source_printed_pages": [
-      13,
-      14
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [15, 16],
+    "source_printed_pages": [13, 14],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "13, 14",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 9
   },
   {
     "slug": "farmer69-introduction-and-digital-development",
@@ -329,15 +322,16 @@
       "ข้อมูลทะเบียนเกษตรกร"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      17,
-      18
-    ],
-    "source_printed_pages": [
-      15,
-      16
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [17, 18],
+    "source_printed_pages": [15, 16],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "15, 16",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 12
   },
   {
     "slug": "farmer69-digital-plot-and-data-use",
@@ -354,15 +348,16 @@
       "การวางแผนการผลิต"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      18,
-      19
-    ],
-    "source_printed_pages": [
-      16,
-      17
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [18, 19],
+    "source_printed_pages": [16, 17],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "16, 17",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-objectives-targets-and-expected-results",
@@ -377,13 +372,16 @@
       "3.47 ล้านแปลง"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      20
-    ],
-    "source_printed_pages": [
-      18
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [20],
+    "source_printed_pages": [18],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "18",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-household-head-and-spouse-rules",
@@ -397,13 +395,16 @@
       "คู่สมรส"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      21
-    ],
-    "source_printed_pages": [
-      19
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [21],
+    "source_printed_pages": [19],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "19",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-natural-person-investor-employer-co-investor",
@@ -418,13 +419,16 @@
       "ร่วมลงทุน"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      21
-    ],
-    "source_printed_pages": [
-      19
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [21],
+    "source_printed_pages": [19],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "19",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-legal-entity-nationality-special-person-cases",
@@ -440,13 +444,16 @@
       "ความยินยอม"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      22
-    ],
-    "source_printed_pages": [
-      20
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [22],
+    "source_printed_pages": [20],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "20",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 8
   },
   {
     "slug": "farmer69-land-with-and-without-right-documents",
@@ -461,13 +468,16 @@
       "สิทธิโครงการ"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      22
-    ],
-    "source_printed_pages": [
-      20
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [22],
+    "source_printed_pages": [20],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "20",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 8
   },
   {
     "slug": "farmer69-land-tenure-household-rent-other",
@@ -483,13 +493,16 @@
       "พื้นที่สาธารณประโยชน์"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      23
-    ],
-    "source_printed_pages": [
-      21
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [23],
+    "source_printed_pages": [21],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "21",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 9
   },
   {
     "slug": "farmer69-accepted-activities-and-minimum-threshold-principles",
@@ -504,13 +517,16 @@
       "แมลงเศรษฐกิจ"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      24
-    ],
-    "source_printed_pages": [
-      22
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [24],
+    "source_printed_pages": [22],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "22",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "farmer69-authorization-and-conflict-of-role",
@@ -526,13 +542,16 @@
       "ผลประโยชน์ทับซ้อน"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      24
-    ],
-    "source_printed_pages": [
-      22
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [24],
+    "source_printed_pages": [22],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "22",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "farmer69-data-certification-witness-bangkok-exception",
@@ -547,13 +566,16 @@
       "กรุงเทพมหานคร"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      24
-    ],
-    "source_printed_pages": [
-      22
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [24],
+    "source_printed_pages": [22],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "22",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-verification-benefits-and-status-termination",
@@ -569,13 +591,16 @@
       "ไม่ปรับปรุง 3 ปี"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      25
-    ],
-    "source_printed_pages": [
-      23
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [25],
+    "source_printed_pages": [23],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "23",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-registration-channels-and-locations",
@@ -591,13 +616,16 @@
       "e-Form"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      25
-    ],
-    "source_printed_pages": [
-      23
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [25],
+    "source_printed_pages": [23],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "23",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 8
   },
   {
     "slug": "farmer69-supporting-documents-by-land-tenure",
@@ -613,13 +641,16 @@
       "ไม่มีเอกสารสิทธิ์"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      26
-    ],
-    "source_printed_pages": [
-      24
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [26],
+    "source_printed_pages": [24],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "24",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "farmer69-registration-timeframe-rice",
@@ -634,19 +665,17 @@
       "วันปลูก",
       "กรอบเวลาบันทึกข้อมูล"
     ],
-    "review_flags": [
-      "RF-005",
-      "RF-006"
-    ],
-    "source_pdf_pages": [
-      27,
-      28
-    ],
-    "source_printed_pages": [
-      25,
-      26
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-005", "RF-006"],
+    "source_pdf_pages": [27, 28],
+    "source_printed_pages": [25, 26],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "25, 26",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-registration-timeframe-field-crops-perennials",
@@ -661,18 +690,17 @@
       "ยางพารา",
       "ไม้ผลไม้ยืนต้น"
     ],
-    "review_flags": [
-      "RF-005"
-    ],
-    "source_pdf_pages": [
-      28,
-      29
-    ],
-    "source_printed_pages": [
-      26,
-      27
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-005"],
+    "source_pdf_pages": [28, 29],
+    "source_printed_pages": [26, 27],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "26, 27",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-registration-timeframe-short-crops-sprouts-wolffia",
@@ -687,16 +715,17 @@
       "ผักงอก",
       "ผำ"
     ],
-    "review_flags": [
-      "RF-005"
-    ],
-    "source_pdf_pages": [
-      29
-    ],
-    "source_printed_pages": [
-      27
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-005"],
+    "source_pdf_pages": [29],
+    "source_printed_pages": [27],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "27",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 4
   },
   {
     "slug": "farmer69-registration-timeframe-economic-insects-sea-salt",
@@ -711,18 +740,17 @@
       "เคลื่อนย้ายรัง",
       "นาเกลือสมุทร"
     ],
-    "review_flags": [
-      "RF-005"
-    ],
-    "source_pdf_pages": [
-      29,
-      30
-    ],
-    "source_printed_pages": [
-      27,
-      28
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-005"],
+    "source_pdf_pages": [29, 30],
+    "source_printed_pages": [27, 28],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "27, 28",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-public-information-before-registration",
@@ -737,13 +765,16 @@
       "ข้อมูลส่วนบุคคล"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      31
-    ],
-    "source_printed_pages": [
-      29
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [31],
+    "source_printed_pages": [29],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "29",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-intake-channels-and-initial-processing",
@@ -759,15 +790,16 @@
       "ทบก.01"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      31,
-      32
-    ],
-    "source_printed_pages": [
-      29,
-      30
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [31, 32],
+    "source_printed_pages": [29, 30],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "29, 30",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 8
   },
   {
     "slug": "farmer69-document-and-database-verification",
@@ -783,13 +815,16 @@
       "เกษตรพันธสัญญา"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      32
-    ],
-    "source_printed_pages": [
-      30
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [32],
+    "source_printed_pages": [30],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "30",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-social-verification-and-objections",
@@ -804,36 +839,34 @@
       "การลงชื่อยืนยัน"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      32,
-      33
-    ],
-    "source_printed_pages": [
-      30,
-      31
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [32, 33],
+    "source_printed_pages": [30, 31],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "30, 31",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-community-posting-procedure",
     "title": "ขั้นตอนการติดประกาศในหมู่บ้านหรือชุมชน",
     "category": "ขั้นตอนและวิธีปฏิบัติงาน",
     "citation_text": "PDF หน้า 33; หน้าเอกสาร 31",
-    "topics": [
-      "ติดประกาศ",
-      "หมู่บ้าน",
-      "ชุมชน",
-      "ระยะเวลา 3 วัน",
-      "บันทึกผล"
-    ],
+    "topics": ["ติดประกาศ", "หมู่บ้าน", "ชุมชน", "ระยะเวลา 3 วัน", "บันทึกผล"],
     "review_flags": [],
-    "source_pdf_pages": [
-      33
-    ],
-    "source_printed_pages": [
-      31
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [33],
+    "source_printed_pages": [31],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "31",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 3
   },
   {
     "slug": "farmer69-community-meeting-and-legal-notices",
@@ -847,16 +880,17 @@
       "มาตรา 137",
       "มาตรา 267"
     ],
-    "review_flags": [
-      "RF-009"
-    ],
-    "source_pdf_pages": [
-      33
-    ],
-    "source_printed_pages": [
-      31
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-009"],
+    "source_pdf_pages": [33],
+    "source_printed_pages": [31],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "31",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-field-verification-and-digital-plot-map",
@@ -873,18 +907,17 @@
       "QGIS",
       "ผังแปลงดิจิทัล"
     ],
-    "review_flags": [
-      "RF-007"
-    ],
-    "source_pdf_pages": [
-      34,
-      36
-    ],
-    "source_printed_pages": [
-      32,
-      34
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-007"],
+    "source_pdf_pages": [34, 36],
+    "source_printed_pages": [32, 34],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "32, 34",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-village-verification-team",
@@ -901,13 +934,16 @@
       "อุทธรณ์"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      34
-    ],
-    "source_printed_pages": [
-      32
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [34],
+    "source_printed_pages": [32],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "32",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-bangkok-verification-committees",
@@ -923,13 +959,16 @@
       "อุทธรณ์"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      35
-    ],
-    "source_printed_pages": [
-      33
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [35],
+    "source_printed_pages": [33],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "33",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "farmer69-bangkok-agricultural-office-coverage",
@@ -944,33 +983,34 @@
       "เขตชั้นนอก"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      35
-    ],
-    "source_printed_pages": [
-      33
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [35],
+    "source_printed_pages": [33],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "33",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-passed-verification-and-printing",
     "title": "การยืนยันผลผ่านและการพิมพ์เอกสาร",
     "category": "ขั้นตอนและวิธีปฏิบัติงาน",
     "citation_text": "PDF หน้า 36; หน้าเอกสาร 34",
-    "topics": [
-      "ผลตรวจสอบ",
-      "สถานะผ่าน",
-      "สมุดทะเบียนเกษตรกร",
-      "ใบรายงานผล"
-    ],
+    "topics": ["ผลตรวจสอบ", "สถานะผ่าน", "สมุดทะเบียนเกษตรกร", "ใบรายงานผล"],
     "review_flags": [],
-    "source_pdf_pages": [
-      36
-    ],
-    "source_printed_pages": [
-      34
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [36],
+    "source_printed_pages": [34],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "34",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 3
   },
   {
     "slug": "farmer69-correction-of-verified-registration-data",
@@ -986,13 +1026,16 @@
       "สถานที่ยื่น"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      36
-    ],
-    "source_printed_pages": [
-      34
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [36],
+    "source_printed_pages": [34],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "34",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-update-agricultural-household-members",
@@ -1008,15 +1051,16 @@
       "หนังสือมอบอำนาจ"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      36,
-      37
-    ],
-    "source_printed_pages": [
-      34,
-      35
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [36, 37],
+    "source_printed_pages": [34, 35],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "34, 35",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "farmer69-change-agricultural-household-head",
@@ -1032,13 +1076,16 @@
       "พยาน"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      37
-    ],
-    "source_printed_pages": [
-      35
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [37],
+    "source_printed_pages": [35],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "35",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "farmer69-change-registration-office",
@@ -1052,13 +1099,16 @@
       "แบบคำร้อง"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      37
-    ],
-    "source_printed_pages": [
-      35
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [37],
+    "source_printed_pages": [35],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "35",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 4
   },
   {
     "slug": "farmer69-cancel-farmer-registration",
@@ -1072,16 +1122,17 @@
       "สมาชิกมากกว่ากึ่งหนึ่ง",
       "3 ปี"
     ],
-    "review_flags": [
-      "RF-008"
-    ],
-    "source_pdf_pages": [
-      38
-    ],
-    "source_printed_pages": [
-      36
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-008"],
+    "source_pdf_pages": [38],
+    "source_printed_pages": [36],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "36",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 8
   },
   {
     "slug": "farmer69-false-data-complaints-objections-and-appeals",
@@ -1096,16 +1147,17 @@
       "แจ้งความร้องทุกข์",
       "เกษตรอำเภอ"
     ],
-    "review_flags": [
-      "RF-009"
-    ],
-    "source_pdf_pages": [
-      39
-    ],
-    "source_printed_pages": [
-      37
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-009"],
+    "source_pdf_pages": [39],
+    "source_printed_pages": [37],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "37",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-form-filling-principles-and-three-page-structure",
@@ -1119,13 +1171,16 @@
       "โครงสร้างแบบคำร้อง"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      40
-    ],
-    "source_printed_pages": [
-      38
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [40],
+    "source_printed_pages": [38],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "38",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-form-request-type-location-date-and-applicant",
@@ -1141,53 +1196,52 @@
       "ที่อยู่ติดต่อ"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      40
-    ],
-    "source_printed_pages": [
-      38
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [40],
+    "source_printed_pages": [38],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "38",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-form-juristic-person-and-occupation",
     "title": "ข้อมูลนิติบุคคลและลักษณะการประกอบอาชีพ",
     "category": "การกรอกแบบคำร้อง",
     "citation_text": "PDF หน้า 41; หน้าเอกสาร 39",
-    "topics": [
-      "นิติบุคคล",
-      "ผู้รับมอบอำนาจ",
-      "อาชีพหลัก",
-      "อาชีพรอง"
-    ],
+    "topics": ["นิติบุคคล", "ผู้รับมอบอำนาจ", "อาชีพหลัก", "อาชีพรอง"],
     "review_flags": [],
-    "source_pdf_pages": [
-      41
-    ],
-    "source_printed_pages": [
-      39
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [41],
+    "source_printed_pages": [39],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "39",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-form-smart-agriculture-and-contract-farming",
     "title": "ระบบการเกษตรอัจฉริยะและเกษตรพันธสัญญา",
     "category": "การกรอกแบบคำร้อง",
     "citation_text": "PDF หน้า 41; หน้าเอกสาร 39",
-    "topics": [
-      "ระบบโรงเรือนอัจฉริยะ",
-      "เซ็นเซอร์",
-      "IoT",
-      "เกษตรพันธสัญญา"
-    ],
+    "topics": ["ระบบโรงเรือนอัจฉริยะ", "เซ็นเซอร์", "IoT", "เกษตรพันธสัญญา"],
     "review_flags": [],
-    "source_pdf_pages": [
-      41
-    ],
-    "source_printed_pages": [
-      39
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [41],
+    "source_printed_pages": [39],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "39",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 4
   },
   {
     "slug": "farmer69-form-household-members-farm-help-and-organizations",
@@ -1201,13 +1255,16 @@
       "รหัสองค์กร"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      41
-    ],
-    "source_printed_pages": [
-      39
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [41],
+    "source_printed_pages": [39],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "39",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-form-education-income-and-debt",
@@ -1222,13 +1279,16 @@
       "หนี้สินนอกภาคเกษตร"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      42
-    ],
-    "source_printed_pages": [
-      40
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [42],
+    "source_printed_pages": [40],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "40",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-form-agricultural-machinery",
@@ -1241,16 +1301,17 @@
       "ไม่รับจ้าง",
       "จำนวนเครื่องจักร"
     ],
-    "review_flags": [
-      "RF-010"
-    ],
-    "source_pdf_pages": [
-      43
-    ],
-    "source_printed_pages": [
-      41
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-010"],
+    "source_pdf_pages": [43],
+    "source_printed_pages": [41],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "41",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 3
   },
   {
     "slug": "farmer69-form-plot-location-tenure-and-land-documents",
@@ -1264,37 +1325,34 @@
       "ผู้รับรองกิจกรรมการเกษตร"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      44
-    ],
-    "source_printed_pages": [
-      42
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [44],
+    "source_printed_pages": [42],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "42",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-form-irrigation-zone-and-geographic-coordinates",
     "title": "เขตชลประทานและค่าพิกัดภูมิศาสตร์",
     "category": "การกรอกแบบคำร้อง",
     "citation_text": "PDF หน้า 44; หน้าเอกสาร 42",
-    "topics": [
-      "เขตชลประทาน",
-      "UTM",
-      "โซน 47",
-      "โซน 48",
-      "ละติจูด",
-      "ลองจิจูด"
-    ],
-    "review_flags": [
-      "RF-011"
-    ],
-    "source_pdf_pages": [
-      44
-    ],
-    "source_printed_pages": [
-      42
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "topics": ["เขตชลประทาน", "UTM", "โซน 47", "โซน 48", "ละติจูด", "ลองจิจูด"],
+    "review_flags": ["RF-011"],
+    "source_pdf_pages": [44],
+    "source_printed_pages": [42],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "42",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 4
   },
   {
     "slug": "farmer69-form-water-crop-variety-and-activity-dates",
@@ -1310,13 +1368,16 @@
       "วันที่เก็บเกี่ยว"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      45
-    ],
-    "source_printed_pages": [
-      43
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [45],
+    "source_printed_pages": [43],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "43",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-form-planting-format-area-and-quantity",
@@ -1332,13 +1393,16 @@
       "จำนวนที่ปลูก"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      45
-    ],
-    "source_printed_pages": [
-      43
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [45],
+    "source_printed_pages": [43],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "43",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "farmer69-form-activity-codes-and-expected-production",
@@ -1352,18 +1416,17 @@
       "ผลผลิตคาดการณ์",
       "หน่วยผลผลิต"
     ],
-    "review_flags": [
-      "RF-012"
-    ],
-    "source_pdf_pages": [
-      46,
-      48
-    ],
-    "source_printed_pages": [
-      44,
-      46
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-012"],
+    "source_pdf_pages": [46, 48],
+    "source_printed_pages": [44, 46],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "44, 46",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 4
   },
   {
     "slug": "farmer69-form-sustainable-agriculture",
@@ -1378,16 +1441,17 @@
       "เกษตรทฤษฎีใหม่",
       "วนเกษตร"
     ],
-    "review_flags": [
-      "RF-004"
-    ],
-    "source_pdf_pages": [
-      46
-    ],
-    "source_printed_pages": [
-      44
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-004"],
+    "source_pdf_pages": [46],
+    "source_printed_pages": [44],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "44",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 3
   },
   {
     "slug": "farmer69-form-signatures-and-separation-of-duties",
@@ -1402,35 +1466,34 @@
       "การแยกหน้าที่"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      47
-    ],
-    "source_printed_pages": [
-      45
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [47],
+    "source_printed_pages": [45],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "45",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 3
   },
   {
     "slug": "farmer69-form-intercropping-multiple-households-and-code-reference",
     "title": "การกรอกกรณีสวนแซมหลายครัวเรือนและหน้ารวมรหัส",
     "category": "การกรอกแบบคำร้อง",
     "citation_text": "PDF หน้า 47, 48; หน้าเอกสาร 45, 46",
-    "topics": [
-      "สวนแซม",
-      "หลายครัวเรือน",
-      "สถานะการถือครอง",
-      "หน้ารวมรหัส"
-    ],
+    "topics": ["สวนแซม", "หลายครัวเรือน", "สถานะการถือครอง", "หน้ารวมรหัส"],
     "review_flags": [],
-    "source_pdf_pages": [
-      47,
-      48
-    ],
-    "source_printed_pages": [
-      45,
-      46
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [47, 48],
+    "source_printed_pages": [45, 46],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "45, 46",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 4
   },
   {
     "slug": "farmer69-documents-preconditions-and-signature-scope",
@@ -1444,13 +1507,16 @@
       "สถานที่ขอเอกสาร"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      49
-    ],
-    "source_printed_pages": [
-      47
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [49],
+    "source_printed_pages": [47],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "47",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "farmer69-farmbook-definition-use-and-issuance-location",
@@ -1464,15 +1530,16 @@
       "การยืนยันความเป็นเกษตรกร"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      49,
-      50
-    ],
-    "source_printed_pages": [
-      47,
-      48
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [49, 50],
+    "source_printed_pages": [47, 48],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "47, 48",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "farmer69-farmbook-preparation-and-printing",
@@ -1486,18 +1553,17 @@
       "กระดาษ A4",
       "ผลตรวจผ่าน"
     ],
-    "review_flags": [
-      "RF-013"
-    ],
-    "source_pdf_pages": [
-      49,
-      50
-    ],
-    "source_printed_pages": [
-      47,
-      48
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-013"],
+    "source_pdf_pages": [49, 50],
+    "source_printed_pages": [47, 48],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "47, 48",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-farmbook-replacement-cancellation-full-and-lost",
@@ -1512,13 +1578,16 @@
       "สมุดหาย"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      50
-    ],
-    "source_printed_pages": [
-      48
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [50],
+    "source_printed_pages": [48],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "48",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "farmer69-registration-result-report",
@@ -1532,13 +1601,16 @@
       "เอกสารแทนสมุด"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      50
-    ],
-    "source_printed_pages": [
-      48
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [50],
+    "source_printed_pages": [48],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "48",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "farmer69-farmer-certification-letter-and-scope",
@@ -1552,13 +1624,16 @@
       "ขอบเขตการรับรอง"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      51
-    ],
-    "source_printed_pages": [
-      49
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [51],
+    "source_printed_pages": [49],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "49",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "farmer69-system-reports-and-year-filter-selection",
@@ -1573,13 +1648,16 @@
       "วันที่คาดว่าจะเก็บเกี่ยว"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      51
-    ],
-    "source_printed_pages": [
-      49
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [51],
+    "source_printed_pages": [49],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "49",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 8
   },
   {
     "slug": "farmer69-reports-tbk-04-1-04-2-04-3",
@@ -1593,18 +1671,17 @@
       "รายงานกิจกรรมการเกษตร",
       "ข้อมูลเกษตรกร"
     ],
-    "review_flags": [
-      "RF-014"
-    ],
-    "source_pdf_pages": [
-      51,
-      52
-    ],
-    "source_printed_pages": [
-      49,
-      50
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-014"],
+    "source_pdf_pages": [51, 52],
+    "source_printed_pages": [49, 50],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "49, 50",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-appendices-index-and-use",
@@ -1618,13 +1695,16 @@
       "เครื่องพิมพ์สมุดทะเบียน"
     ],
     "review_flags": [],
-    "source_pdf_pages": [
-      53
-    ],
-    "source_printed_pages": [
-      51
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [53],
+    "source_printed_pages": [51],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "51",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-appendix-registration-workflow-2569",
@@ -1638,16 +1718,17 @@
       "ฐานข้อมูลทะเบียนเกษตรกร",
       "การประมวลผล"
     ],
-    "review_flags": [
-      "RF-015"
-    ],
-    "source_pdf_pages": [
-      54
-    ],
-    "source_printed_pages": [
-      52
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-015"],
+    "source_pdf_pages": [54],
+    "source_printed_pages": [52],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "52",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 8
   },
   {
     "slug": "farmer69-regulation-2567-background-effective-date-definitions",
@@ -1661,18 +1742,17 @@
       "ครัวเรือน",
       "กิจการด้านการเกษตร"
     ],
-    "review_flags": [
-      "RF-016"
-    ],
-    "source_pdf_pages": [
-      55,
-      56
-    ],
-    "source_printed_pages": [
-      53,
-      54
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-016"],
+    "source_pdf_pages": [55, 56],
+    "source_printed_pages": [53, 54],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "53, 54",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 16
   },
   {
     "slug": "farmer69-regulation-2567-registrar-application-and-status-termination",
@@ -1686,16 +1766,17 @@
       "สิ้นสถานภาพ",
       "การขึ้นทะเบียนทดแทน"
     ],
-    "review_flags": [
-      "RF-016"
-    ],
-    "source_pdf_pages": [
-      57
-    ],
-    "source_printed_pages": [
-      55
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-016"],
+    "source_pdf_pages": [57],
+    "source_printed_pages": [55],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "55",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 8
   },
   {
     "slug": "farmer69-regulation-2567-committees-updates-rights-transitional",
@@ -1709,18 +1790,17 @@
       "บทเฉพาะกาล",
       "วันประกาศ"
     ],
-    "review_flags": [
-      "RF-016"
-    ],
-    "source_pdf_pages": [
-      57,
-      58
-    ],
-    "source_printed_pages": [
-      55,
-      56
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-016"],
+    "source_pdf_pages": [57, 58],
+    "source_printed_pages": [55, 56],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "55, 56",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 8
   },
   {
     "slug": "farmer69-regulation-vs-doae-operational-rules",
@@ -1734,65 +1814,53 @@
       "การตีความ",
       "RAG"
     ],
-    "review_flags": [
-      "RF-016"
-    ],
-    "source_pdf_pages": [
-      55,
-      56,
-      57,
-      58
-    ],
-    "source_printed_pages": [
-      53,
-      54,
-      55,
-      56
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-016"],
+    "source_pdf_pages": [55, 56, 57, 58],
+    "source_printed_pages": [53, 54, 55, 56],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "53, 54, 55, 56",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "appendix-6-rice-groups-varieties-qr",
     "title": "ภาคผนวก 6 กลุ่มและพันธุ์ข้าวที่จัดเก็บผ่าน QR Code",
     "category": "ภาคผนวก 6-7 ข้อมูลพันธุ์ข้าวและพืช",
     "citation_text": "PDF หน้า 82; หน้าเอกสาร 80",
-    "topics": [
-      "พันธุ์ข้าว",
-      "กลุ่มข้าว",
-      "QR Code"
-    ],
-    "review_flags": [
-      "RF-026"
-    ],
-    "source_pdf_pages": [
-      82
-    ],
-    "source_printed_pages": [
-      80
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "topics": ["พันธุ์ข้าว", "กลุ่มข้าว", "QR Code"],
+    "review_flags": ["RF-026"],
+    "source_pdf_pages": [82],
+    "source_printed_pages": [80],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "80",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "appendix-7-plant-groups-species-varieties-qr",
     "title": "ภาคผนวก 7 กลุ่ม ชนิด และพันธุ์พืชที่จัดเก็บผ่าน QR Code",
     "category": "ภาคผนวก 6-7 ข้อมูลพันธุ์ข้าวและพืช",
     "citation_text": "PDF หน้า 82; หน้าเอกสาร 80",
-    "topics": [
-      "กลุ่มพืช",
-      "ชนิดพืช",
-      "พันธุ์พืช",
-      "QR Code"
-    ],
-    "review_flags": [
-      "RF-026"
-    ],
-    "source_pdf_pages": [
-      82
-    ],
-    "source_printed_pages": [
-      80
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "topics": ["กลุ่มพืช", "ชนิดพืช", "พันธุ์พืช", "QR Code"],
+    "review_flags": ["RF-026"],
+    "source_pdf_pages": [82],
+    "source_printed_pages": [80],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "80",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "appendix-11-farmer-passbook-stamp",
@@ -1805,16 +1873,17 @@
       "ขนาด 1 นิ้ว",
       "หน้าข้อมูลพื้นฐาน"
     ],
-    "review_flags": [
-      "RF-032"
-    ],
-    "source_pdf_pages": [
-      88
-    ],
-    "source_printed_pages": [
-      86
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-032"],
+    "source_pdf_pages": [88],
+    "source_printed_pages": [86],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "86",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "appendix-12-passbook-printer-specifications",
@@ -1829,61 +1898,53 @@
       "Windows",
       "คุณลักษณะเฉพาะ"
     ],
-    "review_flags": [
-      "RF-033"
-    ],
-    "source_pdf_pages": [
-      89
-    ],
-    "source_printed_pages": [
-      87
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-033"],
+    "source_pdf_pages": [89],
+    "source_printed_pages": [87],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "87",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 4
   },
   {
     "slug": "product-description-and-unit-principles",
     "title": "หลักการรายงานลักษณะและหน่วยผลผลิต",
     "category": "ภาคผนวก 10 ลักษณะและหน่วยผลผลิต",
     "citation_text": "PDF หน้า 86, 87; หน้าเอกสาร 84, 85",
-    "topics": [
-      "ลักษณะผลผลิต",
-      "หน่วยผลผลิต",
-      "น้ำหนัก",
-      "ความชื้น"
-    ],
-    "review_flags": [
-      "RF-030"
-    ],
-    "source_pdf_pages": [
-      86,
-      87
-    ],
-    "source_printed_pages": [
-      84,
-      85
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "topics": ["ลักษณะผลผลิต", "หน่วยผลผลิต", "น้ำหนัก", "ความชื้น"],
+    "review_flags": ["RF-030"],
+    "source_pdf_pages": [86, 87],
+    "source_printed_pages": [84, 85],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "84, 85",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "plant-product-descriptions-and-units",
     "title": "ลักษณะผลผลิตและหน่วยผลผลิตของพืช 20 รายการ",
     "category": "ภาคผนวก 10 ลักษณะและหน่วยผลผลิต",
     "citation_text": "PDF หน้า 86; หน้าเอกสาร 84",
-    "topics": [
-      "ผลผลิตพืช",
-      "หน่วยผลผลิต",
-      "ความชื้น"
-    ],
-    "review_flags": [
-      "RF-030"
-    ],
-    "source_pdf_pages": [
-      86
-    ],
-    "source_printed_pages": [
-      84
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "topics": ["ผลผลิตพืช", "หน่วยผลผลิต", "ความชื้น"],
+    "review_flags": ["RF-030"],
+    "source_pdf_pages": [86],
+    "source_printed_pages": [84],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "84",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 3
   },
   {
     "slug": "economic-insect-product-descriptions-and-units",
@@ -1898,44 +1959,35 @@
       "จิ้งหรีด",
       "ด้วงสาคู"
     ],
-    "review_flags": [
-      "RF-030",
-      "RF-031"
-    ],
-    "source_pdf_pages": [
-      87
-    ],
-    "source_printed_pages": [
-      85
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-030", "RF-031"],
+    "source_pdf_pages": [87],
+    "source_printed_pages": [85],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "85",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 4
   },
   {
     "slug": "farmer69-appendix-5-land-consent-certification-overview",
     "title": "ภาพรวมหนังสือยินยอมหรือรับรองการใช้ประโยชน์ในที่ดิน",
     "category": "ภาคผนวก: หนังสือยินยอมและรับรองที่ดิน",
     "citation_text": "PDF หน้า 79, 80, 81; หน้าเอกสาร 77, 78, 79",
-    "topics": [
-      "หนังสือยินยอม",
-      "หนังสือรับรองการเช่า",
-      "ไม่มีเอกสารสิทธิ์"
-    ],
-    "review_flags": [
-      "RF-023",
-      "RF-024",
-      "RF-025"
-    ],
-    "source_pdf_pages": [
-      79,
-      80,
-      81
-    ],
-    "source_printed_pages": [
-      77,
-      78,
-      79
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "topics": ["หนังสือยินยอม", "หนังสือรับรองการเช่า", "ไม่มีเอกสารสิทธิ์"],
+    "review_flags": ["RF-023", "RF-024", "RF-025"],
+    "source_pdf_pages": [79, 80, 81],
+    "source_printed_pages": [77, 78, 79],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "77, 78, 79",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-form-land-use-consent",
@@ -1948,17 +2000,17 @@
       "ผู้ได้รับความยินยอม",
       "พยาน"
     ],
-    "review_flags": [
-      "RF-024",
-      "RF-025"
-    ],
-    "source_pdf_pages": [
-      79
-    ],
-    "source_printed_pages": [
-      77
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-024", "RF-025"],
+    "source_pdf_pages": [79],
+    "source_printed_pages": [77],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "77",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-form-land-rental-certification-excluding-perennial-crops",
@@ -1971,128 +2023,107 @@
       "ผู้รับรอง",
       "ผู้ดูแลพื้นที่"
     ],
-    "review_flags": [
-      "RF-023",
-      "RF-024",
-      "RF-025"
-    ],
-    "source_pdf_pages": [
-      80
-    ],
-    "source_printed_pages": [
-      78
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-023", "RF-024", "RF-025"],
+    "source_pdf_pages": [80],
+    "source_printed_pages": [78],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "78",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-form-no-title-land-use-certification",
     "title": "หนังสือรับรองการใช้ที่ดินเพื่อการเกษตรโดยไม่มีเอกสารสิทธิ์",
     "category": "ภาคผนวก: หนังสือยินยอมและรับรองที่ดิน",
     "citation_text": "PDF หน้า 81; หน้าเอกสาร 79",
-    "topics": [
-      "ไม่มีเอกสารสิทธิ์",
-      "ผู้รับรอง",
-      "พยาน",
-      "พิกัดแปลง"
-    ],
-    "review_flags": [
-      "RF-021",
-      "RF-024",
-      "RF-025"
-    ],
-    "source_pdf_pages": [
-      81
-    ],
-    "source_printed_pages": [
-      79
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "topics": ["ไม่มีเอกสารสิทธิ์", "ผู้รับรอง", "พยาน", "พิกัดแปลง"],
+    "review_flags": ["RF-021", "RF-024", "RF-025"],
+    "source_pdf_pages": [81],
+    "source_printed_pages": [79],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "79",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "fruit-perennial-density-principles",
     "title": "หลักการใช้อัตราแปลงไม้ผลไม้ยืนต้นต่อพื้นที่ 1 ไร่",
     "category": "ภาคผนวก 9 อัตราแปลงไม้ผลไม้ยืนต้น",
     "citation_text": "PDF หน้า 85; หน้าเอกสาร 83",
-    "topics": [
-      "ไม้ผล",
-      "ไม้ยืนต้น",
-      "จำนวนต้นต่อไร่",
-      "การเทียบเคียง"
-    ],
-    "review_flags": [
-      "RF-029"
-    ],
-    "source_pdf_pages": [
-      85
-    ],
-    "source_printed_pages": [
-      83
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "topics": ["ไม้ผล", "ไม้ยืนต้น", "จำนวนต้นต่อไร่", "การเทียบเคียง"],
+    "review_flags": ["RF-029"],
+    "source_pdf_pages": [85],
+    "source_printed_pages": [83],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "83",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "fruit-perennial-density-table",
     "title": "ตารางอัตราแปลงไม้ผลไม้ยืนต้น 56 ลำดับ",
     "category": "ภาคผนวก 9 อัตราแปลงไม้ผลไม้ยืนต้น",
     "citation_text": "PDF หน้า 85; หน้าเอกสาร 83",
-    "topics": [
-      "ไม้ผล",
-      "ไม้ยืนต้น",
-      "จำนวนต้นต่อไร่"
-    ],
-    "review_flags": [
-      "RF-029"
-    ],
-    "source_pdf_pages": [
-      85
-    ],
-    "source_printed_pages": [
-      83
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "topics": ["ไม้ผล", "ไม้ยืนต้น", "จำนวนต้นต่อไร่"],
+    "review_flags": ["RF-029"],
+    "source_pdf_pages": [85],
+    "source_printed_pages": [83],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "83",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 4
   },
   {
     "slug": "minimum-area-general-and-multiple-plots",
     "title": "หลักการใช้เกณฑ์เนื้อที่ขั้นต่ำและการรวมพื้นที่หลายแปลง",
     "category": "ภาคผนวก 8 เกณฑ์เนื้อที่ขั้นต่ำ",
     "citation_text": "PDF หน้า 83, 84; หน้าเอกสาร 81, 82",
-    "topics": [
-      "เกณฑ์ขั้นต่ำ",
-      "หลายแปลง",
-      "แปลงติดกัน"
-    ],
+    "topics": ["เกณฑ์ขั้นต่ำ", "หลายแปลง", "แปลงติดกัน"],
     "review_flags": [],
-    "source_pdf_pages": [
-      83,
-      84
-    ],
-    "source_printed_pages": [
-      81,
-      82
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [83, 84],
+    "source_printed_pages": [81, 82],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "81, 82",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "minimum-area-basic-crops-and-forest",
     "title": "เกณฑ์ขั้นต่ำของข้าว พืชไร่ ผัก ไม้ดอก สมุนไพร และสวนป่า",
     "category": "ภาคผนวก 8 เกณฑ์เนื้อที่ขั้นต่ำ",
     "citation_text": "PDF หน้า 83; หน้าเอกสาร 81",
-    "topics": [
-      "ข้าว",
-      "พืชไร่",
-      "ผัก",
-      "ไม้ดอก",
-      "สมุนไพร",
-      "สวนป่า"
-    ],
+    "topics": ["ข้าว", "พืชไร่", "ผัก", "ไม้ดอก", "สมุนไพร", "สวนป่า"],
     "review_flags": [],
-    "source_pdf_pages": [
-      83
-    ],
-    "source_printed_pages": [
-      81
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "source_pdf_pages": [83],
+    "source_printed_pages": [81],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "81",
+    "status": "transcribed",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 3
   },
   {
     "slug": "minimum-area-orchard-mixed-mushroom-and-watermeal",
@@ -2108,61 +2139,53 @@
       "ผักงอก",
       "ผำ"
     ],
-    "review_flags": [
-      "RF-027"
-    ],
-    "source_pdf_pages": [
-      83,
-      84
-    ],
-    "source_printed_pages": [
-      81,
-      82
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-027"],
+    "source_pdf_pages": [83, 84],
+    "source_printed_pages": [81, 82],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "81, 82",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "minimum-area-greenhouse-salt-and-economic-insects",
     "title": "เกณฑ์ขั้นต่ำของโรงเรือน นาเกลือสมุทร และแมลงเศรษฐกิจ",
     "category": "ภาคผนวก 8 เกณฑ์เนื้อที่ขั้นต่ำ",
     "citation_text": "PDF หน้า 84; หน้าเอกสาร 82",
-    "topics": [
-      "โรงเรือน",
-      "นาเกลือสมุทร",
-      "แมลงเศรษฐกิจ"
-    ],
-    "review_flags": [
-      "RF-027"
-    ],
-    "source_pdf_pages": [
-      84
-    ],
-    "source_printed_pages": [
-      82
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "topics": ["โรงเรือน", "นาเกลือสมุทร", "แมลงเศรษฐกิจ"],
+    "review_flags": ["RF-027"],
+    "source_pdf_pages": [84],
+    "source_printed_pages": [82],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "82",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 3
   },
   {
     "slug": "minimum-area-hemp-cannabis-kratom-income-exception",
     "title": "เกณฑ์ขั้นต่ำของกัญชง กัญชา กระท่อม และกรณีรายได้ 8,000 บาท",
     "category": "ภาคผนวก 8 เกณฑ์เนื้อที่ขั้นต่ำ",
     "citation_text": "PDF หน้า 84; หน้าเอกสาร 82",
-    "topics": [
-      "กัญชง",
-      "กัญชา",
-      "กระท่อม",
-      "รายได้ 8000 บาท"
-    ],
-    "review_flags": [
-      "RF-028"
-    ],
-    "source_pdf_pages": [
-      84
-    ],
-    "source_printed_pages": [
-      82
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "topics": ["กัญชง", "กัญชา", "กระท่อม", "รายได้ 8000 บาท"],
+    "review_flags": ["RF-028"],
+    "source_pdf_pages": [84],
+    "source_printed_pages": [82],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "82",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "farmer69-appendix-4-land-document-overview",
@@ -2175,75 +2198,53 @@
       "ที่ดินของรัฐ",
       "พื้นที่ไม่มีเอกสารสิทธิ์"
     ],
-    "review_flags": [
-      "RF-021",
-      "RF-022"
-    ],
-    "source_pdf_pages": [
-      74,
-      75,
-      76,
-      77,
-      78
-    ],
-    "source_printed_pages": [
-      72,
-      73,
-      74,
-      75,
-      76
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-021", "RF-022"],
+    "source_pdf_pages": [74, 75, 76, 77, 78],
+    "source_printed_pages": [72, 73, 74, 75, 76],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "72, 73, 74, 75, 76",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "farmer69-land-law-documents-9-groups-22-forms",
     "title": "เอกสารสิทธิตามกฎหมายที่ดิน 9 กลุ่ม 22 แบบ",
     "category": "ภาคผนวก: เอกสารที่ดิน",
     "citation_text": "PDF หน้า 74, 75; หน้าเอกสาร 72, 73",
-    "topics": [
-      "กรมที่ดิน",
-      "โฉนด",
-      "น.ส.",
-      "ส.ค."
-    ],
-    "review_flags": [
-      "RF-021"
-    ],
-    "source_pdf_pages": [
-      74,
-      75
-    ],
-    "source_printed_pages": [
-      72,
-      73
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "topics": ["กรมที่ดิน", "โฉนด", "น.ส.", "ส.ค."],
+    "review_flags": ["RF-021"],
+    "source_pdf_pages": [74, 75],
+    "source_printed_pages": [72, 73],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "72, 73",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 4
   },
   {
     "slug": "farmer69-state-land-use-permits-12-groups-25-forms",
     "title": "หนังสืออนุญาตการใช้ประโยชน์ในที่ดินของรัฐ 12 กลุ่ม 25 แบบ",
     "category": "ภาคผนวก: เอกสารที่ดิน",
     "citation_text": "PDF หน้า 75, 76; หน้าเอกสาร 73, 74",
-    "topics": [
-      "ที่ดินของรัฐ",
-      "ส.ป.ก.",
-      "ป่าสงวน",
-      "นิคม",
-      "คทช."
-    ],
-    "review_flags": [
-      "RF-021",
-      "RF-022"
-    ],
-    "source_pdf_pages": [
-      75,
-      76
-    ],
-    "source_printed_pages": [
-      73,
-      74
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "topics": ["ที่ดินของรัฐ", "ส.ป.ก.", "ป่าสงวน", "นิคม", "คทช."],
+    "review_flags": ["RF-021", "RF-022"],
+    "source_pdf_pages": [75, 76],
+    "source_printed_pages": [73, 74],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "73, 74",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 4
   },
   {
     "slug": "farmer69-state-land-beneficiary-certificates-3-groups",
@@ -2257,16 +2258,17 @@
       "โอนสิทธิ",
       "มรดกสิทธิ"
     ],
-    "review_flags": [
-      "RF-021"
-    ],
-    "source_pdf_pages": [
-      77
-    ],
-    "source_printed_pages": [
-      75
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-021"],
+    "source_pdf_pages": [77],
+    "source_printed_pages": [75],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "75",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 3
   },
   {
     "slug": "farmer69-no-title-land-and-equivalent-documents",
@@ -2279,16 +2281,17 @@
       "ห้ามอ้างกรรมสิทธิ์",
       "เงื่อนไขโครงการ"
     ],
-    "review_flags": [
-      "RF-021"
-    ],
-    "source_pdf_pages": [
-      78
-    ],
-    "source_printed_pages": [
-      76
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-021"],
+    "source_pdf_pages": [78],
+    "source_printed_pages": [76],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "76",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-appendix-3-forms-overview",
@@ -2302,45 +2305,21 @@
       "schema ช่องกรอก",
       "RAG"
     ],
-    "review_flags": [
-      "RF-017",
-      "RF-020"
-    ],
+    "review_flags": ["RF-017", "RF-020"],
     "source_pdf_pages": [
-      59,
-      60,
-      61,
-      62,
-      63,
-      64,
-      65,
-      66,
-      67,
-      68,
-      69,
-      70,
-      71,
-      72,
-      73
+      59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73
     ],
     "source_printed_pages": [
-      57,
-      58,
-      59,
-      60,
-      61,
-      62,
-      63,
-      64,
-      65,
-      66,
-      67,
-      68,
-      69,
-      70,
-      71
+      57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71
     ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 6
   },
   {
     "slug": "farmer69-form-tbk01-household",
@@ -2354,24 +2333,17 @@
       "เครื่องจักรกล",
       "กิจกรรมการเกษตร"
     ],
-    "review_flags": [
-      "RF-010",
-      "RF-011",
-      "RF-012",
-      "RF-017",
-      "RF-020"
-    ],
-    "source_pdf_pages": [
-      59,
-      61,
-      62
-    ],
-    "source_printed_pages": [
-      57,
-      59,
-      60
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-010", "RF-011", "RF-012", "RF-017", "RF-020"],
+    "source_pdf_pages": [59, 61, 62],
+    "source_printed_pages": [57, 59, 60],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "57, 59, 60",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 8
   },
   {
     "slug": "farmer69-form-tbk01-legal-entity",
@@ -2385,47 +2357,35 @@
       "เครื่องจักรกล",
       "กิจกรรมการเกษตร"
     ],
-    "review_flags": [
-      "RF-010",
-      "RF-011",
-      "RF-012",
-      "RF-017",
-      "RF-020"
-    ],
-    "source_pdf_pages": [
-      60,
-      61,
-      62
-    ],
-    "source_printed_pages": [
-      58,
-      59,
-      60
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-010", "RF-011", "RF-012", "RF-017", "RF-020"],
+    "source_pdf_pages": [60, 61, 62],
+    "source_printed_pages": [58, 59, 60],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "58, 59, 60",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-form-correct-registered-data",
     "title": "แบบคำร้องขอแก้ไขข้อมูลที่แจ้งขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร",
     "category": "ภาคผนวก: แบบคำร้อง",
     "citation_text": "PDF หน้า 63; หน้าเอกสาร 61",
-    "topics": [
-      "แก้ไขข้อมูล",
-      "ข้อมูลพื้นฐาน",
-      "ข้อมูลกิจกรรมการเกษตร",
-      "พยาน"
-    ],
-    "review_flags": [
-      "RF-017",
-      "RF-020"
-    ],
-    "source_pdf_pages": [
-      63
-    ],
-    "source_printed_pages": [
-      61
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "topics": ["แก้ไขข้อมูล", "ข้อมูลพื้นฐาน", "ข้อมูลกิจกรรมการเกษตร", "พยาน"],
+    "review_flags": ["RF-017", "RF-020"],
+    "source_pdf_pages": [63],
+    "source_printed_pages": [61],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "61",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-form-update-household-members",
@@ -2438,17 +2398,17 @@
       "เพิ่มสมาชิก",
       "ยกเลิกสมาชิก"
     ],
-    "review_flags": [
-      "RF-017",
-      "RF-020"
-    ],
-    "source_pdf_pages": [
-      64
-    ],
-    "source_printed_pages": [
-      62
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-017", "RF-020"],
+    "source_pdf_pages": [64],
+    "source_printed_pages": [62],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "62",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   },
   {
     "slug": "farmer69-form-change-head-current-head-submits",
@@ -2460,17 +2420,17 @@
       "หัวหน้าครัวเรือนเดิม",
       "สมาชิกที่จะเป็นหัวหน้าแทน"
     ],
-    "review_flags": [
-      "RF-017",
-      "RF-020"
-    ],
-    "source_pdf_pages": [
-      65
-    ],
-    "source_printed_pages": [
-      63
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-017", "RF-020"],
+    "source_pdf_pages": [65],
+    "source_printed_pages": [63],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "63",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 4
   },
   {
     "slug": "farmer69-form-change-head-member-submits",
@@ -2483,17 +2443,17 @@
       "ความยินยอมสมาชิก",
       "ข้อยกเว้นหัวหน้าเดิม"
     ],
-    "review_flags": [
-      "RF-017",
-      "RF-020"
-    ],
-    "source_pdf_pages": [
-      66
-    ],
-    "source_printed_pages": [
-      64
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-017", "RF-020"],
+    "source_pdf_pages": [66],
+    "source_printed_pages": [64],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "64",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-form-change-registration-office",
@@ -2506,17 +2466,17 @@
       "หัวหน้าครัวเรือน",
       "มอบอำนาจ"
     ],
-    "review_flags": [
-      "RF-017",
-      "RF-020"
-    ],
-    "source_pdf_pages": [
-      67
-    ],
-    "source_printed_pages": [
-      65
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-017", "RF-020"],
+    "source_pdf_pages": [67],
+    "source_printed_pages": [65],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "65",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 3
   },
   {
     "slug": "farmer69-form-cancel-registration-head-submits",
@@ -2529,17 +2489,17 @@
       "เลิกทำการเกษตร",
       "ขึ้นทะเบียนใหม่"
     ],
-    "review_flags": [
-      "RF-017",
-      "RF-020"
-    ],
-    "source_pdf_pages": [
-      68
-    ],
-    "source_printed_pages": [
-      66
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-017", "RF-020"],
+    "source_pdf_pages": [68],
+    "source_printed_pages": [66],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "66",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-form-cancel-registration-member-submits",
@@ -2552,17 +2512,17 @@
       "ความยินยอมสมาชิก",
       "หัวหน้าครัวเรือนกรณีพิเศษ"
     ],
-    "review_flags": [
-      "RF-017",
-      "RF-020"
-    ],
-    "source_pdf_pages": [
-      69
-    ],
-    "source_printed_pages": [
-      67
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-017", "RF-020"],
+    "source_pdf_pages": [69],
+    "source_printed_pages": [67],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "67",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-form-cancel-registration-deceased-no-members",
@@ -2575,40 +2535,35 @@
       "ไม่มีสมาชิกครัวเรือน",
       "ตรวจทะเบียนราษฎร"
     ],
-    "review_flags": [
-      "RF-017",
-      "RF-020"
-    ],
-    "source_pdf_pages": [
-      70
-    ],
-    "source_printed_pages": [
-      68
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-017", "RF-020"],
+    "source_pdf_pages": [70],
+    "source_printed_pages": [68],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "68",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 4
   },
   {
     "slug": "farmer69-form-request-farmer-certificate",
     "title": "แบบคำร้องขอหนังสือรับรองเกษตรกร",
     "category": "ภาคผนวก: แบบคำร้อง",
     "citation_text": "PDF หน้า 71; หน้าเอกสาร 69",
-    "topics": [
-      "หนังสือรับรองเกษตรกร",
-      "ภาษาไทย",
-      "ภาษาอังกฤษ",
-      "วัตถุประสงค์"
-    ],
-    "review_flags": [
-      "RF-017",
-      "RF-020"
-    ],
-    "source_pdf_pages": [
-      71
-    ],
-    "source_printed_pages": [
-      69
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "topics": ["หนังสือรับรองเกษตรกร", "ภาษาไทย", "ภาษาอังกฤษ", "วัตถุประสงค์"],
+    "review_flags": ["RF-017", "RF-020"],
+    "source_pdf_pages": [71],
+    "source_printed_pages": [69],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "69",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-form-power-of-attorney-example",
@@ -2621,18 +2576,17 @@
       "ผู้รับมอบอำนาจ",
       "อากรแสตมป์"
     ],
-    "review_flags": [
-      "RF-017",
-      "RF-019",
-      "RF-020"
-    ],
-    "source_pdf_pages": [
-      72
-    ],
-    "source_printed_pages": [
-      70
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-017", "RF-019", "RF-020"],
+    "source_pdf_pages": [72],
+    "source_printed_pages": [70],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "70",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 5
   },
   {
     "slug": "farmer69-form-beehive-movement-placement",
@@ -2646,18 +2600,16 @@
       "พิกัด",
       "เจ้าของสวน"
     ],
-    "review_flags": [
-      "RF-003",
-      "RF-017",
-      "RF-018",
-      "RF-020"
-    ],
-    "source_pdf_pages": [
-      73
-    ],
-    "source_printed_pages": [
-      71
-    ],
-    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf"
+    "review_flags": ["RF-003", "RF-017", "RF-018", "RF-020"],
+    "source_pdf_pages": [73],
+    "source_printed_pages": [71],
+    "pdf_url": "https://cjjirwqoovypymndhvwt.supabase.co/storage/v1/object/public/farmer69-assets/source/farmer69-watermark.pdf",
+    "source_year": 2569,
+    "source_pages": "71",
+    "status": "needs_source_check",
+    "last_reviewed": "2026-08-04",
+    "source_document": "คู่มือการขึ้นทะเบียนและปรับปรุงทะเบียนเกษตรกร ปี 2569",
+    "source_organization": "ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร กรมส่งเสริมการเกษตร กระทรวงเกษตรและสหกรณ์",
+    "sections_count": 7
   }
 ]

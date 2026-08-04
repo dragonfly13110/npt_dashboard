@@ -15,6 +15,7 @@ import {
 } from 'react-router-dom';
 import { MarkdownBlock } from '../../components/MarkdownBlock';
 import { parseArticleBlocks } from '../../utils/markdownBlocks';
+import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 import '../rice/RiceKnowledge.css';
 import './MachineryKnowledge.css';
 
@@ -113,7 +114,12 @@ function MachineryHub() {
   return (
     <main className="rice-page machinery-page rice-hub">
       <PageNav />
-      <section className="rice-hero">
+      <section
+        className="rice-hero"
+        style={{
+          '--knowledge-header-image': `url("${CLOUDINARY_ASSETS.headers.development}")`,
+        }}
+      >
         <span className="rice-kicker">SMART AGRICULTURAL MACHINERY</span>
         <h1>องค์ความรู้เครื่องจักรการเกษตรล้ำสมัย</h1>
         <p>
@@ -188,7 +194,12 @@ function MachineryCatalog() {
         backTo="/public/machinery"
         backLabel="← กลับองค์ความรู้เครื่องจักร"
       />
-      <section className="rice-catalog-header">
+      <section
+        className="rice-catalog-header"
+        style={{
+          '--knowledge-header-image': `url("${CLOUDINARY_ASSETS.headers.development}")`,
+        }}
+      >
         <span className="rice-kicker">MACHINERY KNOWLEDGE LIBRARY</span>
         <h1>คลังองค์ความรู้เครื่องจักรการเกษตร</h1>
         <p>

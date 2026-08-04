@@ -50,9 +50,19 @@
       rgba(5, 46, 22, 0.7) 42%,
       transparent 75%
     ),
-    url('https://res.cloudinary.com/dzksawh1d/image/upload/v1784998041/pesticide-safety-hero.webp')
-      center / cover;
+    var(--knowledge-header-image) center / cover;
   margin-bottom: 36px;
+}
+
+.pesticides-header.fertilizer-header {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(92, 58, 10, 0.94) 0%,
+      rgba(120, 79, 18, 0.72) 44%,
+      transparent 78%
+    ),
+    var(--knowledge-header-image) center / cover;
 }
 
 .pesticides-header h1 {

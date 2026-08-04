@@ -35,7 +35,9 @@
   padding: clamp(32px, 7vw, 72px);
   border-radius: 28px;
   color: #f7fee7;
-  background: linear-gradient(120deg, #365314, #4d7c0f 56%, #15803d);
+  background:
+    linear-gradient(90deg, rgba(54, 83, 20, 0.94), rgba(77, 124, 15, 0.68)),
+    var(--knowledge-header-image) center / cover;
   box-shadow: 0 20px 50px rgba(63, 98, 18, 0.18);
 }
 

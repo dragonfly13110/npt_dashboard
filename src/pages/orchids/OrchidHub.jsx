@@ -4,6 +4,7 @@ import {
   ExperimentOutlined,
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 import './OrchidKnowledge.css';
 
 const orchidCollections = [
@@ -35,7 +36,12 @@ export default function OrchidHub() {
         <Link to="/">🏠 หน้าหลัก</Link>
       </div>
 
-      <section className="orchid-hub-hero">
+      <section
+        className="orchid-hub-hero"
+        style={{
+          '--knowledge-header-image': `url("${CLOUDINARY_ASSETS.agriHero}")`,
+        }}
+      >
         <span className="orchid-hub-kicker">ORCHID KNOWLEDGE</span>
         <h1>องค์ความรู้กล้วยไม้</h1>
         <p>

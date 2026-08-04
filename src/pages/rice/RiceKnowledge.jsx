@@ -15,6 +15,7 @@ import {
 } from 'react-router-dom';
 import { MarkdownBlock } from '../../components/MarkdownBlock';
 import { parseArticleBlocks } from '../../utils/markdownBlocks';
+import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 import './RiceKnowledge.css';
 
 const RICE_ARTICLES = [
@@ -266,7 +267,12 @@ function RiceHub() {
   return (
     <main className="rice-page rice-hub">
       <PageNav />
-      <section className="rice-hero">
+      <section
+        className="rice-hero"
+        style={{
+          '--knowledge-header-image': `url("${CLOUDINARY_ASSETS.headers.production}")`,
+        }}
+      >
         <span className="rice-kicker">RICE KNOWLEDGE</span>
         <h1>องค์ความรู้ข้าว</h1>
         <p>
@@ -338,7 +344,12 @@ function RiceCatalog() {
   return (
     <main className="rice-page rice-catalog">
       <PageNav backTo="/public/rice" backLabel="← กลับองค์ความรู้ข้าว" />
-      <section className="rice-catalog-header">
+      <section
+        className="rice-catalog-header"
+        style={{
+          '--knowledge-header-image': `url("${CLOUDINARY_ASSETS.headers.production}")`,
+        }}
+      >
         <span className="rice-kicker">RICE KNOWLEDGE LIBRARY</span>
         <h1>คลังเอกสารองค์ความรู้ข้าว</h1>
         <p>

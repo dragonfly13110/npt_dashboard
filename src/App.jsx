@@ -209,7 +209,9 @@ function PublicLandingChatbot() {
     ? 'pesticide'
     : location.pathname.startsWith('/public/orchids')
       ? 'orchid'
-      : 'general';
+      : location.pathname.startsWith('/public/farmer-manual')
+        ? 'farmer'
+        : 'general';
   const isPublicRoute =
     location.pathname === '/' ||
     location.pathname === '/interactive-dashboard' ||
