@@ -14,6 +14,10 @@ import {
   useSearchParams,
 } from 'react-router-dom';
 import { MarkdownBlock } from '../../components/MarkdownBlock';
+import {
+  KnowledgeSectionHeading,
+  KnowledgeStats,
+} from '../../components/PublicKnowledge';
 import { parseArticleBlocks } from '../../utils/markdownBlocks';
 import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 import '../rice/RiceKnowledge.css';
@@ -128,6 +132,32 @@ function MachineryHub() {
         </p>
       </section>
 
+      <KnowledgeStats
+        tone="machinery"
+        items={[
+          {
+            value: MACHINERY_ARTICLES.length,
+            label: 'เอกสารในคลัง',
+            icon: <FileTextOutlined />,
+          },
+          {
+            value: MACHINERY_TOPICS.length,
+            label: 'ด้านเทคโนโลยี',
+            icon: <ExperimentOutlined />,
+          },
+          {
+            value: MACHINERY_COLLECTIONS.length,
+            label: 'คลังย่อยตามระดับการอ่าน',
+            icon: <BookOutlined />,
+          },
+          {
+            value: 'มีบริบทไทย',
+            label: 'อ่านต่อจากภาพรวมสู่การใช้งาน',
+            icon: <FileTextOutlined />,
+          },
+        ]}
+      />
+
       <section
         className="rice-hub-grid"
         aria-label="คลังองค์ความรู้เครื่องจักร"
@@ -207,6 +237,38 @@ function MachineryCatalog() {
           พร้อมค้นหาและกรองตามด้าน
         </p>
       </section>
+
+      <KnowledgeStats
+        tone="machinery"
+        items={[
+          {
+            value: MACHINERY_ARTICLES.length,
+            label: 'เอกสารในคลัง',
+            icon: <FileTextOutlined />,
+          },
+          {
+            value: MACHINERY_TOPICS.length,
+            label: 'ด้านให้เลือกกรอง',
+            icon: <ExperimentOutlined />,
+          },
+          {
+            value: 'ค้นหาได้',
+            label: 'ค้นจากชื่อและหมวด',
+            icon: <BookOutlined />,
+          },
+          {
+            value: 'มีบริบทไทย',
+            label: 'เชื่อมเทคโนโลยีกับงานเกษตร',
+            icon: <FileTextOutlined />,
+          },
+        ]}
+      />
+
+      <KnowledgeSectionHeading
+        kicker="ค้นหาแบบกรองได้"
+        title="ค้นหาและกรององค์ความรู้เครื่องจักร"
+        count={`พบ ${filteredArticles.length} เอกสาร`}
+      />
 
       <div className="rice-toolbar">
         <label className="rice-search">

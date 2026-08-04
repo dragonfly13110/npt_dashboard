@@ -14,6 +14,10 @@ import {
   useSearchParams,
 } from 'react-router-dom';
 import { MarkdownBlock } from '../../components/MarkdownBlock';
+import {
+  KnowledgeSectionHeading,
+  KnowledgeStats,
+} from '../../components/PublicKnowledge';
 import { parseArticleBlocks } from '../../utils/markdownBlocks';
 import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
 import './RiceKnowledge.css';
@@ -281,6 +285,34 @@ function RiceHub() {
         </p>
       </section>
 
+      <KnowledgeStats
+        tone="rice"
+        items={[
+          {
+            value: RICE_ARTICLES.length,
+            label: 'เอกสารและบทความ',
+            icon: <FileTextOutlined />,
+          },
+          {
+            value: RICE_COLLECTIONS.length,
+            label: 'คลังย่อยตามวัตถุประสงค์',
+            icon: <BookOutlined />,
+          },
+          {
+            value: RICE_ARTICLES.filter(
+              (article) => article.collection === 'deep-research'
+            ).length,
+            label: 'บทความวิจัยเชิงลึก',
+            icon: <ExperimentOutlined />,
+          },
+          {
+            value: 'มี TOC',
+            label: 'จัดโครงสร้างเพื่ออ่านต่อ',
+            icon: <FileTextOutlined />,
+          },
+        ]}
+      />
+
       <section className="rice-hub-grid" aria-label="คลังองค์ความรู้ข้าว">
         {RICE_COLLECTIONS.map(
           ({ key, title, detail, description, Icon, tone }) => (
@@ -356,6 +388,38 @@ function RiceCatalog() {
           รวม {RICE_ARTICLES.length} เอกสารจากชุดความรู้ข้าว พร้อมค้นหาตามหัวข้อ
         </p>
       </section>
+
+      <KnowledgeStats
+        tone="rice"
+        items={[
+          {
+            value: RICE_ARTICLES.length,
+            label: 'เอกสารในคลัง',
+            icon: <FileTextOutlined />,
+          },
+          {
+            value: RICE_COLLECTIONS.length,
+            label: 'ประเภทเอกสาร',
+            icon: <BookOutlined />,
+          },
+          {
+            value: 'ค้นหาได้',
+            label: 'ค้นจากชื่อและหมวด',
+            icon: <ExperimentOutlined />,
+          },
+          {
+            value: 'มี TOC',
+            label: 'บทความ Markdown พร้อมสารบัญ',
+            icon: <FileTextOutlined />,
+          },
+        ]}
+      />
+
+      <KnowledgeSectionHeading
+        kicker="ค้นหาแบบกรองได้"
+        title="ค้นหาและกรองเอกสารข้าว"
+        count={`พบ ${filteredArticles.length} เอกสาร`}
+      />
 
       <div className="rice-toolbar">
         <label className="rice-search">

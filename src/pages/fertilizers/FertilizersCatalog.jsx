@@ -13,6 +13,7 @@ export default function FertilizersCatalog() {
       showMixLab={false}
       headerImage={CLOUDINARY_ASSETS.headers.production}
       headerTone="fertilizer"
+      headerKicker="FERTILIZER KNOWLEDGE"
     />
   );
 }

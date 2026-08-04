@@ -13,6 +13,10 @@ import {
   SafetyCertificateOutlined,
 } from '@ant-design/icons';
 import { MarkdownBlock } from '../../components/MarkdownBlock';
+import {
+  KnowledgeSectionHeading,
+  KnowledgeStats,
+} from '../../components/PublicKnowledge';
 import { parseArticleBlocks } from '../../utils/markdownBlocks';
 import './Farmer69.css';
 
@@ -172,39 +176,38 @@ export default function Farmer69Catalog() {
         </div>
       </section>
 
-      <section className="farmer69-trust-strip" aria-label="ขอบเขตคลังความรู้">
-        <div>
-          <FileTextOutlined />
-          <strong>{metadata.articles_count}</strong>
-          <span>บทความตามโครงสร้างคู่มือ</span>
-        </div>
-        <div>
-          <QuestionCircleOutlined />
-          <strong>{metadata.faq_count}</strong>
-          <span>คำถามและคำตอบสำหรับค้นเร็ว</span>
-        </div>
-        <div>
-          <DatabaseOutlined />
-          <strong>{metadata.source_pdf_pages}</strong>
-          <span>หน้า PDF ที่ครอบคลุม</span>
-        </div>
-        <div>
-          <SafetyCertificateOutlined />
-          <strong>ตรวจสอบได้</strong>
-          <span>มี source marker ทุกช่วงเนื้อหา</span>
-        </div>
-      </section>
+      <KnowledgeStats
+        tone="farmer"
+        items={[
+          {
+            value: metadata.articles_count,
+            label: 'บทความตามโครงสร้างคู่มือ',
+            icon: <FileTextOutlined />,
+          },
+          {
+            value: metadata.faq_count,
+            label: 'คำถามและคำตอบสำหรับค้นเร็ว',
+            icon: <QuestionCircleOutlined />,
+          },
+          {
+            value: metadata.source_pdf_pages,
+            label: 'หน้า PDF ที่ครอบคลุม',
+            icon: <DatabaseOutlined />,
+          },
+          {
+            value: 'ตรวจสอบได้',
+            label: 'มี source marker ทุกช่วงเนื้อหา',
+            icon: <SafetyCertificateOutlined />,
+          },
+        ]}
+      />
 
       <section className="farmer69-workspace" aria-label="ค้นหาคลังความรู้">
-        <div className="farmer69-section-heading">
-          <div>
-            <span className="farmer69-section-kicker">ค้นหาแบบถามจริงได้</span>
-            <h2>คำถามที่พบบ่อยและคำตอบจากคู่มือ</h2>
-          </div>
-          <span className="farmer69-result-count">
-            พบ {filteredFaq.length} คำถาม
-          </span>
-        </div>
+        <KnowledgeSectionHeading
+          kicker="ค้นหาแบบถามจริงได้"
+          title="คำถามที่พบบ่อยและคำตอบจากคู่มือ"
+          count={`พบ ${filteredFaq.length} คำถาม`}
+        />
 
         <div className="farmer69-search-panel">
           <Input
@@ -288,17 +291,12 @@ export default function Farmer69Catalog() {
         className="farmer69-article-index"
         aria-labelledby="article-index-title"
       >
-        <div className="farmer69-section-heading">
-          <div>
-            <span className="farmer69-section-kicker">
-              อ่านตามโครงสร้างเอกสาร
-            </span>
-            <h2 id="article-index-title">สารบัญหัวข้อความรู้ทั้งหมด</h2>
-          </div>
-          <span className="farmer69-result-count">
-            พบ {filteredCatalog.length} บทความ
-          </span>
-        </div>
+        <KnowledgeSectionHeading
+          kicker="อ่านตามโครงสร้างเอกสาร"
+          title="สารบัญหัวข้อความรู้ทั้งหมด"
+          titleId="article-index-title"
+          count={`พบ ${filteredCatalog.length} บทความ`}
+        />
         <div className="farmer69-article-grid">
           {filteredCatalog.map((item, index) => (
             <Link

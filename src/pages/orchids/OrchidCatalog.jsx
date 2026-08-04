@@ -1,7 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Spin } from 'antd';
+import {
+  DatabaseOutlined,
+  FileTextOutlined,
+  SafetyCertificateOutlined,
+} from '@ant-design/icons';
 import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
+import {
+  KnowledgeSectionHeading,
+  KnowledgeStats,
+} from '../../components/PublicKnowledge';
 import '../pesticides/Pesticides.css';
 import './OrchidKnowledge.css';
 
@@ -111,13 +120,48 @@ export default function OrchidCatalog({ collection = 'production' }) {
           '--knowledge-header-image': `url("${headerImage}")`,
         }}
       >
+        <span className="pesticides-header-kicker orchid-header-kicker">
+          ORCHID KNOWLEDGE LIBRARY
+        </span>
         <h1>{settings.title}</h1>
         <p>
           {settings.description} รวม {catalog.length} รายการ
         </p>
       </div>
 
+      <KnowledgeStats
+        tone="orchid"
+        items={[
+          {
+            value: catalog.length,
+            label: 'รายการในคลัง',
+            icon: <FileTextOutlined />,
+          },
+          {
+            value: Math.max(categories.length - 1, 0),
+            label: 'หมวดความรู้',
+            icon: <DatabaseOutlined />,
+          },
+          {
+            value: 'มีหน้าอ้างอิง',
+            label: 'ที่มาจากเอกสารต้นฉบับ',
+            icon: <FileTextOutlined />,
+          },
+          {
+            value: 'มี source note',
+            label: 'ขอบเขตและข้อควรระวัง',
+            icon: <SafetyCertificateOutlined />,
+          },
+        ]}
+      />
+
       <div className="orchid-source-note">{settings.sourceNote}</div>
+
+      <KnowledgeSectionHeading
+        kicker="ค้นหาแบบกรองได้"
+        title="ค้นหาและกรองบทความ"
+        count={`พบ ${filteredCatalog.length} รายการ`}
+      />
 
       <div className="search-filter-section">
         <div className="search-wrapper">

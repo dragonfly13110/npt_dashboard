@@ -1,10 +1,13 @@
 import {
   ArrowRightOutlined,
   BookOutlined,
+  DatabaseOutlined,
   ExperimentOutlined,
+  SafetyCertificateOutlined,
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
+import { KnowledgeStats } from '../../components/PublicKnowledge';
 import './OrchidKnowledge.css';
 
 const orchidCollections = [
@@ -12,6 +15,7 @@ const orchidCollections = [
     to: '/public/orchids/production',
     title: 'การผลิตกล้วยไม้',
     detail: 'คู่มือหลัก 26 บทความ',
+    count: 26,
     description:
       'คู่มือภาคปฏิบัติตั้งแต่การปลูกเลี้ยง โรงเรือน น้ำ ปุ๋ย โรค แมลง การขยายพันธุ์ และหลังการเก็บเกี่ยว',
     Icon: BookOutlined,
@@ -21,6 +25,7 @@ const orchidCollections = [
     to: '/public/orchids/research',
     title: 'งานวิจัยและนวัตกรรมกล้วยไม้',
     detail: 'สรุปงานวิจัย 13 เอกสาร',
+    count: 13,
     description:
       'งานวิจัยเชิงลึกด้านจีโนม การปรับปรุงพันธุ์ การออกดอก เนื้อเยื่อ หลังการเก็บเกี่ยว การอนุรักษ์ และอุตสาหกรรม',
     Icon: ExperimentOutlined,
@@ -49,6 +54,35 @@ export default function OrchidHub() {
           แต่ใช้ AI กล้วยไม้ตัวเดียวกันในการค้นและตอบคำถาม
         </p>
       </section>
+
+      <KnowledgeStats
+        tone="orchid"
+        items={[
+          {
+            value: orchidCollections.length,
+            label: 'คลังแยกตามวัตถุประสงค์',
+            icon: <DatabaseOutlined />,
+          },
+          {
+            value: orchidCollections.reduce(
+              (total, item) => total + item.count,
+              0
+            ),
+            label: 'บทความและเอกสาร',
+            icon: <BookOutlined />,
+          },
+          {
+            value: 'AI เดียวกัน',
+            label: 'ค้นหาและถามคำถาม',
+            icon: <ExperimentOutlined />,
+          },
+          {
+            value: 'มี source note',
+            label: 'ขอบเขตการใช้ข้อมูล',
+            icon: <SafetyCertificateOutlined />,
+          },
+        ]}
+      />
 
       <section className="orchid-hub-grid" aria-label="คลังองค์ความรู้กล้วยไม้">
         {orchidCollections.map(

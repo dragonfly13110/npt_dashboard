@@ -9,6 +9,10 @@
     var(--knowledge-header-image) center / cover;
 }
 
+.orchid-catalog-container .orchid-header-kicker {
+  color: #f5d0fe;
+}
+
 .orchid-source-note {
   margin-bottom: 28px;
   padding: 14px 18px;

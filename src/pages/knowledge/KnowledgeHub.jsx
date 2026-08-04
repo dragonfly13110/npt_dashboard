@@ -1,13 +1,16 @@
 import {
   ArrowRightOutlined,
   BookOutlined,
+  DatabaseOutlined,
   ExperimentOutlined,
   ReadOutlined,
   RobotOutlined,
+  SafetyCertificateOutlined,
   ToolOutlined,
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { CLOUDINARY_ASSETS } from '../../config/cloudinaryAssets';
+import { KnowledgeStats } from '../../components/PublicKnowledge';
 import './KnowledgeHub.css';
 
 const knowledgeCollections = [
@@ -87,6 +90,32 @@ export default function KnowledgeHub() {
           แล้วเปิดอ่านรายละเอียดแต่ละหัวข้อได้จากหน้าเฉพาะเรื่อง
         </p>
       </section>
+
+      <KnowledgeStats
+        tone="farmer"
+        items={[
+          {
+            value: knowledgeCollections.length,
+            label: 'คลังองค์ความรู้',
+            icon: <DatabaseOutlined />,
+          },
+          {
+            value: 'หลายด้าน',
+            label: 'พืช สาร เทคโนโลยี และทะเบียน',
+            icon: <BookOutlined />,
+          },
+          {
+            value: 'ค้นหาได้',
+            label: 'แยกตามหัวข้อและเอกสาร',
+            icon: <ReadOutlined />,
+          },
+          {
+            value: 'มีที่มา',
+            label: 'ข้อมูลอ้างอิงในแต่ละคลัง',
+            icon: <SafetyCertificateOutlined />,
+          },
+        ]}
+      />
 
       <section className="knowledge-hub-grid" aria-label="ชุดองค์ความรู้">
         {knowledgeCollections.map(

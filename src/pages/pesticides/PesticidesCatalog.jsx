@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Spin } from 'antd';
+import {
+  DatabaseOutlined,
+  ExperimentOutlined,
+  FileTextOutlined,
+  SafetyCertificateOutlined,
+} from '@ant-design/icons';
+import {
+  KnowledgeSectionHeading,
+  KnowledgeStats,
+} from '../../components/PublicKnowledge';
 import './Pesticides.css';
 
 const sortThaiLabels = (labels) =>
@@ -16,6 +26,7 @@ export default function PesticidesCatalog({
   showMixLab = true,
   headerImage = 'https://res.cloudinary.com/dzksawh1d/image/upload/v1784998041/pesticide-safety-hero.webp',
   headerTone = 'chemical',
+  headerKicker = 'PESTICIDE KNOWLEDGE',
 }) {
   const [catalog, setCatalog] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -100,9 +111,38 @@ export default function PesticidesCatalog({
           '--knowledge-header-image': `url("${headerImage}")`,
         }}
       >
+        <span className="pesticides-header-kicker">{headerKicker}</span>
         <h1>{pageTitle}</h1>
         <p>{pageDescription}</p>
       </div>
+
+      <KnowledgeStats
+        tone={headerTone}
+        items={[
+          {
+            value: catalog.length,
+            label: 'บทความในคลัง',
+            icon: <FileTextOutlined />,
+          },
+          {
+            value: Math.max(categories.length - 1, 0),
+            label: 'หมวดความรู้',
+            icon: <DatabaseOutlined />,
+          },
+          {
+            value: Math.max(plants.length - 1, 0),
+            label: 'ชนิดพืช',
+            icon: <ExperimentOutlined />,
+          },
+          {
+            value: showMixLab ? 'MixLab' : 'มีที่มา',
+            label: showMixLab
+              ? 'เครื่องมือวิเคราะห์'
+              : 'ข้อมูลอ้างอิงรายบทความ',
+            icon: <SafetyCertificateOutlined />,
+          },
+        ]}
+      />
 
       {/* MixLab Feature Entrance Banner */}
       {showMixLab && (
@@ -132,6 +172,12 @@ export default function PesticidesCatalog({
           </div>
         </div>
       )}
+
+      <KnowledgeSectionHeading
+        kicker="ค้นหาแบบกรองได้"
+        title="ค้นหาความรู้จากคลัง"
+        count={`พบ ${filteredCatalog.length} บทความ`}
+      />
 
       <div className="search-filter-section">
         {/* Search Input */}
