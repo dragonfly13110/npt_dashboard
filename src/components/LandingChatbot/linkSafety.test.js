@@ -13,6 +13,9 @@ describe('normalizeLandingChatbotLink', () => {
     expect(
       normalizeLandingChatbotLink('/public/pesticides/cassava-anthracnose')
     ).toBe('/public/pesticides/cassava-anthracnose');
+    expect(
+      normalizeLandingChatbotLink('/public/stou-research/stou-14305')
+    ).toBe('/public/stou-research/stou-14305');
   });
 
   it('normalizes safe aliases to public routes', () => {

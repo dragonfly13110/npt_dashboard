@@ -89,6 +89,9 @@ const RiceKnowledge = lazy(() => import('./pages/rice/RiceKnowledge'));
 const MachineryKnowledge = lazy(
   () => import('./pages/machinery/MachineryKnowledge')
 );
+const StouResearchKnowledge = lazy(
+  () => import('./pages/stouResearch/StouResearchKnowledge')
+);
 
 // Strategy
 const Disasters = lazy(() => import('./pages/strategy/Disasters'));
@@ -437,6 +440,18 @@ function AppRoutes() {
         <Route
           path="/public/machinery/:slug"
           element={<MachineryKnowledge />}
+        />
+        <Route
+          path="/public/stou-research"
+          element={<StouResearchKnowledge />}
+        />
+        <Route
+          path="/public/stou-research/catalog"
+          element={<StouResearchKnowledge />}
+        />
+        <Route
+          path="/public/stou-research/:slug"
+          element={<StouResearchKnowledge />}
         />
 
         {/* Interactive Dashboard — PUBLIC */}

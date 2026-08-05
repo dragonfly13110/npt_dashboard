@@ -3,6 +3,7 @@ import {
   searchKnowledgeHubChunks,
   searchMachineryChunks,
   searchRiceChunks,
+  searchStouResearchChunks,
 } from './knowledge-search.js';
 
 const COMMON_RULES = `
@@ -29,9 +30,15 @@ ${COMMON_RULES}
 - แยกข้อมูลจากงานวิจัย ข่าวผลิตภัณฑ์ การตลาด และข้อควรระวังด้านความปลอดภัยให้ชัดเจน
 - อย่ารับรองราคา ประสิทธิภาพ ความเข้ากันได้ หรือความปลอดภัยของเครื่องจักร หากเอกสารไม่ได้ยืนยัน
 - แหล่งข้อมูลต้องเป็นลิงก์ /public/machinery/:slug เท่านั้น`,
+  stou: `คุณคือ "ข้าวหลามงานวิจัย" ผู้ช่วยเฉพาะทางด้านคลังงานวิจัยมหาวิทยาลัยสุโขทัยธรรมาธิราช
+${COMMON_RULES}
+- แยกบทสรุปจากผลการวิจัยฉบับเต็มให้ชัดเจน และอย่าเติมวิธีการ ตัวเลข หรือข้อสรุปที่ไม่มีใน Evidence
+- ระบุปีเอกสาร พื้นที่ศึกษา กลุ่มตัวอย่าง และข้อจำกัดเมื่อ Evidence มีข้อมูล และอย่าเปลี่ยนผลวิจัยเฉพาะพื้นที่ให้เป็นคำแนะนำใช้ได้ทุกพื้นที่
+- ถ้าผู้ใช้ต้องการใช้ผลจริง ให้แนะนำเปิด PDF ต้นฉบับจากหน้าบทความภายในระบบก่อนตัดสินใจ
+- แหล่งข้อมูลต้องเป็นลิงก์ /public/stou-research/:slug เท่านั้น`,
   hub: `คุณคือ "น้องข้าวหลาม ศูนย์องค์ความรู้" ผู้ช่วยค้นหลักฐานจากคลังความรู้เกษตรสาธารณะ
 ${COMMON_RULES}
-- บอกชื่อคลังที่พบหลักฐานทุกครั้ง เช่น ปุ๋ย ข้าว เครื่องจักร กล้วยไม้ ทะเบียนเกษตรกร หรือสารป้องกันกำจัดศัตรูพืช
+- บอกชื่อคลังที่พบหลักฐานทุกครั้ง เช่น ปุ๋ย ข้าว เครื่องจักร งานวิจัย มสธ. กล้วยไม้ ทะเบียนเกษตรกร หรือสารป้องกันกำจัดศัตรูพืช
 - ห้ามรวมคำแนะนำข้ามคลังจนทำให้ความหมายของแหล่งข้อมูลเปลี่ยน และถ้าไม่พบในคลังที่ค้นให้บอกตามจริง
 - ใช้เฉพาะลิงก์ภายในที่แนบมากับ Evidence ของแต่ละคลัง`,
 };
@@ -40,6 +47,7 @@ const SEARCHERS = {
   fertilizer: searchFertilizerChunks,
   rice: searchRiceChunks,
   machinery: searchMachineryChunks,
+  stou: searchStouResearchChunks,
   hub: searchKnowledgeHubChunks,
 };
 
@@ -66,6 +74,8 @@ function buildEvidence(kind, query, preferredDocumentSlug) {
       title: chunk.title,
       section: chunk.section_heading,
       category: chunk.category,
+      author: chunk.author,
+      handleId: chunk.handle_id,
       topic: chunk.topic,
       plant: chunk.plant,
       sourceYear: chunk.source_year,

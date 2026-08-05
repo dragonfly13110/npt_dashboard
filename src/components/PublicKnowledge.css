@@ -78,7 +78,8 @@
   align-items: end;
   justify-content: space-between;
   gap: 20px;
-  margin-bottom: 20px;
+  max-width: var(--public-knowledge-max-width, 1180px);
+  margin: 0 auto 20px;
 }
 
 .public-knowledge-section-kicker {

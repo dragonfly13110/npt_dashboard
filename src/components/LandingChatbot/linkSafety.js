@@ -21,6 +21,7 @@ export const LANDING_CHATBOT_ALLOWED_LINKS = Object.freeze({
   '/public/orchids/production': 'องค์ความรู้การผลิตกล้วยไม้',
   '/public/orchids/research': 'งานวิจัยและนวัตกรรมกล้วยไม้',
   '/public/farmer-manual': 'คู่มือขึ้นทะเบียนเกษตรกร',
+  '/public/stou-research': 'คลังงานวิจัย มสธ.',
 });
 
 const LANDING_CHATBOT_LINK_ALIASES = Object.freeze({
@@ -63,6 +64,7 @@ export function normalizeLandingChatbotLink(rawUrl) {
   if (/^\/public\/orchids\/(?:production|research)\/[^/?#]+$/.test(pathOnly))
     return pathOnly;
   if (/^\/public\/orchids\/[^/?#]+$/.test(pathOnly)) return pathOnly;
+  if (/^\/public\/stou-research\/[^/?#]+$/.test(pathOnly)) return pathOnly;
   const normalizedPath =
     pathOnly.length > 1 ? pathOnly.replace(/\/+$/, '') : pathOnly;
   const aliasedPath =

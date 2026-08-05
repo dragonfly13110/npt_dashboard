@@ -1,0 +1,231 @@
+.stou-page {
+  color: #1f3b30;
+  background: linear-gradient(180deg, #f0fdf4 0%, #f8fafc 44%);
+}
+
+.stou-page .rice-nav a,
+.stou-page .rice-card-action {
+  color: #166534;
+}
+
+.stou-page .rice-hero,
+.stou-page .rice-catalog-header {
+  color: #f0fdf4;
+  background:
+    linear-gradient(90deg, rgba(22, 101, 52, 0.9), rgba(21, 128, 61, 0.45)),
+    var(--knowledge-header-image) center / cover;
+  box-shadow: 0 20px 50px rgba(22, 101, 52, 0.18);
+}
+
+.stou-page .rice-kicker {
+  color: #fef3c7;
+}
+
+.stou-page .rice-hero p,
+.stou-page .rice-catalog-header p {
+  color: #ecfdf5;
+}
+
+.stou-page .rice-hub-card,
+.stou-page .rice-card,
+.stou-page .rice-article-main,
+.stou-page .rice-aside-card,
+.stou-page .rice-aside-note {
+  border-color: #cde8d6;
+}
+
+.stou-page .rice-hub-card-icon,
+.stou-page .rice-card-icon {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.stou-page .rice-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  color: #166534;
+  background: #fff;
+}
+
+.stou-page .rice-search input {
+  padding-left: 0;
+  border: 0;
+  outline: 0;
+}
+
+.stou-page .rice-search:focus-within {
+  outline: 3px solid #bbf7d0;
+  border-color: #22c55e;
+}
+
+.stou-page .rice-tabs button {
+  border-color: #cde8d6;
+  color: #166534;
+}
+
+.stou-page .rice-tabs button.is-active,
+.stou-page .rice-tabs button:hover {
+  border-color: #16a34a;
+  background: #15803d;
+}
+
+.stou-intro {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 28px;
+  max-width: 1180px;
+  margin: 34px auto 48px;
+  padding: 28px 30px;
+  border: 1px solid #cde8d6;
+  border-radius: 22px;
+  background: #f7fff9;
+}
+
+.stou-intro h2 {
+  margin: 7px 0 10px;
+  color: #14532d;
+  font-size: clamp(1.5rem, 3vw, 2.3rem);
+}
+
+.stou-intro p {
+  max-width: 760px;
+  margin: 0;
+  color: #476558;
+  line-height: 1.8;
+}
+
+.stou-eyebrow {
+  color: #15803d;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.stou-primary-link {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 999px;
+  color: #fff;
+  background: #15803d;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.stou-filter-row {
+  display: grid;
+  gap: 14px;
+}
+
+.stou-year-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 280px;
+  color: #166534;
+  font-weight: 700;
+}
+
+.stou-year-filter select {
+  min-width: 150px;
+  padding: 9px 12px;
+  border: 1px solid #cde8d6;
+  border-radius: 12px;
+  color: #14532d;
+  background: #fff;
+  font: inherit;
+}
+
+.stou-handle {
+  display: block;
+  margin-top: 8px;
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+.stou-source-links {
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+  border: 1px solid #cde8d6;
+  border-radius: 22px;
+  background: #f7fff9;
+}
+
+.stou-source-links strong {
+  color: #14532d;
+}
+
+.stou-source-links a {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: #166534;
+  line-height: 1.55;
+  text-decoration: none;
+}
+
+.stou-source-links a:hover {
+  text-decoration: underline;
+}
+
+.stou-page .rice-article-main {
+  border-top-color: #22c55e;
+}
+
+.stou-page .rice-article-header span,
+.stou-page .rice-markdown h2,
+.stou-page .rice-markdown h3,
+.stou-page .rice-markdown h4 {
+  color: #166534;
+}
+
+.stou-page .rice-markdown a {
+  color: #15803d;
+}
+
+.stou-page .rice-markdown blockquote {
+  border-left-color: #86efac;
+  color: #166534;
+  background: #f0fdf4;
+}
+
+.stou-page .rice-markdown th {
+  color: #14532d;
+  background: #f0fdf4;
+}
+
+.stou-page .rice-aside-card {
+  border-top-color: #86efac;
+}
+
+.stou-page .rice-aside-card strong,
+.stou-page .rice-aside-note {
+  color: #166534;
+}
+
+.stou-page .rice-aside-note {
+  background: #f0fdf4;
+}
+
+@media (max-width: 760px) {
+  .stou-intro {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 34px;
+  }
+
+  .stou-year-filter {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

@@ -352,6 +352,43 @@ describe('ai-proxy', () => {
     expect(JSON.stringify(body.contents)).not.toContain('/public/rice/');
   });
 
+  it('routes STOU research knowledge chat through its dedicated corpus', async () => {
+    process.env.GEMINI_API_KEY_1 = 'test-key';
+    mockAllowedRateClaim();
+    fetch.mockResolvedValueOnce(
+      new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      })
+    );
+
+    const response = await handler(
+      request({
+        provider: 'gemini',
+        landing: true,
+        knowledgeKind: 'stou',
+        knowledgeArticleSlug: 'stou-14305',
+        body: {
+          model: 'gemini-3.5-flash-lite',
+          contents: [
+            {
+              role: 'user',
+              parts: [{ text: 'มีงานวิจัยเรื่องโรคมันสำปะหลังไหม' }],
+            },
+          ],
+          stream: true,
+        },
+      })
+    );
+
+    expect(response.status).toBe(200);
+    const [, init] = fetch.mock.calls[1];
+    const body = JSON.parse(init.body);
+    expect(body.systemInstruction.parts[0].text).toContain('ข้าวหลามงานวิจัย');
+    expect(JSON.stringify(body.contents)).toContain('/public/stou-research/');
+    expect(JSON.stringify(body.contents)).not.toContain('/public/machinery/');
+  });
+
   it('rejects landing payloads without a bounded user question', async () => {
     process.env.GEMINI_API_KEY = 'test-key';
     const response = await handler(

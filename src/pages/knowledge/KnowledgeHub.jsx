@@ -68,6 +68,15 @@ const knowledgeCollections = [
     Icon: ToolOutlined,
     tone: 'machinery',
   },
+  {
+    to: '/public/stou-research',
+    title: 'คลังงานวิจัย มสธ.',
+    description:
+      'รวมบทสรุปงานวิจัยจาก STOU Research Library พร้อมปีเอกสาร ผู้วิจัย Handle ID และลิงก์กลับ PDF ต้นฉบับ',
+    detail: '172 บทสรุป · 3 ปีเอกสาร · มีแหล่งอ้างอิง',
+    Icon: DatabaseOutlined,
+    tone: 'stou',
+  },
 ];
 
 export default function KnowledgeHub() {

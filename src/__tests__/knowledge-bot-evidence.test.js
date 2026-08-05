@@ -4,6 +4,7 @@ import {
   searchFertilizerChunks,
   searchMachineryChunks,
   searchRiceChunks,
+  searchStouResearchChunks,
 } from '../../netlify/functions/lib/knowledge-search.js';
 import { getKnowledgeBotKind } from '../components/LandingChatbot/knowledgeBotKind';
 
@@ -20,15 +21,21 @@ describe('knowledge bots', () => {
     expect(getKnowledgeBotKind('/public/orchids')).toBe('orchid');
     expect(getKnowledgeBotKind('/public/farmer-manual')).toBe('farmer');
     expect(getKnowledgeBotKind('/public/pesticides')).toBe('pesticide');
+    expect(getKnowledgeBotKind('/public/stou-research/stou-14305')).toBe(
+      'stou'
+    );
   });
 
-  it('returns evidence linked to the matching fertilizer, rice, and machinery corpus', () => {
+  it('returns evidence linked to each collection corpus', () => {
     expect(searchFertilizerChunks('ส้ม ปุ๋ย')[0].url).toMatch(
       /^\/public\/fertilizers\//
     );
     expect(searchRiceChunks('โรคข้าว')[0].url).toMatch(/^\/public\/rice\//);
     expect(searchMachineryChunks('รถแทรกเตอร์อัตโนมัติ')[0].url).toMatch(
       /^\/public\/machinery\//
+    );
+    expect(searchStouResearchChunks('การส่งเสริมการผลิตข้าว')[0].url).toMatch(
+      /^\/public\/stou-research\//
     );
   });
 
@@ -45,5 +52,20 @@ describe('knowledge bots', () => {
     expect(body.systemInstruction.parts[0].text).toContain('ข้าวหลามปุ๋ย');
     expect(serialized).toContain('/public/fertilizers/');
     expect(serialized).not.toContain('/public/rice/');
+  });
+
+  it('grounds the STOU research bot in its own internal article links', () => {
+    const body = buildKnowledgeBody(
+      'gemini',
+      { model: 'gemini-3.5-flash-lite' },
+      'มีงานวิจัยเรื่องการส่งเสริมการผลิตข้าวอะไรบ้าง',
+      [{ role: 'user', parts: [{ text: 'มีงานวิจัยเรื่องข้าวอะไรบ้าง' }] }],
+      'stou',
+      'stou-14305'
+    );
+    const serialized = JSON.stringify(body);
+    expect(body.systemInstruction.parts[0].text).toContain('ข้าวหลามงานวิจัย');
+    expect(serialized).toContain('/public/stou-research/');
+    expect(serialized).not.toContain('/public/machinery/');
   });
 });

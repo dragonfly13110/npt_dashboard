@@ -7,6 +7,7 @@ import { searchPesticideChunks } from './pesticide-search.js';
 let fertilizerChunksCache = null;
 let riceChunksCache = null;
 let machineryChunksCache = null;
+let stouResearchChunksCache = null;
 
 const QUERY_STOPWORDS = new Set([
   'อะไร',
@@ -123,6 +124,8 @@ function searchChunks(
         chunk.collection,
         chunk.topic,
         chunk.plant,
+        chunk.handle_id,
+        chunk.author,
         chunk.source_pages,
         chunk.source_pdf_pages,
       ]
@@ -323,6 +326,56 @@ export function searchMachineryChunks(
   );
 }
 
+export function loadStouResearchChunks() {
+  if (stouResearchChunksCache) return stouResearchChunksCache;
+  try {
+    const root = path.join(process.cwd(), 'public/data/stou-research');
+    const catalog = JSON.parse(
+      fs.readFileSync(path.join(root, 'catalog.json'), 'utf8')
+    );
+    const articlesByFile = new Map(
+      catalog.articles.map((article) => [article.article_file, article])
+    );
+    stouResearchChunksCache = readMarkdownChunks(
+      path.join(root, 'articles'),
+      (file) => {
+        const article = articlesByFile.get(file);
+        if (!article) return { document_slug: file.replace(/\.md$/, '') };
+        return {
+          document_slug: article.slug,
+          title: article.title,
+          author: article.author,
+          category: article.category,
+          collection: 'stou-research',
+          handle_id: article.handle_id,
+          source_year: article.source_year,
+          source_type: article.source_type,
+          source_url: article.source_url,
+          pdf_url: article.pdf_url,
+          url: `/public/stou-research/${article.slug}`,
+        };
+      }
+    );
+  } catch (error) {
+    console.error('Error loading STOU research knowledge:', error);
+    stouResearchChunksCache = [];
+  }
+  return stouResearchChunksCache;
+}
+
+export function searchStouResearchChunks(
+  queryText,
+  limit = 10,
+  preferredDocumentSlug = ''
+) {
+  return searchChunks(
+    loadStouResearchChunks(),
+    queryText,
+    limit,
+    preferredDocumentSlug
+  );
+}
+
 export function searchKnowledgeHubChunks(queryText, limit = 12) {
   const sources = [
     {
@@ -363,6 +416,12 @@ export function searchKnowledgeHubChunks(queryText, limit = 12) {
       collection: 'machinery',
       label: 'เครื่องจักรการเกษตร',
       search: searchMachineryChunks,
+      url: (chunk) => chunk.url,
+    },
+    {
+      collection: 'stou-research',
+      label: 'งานวิจัย มสธ.',
+      search: searchStouResearchChunks,
       url: (chunk) => chunk.url,
     },
   ];

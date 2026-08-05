@@ -121,6 +121,11 @@
   background: #ffedd5;
 }
 
+.knowledge-hub-card.stou .knowledge-hub-card-icon {
+  color: #166534;
+  background: #dcfce7;
+}
+
 .knowledge-hub-card-body {
   min-width: 0;
 }
