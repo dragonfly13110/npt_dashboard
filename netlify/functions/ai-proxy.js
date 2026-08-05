@@ -1,7 +1,4 @@
 import crypto from 'node:crypto';
-import { createClient } from '@supabase/supabase-js';
-import { createKeyPool } from './lib/line-ai/key-pool.js';
-import { createLineAiStore } from './lib/line-ai/store.js';
 import { reportCriticalError } from './lib/error-alert.js';
 import { buildPesticideBody } from './lib/pesticide-chat.js';
 import { buildOrchidBody } from './lib/orchid-chat.js';
@@ -86,7 +83,7 @@ const PROVIDERS = {
     ]),
   },
   kku: {
-    envKey: 'VITE_LANDING_CHATBOT_API_KEY',
+    envKey: 'LANDING_CHATBOT_API_KEY',
     models: new Set([
       'deepseek-v4-flash',
       'claude-sonnet-4.6',
@@ -617,78 +614,35 @@ export default async (req, context) => {
 
     let upstream;
     if (validation.provider === 'gemini' && geminiApiKeys.size > 0) {
-      const supabaseUrl = getEnv('VITE_SUPABASE_URL');
-      const serviceRoleKey = getEnv('SUPABASE_SERVICE_ROLE_KEY');
-      let keyPool = null;
-      if (supabaseUrl && serviceRoleKey) {
+      // Keep the five-key pool self-contained so Netlify does not need to
+      // package the optional Supabase SDK just to proxy Gemini requests.
+      const slots = Array.from(geminiApiKeys.keys());
+      const shuffled = slots.sort(() => Math.random() - 0.5);
+      let lastErr;
+      for (const slot of shuffled) {
         try {
-          const supabase = createClient(supabaseUrl, serviceRoleKey);
-          const store = createLineAiStore(supabase);
-          keyPool = createKeyPool({ keys: geminiApiKeys, store });
+          const slotKey = geminiApiKeys.get(slot);
+          const res = await callGemini(slotKey, validation.body);
+          if (!res.ok) {
+            throw new Error(`Gemini API failed with status ${res.status}`);
+          }
+          upstream = res;
+          break;
         } catch (err) {
-          console.error(
-            'Failed to initialize key pool store for AI proxy:',
-            err.message
-          );
+          console.error(`In-memory slot ${slot} failed:`, err.message);
+          lastErr = err;
         }
       }
-
-      if (keyPool) {
-        try {
-          upstream = await keyPool.execute(async ({ apiKey: slotKey }) => {
-            const res = await callGemini(slotKey, validation.body);
-            if (!res.ok) {
-              const error = new Error(
-                `Gemini API failed with status ${res.status}`
-              );
-              error.status = res.status;
-              throw error;
-            }
-            return res;
-          });
-        } catch (poolError) {
-          console.error('All keys in Gemini pool failed:', poolError.message);
-          if (validation.landing) throw poolError;
-          const fallbackKey =
-            getEnv('GEMINI_API_KEY') || getEnv('VITE_GEMINI_API_KEY');
-          if (fallbackKey) {
-            console.log('Attempting fallback to default GEMINI_API_KEY');
-            upstream = await callGemini(fallbackKey, validation.body);
-          } else {
-            throw poolError;
-          }
-        }
-      } else {
-        // Fallback to in-memory key rotation if Supabase is unavailable
-        console.log('Using in-memory key rotation fallback');
-        const slots = Array.from(geminiApiKeys.keys());
-        const shuffled = slots.sort(() => Math.random() - 0.5);
-        let lastErr;
-        for (const slot of shuffled) {
-          try {
-            const slotKey = geminiApiKeys.get(slot);
-            const res = await callGemini(slotKey, validation.body);
-            if (!res.ok) {
-              throw new Error(`Gemini API failed with status ${res.status}`);
-            }
-            upstream = res;
-            break;
-          } catch (err) {
-            console.error(`In-memory slot ${slot} failed:`, err.message);
-            lastErr = err;
-          }
-        }
-        if (!upstream) {
-          if (validation.landing)
-            throw lastErr || new Error('All in-memory slot keys failed');
-          const fallbackKey =
-            getEnv('GEMINI_API_KEY') || getEnv('VITE_GEMINI_API_KEY');
-          if (fallbackKey) {
-            console.log('Attempting fallback to default GEMINI_API_KEY');
-            upstream = await callGemini(fallbackKey, validation.body);
-          } else {
-            throw lastErr || new Error('All in-memory slot keys failed');
-          }
+      if (!upstream) {
+        if (validation.landing)
+          throw lastErr || new Error('All in-memory slot keys failed');
+        const fallbackKey =
+          getEnv('GEMINI_API_KEY') || getEnv('VITE_GEMINI_API_KEY');
+        if (fallbackKey) {
+          console.log('Attempting fallback to default GEMINI_API_KEY');
+          upstream = await callGemini(fallbackKey, validation.body);
+        } else {
+          throw lastErr || new Error('All in-memory slot keys failed');
         }
       }
     } else {

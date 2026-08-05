@@ -1,0 +1,16 @@
+.git/
+node_modules/
+.pnpm-store/
+.netlify/
+.worktrees/
+.playwright-cli/
+.agents/
+.github/
+.husky/
+.superpowers/
+tmp/
+output/
+scratch/
+dist/
+playwright-report/
+test-results/
