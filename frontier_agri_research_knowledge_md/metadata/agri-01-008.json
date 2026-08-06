@@ -1,0 +1,99 @@
+{
+  "slug": "agri-01-008",
+  "title": "GEd \"ยีนลบ\" (OsRR22/DST knockout) ในข้าวไทย",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "เทคโนโลยีชีวภาพและพันธุวิศวกรรม",
+  "domain_code": "01",
+  "topic_id": "01-008",
+  "handle_id": "01-008",
+  "abstract": "- \"GEd ยีนลบ\" = การปิดการทำงาน (knockout) ของยีนกด/ขัดขวางความทนทาน (negative regulator) ด้วย CRISPR — วิธีที่ **จีนใช้นำโลก** (ข้าวทนเค็ม ST1 ผลผลิต +45% [คลังภายใน]) และตอนนี้ขยายเป็น **การตัดยีนพร้อมกันหลายตัว (multiplex)** [2][คลังภายใน]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://pubmed.ncbi.nlm.nih.gov/32549675/",
+  "pdf_url": null,
+  "source_urls": [
+    "https://pubmed.ncbi.nlm.nih.gov/32549675/",
+    "https://pubmed.ncbi.nlm.nih.gov/42458265/",
+    "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0154027"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "\"CRISPR-Cas9 mediated genome editing of drought and salt tolerance (OsDST) gene in indica mega rice cultivar MTU1010\" — Santosh Kumar VV et al., Physiology and Molecular Biology of Plants 26(6):1099–1110, 2563 — PMID 32549675 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/32549675/"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "\"Loss of function of OsWRKY53-OsARF18-OsRR22 significantly enhances rice salt tolerance\" — Zhou Y et al., BMC Plant Biology, 15 ก.ค. 2569 — PMID 42458265 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42458265/"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "\"Novel Salinity-Tolerant Third-Generation Hybrid Rice Developed via CRISPR/Cas9-Mediated Gene Editing\" — Sheng X et al., International Journal of Molecular Sciences 24(9):8025, 2566 — PMID 37175730 — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "\"Regulatory SNP in OsHKT2;1 governs OsRR22 interaction and salt tolerance in rice\" — Balaji S et al., International Journal of Biological Macromolecules, 2568 — PMID 40876691 — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "\"Molecular Breeding for Abiotic Stress Tolerance in Crops: Recent Developments and Future Prospectives\" — Pagnotta MA, Int. J. Mol. Sci. 26(18):9164, 2568 — PMID 41009726 — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "\"CRISPR/Cas9 Mediated Genome Editing for Enhancing Abiotic Stress Tolerance in Rice: An Omics Guided Perspective\" — Joshi M et al., Molecular Biotechnology, 23 มิ.ย. 2569 — PMID 42334519 — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "\"CRISPR-enabled functional genomics for bolstering plant tolerance to abiotic and biotic stress; a comprehensive review\" — Khan T et al., Functional & Integrative Genomics, 18 ก.ค. 2569 — PMID 42469498 — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "\"Effects of GS3 Editing in japonica Rice 'Nipponbare' on Grain Morphology, Yield Components, and Response to Heat Stress at the Reproductive Stage\" — Qi Y, Sangarwut N, Tongmark K, Chakhonkaen S, Wang L, Muangprom A, Plants 14(18):2897, 2568 — PMID 41012050 — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "\"Effects of CRISPR/Cas9 generated drooping leaf (dl) alleles on midrib and carpel formations in Oryza sativa Nipponbare\" — Janthabut T et al., Planta 256(3):61, 2565 — PMID 35994211 — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "\"QTL-seq identifies NAL1 and OsOFP19 as additive regulators of tiller number in rice\" — Rongsawat T et al., BMC Plant Biology, 2 ก.ย. 2568 — PMID 40898028 — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "\"Protoplast-Based Regeneration Enables CRISPR/Cas9 Application in Two Temperate Japonica Rice Cultivars\" — Barrera M et al., Plants 14(13):2059, 2568 — PMID 40648068 — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "\"Enhanced Rice Blast Resistance by CRISPR/Cas9-Targeted Mutagenesis of the ERF Transcription Factor Gene OsERF922\" — Wang F et al., PLoS ONE 11(6):e0154027, 2559 — — เข้าถึงเมื่อ 2026-08-02 - **อ้างอิงภายในคลัง (งานวิจัยด้านการเกษตร)**: เจาะลึก-01-006 (OsRR22/SKC1/Saltol, ST1 จีน +45%, งาน MAS ไทย, QTL-seq KDML105×Pokkali), เจาะลึก-01-005 (กฎหมายไทย พป.1/พป.2, BIOTEC NAC2026, KDML105), เจาะลึก-01-007 (NGT-1/NGT-2 EU — เกณฑ์ ≤20 คู่เบส + ตลาดส่งออก), เจาะลึก-01-001 (กฎหมาย GMO ไทย) — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0154027"
+    }
+  ],
+  "reference_count": 12,
+  "article_file": "agri-01-008.md",
+  "source_file": "01-เทคโนโลยีชีวภาพและพันธุวิศวกรรม\\เจาะลึก-01-GEdยีนลบในข้าวไทย.md"
+}

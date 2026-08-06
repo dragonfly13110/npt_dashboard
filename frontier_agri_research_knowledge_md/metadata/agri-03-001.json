@@ -1,0 +1,86 @@
+{
+  "slug": "agri-03-001",
+  "title": "ชลประทานดิจิทัลและการพยากรณ์น้ำด้วย AI (Digital Irrigation / AI Water Forecasting)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-01",
+  "review_at": "2027-02-02",
+  "category": "น้ำและชลประทานอัจฉริยะ",
+  "domain_code": "03",
+  "topic_id": "03-001",
+  "handle_id": "03-001",
+  "abstract": "- **ใจความ**: “ชลประทานดิจิทัล” คือการนำเซนเซอร์ความชื้นดิน + ข้อมูลสภาพอากาศ + การพยากรณ์น้ำด้วย AI/machine learning มาใช้คำนวณและสั่งรดน้ำอัตโนมัติแบบปิดวงรอบ (closed-loop) ให้จ่ายน้ำเฉพาะจุดที่รากพืชต้องการ ลดการรดเกินจริง (over-irrigation) และลดการระเหย/ไหลทิ้ง เทคโนโลยีผสม “ฮาร์ดแวร์” (ระบบน้ำหยด/สปริงเกลอร์อัตโนมัติ) กับ “ซอฟต์แวร์” (แบบจำลอง ET / AI กำหนดการรดน้ำ) โดยระดับการประหยัดน้ำแปรผันตามเส้นฐาน (baseline) เดิมของแต่ละแปลง",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.fao.org/aquastat/en/",
+  "pdf_url": null,
+  "source_urls": [
+    "https://www.fao.org/aquastat/en/",
+    "https://www.fao.org/land-water/water/agricultural-water-management/irrigation/en",
+    "https://www.epa.gov/watersense/microirrigation",
+    "https://www.marketsandmarkets.com/Market-Reports/smart-irrigation-market-1251.html",
+    "https://www.rid.go.th",
+    "https://www.gistda.or.th",
+    "https://www.netafim.com",
+    "https://so01.tci-thaijo.org/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "FAO AQUASTAT: การใช้น้ำภาคเกษตร ~72% ของน้ำจืดทั่วโลก; ~1.2 พันล้านคนในพื้นที่เกษตรขาดแคลนน้ำรุนแรง — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.fao.org/aquastat/en/"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "FAO/UN-Water: สัดส่วนการใช้น้ำหยด/ไมโคร-ไอริเกชันของเกษตรกรโลก ~3% (2023) — — เข้าถึงเมื่อ 2026-08-05 *(ตัวเลข/ลิงก์ต้องยืนยัน — ดูหัวข้อ 10)*",
+      "url": "https://www.fao.org/land-water/water/agricultural-water-management/irrigation/en"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "US EPA WaterSense: \"Saving Water With Microirrigation\" — ระบบไมโคร/น้ำหยดประหยัดน้ำ 20–50% เทียบสปริงเกลอร์เดิม; ~50% ของน้ำรดนอกบ้านอาจสูญเสีย — — เข้าถึงเมื่อ 2026-08-02 *(ลิงก์ต้องยืนยัน — ดูหัวข้อ 10)*",
+      "url": "https://www.epa.gov/watersense/microirrigation"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "MarketsandMarkets: Smart Irrigation Market Report — ตัวเลขตลาด/CAGR (analyst estimate) — — เข้าถึงเมื่อ 2026-08-02 *(ตรวจข้ามสำนัก — ดูหัวข้อ 10)*",
+      "url": "https://www.marketsandmarkets.com/Market-Reports/smart-irrigation-market-1251.html"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Abioye, E.A. et al.: \"A review on monitoring and advanced control strategies for precision irrigation\", Computers and Electronics in Agriculture 173:105441 (2020) — ML/AI สำหรับกำหนดการรด (Random Forest/LSTM class) — DOI 10.1016/j.compag.2020.105441 — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "กรมชลประทาน (RID): สถิติการใช้น้ำ/พื้นที่ชลประทานไทย — — เข้าถึงเมื่อ 2026-08-02 *(ตัวเลขต้องยืนยัน — ดูหัวข้อ 10)*",
+      "url": "https://www.rid.go.th"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "GISTDA (สำนักงานพัฒนาเทคโนโลยีอวกาศและภูมิสารสนเทศ): บริการข้อมูลน้ำ/ดาวเทียม — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.gistda.or.th"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "เว็บผู้เล่นหลัก: Netafim (), CropX (), Phytech (), Jain Irrigation — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.netafim.com"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "งานวิจัยไทย IoT/ML ชลประทาน (วารสาร TCI-Thaijo/ThaiJO) — รายชิ้นยังไม่ยืนยัน (ดูหัวข้อ 10) — ช่องค้น: — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so01.tci-thaijo.org/"
+    }
+  ],
+  "reference_count": 9,
+  "article_file": "agri-03-001.md",
+  "source_file": "03-น้ำและชลประทานอัจฉริยะ\\เจาะลึก-03-ชลประทานดิจิทัลและAIพยากรณ์น้ำ.md"
+}

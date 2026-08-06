@@ -1,0 +1,297 @@
+{
+  "slug": "agri-11-002",
+  "title": "ประกันภัยพืชผลแบบ Index-Based — จ่ายตามดัชนีภัย เร็ว ไม่ต้องตรวจแปลง",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "การปรับตัวต่อสภาพอากาศและระบบเตือนภัย",
+  "domain_code": "11",
+  "topic_id": "11-002",
+  "handle_id": "11-002",
+  "abstract": "- **ใจความ**: ประกันภัยแบบอิงดัชนี (index-based insurance) จ่ายเงินชดเชยตาม \"ดัชนีภัย\" ที่วัดได้จากภายนอก (ปริมาณฝน อุณหภูมิ NDVI/ดาวเทียม หรือผลผลิตเฉลี่ยของพื้นที่) ไม่ใช่การตรวจแปลงจริง — ลดต้นทุนธุรกรรม หมดปัญหา moral hazard จ่ายเร็ว (อินเดียเป้าหมาย 30 วัน/80% ของเคลม; ไทยประกาศเป้าหมาย 7–14 วันด้วยดาวเทียม) แต่แลกมาด้วย \"basis risk\" — ดัชนีอาจไม่ตรงกับความเสียหายรายแปลงของเกษตรกร เป็นเหตุหลักที่ยอดซื้อทั่วโลกต่ำ (<10% ที่ราคาตลาด จากการทบทวน 20 RCT) [1][8][27][26]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://nhess.copernicus.org/articles/25/913/2025/",
+  "pdf_url": "https://www.nber.org/system/files/working_papers/w32618/w32618.pdf",
+  "source_urls": [
+    "https://nhess.copernicus.org/articles/25/913/2025/",
+    "https://doi.org/10.1108/afr-12-2020-0177",
+    "https://doi.org/10.1108/afr-02-2024-0025",
+    "https://doi.org/10.1088/2515-7620/adba2c",
+    "https://ideas.repec.org/p/arx/papers/2111.08601.html",
+    "https://www.nber.org/system/files/working_papers/w32618/w32618.pdf",
+    "https://www.findevgateway.org/sites/default/files/publications/files/mfg-en-paper-agricultural-decisions-after-relaxing-credit-and-risk-constraints-oct-2012.pdf",
+    "https://www.povertyactionlab.org/policy-insight/leveraging-index-insurance-protect-farmers-weather-based-risk",
+    "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4522902",
+    "https://onlinelibrary.wiley.com/doi/10.1111/ajae.12124",
+    "https://www.pib.gov.in/PressNoteDetails.aspx?ModuleId=3&NoteId=155010",
+    "https://www.agrijob.in/pmfby-farmer-benefits-claims-data-2016-2025/",
+    "https://www.groundreport.in/agriculture/govt-tells-lok-sabha-rs-14196-crore-paid-in-crop-insurance-claims-in-2024-25/",
+    "https://www.gov.cn/zhengce/zhengceku/202405/content_6952698.htm",
+    "https://www.mof.gov.cn/zhengwuxinxi/caizhengxinwen/202406/t20240611_3936837.htm",
+    "https://www.frontiersin.org/journals/sustainable-food-systems/articles/10.3389/fsufs.2025.1649495/full",
+    "https://techcrunch.com/2024/04/14/pula-raises-20m-series-b/",
+    "https://acreafrica.com/the-impact-of-field-photography-on-crop-insurance-development-in-kenya/",
+    "https://www.rfilc.org/why-claim-payouts-show-that-agricultural-insurance-works/",
+    "https://oko.finance/",
+    "https://techcrunch.com/2019/05/03/worldcover-raises-6m-round-for-emerging-markets-climate-insurance",
+    "https://www.artemis.bm/news/arc-pays-out-3-3m-as-malawis-parametric-drought-insurance-triggers/",
+    "https://www.tearfund.org/stories/media/press-releases/2025/02/malawian-farmers-receive-first-drought-insurance-payout",
+    "https://www.thansettakij.com/economy/trade-agriculture/629373",
+    "https://www.thansettakij.com/business/trade-agriculture/599946",
+    "https://www.thairath.co.th/news/governmentpolicy/2931472",
+    "https://www.bangkokbiznews.com/business/economic/1180636",
+    "https://www.thairath.co.th/agriculture/agricultural-technology/2759703",
+    "https://tdri.or.th/wp-content/uploads/2020/11/24-11-AFFP-final-v3-South-Boontida-Pac-noo-edit2.pdf",
+    "https://www.pier.or.th/abridged/2016/05/",
+    "https://so01.tci-thaijo.org/index.php/ecbatsu/article/download/274150/180593/1159861",
+    "https://www.kasikornresearch.com/th/analysis/k-social-media/Pages/Crop-Insurance-FB-30-11-20.aspx",
+    "https://www.gcc.go.th/2022/05/05/ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร-30/",
+    "https://www.thebangkokinsight.com/news/business/1064942/",
+    "https://khlangkaset.doae.go.th/%E0%B9%80%E0%B8%81%E0%B8%93%E0%B8%91%E0%B9%8C%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%83%E0%B8%AB%E0%B9%89%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%8A%E0%B9%88%E0%B8%A7%E0%B8%A2%E0%B9%80%E0%B8%AB%E0%B8%A5/",
+    "https://doaenews.doae.go.th/archives/25354",
+    "https://www.grandviewresearch.com/industry-analysis/crop-insurance-market-report",
+    "https://www.mordorintelligence.com/industry-reports/crop-insurance-market",
+    "https://www.thebusinessresearchcompany.com/report/crop-weather-index-insurance-global-market-report"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Satellite-based data for agricultural index insurance: a systematic quantitative literature review (89 งานศึกษา), Nguyen T.T. et al., Natural Hazards and Earth System Sciences 25:913–934, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://nhess.copernicus.org/articles/25/913/2025/"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Do high-resolution satellite indices at field level reduce basis risk of satellite-based weather index insurance?, Kölle W., Buchholz M., Mußhoff O., Agricultural Finance Review 82(4):616–640, 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1108/afr-12-2020-0177"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Can remotely-sensed vegetation health indices increase the hedging-effectiveness of index insurance? Insights from Germany, Nordmeyer E.F., Mußhoff O., Agricultural Finance Review, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1108/afr-02-2024-0025"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Enhancing weather index insurance through surrogate models: leveraging machine learning techniques and remote sensing data, Environmental Research Communications (IOP), 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1088/2515-7620/adba2c"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Optimal index insurance and basis risk decomposition: an application to Kenya, Stigler M., Lobell D., American Journal of Agricultural Economics 106(1):306–329, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://ideas.repec.org/p/arx/papers/2111.08601.html"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Optimal insurance zones with lower tail dependence (ML zoning, Marsabit Kenya; RIB 24%→38%, utility +60–200%), Estefania-Salazar E., Carter M., Iglesias E., Escribano Á., NBER Working Paper w32618, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nber.org/system/files/working_papers/w32618/w32618.pdf"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Agricultural Decisions after Relaxing Credit and Risk Constraints (RCT กานา 3 ปี), Karlan D., Osei R., Osei-Akoto I., Udry C., Quarterly Journal of Economics 129(2):597–652, 2014 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.findevgateway.org/sites/default/files/publications/files/mfg-en-paper-agricultural-decisions-after-relaxing-credit-and-risk-constraints-oct-2012.pdf"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Leveraging index insurance to protect farmers from weather-based risk (ทบทวน 20 RCT), J-PAL Policy Insight, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.povertyactionlab.org/policy-insight/leveraging-index-insurance-protect-farmers-weather-based-risk"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Insure or Unsure? The Role of Negative and Positive Basis Risk in Weather Index Insurance Uptake in Kenya (~7% negative basis risk), SSRN 4522902, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4522902"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Can Experiential Games and Improved Risk Coverage Raise Demand for Index Insurance? Evidence from Kenya (HR 5km +39%), Janzen S., Carter M., et al., American Journal of Agricultural Economics / 3ie, 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1111/ajae.12124"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Empowering Annadatas: Pradhan Mantri Fasal Bima Yojana (สะสม 78.41 โครแอปพลิเคชัน, ₹1.83 แสนล้านเคลม ณ มิ.ย. 2025), PIB India, 2025-08-11 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.pib.gov.in/PressNoteDetails.aspx?ModuleId=3&NoteId=155010"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "PMFBY Farmer Benefits 2016–2025 (Lok Sabha 10 มี.ค. 2026: ₹1,92,477.31 โคร; เบี้ยเกษตรกร ₹36,055.07 โคร; 4.19 โครราย 2024–25), agrijob.in, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.agrijob.in/pmfby-farmer-benefits-claims-data-2016-2025/"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Govt Tells Lok Sabha: Rs 14,196 Crore Paid in Crop Insurance Claims in 2024–25 (622.5 lakh ha, 2.79 โครราย; 2023–24: ₹20,812.5 โคร; YES-TECH), Ground Report, 2026-02-10 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.groundreport.in/agriculture/govt-tells-lok-sabha-rs-14196-crore-paid-in-crop-insurance-claims-in-2024-25/"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "关于在全国全面实施三大粮食作物完全成本保险和种植收入保险政策的通知 (财金〔2024〕45号 — full-cost insurance ครบประเทศ 2024), 财政部/农业农村部/金融监管总局, 2024-05-21 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.gov.cn/zhengce/zhengceku/202405/content_6952698.htm"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "政策例行吹风会实录 (เบี้ยประกันการเกษตร ¥150 พันล้าน; อุดหนุนกลางสะสม >¥300 พันล้าน; ความคุ้มครอง full-cost ~¥1,125/หมู่; อัตราเบี้ย ~4.9%), 财政部 (MOF จีน), 2024-06-11 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mof.gov.cn/zhengwuxinxi/caizhengxinwen/202406/t20240611_3936837.htm"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Can agricultural insurance enhance comprehensive grain production capacity? (เบี้ยประกันการเกษตรจีน ¥150 พันล้าน 2024, ความคุ้มครอง >¥5 ล้านล้าน — ตลาดใหญ่สุดโลก), Frontiers in Sustainable Food Systems, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.frontiersin.org/journals/sustainable-food-systems/articles/10.3389/fsufs.2025.1649495/full"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Pula raises $20M Series B to provide agricultural insurance to farmers (15.4M เกษตรกร; +16% การลงทุน/+56% ผลผลิต/+170% เงินออม; เคลม >$40M/900,000 ราย), TechCrunch, 2024-04-15 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://techcrunch.com/2024/04/14/pula-raises-20m-series-b/"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "The Impact of Field Photography on Crop Insurance Development in Kenya (PBI; 43,000 เกษตรกรอบรม 2024; จ่ายเคลม ~$33,000/ฤดู; ตัวอย่าง Meru เบี้ย 1,000 KSh → จ่าย 7,500 KSh), ACRE Africa, 2024-03-07 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://acreafrica.com/the-impact-of-field-photography-on-crop-insurance-development-in-kenya/"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Why claim payouts show that agricultural insurance works ($750,000/11,414 เกษตรกร, เฉลี่ย $66, เบี้ย <$11, จ่าย 45 วัน ผ่าน M-PESA), RFILC, 2022-04-08 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.rfilc.org/why-claim-payouts-show-that-agricultural-insurance-works/"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "OKO Finance — crop insurance ผ่านมือถือ (Mali/Uganda/Côte d'Ivoire; พันธมิตร Swiss Re ฯลฯ) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://oko.finance/"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "WorldCover: Transforming Climate Risk Management for Agriculture Since 2015 (ระดมทุน ~$6M/7 รอบ, ล่าสุด 2019; parametric ดาวเทียม), Persana AI Blog, 2025-09-09 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://techcrunch.com/2019/05/03/worldcover-raises-6m-round-for-emerging-markets-climate-insurance"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "ARC pays out $3.3m as Malawi's parametric drought insurance triggers ($3.38M: $3.07M + $311K; 311,000 คน), Artemis.bm, 2025-07-28 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.artemis.bm/news/arc-pays-out-3-3m-as-malawis-parametric-drought-insurance-triggers/"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "Malawian farmers receive first drought insurance payout ($100,000, soil moisture ดาวเทียม, 1,200 ครัวเรือน; Tearfund/Global Parametrics/Humanity Insured), Tearfund, 2025-02-01 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.tearfund.org/stories/media/press-releases/2025/02/malawian-farmers-receive-first-drought-insurance-payout"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "วิธีเช็คสิทธิ์เงินประกันภัยข้าวนาปี 2567 (21 ล้านไร่; งบ 2,302.16 ล้านบาท = รัฐ 1,612.16 + ธ.ก.ส. 690; คุ้มครอง 1,190/595 บาท/ไร่; เบี้ย 70/199/218 บาท/ไร่), ฐานเศรษฐกิจ, 2025-06-07 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thansettakij.com/economy/trade-agriculture/629373"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "ธ.ก.ส. เปิดเงื่อนไขประกันภัยข้าวนาปี 2567 (วงเงิน 1,569 ล้านบาท; จ่ายเคลมภายใน 15 วัน; แอป \"มะลิซ้อน\"), ฐานเศรษฐกิจ, 2024-06-23 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thansettakij.com/business/trade-agriculture/599946"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "เกษตรฯ เคาะประกันภัยข้าวนาปี 2569 คุ้มครอง 10 ไร่ ใช้ดาวเทียมจ่ายเคลมไว (จ่ายสินไหม 7–14 วัน; มติคณะกรรมการขับเคลื่อนฯ ครั้งที่ 1/2569), ไทยรัฐออนไลน์, 2026-05-08 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thairath.co.th/news/governmentpolicy/2931472"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "เกษตรฯ MOU ใช้วิทยาศาสตร์-เทคโนโลยีหนุนประกันภัยพืชผล (โมเดล 16 จังหวัด 8.8 ล้านไร่; แม่นยำ 92/86/83%; ต่างทะเบียน 3.25% = 127,139 ไร่; ขยาย 60 ล้านไร่), กรุงเทพธุรกิจ, 2025-05-18 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.bangkokbiznews.com/business/economic/1180636"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "กสก. จับมือไทยคม-สมาคมประกันวินาศภัย ใช้ข้อมูลดาวเทียมยกระดับประกันพืชผล (MOU 5 ปี; pilot 6 จังหวัด 3 ล้านไร่), ไทยรัฐออนไลน์, 2024-01-31 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thairath.co.th/agriculture/agricultural-technology/2759703"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "การออกแบบการจัดการความเสี่ยงปัญหาสภาพภูมิอากาศสำหรับการผลิตข้าวของประเทศไทย (WII vs NDRP; GSMaP 11×11 กม.; ข้าวโพดเลี้ยงสัตว์ WII ตั้งแต่ 2549; ข้าวขอนแก่น 2553–2556), TDRI (Bisonyabut N. และคณะ), 2020 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://tdri.or.th/wp-content/uploads/2020/11/24-11-AFFP-final-v3-South-Boontida-Pac-noo-edit2.pdf"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "มิติใหม่ของข้อมูลความเสี่ยงภาคเกษตรกับการพัฒนาระบบประกันภัยพืชผลที่ยั่งยืน (Chantarat 2016 — 5 ดัชนี, MODIS NDVI ตั้งแต่ 2543, พอร์ตจ่ายพุ่งปีน้ำท่วม 2554), PIER, 2016-05 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.pier.or.th/abridged/2016/05/"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "การออกแบบระบบการประกันภัยตามดัชนีอากาศ (WII ข้าวอีสาน: strike ฝน 1,322 มม./tick 3.51 บาท; อุณหภูมิ 27.68°C/139.25 บาท; ลดความเสี่ยงรายได้ 2.39–9.55%; ภาพฉาย 2573–2593 เบี้ย 51.01–997.23 บาท/ไร่), วารสารเศรษฐศาสตร์และบริหารธุรกิจ มหาวิทยาลัยทักษิณ (TCI), 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so01.tci-thaijo.org/index.php/ecbatsu/article/download/274150/180593/1159861"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "ประกันภัยพืชผลที่อิงดัชนีสภาวะอากาศ ใช้เทคโนโลยีทันสมัยสร้างโอกาสเกษตรกรรายย่อย (WII ลำไยเชียงใหม่ 2562–2563 ครอบคลุม 69% ของพื้นที่ปลูกลำไย), ศูนย์วิจัยกสิกรไทย, 2020-11-30 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.kasikornresearch.com/th/analysis/k-social-media/Pages/Crop-Insurance-FB-30-11-20.aspx"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "ธ.ก.ส. เปิดรับทำประกันภัยข้าวนาปีและข้าวโพดเลี้ยงสัตว์ ปีการผลิต 2565 (2564: ข้าว 3.66 ล้านราย/43 ล้านไร่, ข้าวโพด 99,335 ราย/1.59 ล้านไร่; จ่ายสินไหม 117,565 ราย 1,553 ล้านบาท 1.27 ล้านไร่), สำนักงาน ก.พ.ร./GCC, 2022-05-05 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.gcc.go.th/2022/05/05/ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร-30/"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "เคาะมาตรการประกันภัยข้าวโพดเลี้ยงสัตว์ปี 66 (Tier 1 2.06 ล้านไร่ + Tier 2 6 หมื่นไร่; คุ้มครอง 1,500 บาท/ไร่; เบี้ย 150/350/550; รัฐอุดหนุน 96 บาท/ไร่), The Bangkok Insight, 2023-03-15 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thebangkokinsight.com/news/business/1064942/"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "หลักเกณฑ์การให้ความช่วยเหลือเกษตรกรผู้ประสบภัยพิบัติด้านพืช (ข้าว 1,340 / พืชไร่-ผัก 1,980 / ไม้ผล 4,048 บาท/ไร่; สูงสุด 30 ไร่/ครัวเรือน), คลังความรู้เกษตร กรมส่งเสริมการเกษตร, 2569 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://khlangkaset.doae.go.th/%E0%B9%80%E0%B8%81%E0%B8%93%E0%B8%91%E0%B9%8C%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%83%E0%B8%AB%E0%B9%89%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%8A%E0%B9%88%E0%B8%A7%E0%B8%A2%E0%B9%80%E0%B8%AB%E0%B8%A5/"
+    },
+    {
+      "id": "36",
+      "index": 36,
+      "label": "กสก. เผยผลสำรวจความเสียหายพื้นที่เกษตรจากอุทกภัยคืบหน้า 85% (อุทกภัย 14 ก.ค.–27 ก.ย. 2567: เสียหาย ~644,876 ไร่ วงเงินช่วยเหลือ ~917 ล้านบาท; ระยะเวลาช่วยเหลือลดจาก 90 เป็น 65 วัน), ศูนย์ข่าวกรมส่งเสริมการเกษตร, 2567 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doaenews.doae.go.th/archives/25354"
+    },
+    {
+      "id": "37",
+      "index": 37,
+      "label": "Crop Insurance Market Size & Share Report 2025–2030 ($38.7B 2024 → $53.64B 2030, CAGR 6.1%; NA ใหญ่สุด, APAC โตเร็วสุด), Grand View Research, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.grandviewresearch.com/industry-analysis/crop-insurance-market-report"
+    },
+    {
+      "id": "38",
+      "index": 38,
+      "label": "Crop Insurance Market Size (2026) & Growth to 2031 ($58.07B 2026 → $98.26B 2031, CAGR 11.07%; parametric เติบโต 13.18% CAGR), Mordor Intelligence, 2026-06-10 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mordorintelligence.com/industry-reports/crop-insurance-market"
+    },
+    {
+      "id": "39",
+      "index": 39,
+      "label": "Crop Weather Index Insurance Market ($2.04B 2025 → $3.72B 2030, CAGR 12.7%), The Business Research Company, 2026-07-12 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thebusinessresearchcompany.com/report/crop-weather-index-insurance-global-market-report"
+    }
+  ],
+  "reference_count": 39,
+  "article_file": "agri-11-002.md",
+  "source_file": "11-การปรับตัวต่อสภาพอากาศและระบบเตือนภัย\\เจาะลึก-11-ประกันภัยพืชผล-IndexBased.md"
+}

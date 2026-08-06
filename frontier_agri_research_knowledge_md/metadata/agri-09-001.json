@@ -1,0 +1,227 @@
+{
+  "slug": "agri-09-001",
+  "title": "RAS ระบบหมุนเวียนน้ำปิด — เลี้ยงกุ้ง/ปลา เศรษฐศาสตร์และจุดคุ้มทุนไทย",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ประมงและสัตว์น้ำ",
+  "domain_code": "09",
+  "topic_id": "09-001",
+  "handle_id": "09-001",
+  "abstract": "- **ใจความ**: RAS = ระบบเลี้ยงสัตว์น้ำความหนาแน่นสูงในถัง/บ่อปิด ที่กรองน้ำกลับมาใช้ใหม่ได้ 90–99% ควบคุมโรค/อุณหภูมิ/คุณภาพน้ำได้ตลอดปี — สัญญาแก้ปัญหาใหญ่ของกุ้งไทยคือโรคระบาด (EMS/AHPND) ที่กดผลผลิตจาก 6 แสนกว่าตันเหลือ ~2.7 แสนตัน/ปี และข้อจำกัดด้านน้ำ/พื้นที่/แรงงาน [18][19][11] — แต่จุดอ่อนคือ \"ทุนสูง + ค่าไฟสูง + ผลตอบแทนยังแพ้บ่อดิน/ระบบแลกน้ำในหลายงานวิจัย\" [1][4]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://doi.org/10.1016/j.aqrep.2025.102800",
+  "pdf_url": "https://storage.mfn.se/84e67eff-299d-41d5-95ac-f97a66094973/salme-q4-2025-report.pdf",
+  "source_urls": [
+    "https://doi.org/10.1016/j.aqrep.2025.102800",
+    "https://doi.org/10.3390/su162411005",
+    "https://www.scielo.br/j/ocr/a/HF7gYJcfxWnC7m7pYwG3GDS",
+    "https://doi.org/10.1111/jwas.12706",
+    "https://doi.org/10.1111/jwas.13075",
+    "https://storage.mfn.se/84e67eff-299d-41d5-95ac-f97a66094973/salme-q4-2025-report.pdf",
+    "https://atlanticsapphire.com/wp-content/uploads/2025/08/250831-Atlantic-Sapphire-first-half-2025-report.pdf",
+    "https://www.undercurrentnews.com/2025/12/08/land-based-salmon-capex-reality-diverges-sharply-from-early-assumptions/",
+    "https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/agriculture-and-seafood/fisheries-and-aquaculture/aquaculture-reports/ras_salmon_farming_in_bc_-_economic_analysis__strategic_considerations.pdf",
+    "https://medcraveonline.com/JAMB/JAMB-12-00362.pdf",
+    "https://www.mdpi.com/2071-1050/17/4/1745",
+    "https://doi.org/10.14456/paj.2025.8",
+    "https://doi.org/10.21608/ejabf.2023.288512",
+    "https://r236.ryt9.com/s/oae/3404648",
+    "https://www.posttoday.com/business/561962",
+    "https://www.cpfworldwide.com/th/media-center/358",
+    "https://www.mtec.or.th/rascal/",
+    "https://www.thansettakij.com/economy/trade-agriculture/646722",
+    "https://www.kasikornresearch.com/th/analysis/k-social-media/Pages/Shirmp-Export-CIS3628-FB-2025-12-04.aspx",
+    "https://www.stocktitan.net/sec-filings/SHMP/10-k-natural-shrimp-inc-files-annual-report-194ddef1736e.html",
+    "https://www.undercurrentnews.com/2025/05/16/struggling-us-land-based-shrimp-producer-sold-to-indoor-farming-firm-in-12m-stock-deal/",
+    "https://www.rdmshrimp.com/",
+    "https://app.csc.ku.ac.th/sdgs/project/smart-aquaculture-iot-ai-2025",
+    "https://kb.mju.ac.th/innovation.aspx?id=4036",
+    "https://plumtri.org/Project-BIORAS_SHRIMP-Contribution_to_the_Innovation_of_Shrimp_Farming_in_Europe",
+    "https://www.was.org/article/The-economics-of-recirculating-aquaculture-systems.aspx",
+    "https://www.muser.press/2024/10/16/roskilde-university-researchers-launch-sustainable-shrimp-production-pilot-on-bornholm/",
+    "https://li01.tci-thaijo.org/index.php/JVIA/article/download/213690/148663/677128",
+    "https://so02.tci-thaijo.org/index.php/JCDLQ/article/view/280744"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Neoclassical economic analysis of water exchange and recirculating aquaculture systems in shrimp farming, Wang Y. et al., Aquaculture Reports 42:102800, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.aqrep.2025.102800"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Assessment of Water Quality, Growth of Penaeus vannamei, and Partial Budget in Super-Intensive BFT and RAS, Ramiro B. et al., Sustainability 16(24):11005, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3390/su162411005"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Productive and economic performance of an indoor intensive culture of Penaeus vannamei: comparing biofloc versus recirculating systems, Ocean and Coastal Research, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.scielo.br/j/ocr/a/HF7gYJcfxWnC7m7pYwG3GDS"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Cost drivers and profitability of U.S. pond, raceway, and RAS aquaculture, Engle C.R., Kumar G., van Senten J., Journal of the World Aquaculture Society 51(4):847–873, 2020 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1111/jwas.12706"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Estimating growout production costs of commercial-scale marine finfish production in southern tier US states, Engle C.R. et al., Journal of the World Aquaculture Society, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1111/jwas.13075"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Salmon Evolution ASA: Q4/Full Year 2025 Report, Salmon Evolution, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://storage.mfn.se/84e67eff-299d-41d5-95ac-f97a66094973/salme-q4-2025-report.pdf"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Atlantic Sapphire ASA: Interim Management Report 30 June 2025, Atlantic Sapphire, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://atlanticsapphire.com/wp-content/uploads/2025/08/250831-Atlantic-Sapphire-first-half-2025-report.pdf"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Land-based salmon capex reality diverges sharply from early assumptions (Land-based Aquaculture Report ed.5, Spheric Research), Undercurrent News, 2025-12-08 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.undercurrentnews.com/2025/12/08/land-based-salmon-capex-reality-diverges-sharply-from-early-assumptions/"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "RAS Salmon Farming in British Columbia: Economic Analysis and Strategic Considerations, Ministry of Agriculture, BC Canada — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/agriculture-and-seafood/fisheries-and-aquaculture/aquaculture-reports/ras_salmon_farming_in_bc_-_economic_analysis__strategic_considerations.pdf"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Economics of growing salmon in recirculating aquaculture systems (RAS), Golfand I., Journal of Aquaculture & Marine Biology 12(3), 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://medcraveonline.com/JAMB/JAMB-12-00362.pdf"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Production Costs and Growth Performance of Tilapia in Intensive Production Systems (RAS/AS/BFT) — ทบทวน 52 บทความ, Sustainability 17(4):1745, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mdpi.com/2071-1050/17/4/1745"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "ผลของระบบการเพาะเลี้ยงแบบน้ำหมุนเวียนต่อค่าโลหิตวิทยา คุณภาพน้ำและสมรรถนะการเจริญเติบโตของปลานิลแดง, ชูเกิด น., พุ่มโรจน์ พ., ขำคง ส., วารสารเกษตรพระวรุณ 22(1):67–77, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.14456/paj.2025.8"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Comparison Between Recirculating Aquaculture System (RAS) Ponds and Earthen Aquaculture Ponds in Overwintering Juveniles of the Nile Tilapia, Maher H. et al., Egyptian Journal of Aquatic Biology & Fisheries, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.21608/ejabf.2023.288512"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "สศท.6 เปิดผลการศึกษา 'นวัตกรรมระบบควบคุมคุณภาพน้ำอัจฉริยะ' (กุ้งขาวแวนนาไม ภาคตะวันออก 56 ฟาร์ม), สำนักงานเศรษฐกิจการเกษตร (สศก.), 2567 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://r236.ryt9.com/s/oae/3404648"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "ฟาร์มบางสระเก้า ต้นแบบเลี้ยงกุ้งปลอดสาร (ลงทุน 5 ล้านบาท/ไร่, 8 ตัน/ไร่/รุ่น), โพสต์ทูเดย์, 2561 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.posttoday.com/business/561962"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "'ร้อยเพชร' ฟาร์มกุ้งโรงเรือนระบบปิดต้นแบบแห่งเดียวของไทย (ใช้น้ำ 0.8 ลบ.ม./กก.), ซีพีเอฟ (CPF Worldwide) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.cpfworldwide.com/th/media-center/358"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "ระบบเลี้ยงสัตว์น้ำหนาแน่นแบบน้ำไหลเวียนอัจฉริยะ RASCAL, MTEC-สวทช., 2568 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mtec.or.th/rascal/"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "เปิดปัจจัยบวกส่งออกกุ้งไทยปี 2569 (EMS 13 ปี เสียหาย 6.5 แสนล้านบาท; ภาษีไทย 19% vs อินเดีย ~60%), ฐานเศรษฐกิจ, 2025-12-16 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thansettakij.com/economy/trade-agriculture/646722"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "ส่งออกกุ้งไทยปี 2569 คาดหดตัว 3.6% (มูลค่า ~1,075 ล้านดอลลาร์; ส่วนแบ่ง 4%), ศูนย์วิจัยกสิกรไทย, 2025-12-04 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.kasikornresearch.com/th/analysis/k-social-media/Pages/Shirmp-Export-CIS3628-FB-2025-12-04.aspx"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "NaturalShrimp details liquidation and $9M net liabilities (10-K; receivership 9/2024; ขายทรัพย์สิน $35.7M credit bid), StockTitan/SEC, 2026-07-22 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.stocktitan.net/sec-filings/SHMP/10-k-natural-shrimp-inc-files-annual-report-194ddef1736e.html"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "Struggling US land-based shrimp producer sold to indoor farming firm in $12m stock deal, Undercurrent News, 2025-05-16 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.undercurrentnews.com/2025/05/16/struggling-us-land-based-shrimp-producer-sold-to-indoor-farming-firm-in-12m-stock-deal/"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "RDM Aquaculture LLC — indoor heterotrophic RAS shrimp farm (Indiana, ตั้งแต่ 2010, survival ~90%) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.rdmshrimp.com/"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "การเพาะเลี้ยงสัตว์น้ำอัจฉริยะ IoT + AI (50 บ่อ: อาหาร -18%, อัตรารอด +22%, รายได้ +15%), มหาวิทยาลัยเกษตรศาสตร์, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://app.csc.ku.ac.th/sdgs/project/smart-aquaculture-iot-ai-2025"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "การเลี้ยงปลากะพงขาวน้ำจืดในระบบน้ำหมุนเวียน RAS, มหาวิทยาลัยแม่โจ้, 2566 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://kb.mju.ac.th/innovation.aspx?id=4036"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "Project BIORAS_SHRIMP — bio-secure RAS shrimp (EU BlueBio; ฟาร์มเต็มรูปแบบ Gela, อิตาลี), Seasus/AquaBioTech Group, 2022–2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://plumtri.org/Project-BIORAS_SHRIMP-Contribution_to_the_Innovation_of_Shrimp_Farming_in_Europe"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "The economics of recirculating aquaculture systems, Engle C.R., World Aquaculture Society, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.was.org/article/The-economics-of-recirculating-aquaculture-systems.aspx"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "Roskilde University researchers launch sustainable shrimp production pilot on Bornholm (งบ DKK 5.4 ล้าน, EMFAF), Muser Press, 2024-10-16 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.muser.press/2024/10/16/roskilde-university-researchers-launch-sustainable-shrimp-production-pilot-on-bornholm/"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "ประสิทธิภาพของรูปแบบการบำบัดน้ำแบบชีวภาพประยุกต์ในระบบน้ำหมุนเวียนเพื่อการอนุบาลกุ้งขาวแวนนาไม, กรมประมง, วารสาร JVIA (TCI) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://li01.tci-thaijo.org/index.php/JVIA/article/download/213690/148663/677128"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "การวิเคราะห์ต้นทุนและผลตอบแทนของกิจกรรมเพาะเลี้ยงในโซ่อุปทานกุ้งขาว จังหวัดตรัง, กิ่งรัตน์ ศ. และคณะ, วารสารการพัฒนาชุมชนและคุณภาพชีวิต 14(2):151–161, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so02.tci-thaijo.org/index.php/JCDLQ/article/view/280744"
+    }
+  ],
+  "reference_count": 29,
+  "article_file": "agri-09-001.md",
+  "source_file": "09-ประมงและสัตว์น้ำ\\เจาะลึก-09-RAS-ระบบหมุนเวียนน้ำปิด.md"
+}

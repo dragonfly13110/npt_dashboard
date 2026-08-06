@@ -1,0 +1,199 @@
+{
+  "slug": "agri-01-003",
+  "title": "โมเลคิวลาร์ฟาร์มมิ่ง (Molecular Farming — พืชเป็นโรงงานผลิตโปรตีน/โมเลกุลพิเศษ)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-01",
+  "created_at": "2026-08-01",
+  "review_at": "2027-02-01",
+  "category": "เทคโนโลยีชีวภาพและพันธุวิศวกรรม",
+  "domain_code": "01",
+  "topic_id": "01-003",
+  "handle_id": "01-003",
+  "abstract": "- **ใจความ**: เทคโนโลยี \"ใช้พืชเป็นโรงงานผลิตโปรตีน/วัคซีน\" อายุเกือบ 40 ปี แต่เจาะตลาดได้น้อยมาก — วัคซีน COVID จากยาสูบ **Covifenz (Medicago)** เป็นการอนุมัติครั้งแรกของโลก (แคนาดา ก.พ. 2565) แต่บริษัทปิดกิจการภายใน 1 ปี (ก.พ. 2566) หลัง WHO ปฏิเสธพิจารณาเพราะเจ้าของเดิมถือหุ้นโดย Philip Morris [1][2][3] — บทเรียนที่ใหญ่ที่สุดของทั้งอุตสาหกรรม",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.nature.com/articles/s44383-026-00035-7",
+  "pdf_url": null,
+  "source_urls": [
+    "https://www.nature.com/articles/s44383-026-00035-7",
+    "https://www.canada.ca/en/health-canada/services/drugs-health-products/covid19-industry/drugs-vaccines-treatments/vaccines/medicago.html",
+    "https://www.biopharmadive.com/news/medicago-covid-vaccine-liquidate/641959/",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC8473425/",
+    "https://link.springer.com/article/10.1007/s11240-025-03247-4",
+    "https://en.wikipedia.org/wiki/Biolex",
+    "https://protalixbiotherapeutics.gcs-web.com/news-releases/news-release-details/pfizer-and-protalix-biotherapeutics-announce-fda-approval",
+    "https://www.greenqueen.com.hk/moolec-science-molecular-farming-bovine-myoglobin-beef-protein-peas/",
+    "https://agfundernews.com/meat-proteins-in-plants-moolec-science-raises-30m-to-expand-molecular-farming-operation",
+    "https://www.cbc.ca/news/politics/medicago-purchased-aramis-biotechnology-1.7053274",
+    "https://mappbio.com/z-mapp/",
+    "https://www.centerforfoodsafety.org/press-releases/839",
+    "https://gfi.org/plant-molecular-farming-fact-sheet",
+    "https://www.nature.com/articles/s44222-023-00044-6",
+    "https://www.researchgate.net/publication/360865480",
+    "https://ecommons.cornell.edu",
+    "https://grokipedia.com/page/ventria_bioscience",
+    "https://dataintelo.com/report/molecular-farming-market",
+    "https://www.sciencedirect.com/science/article/pii/S1359511326000760",
+    "https://baiyaphytopharm.com/",
+    "https://synapse.patsnap.com/organization/c568e889b6fecafc70ce559cc83e7c8b",
+    "https://doi.org/10.1371/journal.pone.0316790",
+    "https://www.biotec.or.th/home/en/opening-cassava-forum-2025-en/",
+    "https://www.europeanscientist.com/en/agriculture/ngt-regulation-the-eu-opens-the-door-but-only-halfway/",
+    "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202601388"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Rybicki, E.P., npj Science of Plants 2:22 (29 ก.ค. 2569): Plant molecular farming for pharmaceuticals — state of the art — เข้าใช้ 2026-08-01",
+      "url": "https://www.nature.com/articles/s44383-026-00035-7"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Health Canada: Medicago Covifenz COVID-19 vaccine (หน้าทางการ) — เข้าใช้ 2026-08-01",
+      "url": "https://www.canada.ca/en/health-canada/services/drugs-health-products/covid19-industry/drugs-vaccines-treatments/vaccines/medicago.html"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "BioPharma Dive (3 ก.พ. 2566): COVID-19 vaccine maker Medicago to close down — เข้าใช้ 2026-08-01",
+      "url": "https://www.biopharmadive.com/news/medicago-covid-vaccine-liquidate/641959/"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Maharjan & Choe, Vaccines 9:992 (2564): Plant-Based COVID-19 Vaccines — Current Status — เข้าใช้ 2026-08-01",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8473425/"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Adedeji et al., PCTOC 163:45 (17 ต.ค. 2568): Integrating molecular farming into sustainable plant biotechnology — เข้าใช้ 2026-08-01",
+      "url": "https://link.springer.com/article/10.1007/s11240-025-03247-4"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Wikipedia: Biolex Therapeutics (ล้มละลาย 2555) — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://en.wikipedia.org/wiki/Biolex"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Pfizer & Protalix: FDA Approval of ELELYSO (1 พ.ค. 2555) — เข้าใช้ 2026-08-01",
+      "url": "https://protalixbiotherapeutics.gcs-web.com/news-releases/news-release-details/pfizer-and-protalix-biotherapeutics-announce-fda-approval"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Green Queen (10 เม.ย. 2569): Moolec — Iron-Rich Beef Protein in Pea Seeds — เข้าใช้ 2026-08-01",
+      "url": "https://www.greenqueen.com.hk/moolec-science-molecular-farming-bovine-myoglobin-beef-protein-peas/"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "AgFunderNews (8 ม.ค. 2568): Moolec Science raises $30m — เข้าใช้ 2026-08-01",
+      "url": "https://agfundernews.com/meat-proteins-in-plants-moolec-science-raises-30m-to-expand-molecular-farming-operation"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "CBC News (8 ธ.ค. 2566): Ottawa gets $40M refund; Medicago purchased by Aramis Biotechnologies — เข้าใช้ 2026-08-01",
+      "url": "https://www.cbc.ca/news/politics/medicago-purchased-aramis-biotechnology-1.7053274"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Mapp Biopharmaceutical: ZMapp — เข้าใช้ 2026-08-01",
+      "url": "https://mappbio.com/z-mapp/"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Center for Food Safety: Ventria Bioscience pharmaceutical rice (2551) — เข้าใช้ 2026-08-01",
+      "url": "https://www.centerforfoodsafety.org/press-releases/839"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "GFI: Plant molecular farming fact sheet (มิ.ย. 2568) — เข้าใช้ 2026-08-01",
+      "url": "https://gfi.org/plant-molecular-farming-fact-sheet"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Eidenberger et al., Nature Reviews Bioengineering (21 มี.ค. 2566) — เข้าใช้ 2026-08-01",
+      "url": "https://www.nature.com/articles/s44222-023-00044-6"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "Technoeconomic Modeling for Plant-Based Manufacturing (2565, ResearchGate) — เข้าใช้ 2026-08-01",
+      "url": "https://www.researchgate.net/publication/360865480"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Davies, H.M.: Plant-Made Pharmaceuticals — An Overview and Update (Cornell) — เข้าใช้ 2026-08-01",
+      "url": "https://ecommons.cornell.edu"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Grokipedia: Ventria Bioscience (24 ธ.ค. 2568 — แหล่งรอง, ระวัง AI synthesis) — เข้าใช้ 2026-08-01",
+      "url": "https://grokipedia.com/page/ventria_bioscience"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "Dataintelo: Molecular Farming Market Report 2033 (29 พ.ค. 2569 — analyst estimate) — เข้าใช้ 2026-08-01",
+      "url": "https://dataintelo.com/report/molecular-farming-market"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Iucci et al., Biotechnology Advances (มิ.ย. 2569): Plant molecular farming as biomanufacturing platform — เข้าใช้ 2026-08-01",
+      "url": "https://www.sciencedirect.com/science/article/pii/S1359511326000760"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "Baiya Phytopharm (เว็บทางการ) — เข้าใช้ 2026-08-01",
+      "url": "https://baiyaphytopharm.com/"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "PatSnap Synapse: Baiya Phytopharm status (อัปเดต 29 ส.ค. 2568) — เข้าใช้ 2026-08-01",
+      "url": "https://synapse.patsnap.com/organization/c568e889b6fecafc70ce559cc83e7c8b"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "Rattanapisit et al., PLoS ONE 20:e0316790 (2568): Plant-derived Pembrolizumab biosimilar — เข้าใช้ 2026-08-01",
+      "url": "https://doi.org/10.1371/journal.pone.0316790"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "BIOTEC: Global Cassava Sustainability Forum 2025 (16 มิ.ย. 2568) — เข้าใช้ 2026-08-01",
+      "url": "https://www.biotec.or.th/home/en/opening-cassava-forum-2025-en/"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "European Scientist (21 มิ.ย. 2569): NGT Regulation — EU Opens the Door, but Only Halfway — เข้าใช้ 2026-08-01",
+      "url": "https://www.europeanscientist.com/en/agriculture/ngt-regulation-the-eu-opens-the-door-but-only-halfway/"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "European Commission: Regulation (EU) 2026/1388 (Official Journal) — เข้าใช้ 2026-08-01",
+      "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202601388"
+    }
+  ],
+  "reference_count": 25,
+  "article_file": "agri-01-003.md",
+  "source_file": "01-เทคโนโลยีชีวภาพและพันธุวิศวกรรม\\เจาะลึก-01-โมเลคิวลาร์ฟาร์มมิ่ง.md"
+}

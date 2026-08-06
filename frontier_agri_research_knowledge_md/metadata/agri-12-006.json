@@ -1,0 +1,201 @@
+{
+  "slug": "agri-12-006",
+  "title": "หนี้สินเกษตรกรไทย — โครงสร้างหนี้ นโยบายพักชำระหนี้ และความเสี่ยงทางการเงินของครัวเรือนเกษตร",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-04",
+  "created_at": "2026-08-04",
+  "review_at": "2027-02-04",
+  "category": "ระบบอาหาร เศรษฐศาสตร์ และนโยบาย",
+  "domain_code": "12",
+  "topic_id": "12-006",
+  "handle_id": "12-006",
+  "abstract": "- **ใจความ**: ครัวเรือนเกษตรไทยราว 8 ใน 10 มีหนี้สิน และหนี้เฉลี่ยต่อครัวเรือนสูงกว่าครัวเรือนทั่วไปในเมืองในเกือบทุกช่วงอายุของหัวหน้าครัวเรือน [2][5] — หนี้ครัวเรือนทั้งประเทศสูงถึง ~90% ของ GDP (2567) เป็นระดับสูงที่สุดระดับต้น ๆ ของเอเชีย [1][3] — ธ.ก.ส. เป็นเสาหลักการเงินเกษตร: สินเชื่อคงค้างกว่า 2.4 ล้านล้านบาท (2566) ให้บริการ ~6.3 ล้านครัวเรือน [4] — มาตรการพักชำระหนี้เงินต้น 3 ปี (มี.ค. 2567–มี.ค. 2570) ครอบคลุมลูกหนี้รายย่อย ธ.ก.ส. วงเงินต้นไม่เกิน 3 แสนบาท ราว 2.66 ล้านราย วงเงิน ~7.56 แสนล้านบาท [6][7] — คำถามเปิดที่ใหญ่สุดคือ \"วินัยการชำระหนี้หลังจบมาตรการ\" และผลต่อ NPL ของ ธ.ก.ส. [7][8]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.bot.or.th",
+  "pdf_url": null,
+  "source_urls": [
+    "https://www.bot.or.th",
+    "https://www.nso.go.th",
+    "https://www.worldbank.org/en/country/thailand",
+    "https://www.baac.or.th",
+    "https://www.thaigov.go.th",
+    "https://www.prachachat.net",
+    "https://www.pier.or.th",
+    "https://www.tdri.or.th",
+    "https://www.bangkokbiznews.com",
+    "https://doi.org/10.1093/wber/4.3.271",
+    "https://doi.org/10.3982/ECTA7079",
+    "https://doi.org/10.1257/app.4.2.98",
+    "https://www.nesdc.go.th",
+    "https://www.imf.org",
+    "https://www.oae.go.th",
+    "https://www.thairath.co.th",
+    "https://www.fao.org",
+    "https://frdfund.org",
+    "https://www.tci-thaijo.org",
+    "https://www.thansettakij.com",
+    "https://townsend-thai.mit.edu/data-archive/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "ธนาคารแห่งประเทศไทย (ธปท.). \"สถิติหนี้สินครัวเรือนและรายงานเสถียรภาพการเงิน.\" 2566–2567. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.bot.or.th"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "สำนักงานสถิติแห่งชาติ. \"การสำรวจภาวะเศรษฐกิจและสังคมของครัวเรือน (Household Socio-Economic Survey).\" 2564–2566. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.nso.go.th"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "World Bank. \"Thailand Economic Monitor\" (ประเด็นหนี้ครัวเรือน/การฟื้นตัว). 2566–2567. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.worldbank.org/en/country/thailand"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร (ธ.ก.ส.). \"รายงานประจำปีและงบการเงิน\" 2565–2566. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.baac.or.th"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "สำนักงานสถิติแห่งชาติ. \"สำมะโนการเกษตร พ.ศ. 2566 (Agricultural Census).\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.nso.go.th"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "ครม. (ทำเนียบรัฐบาล). \"มติ ครม. 26 มีนาคม 2567: มาตรการแก้หนี้สินภาคเกษตรกรรม.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.thaigov.go.th"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "ประชาชาติธุรกิจ. \"ครม.อนุมัติพักชำระหนี้เกษตรกร 3 ปี 2.66 ล้านราย วงเงิน 7.56 แสนล้านบาท.\" มี.ค. 2567. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.prachachat.net"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "สถาบันวิจัยเศรษฐกิจป๋วย อึ๊งภากรณ์ (PIER). \"งานวิจัยหนี้สินครัวเรือนและภาระหนี้ครัวเรือน.\" 2565–2567. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.pier.or.th"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "สถาบันวิจัยเพื่อการพัฒนาประเทศไทย (TDRI). \"งานศึกษานโยบายการเงินเกษตรและหนี้สินเกษตรกร.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.tdri.or.th"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "กรุงเทพธุรกิจ. \"โครงการพักชำระหนี้เกษตรกร 3 ปี 2544–2546: จำนวนผู้ได้รับประโยชน์และงบประมาณ.\" 2546. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.bangkokbiznews.com"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Siamwalla A., et al. \"The Thai Rural Credit System: Public Subsidies, Private Information, and Segmented Markets.\" The World Bank Economic Review 4(3), 1990. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://doi.org/10.1093/wber/4.3.271"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Kaboski J., Townsend R. \"A Structural Evaluation of a Large-Scale Quasi-Experimental Microfinance Initiative.\" Econometrica 79(5), 2011. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://doi.org/10.3982/ECTA7079"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Kaboski J., Townsend R. \"The Impact of Credit on Village Economies.\" American Economic Journal: Applied Economics 4(2), 2012. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://doi.org/10.1257/app.4.2.98"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "สำนักงานสภาพัฒนาการเศรษฐกิจและสังคมแห่งชาติ (สศช.). \"รายงานภาวะสังคมไทยรายไตรมาส.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.nesdc.go.th"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "IMF. \"Thailand: Article IV Consultation Reports.\" 2565–2567. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.imf.org"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "ธนาคารแห่งประเทศไทย. \"บทความเรื่องหนี้ครัวเรือนไทย: โครงสร้างและความเสี่ยง.\" 2565–2567. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.bot.or.th"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "สำนักงานเศรษฐกิจการเกษตร (สศก.). \"ภาวะเศรษฐกิจสังคมครัวเรือนเกษตร.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.oae.go.th"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "ไทยรัฐ. \"รายงานผลมาตรการพักชำระหนี้ ธ.ก.ส. และการติดตามวินัยการชำระหนี้.\" 2568. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.thairath.co.th"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "FAO. \"Agricultural Credit and Rural Finance.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.fao.org"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "สำนักงานกองทุนฟื้นฟูและพัฒนาเกษตรกร. \"งานฟื้นฟูอาชีพและการไกล่เกลี่ยหนี้เกษตรกร.\" — เข้าถึงเมื่อ 2026-08-06",
+      "url": "https://frdfund.org"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร. \"ผลิตภัณฑ์สินเชื่อรายย่อยและมาตรการดอกเบี้ยพิเศษ.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.baac.or.th"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "พงษ์ศักดิ์/วารสารไทย (TCI). \"งานศึกษาหนี้สินครัวเรือนเกษตรกรไทยรายภาค\" (สังเคราะห์). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.tci-thaijo.org"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "ธนาคารแห่งประเทศไทย. \"Financial Stability Report Thailand 2567.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.bot.or.th"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "ฐานเศรษฐกิจ. \"การพักชำระหนี้ภาคเกษตร: ผลต่อสถาบันการเงินเฉพาะกิจ.\" 2567. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.thansettakij.com"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "World Bank. \"Townsend Thai Project — Household Panel Data\" (ข้อมูลครัวเรือนชนบทไทย). — เข้าถึงเมื่อ 2026-08-06",
+      "url": "https://townsend-thai.mit.edu/data-archive/"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "อดิศร์ อิศรางกูร ณ อยุธยา และคณะ. \"หนี้สินครัวเรือนไทย: การทบทวนวรรณกรรมและข้อเสนอ.\" TDRI/วารสารวิชาการ, 2565. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.tdri.or.th"
+    }
+  ],
+  "reference_count": 26,
+  "article_file": "agri-12-006.md",
+  "source_file": "12-ระบบอาหาร เศรษฐศาสตร์ และนโยบาย\\เจาะลึก-12-หนี้สินเกษตรกรไทย.md"
+}

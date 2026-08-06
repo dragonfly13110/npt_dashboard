@@ -1,0 +1,290 @@
+{
+  "slug": "agri-09-002",
+  "title": "AI + กล้องใต้น้ำตรวจจับโรคกุ้ง (EMS/EHP) ก่อนแตก",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ประมงและสัตว์น้ำ",
+  "domain_code": "09",
+  "topic_id": "09-002",
+  "handle_id": "09-002",
+  "abstract": "- **ใจความ**: AI + กล้องใต้น้ำตรวจจับโรคกุ้ง = ใช้ deep learning (CNN/YOLO ตระกูล) วิเคราะห์ภาพ/วิดีโอใต้บ่อ เพื่อจับ \"สัญญาณก่อนแตก\" ทั้งสัญญาณตรง (รอยโรค/ความผิดปกติของตัวกุ้ง) และสัญญาณอ้อม (พฤติกรรม/การกินอาหาร/ความหนาแน่นที่ผิดปกติ) — ใช้คู่กับโมเลกุล (PCR/eDNA/LAMP) ซึ่งยืนยันเชื้อได้แม่นยำกว่าแต่ช้ากว่า/เป็นจุด — เทคโนโลยีภาพทำงานบนบ่อขุ่นได้ระดับหนึ่งด้วยตัวช่วย (แสงแดง/กล้อง NIR/ถาดอาหาร) [11][13][17][31]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://thefishsite.com/articles/everything-you-need-to-know-about-ems-early-mortality-syndrome-in-shrimp-farming",
+  "pdf_url": "https://sensors.myu-group.co.jp/sm_pdf/SM4042.pdf",
+  "source_urls": [
+    "https://thefishsite.com/articles/everything-you-need-to-know-about-ems-early-mortality-syndrome-in-shrimp-farming",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC8402356",
+    "https://www.sciencedirect.com/science/article/abs/pii/S0022201120301038",
+    "https://www.globalseafood.org/blog/cause-of-ems-shrimp-disease-identified",
+    "https://thaitimes.com/thailand-s-shrimp-industry-faces-challenges-amid-disease-outbreaks-and-price-pressures",
+    "https://www.pressreader.com/thailand/bangkok-post/20241212/282037627750662",
+    "https://www.sciencedirect.com/science/article/pii/S004484862101348X",
+    "https://www.cabidigitallibrary.org/doi/10.1079/9781800629363.0022",
+    "https://aquaasiapac.com/2026/02/27/the-economic-toll-of-ehp-outbreaks-in-shrimp-farming/",
+    "https://www.sciencedirect.com/science/article/pii/S0022201120301646",
+    "https://arxiv.org/abs/2507.02354",
+    "https://www.smartag.net.cn/EN/10.12133/j.smartag.SA201311014",
+    "https://www.sciencedirect.com/science/article/pii/S0959652624024739",
+    "https://link.springer.com/chapter/10.1007/978-981-97-5157-0_26",
+    "https://sensors.myu-group.co.jp/sm_pdf/SM4042.pdf",
+    "https://www.sciencedirect.com/science/article/pii/S266730532400108X",
+    "https://www.mispeces.com/en/news/AI-Cameras-Reveal-How-Shrimp-Respond-to-Feeding-in-Aquaculture-Ponds/",
+    "https://www.sciencedirect.com/science/article/pii/S0144860926000397",
+    "https://doi.org/10.1016/j.compag.2021.106135",
+    "https://www.seafoodsource.com/news/aquaculture/xpertsea-smartphone-app-uses-ai-to-boost-shrimp-farm-monitoring",
+    "https://www.businesswire.com/news/home/20210810005650/en/XpertSea-Raises-20-Million-Series-B-to-Transform-the-Seafood-Economy-through-Finance-and-Technology",
+    "https://www.intrafish.com/technology/ai-firm-reshapes-ecuador-s-shrimp-sector-with-real-time-biomass-tracking/2-1-1839482",
+    "https://www.globalseafood.org/advocate/proyecto-piloto-de-alerta-temprana-en-tailandia-tiene-como-objetivo-reducir-el-riesgo-de-enfermedad-del-camaron/",
+    "https://aquacultureuk.com/aquabuzz-news-review/aquabyte-hydra-360-ai-aquaculture-camera/",
+    "https://www.innovasea.com/aquaculture/cameras/",
+    "https://vietfishmagazine.com/news/indonesian-aquaculture-startup-efishery-nets-200m-at-unicorn-valuation.html",
+    "https://www.edibleplanetventures.com/post/efishery-secures-30-million-loan-from-hsbc-indonesia-to-accelerate-aquaculture-innovation",
+    "https://genics.com.au/wp-content/uploads/2021/06/Genics-EHP-Educational-Resources-Guide.pdf",
+    "https://www.mdpi.com/2813-3323/4/2/6",
+    "https://i-aquas.upm.edu.my/article/feb_2026_environmental_dna_edna_as_a_new_approach_for_monitoring_ihhnv_in_giant_black_tiger_shrimp_penaeus_monodon_aquaculture-91882",
+    "https://www.nectec.or.th/news/news-pr-news/aqua-iot-east2020.html",
+    "https://www.nstda.or.th/agritec/aqua-iot-case-study/",
+    "https://www.thebusinessresearchcompany.com/report/smart-aquaculture-global-market-report",
+    "https://www.globalgrowthinsights.com/market-reports/smart-aquaculture-systems-market-128021",
+    "https://www.marketsandmarkets.com/ResearchInsight/precision-aquaculture-market-analysis.asp",
+    "https://growthmarketreports.com/report/shrimp-aquaculture-market",
+    "https://www.facebook.com/ThaishrimpNews.Online/posts/1485590942936722",
+    "https://www.nature.com/articles/s41598-025-06758-4"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Everything you need to know about EMS in shrimp farming, The Fish Site (อ้าง FAO/Shinn 2018, BCG 2019), 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://thefishsite.com/articles/everything-you-need-to-know-about-ems-early-mortality-syndrome-in-shrimp-farming"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Acute Hepatopancreatic Necrosis Disease (AHPND): Virulence, Pathogenesis and Mitigation Strategies in Shrimp Aquaculture, Kumar et al., Pathogens (PMC8402356), 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8402356"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "The economics of shrimp disease, Asche et al., Journal of Invertebrate Pathology, 2020 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S0022201120301038"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Cause of EMS shrimp disease identified, Lightner ผ่าน Global Seafood Alliance, 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.globalseafood.org/blog/cause-of-ems-shrimp-disease-identified"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Thailand's Shrimp Industry Faces Challenges Amid Disease Outbreaks and Price Pressures, Thai Times (อ้างสมาคมกุ้งไทย), 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://thaitimes.com/thailand-s-shrimp-industry-faces-challenges-amid-disease-outbreaks-and-price-pressures"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Thailand's shrimp industry battered by disease, low prices, Bangkok Post (PressReader), 2024-12-12 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.pressreader.com/thailand/bangkok-post/20241212/282037627750662"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Farm-level economic cost of Enterocytozoon hepatopenaei (EHP) in Indian shrimp farming, Geetha et al., Aquaculture, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/pii/S004484862101348X"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "The Microsporidian Enterocytozoon hepatopenaei in Shrimp Culture, The Shrimp Book II (Ch. 22, CABI), 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.cabidigitallibrary.org/doi/10.1079/9781800629363.0022"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "The economic toll of EHP outbreaks in shrimp farming, Aqua Culture Asia Pacific, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://aquaasiapac.com/2026/02/27/the-economic-toll-of-ehp-outbreaks-in-shrimp-farming/"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "The shrimp microsporidian Enterocytozoon hepatopenaei (EHP): biology, pathology, diagnostics and control, Chaijarasphong et al., Journal of Invertebrate Pathology, 2020 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0022201120301646"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Lightweight Shrimp Disease Detection Research Based on YOLOv8n, Fei et al., arXiv:2507.02354, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://arxiv.org/abs/2507.02354"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Shrimp Diseases Detection Method Based on Improved YOLOv8 and Multiple Features, Smart Agriculture (จีน), 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.smartag.net.cn/EN/10.12133/j.smartag.SA201311014"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Robust deep learning based shrimp counting in a commercial RAS, Journal of Cleaner Production, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0959652624024739"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "An Integrated Framework for Shrimp Detection, Tracking, Counting and Behavioral Analysis Using YOLOv8, Springer (ICoAC 2024), 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://link.springer.com/chapter/10.1007/978-981-97-5157-0_26"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "Automated AI Approach for Noninvasive Shrimp Length and Weight Estimation Using Underwater Imaging, Lu et al., Sensors and Materials 37(5), 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://sensors.myu-group.co.jp/sm_pdf/SM4042.pdf"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "A deep learning model for estimating body weight of live pacific white shrimp in a clay pond shrimp aquaculture, Chirdchoo et al., Intelligent Systems with Applications 24, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/pii/S266730532400108X"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "AI Cameras Reveal How Shrimp Respond to Feeding in Aquaculture Ponds, MisPeces (Univ. West of Scotland + Skretting), 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mispeces.com/en/news/AI-Cameras-Reveal-How-Shrimp-Respond-to-Feeding-in-Aquaculture-Ponds/"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "An acoustic-based monitoring system for shrimp feeding detection under real aquaculture conditions, Nguyen Huu, Aquacultural Engineering 114, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0144860926000397"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Real-time detection of uneaten feed pellets in underwater images for aquaculture using an improved YOLO-V4 network, Hu et al., Computers and Electronics in Agriculture 185, 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.compag.2021.106135"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "XpertSea smartphone app uses AI to boost shrimp farm monitoring, SeafoodSource, 2020 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.seafoodsource.com/news/aquaculture/xpertsea-smartphone-app-uses-ai-to-boost-shrimp-farm-monitoring"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "XpertSea Raises $20 Million Series B, Business Wire, 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.businesswire.com/news/home/20210810005650/en/XpertSea-Raises-20-Million-Series-B-to-Transform-the-Seafood-Economy-through-Finance-and-Technology"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "AI firm reshapes Ecuador's shrimp sector with real-time biomass tracking (Kampi FarmBook), IntraFish, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.intrafish.com/technology/ai-firm-reshapes-ecuador-s-shrimp-sector-with-real-time-biomass-tracking/2-1-1839482"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "Proyecto piloto de alerta temprana en Tailandia (XpertSea/SFP/IDH/Fish Vet Group — 150 ฟาร์ม Surat Thani/Chumphon, งบ $500k), Kramer, Responsible Seafood Advocate/GSA, 2019 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.globalseafood.org/advocate/proyecto-piloto-de-alerta-temprana-en-tailandia-tiene-como-objetivo-reducir-el-riesgo-de-enfermedad-del-camaron/"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "Aquabyte — Aquabyte Launches Hydra 360: All-in-One Aquaculture Camera, aquacultureUK + เว็บบริษัท aquabyte.ai, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://aquacultureuk.com/aquabuzz-news-review/aquabyte-hydra-360-ai-aquaculture-camera/"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "AI Underwater Cameras for Smarter Fish Farming, Innovasea (เว็บบริษัท) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.innovasea.com/aquaculture/cameras/"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "Indonesian aquaculture startup eFishery nets $200M at unicorn valuation, Vietnam Fisheries Magazine/TechCrunch, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://vietfishmagazine.com/news/indonesian-aquaculture-startup-efishery-nets-200m-at-unicorn-valuation.html"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "eFishery Secures $30 Million Loan from HSBC Indonesia, Edible Planet Ventures, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.edibleplanetventures.com/post/efishery-secures-30-million-loan-from-hsbc-indonesia-to-accelerate-aquaculture-innovation"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "Genics EHP Educational Resources Guide (Shrimp MultiPath — 2–3 สัปดาห์ก่อน clinical signs), Genics (ออสเตรเลีย) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://genics.com.au/wp-content/uploads/2021/06/Genics-EHP-Educational-Resources-Guide.pdf"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "Detection of Penaeus vannamei Pathogens from Water and Sediment eDNA Using a Universal Conventional PCR Approach, MDPI Arthropoda 4(2):6, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mdpi.com/2813-3323/4/2/6"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "Environmental DNA (eDNA) as a New Approach for Monitoring IHHNV in Giant Black Tiger Shrimp Aquaculture (Arbon et al., Aquaculture 2025), I-AQUAS/UPM สรุป, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://i-aquas.upm.edu.my/article/feb_2026_environmental_dna_edna_as_a_new_approach_for_monitoring_ihhnv_in_giant_black_tiger_shrimp_penaeus_monodon_aquaculture-91882"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "\"Aqua-IoT\" นวัตกรรมอัจฉริยะเพื่อฟาร์มสัตว์น้ำ (เนคเทค สวทช. — DO/เตือน Vibrio 24 ชม./ชุดตรวจ EMS-WSSV-EHP ร่วมไบโอเทค), NECTEC, 2020–2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nectec.or.th/news/news-pr-news/aqua-iot-east2020.html"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "Aqua-IoT ตัวช่วยฟาร์มกุ้ง เลี้ยงรอด ได้คุณภาพ ลดต้นทุน (กรณีศึกษา FCR 1.9→1.2), สถาบันการจัดการเทคโนโลยีและนวัตกรรมเกษตร (AGRITEC-สวทช.) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nstda.or.th/agritec/aqua-iot-case-study/"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "Smart Aquaculture Global Market Report / AI in Sustainable Fisheries and Aquaculture Market Report, The Business Research Company, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thebusinessresearchcompany.com/report/smart-aquaculture-global-market-report"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "Smart Aquaculture Systems Market Trends & Forecast, Global Growth Insights, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.globalgrowthinsights.com/market-reports/smart-aquaculture-systems-market-128021"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "Precision Aquaculture Market Analysis & Forecast (2025–2030), MarketsandMarkets — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.marketsandmarkets.com/ResearchInsight/precision-aquaculture-market-analysis.asp"
+    },
+    {
+      "id": "36",
+      "index": 36,
+      "label": "Shrimp Aquaculture Market Size to Hit USD 38.87 Billion by 2034, Growth Market Reports, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://growthmarketreports.com/report/shrimp-aquaculture-market"
+    },
+    {
+      "id": "37",
+      "index": 37,
+      "label": "ผลงานนักวิจัยไทย \"ไม่ต้องจับก็รู้น้ำหนักกุ้งขาวในบ่อดิน แม่นยำ 94.5%\" (ประชาสัมพันธ์งาน Chirdchoo et al.), นสพ.กุ้งไทย, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.facebook.com/ThaishrimpNews.Online/posts/1485590942936722"
+    },
+    {
+      "id": "38",
+      "index": 38,
+      "label": "An optimized domain-specific shrimp detection architecture integrating conditional GAN and weighted ensemble learning, Scientific Reports, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s41598-025-06758-4"
+    }
+  ],
+  "reference_count": 38,
+  "article_file": "agri-09-002.md",
+  "source_file": "09-ประมงและสัตว์น้ำ\\เจาะลึก-09-AIกล้องใต้น้ำ-ตรวจโรคกุ้ง-EMS-EHP.md"
+}

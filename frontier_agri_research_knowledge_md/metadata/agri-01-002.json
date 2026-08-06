@@ -1,0 +1,101 @@
+{
+  "slug": "agri-01-002",
+  "title": "การตรึงไนโตรเจนทางชีวภาพในธัญพืช (Biological Nitrogen Fixation — BNF)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-01",
+  "created_at": "2026-08-01",
+  "review_at": "2027-02-01",
+  "category": "เทคโนโลยีชีวภาพและพันธุวิศวกรรม",
+  "domain_code": "01",
+  "topic_id": "01-002",
+  "handle_id": "01-002",
+  "abstract": "- **ใจความ**: \"ข้าว-ข้าวโพดตรึงไนโตรเจนเอง\" ยังเป็นความฝัน แต่อุตสาหกรรมขาย \"จุลินทรีย์ดัดแปลงพันธุกรรมตรึง N\" ไปแล้ว — ตัวแทนหลักคือ **Pivot Bio (PROVEN 40)** ที่มีงาน peer-reviewed (เทคนิค ¹⁵N) ยืนยันว่าจ่ายไนโตรเจนได้จริง ~21 กก.N/เฮกตาร์ [2][3] แต่ผลในแปลงเกษตรผันแปรสูง: เครือข่ายมหาวิทยาลัยสหรัฐฯ 10 รัฐ พบผลบวกมีนัยสำคัญเพียง **2 จาก 61 แปลง** [9] ขณะที่บริษัทอ้าง win rate >90% [1] — **เป็นสมรภูมิ \"งานวิจัย vs โฆษณา\" ที่ร้อนแรงที่สุดเรื่องหนึ่งของวงการตอนนี้** (บทความ Giller et al. 2025 ชี้ว่าผลส่วนใหญ่อาจมาจากฮอร์โมนไม่ใช่การตรึง N) [9]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.pivotbio.com/press-releases/pivot-bio-releases-2025-field-performance-data-demonstrating-consistent-yield-gains-and-synthetic-nitrogen-displacement-while-lowering-fertilizer-costs",
+  "pdf_url": "https://www.pivotbio.com/wp-content/uploads/2024/11/Genetic-remodeling-of-soil-diazotrophs-enables-partial-replacement-of-synthetic-nitrogen.pdf",
+  "source_urls": [
+    "https://www.pivotbio.com/press-releases/pivot-bio-releases-2025-field-performance-data-demonstrating-consistent-yield-gains-and-synthetic-nitrogen-displacement-while-lowering-fertilizer-costs",
+    "https://www.pivotbio.com/press-releases/peer-reviewed-study-validates-pivot-bios-gene-edited-microbes-as-a-third-source-of-nitrogen-delivery",
+    "https://www.pivotbio.com/wp-content/uploads/2024/11/Genetic-remodeling-of-soil-diazotrophs-enables-partial-replacement-of-synthetic-nitrogen.pdf",
+    "https://www.azotic.com/",
+    "https://pivotbio.com/novator-program",
+    "https://find-and-update.company-information.service.gov.uk/company/07925932/filing-history",
+    "https://doi.org/10.1016/j.tibtech.2024.12.002",
+    "https://www.nature.com/articles/s41586-024-08424-7",
+    "https://doi.org/10.1007/s11104-024-07001-1",
+    "https://service.ldd.go.th/service64/pdf/Sto/12.pdf",
+    "https://www.biotec.or.th"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Pivot Bio: 2025 Field Performance Data (24 ก.พ. 2569) — เข้าใช้ 2026-08-01",
+      "url": "https://www.pivotbio.com/press-releases/pivot-bio-releases-2025-field-performance-data-demonstrating-consistent-yield-gains-and-synthetic-nitrogen-displacement-while-lowering-fertilizer-costs"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Pivot Bio/Agronomy Journal: Peer-Reviewed Study (Woodward et al., 17 ม.ค. 2568, DOI:10.1002/agj2.21729) — เข้าใช้ 2026-08-01",
+      "url": "https://www.pivotbio.com/press-releases/peer-reviewed-study-validates-pivot-bios-gene-edited-microbes-as-a-third-source-of-nitrogen-delivery"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Wen et al., Scientific Reports 14:27754 (2567): Genetic remodeling of soil diazotrophs (DOI:10.1038/s41598-024-78243-3) — เข้าใช้ 2026-08-01",
+      "url": "https://www.pivotbio.com/wp-content/uploads/2024/11/Genetic-remodeling-of-soil-diazotrophs-enables-partial-replacement-of-synthetic-nitrogen.pdf"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Azotic Technologies (เว็บทางการ: The Science, Rice, ข่าว CEO/ฟิลิปปินส์/ญี่ปุ่น) และ CPM Magazine: Fixing nitrogen inside cells (27 พ.ค. 2568) — เข้าใช้ 2026-08-01",
+      "url": "https://www.azotic.com/"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Pivot Bio N-OVATOR Program + PitchBook: Pivot Bio profile + [AgFunderNews 26 พ.ย. 2568] — เข้าใช้ 2026-08-01",
+      "url": "https://pivotbio.com/novator-program"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Companies House UK: AZOTIC TECHNOLOGIES LIMITED filing history — เข้าใช้ 2026-08-01",
+      "url": "https://find-and-update.company-information.service.gov.uk/company/07925932/filing-history"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Shang et al., Trends in Biotechnology 43(4):946–968 (2568): nitrogenase biosynthesis in rice (DOI:10.1016/j.tibtech.2024.12.002) + Baysal et al., Comm. Biology (2565) — เข้าใช้ 2026-08-01",
+      "url": "https://doi.org/10.1016/j.tibtech.2024.12.002"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Cook et al., Nature 638:752–759 (15 ม.ค. 2568): Autoactive CNGC15 enhances root endosymbiosis in legume and wheat (DOI:10.1038/s41586-024-08424-7) — เข้าใช้ 2026-08-01",
+      "url": "https://www.nature.com/articles/s41586-024-08424-7"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Giller, James, Ardley & Unkovich, Plant and Soil (2567/68): \"Science losing its way\" (DOI:10.1007/s11104-024-07001-1) + Giller, TAA talk 2569 — เข้าใช้ 2026-08-01",
+      "url": "https://doi.org/10.1007/s11104-024-07001-1"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "กรมพัฒนาที่ดิน: ปุ๋ยชีวภาพ พด.12 (เอกสารแนะนำผลิตภัณฑ์) + วารสารวิชาการข้าว 2567: PGPR จากนาข้าว (มก.) — เข้าใช้ 2026-08-01",
+      "url": "https://service.ldd.go.th/service64/pdf/Sto/12.pdf"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "BIOTEC (สวทช.): งานวิจัยเทคโนโลยีชีวภาพ — เข้าใช้ 2026-08-01",
+      "url": "https://www.biotec.or.th"
+    }
+  ],
+  "reference_count": 11,
+  "article_file": "agri-01-002.md",
+  "source_file": "01-เทคโนโลยีชีวภาพและพันธุวิศวกรรม\\เจาะลึก-01-ตรึงไนโตรเจนชีวภาพในธัญพืช.md"
+}

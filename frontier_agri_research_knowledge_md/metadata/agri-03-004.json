@@ -1,0 +1,69 @@
+{
+  "slug": "agri-03-004",
+  "title": "การเก็บน้ำในดิน — ไถอนุรักษ์ พืชคลุมดิน และการจัดการโครงสร้างดิน",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "น้ำและชลประทานอัจฉริยะ",
+  "domain_code": "03",
+  "topic_id": "03-004",
+  "handle_id": "03-004",
+  "abstract": "- **ใจความ**: \"การเก็บน้ำในดิน\" คือการเพิ่มความชื้นดินที่พืชใช้ได้โดยไม่ต้องลงทุนชลประทานใหญ่ — ผ่านการไถพรวนน้อย/ไม่ไถ (conservation tillage/no-till), พืชคลุมดิน (cover crop), ฟาง/เศษซากคลุม (mulch), และการจัดการโครงสร้างดิน [1] ลดน้ำท่า (runoff) เพิ่มการซึมน้ำ เพิ่มอินทรียวัตถุในระยะยาว",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.nrcs.usda.gov",
+  "pdf_url": null,
+  "source_urls": [
+    "https://www.nrcs.usda.gov",
+    "https://www.farmers.gov",
+    "https://so01.tci-thaijo.org/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "USDA-NRCS: ประวัติ/หลักการ conservation tillage และ no-till — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nrcs.usda.gov"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "บทความทบทวนผล no-till ต่อการพังทลาย/การซึมน้ำ (Soil & Tillage Research) — เข้าถึงเมื่อ 2026-08-02 *(ตัวเลข 60–90%/10–30% — ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "บทความทบทวน cover crop ต่อน้ำ/ผลผลิต (Agronomy Journal; Agricultural Water Management) — เข้าถึงเมื่อ 2026-08-02 *(ผลบวก/ลบ — ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "งาน OM/คาร์บอนระยะยาวของ no-till (Global Change Biology; Soil Biology & Biochemistry) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "โครงการไร่อ้อยยั่งยืน/ไม่เผา (สำนักงานคณะกรรมการอ้อยและน้ำตาลทราย; โรงงานน้ำตาล; มก.) — เข้าถึงเมื่อ 2026-08-02 *(ตัวเลขงาน — ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "USDA CSP/EQIP (สิ่งจูงใจ no-till/cover crop) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.farmers.gov"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "งานไถน้อย/ข้าวไทย (วารสาร TCI-Thaijo) — รายชิ้นยังไม่ยืนยัน (ดูหัวข้อ 10) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so01.tci-thaijo.org/"
+    }
+  ],
+  "reference_count": 7,
+  "article_file": "agri-03-004.md",
+  "source_file": "03-น้ำและชลประทานอัจฉริยะ\\เจาะลึก-03-การเก็บน้ำในดิน-ไถอนุรักษ์-พืชคลุมดิน.md"
+}

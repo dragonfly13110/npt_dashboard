@@ -1,0 +1,59 @@
+{
+  "slug": "agri-06-009",
+  "title": "Multimodal AI ในเกษตร — ภาพ + ภาษา + เซนเซอร์ + ข้อมูลราคา รวมเป็นปัญญาเดียว",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ปัญญาประดิษฐ์ ข้อมูลใหญ่ และดิจิทัลทวิน",
+  "domain_code": "06",
+  "topic_id": "06-009",
+  "handle_id": "06-009",
+  "abstract": "- **ใจความ**: Multimodal AI = โมเดลเดียวที่ \"เห็น+อ่าน+ฟัง+อ่านเซนเซอร์\" พร้อมกัน (ภาพถ่ายใบ/แปลง + ข้อความถาม/คำอธิบาย + ตัวเลขเซนเซอร์ 05-007/05-008 + ราคา 06-004) — ตอบคำถามเกษตรกรแบบ \"เห็นภาพแล้ววิเคราะห์ประกอบ\" (ถ่ายใบข้าว → AI บอกโรค + เหตุผล + แนะนำ + คำนวณต้นทุน) — ก้าวข้ามข้อจำกัดของ AI แบบแยกส่วน (วินิจฉัยอย่างเดียว/แนะนำอย่างเดียว) [1][2][3]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "งาน VLM/LLaVA-class + multimodal เกษตร (arXiv, Nature Machine Intelligence 2023–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "งานประเมินวินิจฉัยพืชด้วย VLM (Computers and Electronics in Agriculture, Plant Phenomics 2024–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "ข่าว/เอกสารผู้เล่นโมเดล (OpenAI/Google/Qwen/Meta) + analyst — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "งานวิจัย multimodal/ภาษาไทย-ภาพ เกษตร (TCI/ThaiJo — มก./มจธ./จุฬา) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "สถานะโมเดลภาษาไทย (Typhoon/OpenThaiGPT) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "ข้อมูล/ภาพวินิจฉัยไทย (ต่อยอด 05-002/05-009 — สถานะ) — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-06-009.md",
+  "source_file": "06-ปัญญาประดิษฐ์ ข้อมูลใหญ่ และดิจิทัลทวิน\\เจาะลึก-06-MultimodalAI-ภาพ-ภาษา-เซนเซอร์.md"
+}

@@ -1,0 +1,202 @@
+{
+  "slug": "agri-12-008",
+  "title": "ห่วงโซ่มูลค่าและการกระจายกำไรในสินค้าเกษตรไทย",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-04",
+  "created_at": "2026-08-04",
+  "review_at": "2027-02-04",
+  "category": "ระบบอาหาร เศรษฐศาสตร์ และนโยบาย",
+  "domain_code": "12",
+  "topic_id": "12-008",
+  "handle_id": "12-008",
+  "abstract": "- **ใจความ**: มูลค่าสุดท้ายของสินค้าเกษตรไทยถูกแบ่งในห่วงโซ่ที่ยาว: เกษตรกร (ต้นน้ำ) ได้ส่วนแบ่งกำไรน้อยที่สุดเทียบกับพ่อค้าคนกลาง โรงสี/โรงแปรรูป และผู้ส่งออก/ค้าปลีกปลายน้ำ — งานศึกษาของ สศก./TDRI/วารสารวิชาการชี้ว่า ในข้าว เกษตรกรได้สัดส่วนของราคาผู้บริโภค/ราคาส่งออกเพียง ~40–60% ส่วนที่เหลือเป็นค่าขนส่ง แปรรูป และ margin ของคนกลาง [1][2][3] — ในผลไม้ส่งออก เช่น ทุเรียน ส่วนต่างระหว่างราคาหน้าสวนกับราคาส่งออก FOB กว้างมากและคนกลาง/ผู้ส่งออกเก็บ margin ที่สำคัญ [4][5] — เทคโนโลยี (blockchain, EUDR, ข้อมูลราคาเรียลไทม์) และการรวมกลุ่ม เริ่มถูกใช้เป็นเครื่องมือลดความไม่สมมาตรของข้อมูลและเพิ่มอำนาจต่อรองเกษตรกร [6][7]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.oae.go.th",
+  "pdf_url": null,
+  "source_urls": [
+    "https://www.oae.go.th",
+    "https://www.tdri.or.th",
+    "https://www.dit.go.th",
+    "https://www.kasikornresearch.com",
+    "https://www.fao.org",
+    "https://www.unctad.org",
+    "https://www.etda.or.th",
+    "https://www.nesdc.go.th",
+    "https://www.oecd.org/sti/ind/tiva",
+    "https://www.raot.co.th",
+    "https://www.prachachat.net",
+    "https://www.worldbank.org/en/country/thailand",
+    "https://www.issaas.org",
+    "https://www.dtn.go.th",
+    "https://www.itd.or.th",
+    "https://www.tci-thaijo.org",
+    "https://www.thairath.co.th",
+    "https://www.undp.org",
+    "https://www.cpd.go.th",
+    "https://www.oecd.org",
+    "https://www.giz.de",
+    "https://www.customs.go.th"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "สำนักงานเศรษฐกิจการเกษตร (สศก.). \"รายงานส่วนต่างการตลาดสินค้าเกษตรที่สำคัญ\" (ข้าว ผัก ผลไม้). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.oae.go.th"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "สถาบันวิจัยเพื่อการพัฒนาประเทศไทย (TDRI). \"งานศึกษาห่วงโซ่อุปทานและโครงสร้างตลาดข้าวไทย.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.tdri.or.th"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "กรมการค้าภายใน. \"ข้อมูลราคาและส่วนต่างการตลาดสินค้าเกษตร.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.dit.go.th"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "สำนักงานเศรษฐกิจการเกษตร (สศก.). \"สถิติการส่งออกทุเรียนไทยและโครงสร้างตลาด.\" 2565–2566. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.oae.go.th"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "ศูนย์วิจัยกสิกรไทย (KResearch). \"ทุเรียนไทยในตลาดจีน: มูลค่าและแนวโน้ม.\" 2566. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.kasikornresearch.com"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "FAO. \"Making Value Chains Work for Food Security and Nutrition.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.fao.org"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "UNCTAD. \"Global Value Chains and Development\" (การมีส่วนร่วมในห่วงโซ่มูลค่า). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.unctad.org"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "สำนักงานพัฒนาธุรกรรมทางอิเล็กทรอนิกส์ (ETDA). \"รายงานการค้าออนไลน์สินค้าเกษตรไทย.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.etda.or.th"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "สำนักงานสภาพัฒนาการเศรษฐกิจและสังคมแห่งชาติ (สศช.). \"บัญชีประชาชาติ — มูลค่าเพิ่มภาคเกษตร.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.nesdc.go.th"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "OECD/WTO. \"TiVA (Trade in Value Added) — Thailand.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.oecd.org/sti/ind/tiva"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "การยางแห่งประเทศไทย (กยท.). \"ข้อมูลราคายางและโครงสร้างการตลาด.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.raot.co.th"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "FAO. \"The State of Agricultural Commodity Markets\" (SOCO). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.fao.org"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "ประชาชาติธุรกิจ. \"ทุเรียนราคาหน้าสวน vs ราคาส่งออก: กำไรอยู่ที่ใคร.\" 2566. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.prachachat.net"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "World Bank. \"Thailand – Agricultural Competitiveness and Value Chains\" (งานศึกษา). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.worldbank.org/en/country/thailand"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "Journal of the International Society for Southeast Asian Agricultural Sciences. \"งานศึกษา rice value chain ในไทยและอาเซียน\" — สังเคราะห์. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.issaas.org"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "สำนักงานเศรษฐกิจการเกษตร. \"โครงสร้างต้นทุนการผลิตข้าวต่อไร่และส่วนแบ่งราคา.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.oae.go.th"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "กรมเจรจาการค้าระหว่างประเทศ. \"ข้อมูลการค้าและอุปสรรคทางการตลาดสินค้าเกษตร.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.dtn.go.th"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "สถาบันระหว่างประเทศเพื่อการค้าและการพัฒนา (ITD). \"งานศึกษา supply chain สินค้าเกษตรไทย.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.itd.or.th"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "มหาวิทยาลัย/วารสารไทย (TCI). \"งานศึกษาอำนาจต่อรองและส่วนแบ่งกำไรของเกษตรกรไทย.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.tci-thaijo.org"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "ไทยรัฐ/ฐานเศรษฐกิจ. \"ตลาดสดออนไลน์และการขายตรงของเกษตรกรไทย.\" 2566–2568. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.thairath.co.th"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "FAO. \"Food Loss and Waste Database\" (ลิงก์ห่วงโซ่: การสูญเสียระหว่างทาง). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.fao.org"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "UNDP. \"Contract Farming in Southeast Asia: รายงานสถานการณ์.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.undp.org"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "สหกรณ์การเกษตร/ชุมนุมสหกรณ์ไทย. \"ข้อมูลบทบาทสหกรณ์ในห่วงโซ่สินค้าเกษตร.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.cpd.go.th"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "OECD. \"Agricultural Policy Monitoring and Evaluation 2024: Thailand.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.oecd.org"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "GIZ/ASEAN. \"Traceability and sustainable value chains in ASEAN agriculture.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.giz.de"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "สำนักงานศุลกากร. \"สถิติการส่งออกสินค้าเกษตรรายพิกัด.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.customs.go.th"
+    }
+  ],
+  "reference_count": 26,
+  "article_file": "agri-12-008.md",
+  "source_file": "12-ระบบอาหาร เศรษฐศาสตร์ และนโยบาย\\เจาะลึก-12-ห่วงโซ่มูลค่า-การกระจายกำไร.md"
+}

@@ -1,0 +1,318 @@
+{
+  "slug": "agri-09-009",
+  "title": "พันธุศาสตร์-จีโนมิกส์กุ้ง/ปลา — สายพันธุ์ต้านโรค โตเร็ว",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ประมงและสัตว์น้ำ",
+  "domain_code": "09",
+  "topic_id": "09-009",
+  "handle_id": "09-009",
+  "abstract": "- **ใจความ**: การปรับปรุงพันธุ์สัตว์น้ำแบ่งเป็น 4 ชั้น: (1) คัดเลือกแบบดั้งเดิม/ครอบครัว + BLUP (ใช้แล้วเป็นอุตสาหกรรม — GIFT ปลานิล 23 รุ่น, ระบบ SPF กุ้งขาวของ CPF 22 รุ่น) (2) Genomic Selection (GS) — คัดด้วย SNP ทั้งจีโนม เริ่มใช้จริงในโปรแกรมเชิงพาณิชย์ปลาแซลมอน/ทรายแดง และอยู่ในช่วงนำร่องกุ้ง-ปลานิล (3) CRISPR/GEd — ยังเป็น bench ทดลองในสัตว์น้ำเกือบทั้งหมด ยกเว้นปลาแซลมอน GMO (AquAdvantage) ที่ FDA อนุมัติแล้ว (4) AI phenotyping — ผูก GS เข้ากับข้อมูลภาพเพื่อคัดปริมาณมาก [1][11][30][32][36]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://doi.org/10.3390/ani14121817",
+  "pdf_url": "https://www.cpfloridausa.com/public/assets/app/file/Importance_of_shrimp_health.pdf",
+  "source_urls": [
+    "https://doi.org/10.3390/ani14121817",
+    "https://doi.org/10.1186/s12863-017-0507-5",
+    "https://www.sciencedirect.com/science/article/abs/pii/S0044848624002217",
+    "https://doi.org/10.1016/j.aqrep.2024.102463",
+    "https://www.sciencedirect.com/science/article/abs/pii/S0044848622002617",
+    "https://www.shrimpinsights.com/blog/2025-update-spf-l-vannamei-broodstock-market",
+    "https://www.cpfloridausa.com/public/assets/app/file/Importance_of_shrimp_health.pdf",
+    "https://www.globalseafood.org/advocate/selective-breed-high-efficiency-seedstock-boost-integrated-shrimp-farm-performance/",
+    "https://www.thebusinessresearchcompany.com/report/shrimp-specific-pathogen-free-spf-broodstock-market-report",
+    "https://growthmarketreports.com/report/shrimp-spf-broodstock-market",
+    "https://worldfishcenter.org/project/genetically-improved-farmed-tilapia-gift",
+    "https://openknowledge.fao.org/items/dd76dad0-2326-4ed7-ba5b-7cc512257f2c",
+    "http://hdl.handle.net/1834/25834",
+    "https://www.worldfishcenter.org/blog/genetically-improved-farmed-tilapia-benefiting-aquatic-food-producers-past-present-and-future",
+    "https://doi.org/10.1016/j.aquaculture.2020.735126",
+    "https://www.nature.com/articles/s41437-021-00447-4",
+    "https://hdl.handle.net/20.500.12348/6355",
+    "https://www.was.org/Meeting/Program/PaperDetail/162034",
+    "https://www4.fisheries.go.th/local/index.php/main/view_blog2/1220/64293/2315",
+    "https://www.thairath.co.th/agriculture/agricultural-policy/2915581",
+    "http://infofish.org/tilapia/media/attachments/2025/11/07/8.-dr-malasri_dof-thailand.pdf",
+    "https://doi.org/10.1016/j.aquaculture.2021.737851",
+    "http://research.ku.ac.th/forest/Project.aspx?BudgetYear=2019&ProjectNumber=6220031000",
+    "https://doi.org/10.3390/d17060383",
+    "https://www.biotec.or.th/home/shrimp-genetic-improvement-research-team-th/",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC11865283/",
+    "https://doi.org/10.1093/jhered/esae015",
+    "https://link.springer.com/article/10.1186/s12864-017-3723-5",
+    "https://link.springer.com/article/10.1186/s12864-022-09065-8",
+    "https://www.mdpi.com/2410-3888/10/2/84",
+    "https://doi.org/10.1038/s41598-024-78277-7",
+    "https://www.fda.gov/animal-veterinary/intentional-genomic-alterations-igas-animals/aquadvantage-salmon",
+    "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Thailand+Publishes+Certification+Requirements+for+Aquatic+Animals+Developed+Using+Genome+Editing+Technology_Bangkok_Thailand_TH2025-0018.pdf",
+    "https://www4.fisheries.go.th/local/index.php/main/view_activities/1332/208918",
+    "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Biotechnology+and+Other+New+Production+Technologies+Annual_Bangkok_Thailand_TH2025-0032.pdf",
+    "https://doi.org/10.1016/j.aquaculture.2024.741491",
+    "https://doi.org/10.1016/j.watbs.2026.100606",
+    "https://www.nature.com/articles/s41598-025-08863-w",
+    "https://research.wur.nl/en/publications/envisage-phenotyping-integrating-artificial-intelligence-in-image/",
+    "https://doi.org/10.1186/s12711-017-0293-6",
+    "https://www.biorxiv.org/content/10.1101/2024.06.22.600213v1",
+    "https://pmaquasupply.com/article/cp-shrimp-development-2025-overcoming-challenges/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Estimation of Genetic Parameters for Growth and WSSV Resistance Traits in Litopenaeus vannamei, Sui J. et al., Animals 14(12):1817, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3390/ani14121817"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Effects of marker density and population structure on the genomic prediction accuracy for growth trait in Pacific white shrimp, Wang Q. et al., BMC Genetics 18:45, 2017 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1186/s12863-017-0507-5"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Optimal open nucleus breeding system for long-term genetic gain in the Pacific white shrimp using genomic selection, Lu et al., Aquaculture (S0044848624002217), 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S0044848624002217"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Impact of different breeding strategies on the accuracy of genomic selection in a population of Pacific white shrimp: A simulation study, Ampofo I. et al., Aquaculture Reports 38:102463, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.aqrep.2024.102463"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Evaluation of a commercial SPF Litopenaeus vannamei shrimp breeding program: Resistance to IMNV, TSV and WSSV from laboratory challenges, Prochaska J. et al., Aquaculture 554:738169, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S0044848622002617"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "A 2025 Update of the SPF L. Vannamei Broodstock Market, Shrimp Insights (Willem van der Pijl), 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.shrimpinsights.com/blog/2025-update-spf-l-vannamei-broodstock-market"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Shrimp Broodstock: The Importance of Health and Genetics to Advanced Shrimp Husbandry (CPF vannamei program, 22 generations, CP KONG/Turbo), McIntosh R., CP Florida USA — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.cpfloridausa.com/public/assets/app/file/Importance_of_shrimp_health.pdf"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Selective breed high-efficiency seedstock boost integrated shrimp farm performance, McIntosh R., Global Seafood Alliance (Responsible Seafood Advocate), 2008 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.globalseafood.org/advocate/selective-breed-high-efficiency-seedstock-boost-integrated-shrimp-farm-performance/"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Shrimp Specific Pathogen Free (SPF) Broodstock Global Market Report, The Business Research Company, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thebusinessresearchcompany.com/report/shrimp-specific-pathogen-free-spf-broodstock-market-report"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Shrimp SPF Broodstock Market Research Report 2033, Growth Market Reports, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://growthmarketreports.com/report/shrimp-spf-broodstock-market"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Genetically Improved Farmed Tilapia (GIFT) — project page, WorldFish — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://worldfishcenter.org/project/genetically-improved-farmed-tilapia-gift"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Genetically improved farmed tilapia: the GIFT that keeps on giving (28 ปี/23 รุ่น/~10% ต่อรุ่น/17 ประเทศ), FAO/WorldFish — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://openknowledge.fao.org/items/dd76dad0-2326-4ed7-ba5b-7cc512257f2c"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "From drawing board to dining table: The success story of the GIFT project, Gupta M.V. & Acosta B.O., WorldFish (hdl:1834/25834), 2004 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "http://hdl.handle.net/1834/25834"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Genetically Improved Farmed Tilapia: Benefiting aquatic food producers in the past, present and future, WorldFish Blog — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.worldfishcenter.org/blog/genetically-improved-farmed-tilapia-benefiting-aquatic-food-producers-past-present-and-future"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "Genetic parameters for resistance to Tilapia Lake Virus (TiLV) in Nile tilapia, Barría A. et al., Aquaculture 522:735126, 2020 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.aquaculture.2020.735126"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "A major quantitative trait locus affecting resistance to Tilapia lake virus in farmed Nile tilapia, Barría A. et al., Heredity 127:334–343, 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s41437-021-00447-4"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Report on the progress of selection of TiLV disease resistance (GS first tests in GIFT program), Izadi F., WorldFish, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://hdl.handle.net/20.500.12348/6355"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "Controlled laboratory challenge demonstrates moderate additive genetic variation in resistance to TiLV in Nile tilapia (h²=0.29±0.1, Spring Genetics), World Aquaculture Society (Aquaculture America 2024) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.was.org/Meeting/Program/PaperDetail/162034"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "สัตว์น้ำและไม้น้ำปรับปรุงพันธุ์ของกรมประมง (จิตรลดา 3/4 เร้ด 1/2 ปทุมธานี 1), กองวิจัยและพัฒนาพันธุกรรมสัตว์น้ำ กรมประมง — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www4.fisheries.go.th/local/index.php/main/view_blog2/1220/64293/2315"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "\"กรมประมง\" โชว์ศักยภาพ \"ปลานิล\" จากปลาพระราชทานสู่สัตว์น้ำจืดยอดนิยม (2568: 339,489 ฟาร์ม/273,169 ตัน/13,612 ล้านบาท), ไทยรัฐ, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thairath.co.th/agriculture/agricultural-policy/2915581"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "Tilapia Industry in Thailand: Production, Challenges, and Strategic Outlook (2024: 275,958 ตัน/338,490 ฟาร์ม/387.77 MUSD), Malasri K. (DOF), InfoFish, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "http://infofish.org/tilapia/media/attachments/2025/11/07/8.-dr-malasri_dof-thailand.pdf"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "Improving genomic prediction accuracy for harvest traits in Asian seabass (Lates calcarifer) via marker selection, Sukhavachana S. et al., Aquaculture 550:737851, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.aquaculture.2021.737851"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "โครงการ \"การประยุกต์เทคโนโลยีจีโนมเพื่อความยั่งยืนของอุตสาหกรรมการเพาะเลี้ยงปลากะพงขาว\" (ผลงาน GS ปลากะพง/ปลานิลแดงของ มก. 2020–2025), KUforest — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "http://research.ku.ac.th/forest/Project.aspx?BudgetYear=2019&ProjectNumber=6220031000"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "Population Genomics and Application for Growth Improvement of Domesticated Asian Seabass from Thailand (G0: 51 ครอบครัว/1,655 ตัว, SLAF-Seq 225K SNP), Khamnamtong B. et al., Diversity 17(6):383, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3390/d17060383"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "ทีมวิจัยและพัฒนาสายพันธุ์กุ้ง (NBC กุ้งกุลาดำ SPF — BIOTEC ร่วม ม.อ.), BIOTEC, 2020 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.biotec.or.th/home/shrimp-genetic-improvement-research-team-th/"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "A high-quality chromosome-level genome assembly of Pacific whiteleg shrimp (Xinghai 1: 1.7 Gb/44 โครโมโซม/22,923 ยีน), Scientific Data 12, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11865283/"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "Improved genome assembly of the whiteleg shrimp using long- and short-read sequences from public databases (2.055 Gb, N50 40.14 Mb), Pérez-Enríquez R. et al., Journal of Heredity 115(3):302–310, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1093/jhered/esae015"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "A high quality assembly of the Nile Tilapia genome reveals the structure of two sex determination regions (UMD ~1.01 Gb/22 LGs), Conte M. et al., BMC Genomics 18:341, 2017 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://link.springer.com/article/10.1186/s12864-017-3723-5"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "Chromosome-level genome sequence of the GIFT tilapia highlights regions of introgression with O. mossambicus (1.07 Gb), BMC Genomics 23:868, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://link.springer.com/article/10.1186/s12864-022-09065-8"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "CRISPR-Based Genetic Improvement of Aquaculture Species, Fishes 10(2):84, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mdpi.com/2410-3888/10/2/84"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "Genome editing of WSSV CRISPR/Cas9 and immune activation extends the survival of infected Penaeus vannamei, Pudgerd A. et al. (ทีมไทย), Scientific Reports 14:26624, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1038/s41598-024-78277-7"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "AquAdvantage Salmon (approval 2015, timeline 2018–2024, ความปลอดภัย), U.S. FDA — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.fda.gov/animal-veterinary/intentional-genomic-alterations-igas-animals/aquadvantage-salmon"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "Thailand Publishes Certification Requirements for Aquatic Animals Developed Using Genome Editing Technology (ประกาศกรมประมง 5 มี.ค. 2568, SDN-1, GPC-SV 1/2), USDA GAIN TH2025-0018, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Thailand+Publishes+Certification+Requirements+for+Aquatic+Animals+Developed+Using+Genome+Editing+Technology_Bangkok_Thailand_TH2025-0018.pdf"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "ไทยกับพิธีสารคาร์ตาเฮนา + การห้ามเลี้ยง GMO ปลา (พ.ร.ก.การประมง 2558 มาตรา 64-65/144 + ประกาศ กษ. 2564), กองการต่างประเทศ กรมประมง — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www4.fisheries.go.th/local/index.php/main/view_activities/1332/208918"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "Biotechnology and Other New Production Technologies Annual — Thailand 2025 (กฎหมาย biosafety, DLD/DOF GEd, ฉลาก GM อาหาร), USDA GAIN TH2025-0032, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Biotechnology+and+Other+New+Production+Technologies+Annual_Bangkok_Thailand_TH2025-0032.pdf"
+    },
+    {
+      "id": "36",
+      "index": 36,
+      "label": "Automated phenotyping empowered by deep learning for genomic prediction of body size in the tiger pufferfish, Lin Z. et al., Aquaculture 595:741491, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.aquaculture.2024.741491"
+    },
+    {
+      "id": "37",
+      "index": 37,
+      "label": "TovNet-Vision: A deep learning framework for golden pompano phenotyping and molecular breeding (R²=0.96 ความยาว/0.854 น้ำหนัก), Water Biology and Security, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.watbs.2026.100606"
+    },
+    {
+      "id": "38",
+      "index": 38,
+      "label": "Automated underwater Plectropomus leopardus phenotype measurement through cylinder (keypoint AP 98.6%, error 3.2 mm), Scientific Reports 15:24461, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s41598-025-08863-w"
+    },
+    {
+      "id": "39",
+      "index": 39,
+      "label": "Envisage phenotyping: integrating artificial intelligence in image analysis for selective breeding in aquaculture (gilthead seabream, salmon re-ID), Wageningen University & Research (thesis), 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://research.wur.nl/en/publications/envisage-phenotyping-integrating-artificial-intelligence-in-image/"
+    },
+    {
+      "id": "40",
+      "index": 40,
+      "label": "Genomic selection models double the accuracy of predicted breeding values for bacterial cold water disease resistance compared to a traditional pedigree-based model in rainbow trout, Vallejo R. et al., Genetics Selection Evolution 49:17, 2017 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1186/s12711-017-0293-6"
+    },
+    {
+      "id": "41",
+      "index": 41,
+      "label": "100 years domestication of penaeid shrimp and meta-analysis of breeding traits (ทบทวน GS/CRISPR embryo/AI ในกุ้ง), bioRxiv 2024.06.22.600213, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.biorxiv.org/content/10.1101/2024.06.22.600213v1"
+    },
+    {
+      "id": "42",
+      "index": 42,
+      "label": "CP Shrimp Development 2025: Overcoming Challenges (ทิศทางปรับปรุงพันธุ์ CPF 2025: EHP/โรคอุบัติใหม่/สมดุลการโต), P&M Aqua Supply (Thai Shrimp Day ครั้งที่ 34), 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://pmaquasupply.com/article/cp-shrimp-development-2025-overcoming-challenges/"
+    }
+  ],
+  "reference_count": 42,
+  "article_file": "agri-09-009.md",
+  "source_file": "09-ประมงและสัตว์น้ำ\\เจาะลึก-09-พันธุศาสตร์กุ้งปลา-จีโนมิกส์.md"
+}

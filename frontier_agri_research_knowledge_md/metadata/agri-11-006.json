@@ -1,0 +1,262 @@
+{
+  "slug": "agri-11-006",
+  "title": "ระบบเตือนภัยโรคพืชจากสภาพอากาศ — เตือนก่อนระบาด ลดพ่นสาร",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "การปรับตัวต่อสภาพอากาศและระบบเตือนภัย",
+  "domain_code": "11",
+  "topic_id": "11-006",
+  "handle_id": "11-006",
+  "abstract": "- **ใจความ**: ระบบเตือนภัยโรคพืชจากสภาพอากาศ (agroclimatic disease forecasting / DSS — Decision Support System) แปลงข้อมูล \"อุณหภูมิ–ความชื้น–ใบเปียก–ฝน\" รายชั่วโมงจากสถานีแปลง (05-008) เป็นระดับความเสี่ยงติดโรคของพืช (เช่น โรคใบไหม้มันฝรั่งด้วย Blitecast/SimCast/NEGFRY, โรคไหม้ข้าว, ราข้าว/ข้าวเมล็ดด่าง, Fusarium head blight ข้าวสาลี) แล้วแนะนำให้พ่นสารเฉพาะช่วงที่เสี่ยงจริง — แทนการพ่นตามตารางรายสัปดาห์ — สอดคล้องนโยบายลดสารเคมีของสหภาพยุโรป (Green Deal ลด 50% ภายใน 2030) และ IPM (04-009) [1][3][5]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://ipm.ucanr.edu/DISEASE/DATABASE/potatolateblight.html",
+  "pdf_url": "http://ethesisarchive.library.tu.ac.th/thesis/2023/TU_2023_6510037101_18931_28667.pdf",
+  "source_urls": [
+    "https://ipm.ucanr.edu/DISEASE/DATABASE/potatolateblight.html",
+    "https://www.scielo.br/j/cr/a/dXrDGQJfwbjP6x9d5QSfChh/?lang=en",
+    "https://www.mdpi.com/2077-0472/14/5/652",
+    "https://edepot.wur.nl/172669",
+    "https://www.nature.com/articles/s43247-021-00291-8",
+    "https://www.mdpi.com/2073-4395/11/4/771",
+    "https://www.mdpi.com/2624-7402/6/4/246",
+    "https://doi.org/10.1109/bts-i2c67944.2025.11399523",
+    "https://apsjournals.apsnet.org/doi/10.1094/PDIS-04-15-0404-RE",
+    "http://hdl.handle.net/1993/39749",
+    "https://www.foodagribusiness.world/feed/forecasting-outbreaks-of-wheat-fusarium-head-blight-and-deoxynivalenol",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC12350828/",
+    "https://cgspace.cgiar.org/items/a09939f3-7b47-45a6-a8e9-5d6746b0869e",
+    "https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2024.1485275/full",
+    "https://www.agtechnavigator.com/Article/2025/10/24/how-sporesense-hopes-to-rewrite-the-rules-of-crop-protection/",
+    "https://metos.global/en/disease-models-fieldclimate/",
+    "https://www.syngenta.co.uk/crop-support/potatoes/blight",
+    "https://grdc.com.au/resources-and-publications/grdc-update-papers/tab-content/grdc-update-papers/2024/02/the-regional-disease-surveillance-network-a-bioscout-endeavour",
+    "https://www.cropin.com/cropin-intelligence-plot-level/",
+    "https://growthmarketreports.com/report/crop-disease-early-warning-market",
+    "https://www.futuredatastats.com/machine-learning-crop-disease-forecasting-market",
+    "https://dataintelo.com/report/ai-based-crop-disease-detection-market",
+    "https://www.nature.com/articles/s41558-021-01104-8",
+    "https://www.nature.com/articles/s41579-023-00900-7",
+    "https://newwebs2.ricethailand.go.th/webmain/page.php?pid=9692",
+    "https://www.bangkokbiznews.com/social/856637",
+    "https://www.thansettakij.com/business/413801",
+    "https://so01.tci-thaijo.org/index.php/CMJE/article/view/92697",
+    "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/249570",
+    "https://esc.doae.go.th/doae-pest-forecast/",
+    "https://esc.doae.go.th/%e0%b9%82%e0%b8%a3%e0%b8%84%e0%b9%84%e0%b8%ab%e0%b8%a1%e0%b9%89%e0%b8%82%e0%b9%89%e0%b8%b2%e0%b8%a7-2/",
+    "https://www.biotec.or.th/home/cassava-banpong/",
+    "http://ethesisarchive.library.tu.ac.th/thesis/2023/TU_2023_6510037101_18931_28667.pdf",
+    "https://doi.org/10.1094/pdis.2002.86.10.1163"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "UC IPM (University of California). \"Models: Late Blight of Potato\" — คำอธิบาย Blitecast (Krause et al. 1975), SimCast (Fry et al. 1983), NEGFRY/negative prognosis, ตาราง severity value/blight unit, ตำแหน่งเซนเซอร์ — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://ipm.ucanr.edu/DISEASE/DATABASE/potatolateblight.html"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "\"Potato late blight control based on the Blitecast forecast system on the Rio Grande do Sul Plateau, Brazil\" (Passo Fundo 2022–23, cv. Ágata), Ciência Rural 55, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.scielo.br/j/cr/a/dXrDGQJfwbjP6x9d5QSfChh/?lang=en"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Meno, L., Escuredo, O., Seijo, M.C. \"Opportunity of the NEGFRY Decision Support System for the Sustainable Control of Potato Late Blight in A Limia (NW of Spain)\", Agriculture 14(5):652, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mdpi.com/2077-0472/14/5/652"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Schepers, H.T.A.M. et al. \"Experimental control strategies reducing the fungicide input at a practical scale\" (WUR-blight, 5 แปลง เนเธอร์แลนด์), Wageningen UR, 2009 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://edepot.wur.nl/172669"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "\"Decision support systems halve fungicide use compared to calendar-based strategies\" (meta-analysis 80 การทดลอง), Communications Earth & Environment 2, 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s43247-021-00291-8"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "\"Rice Blast (Magnaporthe oryzae) Occurrence Prediction Using Machine Learning\" (PNN, F2 96.8%, เตือน 10 วัน), Agronomy 11(4):771, 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mdpi.com/2073-4395/11/4/771"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "\"Climate-Based Prediction of Rice Blast Disease Using Count Time Series and Machine Learning Approaches\" (ANN vs SVR/INGARCHX, ทมิฬนาฑู 2015–2023), AgriEngineering 6(4):246, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mdpi.com/2624-7402/6/4/246"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Ratna, M., Palefi Ma'Ady, M.N., Lidiawaty, B.R. \"Harnessing LSTM for Climate-Sensitive Precision Agriculture: Predicting Rice Blast Disease Expansion\" (Lamongan, MAPE<17%), IEEE BTS-I2C 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1109/bts-i2c67944.2025.11399523"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "\"Evaluation of Forecasting Models for Fusarium Head Blight of Wheat\" (De Wolf A/B AUC 0.949/0.935, ควิเบก), Plant Disease, 2016 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://apsjournals.apsnet.org/doi/10.1094/PDIS-04-15-0404-RE"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Wan, C.Y.J. \"Comparative evaluation of Fusarium head blight risk models using ground observations and forecast weather data in the Canadian Prairies\" (2019–2024; RDPS + quantile mapping), University of Manitoba, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "http://hdl.handle.net/1993/39749"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "De Wolf, E. \"Forecasting outbreaks of wheat Fusarium head blight and deoxynivalenol\" (US FHB Prediction Center, 35 รัฐ, RF >80%, 89% ผู้ใช้, >70 ล้านดอลลาร์/ปี), Food & Agribusiness, 27 มี.ค. 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.foodagribusiness.world/feed/forecasting-outbreaks-of-wheat-fusarium-head-blight-and-deoxynivalenol"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "\"A weather-forecast driven early warning system for wheat blast disease: User-centered design, validation, and scaling in Bangladesh and Brazil\" (WRF 17/10 กม., 14,500+ อบรม, การรับรองโดยรัฐ), 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12350828/"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Callejo, A.M. et al. \"Simulation of rice blast epidemics under current and projected climate change scenarios\" (EPIRICE, IRRI/สทบ.), IRRI, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://cgspace.cgiar.org/items/a09939f3-7b47-45a6-a8e9-5d6746b0869e"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Gopalakrishnan, A.M. et al. \"Integrating spore trapping technology with loop-mediated isothermal amplification assay for surveillance and sustainable management of rice false smut disease\", Frontiers in Microbiology 15:1485275, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2024.1485275/full"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "AgTech Navigator. \"How SporeSense hopes to rewrite the rules of crop protection\" (Innovate UK 2.2 ล้านปอนด์; +10% = 164 ปอนด์/เฮกตาร์; เครื่องละ 1,000–1,500 ปอนด์), 24 ต.ค. 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.agtechnavigator.com/Article/2025/10/24/how-sporesense-hopes-to-rewrite-the-rules-of-crop-protection/"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Pessl Instruments. \"Disease models — METOS FieldClimate\" (80+ โมเดล/45+ พืช; พยากรณ์รายชั่วโมง 7 วัน) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://metos.global/en/disease-models-fieldclimate/"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Syngenta UK. \"Managing Potato Late Blight — BlightCast\" + British Potato. \"Forecasting now incorporated within Spray Assist app\" (BlightCast 7 วัน; Cropwise, ฤดู 2026) — และ — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.syngenta.co.uk/crop-support/potatoes/blight"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "Demers, M.N.K., Gubbins, E., Collins, L. \"The regional disease surveillance network: a BioScout endeavour\" (60 เครื่อง, 2024–2026, GRDC), GRDC Update Papers, 15 ก.พ. 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://grdc.com.au/resources-and-publications/grdc-update-papers/tab-content/grdc-update-papers/2024/02/the-regional-disease-surveillance-network-a-bioscout-endeavour"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Cropin. \"Cropin Intelligence — Plot-Level\" (DEWS ครอบคลุม 65+ โรค 20+ พืช — ตัวเลขบริษัท ยังไม่ผ่าน peer-review) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.cropin.com/cropin-intelligence-plot-level/"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "Growth Market Reports. \"Crop Disease Early Warning Market\" (2.19 → 6.12 พันล้านดอลลาร์, CAGR 12.1%), 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://growthmarketreports.com/report/crop-disease-early-warning-market"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "FutureDataStats. \"Machine Learning for Crop Disease Forecasting Market\" (0.38 → 1.4 พันล้านดอลลาร์, CAGR 20%) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.futuredatastats.com/machine-learning-crop-disease-forecasting-market"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "Dataintelo. \"AI-Based Crop Disease Detection Market\" (1.8 → 7.6 พันล้านดอลลาร์, CAGR 17.3%; เอ่ยถึง Plantix/Fasal), 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://dataintelo.com/report/ai-based-crop-disease-detection-market"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "Chaloner, T.M., Gurr, S.J., Bebber, D.P. \"Plant pathogen infection risk tracks global crop yields under climate change\" (r(T) ของ 80 เชื้อรา/อูไมซีต), Nature Climate Change 11:710–715, 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s41558-021-01104-8"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "Singh, B.K. et al. \"Climate change impacts on plant pathogens, food security and paths forward\" (ความเสียหายโรค+ศัตรู ~220 พันล้านดอลลาร์/ปี), Nature Reviews Microbiology 21, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s41579-023-00900-7"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "กรมการข้าว. \"สถานการณ์การระบาดของโรคไหม้ข้าว\" (ค่าวิกฤตความเสี่ยงอากาศ 2.25; พื้นที่ระบาด 10 จังหวัด 171 ไร่; การคาดการณ์รายสัปดาห์), 2564 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://newwebs2.ricethailand.go.th/webmain/page.php?pid=9692"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "คมชัดลึก/กรุงเทพธุรกิจ. \"เตือนภัย 'โรคไหม้ข้าว' ระบาดแล้วกว่า 4 แสนไร่\" (432,118 ไร่ ณ 20 พ.ย. 2562 — กรมส่งเสริมการเกษตร), 2562 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.bangkokbiznews.com/social/856637"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "ฐานเศรษฐกิจ. \"ผวา! โรคไหม้คอรวงข้าวระบาดหนัก...ทุ่งกุลาร้องไห้\" (สุรินทร์ 283,454 ไร่/49,204 รายใน 10 วัน; ขาวดอกมะลิ 105/กข15 อ่อนแอ), พ.ย. 2562 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thansettakij.com/business/413801"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "\"ผลกระทบของโรคไหม้คอรวงและประสิทธิภาพการผลิตข้าวขาวดอกมะลิ 105\" (ไหม้ +1% → ผลผลิต -0.52% = -442 บาท/ไร่; ปีระบาดรุนแรง 552–1,048 ล้านบาท), Chiang Mai University Journal of Economics (TCI-ThaiJo) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so01.tci-thaijo.org/index.php/CMJE/article/view/92697"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "วรสิทธิ์, ธีรวัฒน์ และคณะ. \"การประยุกต์ใช้เทคนิคการเรียนรู้เชิงลึกสำหรับการรู้จำโรคขอบใบแห้งและโรคไหม้ของข้าว\" (YOLOv3: ไหม้ 86.46%, ขอบใบแห้ง 90.33%, mAP 79.19%), วารสารแก่นเกษตร 50(1):216–228, 2565 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/249570"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "กรมส่งเสริมการเกษตร. \"DOAE PEST FORECAST — การพยากรณ์ศัตรูพืช\" (จากสภาพอากาศ/ฤดูกาล/แปลงติดตาม/รายงานเจ้าหน้าที่) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://esc.doae.go.th/doae-pest-forecast/"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "กรมส่งเสริมการเกษตร. \"โรคไหม้ข้าว/โรคไหม้คอรวง\" (ใบเปียกนาน >10 ชม.; อุณหภูมิกลางคืน 20–25°C; ขาวดอกมะลิ 105 อ่อนแอ) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://esc.doae.go.th/%e0%b9%82%e0%b8%a3%e0%b8%84%e0%b9%84%e0%b8%ab%e0%b8%a1%e0%b9%89%e0%b8%82%e0%b9%89%e0%b8%b2%e0%b8%a7-2/"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "BIOTEC สวทช. \"ขยายผลท่อนพันธุ์สะอาดสู่ไร่มันสำปะหลัง...หยุดวิกฤตใบด่างด้วยพันธุ์ดี\" (ระบาดตั้งแต่ 2561; strip test 15 นาที; ELISA ~13 บาท/ตัวอย่าง; 6 ห้องปฏิบัติการ; นำร่อง 4 จังหวัดอีสาน), 2 ก.พ. 2569 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.biotec.or.th/home/cassava-banpong/"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "ชาติไทยเจริญ, ปิยะ. \"การจำแนกโรคทางใบทุเรียนด้วย Image Classification และ Mask R-CNN\" (Mask R-CNN accuracy 93.47%), วิทยานิพนธ์ มหาวิทยาลัยธรรมศาสตร์, 2566 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "http://ethesisarchive.library.tu.ac.th/thesis/2023/TU_2023_6510037101_18931_28667.pdf"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "Grünwald, N.J., Romero Montes, G., Lozoya Saldaña, H. et al. \"Potato Late Blight Management in the Toluca Valley: Field Validation of SimCast Modified for Cultivars with High Field Resistance\" (SimCast ใช้ได้ข้ามภูมิอากาศเขตร้อนที่สูง; ฝนเป็นตัวแปรหลัก), Plant Disease 86(10):1163–1168, 2002 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1094/pdis.2002.86.10.1163"
+    }
+  ],
+  "reference_count": 34,
+  "article_file": "agri-11-006.md",
+  "source_file": "11-การปรับตัวต่อสภาพอากาศและระบบเตือนภัย\\เจาะลึก-11-ระบบเตือนภัยโรคพืชจากสภาพอากาศ.md"
+}

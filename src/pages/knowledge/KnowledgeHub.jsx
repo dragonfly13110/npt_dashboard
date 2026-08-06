@@ -77,6 +77,15 @@ const knowledgeCollections = [
     Icon: DatabaseOutlined,
     tone: 'stou',
   },
+  {
+    to: '/public/frontier-agri-research',
+    title: 'คลังบทความด้านการเกษตรทั่วโลก',
+    description:
+      'รวมบทความวิจัยการเกษตรล้ำยุค พร้อมเงื่อนไขผลการศึกษา อ้างอิงท้ายบทความ และลิงก์เว็บต้นทางเมื่อมี URL',
+    detail: '146 บทความ · 14 หมวด · 2,239 รายการอ้างอิง',
+    Icon: DatabaseOutlined,
+    tone: 'frontier',
+  },
 ];
 
 export default function KnowledgeHub() {

@@ -1,0 +1,304 @@
+{
+  "slug": "agri-12-001",
+  "title": "เศรษฐศาสตร์ precision agriculture ระดับชาติ — Adoption, ROI, ต้นทุน-ผลตอบแทน (ไทย/สหรัฐฯ/EU/ประเทศกำลังพัฒนา)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ระบบอาหาร เศรษฐศาสตร์ และนโยบาย",
+  "domain_code": "12",
+  "topic_id": "12-001",
+  "handle_id": "12-001",
+  "abstract": "- **ใจความ**: Precision agriculture (PA) ให้ผลตอบแทนเชิงบวกโดยเฉลี่ยทั่วโลก — meta-analysis จาก 85 งานศึกษา/1,472 ฟาร์ม-แปลง พบ ROI เพิ่มเฉลี่ย 22.3% กำไรสุทธิ +18.5% ประสิทธิภาพการใช้ไนโตรเจน (NUE) +15.1% ยาฆ่าแมลง -12.8% และ GHG -9.4% [5] — แต่ผลตอบแทน \"ขึ้นกับบริบทอย่างมาก\": ได้ผลชัดในฟาร์มธัญพืชขนาดใหญ่ (จุดคุ้มทุนส่วนใหญ่ที่ 100–200 เฮกตาร์ = 625–1,250 ไร่) และอ่อนแอ/ไม่เสถียรในฟาร์มเล็กและประเทศกำลังพัฒนา [5][36] — อัตราการยอมรับโลกห่างกันมาก: สหรัฐฯ 27% ของฟาร์ม (2023) [1], EU 18% ของฟาร์มแต่ครอบคลุม 44% ของพื้นที่เกษตร (UAA) [3], อินเดีย 4.7% (สำรวจ 4,800 ครัวเรือน 2023) [13], แอฟริกาใต้สะฮารา UAV <1–3% [15]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.gao.gov/assets/d24105962.pdf",
+  "pdf_url": "https://www.gao.gov/assets/d24105962.pdf",
+  "source_urls": [
+    "https://www.gao.gov/assets/d24105962.pdf",
+    "https://ers.usda.gov/sites/default/files/_laserfiche/publications/110560/EIB-283.pdf",
+    "https://ec.europa.eu/eurostat/web/products-eurostat-news/w/ddn-20260724-1",
+    "https://cyprus-mail.com/2026/07/24/cyprus-lags-eu-in-precision-farming-as-digital-adoption-grows/",
+    "https://doi.org/10.3390/su172411223",
+    "https://www.extensionjournal.com/uploads/archives/9-5-14-106.pdf",
+    "https://ers.usda.gov/sites/default/files/_laserfiche/publications/80326/ERR-217.pdf",
+    "https://www.ers.usda.gov/amber-waves/2016/may/cost-savings-from-precision-agriculture-technologies-on-u-s-corn-farms",
+    "https://doi.org/10.1079/cabireviews202217054",
+    "https://doi.org/10.1016/j.gfs.2021.100570",
+    "https://mssoy.org/sites/default/files/2025-01/McFADDEN%20%20PA%20PROC%202024.pdf",
+    "https://www.roymorgan.com/findings/9584-roy-morgan-farmer-agribusiness-survey-agtech-june-2024",
+    "https://doi.org/10.33545/26646064.2026.v8.i5a.640",
+    "https://www.allagriculturejournal.com/assets/storage/articles/full_article_file_adoption-of-precision-agriculture-technologies-among-smallholder-farmers1.pdf",
+    "https://doi.org/10.3390/drones10020115",
+    "https://doi.org/10.1071/cp21759",
+    "https://www.grandviewresearch.com/industry-analysis/precision-farming-market",
+    "https://www.marketsandmarkets.com/Market-Reports/precision-farming-market-1243.html",
+    "https://www.bccresearch.com/market-research/food-and-beverage/precision-farming-market-report.html",
+    "https://www.thairath.co.th/agriculture/agricultural-technology/2746457",
+    "https://www.thansettakij.com/technology/technology/606899",
+    "https://www.bangkokbiznews.com/business/economic/1178147",
+    "https://www.nia.or.th/NIA-Quick-Win-Smart-Farming",
+    "https://nectec.or.th/ace2024/wp-content/uploads/2024/09/ss5-NECTEC-Sensors.pdf",
+    "https://www.nstda.or.th/nac/2026/exhibition/toolrt01/",
+    "https://doi.org/10.55003/kmaj.2026.268715",
+    "https://doi.org/10.55003/kmaj.2025.06.23.010",
+    "https://www.nso.go.th/nsoweb/storage/upload_file/2024/20240111123314_35658.pdf",
+    "https://www.thansettakij.com/economy/trade-agriculture/624137",
+    "https://catalog.oae.go.th/dataset/eb9e456c-875a-44ab-ad03-0ef5804d0d80/resource/3c1bc2df-b437-4045-8ec1-634857d9fce8/download/152a124a0ed20038-2.pdf",
+    "https://www.bangkokbiznews.com/economics/1231390",
+    "https://doi.org/10.1007/s11119-022-09930-2",
+    "https://www.mncorn.org/wp-content/uploads/2022/05/a6121-24DD-Final_Report_Precision_Irrigation_2024-2.pdf",
+    "https://doi.org/10.1163/9789004725232_161",
+    "https://www.prachachat.net/economic/news-2001923",
+    "https://doi.org/10.3390/agriculture16070820",
+    "https://www.thairath.co.th/news/governmentpolicy/2944351",
+    "https://documents1.worldbank.org/curated/en/099092925141086193/pdf/P500443-c5c1ae72-ed75-442e-885c-7ced9e0bb0ea.pdf",
+    "https://www.sciencedirect.com/science/article/pii/S2352550924003221",
+    "https://blog-crop-news.extension.umn.edu/2023/07/research-shows-precision-irrigation.html"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "U.S. GAO. \"Precision Agriculture: Benefits and Challenges for Technology Adoption and Use (GAO-24-105962).\" U.S. Government Accountability Office, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.gao.gov/assets/d24105962.pdf"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Lim K. \"America's Farms and Ranches at a Glance: 2024 Edition (EIB-283).\" USDA Economic Research Service, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://ers.usda.gov/sites/default/files/_laserfiche/publications/110560/EIB-283.pdf"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Eurostat. \"43% of EU farms with internet access.\" Eurostat News, 2026-07-24 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://ec.europa.eu/eurostat/web/products-eurostat-news/w/ddn-20260724-1"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Cyprus Mail. \"Cyprus lags EU in precision farming as digital adoption grows.\" 2026-07-24 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://cyprus-mail.com/2026/07/24/cyprus-lags-eu-in-precision-farming-as-digital-adoption-grows/"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Lan J., Ban Q. \"The Farm-Level Economic and Environmental Benefits of Precision Agriculture Technology Adoption: A Meta-Analysis of Global Evidence.\" Sustainability 17(24):11223, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3390/su172411223"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Rana K. et al. \"Precision agriculture for enhancing crop productivity: A systematic review of technologies and outcomes.\" International Journal of Agricultural Extension (extensionjournal), 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.extensionjournal.com/uploads/archives/9-5-14-106.pdf"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Schimmelpfennig D. \"Farm Profits and Adoption of Precision Agriculture (ERR-217).\" USDA Economic Research Service, 2016 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://ers.usda.gov/sites/default/files/_laserfiche/publications/80326/ERR-217.pdf"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Schimmelpfennig D. \"Cost Savings From Precision Agriculture Technologies on U.S. Corn Farms.\" Amber Waves, USDA ERS, 2016 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.ers.usda.gov/amber-waves/2016/may/cost-savings-from-precision-agriculture-technologies-on-u-s-corn-farms"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Medici M., Canavari M. \"Economic impacts of variable rate nitrogen fertilization: Input saving and yield increase in cereals.\" CABI Reviews, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1079/cabireviews202217054"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Chivenge P. et al. \"Co-benefits of nutrient management tailored to smallholder agriculture.\" Global Food Security 30:100570, 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.gfs.2021.100570"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "McFadden J. et al. \"Global Adoption of Precision Agriculture: An Update on Current State and Opportunities (บทความการประชุม).\" Mississippi State University / American Soybean Association, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://mssoy.org/sites/default/files/2025-01/McFADDEN%20%20PA%20PROC%202024.pdf"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Roy Morgan. \"AgTech is used by a majority of Australian farmers with John Deere, Gallagher and Elders the top AgTech brands.\" Roy Morgan Research, 2024-06-18 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.roymorgan.com/findings/9584-roy-morgan-farmer-agribusiness-survey-agtech-june-2024"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Ranganatha Y., Killedar F.D., Bhoopanna R.B., Chinmay M.P. \"Transforming Indian Agriculture Through Precision Technologies: Adoption Challenges, Technological Advancements, and Future Pathways: A Comprehensive Review.\" International Journal of Agricultural Science 8(5), 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.33545/26646064.2026.v8.i5a.640"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Khan. \"Adoption of Precision Agriculture Technologies Among Smallholder Farmers.\" All Agriculture Journal (ปีไม่ระบุ) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.allagriculturejournal.com/assets/storage/articles/full_article_file_adoption-of-precision-agriculture-technologies-among-smallholder-farmers1.pdf"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "Ahmed W.A., Ojerinde J.S., Olatoyinbo S.F., Ogaleye F.J. \"UAV Technologies for Precision Agriculture: Capabilities, Constraints, and Deployment Models for Smallholder Systems in Sub-Saharan Africa.\" Drones 10(2):115, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3390/drones10020115"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Puntel L.A. et al. \"How digital is agriculture in a subset of countries from South America? Adoption and limitations.\" Crop & Pasture Science 73(9), 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1071/cp21759"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Grand View Research. \"Precision Farming Market Size And Share Report, 2026-2033.\" 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.grandviewresearch.com/industry-analysis/precision-farming-market"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "MarketsandMarkets. \"Precision Farming Market Size, Share & Trends.\" 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.marketsandmarkets.com/Market-Reports/precision-farming-market-1243.html"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "BCC Research. \"Global Markets for Precision Farming.\" 2025-10-24 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.bccresearch.com/market-research/food-and-beverage/precision-farming-market-report.html"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "ไทยรัฐ. \"สศก.ตามโครงการฯ แปลงเกษตรอัจฉริยะ ชี้เทคโนโลยีช่วยเพิ่มผลผลิต ลดต้นทุนทำนาได้ (ข้าว: 4,357 vs 4,604 บาท/ไร่; 924 vs 868 กก./ไร่).\" ไทยรัฐออนไลน์, 2023-12-08 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thairath.co.th/agriculture/agricultural-technology/2746457"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "ฐานเศรษฐกิจ. \"โดรนการเกษตรคึก รับนโยบายเร่งด่วนรัฐบาล มุ่งยกระดับเกษตรทันสมัย (ยอดขาย 8,000 เครื่อง/ปี, สะสม 20,000 เครื่อง).\" 2024-09-17 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thansettakij.com/technology/technology/606899"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "กรุงเทพธุรกิจ. \"กรมส่งเสริมการเกษตร หนุนใช้โดรน เปลี่ยนผ่าน สู่ยุคเกษตรดิจิทัล (546 แปลงใหญ่, 34,000 ราย, เป้าลดต้นทุน 1,100 ล้านบาท).\" 2025-04-29 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.bangkokbiznews.com/business/economic/1178147"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "สำนักงานนวัตกรรมแห่งชาติ (NIA). \"NIA ร่วมแถลงข่าว 'โดรนคนละครึ่งพลัส สู่ สมาร์ทฟาร์มมิ่ง (Smart Farming)' (คูปอง 40 บาท/ไร่, 100,000 ไร่).\" NIA, 2568 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nia.or.th/NIA-Quick-Win-Smart-Farming"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "เนคเทค-สวทช. \"สร้างระบบนิเวศเซนเซอร์ไอโอทีสำหรับภาคอุตสาหกรรมและภาคการเกษตรดิจิทัล (สถิติ HandySense: 1,767 อุปกรณ์, 1,118 บัญชี, 4,000 ผู้ผ่านอบรม, 200 แปลงสาธิต).\" NECTEC ACE2024, 2567 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://nectec.or.th/ace2024/wp-content/uploads/2024/09/ss5-NECTEC-Sensors.pdf"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "สวทช. \"ฟาร์มอัจฉริยะ สร้างง่าย ได้อย่างใจ ยกระดับเกษตรกรไทย สู่ยุคดิจิทัล (HandySense B-Farm) — NAC2026 (อุปกรณ์ 2,700+, ข้อมูล 1.8 ล้านจุด).\" NSTDA NAC 2026, 2569 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nstda.or.th/nac/2026/exhibition/toolrt01/"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "ธนะสิงห์ ม., ตั้งวันเจริญ เศ., ตริวณิชชากร ถ. \"ทัศนคติ ความคุ้มทุน และข้อเสนอแนะเชิงนโยบายสำหรับการประยุกต์ใช้โดรนเพื่อการเกษตรในประเทศไทย.\" วารสารเกษตรพระจอมเกล้า 44(2):e0268715, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.55003/kmaj.2026.268715"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "สมอาษา ว., ศรีบุญเรือง พ., ทองดีเลิศ พ. \"การยอมรับระบบเกษตรแม่นยำฟาร์มอัจฉริยะ (HandySense) ของเกษตรกรผู้ปลูกมะม่วงน้ำดอกไม้ อำเภอบางพลี จังหวัดสมุทรปราการ.\" วารสารเกษตรพระจอมเกล้า 43(3):410, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.55003/kmaj.2025.06.23.010"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "สำนักงานสถิติแห่งชาติ (สสช.). \"Press release ผลการทำสำมะโนการเกษตร พ.ศ. 2566 (ผู้ถือครอง 8.7 ล้านราย, เฉลี่ย 16.4 ไร่/ราย, 142.9 ล้านไร่, ใช้เครื่องจักร 71.3%).\" สสช., 2567 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nso.go.th/nsoweb/storage/upload_file/2024/20240111123314_35658.pdf"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "ฐานเศรษฐกิจ. \"'เกษตรกรไทย' ถือครองที่ดินเฉลี่ย 24.97 ไร่ สศก. เผยข้อมูลล่าสุด.\" 2025-04-03 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thansettakij.com/economy/trade-agriculture/624137"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "สำนักงานเศรษฐกิจการเกษตร (สศก.). \"ตัวชี้วัด ภาวะเศรษฐกิจสังคมครัวเรือนเกษตร ปีเพาะปลูก 2562/63–2566/67 (รายได้เงินสดสุทธิเกษตร 83,130 บาท/ครัวเรือน; อายุหัวหน้าครัวเรือน 59.89 ปี).\" สศก., 2568 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://catalog.oae.go.th/dataset/eb9e456c-875a-44ab-ad03-0ef5804d0d80/resource/3c1bc2df-b437-4045-8ec1-634857d9fce8/download/152a124a0ed20038-2.pdf"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "กรุงเทพธุรกิจ. \"รายได้เกษตรกร 67/68 ขยับเพิ่ม แต่รายจ่ายพุ่ง-หนี้ยังรุม (รายได้เงินสดสุทธิเกษตร 84,779 บาท/ครัวเรือน).\" 2026-04-27 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.bangkokbiznews.com/economics/1231390"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "Bondesan L. et al. \"A comparison of precision and conventional irrigation in corn production in Southeast Alabama.\" Precision Agriculture 24, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1007/s11119-022-09930-2"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "Sharma V. et al. \"Precision Irrigation and Nitrogen Management for Enhancing Water Nitrogen Use Efficiency (รายงานสรุป 3 ปี 2022–2024; PNM+VRI กำไร +$107/เอเคอร์, nitrate -80%).\" University of Minnesota / Minnesota Corn, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mncorn.org/wp-content/uploads/2022/05/a6121-24DD-Final_Report_Precision_Irrigation_2024-2.pdf"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "Kechchour A., Miao Y., Sharma V. \"Evaluating the benefit of integrated precision nitrogen and irrigation management for maize in Minnesota.\" (เอกสารการประชุม), 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1163/9789004725232_161"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "ประชาชาติธุรกิจ. \"สศก.ใช้โดรน-ดาวเทียมจับตาข้าวนาปี 5 ช่วงอายุ เพิ่มแม่นยำพยากรณ์ผลผลิต (40 แปลงพิจิตร, แม่นยำ ~70% เป้า >80%).\" 2026-05-05 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.prachachat.net/economic/news-2001923"
+    },
+    {
+      "id": "36",
+      "index": 36,
+      "label": "\"Economic Aspects of Precision Crop Production: A Systematic Literature Review.\" Agriculture 16(7):820, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3390/agriculture16070820"
+    },
+    {
+      "id": "37",
+      "index": 37,
+      "label": "ไทยรัฐ. \"กระทรวงเกษตรฯ เผยผลประเมินโครงการไร่ละ 1,000 ช่วยชาวนา 4.5 ล้านครัวเรือน (ต้นทุน -463.02 บาท/ไร่, ผลผลิต +79.29 กก./ไร่, B/C 1.57).\" 2026-07-06 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thairath.co.th/news/governmentpolicy/2944351"
+    },
+    {
+      "id": "38",
+      "index": 38,
+      "label": "World Bank Group. \"Adoption of Agricultural Technologies by Smallholder Farmers (Ethiopia: คำแนะนำเฉพาะแปลง +15% ปุ๋ย/ผลผลิตข้าวโพด; Tanzania: คำแนะนำ+การเงินต้องไปด้วยกัน).\" World Bank, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://documents1.worldbank.org/curated/en/099092925141086193/pdf/P500443-c5c1ae72-ed75-442e-885c-7ced9e0bb0ea.pdf"
+    },
+    {
+      "id": "39",
+      "index": 39,
+      "label": "\"A review of life cycle impacts and costs of precision agriculture for cultivation (entry cost เซนเซอร์ ~$20/เฮกตาร์ ถึง VRN หลายหมื่นยูโร).\" Cleaner Environmental Systems, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/pii/S2352550924003221"
+    },
+    {
+      "id": "40",
+      "index": 40,
+      "label": "Sharma V., Herbert T. \"Research shows precision irrigation technology can improve... (VRI ลดน้ำ 43% ผลผลิตไม่ต่าง; IWP +65%).\" University of Minnesota Extension, 2023-07-01 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://blog-crop-news.extension.umn.edu/2023/07/research-shows-precision-irrigation.html"
+    }
+  ],
+  "reference_count": 40,
+  "article_file": "agri-12-001.md",
+  "source_file": "12-ระบบอาหาร เศรษฐศาสตร์ และนโยบาย\\เจาะลึก-12-เศรษฐศาสตร์PrecisionAg-ระดับชาติ.md"
+}

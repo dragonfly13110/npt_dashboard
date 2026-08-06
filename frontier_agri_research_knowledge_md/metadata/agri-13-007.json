@@ -1,0 +1,227 @@
+{
+  "slug": "agri-13-007",
+  "title": "บรรจุภัณฑ์อาหารยั่งยืน (Sustainable Food Packaging) — MAP/Active/Edible coating/วัสดุชีวภาพ + PPWR — \"บรรจุภัณฑ์ยืดอายุผักผลไม้ได้ 50–200% แต่กฎ EU กำลังเข้มงวด — ไทยต้อง 'ดีไซน์เพื่อรีไซเคิล' ไม่งั้นเสียตลาด\"",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-05",
+  "created_at": "2026-08-05",
+  "review_at": "2027-02-05",
+  "category": "ความมั่นคงอาหารและห่วงโซ่อุปทานยั่งยืน",
+  "domain_code": "13",
+  "topic_id": "13-007",
+  "handle_id": "13-007",
+  "abstract": "- **ใจความ**: บรรจุภัณฑ์อาหารยั่งยืน = 3 เสาหลัก: (1) **ยืดอายุ/ลด Loss** — MAP (Modified Atmosphere Packaging — ปรับแก๊สในบรรจุภัณฑ์), Active packaging (ตัวดูดออกซิเจน/เอทิลีน/ความชื้น), Edible coating/ฟิล์ม (สารเคลือบกินได้ — ไคโตซาน/เซลลูโลส) (2) **วัสดุชีวภาพ/ย่อยสลาย** — PLA/PHA/ฟิล์มจากชีวมวล (3) **กฎ/การออกแบบ** — PPWR (EU Packaging Regulation 2025/40 — มีผลบังคับ 12 ส.ค. 2026 — ดีไซน์เพื่อรีไซเคิล/พลาสติกรีไซเคิลขั้นต่ำ/แบนพลาสติกใช้ครั้งเดียว) + ความปลอดภัยอาหารสัมผัส (EU 10/2011 + แก้ไข 2025/351, BPA แบน) — ตัวเลข: MAP ยืดอายุผักผลไม้ **50–200%** [1]; สตรอว์เบอร์รี 4–5 วัน → 14 วัน (MAP 5% O₂/15% CO₂) [1]; ตัวดูดเอทิลีน (KMnO₄+ถ่านกัมมันต์) กล้วย 3 วัน → 5–6 วัน (14–17°C) [9]; ตลาด",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.sciencedirect.com/science/article/pii/S0022474X2500116X",
+  "pdf_url": "https://www.bio-conferences.org/articles/bioconf/pdf/2025/40/bioconf_safe2025_02010.pdf",
+  "source_urls": [
+    "https://www.sciencedirect.com/science/article/pii/S0022474X2500116X",
+    "https://www.mdpi.com/2076-3417/14/23/11074",
+    "https://environment.ec.europa.eu/topics/waste-and-recycling/packaging-waste_en",
+    "https://www.compliancegate.com/ppwr-timeline-and-dates/",
+    "https://www.packlab.gr/en/key-milestones-of-the-eu-packaging-and-packaging-waste-regulation-ppwr/",
+    "https://fkur.com/en/knowledgebase/ppwr-eu-packaging-waste-regulation",
+    "https://www.krungsri.com/en/research/research-intelligence/ppwr-2026",
+    "https://www.nationthailand.com/business/economy/40068493",
+    "https://www.bio-conferences.org/articles/bioconf/pdf/2025/40/bioconf_safe2025_02010.pdf",
+    "https://onlinelibrary.wiley.com/doi/10.1002/pts.2863",
+    "https://www.sciencedirect.com/science/article/pii/S2772753X26000407",
+    "https://www.grandviewresearch.com/industry-analysis/eco-friendly-food-packaging-market-report",
+    "https://www.marketsandmarkets.com/Market-Reports/food-packaging-market-70874880.html",
+    "https://www.mordorintelligence.com/industry-reports/sustainable-packaging-market",
+    "https://www.gminsights.com/industry-analysis/eco-friendly-food-packaging-market",
+    "https://www.insightaceanalytic.com/report/biopolymer-packaging-market/3010",
+    "https://www.marketsandmarkets.com/PressReleases/biopolymers-bioplastics.asp",
+    "https://www.researchandmarkets.com/reports/5979757/nanotechnology-food-packaging-market-global",
+    "https://www.efsa.europa.eu/en/topics/topic/nanotechnology",
+    "https://link.springer.com/article/10.1007/s10341-025-01397-5",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC11734098/",
+    "http://ethesisarchive.library.tu.ac.th/thesis/2018/TU_2018_5809032542_7254_9476.pdf",
+    "https://totalenergies.com/newsroom/thailand-total-corbion-pla-starts-its-75000-tonnes-year-bioplastics-plant/",
+    "https://ukhi.com/pha-market-report-2025-2030",
+    "https://elibrary.tsri.or.th/fullP/RDG5850082/RDG5850082_full.pdf",
+    "https://www.tistr.or.th/PressCenter/research/16436",
+    "https://food.ec.europa.eu/food-safety/chemical-safety/food-contact-materials/legislation_en",
+    "https://www.qassurance.com/plastic-food-contact-materials-new-eu-rules-and-bpa-ban/",
+    "https://www.vistapackagings.com/shelf-life-extension"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "\"Advancing sustainability through modified atmosphere packaging (MAP) for fresh food preservation: A critical review\", Journal of Food Engineering (ScienceDirect), 2025 — — เข้าถึงเมื่อ 2026-08-05 *(MAP +50–200%, สตรอว์เบอร์รี 14 วัน)*",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0022474X2500116X"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "\"Strategies to Extend the Shelf Life of Fresh and Minimally Processed Fruit and Vegetables with Edible Coatings and MAP\", Applied Sciences (MDPI), 2024 — — เข้าถึงเมื่อ 2026-08-05 *(มะเขือเทศ MAP+coating 20 วัน; synergy ยังโจทย์)*",
+      "url": "https://www.mdpi.com/2076-3417/14/23/11074"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "\"Packaging waste — PPWR (Regulation 2025/40)\", European Commission, เข้าใช้บังคับ 11 ก.พ. 2025 / บังคับใช้ 12 ส.ค. 2026 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://environment.ec.europa.eu/topics/waste-and-recycling/packaging-waste_en"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "\"EU Packaging Regulation (PPWR) Timeline: 2026 to 2040\", ComplianceGate, 2026 — — เข้าถึงเมื่อ 2026-08-05 *(PCR 2030/2040, DfR 2030/2035/2038, deposit-return 2029)*",
+      "url": "https://www.compliancegate.com/ppwr-timeline-and-dates/"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "\"Key Milestones of the Packaging and Packaging Waste Regulation (PPWR)\", Packlab, 2025 — — เข้าถึงเมื่อ 2026-08-05 *(เกรด A/B/C ≥70%; 30%/10%/35% PCR; แก้ว 50%/กระดาษ 70%/โลหะ 25%)*",
+      "url": "https://www.packlab.gr/en/key-milestones-of-the-eu-packaging-and-packaging-waste-regulation-ppwr/"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "\"PPWR at a Glance: New EU Packaging Waste Regulation\", fkur.com — — เข้าถึงเมื่อ 2026-08-05 *(รายการแบน 1 ม.ค. 2030: ผักผลไม้ <1.5 กก./ซองเครื่องปรุง/ถุง <15 µm ฯลฯ)*",
+      "url": "https://fkur.com/en/knowledgebase/ppwr-eu-packaging-waste-regulation"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "\"The EU's Packaging and Packaging Waste Regulation (PPWR): impact on Thai businesses\", Krungsri Research, ก.ค. 2026 — — เข้าถึงเมื่อ 2026-08-05 *(ส่งออกไทย $13.5B/51%; บรรจุภัณฑ์ $119.9M; อาหาร $2.3B — ปี 2025)*",
+      "url": "https://www.krungsri.com/en/research/research-intelligence/ppwr-2026"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "\"Thailand and EU see PPWR as catalyst for future sustainable trade\", Nation Thailand, 10 ก.ค. 2026 — — เข้าถึงเมื่อ 2026-08-05 *(ฟอรัม/เวิร์กช็อป DoC ก.ค. 2026; เฟส 2026/2028)*",
+      "url": "https://www.nationthailand.com/business/economy/40068493"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "\"The Development of Ethylene-Adsorbing Active Packaging to Extend the Shelf Life of Cavendish Banana\", BIO Web of Conferences (SAFE 2025), 2025 — — เข้าถึงเมื่อ 2026-08-05 *(กล้วย 3→5–6 วัน; อ้าง +17 วัน Ambon/+12 วัน ลางสาด; 98.6 ppm/kg)*",
+      "url": "https://www.bio-conferences.org/articles/bioconf/pdf/2025/40/bioconf_safe2025_02010.pdf"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "\"Active Packaging System — An Overview of Recent Advances\", Packaging Technology and Science (Wiley), 2024 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1002/pts.2863"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "\"Oxygen scavengers as active food packaging: A systematic review\", Results in Engineering (ScienceDirect), มี.ค. 2026 — — เข้าถึงเมื่อ 2026-08-05 *(PLA+ascorbic acid 25% — น้ำมัน 25 วัน/เพสโต <10 วันควบคุม)*",
+      "url": "https://www.sciencedirect.com/science/article/pii/S2772753X26000407"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "\"Eco-friendly Food Packaging Market Size Report 2025–2030\", Grand View Research — — เข้าถึงเมื่อ 2026-08-05 *($227.96B 2024 → $353.78B 2030, CAGR 7.6%)*",
+      "url": "https://www.grandviewresearch.com/industry-analysis/eco-friendly-food-packaging-market-report"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "\"Food Packaging Market Worth $548.51 Billion by 2030, CAGR 5.4%\", MarketsandMarkets, มิ.ย. 2026 — — เข้าถึงเมื่อ 2026-08-05 *($421.38B 2025 → $548.51B 2030)*",
+      "url": "https://www.marketsandmarkets.com/Market-Reports/food-packaging-market-70874880.html"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "\"Sustainable Packaging Market Size, 2026–2031\", Mordor Intelligence — — เข้าถึงเมื่อ 2026-08-05 *($325.94B 2026 → $463.41B 2031, 7.29%; ยุโรป 34.2%; APAC 11.05% CAGR)*",
+      "url": "https://www.mordorintelligence.com/industry-reports/sustainable-packaging-market"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "\"Eco-friendly Food Packaging Market Size 2026–2035\", Global Market Insights, มี.ค. 2026 — — เข้าถึงเมื่อ 2026-08-05 *($211.7B 2025 → $451.2B 2035, 8%; DS Smith 13.4%)*",
+      "url": "https://www.gminsights.com/industry-analysis/eco-friendly-food-packaging-market"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "\"Biopolymer Packaging Market Report 2025–2034\", InsightAce Analytic, พ.ค. 2025 — — เข้าถึงเมื่อ 2026-08-05 *($23.8B 2024 → $72B 2034, 11.9%; Danimer/TEC coffee pod)*",
+      "url": "https://www.insightaceanalytic.com/report/biopolymer-packaging-market/3010"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "\"Bioplastics & Biopolymers Market worth $45.04 billion by 2030\", MarketsandMarkets, ก.ย. 2025 — — เข้าถึงเมื่อ 2026-08-05 *($17.58B 2025 → $45.04B 2030)*",
+      "url": "https://www.marketsandmarkets.com/PressReleases/biopolymers-bioplastics.asp"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "\"Nanotechnology for Food Packaging Market — Global Forecast 2021–2031\", Research and Markets, ม.ค. 2026 — — เข้าถึงเมื่อ 2026-08-05 *($33.09B 2025 → $55.83B 2031, 9.11%; IFT 22%)*",
+      "url": "https://www.researchandmarkets.com/reports/5979757/nanotechnology-food-packaging-market-global"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "\"Nanotechnology — risk assessment in food and feed chain (Guidance 2021)\", EFSA — — เข้าถึงเมื่อ 2026-08-05 *(ประเมินนาโนรายกรณี — ยังไม่มีกรอบเฉพาะ)*",
+      "url": "https://www.efsa.europa.eu/en/topics/topic/nanotechnology"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "\"Enhancing Post-Harvest Quality of Strawberries and Guava Using Innovative Chitosan–Beeswax Edible Coatings\", Applied Fruit Science (Springer), 2025 — — เข้าถึงเมื่อ 2026-08-05 *(ลดน้ำหนัก 28%/7%; เน่า 28%/3.2%; >10 วัน)*",
+      "url": "https://link.springer.com/article/10.1007/s10341-025-01397-5"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "\"Global insights and advances in edible coatings or films ...: An updated review\", PMC/งาน (2025) — — เข้าถึงเมื่อ 2026-08-05 *(สตรอว์เบอร์รี 20 วัน; ฝรั่ง 8 วัน 20°C; แอปเปิล 120 วัน 2–4°C — นาโนอิมัลชัน)*",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11734098/"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "\"ผลของการใช้ไคโตซานเคลือบไข่...ยืดอายุการเก็บรักษาไข่ไก่\", วิทยานิพนธ์ มธ., 2018 — — เข้าถึงเมื่อ 2026-08-05 *(ไคโตซานจากเปลือกสัตว์น้ำ — เคลือบไข่/ผลไม้)*",
+      "url": "http://ethesisarchive.library.tu.ac.th/thesis/2018/TU_2018_5809032542_7254_9476.pdf"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "\"Thailand: Total Corbion PLA starts-up its 75,000 tonnes per year bioplastics plant\", TotalEnergies, ธ.ค. 2018 + \"TotalEnergies Corbion marks 100kT Luminy PLA production milestone\", TotalEnergies Corbion, 2021 — / — เข้าถึงเมื่อ 2026-08-05 *(ระยอง 75,000 ตัน/ปี; lactide 100,000; โรงที่ 2 Grandpuits 100,000)*",
+      "url": "https://totalenergies.com/newsroom/thailand-total-corbion-pla-starts-its-75000-tonnes-year-bioplastics-plant/"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "\"PHA Market Report 2025–2030 — Thailand section\", UKHI — — เข้าถึงเมื่อ 2026-08-05 *(ไทยอันดับ 2 เอเชีย ~95,000 ตัน/ปี; ส่งออก ~90%; CAGR 25%; PHA ~$7/kg; Bio Hub ASEAN 2027)*",
+      "url": "https://ukhi.com/pha-market-report-2025-2030"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "\"บรรจุภัณฑ์แอคทีฟจากเยื่อกระดาษขึ้นรูปสำหรับกล้วยหอมและมะม่วงน้ำดอกไม้\", รายงานวิจัย สกว. (TSRI) RDG5850082 — — เข้าถึงเมื่อ 2026-08-05 *(มะม่วง 31 วัน; เอทิลีนช้า 7 วัน; กล้วยช้า ~4 วัน)*",
+      "url": "https://elibrary.tsri.or.th/fullP/RDG5850082/RDG5850082_full.pdf"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "\"วว. วิจัยพัฒนาสารเคลือบผิวที่บริโภคได้สำหรับยืดอายุผลไม้สดตัดแต่งพร้อมบริโภค\", TISTR — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.tistr.or.th/PressCenter/research/16436"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "\"Legislation — Food Contact Materials (EU 10/2011 + 2025/351 + BPA 2024/3190)\", European Commission / Food Safety Magazine (ม.ค. 2026) — / — เข้าถึงเมื่อ 2026-08-05 *(2025/351 มีผล 16 มี.ค. 2025 — transition 16 ก.ย. 2026; BPA: single-use ก.ค. 2026 / reusable ก.ค. 2027 / ผลไม้แพ็ค ม.ค. 2028; 1 μg/kg)*",
+      "url": "https://food.ec.europa.eu/food-safety/chemical-safety/food-contact-materials/legislation_en"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "\"Plastic Food Contact Materials: New EU Rules and BPA Ban (2025/351)\", QAssurance, 2025 — — เข้าถึงเมื่อ 2026-08-05 *(NIAS/DoC/รีไซเคิล — รายละเอียดการแก้ 10/2011)*",
+      "url": "https://www.qassurance.com/plastic-food-contact-materials-new-eu-rules-and-bpa-ban/"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "\"Shelf Life Extension Packaging — MAP Technology & Vital Films\" (เชิงพาณิชย์ — ใช้ตัวชี้ทิศ), Vista Packagings, 2026 — — เข้าถึงเมื่อ 2026-08-05 *(ตารางยืดอายุเชิงพาณิชย์; WRAP 250,000 ตัน; CO₂ 155–192 kg/1,000 kg)*",
+      "url": "https://www.vistapackagings.com/shelf-life-extension"
+    }
+  ],
+  "reference_count": 29,
+  "article_file": "agri-13-007.md",
+  "source_file": "13-ความมั่นคงอาหารและห่วงโซ่อุปทานยั่งยืน\\เจาะลึก-13-บรรจุภัณฑ์อาหารยั่งยืน-SustainablePackaging.md"
+}

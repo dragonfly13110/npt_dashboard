@@ -1,0 +1,330 @@
+{
+  "slug": "agri-14-006",
+  "title": "แพลตฟอร์มตลาดกลางสินค้าเกษตรดิจิทัล (Agri-Marketplace / B2B–B2C E-commerce สินค้าเกษตร)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-05",
+  "created_at": "2026-08-05",
+  "review_at": "2027-02-05",
+  "category": "สตาร์ทอัพ นวัตกรรม และการยอมรับเทคโนโลยี",
+  "domain_code": "14",
+  "topic_id": "14-006",
+  "handle_id": "14-006",
+  "abstract": "- **ใจความ**: แพลตฟอร์มตลาดกลางสินค้าเกษตรดิจิทัล (agri-marketplace) = แพลตฟอร์มออนไลน์เชื่อม \"เกษตรกร → ผู้ซื้อ\" ทั้งรูปแบบ B2B (ค้าส่ง/ผู้ประกอบการ: ร้านอาหาร ห้าง โรงแรม โรงงานแปรรูป) และ B2C (ผู้บริโภคปลายทาง) โดยตัด/ย่นจำนวนตัวกลาง (พ่อค้าคนกลาง) ออกจากห่วงโซ่ ลดค่าการตลาด เพิ่มราคาที่เกษตรกรได้รับ และให้ข้อมูลราคา/ความต้องการแบบเรียลไทม์ โมเดลธุรกิจหลัก: (1) ค่าคอมมิชชันจากยอดขาย (2) ส่วนต่างราคารับซื้อ-ขาย (fulfilment/margin) (3) SaaS/ค่าบริการ (4) FaaS (Fulfilment-as-a-Service) (5) รายได้จากการเงินฝังตัว (embedded finance — สินเชื่อ/ประกัน/รับชำระ) และ (6) สินค้าแบรนด์ตัวเอง (private label) — ผู้เล่นใหญ่ระดับโลกในตลาดเกิดใหม่: Alibaba Rural Taobao (จีน), Ninjacart/DeHaat/WayCool/Agro",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.salika.co/2020/05/04/thai-startups-platform-online-for-agricultural-product/",
+  "pdf_url": "https://documents1.worldbank.org/curated/en/839451555093213522/pdf/E-Commerce-Participation-and-Household-Income-Growth-in-Taobao-Villages.pdf",
+  "source_urls": [
+    "https://www.salika.co/2020/05/04/thai-startups-platform-online-for-agricultural-product/",
+    "https://inc42.com/startups/ninjacart-fixing-india-flawed-fresh-produce-food-supply-chain-bring-cheer-to-farmers/",
+    "https://freshket.co/en/",
+    "https://dataintelo.com/report/global-agriculture-e-commerce-market",
+    "https://growthmarketreports.com/report/e-commerce-of-agricultural-products-market-global-industry-analysis",
+    "https://www.globalgrowthinsights.com/market-reports/b2b-e-commerce-in-agriculture-market-125238",
+    "https://marketintelo.com/report/agri-commodity-trading-platforms-market",
+    "https://www.transparencymarketresearch.com/agricultural-ecommerce-market.html",
+    "https://www.snsinsider.com/reports/e-commerce-of-agricultural-products-market-9559",
+    "https://documents1.worldbank.org/curated/en/839451555093213522/pdf/E-Commerce-Participation-and-Household-Income-Growth-in-Taobao-Villages.pdf",
+    "https://ideas.repec.org/a/eee/ecanpo/v82y2024icp976-998.html",
+    "https://jedvb.polteksci.ac.id/index.php/jedvb/article/download/51/39",
+    "https://feb.ui.ac.id/uploads/2023/09/SDG2_2.5.2_Impact-Report-2022-Kontribusi-Ekosistem-eFishery-Terhadap-Perekonomian-Nasional.pdf",
+    "https://ninjacart.com/blog/thinking-beyond-middlemen-elimination-for-increasing-farmer-income/",
+    "https://www.infoquest.co.th/2023/340577",
+    "https://economictimes.indiatimes.com/tech/technology/flipkart-backed-ninjacart-raises-6-million-from-accel-nilekani-tiger-global/articleshow/132141146.cms",
+    "https://inc42.com/buzz/exclusive-dehaat-raises-inr-200-cr-debt-for-geographic-expansion/",
+    "https://disruptafrica.com/2025/04/24/kenyan-agri-tech-company-twiga-foods-acquires-3-local-fmcg-companies/",
+    "https://entrackr.com/news/waycool-raises-rs-210-cr-from-lightrock-india-11211096",
+    "https://talaadthai.com/news/14",
+    "https://www.dailymotion.com/video/xa7krpg",
+    "https://valueforstartups.in/ninjacart",
+    "https://www.worldbank.org/en/results/2019/11/22/stimulating-jobs-growth-entrepreneurship-income-in-rural-china-through-e-commerce",
+    "https://www.dfs.vc/assets/research/rural-platform-economy-indonesia.pdf",
+    "https://doi.org/10.38035/dijefa.v3i4.1398",
+    "https://www.bangkokbiznews.com/business/893904",
+    "https://economictimes.indiatimes.com/tech/funding/agritech-startup-agrostar-raises-30-million-from-just-climate-others/articleshow/125443914.cms",
+    "http://www.zgkjlt.org.cn/EN/abstract/abstract10995.shtml",
+    "https://www.frontiersin.org/journals/sustainable-food-systems/articles/10.3389/fsufs.2025.1597169/full",
+    "https://www.thehindubusinessline.com/economy/agri-business/ninjacart-says-its-tech-interventions-are-having-positive-impact-on-users/article68225133.ece",
+    "https://oae.go.th/uploads/files/2025/06/17/d36acdfe3721f646.pdf",
+    "https://entrackr.com/report/agritech-startups-account-for-only-2-of-venture-funding-since-2020-9556613",
+    "https://www.nia.or.th/5FruitVegDelivery",
+    "https://web.archive.org/web/20240721191233/https://ag2.kku.ac.th/kaj/PDF.cfm?filename=118P-ECON-0301.pdf&id=1752&keeptrack=7",
+    "https://www.talaadthai.com/about",
+    "https://readthecloud.com/business/startup/kaspy/",
+    "https://th.linkedin.com/company/freshlivingth",
+    "https://kasetidea.com/market/",
+    "https://eatsgoods.com/RegisterShop",
+    "https://appforfarm.com/",
+    "https://theactive.thaipbs.or.th/news/agriculture-20260425",
+    "https://kb.psu.ac.th/psukb/handle/2010/9040"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Salika: \"4 กลุ่มแพลตฟอร์มออนไลน์ ช่วยระบายสินค้าเกษตร โดยเหล่าสตาร์ทอัพไทย\" (NIA, 2563) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.salika.co/2020/05/04/thai-startups-platform-online-for-agricultural-product/"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Inc42: \"Ninjacart Fixing India's Broken Food Supply Chain To Boost Farmer Income\" (2562) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://inc42.com/startups/ninjacart-fixing-india-flawed-fresh-produce-food-supply-chain-bring-cheer-to-farmers/"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Freshket หน้าเว็บ (ข้อมูลสถานะบริษัท 2569) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://freshket.co/en/"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Dataintelo: \"Global Agriculture E-commerce Market Research Report 2034\" (2566/2568) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://dataintelo.com/report/global-agriculture-e-commerce-market"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Growth Market Reports: \"E-Commerce of Agricultural Products Market... USD 287.13 Billion by 2034 | CAGR 13.8%\" (2568) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://growthmarketreports.com/report/e-commerce-of-agricultural-products-market-global-industry-analysis"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Global Growth Insights: \"B2B E-commerce in Agriculture Market Size & Demand Analysis by 2035\" (2569) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.globalgrowthinsights.com/market-reports/b2b-e-commerce-in-agriculture-market-125238"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Market Intelo: \"Agri Commodity Trading Platforms Market Research Report 2034\" (2568) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://marketintelo.com/report/agri-commodity-trading-platforms-market"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Transparency Market Research: \"Agricultural E-commerce Market\" (2568) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.transparencymarketresearch.com/agricultural-ecommerce-market.html"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "SNS Insider: \"E-commerce of Agricultural Products Market Size & Forecast 2035\" — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.snsinsider.com/reports/e-commerce-of-agricultural-products-market-9559"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "World Bank (ร่วม Alibaba): \"E-Commerce Participation and Household Income Growth in Taobao Villages\" (2562, สำรวจ 2560) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://documents1.worldbank.org/curated/en/839451555093213522/pdf/E-Commerce-Participation-and-Household-Income-Growth-in-Taobao-Villages.pdf"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Zhang N., Yang W., Ke H.: \"Does rural e-commerce drive up incomes for rural residents? Evidence from Taobao villages in China\" — Economic Analysis and Policy 82 (2024) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://ideas.repec.org/a/eee/ecanpo/v82y2024icp976-998.html"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "\"The Impact of Agricultural E-Commerce on Smallholder Incomes and Supply Chains: Evidence from Garut, West Java\" — JEDVB (Politeknik SCI, อินโดนีเซีย) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://jedvb.polteksci.ac.id/index.php/jedvb/article/download/51/39"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Lembaga Demografi FEB UI: \"Corporate Impact Report 2022 — Kontribusi Ekosistem eFishery\" (2566) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://feb.ui.ac.id/uploads/2023/09/SDG2_2.5.2_Impact-Report-2022-Kontribusi-Ekosistem-eFishery-Terhadap-Perekonomian-Nasional.pdf"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Ninjacart Blog: \"Thinking beyond middlemen elimination for increasing farmer income\" (2565) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://ninjacart.com/blog/thinking-beyond-middlemen-elimination-for-increasing-farmer-income/"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "TTB Analytics ผ่าน InfoQuest: \"TTB มองพักชำระหนี้เกษตรแค่ยาแก้ปวด... ราคาข้าว 17.5 บาท/กก. ชาวนาได้ 8.8 บาท\" (2566, ข้อมูลปี 2565) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.infoquest.co.th/2023/340577"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "The Economic Times: \"Flipkart-backed Ninjacart raises $6 million... Ebitda profitability, public listing in two years\" (ก.ค. 2569) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://economictimes.indiatimes.com/tech/technology/flipkart-backed-ninjacart-raises-6-million-from-accel-nilekani-tiger-global/articleshow/132141146.cms"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Inc42/ET: \"DeHaat FY25 revenue ₹3,000 Cr, Q1 FY26 net profit, ₹200 Cr debt\" (2568–2569) — และ — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://inc42.com/buzz/exclusive-dehaat-raises-inr-200-cr-debt-for-geographic-expansion/"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "Disrupt Africa/Business Daily: \"Twiga Foods acquires 3 FMCG companies, suspends Nairobi operations\" (2568) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://disruptafrica.com/2025/04/24/kenyan-agri-tech-company-twiga-foods-acquires-3-local-fmcg-companies/"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Entrackr/The Ken: \"WayCool FY23 ₹1,251 Cr revenue ₹686 Cr loss; ₹210 Cr rights issue from Lightrock (มี.ค. 2569)\" — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://entrackr.com/news/waycool-raises-rs-210-cr-from-lightrock-india-11211096"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "ตลาดไท/ข่าวประชาสัมพันธ์: \"ตลาดไท 12,000 ตัน/วัน, 500–600 ล้านบาท/วัน, 1.8 แสนล้านบาท/ปี\" (2561–2566) — และ — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://talaadthai.com/news/14"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "Nation TV: \"ดีเดย์ 1 พ.ค. ไทยช่วยไทย 878 อำเภอ\" (เม.ย. 2569) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.dailymotion.com/video/xa7krpg"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "Value for Startups: \"Ninjacart Investor Report 2026\" (พ.ค. 2569) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://valueforstartups.in/ninjacart"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "World Bank: \"Stimulating jobs, growth, entrepreneurship, income in rural China through e-commerce\" (2562) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.worldbank.org/en/results/2019/11/22/stimulating-jobs-growth-entrepreneurship-income-in-rural-china-through-e-commerce"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "DFS VC: \"Platform Livelihood in Rural Indonesia\" (2565–2566) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.dfs.vc/assets/research/rural-platform-economy-indonesia.pdf"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "TaniHub (บริษัท) + DIJEFA 2022: \"TaniHub 46,000+ farmers, 25% income increase (self-reported)\" — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://doi.org/10.38035/dijefa.v3i4.1398"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "กรุงเทพธุรกิจ: \"2 บิ๊กแบงก์ ร่วมลงทุน Ricult\" (ก.ค. 2569) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.bangkokbiznews.com/business/893904"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "ET/YourStory: \"AgroStar raises $30M from Just Climate (พ.ย. 2568); FY25 ₹853 Cr revenue, losses -56%\" — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://economictimes.indiatimes.com/tech/funding/agritech-startup-agrostar-raises-30-million-from-just-climate-others/articleshow/125443914.cms"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "Liu W. et al.: \"Research on the Income Increasing Effect of Taobao Village in Poverty-Stricken Area\" — China Science and Technology Forum (2563) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "http://www.zgkjlt.org.cn/EN/abstract/abstract10995.shtml"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "Frontiers in Sustainable Food Systems: \"Can farmers increase their income by participating in e-commerce? (China Rural Revitalization Survey 2020)\" (มิ.ย. 2568) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.frontiersin.org/journals/sustainable-food-systems/articles/10.3389/fsufs.2025.1597169/full"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "The Hindu BusinessLine: \"Ninjacart says its tech interventions are having positive impact (60 Decibels survey, 2567)\" — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.thehindubusinessline.com/economy/agri-business/ninjacart-says-its-tech-interventions-are-having-positive-impact-on-users/article68225133.ece"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "สศก. (OAE): \"รายงานต้นทุนโลจิสติกส์ข้าวเปลือก ปี 2565/2566\" — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://oae.go.th/uploads/files/2025/06/17/d36acdfe3721f646.pdf"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "Entrackr: \"Agritech startups account for only 2% of venture funding since 2020 (TheKredible data)\" — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://entrackr.com/report/agritech-startups-account-for-only-2-of-venture-funding-since-2020-9556613"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "NIA: \"5 แพลตฟอร์มเดลิเวอรีผักผลไม้\" + Salika (2563) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nia.or.th/5FruitVegDelivery"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "วารสารเกษตรศาสตร์ (KKU): \"การตลาดผักสลัด ราคาหน้าฟาร์ม 60–100 บาท/กก. ปลีก 200 บาท/กก. ค่าการตลาด 16–51 บาท/กก.\" — — เข้าถึงเมื่อ 2026-08-06",
+      "url": "https://web.archive.org/web/20240721191233/https://ag2.kku.ac.th/kaj/PDF.cfm?filename=118P-ECON-0301.pdf&id=1752&keeptrack=7"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "Google Play/LinkedIn: \"Talaadthai Online — 10,000+ SKU, 100% delivery coverage ไทย\" (เปิด 2565) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.talaadthai.com/about"
+    },
+    {
+      "id": "36",
+      "index": 36,
+      "label": "Freshket (หน้าเว็บ 2569): \"4,500+ restaurants, 4,000+ products, 99.6% order complete\" — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://freshket.co/en/"
+    },
+    {
+      "id": "37",
+      "index": 37,
+      "label": "The Cloud: \"Kaspy แพลตฟอร์มขายผลผลิต เกษตรกร 700 คน 14 หมวด\" (2565) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://readthecloud.com/business/startup/kaspy/"
+    },
+    {
+      "id": "38",
+      "index": 38,
+      "label": "Freshliving (เว็บ/ออนไลน์ 2569): \"รายได้โต 7 เท่าใน 2 ปี, แบรนด์ Shi-tori\" — — เข้าถึงเมื่อ 2026-08-06",
+      "url": "https://th.linkedin.com/company/freshlivingth"
+    },
+    {
+      "id": "39",
+      "index": 39,
+      "label": "KASETIDEA Market (2567–2569) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://kasetidea.com/market/"
+    },
+    {
+      "id": "40",
+      "index": 40,
+      "label": "EATS Goods (2569) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://eatsgoods.com/RegisterShop"
+    },
+    {
+      "id": "41",
+      "index": 41,
+      "label": "ForFarm / เกษตรภูมิใจ (2564–2569) — , — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://appforfarm.com/"
+    },
+    {
+      "id": "42",
+      "index": 42,
+      "label": "ตลาดไท LinkedIn: \"Talaadthai x Chinese KOLs x DITP\" (2567) — (ลิงก์เดิมตาย ณ 2026-08-05 — ยังหาแหล่งทดแทนไม่ได้) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    },
+    {
+      "id": "43",
+      "index": 43,
+      "label": "The Active (ไทยพีบีเอส): \"รอยรั่วระบบส่งออกข้าว... ข้อเสนอควบคุมค่าการตลาด\" (เม.ย. 2569) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://theactive.thaipbs.or.th/news/agriculture-20260425"
+    },
+    {
+      "id": "44",
+      "index": 44,
+      "label": "เอกพจน์ วรรธนเลปกร: \"เศรษฐกิจการผลิตและการตลาดข้าวเปลือกในจังหวัดสงขลา\" (ม.อ., 2556; อ้างหน่วยวิจัยธุรกิจเกษตร 2539 — ข้าวเปลือก 50.9% ผ่านพ่อค้าท้องถิ่น) — — เข้าถึงเมื่อ 2026-08-06 - *หมายเหตุ: ตัวเลข Fruitley/Plantiful/ร้านนายกร (Chow Mall) ยังไม่พบแหล่งยืนยัน — ดูหัวข้อ 10; ตัวเลขตลาดโลกใช้หลายสำนักเทียบเคียงทิศทาง*",
+      "url": "https://kb.psu.ac.th/psukb/handle/2010/9040"
+    }
+  ],
+  "reference_count": 44,
+  "article_file": "agri-14-006.md",
+  "source_file": "14-สตาร์ทอัพ นวัตกรรม และการยอมรับเทคโนโลยี\\เจาะลึก-14-แพลตฟอร์มตลาดกลางสินค้าเกษตรดิจิทัล.md"
+}

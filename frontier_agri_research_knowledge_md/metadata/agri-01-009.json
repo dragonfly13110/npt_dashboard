@@ -1,0 +1,304 @@
+{
+  "slug": "agri-01-009",
+  "title": "งานวิจัย RNAi / ยีนไดรฟ์ (gene drive) ในประเทศไทย — หนอนกอข้าวและแมลงศัตรูพืช",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-05",
+  "created_at": "2026-08-05",
+  "review_at": "2027-02-05",
+  "category": "เทคโนโลยีชีวภาพและพันธุวิศวกรรม",
+  "domain_code": "01",
+  "topic_id": "01-009",
+  "handle_id": "01-009",
+  "abstract": "- **งาน RNAi กำจัดหนอนกอข้าว ระดับโลกมีผลชัดแต่ยังเป็นห้องแล็บ**: หนอนกอแถบลาย (*Chilo suppressalis*) — งานจีน หยุดยีนสร้างฮอร์โมน 4 ยีน (ptth/torso/spook/nm-g) ด้วย dsRNA ที่กินได้ ลดอัตรารอด 32–67% หลัง 15 วัน และ ~80% ของหนอนที่รอดมีพัฒนาการแคระแกร็น [6]; หนอนกอสีครีม (*Scirpophaga incertulas*) — งานอินเดียยับยั้งยีน CYP6/APN [10] และ AChE [11] — **แต่ยังไม่มีผลิตภัณฑ์ RNAi กำจัดหนอนกอวางขายที่ใดในโลก** (ข้อมูล ณ ส.ค. 2569)",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.epa.gov/pesticides/epa-registers-novel-pesticide-technology-potato-crops",
+  "pdf_url": "https://www3.epa.gov/pesticides/chem_search/ppls/094614-00002-20240229.pdf",
+  "source_urls": [
+    "https://www.epa.gov/pesticides/epa-registers-novel-pesticide-technology-potato-crops",
+    "https://www.prnewswire.com/news-releases/greenlight-biosciences-secures-epa-registration-for-new-bioinsecticide-calantha-historic-step-towards-a-safer-and-more-sustainable-food-system-302026247.html",
+    "https://www3.epa.gov/pesticides/chem_search/ppls/094614-00002-20240229.pdf",
+    "https://doi.org/10.1021/cen-10201-polcon2",
+    "https://www.science.org/content/article/perfect-pesticide-rna-kills-crop-destroying-beetles-unprecedented-accuracy",
+    "https://www.nature.com/articles/srep28697",
+    "https://doi.org/10.1002/ps.5789",
+    "https://pubmed.ncbi.nlm.nih.gov/32359547/",
+    "https://www.mdpi.com/2075-4450/13/8/731",
+    "https://www.frontiersin.org/journals/physiology/articles/10.3389/fphys.2016.00020/full",
+    "https://doi.org/10.1016/j.aggene.2019.100081",
+    "https://academic.oup.com/g3journal/article/7/9/3031/6027564",
+    "https://www.mdpi.com/2075-4450/12/6/563",
+    "https://www.frontiersin.org/journals/insect-science/articles/10.3389/finsc.2026.1820222/full",
+    "https://doi.org/10.1016/j.ijbiomac.2024.136503",
+    "https://doi.org/10.1007/978-3-031-81549-2_25",
+    "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2021.682387/full",
+    "https://efsa.onlinelibrary.wiley.com/doi/10.2903/j.efsa.2025.9321",
+    "https://link.springer.com/article/10.1186/s12302-026-01417-5",
+    "https://www.greenlightbiosciences.com/articles/greenlight-biosciences-secures-belgian-emergency-use-authorization-for-first-rna-based-insecticide-in-the-eu",
+    "https://www.cirs-group.com/en/agrochemicals/china-to-approve-the-first-rna-pesticides",
+    "https://www.schweizerbart.de/papers/entomologia/detail/45/107520/",
+    "https://doi.org/10.1073/pnas.2301525120",
+    "https://ca.news.yahoo.com/us-tests-gmo-flies-rush-101148190.html",
+    "https://gsbooks.gs.kku.ac.th/52/ngsr12/file/BMO5.pdf",
+    "https://kirim.kmutt.ac.th/converis/portal/detail/Publication/1456574667",
+    "https://li02.tci-thaijo.org/index.php/NRJ/article/view/1421",
+    "https://greennet.or.th/eco-engineering/",
+    "https://newwebs2.ricethailand.go.th/webmain/rkb3/title-index.php-file=content.php&id=44-1.htm",
+    "https://www.aggrogroups.com/th/news/pest-problem/232-article-6.html",
+    "http://erawanagri.com/2024/10/21/rice-stem-borer-management/",
+    "https://www.prd.go.th/th/content/category/detail/id/39/iid/396762",
+    "https://li01.tci-thaijo.org/index.php/yru_jst/article/view/259187",
+    "https://www.doa.go.th/nitikan/?p=8784",
+    "https://www.tcc.or.th/genome-editing/",
+    "https://www.onep.go.th/road-to-cbd-cop-17-ep-05/",
+    "https://www.biotec.or.th/home/integrative-crop-biotechnology-and-management-research-group-th/",
+    "https://www.biotec.or.th/home/viral-technology-for-biocontrol-research-team-th/",
+    "https://thaiagris.lib.ku.ac.th/th/",
+    "https://research.mfu.ac.th/rs-newsresearch/rs-detail/detail/News/15560.html"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "US EPA: \"EPA Registers Novel Pesticide Technology for Potato Crops\" (ledprona — ทะเบียนชั่วคราว 3 ปี, 22 ธ.ค. 2566) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.epa.gov/pesticides/epa-registers-novel-pesticide-technology-potato-crops"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "GreenLight Biosciences/PRNewswire: \"EPA Registration for Calantha\" (4 ม.ค. 2567 — ขายชิ้นแรก) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.prnewswire.com/news-releases/greenlight-biosciences-secures-epa-registration-for-new-bioinsecticide-calantha-historic-step-towards-a-safer-and-more-sustainable-food-system-302026247.html"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "US EPA: \"Pesticide Product Label, CALANTHA, GS2 Formulation\" (29 ก.พ. 2567 — สูตร 0.8% ledprona, 0.067 lbs/gal) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www3.epa.gov/pesticides/chem_search/ppls/094614-00002-20240229.pdf"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "C&EN (Erickson B): \"EPA allows RNAi pesticide for 3 years\" (8 ม.ค. 2567) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://doi.org/10.1021/cen-10201-polcon2"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Science: \"The perfect pesticide? RNA kills crop-destroying beetles with unprecedented accuracy\" (2567 — PSMB5, 90% หนอนตายใน 6 วันจากงาน 2564, ต้นทุน <1 ดอลลาร์/กรัม, กำลังผลิต 2→20 ตัน/ปี) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.science.org/content/article/perfect-pesticide-rna-kills-crop-destroying-beetles-unprecedented-accuracy"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Zhu J, Dong YC, Li P, Niu CY: \"The effect of silencing 20E biosynthesis relative genes by feeding bacterially expressed dsRNA on the larval development of Chilo suppressalis\" — Sci Rep 6:28697 (2559) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nature.com/articles/srep28697"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Sun Y et al.: \"Nanomaterial-wrapped dsCYP15C1, a potential RNAi-based strategy for pest control against Chilo suppressalis\" — Pest Management Science (2563) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://doi.org/10.1002/ps.5789"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "\"Comparison of efficacy of RNAi mediated by various nanoparticles in the rice striped stem borer (Chilo suppressalis)\" — PubMed 32359547 (2563; อัตรา hemolymph 5.67:9.43:1, r=0.9854) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/32359547/"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "\"RNAi-Mediated Silencing of Putative Halloween Gene Phantom Affects the Performance of Rice Striped Stem Borer, Chilo suppressalis\" — Insects 13(8):731 (2565) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.mdpi.com/2075-4450/13/8/731"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Kola VSR et al.: \"Silencing of CYP6 and APN Genes Affects the Growth and Development of Rice Yellow Stem Borer, Scirpophaga incertulas\" — Frontiers in Physiology 7:20 (2559) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.frontiersin.org/journals/physiology/articles/10.3389/fphys.2016.00020/full"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Kola VSR et al.: \"Knockdown of acetylcholinesterase (AChE) gene in rice yellow stem borer, Scirpophaga incertulas (Walker) through RNA interference\" — Agri Gene (2562) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://doi.org/10.1016/j.aggene.2019.100081"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "\"RNA-seq of Rice Yellow Stem Borer Scirpophaga incertulas Reveals Molecular Insights During Four Larval Developmental Stages\" — G3 7(9):3031 (2560) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://academic.oup.com/g3journal/article/7/9/3031/6027564"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "\"The Draft Genome of Yellow Stem Borer, an Agriculturally Important Insect Pest in Rice\" — Insects 12(6):563 (2564; จีโนม 308 Mb, 46,057 ยีน) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.mdpi.com/2075-4450/12/6/563"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "\"Improving RNAi in the fall armyworm, Spodoptera frugiperda\" — Frontiers in Insect Science (30 มิ.ย. 2569; dsIAP 80% knockdown/63% ตาย; dsBT4 60%, dsRPL11 70%) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.frontiersin.org/journals/insect-science/articles/10.3389/finsc.2026.1820222/full"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Li N et al.: \"A spray-induced gene silencing strategy for Spodoptera frugiperda oviposition inhibition using nanomaterial-encapsulated dsEcR\" — Int. J. Biological Macromolecules 281:136503 (2567) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://doi.org/10.1016/j.ijbiomac.2024.136503"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "Gathman A, Veromann E, Smagghe G, Arpaia S: \"Regulatory Landscape Surrounding Approval and Authorisation of dsRNA-Based Plant Protection Products in Europe\" — Springer book chapter (2568) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://doi.org/10.1007/978-3-031-81549-2_25"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Dietz-Pfeilstetter A et al.: \"Considerations and Regulatory Approaches in the USA and in the EU for dsRNA-Based Externally Applied Pesticides\" — Frontiers in Plant Science 12:682387 (2564) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2021.682387/full"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "EFSA GMO Panel: \"Risk assessment considerations for RNAi-based genetically modified plants\" — EFSA Journal (ม.ค. 2568) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://efsa.onlinelibrary.wiley.com/doi/10.2903/j.efsa.2025.9321"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "Godinho J et al.: \"From terminology to approval: reviewing EU regulation of low-risk pesticides\" — Environmental Sciences Europe (29 พ.ค. 2569; ยังไม่มี data requirements เฉพาะ dsRNA; สำรวจ 19 ประเทศสมาชิก) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://link.springer.com/article/10.1186/s12302-026-01417-5"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "GreenLight Biosciences: \"Belgian EUA — first RNA-based insecticide in the EU\" (พ.ค. 2569) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.greenlightbiosciences.com/articles/greenlight-biosciences-secures-belgian-emergency-use-authorization-for-first-rna-based-insecticide-in-the-eu"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "CIRS: \"China to Approve the First RNA Pesticides\" (16 เม.ย. 2569) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.cirs-group.com/en/agrochemicals/china-to-approve-the-first-rna-pesticides"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "Yadav AK, Tarrand AE, Scott MJ: \"Homing gene drive strains for genetic suppression of agricultural insect pests\" — Entomologia Generalis 45(6):1577–1590 (ธ.ค. 2568) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.schweizerbart.de/papers/entomologia/detail/45/107520/"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "Yadav AK et al.: \"CRISPR/Cas9-based split homing gene drive targeting doublesex for population suppression of the global fruit pest Drosophila suzukii\" — PNAS 120(25):e2301525120 (2566) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://doi.org/10.1073/pnas.2301525120"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "Reuters/Yahoo: \"US tests GMO flies in rush to fight flesh-eating livestock pest\" (23 ก.ค. 2569; NovoFly ทดสอบกลางแจ้งครั้งแรก ปานามา; EPA draft มิ.ย. 2569; เป้า 500 ล้านตัว/สัปดาห์; ~$700 ล้าน/ปี ผู้ผลิตปศุสัตว์, $1.8 พันล้าน เศรษฐกิจเท็กซัส) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://ca.news.yahoo.com/us-tests-gmo-flies-rush-101148190.html"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "การสร้างเวคเตอร์ RNAi เพื่อศึกษาหน้าที่ของยีนในข้าวขาวดอกมะลิ 105 (KDML105) — บัณฑิตศึกษา มข. (BMO5) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://gsbooks.gs.kku.ac.th/52/ngsr12/file/BMO5.pdf"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "\"การประยุกต์ใช้เทคโนโลยีอาร์เอ็นเออินเตอร์เฟอเรนซ์เพื่อควบคุมแอนแทรคโนสในพริก\" — KIRIM/มจธ. (dsRNA-Cg 1,000 ng/µl → ดัชนีโรค 14.44%) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://kirim.kmutt.ac.th/converis/portal/detail/Publication/1456574667"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "\"การทดสอบประสิทธิภาพผลิตภัณฑ์ dsRNA เพื่อควบคุมโรคแอนแทรคโนสในพริก\" — AgriScience and Society Journal 2(1) (2569; ผลสด 129.50 vs 85.25 ก./ต้น; DI 1.32% vs 27.83%) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://li02.tci-thaijo.org/index.php/NRJ/article/view/1421"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "GreenNet: \"จัดการเพลี้ยกระโดดสีน้ำตาลและแมลงศัตรูข้าวโดยใช้นิเวศการเกษตร\" (แปลง 3 ปี: ศัตรูธรรมชาติ ~4 เท่า, ต้นทุนลด 840 บาท/ไร่, ผลผลิต ~1,600 กก./ไร่) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://greennet.or.th/eco-engineering/"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "กรมการข้าว/ระบบความรู้ข้าวไทย: \"แมลงศัตรูข้าวและการป้องกันกำจัด\" (ลักษณะชีววิทยา Scirpophaga incertulas, Chilo suppressalis) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://newwebs2.ricethailand.go.th/webmain/rkb3/title-index.php-file=content.php&id=44-1.htm"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "แอ็กโกร (ประเทศไทย): \"หนอนกอข้าว ภัยร้ายทำลายผลผลิต\" (หนอนกอไทย 4 ชนิด, ระบาด 2–3 รุ่น/ฤดู) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.aggrogroups.com/th/news/pest-problem/232-article-6.html"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "เอราวัณเคมีเกษตร: \"การจัดการหนอนกอข้าวอย่างมีประสิทธิภาพ\" (หนอนกอสีครีมเสียหาย ~20% แตกกอ / ~80% ออกรวง) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "http://erawanagri.com/2024/10/21/rice-stem-borer-management/"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "กระทรวงเกษตรฯ/ประชาสัมพันธ์: \"เฝ้าระวังหนอนกอข้าว\" (เกณฑ์พ่นเมื่อยอดเหี่ยว >15%) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.prd.go.th/th/content/category/detail/id/39/iid/396762"
+    },
+    {
+      "id": "36",
+      "index": 36,
+      "label": "Vanichpakorn P, Seephueak P, Hansuek S: \"Integrated Pest Management of Durian Fruit Borer, Conogethes punctiferalis\" — YRU Journal of Science and Technology 8(3):20–30 (2566; แปลงไม่จัดการเสียหาย 53.33–66.67%, IPM ป้องกันได้ 100%, BCR 12.85) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://li01.tci-thaijo.org/index.php/yru_jst/article/view/259187"
+    },
+    {
+      "id": "37",
+      "index": 37,
+      "label": "กรมวิชาการเกษตร: \"ประกาศหลักการ วิธีการ และเงื่อนไขการรับรองพืชที่พัฒนาจากเทคโนโลยีการปรับแต่งจีโนม พ.ศ. 2567\" — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.doa.go.th/nitikan/?p=8784"
+    },
+    {
+      "id": "38",
+      "index": 38,
+      "label": "มูลนิธิชีววิถี (TCC): \"ค้านเทคโนโลยีปรับแต่งจีโนม ชี้ขัดต่อความปลอดภัยทางชีวภาพ\" (ธ.ค. 2567) + \"ประเด็นปัญหากฎหมาย genome editing\" (พ.ค. 2569) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.tcc.or.th/genome-editing/"
+    },
+    {
+      "id": "39",
+      "index": 39,
+      "label": "สผ./ONEP: \"Road to CBD COP 17 — ไทยส่งรายงานแห่งชาติฉบับที่ 5 ตามพิธีสารคาร์ตาเฮนา\" (20 ก.ค. 2569; ส่ง 27 ก.พ. 2569, ลำดับที่ 63/173 ภาคี) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.onep.go.th/road-to-cbd-cop-17-ep-05/"
+    },
+    {
+      "id": "40",
+      "index": 40,
+      "label": "BIOTEC: \"ทีมวิจัยนวัตกรรมด้านเทคโนโลยีชีวภาพพืชและการเกษตรแบบแม่นยำ\" (งาน BPH: QTL-seq OsLecRK3/OsSTPS2/BPH32, สายพันธุ์กลาย JHN4) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.biotec.or.th/home/integrative-crop-biotechnology-and-management-research-group-th/"
+    },
+    {
+      "id": "41",
+      "index": 41,
+      "label": "BIOTEC: \"ทีมวิจัยเทคโนโลยีไวรัสเพื่อควบคุมแมลงศัตรูพืช\" (NPV หนอนกระทู้ — ถ่ายทอดเอกชน 2 ราย) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.biotec.or.th/home/viral-technology-for-biocontrol-research-team-th/"
+    },
+    {
+      "id": "42",
+      "index": 42,
+      "label": "ศูนย์สนเทศทางการเกษตรแห่งชาติ (Thai National AGRIS Centre), สำนักหอสมุด มก. — ฐานข้อมูลออนไลน์ด้านการเกษตร (9+ ล้านรายการ) / คลังความรู้ดิจิทัล — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://thaiagris.lib.ku.ac.th/th/"
+    },
+    {
+      "id": "43",
+      "index": 43,
+      "label": "มหาวิทยาลัยแม่ฟ้าหลวง: \"TARR คลังข้อมูลการวิจัยการเกษตรไทย\" (สวก. — เปิดใช้งาน 1 ต.ค. 2563, ~40,000 รายการ) — — เข้าถึงเมื่อ 2026-08-05 - **อ้างอิงภายในคลัง (งานวิจัยด้านการเกษตร)**: เจาะลึก-01-004 (ภาพรวมโลก RNAi/ยีนไดรฟ์: Calantha 4 ก./เอเคอร์, SmartStax PRO 80–95%, Target Malaria $173M ถูกระงับ, Cartagena COP-MOP 11, จีน ICAMA), เจาะลึก-01-005 (กฎหมาย GEd ไทย พป.1/พป.2), เจาะลึก-01-008 (GEd ข้าวไทย knockout) — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://research.mfu.ac.th/rs-newsresearch/rs-detail/detail/News/15560.html"
+    }
+  ],
+  "reference_count": 40,
+  "article_file": "agri-01-009.md",
+  "source_file": "01-เทคโนโลยีชีวภาพและพันธุวิศวกรรม\\เจาะลึก-01-RNAi-ยีนไดรฟ์-งานไทย.md"
+}

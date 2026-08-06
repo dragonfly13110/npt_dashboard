@@ -1,0 +1,72 @@
+{
+  "slug": "agri-02-012",
+  "title": "ปุ๋ยแม่นยำ — SSNM และการให้ปุ๋ยอัตราแปรผัน (Precision Fertilization / VRT)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ดิน จุลินทรีย์ และธาตุอาหาร",
+  "domain_code": "02",
+  "topic_id": "02-012",
+  "handle_id": "02-012",
+  "abstract": "- **ใจความ**: ปุ๋ยแม่นยำ = การให้ธาตุอาหาร \"ถูกแหล่ง-ถูกอัตรา-ถูกเวลา-ถูกที่\" (หลัก 4R) ตามความต้องการจริงของแปลง (SSNM จาก IRRI) และระดับสูงสุดคือ VRT — การปรับอัตราปุ๋ยตามตำแหน่งในแปลงด้วยแผนที่/เซนเซอร์ [1][2] ลดต้นทุนปุ๋ย เพิ่ม NUE และลดก๊าซเรือนกระจก",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "http://books.irri.org",
+  "pdf_url": null,
+  "source_urls": [
+    "http://books.irri.org",
+    "http://www.ipni.net/4r",
+    "https://www.yara.com",
+    "https://so01.tci-thaijo.org/",
+    "https://www.marketsandmarkets.com",
+    "https://www.ipcc-nggip.iges.or.jp"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Dobermann A., Witt C., et al.: Site-Specific Nutrient Management for Intensive Rice Cropping Systems (IRRI/IFDC, 2002) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "http://books.irri.org"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "IPNI: หลัก 4R Nutrient Stewardship — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "http://www.ipni.net/4r"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "งานวิจัย GreenSeeker/NDVI N management (Agronomy Journal; Precision Agriculture) — เข้าถึงเมื่อ 2026-08-02 *(ตัวเลข — ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Yara: N-Tester/บริการการเกษตรดิจิทัล — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.yara.com"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งาน SSNM/ตารางธาตุไทย (กรมการข้าว/วารสาร TCI-Thaijo) — รายชิ้นยังไม่ยืนยัน (ดูหัวข้อ 10) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so01.tci-thaijo.org/"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Analyst report: Precision Agriculture Market (MarketsandMarkets/AgFunder) — — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": "https://www.marketsandmarkets.com"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "IPCC 2006/2019 Refinement: N₂O emission factor จากปุ๋ย N (~1%) — — เข้าถึงเมื่อ 2026-08-02 *(ใช้เวอร์ชันล่าสุด — ดูหัวข้อ 10)*",
+      "url": "https://www.ipcc-nggip.iges.or.jp"
+    }
+  ],
+  "reference_count": 7,
+  "article_file": "agri-02-012.md",
+  "source_file": "02-ดิน จุลินทรีย์ และธาตุอาหาร\\เจาะลึก-02-ปุ๋ยแม่นยำ-SSNM-VRT.md"
+}

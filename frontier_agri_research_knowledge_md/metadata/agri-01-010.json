@@ -1,0 +1,227 @@
+{
+  "slug": "agri-01-010",
+  "title": "จุลินทรีย์ตรึงไนโตรเจนสายพันธุ์ไทย + GEd (จุลินทรีย์ดัดแปลงพันธุกรรม)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-05",
+  "created_at": "2026-08-05",
+  "review_at": "2027-02-05",
+  "category": "เทคโนโลยีชีวภาพและพันธุวิศวกรรม",
+  "domain_code": "01",
+  "topic_id": "01-010",
+  "handle_id": "01-010",
+  "abstract": "- **ใจความ**: ไทยมีคลังจุลินทรีย์ตรึงไนโตรเจนระดับชาติ (กรมพัฒนาที่ดิน พด.1–พด.15 — 15 ผลิตภัณฑ์ 3 กลุ่ม [3]) และงานคัดแยกสายพันธุ์ PGPR/เอนโดไฟท์จากนาข้าวต่อเนื่อง (มก. 523→107→32→28 ไอโซเลต [4][5]) แต่ทั้งหมดเป็น **wild-type ยังไม่มีงาน \"จุลินทรีย์ดัดแปลงพันธุกรรมตรึง N\" (GEd microbe) ในไทยแม้แต่ฉบับเดียว** ขณะที่โลกขายผลิตภัณฑ์นี้ไปแล้ว: Pivot Bio (PROVEN G3) อ้างทดแทนปุ๋ยไนโตรเจน 33 ปอนด์/เอเคอร์ + ผลผลิต +2.1 bu/ac ใน 134 แปลง 129 เกษตรกร (win rate >90%) [13] และ BioConsortia (Always-N) เริ่มขายที่นิวซีแลนด์ 2567 [17]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://service.ldd.go.th/service64/pdf/Sto/12.pdf",
+  "pdf_url": "https://service.ldd.go.th/service64/pdf/Sto/12.pdf",
+  "source_urls": [
+    "https://service.ldd.go.th/service64/pdf/Sto/12.pdf",
+    "https://service.ldd.go.th/service64/pdf/Sto/11.Sano.Ju.pdf",
+    "https://www.thairath.co.th/agriculture/agricultural-technology/2798564",
+    "http://agscij.agr.ku.ac.th/phocadownload/2560-48-1/AgiScijournalVol48-1-e-book_002.pdf",
+    "https://li03.tci-thaijo.org/index.php/TRRJ/article/view/139",
+    "https://ph01.tci-thaijo.org/index.php/psru/article/view/55645",
+    "https://li01.tci-thaijo.org/index.php/joacmu/article/view/216162",
+    "https://li01.tci-thaijo.org/index.php/japmju/article/view/270700",
+    "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/256825",
+    "https://www.tci-thaijo.org/articles/life01-264678",
+    "https://www.doa.go.th/rhizobium/?page_id=502",
+    "https://www.bangkokbiznews.com/business/economic/1202616",
+    "https://www.pivotbio.com/press-releases/pivot-bio-releases-2025-field-performance-data-demonstrating-consistent-yield-gains-and-synthetic-nitrogen-displacement-while-lowering-fertilizer-costs",
+    "https://www.pivotbio.com/press-releases/peer-reviewed-study-validates-pivot-bios-gene-edited-microbes-as-a-third-source-of-nitrogen-delivery",
+    "https://www.pivotbio.com/nitrogen-performance",
+    "https://www.pivotbio.com/novator-program",
+    "https://www.businesswire.com/news/home/20250801403544/en/",
+    "https://www.andes.bio/news/andes-raises-usd-15-million-in-series-a-funding-co-led-by-leaps-by-bayer-and-cavallo-ventures",
+    "https://www.cnbc.com/2022/05/18/joyn-bio-aims-to-solve-the-worlds-fertilizer-problem-with-microbes.html",
+    "https://www.azotic.com/rice/",
+    "https://www.azotic.com/envita-nitrogen-fixing-bacteria-now-available-in-the-philippines/",
+    "https://journals.asm.org/doi/10.1128/msystems.00155-24",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC8939361/",
+    "https://link.springer.com/article/10.1007/s00253-024-13231-1",
+    "https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1009617",
+    "https://www.grandviewresearch.com/industry-analysis/biofertilizers-industry",
+    "https://www.settrade.com/th/research/analyst-research/stock/industry-sector/98976-k-research-fertilizer-industry",
+    "https://www.lhbank.co.th/getattachment/4d183101-581d-48d4-8303-257ca1481bc5/economic-analysis-Industry-Outlook-2025-Fertilizer_Aug2025",
+    "https://www.6wresearch.com/industry-report/thailand-agricultural-biologicals-market-outlook"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "\"ปุ๋ยชีวภาพ พด.12\" — กองเทคโนโลยีชีวภาพทางดิน กรมพัฒนาที่ดิน — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://service.ldd.go.th/service64/pdf/Sto/12.pdf"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "\"จุลินทรีย์ไรโซเบียม พด.11 (โสนอัฟริกัน/ปอเทือง)\" — กรมพัฒนาที่ดิน — และ — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://service.ldd.go.th/service64/pdf/Sto/11.Sano.Ju.pdf"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "\"กรมพัฒนาที่ดิน สนับสนุนจุลินทรีย์ให้เกษตรกรผลิตปุ๋ยอินทรีย์ (พด. 15 ผลิตภัณฑ์ 3 กลุ่ม)\" — ไทยรัฐ 6 ก.ค. 2567 — + ประชาสัมพันธ์ กรมประชาสัมพันธ์ — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.thairath.co.th/agriculture/agricultural-technology/2798564"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "\"การพัฒนาวิธีการที่รวดเร็วในการคัดเลือกเชื้อไรโซแบคทีเรียส่งเสริมการเจริญเติบโตของข้าว\" — วารสารวิทยาศาสตร์เกษตร/Agricultural Science Journal 48(1) 2560 (523→107→32→28 ไอโซเลต) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "http://agscij.agr.ku.ac.th/phocadownload/2560-48-1/AgiScijournalVol48-1-e-book_002.pdf"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "\"จุลินทรีย์ดินเพื่อการนำไปใช้ประโยชน์ในการผลิตปุ๋ยชีวภาพสำหรับข้าว\" — วารสารวิชาการข้าว (Thai Rice Research Journal) — 28 ไอโซเลต/9 ส่งเสริม KDML105 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://li03.tci-thaijo.org/index.php/TRRJ/article/view/139"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "\"การส่งเสริมการเจริญของข้าวโดยแบคทีเรียเอนโดไฟท์ตรึงไนโตรเจนที่แยกได้จากข้าวปลูกและข้าวป่า\" — Life Sciences and Environment Journal (มรภ.พิบูลสงคราม) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://ph01.tci-thaijo.org/index.php/psru/article/view/55645"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "\"การคัดกรองและการประเมินประสิทธิภาพของไรโซแบคทีเรีย... (ข้าวอินทรีย์เชียงใหม่ RMW4NF1/RMT2NF4)\" — Journal of Agricultural Research and Communications — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://li01.tci-thaijo.org/index.php/joacmu/article/view/216162"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "\"Differential Growth Responses of Oryza sativa cv. KDML105 Seedling to IAA-Producing PGPR under Soil and Nutrient Solution Systems\" — Atnaseo & Phakham, วารสารผลิตกรรมการเกษตร (มมจ.) 2569, DOI:10.14456/mjap.2026.39 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://li01.tci-thaijo.org/index.php/japmju/article/view/270700"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "\"ประสิทธิภาพของแบคทีเรียตรึงไนโตรเจนแบบอิสระต่อการเจริญเติบโตและผลผลิตของข้าวพันธุ์พิษณุโลก 2\" — วารสารแก่นเกษตร 51(6):1113–1125, 2566 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/256825"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "\"ผลของการจัดการปุ๋ยชีวภาพต่อการผลิตข้าวโพดหวานในระบบอินทรีย์\" — 2568 (Azotobacter/Mycorrhiza/KSB: ผลผลิตสูงสุด 1,540 กก./ไร่) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.tci-thaijo.org/articles/life01-264678"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "\"ปุ๋ยชีวภาพไรโซเบียม / สินค้าและบริการ\" — เงินทุนหมุนเวียนในการผลิตเชื้อไรโซเบียม กรมวิชาการเกษตร — และ — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.doa.go.th/rhizobium/?page_id=502"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "\"กรมวิชาการเกษตร เปิด 3 ปุ๋ยตัวท็อป เอกชนลุยผลิตเชิงพาณิชย์\" — กรุงเทพธุรกิจ 12 ต.ค. 2568 (12 เทคโนโลยี/28 สัญญา ปี 2568; สะสม 25 ราย/19 เทคโนโลยี/63 สัญญา) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.bangkokbiznews.com/business/economic/1202616"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "\"Pivot Bio Releases 2025 Field Performance Data (PROVEN G3: 33 lb N/ac, +2.1 bu/ac, win >90%; CERT-N ฝ้าย)\" — 24 ก.พ. 2569 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.pivotbio.com/press-releases/pivot-bio-releases-2025-field-performance-data-demonstrating-consistent-yield-gains-and-synthetic-nitrogen-displacement-while-lowering-fertilizer-costs"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "\"Peer-Reviewed Study Validates Pivot Bio's Gene-Edited Microbes as a Third Source of Nitrogen Delivery\" (U. Illinois, Agronomy Journal — Woodward et al. 2025) — 17 ม.ค. 2568 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.pivotbio.com/press-releases/peer-reviewed-study-validates-pivot-bios-gene-edited-microbes-as-a-third-source-of-nitrogen-delivery"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "\"Pivot Bio In-Plant Nitrogen Study\" (ใน-plant N +8% ปี 2566, +11% เฉลี่ย 2 ปี; biomass +9%) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.pivotbio.com/nitrogen-performance"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "\"Pivot Bio's N-OVATOR Program\" (1.5 ล้านเอเคอร์ 2022–23; ทดแทนปุ๋ย 28,500 ตัน; เลี่ยง CO₂e 251,000 ตัน) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.pivotbio.com/novator-program"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "\"BioConsortia Closes Financing to Accelerate Launch of Always-N\" (รอบ $15M ส.ค. 2568, ลงทุนสะสม $95M, เปิดตัวนิวซีแลนด์ 2567, หุ้นส่วน Mosaic) — Business Wire 1 ส.ค. 2568 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.businesswire.com/news/home/20250801403544/en/"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "\"Andes raises USD 15 million in Series A (Leaps by Bayer + Cavallo Ventures)\" (Microprime, 30–50 lb N/ac, +8.9 bu/ac) — 14 ก.ย. 2564 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.andes.bio/news/andes-raises-usd-15-million-in-series-a-funding-co-led-by-leaps-by-bayer-and-cavallo-ventures"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "\"Joyn Bio aims to solve the world's fertilizer problem with microbes\" — CNBC 18 พ.ค. 2565 ($100M, Ginkgo+Leaps by Bayer, เป้าหมายลดปุ๋ย N 50%) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.cnbc.com/2022/05/18/joyn-bio-aims-to-solve-the-worlds-fertilizer-problem-with-microbes.html"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "\"Rice — Azotic\" (ข้าว +6.3 bu/ac ≈ 427 กก./เฮกตาร์; ทดลองอินโดนีเซีย 2566) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.azotic.com/rice/"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "\"Envita Nitrogen Fixing Bacteria Now Available in the Philippines\" — Azotic 22 พ.ค. 2567 (จดทะเบียน FPA ฟิลิปปินส์ ใช้กับข้าว) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.azotic.com/envita-nitrogen-fixing-bacteria-now-available-in-the-philippines/"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "\"A CRISPR interference system for engineering biological nitrogen fixation\" — Russell SJ, Garcia AK, Kaçar B, mSystems 2024 (CRISPRi แรกใน A. vinelandii, กด nifH ~60%) — DOI:10.1128/msystems.00155-24 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://journals.asm.org/doi/10.1128/msystems.00155-24"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "\"Genetic Determinants of Ammonium Excretion in nifL Mutants of Azotobacter vinelandii\" (ΔnifL ปล่อย NH₄⁺ ~12 mM + กระตุ้นการถ่ายโอน N ไปข้าว) — PMC8939361 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8939361/"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "\"Competitive fitness and stability of ammonium-excreting Azotobacter vinelandii strains in the soil\" — Applied Microbiology and Biotechnology 2024 (AV3 สูญเสียสมรรถนะหลัง passage ที่ 7; อยู่ร่วมในดินได้นานกว่า) — DOI:10.1007/s00253-024-13231-1 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://link.springer.com/article/10.1007/s00253-024-13231-1"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "\"Disrupting hierarchical control of nitrogen fixation enables carbon-dependent regulation of ammonia excretion in soil diazotrophs\" — PLOS Genetics 2021 (NifA-E356K ปล่อย NH₄⁺ ระดับ mM ตามชนิดคาร์บอน) — DOI:10.1371/journal.pgen.1009617 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1009617"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "\"Biofertilizers Market Size, Share & Trends Report, 2030\" — Grand View Research ($1.38B 2567 → $2.83B 2573, CAGR 12.8%; nitrogen fixation 74.2%) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.grandviewresearch.com/industry-analysis/biofertilizers-industry"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "\"แนวโน้มธุรกิจปุ๋ยเคมีไทย ปี 2569\" — ศูนย์วิจัยกสิกรไทย 19 พ.ย. 2568 (94,627 ล้านบาท, 4.49 ล้านตัน) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.settrade.com/th/research/analyst-research/stock/industry-sector/98976-k-research-fertilizer-industry"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "\"ธุรกิจปุ๋ยเคมี\" — LH Bank Economic Analysis ส.ค. 2568 (ตลาด 83,046 ล้านบาท ปี 2566, 518 ราย) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.lhbank.co.th/getattachment/4d183101-581d-48d4-8303-257ca1481bc5/economic-analysis-Industry-Outlook-2025-Fertilizer_Aug2025"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "\"Thailand Agricultural Biologicals Market Outlook\" — 6Wresearch (USD 111M 2568 → 127M 2575, CAGR 1.9%) — — เข้าถึงเมื่อ 2026-08-05 - **อ้างอิงภายในคลัง (งานวิจัยด้านการเกษตร)**: เจาะลึก-01-002 (BNF ธัญพืชระดับโลก: Pivot PROVEN 40 = 21.2 กก.N/เฮกตาร์/11% Ndfa, Giller 2/61 แปลง + 6 เกณฑ์รับรอง, Azotic เจ้าของ 3 ครั้ง, Series F $215M ยังไม่ยืนยัน, TU-Orga1 ข้าว +21.8%), เจาะลึก-01-005 (กฎหมาย GEd ไทย พป.1/พป.2 — ประกาศ 2567 เน้นพืช), เจาะลึก-01-008/01-006 (งาน GEd ข้าวไทย) — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.6wresearch.com/industry-report/thailand-agricultural-biologicals-market-outlook"
+    }
+  ],
+  "reference_count": 29,
+  "article_file": "agri-01-010.md",
+  "source_file": "01-เทคโนโลยีชีวภาพและพันธุวิศวกรรม\\เจาะลึก-01-จุลินทรีย์ตรึงไนโตรเจน-GEd-ไทย.md"
+}

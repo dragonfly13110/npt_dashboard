@@ -1,0 +1,51 @@
+{
+  "slug": "agri-14-002",
+  "title": "สตาร์ทอัพ AgTech ไทย/SEA (แผนที่ผู้เล่น+เงินทุน)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-01",
+  "created_at": "2026-08-01",
+  "review_at": "2027-02-01",
+  "category": "สตาร์ทอัพ นวัตกรรม และการยอมรับเทคโนโลยี",
+  "domain_code": "14",
+  "topic_id": "14-002",
+  "handle_id": "14-002",
+  "abstract": "- **ใจความ**: หัวข้อนี้คือ \"แผนที่ผู้เล่นและเงินทุน\" ของสตาร์ทอัพ AgTech ในไทยและอาเซียน (SEA) เป็นเอกสารคู่ขนานกับไฟล์เจาะลึก 14-001 (การลงทุน AgTech ทั่วโลก) — มุ่งตอบคำถามว่า \"เงินอยู่ที่ไหน ใครได้เงินไป และไทย/อาเซียนมีความได้เปรียบหรือช่องว่างตรงไหน\" ภาพรวมปี 2567–2569: เงิน Agrifoodtech เอเชีย-แปซิฟิก (APAC) ฟื้นตัวแรง สูงถึง **US$4.2 พันล้าน ณ ปลาย ต.ค. 2567 (+38% YoY)** และ APAC กลายเป็น **31% ของเงิน Agrifoodtech ทั่วโลก** (สูงกว่าค่าเฉลี่ย 10 ปีที่ 26%) [1] ขณะที่เงินทั้งโลกปี 2568 อยู่ราว **US$16.2 พันล้าน (-3%)** [2]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://agfunder.com/research/asia-pacific-agrifoodtech-investment-report-2024/",
+  "pdf_url": null,
+  "source_urls": [
+    "https://agfunder.com/research/asia-pacific-agrifoodtech-investment-report-2024/",
+    "https://agfunder.com/agfunder-global-agrifoodtech-investment-report-2026/",
+    "https://www.techsauce.co/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "AgFunder: Asia-Pacific AgriFoodTech Investment Report 2024 — APAC US$4.2B ณ ต.ค. 2567 (+38%), 31% ของโลก, หมวด Bioenergy/Biomaterials/Ag Biotech/eGrocery — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://agfunder.com/research/asia-pacific-agrifoodtech-investment-report-2024/"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "AgFunder: Global AgriFoodTech Investment Report 2026 (ครอบคลุมปี 2025) — US$16.2B (-3%) — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://agfunder.com/agfunder-global-agrifoodtech-investment-report-2026/"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Techsauce Deal Digest: \"Amity Robotics สตาร์ตอัปหุ่นยนต์ไทย ปิดรอบ Seed 7 ล้านดอลลาร์\" — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.techsauce.co/"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Techsauce PR News: \"Betagro Ventures Unveils New Kitchen Business, Empowering Food SMEs for Digital Growth\" — — เข้าถึงเมื่อ 2026-08-01 - *หมายเหตุ: ตัวเลขดีล/เงินทุนรายบริษัทไทย-อาเซียนส่วนใหญ่ยังต้องตรวจสอบเพิ่มจาก DealStreetAsia, e27, Techsauce และ AgFunder ฉบับภูมิภาค (ดูหัวข้อ 10)*",
+      "url": "https://www.techsauce.co/"
+    }
+  ],
+  "reference_count": 4,
+  "article_file": "agri-14-002.md",
+  "source_file": "14-สตาร์ทอัพ นวัตกรรม และการยอมรับเทคโนโลยี\\เจาะลึก-14-สตาร์ทอัพ-AgTech-ไทย-SEA.md"
+}

@@ -1,0 +1,269 @@
+{
+  "slug": "agri-09-005",
+  "title": "อาหารสัตว์น้ำทางเลือก — แมลง/โปรตีนทดแทนปลาป่น",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ประมงและสัตว์น้ำ",
+  "domain_code": "09",
+  "topic_id": "09-005",
+  "handle_id": "09-005",
+  "abstract": "- **ใจความ**: ราคาปลาป่นพุ่งทำสถิติจากปรากฏการณ์เอลนีโญ (ปลาป่นเปรู 65% โปรตีน $1,293/ตัน ธ.ค. 2024 → $2,389/ตัน พ.ค. 2026 = +66% YoY [1][2]; FRED เฉลี่ย Q2 2026 = $2,360/ตัน [1]) และ Rabobank คาดการณ์ \"ปลาป่นขาดแคลนเชิงโครงสร้างตั้งแต่ 2028\" [3][4] — แรงกดดันนี้ผลักให้อาหารสัตว์น้ำทางเลือก (แมลง BSF, single cell protein จากมีเทน, สาหร่าย/จุลินทรีย์, โปรตีนพืช) เปลี่ยนจากงานวิจัยสู่เชิงพาณิชย์ งานวิจัยยืนยันว่าใช้ BSF meal ทดแทนปลาป่นในกุ้งขาวได้ถึง 100% (ระดับอนุบาล) [6] และ 4–8% ในปลาแซลมอนระดับฟาร์มจริง [5] ส่วน SCP (FeedKind/Uniprotein) ใช้ได้ 25–50% ของปลาป่นโดยไม่เสียสมรรถภาพ [15][35]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://fred.stlouisfed.org/series/PFISHUSDQ",
+  "pdf_url": "https://nutrition.dld.go.th/images/knowledge/article/article2565/1.insect.pdf",
+  "source_urls": [
+    "https://fred.stlouisfed.org/series/PFISHUSDQ",
+    "https://ycharts.com/indicators/peru_fish_meal_price",
+    "https://aquaasiapac.com/2025/09/25/navigating-aquafeed-nutrition-amid-looming-marine-ingredient-shortages/",
+    "https://blog.manolinaqua.com/en/what-a-strong-el-ni%C3%B1o-means-for-fish-oil-and-fishmeal-prices",
+    "https://www.sciencedirect.com/science/article/pii/S0044848623009687",
+    "https://www.mdpi.com/2410-3888/8/12/605",
+    "https://doi.org/10.1163/23524588-00001235",
+    "https://www.mdpi.com/2076-2615/11/5/1450",
+    "https://www.mdpi.com/2304-8158/14/5/781",
+    "https://doi.org/10.3390/fishes9070249",
+    "https://doi.org/10.3390/biology14070764",
+    "https://calysta.com/calystas-feedkind-protein-receives-mara-approval-for-use-in-aquaculture-feeds/",
+    "https://agfundernews.com/exclusive-calysta-hires-new-ceo-seeks-new-capital-as-jv-partner-ends-financial-support",
+    "https://www.unibio.dk/news/",
+    "https://www.linkedin.com/posts/unibio-a-s_uniprotein-in-gilthead-seabream-activity-7477342495799074817-E7f3",
+    "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32017R0893",
+    "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX%3A32021R1372",
+    "https://ipiff.org/insects-eu-legislation-general/",
+    "https://www.grandviewresearch.com/industry-analysis/insect-protein-market",
+    "https://www.technavio.com/report/insect-protein-market-analysis",
+    "https://www.indexbox.io/search/insect-based-ingredients-price-evidence-world-2026/",
+    "https://papaverai.com/blog/french-insect-protein-manufacturers/",
+    "https://doi.org/10.14456/jare-mju.2025.12",
+    "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/268507",
+    "https://www.tci-thaijo.org/articles/life01-265778",
+    "https://li01.tci-thaijo.org/index.php/JVIA/article/download/241887/169938",
+    "https://www.thaifishmeal.com/",
+    "https://www.cpffeed.com/material5/",
+    "https://nutrition.dld.go.th/images/knowledge/article/article2565/1.insect.pdf",
+    "https://www.khaosod.co.th/technologychaoban/techno-news/article_306203",
+    "https://www.thailandbsf.com/",
+    "https://doi.org/10.37722/jambe.2023201",
+    "https://doi.org/10.2478/aoas-2025-0133",
+    "https://iris.unito.it/retrieve/2c8d8c3e-f83b-481c-8c5e-9d5780888525/animals-15-02661%20%281%29.pdf",
+    "https://www.frontiersin.org/journals/marine-science/articles/10.3389/fmars.2021.778301/full"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Global price of Fish Meal (PFISHUSDQ), FRED St. Louis Fed, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://fred.stlouisfed.org/series/PFISHUSDQ"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Peru Fish Meal Price (65% protein, CIF) — รายเดือน, YCharts, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://ycharts.com/indicators/peru_fish_meal_price"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Hooked on scarcity: Navigating aquafeed nutrition amid looming marine ingredient shortages, Novel Sharma, Rabobank/Aqua Culture Asia Pacific, 2025-09-25 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://aquaasiapac.com/2025/09/25/navigating-aquafeed-nutrition-amid-looming-marine-ingredient-shortages/"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "What a Strong El Niño Means for Fish Oil and Fishmeal Prices (IMF benchmark + NOAA), Manolin Aqua, 2026-07-09 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://blog.manolinaqua.com/en/what-a-strong-el-ni%C3%B1o-means-for-fish-oil-and-fishmeal-prices"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Black soldier fly larvae meal is a viable protein source for Atlantic salmon during a large-scale controlled field trial under commercial-like conditions, Eide et al., Aquaculture 579:740194, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0044848623009687"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "The Black Soldier Fly Larvae Meal Can Cost-Effectively Replace Fish Meal in Practical Nursery Diets for Post-Larval Penaeus vannamei under High-Density Culture, Nunes et al., Fishes 8(12):605, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mdpi.com/2410-3888/8/12/605"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Replacement of fish meal with defatted black soldier fly in diet of Pacific white shrimp: growth, flesh quality and transcriptome, Zheng et al., (Brill) 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1163/23524588-00001235"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Effect of a Black Soldier Fly Ingredient on the Growth Performance and Disease Resistance of Juvenile Pacific White Shrimp, (InnovaFeed BSFI), Animals 11(5):1450, 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mdpi.com/2076-2615/11/5/1450"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Microalgal (Nannochloropsis sp. QH25) Co-Product Biomass Can Fully Replace Fishmeal in Feeds for Rainbow Trout, Sarker et al., Foods 14(5):781, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mdpi.com/2304-8158/14/5/781"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Effect of Replacing Fishmeal with Algal Meal on Growth Parameters and Meat Composition in Rainbow Trout, Velichkova et al., Fishes 9(7):249, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3390/fishes9070249"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Cellular Solutions: Evaluating Single-Cell Proteins as Sustainable Feed Alternatives in Aquaculture (ทบทวน SCP/Calysta/Unibio), Chamodi et al., Biology 14(7):764, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3390/biology14070764"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Calysta's FeedKind protein receives MARA approval for use in aquaculture feeds (China), Calysta, 2024-01-31 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://calysta.com/calystas-feedkind-protein-receives-mara-approval-for-use-in-aquaculture-feeds/"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Exclusive: Calysta hires new CEO, seeks new capital as JV partner ends financial support, AgFunder News, 2026-07-28 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://agfundernews.com/exclusive-calysta-hires-new-ceo-seeks-new-capital-as-jv-partner-ends-financial-support"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Press release: SIIG and Unibio to build the world's largest single-cell protein plant in Saudi Arabia (50,000→300,000 t/yr, 2028), Unibio, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.unibio.dk/news/"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "Uniprotein can replace up to 50% of fishmeal in gilthead seabream feed (IRTA 96-day trial), Unibio, 2026-06-29 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.linkedin.com/posts/unibio-a-s_uniprotein-in-gilthead-seabream-activity-7477342495799074817-E7f3"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Commission Regulation (EU) 2017/893 — อนุญาต insect PAP ในอาหารสัตว์น้ำ, European Commission, 2017 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32017R0893"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Commission Regulation (EU) 2021/1372 — อนุญาต insect PAP ในไก่/สุกร, European Commission, 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX%3A32021R1372"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "Insects As Feed — EU Legislation (Aquaculture, Poultry & Pig + 8 ชนิด หลัง 2021/1925), IPIFF, 2018–2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://ipiff.org/insects-eu-legislation-general/"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Insect Protein Market Size, Share and Growth Report 2030 ($483.1M 2023 → $1.51B 2030, CAGR 16.9%), Grand View Research, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.grandviewresearch.com/industry-analysis/insect-protein-market"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "Insect Protein Market Growth Analysis, Size and Forecast 2026–2030 (CAGR 38.6%), Technavio, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.technavio.com/report/insect-protein-market-analysis"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "Insect Based Ingredients Price in the World — Market Insights (feed-grade meal $1.80–3.50/kg), IndexBox, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.indexbox.io/search/insect-based-ingredients-price-evidence-world-2026/"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "French Insect Protein Manufacturers 2026 (InnovaFeed/Ynsect liquidation/Agronutris) + Washington Post: The world's biggest bug farm, papaverAI/WaPo, 2025–2026 — และ — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://papaverai.com/blog/french-insect-protein-manufacturers/"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "การใช้หนอนแมลงวันลายอบแห้งเป็นอาหารปลาบึกอินทรีย์, สุดาพร ตงศิริ และคณะ, วารสารวิจัยและส่งเสริมวิชาการเกษตร 42(1):132–142 (ม.แม่โจ้), 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.14456/jare-mju.2025.12"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "ผลของสัดส่วนการใช้หนอนแมลงวันลายร่วมกับอาหารทางการค้าต่อค่าการเจริญเติบโตฯ ในปลานิลวัยอ่อน, ขำคง และคณะ, วารสารแก่นเกษตร 54(2):272–291, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/268507"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "ศักยภาพของหนอนแมลงวันลายในการเป็นแหล่งโปรตีนทดแทนปลาป่นฯ ปลาแฟนซีคาร์ป, วารสารวิชชา มรภ.นครศรีธรรมราช, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.tci-thaijo.org/articles/life01-265778"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "การใช้หนอนแมลงวันลายเป็นส่วนผสมในอาหารลูกปลาหมอไทยชุมพร 1, จิตติมา หมั่นกิจ, วารสารวิชาการสถาบันการอาชีวศึกษาเกษตร 4(2), 2020 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://li01.tci-thaijo.org/index.php/JVIA/article/download/241887/169938"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "ราคาปลาป่นเกรดกุ้ง/เบอร์ 1-3 เปรียบเทียบ 2566–2568, บริษัทพัฒนาการตลาดปลาป่น จำกัด/สมาคมผู้ผลิตปลาป่นไทย, 2025–2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thaifishmeal.com/"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "ราคาวัตถุดิบปลาป่น (ราคารายสัปดาห์ 33.7→50.7 บาท/กก.), CPF Feed, 2025–2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.cpffeed.com/material5/"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "การใช้แมลงเป็นแหล่งโปรตีนทางเลือกใหม่ในอาหารสัตว์ (ราคาหนอนอบแห้ง 158–236 บาท/กก.), กองอาหารสัตว์ กรมปศุสัตว์, 2565 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://nutrition.dld.go.th/images/knowledge/article/article2565/1.insect.pdf"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "\"แมลงโปรตีน BSF\" เปลี่ยนขยะอินทรีย์เป็นอาหารสัตว์โปรตีนสูง (สวก.+BEDO 22 จังหวัด, ลดต้นทุน 50%), เทคโนโลยีชาวบ้าน, 2025-04-14 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.khaosod.co.th/technologychaoban/techno-news/article_306203"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "ThailandBSF — ผู้ผลิตอาหารโปรตีนจากแมลง BSF ครบวงจร (BSF Farm/Passion Space), 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thailandbsf.com/"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "Evaluation of ME-PRO and EnviroMeal Combinations as Partial and Complete Fish Meal Replacements in Diets for Juvenile Atlantic Salmon (RAS), Fredrickson et al., JAMBE, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.37722/jambe.2023201"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "The effects of defatted black soldier fly larvae meals as fish meal alternatives in the diet of Penaeus vannamei (ECBSFL75%: FCR 1.36) + A Comparative Study of Two Insect Meals for Rainbow Trout, Annals of Animal Science 10.2478/aoas-2025-0133, 2026 / Melenchón et al., Animals 12(2):179, 2022 — และ — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.2478/aoas-2025-0133"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "Insect Meal Mixture as Sustainable Fishmeal Substitute in Rainbow Trout Diets, Abdallah et al., Animals 15:2661, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://iris.unito.it/retrieve/2c8d8c3e-f83b-481c-8c5e-9d5780888525/animals-15-02661%20%281%29.pdf"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "Evaluation of Methanotroph (Methylococcus capsulatus, Bath) Bacteria Meal (FeedKind) as an Alternative Protein Source for Juvenile Black Sea Bream, Frontiers in Marine Science, 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.frontiersin.org/journals/marine-science/articles/10.3389/fmars.2021.778301/full"
+    }
+  ],
+  "reference_count": 35,
+  "article_file": "agri-09-005.md",
+  "source_file": "09-ประมงและสัตว์น้ำ\\เจาะลึก-09-อาหารสัตว์น้ำทางเลือก-แมลง-โปรตีน.md"
+}

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { buildKnowledgeBody } from '../../netlify/functions/lib/knowledge-chat.js';
 import {
   searchFertilizerChunks,
+  searchFrontierAgriChunks,
   searchMachineryChunks,
   searchRiceChunks,
   searchStouResearchChunks,
@@ -24,6 +25,9 @@ describe('knowledge bots', () => {
     expect(getKnowledgeBotKind('/public/stou-research/stou-14305')).toBe(
       'stou'
     );
+    expect(
+      getKnowledgeBotKind('/public/frontier-agri-research/agri-01-001')
+    ).toBe('frontier-agri');
   });
 
   it('returns evidence linked to each collection corpus', () => {
@@ -36,6 +40,9 @@ describe('knowledge bots', () => {
     );
     expect(searchStouResearchChunks('การส่งเสริมการผลิตข้าว')[0].url).toMatch(
       /^\/public\/stou-research\//
+    );
+    expect(searchFrontierAgriChunks('CRISPR ข้าว')[0].url).toMatch(
+      /^\/public\/frontier-agri-research\//
     );
   });
 
@@ -67,5 +74,20 @@ describe('knowledge bots', () => {
     expect(body.systemInstruction.parts[0].text).toContain('ข้าวหลามงานวิจัย');
     expect(serialized).toContain('/public/stou-research/');
     expect(serialized).not.toContain('/public/machinery/');
+  });
+
+  it('grounds the frontier agriculture bot in its own internal article links', () => {
+    const body = buildKnowledgeBody(
+      'gemini',
+      { model: 'gemini-3.5-flash-lite' },
+      'มีงานวิจัย CRISPR ข้าวทนแล้งอะไรบ้าง',
+      [{ role: 'user', parts: [{ text: 'มีงานวิจัย CRISPR ข้าวไหม' }] }],
+      'frontier-agri',
+      'agri-01-001'
+    );
+    const serialized = JSON.stringify(body);
+    expect(body.systemInstruction.parts[0].text).toContain('ข้าวหลามเกษตรโลก');
+    expect(serialized).toContain('/public/frontier-agri-research/');
+    expect(serialized).not.toContain('/public/stou-research/');
   });
 });

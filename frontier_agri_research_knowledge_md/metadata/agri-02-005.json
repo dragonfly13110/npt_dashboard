@@ -1,0 +1,57 @@
+{
+  "slug": "agri-02-005",
+  "title": "เซนเซอร์ดินบนเครื่องจักร (on-the-go) — วัด N/P/K เดินเครื่อง: ราคาและความแม่นยำ",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-01",
+  "created_at": "2026-08-01",
+  "review_at": "2027-02-01",
+  "category": "ดิน จุลินทรีย์ และธาตุอาหาร",
+  "domain_code": "02",
+  "topic_id": "02-005",
+  "handle_id": "02-005",
+  "abstract": "- เซนเซอร์ดิน \"on-the-go\" คือการติดเซนเซอร์บนเครื่องจักร (รถไถ/เครื่องหยอดปุ๋ย) เพื่อวัดสมบัติดินแบบต่อเนื่องระหว่างแล่นไป โดยใช้หลักการหลัก 3 แบบ คือ ไฟฟ้าแม่เหล็กไฟฟ้า (EM/ECa) วัดค่าการนำไฟฟ้า ตรวจหาความเค็ม ความชื้น เนื้อดิน; ออปติคัล VIS-NIR วัดอินทรียวัตถุ (OM) และคาร์บอน; และไอออนซีเล็คทีฟอิเล็กโทรด (ISE) วัดธาตุอาหารละลายน้ำ เช่น ไนเตรต-ไนโตรเจน",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://en.wikipedia.org/wiki/Soil_test",
+  "pdf_url": null,
+  "source_urls": [
+    "https://en.wikipedia.org/wiki/Soil_test",
+    "https://www.veristech.com/",
+    "https://en.wikipedia.org/wiki/Precision_agriculture"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Viscarra Rossel, R.A., Walvoort, D.J.J., McBratney, A.B., Janik, L.J., Skjemstad, J.O., \"Visible, near infrared, mid infrared or combined diffuse reflectance spectroscopy for simultaneous assessment of various soil properties,\" Geoderma, 2006 — DOI: 10.1016/j.geoderma.2005.03.007 — เข้าถึงแนวคิด 2026-08-01 (ค่าตัวเลขเฉพาะยังไม่ยืนยัน)",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Adamchuk, V.I., Hummel, J.W., Morgan, M.T., Upadhyaya, S.K., \"On-the-go soil sensors for precision agriculture,\" Computers and Electronics in Agriculture, 44(1), 2004, pp. 71–91 — DOI: 10.1016/j.compag.2004.03.002 (เข้าถึงแนวคิด 2026-08-01; ตัวเลข ISE/ความหนาแน่นยังไม่ยืนยัน)",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Wikipedia, \"Soil test,\" 2026 — (แก้ไขล่าสุด 2026-05-17) — เข้าถึงเมื่อ 2026-08-01 (ข้อแนะนำความหนาแน่นจุดเก็บ 10–20 จุด/40 เอเคอร์ + หลักการ geolocated sampling)",
+      "url": "https://en.wikipedia.org/wiki/Soil_test"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Veris Technologies, Inc., เว็บไซต์ทางการ — (สินค้า U3, ProScan, CoreScan, FurrowScan, บริการแมปดิน) — เข้าถึงเมื่อ 2026-08-01 (ราคาไม่เปิดเผยสาธารณะ → flag ยังไม่ยืนยัน)",
+      "url": "https://www.veristech.com/"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Wikipedia, \"Precision agriculture,\" 2026 — — เข้าถึงเมื่อ 2026-08-01 (บริบท VRT/N-Sensor และคำนิยาม precision agriculture)",
+      "url": "https://en.wikipedia.org/wiki/Precision_agriculture"
+    }
+  ],
+  "reference_count": 5,
+  "article_file": "agri-02-005.md",
+  "source_file": "02-ดิน จุลินทรีย์ และธาตุอาหาร\\เจาะลึก-02-เซนเซอร์ดินบนเครื่องจักร-ออนเดอะโก.md"
+}

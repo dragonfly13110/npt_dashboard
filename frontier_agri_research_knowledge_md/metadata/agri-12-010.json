@@ -1,0 +1,276 @@
+{
+  "slug": "agri-12-010",
+  "title": "FTA และการเปิดตลาดการค้าเสรี — ผลต่อสินค้าเกษตรไทย",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ระบบอาหาร เศรษฐศาสตร์ และนโยบาย",
+  "domain_code": "12",
+  "topic_id": "12-010",
+  "handle_id": "12-010",
+  "abstract": "",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.thaipbs.or.th/news/content/348183",
+  "pdf_url": "https://www.dtn.go.th/th/file/get/file/1.202402120e6f4e916879bc66046b9bda31716ffb100019.pdf",
+  "source_urls": [
+    "https://www.thaipbs.or.th/news/content/348183",
+    "https://thestandard.co/thailand-efta-fta-first-signing/",
+    "https://prachatai.com/journal/2024/11/111537",
+    "https://www.senate.go.th/view/386/News/จันทราIssue/276/TH-TH",
+    "https://www.prachachat.net/economic/news-1955439",
+    "https://brussels.thaiembassy.org/th/content/การเจรจาความตกลงการค้าเสรีไทย-สหภาพยุโรป-thai-eu-f",
+    "https://www.thansettakij.com/economy/trade-agriculture/651469",
+    "https://www.ejan.co/economics/5y9fyyfv3drj",
+    "https://www.thaipbs.or.th/news/content/356296",
+    "https://www.moc.go.th/th/gallery/article/detail/id/5/iid/1039",
+    "https://www.ditp.go.th/post/ditpnew/skf6iix57l7uyv1gxo3gtsqo",
+    "https://tnsc.com/blog/updatethaifta",
+    "https://thaipublica.org/2025/10/asean-china-signed-acfta3/",
+    "https://www.prachachat.net/economic/news-2038355",
+    "https://tpso.go.th/news/2602-0000000015",
+    "https://www.moc.go.th/th/gallery/article/detail/id/5/iid/1712",
+    "https://www.prachachat.net/columns/news-1944427",
+    "https://www.moc.go.th/th/gallery/category/detail/id/5/iid/1117",
+    "https://thaipublica.org/2022/03/pier40-cptpp/",
+    "https://www.thansettakij.com/economy/trade-agriculture/630913",
+    "https://thestandard.co/dhanin-urges-thailand-to-join-cptpp-now/",
+    "https://www.iththailand.net/th/resources/research-report-detail/17/135",
+    "https://www.dtn.go.th/th/content/category/detail/id/22/iid/12295",
+    "https://www.dtn.go.th/th/file/get/file/1.202402120e6f4e916879bc66046b9bda31716ffb100019.pdf",
+    "https://canberra.thaiembassy.org/th/content/ความตกลงทางการค้าเสรีไทย-ออสเตรเลีย",
+    "https://www.dtn.go.th/th/file/get/file/1.202205274fe0aedea46a2ca04015ee6ef550f41e090059.pdf",
+    "https://www.thaipost.net/public-relations-news/1015606/",
+    "https://www.bangkokbiznews.com/economics/1212783",
+    "https://www.kasikornresearch.com/th/analysis/k-social-media/Pages/Fruit-CIS3583-FB-23-05-25.aspx",
+    "https://kukr.lib.ku.ac.th/kukr_es/covid19/search_detail/result/282536",
+    "https://ird01.stou.ac.th/researchlib/uploads/2561_008/2561_008.pdf",
+    "https://digital.car.chula.ac.th/chulaetd/23524/",
+    "https://www.dtn.go.th/th/content/categories/index/id/32",
+    "https://image.mfa.go.th/mfa/0/6p4M7ae5k9/(1",
+    "https://today.line.me/th/v3/article/eLOREen",
+    "https://www.ditp.go.th/post/bdar5sirl38y8hrnieswtevk"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "ไทยพีบีเอส. \"ลงนาม FTA ไทย-เอฟต้า 23 ม.ค. นี้ กรุยทางสินค้าไทยรุกตลาดยุโรป.\" Thai PBS, 2025-01-20. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.thaipbs.or.th/news/content/348183"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "เดอะสแตนดาร์ด. \"ลงนามแล้ว FTA ไทย–EFTA ฉบับแรกในประวัติศาสตร์ของไทยกับประเทศในยุโรป.\" The Standard, 2025-01-23. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://thestandard.co/thailand-efta-fta-first-signing/"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "ประชาไท. \"เผยไทยปิดดีล FTA กับ EFTA สำเร็จ เตรียมลงนาม ม.ค. 2568.\" Prachatai, 2024-11-30. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://prachatai.com/journal/2024/11/111537"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "สำนักงานเลขาธิการวุฒิสภา. \"ความตกลงการค้าเสรี (FTA) ไทย-เอฟต้า ฉบับแรกของไทยกับกลุ่มประเทศยุโรป.\" จดหมายข่าวจันทรา Issue 276, 2025-02-17. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.senate.go.th/view/386/News/จันทราIssue/276/TH-TH"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "ประชาชาติธุรกิจ. \"'พิชัย' ชี้ส่งออกปี'68 โต 12.93% ยอด 3.12 แสนล้านดอลลาร์ เกินเป้า เล็งปิดดีล FTA ไทย-อียูภายในปีนี้.\" Prachachat, 2026-01-26. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.prachachat.net/economic/news-1955439"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "สถานเอกอัครราชทูตไทย ณ กรุงบรัสเซลส์. \"การเจรจาความตกลงการค้าเสรีไทย–สหภาพยุโรป (Thai–EU FTA).\" 2569-03-07. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://brussels.thaiembassy.org/th/content/การเจรจาความตกลงการค้าเสรีไทย-สหภาพยุโรป-thai-eu-f"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "ฐานเศรษฐกิจ. \"ผลเจรจา FTA ไทย-อียู รอบ 8 ได้ข้อสรุปเพิ่มอีก 3 บท ตั้งเป้าปิดดีลปี 2569.\" Thansettakij, 2026-02-13. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.thansettakij.com/economy/trade-agriculture/651469"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "อีจัน. \"ไทยเร่งปิดดีล FTA ไทย-อียู ย้ำต้องไม่ทำ เอสเอ็มอี-เกษตรกร เสียเปรียบ.\" Ejan, 2026-07-08. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.ejan.co/economics/5y9fyyfv3drj"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "ไทยพีบีเอส. \"'ข้าวไทย' หืดจับ พณ.-เอกชน กระชับส่วนแบ่งตลาดข้าวส่งออก.\" Thai PBS, 2025-09-08. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.thaipbs.or.th/news/content/356296"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "กระทรวงพาณิชย์. \"'สุชาติ' ใช้ตลาดนำการผลิต หนุน 'กล้วยหอมเขียว' สู่ตลาดส่งออกญี่ปุ่น ชี้โอกาสทองในกรอบ JTEPA.\" 2568-07-18. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.moc.go.th/th/gallery/article/detail/id/5/iid/1039"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "DITP. \"DITP เดินหน้าลุยโปรโมทกล้วยหอมไทยสู่ตลาดญี่ปุ่น เพิ่มยอดส่งออกอย่างต่อเนื่อง.\" 2026-06-20. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.ditp.go.th/post/ditpnew/skf6iix57l7uyv1gxo3gtsqo"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "สภาผู้ส่งสินค้าทางเรือแห่งประเทศไทย (TNSC). \"ส่องเครื่องมือ FTA ไทย มีอะไรบ้าง อัปเดตล่าสุด 2026.\" TNSC Blog, 2026. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://tnsc.com/blog/updatethaifta"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "ThaiPublica. \"อาเซียน-จีนลงนามข้อตกลงการค้าเสรีอาเซียน–จีน ACFTA 3.0.\" 2025-10-30. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://thaipublica.org/2025/10/asean-china-signed-acfta3/"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "ประชาชาติธุรกิจ. \"ไทย-จีนเร่งดันสินค้าเกษตรพรีเมียม ลุยปิดดีลข้าว 6 หมื่นตัน.\" Prachachat, 2026-07-17. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.prachachat.net/economic/news-2038355"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "สำนักงานนโยบายและยุทธศาสตร์การค้า (สนค.). \"สนค. กางสถิติส่งออกสินค้าเกษตรไทย ปี 2568.\" 2026-02-25. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://tpso.go.th/news/2602-0000000015"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "กระทรวงพาณิชย์. \"FTA ไทยพุ่ง! ใช้สิทธิปี 68 ทะลุ 9 หมื่นล้านดอลลาร์ โต 8.36%.\" 2026-03-18. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.moc.go.th/th/gallery/article/detail/id/5/iid/1712"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "ประชาชาติธุรกิจ. \"โจทย์ท้าทาย 'ทุเรียน' ไทยปี'69 แข่งดุตลาดจีน-ราคาลดลงต่อเนื่อง.\" Prachachat, 2026-01-09. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.prachachat.net/columns/news-1944427"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "กระทรวงพาณิชย์. \"'จตุพร' นำทีมลุยสงขลา-ยะลา เดินหน้าดันทุเรียนใต้สู่ตลาดส่งออก\" (สถิติทุเรียนครึ่งปีแรก 2568). 2568-08-17. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.moc.go.th/th/gallery/category/detail/id/5/iid/1117"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "สถาบันวิจัยเศรษฐกิจป๋วย อึ๊งภากรณ์ (PIER) ผ่าน ThaiPublica. \"การเข้าร่วม CPTPP ของไทย: ใครได้ ใครเสีย.\" 2022-03-10. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://thaipublica.org/2022/03/pier40-cptpp/"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "ฐานเศรษฐกิจ. \"ถอดบทเรียน CPTPP ไทยได้-เสียอะไร หากร่วมวงเต็มตัว.\" Thansettakij, 2025-06-24. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.thansettakij.com/economy/trade-agriculture/630913"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "เดอะสแตนดาร์ด. \"เจ้าสัวธนินท์ ชี้ 'ไทย' ต้องรีบร่วม CPTPP ก่อนจะตกขบวน.\" The Standard, 2025-07-06. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://thestandard.co/dhanin-urges-thailand-to-join-cptpp-now/"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "ITH Thailand. \"การประเมินผลของการเปิดเสรีของความตกลงการค้าเสรีต่อการค้าและการลงทุนในไทย.\" 2564. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.iththailand.net/th/resources/research-report-detail/17/135"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "กรมเจรจาการค้าระหว่างประเทศ. \"'สินค้าเกษตร-เกษตรแปรรูปไทย' ขวัญใจ 'ตลาด RCEP' แนะผู้ประกอบการใช้สิทธิให้คุ้ม.\" 2023-07-24. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.dtn.go.th/th/content/category/detail/id/22/iid/12295"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "กรมเจรจาการค้าระหว่างประเทศ. \"Overview ความตกลงการค้าเสรีไทย–ออสเตรเลีย (TAFTA).\" 2567. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.dtn.go.th/th/file/get/file/1.202402120e6f4e916879bc66046b9bda31716ffb100019.pdf"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "สถานเอกอัครราชทูตไทย ณ กรุงแคนเบอร์รา. \"ความตกลงทางการค้าเสรีไทย-ออสเตรเลีย (TAFTA).\" 2566-04-24. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://canberra.thaiembassy.org/th/content/ความตกลงทางการค้าเสรีไทย-ออสเตรเลีย"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "กรมเจรจาการค้าระหว่างประเทศ. \"สรุปความตกลง FTA ของไทย (JTEPA/TNZCEP/TAFTA).\" 2565. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.dtn.go.th/th/file/get/file/1.202205274fe0aedea46a2ca04015ee6ef550f41e090059.pdf"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "ไทยโพสต์. \"กองทุน FTA เดินหน้าปั้น 13 โครงการเกษตร จัดอบรมเข้มเขียนข้อเสนอ.\" 2026-06-21. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.thaipost.net/public-relations-news/1015606/"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "กรุงเทพธุรกิจ. \"สศก. ฝ่าพายุปี'69 จีดีพีเกษตรโต 3.3% ยางผลไม้ดันฟันด์.\" Bangkokbiznews, 2025-12-18. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.bangkokbiznews.com/economics/1212783"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "ศูนย์วิจัยกสิกรไทย. \"ทุเรียนไทย กับเส้นทางตลาดจีน ภายใต้การแข่งขันที่ร้อนแรง.\" 2025-05-23. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.kasikornresearch.com/th/analysis/k-social-media/Pages/Fruit-CIS3583-FB-23-05-25.aspx"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "มหาวิทยาลัยเกษตรศาสตร์. \"โครงการศึกษาผลกระทบจากการจัดทำ FTA ของไทยที่มีต่อสาขาเกษตร: รายงานฉบับสมบูรณ์.\" KUKR Library. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://kukr.lib.ku.ac.th/kukr_es/covid19/search_detail/result/282536"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "อนุชา ภูริพันธุ์ภิญโญ. \"ผลกระทบของ FTA ต่อการส่งออกสินค้าเกษตรไทย.\" วิทยานิพนธ์ มสธ., 2561. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://ird01.stou.ac.th/researchlib/uploads/2561_008/2561_008.pdf"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "จุฬาลงกรณ์มหาวิทยาลัย. \"ผลกระทบของการรวมภาคเกษตรในข้อตกลงเขตการค้าเสรีอาเซียนต่อการผลิตและการค้าสินค้าเกษตรของไทย.\" งานวิจัย CAMGEM, จุฬาลงกรณ์มหาวิทยาลัย. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://digital.car.chula.ac.th/chulaetd/23524/"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "กรมเจรจาการค้าระหว่างประเทศ. \"ข้อมูลความตกลง CPTPP (30 ข้อบท).\" (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.dtn.go.th/th/content/categories/index/id/32"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "กระทรวงการต่างประเทศ. \"เอกสารประกอบการอภิปรายเกี่ยวกับความตกลงที่ครอบคลุมและก้าวหน้า CPTPP.\" 2568. )_CPTPP.pdf (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://image.mfa.go.th/mfa/0/6p4M7ae5k9/(1"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "สำนักงานเศรษฐกิจการเกษตร ผ่าน Line Today. \"สศก. เผย 8 เดือนแรกปี 68 สินค้าเกษตรเกินดุลการค้า 7 แสนล้านบาท.\" 2025. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://today.line.me/th/v3/article/eLOREen"
+    },
+    {
+      "id": "36",
+      "index": 36,
+      "label": "DITP แฟรงก์เฟิร์ต. \"ประเทศไทยลงนามข้อตกลงการค้าเสรีกับสวิตเซอร์แลนด์และกลุ่ม EFTA.\" 2025-01-27. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.ditp.go.th/post/bdar5sirl38y8hrnieswtevk"
+    }
+  ],
+  "reference_count": 36,
+  "article_file": "agri-12-010.md",
+  "source_file": "12-ระบบอาหาร เศรษฐศาสตร์ และนโยบาย\\เจาะลึก-12-FTA-การค้าเสรี-สินค้าเกษตร.md"
+}

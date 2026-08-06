@@ -1,0 +1,53 @@
+{
+  "slug": "agri-10-007",
+  "title": "การหมักแม่นยำ (Precision Fermentation) — ไมโคโปรตีน/นมหมัก/ไข่ขาวหมัก — \"จุลินทรีย์ทำนม-ไข่-เนื้อให้เรา — โรงหมักคือฟาร์มใหม่\"",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ปศุสัตว์และโปรตีนทางเลือก",
+  "domain_code": "10",
+  "topic_id": "10-007",
+  "handle_id": "10-007",
+  "abstract": "- **ใจความ**: Precision Fermentation (การหมักแม่นยำ) = ใช้จุลินทรีย์ (ยีสต์/รา/แบคทีเรีย — ดัดแปลง GEd-class) เป็น \"โรงงานผลิตโปรตีน\" — ผลิต: (1) **ไมโคโปรตีน** (mycoprotein — โปรตีนรา Fusarium-class — Quorn — ขายมานานแล้ว (2528-class — 60 ปี-class)) (2) **โปรตีนนม** (casein/whey — Perfect Day-class — นม/ไอศกรีม/ชีสหมัก — $350M-class funding) (3) **ไข่ขาวหมัก** (ovoalbumin — Every Company-class — ใช้ในเบเกอรี) (4) **ไมโอโกลบิน/ไขมัน** (เพิ่มรสเนื้อ — 10-006) — ตลาดโต (การลงทุนฟันด์ทั่วโลก — 10-007-class ใหญ่ที่สุดในโปรตีนทางเลือกช่วง 2564–65-class) — ข้อจำกัด: ต้นทุนการหมักสูง (scale-down จาก $1,000/กก.-class → เป้าหมาย <$10/กก. (ช่วง — ยังต้องทำ)), กฎหมาย (Novel Food — EU อนุมัติ mycoprotei",
+  "source_type": "Frontier agricultural research article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "งานทบทวนการหมักแม่นยำ/ไมโคโปรตีน (Trends in Food Science & Technology, Nature Food 2019–2024) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "รายงานตลาด/บริษัท (GFI, Crunchbase-class — Perfect Day/Remilk/Quorn 2563–2568) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "งานต้นทุน/scale-down (งาน fermentation economics 2565–2568) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "รายงานตลาดโปรตีนทางเลือก (analyst/GFI 2566–2568) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งาน/ข้อมูลไทย (BIOTEC/สวทช./มก. — TCI/ThaiJo 2563–2568) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    }
+  ],
+  "reference_count": 5,
+  "article_file": "agri-10-007.md",
+  "source_file": "10-ปศุสัตว์และโปรตีนทางเลือก\\เจาะลึก-10-การหมักแม่นยำ-PrecisionFermentation-ไมโคโปรตีน-นมหมัก.md"
+}

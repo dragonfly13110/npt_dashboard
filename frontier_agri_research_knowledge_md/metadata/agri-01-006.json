@@ -1,0 +1,187 @@
+{
+  "slug": "agri-01-006",
+  "title": "ข้าวทนน้ำเค็มด้วยการปรับแต่งจีโนม (Salt-Tolerant Rice via GEd)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-01",
+  "created_at": "2026-08-01",
+  "review_at": "2027-02-01",
+  "category": "เทคโนโลยีชีวภาพและพันธุวิศวกรรม",
+  "domain_code": "01",
+  "topic_id": "01-006",
+  "handle_id": "01-006",
+  "abstract": "- **ใจความ**: ความทนเค็มของข้าวถูกควบคุมด้วยยีนหลายตำแหน่ง แบ่งเป็น 2 คลาสที่แก้ด้วย GEd ได้: (1) **ยีนบวก** (SKC1/OsHKT1;5, Saltol QTL — ลด Na⁺ เข้าหน่อ รักษา Na⁺/K⁺) [2][19] และ (2) **ยีนลบ** ที่ knockout แล้วทนเค็มขึ้น (OsRR22, DST, HST1, PC1, LRRK1, STRK2) [3][4][9] — **จีนนำโลกในด้านนี้**: สายพันธุ์ทดลอง ST1 (OsRR22 + ระบบข้าวลูกผสมรุ่น 3) ได้ผลผลิตสูงกว่าพันธุ์ควบคุม **+45% ในแปลงนาเค็ม** (3.65 ตัน/เฮกตาร์, ฤดู 2565) [6] และ SR86M (แก้ 13 ยีน/10 ลักษณะพร้อมกัน) [7]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://link.springer.com/article/10.1007/s11032-019-0954-y",
+  "pdf_url": null,
+  "source_urls": [
+    "https://link.springer.com/article/10.1007/s11032-019-0954-y",
+    "https://li03.tci-thaijo.org/index.php/TRRJ/article/view/28",
+    "https://doi.org/10.4067/s0718-58392022000100097",
+    "https://doi.org/10.3390/plants12091903",
+    "https://ph01.tci-thaijo.org/index.php/KKUSciJ/article/view/250486",
+    "https://doi.org/10.3390/agriculture13081596",
+    "https://link.springer.com/article/10.1007/s12284-010-9053-8",
+    "https://doi.org/10.53762/grjnst.03.03.49",
+    "https://doi.nrct.go.th/ListDoi/Download/104651?Resolve_DOI=10.14457%2FKU.the.2006.1056",
+    "https://www.khaosod.co.th/technologychaoban/techno-news/article_293757",
+    "https://li05.tci-thaijo.org/index.php/buuscij/article/view/1228",
+    "https://expo.kmitl.ac.th/th/innovations/selection-of-landrace-rice-varieties-resistant-to-saline-soil",
+    "https://www.jstage.jst.go.jp/article/hrl/16/1/16_7/_article/-char/ja"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Gregorio, G.B. (2540): \"Tagging salinity tolerance genes in rice using amplified fragment length polymorphism (AFLP)\" — ระบุ Saltol — อ้างผ่าน Thomson et al. 2010 [17]",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Ren, Z.H. et al. (2548): \"A rice quantitative trait locus for salt tolerance encodes a sodium transporter\" Nature Genetics — SKC1 cloning — อ้างผ่าน [19] เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Takagi, H. et al. (2558): OsRR22 identification by MutMap (ญี่ปุ่น) — อ้างผ่าน [4] — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Zhang, A. et al. (2562): \"Enhanced rice salinity tolerance via CRISPR/Cas9-targeted mutagenesis of the OsRR22 gene\", Molecular Breeding — WPB106, NaCl 0.75% — DOI 10.1007/s11032-019-0954-y — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://link.springer.com/article/10.1007/s11032-019-0954-y"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "MDPI Sustainability 14(5):2621 (2565): \"Development of Novel Rice Germplasm for Salt-Tolerance at Seedling Stage Using CRISPR-Cas9\" — R192 M16/M18 — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "MDPI IJMS 24(9):8025 (2566): \"Novel Salinity-Tolerant Third-Generation Hybrid Rice Developed via CRISPR/Cas9-Mediated Gene Editing\" — ST1 +45%, 3.65 ตัน/เฮกตาร์, Sanya 2565 — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Yu, H. et al. (2568): \"Directional improvement of agronomic traits in salt-tolerant rice by multiplex-genome-editing\", J. Integrative Plant Biology 67(9):2480 — SR86M 13 ยีน/10 ลักษณะ — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "MDPI Agronomy 15(8):2006 (2568): \"Molecular Marker-Assisted Breeding of High-Quality and Salt-Tolerant Hybrid Japonica Rice Combination Shenyanyou 1\" — SKC1, +20.7%, 3,640.5 กก./เฮกตาร์ — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "MDPI Agronomy 15(5):1014 (2568): \"Improvement of Rice Salt Tolerance by Pyramiding Two Genes... Through CRISPR-Cas9 System\" — hst1-strk2/hst1-lrrk1/hst1-pc1 — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "วารสารวิชาการข้าว (TRRJ): \"การปรับปรุงพันธุ์ข้าวให้ทนเค็มและมีคุณภาพการหุงต้มดี\" — KDML105 × FL496/FL530 (IR29×Pokkali) BC2F3, 81/90 สายพันธุ์ผลผลิตดีกว่า — TCI — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://li03.tci-thaijo.org/index.php/TRRJ/article/view/28"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Punyawaew, K. et al. (2559): \"Thai jasmine rice cultivar KDML105 carrying Saltol QTL exhibiting salinity tolerance at seedling stage\", Molecular Breeding 36 — KDSKC1-FL ดีกว่า KDML105 ที่ 10–12 dS/m — อ้างผ่าน [12] — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Pamuta, D. et al. (2565): \"Physio-biochemical traits in improved 'KDML105' jasmine rice lines...\", Chilean J. Agricultural Research 82(1):97 — RGD1/4 Na⁺/K⁺ ลด 57–69% — DOI — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://doi.org/10.4067/s0718-58392022000100097"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Santanoo, S. et al. (2566): \"Photosynthesis Performance at Different Growth Stages, Growth, and Yield of Rice in Saline Fields\", Plants 12(9):1903 — RD73/TSKC1-144/CSSL8-94 ในนาเค็มจัด; ตัวเลข threshold 3 dS/m/12% ต่อหน่วย; NE 1.84 ล้านเฮกตาร์ (85% ของประเทศ) — DOI — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://doi.org/10.3390/plants12091903"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "KKU Science Journal (2565): \"Evaluation of Drought and Salinity Tolerance at Seedling Stage of Introgression Lines of 'KDML105' Rice Carrying Drought Tolerance QTL and SKC1\" — L13: 47.71% vs 83.64% (เค็ม) — TCI — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://ph01.tci-thaijo.org/index.php/KKUSciJ/article/view/250486"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "MDPI Genes 10(10):742 (2562): \"Comparison between the Transcriptomes of 'KDML105' Rice and a Salt-Tolerant Chromosome Segment Substitution Line\" — CSSL18, OsPHOT2/OsPDK/OsMSR2 — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Songtoasesakul, D. et al. (2566): \"QTL-seq Identifies Pokkali-Derived QTLs and Candidate Genes for Salt Tolerance at Seedling Stage in Rice\", Agriculture 13(8):1596 — 160 RILs, 9 QTLs, 47 ยีน; SKC1 ไม่มีผลต่อ SIS — DOI — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://doi.org/10.3390/agriculture13081596"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Thomson, M.J. et al. (2553): \"Characterizing the Saltol Quantitative Trait Locus for Salinity Tolerance in Rice\", Rice 3:148 — ข้อมูล Saltol/NILs — DOI 10.1007/s12284-010-9053-8 — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://link.springer.com/article/10.1007/s12284-010-9053-8"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "Frontiers in Plant Science 11:833 (2563): \"Introgressed Saltol QTL Lines Improves the Salinity Tolerance in Rice at Seedling Stage\" — NILs Pusa44/Sarjoo52, RPG 94–98% — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Javaid, A. et al. (2568): \"Genetic and Physiological Mechanism of Salt Tolerance in Rice: Special Reference to SKC1 and HKT Genes\", GRJNST — กลไก SOS/HKT/NHX + CRISPR OsRR22/DST — DOI — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://doi.org/10.53762/grjnst.03.03.49"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "อรุณี ยูวะนิยม (2546), อ้างในวิทยานิพนธ์ มก.: พื้นที่ดินเค็มภาคอีสาน 17.81 ล้านไร่ (จัด 1.5/ปานกลาง 3.7/น้อย 12.6) + เสี่ยงแพร่เกลือ 19.4 ล้านไร่ — DOI 10.14457/KU.the.2006.1056 — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://doi.nrct.go.th/ListDoi/Download/104651?Resolve_DOI=10.14457%2FKU.the.2006.1056"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "ข่าวสด (6 พ.ย. 2567): \"สวก. จับมือ กรมการข้าว วิจัยคัดเลือก 'พันธุ์ข้าวทนเค็ม'\" — พื้นที่น้ำเค็มรุก 8+4 จังหวัด; กข77/กข55/ไร่มะขาม/เหลืองชะออม — ลิงก์ — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.khaosod.co.th/technologychaoban/techno-news/article_293757"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "วารสารวิทยาศาสตร์ ม.บูรพา: การชินเค็ม (priming) 10 mM NaCl ต้นกล้า M-1/M-3 (80 mM NaCl) — อ้างจาก TCI-Thaijo: วารสารวิทยาศาสตร์บูรพา — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://li05.tci-thaijo.org/index.php/buuscij/article/view/1228"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "KMITL Expo: \"การคัดเลือกพันธุ์ข้าวพื้นเมืองที่ทนต่อดินเค็ม\" — 10 สายพันธุ์, 6–16 dS/m ระยะออกดอก; หอมใหญ่ดีสุด — ลิงก์ — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://expo.kmitl.ac.th/th/innovations/selection-of-landrace-rice-varieties-resistant-to-saline-soil"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "Hydrospheric Research Letters 16 (2565): \"Yearly change in severely salt-damaged areas in paddy fields in Ban Phai in Northeast Thailand\" — พื้นที่เค็มจัดขอนแก่น 2559–62 — ลิงก์ — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.jstage.jst.go.jp/article/hrl/16/1/16_7/_article/-char/ja"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "เจาะลึก-01-005 (ข้าว GEd ไทย KDML105): ประกาศ GEd 2567 + แบบ พป.1/พป.2 + ข้อท้าทายกฎหมาย — อ้างข้ามภายในคลัง",
+      "url": null
+    }
+  ],
+  "reference_count": 25,
+  "article_file": "agri-01-006.md",
+  "source_file": "01-เทคโนโลยีชีวภาพและพันธุวิศวกรรม\\เจาะลึก-01-ข้าวทนน้ำเค็มGEd.md"
+}

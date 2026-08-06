@@ -1,0 +1,98 @@
+{
+  "slug": "agri-01-007",
+  "title": "กฎระเบียบ GEd โลก — ผลต่อการส่งออกข้าวไทย",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "เทคโนโลยีชีวภาพและพันธุวิศวกรรม",
+  "domain_code": "01",
+  "topic_id": "01-007",
+  "handle_id": "01-007",
+  "abstract": "- โลกแยกเป็น 2 ขั้วกฎระเบียบสำหรับพืช GEd: กลุ่มที่จัด GEd แบบ SDN-1 (ไม่มี DNA ต่างถิ่น) = \"ไม่ใช่ GMO\" (ญี่ปุ่น 2562, อินเดีย 2565, ไทย 2567, EU NGT-1 มิ.ย. 2569) กับกลุ่มที่ยังถือเป็น GMO (จีนยังใช้ระบบประเมินความปลอดภัย, EU NGT-2) [1][3][4]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.europeanscientist.com/en/agriculture/ngt-regulation-the-eu-opens-the-door-but-only-halfway/",
+  "pdf_url": "https://iari.res.in/files/Latest-News/Standard_Operating_Procedures_SDN1_and_SDN2_07102022.pdf",
+  "source_urls": [
+    "https://www.europeanscientist.com/en/agriculture/ngt-regulation-the-eu-opens-the-door-but-only-halfway/",
+    "https://www.frontiersin.org/journals/genome-editing/articles/10.3389/fgeed.2025.1672358/full",
+    "https://www.nature.com/articles/d44151-025-00078-2",
+    "https://pib.gov.in/PressReleasePage.aspx?PRID=2205351",
+    "https://iari.res.in/files/Latest-News/Standard_Operating_Procedures_SDN1_and_SDN2_07102022.pdf",
+    "https://iasvn.org/en/india-approves-first-genome-edited-rice-varieties",
+    "https://www.isaaa.org/kc/cropbiotechupdate/ged/default.asp",
+    "https://geneticliteracyproject.org/2020/01/28/glps-global-gene-editing-regulation-tracker-and-index-will-politicians-embrace-innovation-or-fear/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "\"NGT Regulation: The EU Opens the Door, but Only Halfway\" — Catherine Regnault-Roger, European Scientist, 21 มิ.ย. 2569 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.europeanscientist.com/en/agriculture/ngt-regulation-the-eu-opens-the-door-but-only-halfway/"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "\"New genomic techniques for plants to boost innovation in sustainable agriculture\" — European Parliament News, 17 มิ.ย. 2569 (อ้างอิงผ่าน [1]) — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "\"Consumer choices regarding genome-edited food crops: lessons from Japan\" — Tetsuya Ishii, Frontiers in Genome Editing 7:1672358, 23 ก.ย. 2568 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.frontiersin.org/journals/genome-editing/articles/10.3389/fgeed.2025.1672358/full"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "\"India approves first genome-edited rice varieties\" — Subhra Priyadarshini, Nature India, 4 พ.ค. 2568 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/d44151-025-00078-2"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "\"Press Release: Exemption of SDN-1/SDN-2 genome edited plants\" — Press Information Bureau (PIB) India, PRID 2205351, 17 ธ.ค. 2568 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=2205351"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "\"Standard Operating Procedures for Regulatory Review of Genome Edited Plants (SDN-1/SDN-2)\" — MoEF&CC/ICAR-IARI, 7 ต.ค. 2565 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://iari.res.in/files/Latest-News/Standard_Operating_Procedures_SDN1_and_SDN2_07102022.pdf"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "\"India approves first genome-edited rice varieties\" — ISAAA Agriculture & Biotech, 2568 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://iasvn.org/en/india-approves-first-genome-edited-rice-varieties"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "\"High GABA tomato determined as Non-GMO by DA-BPI: No. 01 s. 2021 BPI-PBI-CNC No. 24-001\" — Biotech for Life PH, 2564 (อ้างอิงผ่าน [3]) — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "\"Gene Editing Supplement\" — ISAAA Crop Biotech Update, 29 ก.ค. 2569 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.isaaa.org/kc/cropbiotechupdate/ged/default.asp"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "\"ISF chief pushes for global alignment on gene-edited seeds\" — AgTechNavigator, 18 ก.พ. 2569 (อ้างอิงผ่าน [1]) — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "\"GLP's Global Gene Editing Regulation Tracker and Index\" — Genetic Literacy Project, 28 ม.ค. 2563 — (tracker เดิมที่ crispr-gene-editing-regs-tracker.geneticliteracyproject.org ล่ม 526 ณ 2026-08-06 — บทความนี้อธิบาย tracker เดียวกัน) — เข้าถึงเมื่อ 2026-08-06 - **อ้างอิงภายในคลัง (งานวิจัยด้านการเกษตร)**: เจาะลึก-01-005 (กฎหมายไทย พป.1/พป.2, BIOTEC NAC2026, คดี TCC), เจาะลึก-01-001 (ตลาดส่งออกข้าวไทย 150+ ประเทศ), เจาะลึก-01-006 (OsRR22/DST knockout ข้าว), เจาะลึก-01-003 (EU NGT Reg 2026/1388 — บริบทอาหารโปรตีน), เจาะลึก-01-004 (ยีนไดรฟ์/RNAi) — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://geneticliteracyproject.org/2020/01/28/glps-global-gene-editing-regulation-tracker-and-index-will-politicians-embrace-innovation-or-fear/"
+    }
+  ],
+  "reference_count": 11,
+  "article_file": "agri-01-007.md",
+  "source_file": "01-เทคโนโลยีชีวภาพและพันธุวิศวกรรม\\เจาะลึก-01-กฎระเบียบGEdโลก-ผลต่อข้าวไทย.md"
+}

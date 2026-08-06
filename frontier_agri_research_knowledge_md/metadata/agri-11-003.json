@@ -1,0 +1,220 @@
+{
+  "slug": "agri-11-003",
+  "title": "แผนที่เสี่ยงน้ำท่วม/น้ำเค็มระดับแปลง — ข้อมูลประกอบการตัดสินใจปลูก",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "การปรับตัวต่อสภาพอากาศและระบบเตือนภัย",
+  "domain_code": "11",
+  "topic_id": "11-003",
+  "handle_id": "11-003",
+  "abstract": "- **ใจความ**: แผนที่เสี่ยงน้ำท่วม/น้ำเค็มระดับแปลง = การผสาน 3 เทคโนโลยีให้เป็น \"ใบเสี่ยงรายแปลง\" สำหรับตัดสินใจเลือกพันธุ์/เลื่อนปฏิทินปลูก — (1) แบบจำลองอุทกพลศาสตร์ HEC-RAS 2D + Machine Learning (Random Forest/XGBoost) ทำแผนที่ความอ่อนไหว-ความลึก-ระยะเวลาท่วม [1][2][3] (2) ดาวเทียม SAR Sentinel-1 ตรวจจับน้ำท่วม/นาข้าวแม่นยำ 90.7–94.7% [6][8] (3) ดัชนีความเค็มน้ำ/ดิน (EC, ดาวเทียม Sentinel-2/SMAP) [19][20] — ต้นแบบความละเอียดสูงที่สุดในภูมิภาคคืองานลุ่มน้ำโขง-เมกอง (Field Crops Research 2019: เกณฑ์เสี่ยงข้าว = น้ำลึก >0.4 ม. หรือเค็ม >2 กรัม/ลิตร นาน ≥7 วัน) [15]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.tandfonline.com/doi/full/10.1080/19475705.2026.2659164",
+  "pdf_url": null,
+  "source_urls": [
+    "https://www.tandfonline.com/doi/full/10.1080/19475705.2026.2659164",
+    "https://ideas.repec.org/a/spr/nathaz/v121y2025i6d10.1007_s11069-024-07081-3.html",
+    "https://www.nature.com/articles/s41598-026-41014-3",
+    "https://www.sciencedirect.com/science/article/abs/pii/S0273117725008610",
+    "https://conference.thaince.org/index.php/ncce30/article/download/3869/1503/48091",
+    "https://www.nature.com/articles/s41598-025-91655-z",
+    "https://ijg.e-geoinfo.com/index.php/journal/article/view/2691",
+    "https://www.mdpi.com/2072-4292/13/19/3994",
+    "https://www.tandfonline.com/doi/full/10.1080/22797254.2025.2484711",
+    "https://en.nhandan.vn/mekong-delta-proactively-adapts-to-saline-intrusion-post146940.html",
+    "https://vietnamnews.vn/society/1688907/",
+    "https://www.nature.com/articles/s43247-025-02490-z",
+    "https://onlinelibrary.wiley.com/doi/full/10.1002/nsg.70001",
+    "https://www.preventionweb.net/news/climate-risk-informed-crop-calendar-developed-13-provinces-mekong-river-delta-vietnam",
+    "https://www.sciencedirect.com/science/article/pii/S0378429018308190",
+    "https://hess.copernicus.org/articles/29/3771/2025/",
+    "https://www.aimspress.com/article/id/69031949ba35de34708adad0",
+    "https://www.prachachat.net/hilight-prachachat/news-877086",
+    "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/262137",
+    "https://ph01.tci-thaijo.org/index.php/kmutnb-journal/article/view/261226",
+    "https://www.jstage.jst.go.jp/article/hrl/16/1/16_7/_article",
+    "https://www.thansettakij.com/economy/trade-agriculture/636271",
+    "https://www.thaipost.net/columnist-people/863372/",
+    "https://opendata.gistda.or.th/dataset/floodcheck",
+    "https://disaster.gistda.or.th/flood",
+    "https://firststreet.org/county/saline-county-ks/20169_fsid/flood",
+    "https://index.vn/en/news/saltwater-intrusion-in-the-mekong-delta-intensifies-as-the-2025-2026-dry-season-begins",
+    "https://prachatai.com/journal/2024/09/110642"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Integrating machine learning and physically based hydrodynamic modelling for flood hazard mapping (HEC-RAS 2D Rain-on-Grid + Random Forest, AUC 0.996/RMSE 0.12 ม.), Geomatics, Natural Hazards and Risk, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.tandfonline.com/doi/full/10.1080/19475705.2026.2659164"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "A hybrid machine learning modelling for optimization of flood susceptibility mapping in the eastern Mediterranean (XGB 0.995/RF 0.991/ANN 0.983/SVM 0.979), Natural Hazards 121, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://ideas.repec.org/a/spr/nathaz/v121y2025i6d10.1007_s11069-024-07081-3.html"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Integrating geospatial intelligence and machine learning for flood susceptibility mapping (ensemble voting AUC 0.994), Scientific Reports, 2026-02-23 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s41598-026-41014-3"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Boosting vs. traditional machine learning models for flood susceptibility mapping: central Vietnam, Advances in Space Research, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S0273117725008610"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "การวิเคราะห์ความอ่อนไหวในการเกิดน้ำท่วมโดยใช้วิธีอัตราส่วนความถี่: ลุ่มน้ำห้วยน้ำโมง (84.31%/79.29%), กนก หมื่นกล้า และเอกชัย ศิริกิจพาณิชย์กูล, มก., การประชุมวิศวกรรมโยธาแห่งชาติ ครั้งที่ 30, 2568 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://conference.thaince.org/index.php/ncce30/article/download/3869/1503/48091"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Time series analysis of Sentinel-1A SAR data to retrieve annual rice area maps (accuracy 90.7–94.7%; Cauvery 88.5–91.5% Kappa 0.77–0.83), Scientific Reports 15:8202, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s41598-025-91655-z"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Flood Event Detection and Assessment using Sentinel-1 SAR-C Time Series and Machine Learning Classifiers, Northeastern Thailand (RF 94.60%, KNN 93%, ML 93.36%), Khamphilung P. et al., International Journal of Geoinformatics, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://ijg.e-geoinfo.com/index.php/journal/article/view/2691"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Paddy Rice Mapping in Thailand Using Time-Series Sentinel-1 (accuracy 91%, precision 87%, recall 95%), Remote Sensing 13(19):3994, 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mdpi.com/2072-4292/13/19/3994"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Unsupervised mapping of rice paddy fields and their flooding patterns (Japan 83.8–89.0%, Philippines 71.5–83.5%, Bali flooding patches 72.3%), European Journal of Remote Sensing, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.tandfonline.com/doi/full/10.1080/22797254.2025.2484711"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Mekong Delta proactively adapts to saline intrusion (2024–25: รุกลึก 30–45 กม. บางช่วง 60–70 กม.; เป้า 2573: 530,000/600,000 เฮกตาร์), Nhan Dan, 2025-04-21 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://en.nhandan.vn/mekong-delta-proactively-adapts-to-saline-intrusion-post146940.html"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Mekong Delta faces increased saltwater intrusion in 2024-25 dry season (4 กรัม/ลิตร ที่ 15–20 กม.; ปี 2566–67: 73,900 ครัวเรือนขาดน้ำ, ข้าวเสียหาย 1,189 เฮกตาร์; พืชส่วนใหญ่ทน <1 กรัม/ลิตร), Viet Nam News, 2024-12-13 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://vietnamnews.vn/society/1688907/"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Quantifying salinity and drought drive forces on paddy field loss (~25% ของการสูญเสียนาเมกองเกิดจากเค็ม+แล้ง), Communications Earth & Environment, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s43247-025-02490-z"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Mapping saline groundwater under rice-paddy fields in Vietnam's Mekong Delta (ERT 44 แนว, Trà Vinh), Nguyen V.H. et al., Near Surface Geophysics 23:121–133, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://onlinelibrary.wiley.com/doi/full/10.1002/nsg.70001"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Climate risk informed crop calendar developed for the 13 provinces in the Mekong River Delta (CS-MAP: แผนที่เสี่ยงท่วม/แล้ง/เค็ม + ปฏิทินปลูกรายเดือน), CCAFS/CGIAR ผ่าน PreventionWeb, 2018-09-18 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.preventionweb.net/news/climate-risk-informed-crop-calendar-developed-13-provinces-mekong-river-delta-vietnam"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "High-resolution mapping of flood and salinity risks for rice production in the Vietnamese Mekong Delta (เกณฑ์ 0.4 ม./2 กรัม/ลิตร 7 วัน; แผนที่ 4 แบบ), Field Crops Research 236:111–120, 2019 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0378429018308190"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Drought and salinity intrusion in the Lower Chao Phraya River: variability analysis and modeling mitigation approaches (ระบายเขื่อนเจ้าพระยาเฉลี่ย ~80 ลบ.ม./วินาที; กลไก drought-dependent/relaxation), Tomkratoke S. et al., HESS 29:3771–3793, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://hess.copernicus.org/articles/29/3771/2025/"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Salinity forecasting in Chao Phraya River using XGBoost with missing data handling (สถานีสำแล S1), AIMS Environmental Science — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.aimspress.com/article/id/69031949ba35de34708adad0"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "กรมชลประทานผุดแผนผลักดันลิ่มน้ำเค็ม (ผันน้ำแม่กลอง ~1,000 ล้าน ลบ.ม.; ควบคุมเค็มสถานีสำแล ≤0.25 กรัม/ลิตร; water hammer ร่วม กปน./กทม.), ประชาชาติธุรกิจ, 2022-03-02 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.prachachat.net/hilight-prachachat/news-877086"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "การประยุกต์ใช้ข้อมูลความชื้นจากดาวเทียม SMAP เพื่อติดตามการเปลี่ยนแปลงความเค็มของดินในพื้นที่ที่มีผลกระทบจากเกลือ, เกรียงไกร จุเฉย และเกียรติศักดิ์ สนศรี, วารสารแก่นเกษตร 52(6), 2567 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/262137"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "การจัดทำแผนที่ดิจิทัลความเค็มของดินในฤดูแล้งด้วยภาพถ่ายดาวเทียม Sentinel-2 (ทำนาย EC ทั้งพื้นที่), ธีรพร ชื่นพี และยุรติกานต์, วารสารวิชาการพระจอมเกล้าพระนครเหนือ, 2568 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://ph01.tci-thaijo.org/index.php/kmutnb-journal/article/view/261226"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "Yearly change in severely salt-damaged areas in paddy fields in Ban Phai in Northeast Thailand, Yang Y. et al., Hydrological Research Letters 16:7–11, 2022 — (doi: 10.3178/hrl.16.7) — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.jstage.jst.go.jp/article/hrl/16/1/16_7/_article"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "น้ำท่วมซัด 18 จังหวัด พื้นที่เกษตรจมน้ำเสียหายกว่า 3 แสนไร่ \"นาข้าว\" หนักสุด (334,907 ไร่ ข้าว 278,967 ไร่; เสียหาย 7,160 ไร่/11.37 ล้านบาท ณ 15 ส.ค. 68), ฐานเศรษฐกิจ, 2568-08-17 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thansettakij.com/economy/trade-agriculture/636271"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "น้ำท่วมไทยปี 68 กระทบศก.อ่วม (วิจัยกรุงศรี 3 ฉากทัศน์: 7.4–11.7 ล้านไร่/1.82–2.9 หมื่นล้านบาท = -0.10–0.16% GDP; กสิกรไทย: ข้าวนาปี 1.85 ล้านไร่/4.8 แสนตัน/5,210 ล้านบาท), ไทยโพสต์, 2568-09-18 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thaipost.net/columnist-people/863372/"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "ข้อมูลพื้นที่เสี่ยงน้ำท่วมของระบบ \"เช็คน้ำ\" (คาดการณ์พื้นที่น้ำท่วมรายชั่วโมง/ฝน 30 นาที/API รายพิกัด latlon), GISTDA Open Data, 2568-09-01 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://opendata.gistda.or.th/dataset/floodcheck"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "GISTDA Disaster Platform / Thailand Flood Monitoring System (แผนที่ท่วม 7 วัน ย้อนหลังถึง 2549; บริการดาวน์โหลด) — — เข้าถึงเมื่อ 2026-08-06",
+      "url": "https://disaster.gistda.or.th/flood"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "First Street Foundation: Flood Factor property-level flood risk (ตัวอย่าง Saline County, KS — 3,294/26,455 ทรัพย์สินเสี่ยง 30 ปี) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://firststreet.org/county/saline-county-ks/20169_fsid/flood"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "Saltwater intrusion in the Mekong Delta intensifies as the 2025–2026 dry season begins (มาเร็ว/ไกลขึ้น/อยู่นานขึ้น), Index Vietnam, 2568 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://index.vn/en/news/saltwater-intrusion-in-the-mekong-delta-intensifies-as-the-2025-2026-dry-season-begins"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "GISTDA เปิดภาพดาวเทียมน้ำท่วมเชียงราย RADARSAT-2 (10 ก.ย. 67: แม่สาย 6,182 + เชียงแสน 3,694 + แม่จัน 3,225 = 13,101 ไร่), ประชาไท, 2567-09-11 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://prachatai.com/journal/2024/09/110642"
+    }
+  ],
+  "reference_count": 28,
+  "article_file": "agri-11-003.md",
+  "source_file": "11-การปรับตัวต่อสภาพอากาศและระบบเตือนภัย\\เจาะลึก-11-แผนที่เสี่ยงน้ำท่วมน้ำเค็ม.md"
+}

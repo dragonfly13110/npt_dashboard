@@ -1,0 +1,59 @@
+{
+  "slug": "agri-07-005",
+  "title": "รถแทรกเตอร์อัตโนมัติและไร้คนขับ (Autonomous Tractors) — รถไถที่ไม่มีคนนั่ง คู่นำร่อง+คู่นำตาม ทำงาน 24 ชั่วโมง — \"เปลี่ยนรถไถเป็นหุ่นยนต์ภาคสนาม\"",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "หุ่นยนต์และเครื่องจักรอัตโนมัติ",
+  "domain_code": "07",
+  "topic_id": "07-005",
+  "handle_id": "07-005",
+  "abstract": "- **ใจความ**: รถแทรกเตอร์อัตโนมัติ = รถแทรกเตอร์ที่ขับเอง (ไม่ต้องมีคนนั่ง) ใช้ GPS/RTK (แม่นยำ ~2.5 ซม.) + เซนเซอร์/กล้อง (หลบสิ่งกีดขวาง) + AI วางแผนเส้นทาง — มี 3 ระดับ: (1) **นำทางอัตโนมัติช่วยคน (autosteer — ขายแล้วหลายสิบปี; ติดตั้งเสริม ~$3–10K)** (2) **ไร้คนขับบางงาน (คนเฝ้า/ทำงานคู่ — John Deere 8R autonomy 2022)** (3) **ไร้คนขับเต็มรูปแบบ (ญี่ปุ่น — รถไถนา/รับรองโดยรัฐแล้วตั้งแต่ 2017–2018 — Kubota/Yanmar/Iseki)** — ตัวขับเคลื่อนหลัก: แรงงานขาดแคลน + ทำงาน 24 ชม. [1][2][3]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "งานทบทวนรถแทรกเตอร์อัตโนมัติ/navigation (Computers and Electronics in Agriculture, Biosystems Engineering 2010–2024) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "งาน autosteer/RTK/ประหยัด (Precision Agriculture, Agronomy 2015–2024) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "เอกสาร/ข่าวการรับรองญี่ปุ่น + ผู้ผลิต (Kubota/Yanmar/Iseki/John Deere 2018–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "รายงานตลาด tractor automation/autonomous (analyst/AgFunder/The Robot Report 2023–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "สถานะการใช้ autosteer/เครื่องจักรไทย (ข่าว/ผู้จำหน่าย/โรงงานอ้อย 2023–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "งานวิจัยวิศวกรรมเกษตร/RTK ไทย (TCI/ThaiJo — มก./มข./มจธ./มทส.) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-07-005.md",
+  "source_file": "07-หุ่นยนต์และเครื่องจักรอัตโนมัติ\\เจาะลึก-07-รถแทรกเตอร์อัตโนมัติ-ไร้คนขับ.md"
+}

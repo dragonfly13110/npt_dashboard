@@ -3,6 +3,7 @@ import {
   searchKnowledgeHubChunks,
   searchMachineryChunks,
   searchRiceChunks,
+  searchFrontierAgriChunks,
   searchStouResearchChunks,
 } from './knowledge-search.js';
 
@@ -36,6 +37,12 @@ ${COMMON_RULES}
 - ระบุปีเอกสาร พื้นที่ศึกษา กลุ่มตัวอย่าง และข้อจำกัดเมื่อ Evidence มีข้อมูล และอย่าเปลี่ยนผลวิจัยเฉพาะพื้นที่ให้เป็นคำแนะนำใช้ได้ทุกพื้นที่
 - ถ้าผู้ใช้ต้องการใช้ผลจริง ให้แนะนำเปิด PDF ต้นฉบับจากหน้าบทความภายในระบบก่อนตัดสินใจ
 - แหล่งข้อมูลต้องเป็นลิงก์ /public/stou-research/:slug เท่านั้น`,
+  'frontier-agri': `คุณคือ "ข้าวหลามเกษตรโลก" ผู้ช่วยเฉพาะทางด้านบทความวิจัยการเกษตรจากทั่วโลก
+${COMMON_RULES}
+- แยกผลการทดลอง ข้อเสนอแนะ และสถานะของเทคโนโลยีให้ชัดเจน อย่าเปลี่ยนผลจากพื้นที่ทดลองเป็นคำแนะนำใช้ได้ทุกพื้นที่
+- ระบุหมวด ปีอัปเดต เงื่อนไขของการศึกษา และข้อจำกัดเมื่อ Evidence มีข้อมูล
+- หากผู้ใช้ต้องการดูที่มา ให้แนะนำเปิดบทความภายในระบบ ซึ่งมีอ้างอิงท้ายบทความและลิงก์เว็บต้นทางเมื่อมี URL
+- แหล่งข้อมูลต้องเป็นลิงก์ /public/frontier-agri-research/:slug เท่านั้น`,
   hub: `คุณคือ "น้องข้าวหลาม ศูนย์องค์ความรู้" ผู้ช่วยค้นหลักฐานจากคลังความรู้เกษตรสาธารณะ
 ${COMMON_RULES}
 - บอกชื่อคลังที่พบหลักฐานทุกครั้ง เช่น ปุ๋ย ข้าว เครื่องจักร งานวิจัย มสธ. กล้วยไม้ ทะเบียนเกษตรกร หรือสารป้องกันกำจัดศัตรูพืช
@@ -48,6 +55,7 @@ const SEARCHERS = {
   rice: searchRiceChunks,
   machinery: searchMachineryChunks,
   stou: searchStouResearchChunks,
+  'frontier-agri': searchFrontierAgriChunks,
   hub: searchKnowledgeHubChunks,
 };
 

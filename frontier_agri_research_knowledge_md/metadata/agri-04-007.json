@@ -1,0 +1,59 @@
+{
+  "slug": "agri-04-007",
+  "title": "การจัดการสารละลายธาตุอาหารในระบบปิด — สูตร EC/pH และการหมุนเวียนน้ำ",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "การผลิตพืชระบบปิดและแนวดิ่ง",
+  "domain_code": "04",
+  "topic_id": "04-007",
+  "handle_id": "04-007",
+  "abstract": "- **ใจความ**: สารละลายธาตุอาหาร = \"ดินของระบบไฮโดรโปนิกส์\" — ต้องคุม EC (ความเข้มข้นเกลือ) + pH + สัดส่วนธาตุ (N:P:K:Ca:Mg:S + ธาตุรอง) ให้ตรงช่วงของแต่ละพืช/แต่ละระยะ — ระบบปิดหมุนเวียนน้ำ (recirculating) ลดน้ำ/ปุ๋ย 20–40% แต่ต้องจัดการโรค (Pythium) และธาตุที่ตกค้าง [1][2][4]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "ตำรา/งานทบทวนสารละลายธาตุอาหารไฮโดรโปนิกส์ (Hoagland/Cooper + Scientia Horticulturae) — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "งานระบบหมุนเวียน/บำบัดน้ำ (WUR, Journal of Phytopathology — Pythium/sand filter) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "เอกสารผู้ผลิต/ตลาด (Yara, General Hydroponics, Hanna, Bluelab + analyst) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "นโยบายน้ำทิ้ง EU/ดัตช์ (Green Deal, นโยบายน้ำเนเธอร์แลนด์) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งานวิจัยไทยสารละลาย/ผักสลัด (TCI/ThaiJo — มก./มข./มอ.) — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "สถานการณ์ฟาร์มไทย/ราคาอุปกรณ์ (ข่าว/ตลาด/ผู้จำหน่าย) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-04-007.md",
+  "source_file": "04-การผลิตพืชระบบปิดและแนวดิ่ง\\เจาะลึก-04-การจัดการสารละลายธาตุอาหารระบบปิด.md"
+}

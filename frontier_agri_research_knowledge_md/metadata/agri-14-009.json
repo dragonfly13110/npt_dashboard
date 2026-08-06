@@ -1,0 +1,234 @@
+{
+  "slug": "agri-14-009",
+  "title": "บริการส่งเสริมการเกษตรดิจิทัล (Digital Extension — แอปที่ปรึกษา ไลน์/มือถือ LLM/chatbot และบริการเสียง)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-05",
+  "created_at": "2026-08-05",
+  "review_at": "2027-02-05",
+  "category": "สตาร์ทอัพ นวัตกรรม และการยอมรับเทคโนโลยี",
+  "domain_code": "14",
+  "topic_id": "14-009",
+  "handle_id": "14-009",
+  "abstract": "- **ใจความ**: งานนี้เป็น \"เจาะลึกหลักฐานและแนวปฏิบัติของ **การส่งเสริมการเกษตรดิจิทัล (Digital Extension)**\" — การส่งคำแนะนำ/ความรู้เกษตรถึงเกษตรกรผ่านช่องทางดิจิทัล (แอปมือถือ, SMS, เสียง/IVR, call center, ไลน์/แชต, โซเชียลมีเดีย และ AI chatbot/LLM) โดยเน้นมุม **สถาบันผู้ให้บริการ** (รัฐ/เอกชน/สตาร์ทอัพ) การเข้าถึง ต้นทุนต่อราย และผลกระทบต่อการยอมรับเทคโนโลยี/ผลผลิต — เป็น \"กลไกแก้ช่องว่างอัตราส่วนเจ้าหน้าที่ต่อเกษตรกร\" มากกว่าการเน้นตัวเทคโนโลยี AI (ดู 06-002)",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12167173/",
+  "pdf_url": "https://precisiondev.org/wp-content/uploads/2025/02/Odisha_RCT_02052025.pdf",
+  "source_urls": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC12167173/",
+    "https://precisiondev.org/wp-content/uploads/2025/02/Odisha_RCT_02052025.pdf",
+    "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0337456",
+    "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0259319",
+    "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0253377",
+    "https://hdl.handle.net/10568/130945",
+    "https://researchonline.lse.ac.uk/id/eprint/127762/1/Lasdun_et_al_2025.pdf",
+    "https://doi.org/10.5539/jas.v12n3p141",
+    "https://sti-portal.fao.org/innovations/esoko-digital-farmer-service",
+    "https://bigdata.cgiar.org/digital-intervention/plantvillage-nuru-pest-and-disease-monitoring-using-ai/",
+    "https://www.gsma.com/solutions-and-impact/connectivity-for-good/mobile-for-development/blog/detecting-and-managing-crop-pests-and-diseases-with-ai-insights-from-plantix/",
+    "https://digitalgreen.org/farmer.chat/",
+    "https://www.hbs.edu/ris/Publication%20Files/13-047_155cb6a2-afb5-4744-a62d-929b01fc9e7c.pdf",
+    "https://doi.org/10.1007/978-3-030-86065-3_8",
+    "https://www.cabi.org/wp-content/uploads/Working-Paper-35.pdf",
+    "https://doi.org/10.1002/jaa2.42",
+    "https://www.nso.go.th/nsoweb/storage/upload_file/2024/20240111123314_35658.pdf",
+    "https://www.nso.go.th/nsoweb/storage/survey_detail/2025/20250526084212_43801.pdf",
+    "https://secreta.doae.go.th/?p=4392",
+    "https://www.thebangkokinsight.com/news/digital-economy/490418/",
+    "https://www.naewna.com/local/864961",
+    "https://www.nstda.or.th/archives/rice-disease-linebot/",
+    "https://www.moac.go.th/news-preview-391191791353",
+    "https://www.g-fras.org/images/wwes/GFRAS-Status_of_Rural_Advisory_Services_Worldwide.pdf",
+    "https://oar.icrisat.org/11401/1/Agriculture-Extension-System-in-India-A-Meta-analysis.pdf",
+    "https://scielo.org.za/scielo.php?pid=S0301-603X2019000200011&script=sci_arttext",
+    "https://www.pib.gov.in/FactsheetDetails.aspx?Id=148601",
+    "https://dackkms.gov.in/account/aboutus.aspx",
+    "https://doaenews.doae.go.th/archives/19752",
+    "https://doaenews.doae.go.th/archives/19251"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Fabregas, R., Kremer, M., Lowes, M., On, R., Zane, G. (2025) — \"Meta-analysis of the impacts of digital information interventions on agricultural development\" (PMC12167173; 20 การศึกษา 2005–2019) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12167173/"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "\"The impact of digital agricultural extension service: Experimental evidence from rice farmers\" — RCT อมา ครูศี (Ama Krushi) โอริสสา อินเดีย 13,675 ครัวเรือน (PrecisionDev, 2025) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://precisiondev.org/wp-content/uploads/2025/02/Odisha_RCT_02052025.pdf"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "\"Impact of training and digital extension services on agricultural technology adoption and rice yield\" — PLOS ONE (2025) เนปาล 1,396 ครัวเรือน — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0337456"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "\"Personalized digital extension services and agricultural performance\" — PLOS ONE 16(10):e0259319 (2021) อินเดีย (PSM) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0259319"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Fabregas, R. et al. — \"Harnessing digital technology to improve agricultural productivity?\" — PLOS ONE 16(6):e0253377 (2021) ฮอตไลน์การ์นาตากา 300 ราย — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0253377"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Owusu, S.E., Arouna, A., Narrod, C. (2023) — \"Is personalized better: Digital advisory and productivity differentials in rice farming in Nigeria\" (RiceAdvice, CGIAR) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://hdl.handle.net/10568/130945"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Lasdun, K. et al. (2025) — \"ShambaChat: peer-to-peer SMS chat groups\" RCT เคนยา (LSE Research Online) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://researchonline.lse.ac.uk/id/eprint/127762/1/Lasdun_et_al_2025.pdf"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Marwa, M.E., Mburu, J., Rao, E.J.O., Okeyo Mwai, O., Kahumbu, S. (2020) — \"Impact of ICT Based Extension Services on Dairy Production: iCow Kenya\" — Journal of Agricultural Science 12(3):141 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://doi.org/10.5539/jas.v12n3p141"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "FAO STI Portal — \"Esoko Digital Farmer Service\" (1 ล้าน+ เกษตรกร, ~10% รายได้) — + Odimpact case study — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://sti-portal.fao.org/innovations/esoko-digital-farmer-service"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "CGIAR Platform for Big Data / Penn State — \"PlantVillage Nuru\" (แม่นยำ ~2 เท่าเจ้าหน้าที่, ออฟไลน์, 40+ ประเทศ) — + กรณีศึกษาไอวอรีโคสต์ (Frontiers in Agronomy, 2024, อัตรายอมรับ 45%) — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://bigdata.cgiar.org/digital-intervention/plantvillage-nuru-pest-and-disease-monitoring-using-ai/"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "GSMA (2025) — \"Detecting and managing crop pests and diseases with AI: Insights from Plantix\" (135 ล้านดาวน์โหลด/10 ล้านราย/ปี/250,000 ภาพต่อวัน) + HBS Digital Initiative case (2022, เงินทุน ~US$20M, >90% แม่นยำ) — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.gsma.com/solutions-and-impact/connectivity-for-good/mobile-for-development/blog/detecting-and-managing-crop-pests-and-diseases-with-ai-insights-from-plantix/"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Digital Green — \"FarmerChat\" (1 ล้าน+ ผู้ใช้, 10 ล้าน+ คำถาม, 70% ปฏิบัติตาม 30 วัน — 60 Decibels 2025; ต้นทุนต่อคำตอบ <4 เซนต์, US$35→<$1) — + OpenAI (2024) + Microsoft Research paper (arXiv:2409.08916, 2024) — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://digitalgreen.org/farmer.chat/"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Cole, S. & Fernando, A.N. — \"'Mobile'izing Agricultural Advice\" (Harvard Business School WP 13-047; AO อินเดีย US$0.83/ราย/เดือน vs US$8.5 สาธิต; WTP US$2; ROI 10 เท่า) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.hbs.edu/ris/Publication%20Files/13-047_155cb6a2-afb5-4744-a62d-929b01fc9e7c.pdf"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Fabregas, R., Harigaya, T., Kremer, M., Ramrattan, R. (2022) — \"Digital Agricultural Extension for Development\" บทใน Development Economics (PxD: US$5.20→US$1.55/ราย/ปี, WTP กานา US$0.10/เดือน) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://doi.org/10.1007/978-3-030-86065-3_8"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "Posthumus, H., Dhamankar, M., Kansiime, M. et al. (2025) — \"A review on effective and efficient communication in agricultural extension\" — CABI Working Paper 35 (ต้นทุนต่อราย: วิดีโอ US$0.22/วิทยุ US$0.36/เจ้าหน้าที่ US$2.67/FFS US$56) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.cabi.org/wp-content/uploads/Working-Paper-35.pdf"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Singh, R., Slotznick, W., Stein, D. (2023) — \"Digital tools for rural agriculture extension\" JAAE (โมบาย US$15.14/การยอมรับ vs อินเดีย US$24) + Bernard, T. et al. (IFPRI, 2019) เอธิโอเปียวิดีโอ US$3–6 ต่อการยอมรับ — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://doi.org/10.1002/jaa2.42"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "สำนักงานสถิติแห่งชาติ — ผลสำมะโนการเกษตร พ.ศ. 2566 (ผู้ถือครอง 8.7 ล้านราย, 141.7 ล้านไร่, แอปฯ 29.8%, โดรน 4.0%, เครื่องจักร 71.3%) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nso.go.th/nsoweb/storage/upload_file/2024/20240111123314_35658.pdf"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "สำนักงานสถิติแห่งชาติ — การสำรวจการมีการใช้เทคโนโลยีสารสนเทศฯ ในครัวเรือน พ.ศ. 2567 (ประชากร 90.9%, มือถือ 95.3–95.7%; ภาคเกษตร 87.3%, นอกเขตเทศบาล 88.6%) + การสำรวจครัวเรือนเกษตรการใช้ ICT เพื่อการเกษตร (สมาร์ตโฟนหลัก; ปศุสัตว์ 90.3%/ปลูกพืช 87.0%) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nso.go.th/nsoweb/storage/survey_detail/2025/20250526084212_43801.pdf"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "กรมส่งเสริมการเกษตร — ข่าวประชาสัมพันธ์ Farmbook (ดาวน์โหลด 1.6 ล้าน/6 ล้านครัวเรือน, ความพึงพอใจ 4.7/5 จาก 49,579 ราย) — + ศูนย์ ICTC + ทะเบียนเกษตรกรกลาง — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://secreta.doae.go.th/?p=4392"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "\"Kaset Go\" — เปิดตัว ดีแทค–ยารา–กรมส่งเสริมฯ (Bangkok Insight 30 พ.ย. 2020: ดาวน์โหลด 150,000/ผู้ใช้ 100,000; FAO DVI: 200,000+ ผู้ใช้) — + — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.thebangkokinsight.com/news/digital-economy/490418/"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "กรมวิชาการเกษตร — เปิดตัว AI Chatbot ทุเรียน/มันสำปะหลัง ผ่าน LINE OA (26 ก.พ. 2568) + สายด่วน 1174 — + — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.naewna.com/local/864961"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "สวทช. NECTEC + ม.เกษตรศาสตร์ — \"บอทโรคข้าว (Rice Disease Bot)\" ไลน์, 10 โรค, ผู้ใช้ ~3,500 (2566), เหรียญทองแดงเจนีวา 2023 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nstda.or.th/archives/rice-disease-linebot/"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "กระทรวงเกษตรและสหกรณ์ — MOAC Call Center 1170 (หมอข้าว กด 4) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.moac.go.th/news-preview-391191791353"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "GFRAS — \"Status of Agricultural Extension and Rural Advisory Services Worldwide\" (ไทย 16,986 คน; จีน 617,706; อินเดีย 90,000 — ข้อมูล 2009–2012) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.g-fras.org/images/wwes/GFRAS-Status_of_Rural_Advisory_Services_Worldwide.pdf"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "ICRISAT — \"Agriculture Extension System in India: A Meta-analysis\" (อัตราส่วน 1:1,162; แนะ 1:400 เนินเขา/1:750 ชลประทาน/1:1,000 น้ำฝน; FAO แนะ 1:400) — + Joshi et al. (2026) ACRI review — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://oar.icrisat.org/11401/1/Agriculture-Extension-System-in-India-A-Meta-analysis.pdf"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "\"Organisational capacities and management of agricultural extension services in Nigeria\" — South African Journal of Agricultural Extension (2019): 1:5,000–1:10,000, ~7,000 เจ้าหน้าที่รัฐ — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://scielo.org.za/scielo.php?pid=S0301-603X2019000200011&script=sci_arttext"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "PIB India — mKisan Factsheet (ผู้ลงทะเบียน 5.13 โคร, SMS สะสม 24,637 ล้านฉบับ ถึง 12/2021) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.pib.gov.in/FactsheetDetails.aspx?Id=148601"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "MANAGE — \"Kisan Call Centre (KCC) 1800-180-1551\" (เปิด 21 ม.ค. 2004, 454 FTA, 21 จุด, 22 ภาษา) — — เข้าถึงเมื่อ 2026-08-06",
+      "url": "https://dackkms.gov.in/account/aboutus.aspx"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "กรมส่งเสริมการเกษตร — Geoplots (ผังแปลงดิจิทัล 8.2 ล้านแปลง/57.5 ล้านไร่, เป้า 22 ล้านแปลง) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://doaenews.doae.go.th/archives/19752"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "กรมส่งเสริมการเกษตร — อาสาสมัครเกษตรหมู่บ้าน (อกม.) ชุดใหม่ 74,995 ราย วาระ 2566–2570 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://doaenews.doae.go.th/archives/19251"
+    }
+  ],
+  "reference_count": 30,
+  "article_file": "agri-14-009.md",
+  "source_file": "14-สตาร์ทอัพ นวัตกรรม และการยอมรับเทคโนโลยี\\เจาะลึก-14-ส่งเสริมการเกษตรดิจิทัล-DigitalExtension.md"
+}

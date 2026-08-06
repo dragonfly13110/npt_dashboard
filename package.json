@@ -23,8 +23,9 @@
     "build:fertilizers": "node scripts/build-pesticide-knowledge.mjs fertilizer",
     "build:orchid-knowledge": "node scripts/build-orchid-knowledge.mjs",
     "build:stou-research": "node scripts/build-stou-research.mjs",
+    "build:frontier-agri-research": "node scripts/build-frontier-agri-research.mjs",
     "build:farmer-knowledge": "node scripts/mark-farmer69-visual-review.mjs && node scripts/build-farmer69-knowledge.mjs && node scripts/build-farmer69-docs.mjs",
-    "build:netlify": "pnpm run build:line-knowledge && pnpm run build:pesticides && pnpm run build:fertilizers && pnpm run build:orchid-knowledge && pnpm run build:stou-research && pnpm run build:farmer-knowledge && vite build",
+    "build:netlify": "pnpm run build:line-knowledge && pnpm run build:pesticides && pnpm run build:fertilizers && pnpm run build:orchid-knowledge && pnpm run build:stou-research && pnpm run build:frontier-agri-research && pnpm run build:farmer-knowledge && vite build",
     "prepare": "husky"
   },
   "dependencies": {

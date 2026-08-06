@@ -389,6 +389,47 @@ describe('ai-proxy', () => {
     expect(JSON.stringify(body.contents)).not.toContain('/public/machinery/');
   });
 
+  it('routes frontier agricultural research chat through its dedicated corpus', async () => {
+    process.env.GEMINI_API_KEY_1 = 'test-key';
+    mockAllowedRateClaim();
+    fetch.mockResolvedValueOnce(
+      new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      })
+    );
+
+    const response = await handler(
+      request({
+        provider: 'gemini',
+        landing: true,
+        knowledgeKind: 'frontier-agri',
+        knowledgeArticleSlug: 'agri-01-001',
+        body: {
+          model: 'gemini-3.5-flash-lite',
+          contents: [
+            {
+              role: 'user',
+              parts: [{ text: 'มีงานวิจัย CRISPR ข้าวทนแล้งไหม' }],
+            },
+          ],
+          stream: true,
+        },
+      })
+    );
+
+    expect(response.status).toBe(200);
+    const [, init] = fetch.mock.calls[1];
+    const body = JSON.parse(init.body);
+    expect(body.systemInstruction.parts[0].text).toContain('ข้าวหลามเกษตรโลก');
+    expect(JSON.stringify(body.contents)).toContain(
+      '/public/frontier-agri-research/'
+    );
+    expect(JSON.stringify(body.contents)).not.toContain(
+      '/public/stou-research/'
+    );
+  });
+
   it('rejects landing payloads without a bounded user question', async () => {
     process.env.GEMINI_API_KEY = 'test-key';
     const response = await handler(

@@ -1,0 +1,63 @@
+{
+  "slug": "agri-03-012",
+  "title": "ระบบน้ำหยดสำหรับไม้ผลและอ้อย — เศรษฐศาสตร์ (Drip Irrigation Economics)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "น้ำและชลประทานอัจฉริยะ",
+  "domain_code": "03",
+  "topic_id": "03-012",
+  "handle_id": "03-012",
+  "abstract": "- **ใจความ**: ระบบน้ำหยด/มินิสปริงเกลอร์จ่ายน้ำตรงบริเวณราก ความถี่สูง-ปริมาณน้อย — ประหยัดน้ำ ~30–50% เทียบสปริงเกลอร์/รดท่วม [3] เพิ่มผลผลิต/คุณภาพ (สวนทุเรียน/มังคุด/ลำไย/ส้ม/องุ่น) และลดต้นทุนแรงงาน — แต่ต้นทุนติดตั้งสูง จุดคุ้มทุนคือตัวชี้ขาดสำหรับไม้ผล/อ้อยไทย [1][2]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.netafim.com",
+  "pdf_url": null,
+  "source_urls": [
+    "https://www.netafim.com",
+    "https://www.epa.gov/watersense/microirrigation",
+    "https://so01.tci-thaijo.org/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Netafim: แนวทางระบบน้ำหยด/เอกสารผู้ผลิต — — เข้าถึงเมื่อ 2026-08-02 *(ตลาด/อายุระบบ — ดูหัวข้อ 10)*",
+      "url": "https://www.netafim.com"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "งานอ้อยน้ำหยด (Sugar Tech; Agricultural Water Management) — เข้าถึงเมื่อ 2026-08-02 *(ตัวเลขอ้อย — ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "US EPA WaterSense: \"Saving Water With Microirrigation\" — ไมโคร-ไอริเกชันประหยัด 20–50% — — เข้าถึงเมื่อ 2026-08-02 *(อ้างข้ามเดียวกับ 03-001)*",
+      "url": "https://www.epa.gov/watersense/microirrigation"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "งานน้ำหยดไม้ผลไทย (ทุเรียน/ลำไย — TCI-Thaijo/ThaiJo) — รายชิ้นยังไม่ยืนยัน (ดูหัวข้อ 10) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so01.tci-thaijo.org/"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งาน ROI น้ำหยดสวนทุเรียน/ผลไม้ (วารสารไทย/รายงานศูนย์วิจัย) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "ตลาดอุปกรณ์น้ำหยดไทย/ผู้จำหน่าย (ข้อมูลตลาด/ราคา) — เข้าถึงเมื่อ 2026-08-02 *(ต้นทุนติดตั้ง — ดูหัวข้อ 10)*",
+      "url": null
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-03-012.md",
+  "source_file": "03-น้ำและชลประทานอัจฉริยะ\\เจาะลึก-03-น้ำหยดไม้ผลอ้อย-เศรษฐศาสตร์.md"
+}

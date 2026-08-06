@@ -1,0 +1,68 @@
+{
+  "slug": "agri-03-003",
+  "title": "ชลประทานอัตราแปรผัน (Variable Rate Irrigation — VRI)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "น้ำและชลประทานอัจฉริยะ",
+  "domain_code": "03",
+  "topic_id": "03-003",
+  "handle_id": "03-003",
+  "abstract": "- **ใจความ**: VRI คือการปรับ \"อัตราน้ำชลประทาน\" ให้ต่างกันตามตำแหน่งในแปลง ตามความต้องการจริงของแต่ละโซน (ชนิดดิน/ความชื้น/พืช) — แทนการรดทั้งแปลงเท่ากันหมด — ใช้กับระบบน้ำหมุน (pivot) เป็นหลัก และต่อยอดสู่ระบบน้ำหยด/สปริงเกลอร์ [1][2]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.valleyirrigation.com",
+  "pdf_url": null,
+  "source_urls": [
+    "https://www.valleyirrigation.com",
+    "https://so01.tci-thaijo.org/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Valmont Industries (Valley) / Lindsay (Zimmatic): เอกสาร VRI/การควบคุมรายโซน — / — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.valleyirrigation.com"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "บทความทบทวน VRI (Precision Agriculture; Agricultural Water Management) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "งานทดลอง VRI สหรัฐฯ (เนแบรสกา/จอร์เจีย — ข้าวโพด/ฝ้าย) — เข้าถึงเมื่อ 2026-08-02 *(ตัวเลข 10–30% — ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "งาน VRI + remote sensing/ET (Remote Sensing of Environment; Irrigation Science) — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งาน ROI/เศรษฐศาสตร์ VRI (Agricultural Systems) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Analyst report: Precision Irrigation/Smart Irrigation Market — MarketsandMarkets — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "งานชลประทาน/น้ำหยดไทย (กรมชลประทาน; วารสาร TCI-Thaijo) — รายชิ้นยังไม่ยืนยัน (ดูหัวข้อ 10) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so01.tci-thaijo.org/"
+    }
+  ],
+  "reference_count": 7,
+  "article_file": "agri-03-003.md",
+  "source_file": "03-น้ำและชลประทานอัจฉริยะ\\เจาะลึก-03-ชลประทานอัตราแปรผัน-VRI.md"
+}

@@ -1,0 +1,59 @@
+{
+  "slug": "agri-06-001",
+  "title": "Digital Twin ฟาร์ม — จำลองทั้งฟาร์ม (อากาศ+ดิน+พืช+เครื่องจักร) จำลองสถานการณ์ ตัดสินใจล่วงหน้า",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ปัญญาประดิษฐ์ ข้อมูลใหญ่ และดิจิทัลทวิน",
+  "domain_code": "06",
+  "topic_id": "06-001",
+  "handle_id": "06-001",
+  "abstract": "- **ใจความ**: Digital twin ฟาร์ม = \"แบบจำลองคอมพิวเตอร์ของฟาร์มจริง\" ที่เชื่อมข้อมูลสด (เซนเซอร์ 05-007/05-008, ภาพดาวเทียม/โดรน 05-001/05-006, เครื่องจักร 07) + แบบจำลองพืช/น้ำ/ดิน (เชื่อม 03-001) — ใช้วัด \"ถ้า...จะเกิดอะไร\" (ล่วงหน้า 1–14 วัน): รดน้ำเท่าไร/เมื่อไร, ปุ๋ย/พ่นจุดไหน, คุ้มไหมที่เก็บเกี่ยว/ขายวันนี้ — เป้าหมาย: ตัดสินใจแม่นยำขึ้นแทนการลองผิดลองถูก [1][2][3]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "งานทบทวน crop modeling/DSSAT-APSIM (Agronomy Journal, Field Crops Research 2000–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "งาน digital twin การเกษตร (Nature Food, Agronomy for Sustainable Development, Computers and Electronics in Agriculture 2020–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "เอกสาร/ข่าวผู้เล่น + analyst ตลาด DT — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "งานวิจัยไทยแบบจำลองพืช/ข้อมูล (TCI/ThaiJo — มก./มข./มจธ./กรมวิชาการ) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "แพลตฟอร์มข้อมูลไทย (GISTDA/กรมส่งเสริมการเกษตร/สศก.) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "ข่าว/สถานะ AgTech ไทย (ต่อยอด 14-002) — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-06-001.md",
+  "source_file": "06-ปัญญาประดิษฐ์ ข้อมูลใหญ่ และดิจิทัลทวิน\\เจาะลึก-06-ดิจิทัลทวินฟาร์ม.md"
+}

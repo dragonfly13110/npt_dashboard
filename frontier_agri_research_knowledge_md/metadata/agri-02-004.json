@@ -1,0 +1,95 @@
+{
+  "slug": "agri-02-004",
+  "title": "ปุ๋ยยูรีเอส/ไนตริฟิเคชันอินฮิบิเตอร์ + ไบโอชาร์ — ลด N2O และกักคาร์บอนในดิน",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-01",
+  "created_at": "2026-08-01",
+  "review_at": "2027-02-01",
+  "category": "ดิน จุลินทรีย์ และธาตุอาหาร",
+  "domain_code": "02",
+  "topic_id": "02-004",
+  "handle_id": "02-004",
+  "abstract": "- **ใจความ**: เทคโนโลยีผสมผสานสองแนวทางในการจัดการไนโตรเจนและคาร์บอนในดิน ได้แก่ (1) ปุ๋ยประสิทธิภาพสูง (Enhanced-Efficiency Fertilizers) ที่เติมยูรีเอสอินฮิบิเตอร์ (เช่น NBPT) เพื่อชะลอการไฮโดรไลซิสของยูเรีย และไนตริฟิเคชันอินฮิบิเตอร์ (เช่น DCD, ไนตราพิริน) เพื่อชะลอการเปลี่ยนแอมโมเนียมเป็นไนเตรต — ลดทั้งการระเหยแอมโมเนียและการปล่อย N2O — และ (2) ไบโอชาร์ (biochar) ซึ่งเป็นคาร์บอนที่ผ่านการไพโรไลซิสแล้วเสถียรในดินได้หลายร้อยถึงหลายพันปี ช่วยกักคาร์บอนและลดการปล่อย N2O พร้อมปรับปรุงความอุดมสมบูรณ์ของดิน",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.nature.com/articles/s41561-021-00852-8",
+  "pdf_url": null,
+  "source_urls": [
+    "https://www.nature.com/articles/s41561-021-00852-8",
+    "https://www.biochar-international.org/about-biochar/",
+    "https://en.wikipedia.org/wiki/Biochar",
+    "https://www.epa.gov/ghgemissions/overview-greenhouse-gases",
+    "https://en.wikipedia.org/wiki/Urease"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Lehmann, J., Cowie, A., Masiello, C.A. et al. \"Biochar in climate change mitigation\", Nature Geoscience 14, 883–892, 2021 — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.nature.com/articles/s41561-021-00852-8"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "International Biochar Initiative (IBI). \"About Biochar\" — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.biochar-international.org/about-biochar/"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Wikipedia. \"Biochar\" — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://en.wikipedia.org/wiki/Biochar"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "US EPA. \"Overview of Greenhouse Gases\" (Nitrous Oxide; GWP AR5) — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.epa.gov/ghgemissions/overview-greenhouse-gases"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Karan, S.K., Woolf, D., Azzi, E.S. et al. \"Potential for biochar carbon sequestration from crop residues: A global spatially explicit assessment\", GCB Bioenergy 15(12):1424–1436, 2023 — doi:10.1111/gcbb.13102 — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Fawzy, S., Osman, A.I., Yang, H. et al. \"Industrial biochar systems for atmospheric carbon removal: a review\", Environmental Chemistry Letters 19(4):3023–3055, 2021 — doi:10.1007/s10311-021-01210-1 — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Wikipedia. \"Urease\" (การยับยั้งยูรีเอสในปุ๋ย) — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://en.wikipedia.org/wiki/Urease"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Cayuela, M.L. et al. \"Biochar's role in mitigating soil nitrous oxide emissions: a review and meta-analysis\", Agriculture, Ecosystems & Environment 191:5–16, 2014 — (ค่าลด N2O เฉลี่ย ~54% ยังไม่ยืนยัน — รอตรวจจากต้นฉบับ) — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Akiyama, H., Yan, X., Yagi, K. \"Evaluation of effectiveness of enhanced-efficiency fertilizers as mitigation options for N2O and NO emissions from agricultural soils: meta-analysis\", Soil Science Society of America Journal 74(5), 2010 — (ค่าลด N2O เฉลี่ย ~38% ยังไม่ยืนยัน) — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "IPCC 2006/2019 Guidelines — ปัจจัยปล่อย N2O เริ่มต้นของปุ๋ยไนโตรเจน (EF1 ≈ 1%) (ยังไม่ยืนยัน) — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Woolf, D., Amonette, J.E., Street-Perrott, F.A. et al. \"Sustainable biochar to mitigate global climate change\", Nature Communications 1:56, 2010 — (ศักยภาพกักคาร์บอนระดับโลก ยังไม่ยืนยันตัวเลข) — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    }
+  ],
+  "reference_count": 11,
+  "article_file": "agri-02-004.md",
+  "source_file": "02-ดิน จุลินทรีย์ และธาตุอาหาร\\เจาะลึก-02-ปุ๋ยอินฮิบิเตอร์และไบโอชาร์.md"
+}

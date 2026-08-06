@@ -1,0 +1,184 @@
+{
+  "slug": "agri-11-008",
+  "title": "ผลกระทบสภาพอากาศต่อผลผลิตพืชไทย — คาดการณ์ SSP ถึงปี 2050/2100",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "การปรับตัวต่อสภาพอากาศและระบบเตือนภัย",
+  "domain_code": "11",
+  "topic_id": "11-008",
+  "handle_id": "11-008",
+  "abstract": "- **ใจความ**: ผลกระทบระยะยาว (climate change trend) ต่อข้าว/ข้าวโพด/มันสำปะหลัง/อ้อยไทย ถูกประเมินด้วยแบบจำลองพืช (DSSAT/APSIM-class) ต่อกับ GCM ภายใต้ RCP (CMIP5) และ SSP (CMIP6) — ทิศทางหลัก = ผลผลิตลดลงเมื่ออุณหภูมิเกินขีดจำกัด โดยเฉพาะ SSP5-8.5 ปลายศตวรรษ แต่ผลยังต่างกันมากตามลุ่มน้ำ/โมเดล/การปรับตัว [1][2][3][21]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-10/",
+  "pdf_url": "https://economics.mit.edu/sites/default/files/2022-09/Impact%20of%20Climate%20Change%20on%20Rice%20Production%20in%20Thailand.pdf",
+  "source_urls": [
+    "https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-10/",
+    "https://www.sciencedirect.com/science/article/abs/pii/S0048969721058198",
+    "https://www.researchgate.net/publication/328328467",
+    "https://link.springer.com/article/10.1007/s41748-025-00723-x",
+    "https://doi.org/10.3390/agriculture11010023",
+    "https://economics.mit.edu/sites/default/files/2022-09/Impact%20of%20Climate%20Change%20on%20Rice%20Production%20in%20Thailand.pdf",
+    "https://doi.org/10.3390/agriculture10090402",
+    "https://sustainability.stanford.edu/news/climate-change-cuts-global-crop-yields-even-when-farmers-adapt",
+    "https://doi.org/10.3390/atmos11040408",
+    "https://www.agronomyjournals.com/archives/2025/vol8issue6/PartB/9-2-308-298.pdf",
+    "https://www.sciencedirect.com/science/article/pii/S0048969721060952",
+    "https://www.nature.com/articles/s41467-024-55809-3",
+    "https://www.science.org/doi/10.1126/sciadv.aed9226",
+    "https://doi.org/10.1038/s43017-023-00491-0",
+    "https://fulcrum.sg/the-critical-impact-of-extreme-heat-on-rice-production-in-southeast-asia",
+    "https://www.nature.com/articles/s43247-025-03108-0",
+    "https://doi.org/10.1038/nclimate2153",
+    "https://www.opsmoac.go.th/moscow-news-files-451691791175",
+    "https://ap.fftc.org.tw/journalarticle/3439",
+    "https://www.nature.com/articles/s41598-025-07405-8",
+    "https://doi.org/10.1038/s41598-025-87047-y",
+    "https://link.springer.com/article/10.1007/s10584-026-04136-1"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "IPCC AR6 WGII Chapter 10: Asia (ผลผลิตข้าว SE Asia: กัมพูชา -45% 2080s RCP8.5; ชลประทาน+CO₂ +8.2–42.7% สูงสุดกัมพูชา/ไทย; Prabnakorn et al. 2018 ลุ่มน้ำมูล <50 กก./เฮกตาร์/ทศวรรษ; Arunrat et al. 2018 ร้อยเอ็ด +2.6 ถึง +22.7%), IPCC, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-10/"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Climate change impact on major crop yield and water footprint under CMIP6 climate projections in repeated drought and flood areas in Thailand (ข้าว SSP5-8.5: -6.0 ถึง -17.7%; SSP2-4.5 ระยะใกล้ +3.0 ถึง +4.3%), Arunrat N. et al., Science of the Total Environment 807, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S0048969721058198"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Evaluation of climate change impacts and adaptation strategies on rainfed rice production in Songkhram River Basin, Thailand (RCP4.5: -1.4/-7.8/-11.1%; RCP8.5: -1.2/-10.6/-14.7%; KDML105 2080s -14%/-10%; ชลประทาน = วิธีดีสุด), Boonwichai S., Shrestha S., Babel M.S. et al., Science of the Total Environment, 2019 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.researchgate.net/publication/328328467"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Climate Change Impacts on Rice Farming in Thailand's Bang Pakong River Basin (RCP4.5: -4.3 ถึง -3.3%; RCP8.5: -11.4 ถึง -2.0% 2075–99; รายได้ -12.7 ถึง -34.4%), Earth Systems and Environment, Springer, 2025-07-24 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://link.springer.com/article/10.1007/s41748-025-00723-x"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Projection of Rice and Maize Productions in Northern Thailand under Climate Change Scenario RCP8.5 (ข้าว -5.15%, ข้าวโพด -3.9% 2020–2029; เชียงราย/เชียงใหม่/แพร่ ~-7%), Amnuaylojaroen T., Chanvichit P., Janta R., Surapipith V., Agriculture 11(1):23, 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3390/agriculture11010023"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Impact of Climate Change on Rice Production in Thailand (ศรีสะเกษ 1,030 แปลง: DSSAT 1/3 แปลง -30 ถึง -40%; รวมการปรับตัว -12.84%, 68% ของแปลง), Felkner J., Tazhibayeva K., Townsend R., American Economic Review P&P 99(2):205–210, 2009 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://economics.mit.edu/sites/default/files/2022-09/Impact%20of%20Climate%20Change%20on%20Rice%20Production%20in%20Thailand.pdf"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Rice yield losses due to past climate trends in the Mun River Basin (1984–2013: <50 กก./เฮกตาร์/ทศวรรษ ≈ 3% ของผลผลิตเฉลี่ย), Prabnakorn S. et al., 2018 — อ้างใน IPCC AR6 WGII [1] — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Impact of Climate Change on Land Use, Yield and Production of Cassava in Thailand (พื้นที่ -12.49 ถึง -16.05%, ผลผลิต -2.57 ถึง -6.22%, ผลผลิตรวม -14.74 ถึง -21.26% 2046–2055; ส่งออกแป้งมัน 72.3% ของโลก), Pipitpukdee S., Attavanich W., Bejranonda S., Agriculture 10(9):402, 2020 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3390/agriculture10090402"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Climate change cuts global crop yields, even when farmers adapt (2050 โลก -8%; 2100 -11%/-24%; ปลายศตวรรษสคริปต์สูง: ข้าว -6.0%, ข้าวโพด -27.8%, มันสำปะหลัง -29.8%; ต่อ +1°C = -5.5×10¹⁴ kcal/ปี; การปรับตัวบรรเทา 23% (2050)/34% (2100)), Hultgren T., Carleton T. et al., Nature, 2025-06-18 (ผ่าน Stanford Sustainability) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://sustainability.stanford.edu/news/climate-change-cuts-global-crop-yields-even-when-farmers-adapt"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Climate Change Impacts on Sugarcane Production in Thailand (ผลผลิต -23.95 ถึง -33.26%, ผลผลิตรวม -24.94 ถึง -34.93% 2046–2055; ต้องการเทคโนโลยี +0.62–0.92%/ปี; ส่งออกน้ำตาลอันดับ 2 โลก 16.95% = US$2.97B), Pipitpukdee S., Attavanich W., Bejranonda S., Atmosphere 11(4):408, 2020 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3390/atmos11040408"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Carbon dioxide fertilization effect on crop growth: a meta-analysis (C3 +12.9%, CI 11.4–14.4%; C4 +3.7% ที่ 540–600 ppm), Agronomy Journals (วารสารออนไลน์), 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.agronomyjournals.com/archives/2025/vol8issue6/PartB/9-2-308-298.pdf"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Response of rice growth and leaf physiology to elevated CO₂ concentrations: a meta-analysis of 20-year FACE studies (ผลผลิตข้าว +16.2%; แตกกอ +11%), Hu S. et al., Science of the Total Environment 807:151017, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0048969721060952"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Variation in a single allele drives divergent yield responses to elevated CO₂ between rice subspecies (FACE: photosynthesis +22%, ผลผลิต +14%; indica +20.4% vs japonica +12.7%; ยีน DNR1), Nature Communications 16:91, 2025-01-03 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s41467-024-55809-3"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Vulnerability to high temperature shapes global warming impacts on rice yield (ข้าวโลก -8.1% ต่อ +1°C หลังปรับ bias; SE Asia เสี่ยงสุด), Science Advances 12, 2026-07-29 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.science.org/doi/10.1126/sciadv.aed9226"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "Climate change impacts on crop yields (Review: สคริปต์รุนแรงไม่ปรับตัว 7–23% ขาดทุน; ชลประทาน+ธาตุอาหารกู้คืนได้ถึง +40% ข้าวสาลี), Rezaei E.E. et al., Nature Reviews Earth & Environment 4:831–846, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1038/s43017-023-00491-0"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "The Critical Impact of Extreme Heat on Rice Production in Southeast Asia (ข้าว -7% ต่อ +1°C กลางคืน, -6% ต่อ +1°C กลางวัน, -10% ต่อ +1°C สูงสุด; Singapore V3: วันร้อนจัด SSP2-4.5 24→87→142 วัน/ปี), Ludher E.K., FULCRUM/ISEAS, 2025-07-31 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://fulcrum.sg/the-critical-impact-of-extreme-heat-on-rice-production-in-southeast-asia"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Projected warming will exceed the long-term thermal limits of rice cultivation (ขีดจำกัดอุณหภูมิเฉลี่ย 28°C/ฤดูร้อนสูงสุด 33°C; SE Asia ข้ามเกณฑ์ 2071–2100), Communications Earth & Environment 7:64, 2026-01-14 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s43247-025-03108-0"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "A meta-analysis of crop yield under climate change and adaptation (การปรับตัว +7–15% ผลผลิตจำลอง; 2°C ไม่ปรับตัว = ขาดทุน), Challinor A.J., Watson J., Lobell D.B. et al., Nature Climate Change 4:287–291, 2014 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1038/nclimate2153"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Thai rice production set to fall (OAE: ข้าว 2023/24 -871,000 ตัน = -3.27% เหลือ 25.8 ล้านตัน; พื้นที่ 62.4 ล้านไร่), สำนักงานเศรษฐกิจการเกษตร/สป.กษ. (OPSMOAC), 2023-09-23 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.opsmoac.go.th/moscow-news-files-451691791175"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "A Review of the Impact of Climate Change on Food Security and Co-Benefits of Adaptation and Mitigation Options in Thailand (ทบทวนวรรณกรรมผลกระทบ-การปรับตัวความมั่นคงอาหารไทย), Attavanich W., MPRA Paper 119565, 2023 — — เข้าถึงเมื่อ 2026-08-06",
+      "url": "https://ap.fftc.org.tw/journalarticle/3439"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "Climate change impacts on crop yields across temperature rise thresholds and climate zones (โลกลด: ข้าวโพด -8.1%, ข้าวสาลี -6.2%, ข้าว -3.5%; พื้นที่เขตร้อน/แห้งแล้งเสียหายสุด), Scientific Reports 15:20750, 2025-07-02 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s41598-025-07405-8"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "Predicting changes in agricultural yields under climate change (ความไม่แน่นอนจากทางเลือกโมเดล = 10–20% ของผลผลิตโลก ข้าว/ข้าวโพด/ข้าวสาลี), Nature Scientific Reports 15, 2025-01-22 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1038/s41598-025-87047-y"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "Unravelling the impact of changing rainy seasons on rice production in Southeast Asia (ข้าวฝน 76% ของพื้นที่ผลผลิตลด >10%, ข้าวโพด 67%; yield gap ~55% นาไร่/42% ชลประทาน), Hariadi M.H. et al., Climatic Change 179, 2026-03-16 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://link.springer.com/article/10.1007/s10584-026-04136-1"
+    }
+  ],
+  "reference_count": 23,
+  "article_file": "agri-11-008.md",
+  "source_file": "11-การปรับตัวต่อสภาพอากาศและระบบเตือนภัย\\เจาะลึก-11-ผลกระทบสภาพอากาศต่อผลผลิตพืชไทย.md"
+}

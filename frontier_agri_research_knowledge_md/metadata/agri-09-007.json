@@ -1,0 +1,269 @@
+{
+  "slug": "agri-09-007",
+  "title": "Aquaponics — เลี้ยงปลาร่วมปลูกผัก อาหารปลอดภัยในเมือง",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ประมงและสัตว์น้ำ",
+  "domain_code": "09",
+  "topic_id": "09-007",
+  "handle_id": "09-007",
+  "abstract": "- **ใจความ**: Aquaponics = ระบบบูรณาการเลี้ยงปลา (นิยมปลานิล) กับปลูกผักไร้ดินในวงจรน้ำเดียว — ของเสียปลา (แอมโมเนีย) ถูกจุลินทรีย์เปลี่ยนเป็นไนเตรตที่เป็นธาตุอาหารผัก ผักกรองน้ำกลับให้ปลา — ตอบโจทย์ \"อาหารปลอดภัยในเมือง\" ด้วยการใช้น้ำน้อย (ประหยัดน้ำ ~30% เทียบไฮโดรโปนิกส์) ไม่ใช้ปุ๋ยเคมี/สารเคมี และผลิตปลา+ผักจากพื้นที่เล็กใกล้ผู้บริโภค [5][6]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://doi.org/10.1111/raq.70102",
+  "pdf_url": "https://tag2grow.org/wp-content/uploads/2021/09/UVI-Aquaponics.pdf",
+  "source_urls": [
+    "https://doi.org/10.1111/raq.70102",
+    "https://doi.org/10.1016/j.jclepro.2025.146674",
+    "https://doi.org/10.3390/w12010306",
+    "https://doi.org/10.1016/j.aquaculture.2014.10.024",
+    "https://doi.org/10.28940/terralatinoamericana.v43i.2048",
+    "https://www.revista.ccba.uady.mx/ojs/index.php/TSA/article/view/6480",
+    "https://www.fisheries.noaa.gov/feature-story/tide-table-profile-superior-fresh",
+    "https://www.producegrower.com/article/superior-fresh-grower-profile-aquaponics-hixton-wisconsin/",
+    "https://tag2grow.org/wp-content/uploads/2021/09/UVI-Aquaponics.pdf",
+    "https://cdn.aquaponicsassociation.org/uploads/2019/10/Aquaponics-Journal-10-Guidelines.pdf",
+    "https://doi.org/10.47163/agrociencia.v59i7.3332",
+    "https://doi.org/10.3390/horticulturae9101077",
+    "https://www.sciencedirect.com/science/article/abs/pii/S0304423824007088",
+    "https://ideas.repec.org/a/eee/agisys/v218y2024ics0308521x24001513.html",
+    "https://doi.org/10.32802/asmscj.2025.1621",
+    "https://doi.org/10.1007/s10499-021-00690-w",
+    "https://doi.org/10.1111/are.14610",
+    "https://agkb.lib.ku.ac.th/kku/search_detail/result/417562",
+    "https://doi.org/10.14456/jare-mju.2024.5",
+    "https://li01.tci-thaijo.org/index.php/atj/article/view/255534",
+    "https://ph02.tci-thaijo.org/index.php/itm-journal/article/view/263867",
+    "https://cmudc.library.cmu.ac.th/frontend/Info/item/dc:175376",
+    "https://drive.google.com/file/d/1UlXkHfi17NkUyhb6gKJXb2mAmx2cJFT3/view?usp=sharing",
+    "https://www.khaosod.co.th/technologychaoban/techno/plants-vegetables-fruit/article_246542",
+    "https://www.kentaku.co.jp/corporate/pr/info/2025/release_aquaponics_251217_E.html",
+    "https://www.businesstimes.com.sg/esg/sustainability-impact-awards-2024/hobby-harvest-blueacres-journey-sustainable-farming",
+    "https://vplusagritech.com/blogs/news/vplus-expands-into-japan",
+    "https://ejournal2.undip.ac.id/index.php/agrisocionomics/article/download/12917/7295",
+    "https://www.grandviewresearch.com/industry-analysis/aquaponics-market-report",
+    "https://www.thaiscience.info/Journals/Article/JOSE/10985108.pdf",
+    "https://www.thebusinessresearchcompany.com/report/aquaponics-global-market-report",
+    "https://www.sciencepg.com/article/10.11648/j.ijefm.20261402.13",
+    "https://nipponkoifarm.com/",
+    "https://dkmmap.nrct.go.th/dkmmap-2021/dkm-dm/upload_manual/62-030.pdf",
+    "https://www.khaosod.co.th/technologychaoban/techno/plants-vegetables-fruit/article_328462"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Economic Viability of Aquaponics Across Global Climate Zones: A Meta-Analytical Assessment, Folorunso E.A., Gebauer R., Mráz J., Reviews in Aquaculture, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1111/raq.70102"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Aquaponics and the crossroads of profitability and sustainability viewed through sensitivity and risk modeling, Lobanov V. et al., Journal of Cleaner Production 496:146674, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.jclepro.2025.146674"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Challenges of Commercial Aquaponics in Europe: Beyond the Hype, Turnšek M. et al., Water 12(1):306, 2020 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3390/w12010306"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Energy and water use of a small-scale raft aquaponics system in Baltimore / Commercial aquaponics survey (257 systems), Love D.C. et al., Aquaculture 435:308–317, 2015 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.aquaculture.2014.10.024"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Productive and Economic Comparison Between Aquaponics and Hydroponics in Different Seasons, Estrada-Pérez N. et al., Terra Latinoamericana 43:e2048, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.28940/terralatinoamericana.v43i.2048"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Acuaponic production of tilapia and lettuce in semi-arid regions: water efficiency and nutrient recycling, Cervantes-Vázquez M.G. et al., Tropical and Subtropical Agroecosystems, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.revista.ccba.uady.mx/ojs/index.php/TSA/article/view/6480"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Tide to Table Profile: Superior Fresh (แซลมอน 1.5 ล้านปอนด์ + ผัก 3 ล้านปอนด์/ปี, น้ำหมุนเวียน 99.9%), NOAA Fisheries — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.fisheries.noaa.gov/feature-story/tide-table-profile-superior-fresh"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Growing mixed greens at the largest aquaponics facility in the world, Hein T., Produce Grower (อัปเดต 2025), 2018 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.producegrower.com/article/superior-fresh-grower-profile-aquaponics-hixton-wisconsin/"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Fish and Vegetable Production in a Commercial Aquaponic System: 25 Years of Research at the University of the Virgin Islands, Rakocy J. et al., UVI Agricultural Experiment Station — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://tag2grow.org/wp-content/uploads/2021/09/UVI-Aquaponics.pdf"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Ten Guidelines for Aquaponic Systems (feeding rate ratio 60–100 กรัม/ตร.ม./วัน), Rakocy J., Bailey D., Aquaponics Journal, 2019 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://cdn.aquaponicsassociation.org/uploads/2019/10/Aquaponics-Journal-10-Guidelines.pdf"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Yield Comparison and Efficient Use of Nitrogen in Two Aquaponic Systems (ผักกาดหอม 3.7–6.8 กก./ตร.ม.), Sánchez-Martínez A.C. et al., Agrociencia 59(7), 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.47163/agrociencia.v59i7.3332"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Nutrients Use Efficiency in Coupled and Decoupled Aquaponic Systems, Aslanidou M. et al., Horticulturae 9(10):1077, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3390/horticulturae9101077"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Evaluation of productivity and efficiency of a large-scale coupled or decoupled aquaponic system (DCAP ผลผลิตสูงกว่า CAP 15–72%), Mourantian A. et al., Scientia Horticulturae 338:113673, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S0304423824007088"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Enhancing plant growth in aquaponic systems via potassium manipulation in fish feeds, Duarte S.F.P., Cerozi B.S., Agricultural Systems 218:104019, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://ideas.repec.org/a/eee/agisys/v218y2024ics0308521x24001513.html"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "A Preliminary Study on the Current Status and Development of Commercial Aquaponics Farms in Malaysia, Colin K.Q.S. et al., ASM Science Journal, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.32802/asmscj.2025.1621"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Exploring economic and legal barriers to commercial aquaponics in the EU through the lens of the UK, Cammies C. et al., Aquaculture International 30:349–367, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1007/s10499-021-00690-w"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Profitability of multi-loop aquaponics: Year-long production data, economic scenarios and a comprehensive model case (16.7→41 กก./ตร.ม./ปี), Baganz G.F.M. et al., Aquaculture Research 51(7):2711–2724, 2020 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1111/are.14610"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "การวิจัยระบบอควาโปนิกส์ในการเลี้ยงปลานิลด้วยระบบน้ำหมุนเวียนร่วมกับการปลูกผักสลัดแบบไร้ดินที่แตกต่างกัน, สาธิต บุญน้อม และคณะ, วารสารแก่นเกษตร 50(ฉบับพิเศษ):77–84, 2565 — (หน้าเอกสารอ้างอิงของศูนย์สนเทศทางการเกษตรแห่งชาติ; ไฟล์ PDF ต้นฉบับ ag2.kku.ac.th ล่ม ณ 2026-08-06) — เข้าถึงเมื่อ 2026-08-06",
+      "url": "https://agkb.lib.ku.ac.th/kku/search_detail/result/417562"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "ความหนาแน่นที่เหมาะสมของการปลูกผักบุ้งจีนร่วมกับการเลี้ยงปลานิลด้วยระบบอควาโปนิกส์, ขวัญสกุล ช., วารสารวิจัยและส่งเสริมวิชาการเกษตร 41(1):52–64, 2567 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.14456/jare-mju.2024.5"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "ผลของอัตราการไหลของน้ำต่อการเจริญเติบโตของปลาดุกลูกผสม คะน้าใบหยิก และคุณภาพน้ำในระบบอะควาโปนิกส์ที่ใช้น้ำหมุนเวียน, มีทรัพย์ พ. และคณะ, วารสารเกษตรศาสตร์และเทคโนโลยี มทร.อีสาน 3(2):97–109, 2565/67 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://li01.tci-thaijo.org/index.php/atj/article/view/255534"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "ระบบอะควาโปนิกส์แบบบูรณาการเพื่อการเลี้ยงปลานิลอย่างมีประสิทธิภาพร่วมกับการเพาะเลี้ยงไข่ผำ, จันทะบุตร เ. และคณะ, วารสารวิชาการการจัดการเทคโนโลยี มรภ.มหาสารคาม 13(1):145–158, 2569 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://ph02.tci-thaijo.org/index.php/itm-journal/article/view/263867"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "ผลของระบบอัจฉริยะอควาโปนิกส์ต่อคุณภาพน้ำ การเจริญเติบโตของผักสลัดและปลานิล, พงศธร กองแก้ว และคณะ, มหาวิทยาลัยเชียงใหม่, 2568 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://cmudc.library.cmu.ac.th/frontend/Info/item/dc:175376"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "การเปรียบเทียบการเจริญเติบโตของผักสลัดกรีนโอ๊ค เรดคอส และบัตเตอร์เฮดในระบบไฮโดรโปนิกส์และอควาโปนิกส์, สุรวัฒน์ จริงจิตร และคณะ, การประชุมวิชาการระดับชาติ เทคโนโลยีภาคใต้วิจัย ครั้งที่ 11, 2563 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://drive.google.com/file/d/1UlXkHfi17NkUyhb6gKJXb2mAmx2cJFT3/view?usp=sharing"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "ปลูกลัง เลี้ยงปลา ลดต้นทุนปุ๋ย — อควาโปนิกส์ (CLV C'est La Vie Aquaponics Farm เพชรบูรณ์; รายได้ 40% ปลา : 60% ผัก), ข่าวสด เทคโนโลยีชาวบ้าน, 2025-07-11 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.khaosod.co.th/technologychaoban/techno/plants-vegetables-fruit/article_246542"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "Gaspal to enter aquaponics circular agriculture business (ฟาร์ม 4,600 ตร.ม. ไซตามะ, ขาย 4/2026), Daito Trust Construction, 2025-12-17 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.kentaku.co.jp/corporate/pr/info/2025/release_aquaponics_251217_E.html"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "Hobby to harvest: BlueAcres' journey in sustainable farming (หลังคา 17,000 ตร.ฟุต + โมเดล farm-to-fridge), The Business Times, 2024-09-26 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.businesstimes.com.sg/esg/sustainability-impact-awards-2024/hobby-harvest-blueacres-journey-sustainable-farming"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "V-Plus Agritech expands into Japan via Aquponi Inc. partnership, V-Plus Agritech, 2025-01-30 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://vplusagritech.com/blogs/news/vplus-expands-into-japan"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "Analysis of Income and Break-Even Point of Lettuce and Tilapia Aquaponics with NFT System (PT. Tanikota, บันดุง), AGRISOCIONOMICS (อินโดนีเซีย) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://ejournal2.undip.ac.id/index.php/agrisocionomics/article/download/12917/7295"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "Aquaponics Market Size, Share, Trends Report, 2025–2030 (US$1,087 ล้าน 2024 → $2,295 ล้าน 2030, CAGR 13.5%), Grand View Research, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.grandviewresearch.com/industry-analysis/aquaponics-market-report"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "Life Cycle Assessment of an Urban Aquaponics System Operated in Bangkok, Thailand (ปลา 65 กก. : ผัก 323 กก., มูลค่า 58,940 บาท — ผัก 87%), Journal of Sustainable Energy and Environment 5:111–120, 2014 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thaiscience.info/Journals/Article/JOSE/10985108.pdf"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "Aquaponics Global Market Report 2026–2030 ($1.57 พันล้าน 2025 → $2.39 พันล้าน 2030, CAGR 8.5%), The Business Research Company, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thebusinessresearchcompany.com/report/aquaponics-global-market-report"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "An Evaluation of User Satisfaction and Economics Performance of the Closed-System Tilapia Farming Control System (สถิติปลานิลไทย 2566: 256,484 ตัน, 481 กก./ไร่), Puapornpong T. et al., International Journal of Economics, Finance and Management Sciences 14(2), 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencepg.com/article/10.11648/j.ijefm.20261402.13"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "Nippon SG Aquaponic — urban farming & 30 by 30 (สิงคโปร์; ตัวเลข 1,000 ตัน/เฮกตาร์ เป็นคำโฆษณา — ดูหัวข้อ 10), Nippon Koi Farm — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://nipponkoifarm.com/"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "คู่มือการปลูกพืชร่วมกับการเลี้ยงสัตว์น้ำ (โครงการของกรมประมง/วช. — ต้นทุนและความคุ้มค่าต่อชุดปลูก), NRCT DKMMAP 62-030 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://dkmmap.nrct.go.th/dkmmap-2021/dkm-dm/upload_manual/62-030.pdf"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "สวนนา ตาบัว ออร์แกนิคฟาร์ม จ.อุบลราชธานี — เกษตรอินทรีย์เชื่อมโยงท่องเที่ยวเชิงเกษตร (ตัวอย่างรายได้เสริมของฟาร์มไทย — ไม่ใช่อควาโปนิกส์), เทคโนโลยีชาวบ้าน, 2026-01-25 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.khaosod.co.th/technologychaoban/techno/plants-vegetables-fruit/article_328462"
+    }
+  ],
+  "reference_count": 35,
+  "article_file": "agri-09-007.md",
+  "source_file": "09-ประมงและสัตว์น้ำ\\เจาะลึก-09-Aquaponics-พืชร่วมปลา.md"
+}

@@ -1,0 +1,262 @@
+{
+  "slug": "agri-11-010",
+  "title": "การปรับตัวของเกษตรกรไทยต่อสภาพอากาศ — พฤติกรรม-ปัจจัย-นโยบาย",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "การปรับตัวต่อสภาพอากาศและระบบเตือนภัย",
+  "domain_code": "11",
+  "topic_id": "11-010",
+  "handle_id": "11-010",
+  "abstract": "- **ใจความ**: งานไทยเรื่องการปรับตัวต่อสภาพอากาศส่วนใหญ่เป็นแบบสำรวจตัดขวางรายจังหวัด (TCI/ThaiJo) + งานเศรษฐมิติระดับชาติ (PIER/TDRI) — ภาพรวมชัดว่า เกษตรกรไทยส่วนใหญ่ \"รับรู้\" การเปลี่ยนแปลงสภาพอากาศ (มหาสารคาม 96.9% ใน 20 ปี [3]) และปรับตัวผ่าน เปลี่ยนพันธุ์ทนแล้ง/ทนน้ำท่วม เปลี่ยนปฏิทินเพาะปลูก เปลี่ยนพืช เกษตรผสมผสาน ขุดสระ หางานนอกการเกษตร [1][3][8] แต่มีสัดส่วนที่ไม่ปรับตัวจริง 32–40% ตามงานสำรวจ [8][19] และ \"เครื่องมือรัฐ (ประกัน+เยียวยา) ครอบคลุมต้นทุนการผลิตเพียง ~60% ของต้นทุนต่อไร่\" [6]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://li01.tci-thaijo.org/index.php/pajrmu/article/view/249055",
+  "pdf_url": "https://www.pier.or.th/files/dp/pier_dp_221.pdf",
+  "source_urls": [
+    "https://li01.tci-thaijo.org/index.php/pajrmu/article/view/249055",
+    "https://so01.tci-thaijo.org/index.php/econswu/article/view/234670",
+    "https://doi.org/10.1016/j.envdev.2023.100906",
+    "https://www.pier.or.th/files/dp/pier_dp_221.pdf",
+    "https://www.pier.or.th/dp/184/",
+    "https://www.pier.or.th/en/blog/2022/1002/",
+    "https://doi.org/10.1016/j.jclepro.2016.12.058",
+    "https://www.journal.nu.ac.th/JCDR/article/view/Vol-12-No-3-2019-47-60",
+    "https://so07.tci-thaijo.org/index.php/rtnb/article/view/7401",
+    "https://so02.tci-thaijo.org/index.php/hasss/article/view/185408",
+    "https://so01.tci-thaijo.org/index.php/econswu/article/view/117861",
+    "https://doi.org/10.1088/1755-1315/1016/1/012041",
+    "https://doi.org/10.1016/j.envc.2024.100902",
+    "https://digital.car.chula.ac.th/cgi/viewcontent.cgi?article=75286&context=chulaetd",
+    "https://ph03.tci-thaijo.org/index.php/ahstr/article/view/3364",
+    "https://doi.org/10.3991/ijim.v17i18.41265",
+    "https://cgspace.cgiar.org/",
+    "https://doi.org/10.2139/ssrn.5347196",
+    "https://doi.org/10.37801/ajad2020.17.1.7",
+    "https://ideas.repec.org/a/bla/ajarec/v67y2023i2p263-284.html",
+    "https://link.springer.com/content/pdf/10.1007/s41685-023-00296-5.pdf",
+    "https://www.frontiersin.org/articles/10.3389/fsufs.2023.1010527/pdf",
+    "https://doi.org/10.1038/s43247-024-01570-w",
+    "https://www.nature.com/articles/s41598-026-51096-8",
+    "https://unfccc.int/sites/default/files/resource/NAP_THAILAND_2024.pdf",
+    "https://eqmplatform.onep.go.th/public-plan/detail/1033",
+    "https://www.thairath.co.th/agriculture/agricultural-policy/2801382",
+    "https://www.komchadluek.net/news/economic/562494",
+    "https://www.prd.go.th/th/content/category/detail/id/39/iid/348213",
+    "https://www.thansettakij.com/business/trade-agriculture/606646",
+    "https://www.thebangkokinsight.com/news/politics-general/general/1162272/",
+    "https://dataintelo.com/report/agricultural-weather-forecasting-services-market",
+    "https://marketintelo.com/report/climate-services-for-agriculture-market",
+    "https://doi.org/10.1093/qopen/qoae028"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "การรับรู้และการปรับตัวของเกษตรกรต่อการเปลี่ยนแปลงสภาพภูมิอากาศในประเทศไทย (4 จังหวัด: พิษณุโลก ลพบุรี มหาสารคาม นครศรีธรรมราช; binary logistic), วารสารเกษตรพระวรุณ มหาวิทยาลัยราชภัฏมหาสารคาม (TCI), 2564 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://li01.tci-thaijo.org/index.php/pajrmu/article/view/249055"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "ความเปราะบางและปัจจัยที่มีผลต่อการปรับตัวของเกษตรกรต่อการเปลี่ยนแปลงสภาพภูมิอากาศของเกษตรกรรายย่อยในจังหวัดขอนแก่น (odds ratio: แล้งรุนแรง −6.5%, อุทกภัย −5.9%, วันที่ร้อนมาก +9%, รายได้ +3.4%), วารสารเศรษฐศาสตร์และนโยบายสาธารณะ ม.ทักษิณ (TCI), 2562 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so01.tci-thaijo.org/index.php/econswu/article/view/234670"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Climate change perception and adaptation strategies to multiple climatic hazards: Evidence from the northeast of Thailand (มหาสารคาม 400 ครัวเรือน; 96.9% รับรู้; OR 1.55/1.90/4.64/20.03), Sedtha S., Pramanik M., Szabo S., Wilson K., Park K.S., Environmental Development 48:100906, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.envdev.2023.100906"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Impacts of Farmers' Adaptation to Extreme Weather Events on Rice Productivity (CPRB 6 จังหวัด 815 ครัวเรือน; ปรับตัว 683.9 vs 617.8 กก./ไร่; +120 กก./ไร่; TT +31 กก./ไร่), PIER Discussion Paper 221, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.pier.or.th/files/dp/pier_dp_221.pdf"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Impacts of Climate Change and Agricultural Diversification on Agricultural Production Value of Thai Farm Households (เกณฑ์อุณหภูมิ 24°C; 2573: −5.8/−6.7/−8.6%; ชลประทาน 26%; เชิงเดี่ยว 2/3), Prommawin B. ฯ, PIER DP 184, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.pier.or.th/dp/184/"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "ชาวนาไทยกับการรับมือความเสี่ยงจากภัยธรรมชาติ (อุทกภัย 2554: เสียหาย 85% ของพื้นที่, รายได้ลด 75%, 20–25% ลดบริโภค; เครื่องมือรัฐครอบคลุม ~60% ของต้นทุน/ไร่; Chantarat ฯ 2559/2562), PIER Blog, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.pier.or.th/en/blog/2022/1002/"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Farmers' intention and decision to adapt to climate change: A case study in the Yom and Nan basins, Phichit province of Thailand (logistic + TPB; ประสบการณ์ รายได้ฟาร์ม ฝึกอบรม social capital การสื่อสารมีนัยฯ; เพื่อนบ้าน/กลุ่มเพื่อนสำคัญ), Arunrat N., Wang C., Pumijumnong N., Sereenonchai S., Cai W., Journal of Cleaner Production 143:672–685, 2016 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.jclepro.2016.12.058"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "The Impact of Climate Change on Agriculture and Suitable Agro-Adaptation in Phufa Sub-District, Nan Province, Thailand (400 ราย; 68% ปรับตัว; ordered logistic), Narong N., Anyadee C. ฯ, Journal of Community Development Research (Humanities and Social Sciences) 12(3):47–60, 2019 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.journal.nu.ac.th/JCDR/article/view/Vol-12-No-3-2019-47-60"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Factors Affecting Farmers' Adaptation to Climate Change in Muang District, Lampang Province (400 ราย; multinomial logistic; อันดับ: ทุน ขนาดแปลง ประสบการณ์ น้ำ อายุ การศึกษา แรงงาน), Sringenyoung A., Ratanabuth Journal, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so07.tci-thaijo.org/index.php/rtnb/article/view/7401"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Factors Influencing Farmers' Adaptation Strategies to Climate Change in Bophloi District, Kanchanaburi Province, Thailand (364 ราย; พันธุ์ทนแล้งนิยมสุด; อายุน้อย/การศึกษาสูง/เครดิต/แปลงเล็ก/ติดต่อเจ้าหน้าที่ → ปรับตัว), Humanities, Arts and Social Sciences Studies, 2019 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so02.tci-thaijo.org/index.php/hasss/article/view/185408"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "ผลกระทบและแนวทางการปรับตัวของเกษตรกรผู้ปลูกมันสำปะหลังต่อการเปลี่ยนแปลงสภาพภูมิอากาศ: จังหวัดนครราชสีมา (400 ราย; เปลี่ยนพันธุ์จากกรมส่งเสริมฯ; กระจายสู่อ้อย/ยาง/ข้าวโพด; ฟังวิทยุชุมชน), อภินันท์ พัชโรภาสวัฒนกุล, วารสารเศรษฐศาสตร์และนโยบายสาธารณะ ม.ทักษิณ (TCI) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so01.tci-thaijo.org/index.php/econswu/article/view/117861"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Farmers' perception and objective validation of the impact of climate change on farming activities in Northeast Thailand (ขอนแก่น; การรับรู้ฝนไม่ตรงข้อมูล 10 ปี), Nodera M., Zaki M.K., Srisutham M., Yoshida K., Noda K., IOP Conf. Ser.: Earth Environ. Sci. 1016:012041, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1088/1755-1315/1016/1/012041"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Impact of climate change on farmers and adaptation strategies in Rangsit, Thailand (ปทุมธานี 208 ครัวเรือน; multivariate probit; อายุ รายได้ ขนาดครัวเรือน ระยะทางตลาด ประสบการณ์มีนัยฯ), Sheikh Z.A. ฯ, Environmental Challenges 15:100902, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.envc.2024.100902"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Bridging the gap: socio-economic determinants of CSA technologies adoption among rice farmers in Chachoengsao, Thailand (346 ราย 11 อำเภอ; TAM+DOI; OR 25.118/28.756; 82.6% เห็นว่ามีประสิทธิภาพ; ต้องการฝึกอบรม 73%/เงิน 61.2%/รัฐหนุน 60.9%), Manaoat S.M., วิทยานิพนธ์ จุฬาลงกรณ์มหาวิทยาลัย, 2567 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://digital.car.chula.ac.th/cgi/viewcontent.cgi?article=75286&context=chulaetd"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "Development of an Application for Rice Cultivation: Weather Forecasting System and Crop Variety Selection (สุรินทร์ 50 ราย; TAM; ความง่าย 4.07/ประโยชน์ 4.16), Asian Health, Science and Technology Reports, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://ph03.tci-thaijo.org/index.php/ahstr/article/view/3364"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Dairy Farmers' Intention to Use High-Precision Area-Level Weather Warning Technology in Dairy Farms in Thailand Through an Application on Mobile Phones (สระบุรี/นครราชสีมา 461 ฟาร์ม; TAM+IDT; compatibility สำคัญสุด; 69% เคยเจอภัยอากาศฉับพลัน), Rajchamaha K., Makararpong D., iJIM 17(18), 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3991/ijim.v17i18.41265"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Thailand rice farmers' perception and adoption of low-emission practices (AWD/DSR/RSM) — survey of 401 farmers in five provinces (สุพรรณบุรี อยุธยา ชัยนาท กาฬสินธุ์ พิษณุโลก; loose AWD ~80%; 88–89% เต็มใจถ้ามีแรงจูงใจคาร์บอน; 80% ชอบเงินจ่ายตรง; 70% ไม่รู้จักตลาดคาร์บอน), IRRI/Alliance Bioversity-CIAT (CGIAR), 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://cgspace.cgiar.org/"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "The Potential of Weather and Climate Information Services to Support Small-Scale Agriculture in Thailand and Vietnam (CIS ไทย-เวียดนาม; FarmerSupport app; ผสานพยากรณ์วิทยาศาสตร์+ท้องถิ่น), Paparrizos S. ฯ, SSRN 5347196, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.2139/ssrn.5347196"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Factors Influencing Farmers' Adoption of Climate-Smart Agriculture in Rice Production in Vietnam's Mekong Delta (350 ราย; 60.57% ยอมรับ; ผลส่วนเพิ่ม +19.7% รับรู้ผลกระทบ/+4.8% การศึกษา/+4–7.5% สินเชื่อ; R² Nagelkerke 0.696), Luu T.D., Asian Journal of Agriculture and Development 17(1), 2020 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.37801/ajad2020.17.1.7"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "Climate-resilient practices and welfare impacts on rice-cultivating households in Vietnam: Does joint adoption of multiple practices matter? (joint adoption ชลประทานคลอง+อนุรักษ์ → ผลผลิต/รายได้/รายได้ครัวเรือนสูงขึ้น), Nguyen Duc Kien ฯ, Australian Journal of Agricultural and Resource Economics 67(2):263–284, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://ideas.repec.org/a/bla/ajarec/v67y2023i2p263-284.html"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "Farming household adoption of climate-smart agricultural technologies: evidence from North-Central Vietnam (Hà Tĩnh 215 ราย; ฝึกอบรม/เพื่อนเกษตรกร/ประสบการณ์/จำนวนพืช → adoption; เน้นผู้หญิง), Ferrer A.J.G., Asia-Pacific Journal of Regional Science, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://link.springer.com/content/pdf/10.1007/s41685-023-00296-5.pdf"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "Determinants of climate change adaptation strategies in South India: Empirical evidence (อินเดียใต้ 400 ราย; 64% ปรับตัว; รายได้นอกฟาร์ม/ประสบการณ์/การเข้าถึงข้อมูล/การรู้หนังสือ), Kumar R.M., Reddy D.D., Frontiers in Sustainable Food Systems, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.frontiersin.org/articles/10.3389/fsufs.2023.1010527/pdf"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "Impact of climate-smart agriculture practices on multidimensional poverty among coastal farmers in Bangladesh (MPI ลด 41 จุด% ผู้ปรับตัว; 15 จุด% ถ้าไม่ปรับตัวหันมาปรับ; extension เข้าถึง 41%), Communications Earth & Environment 5, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1038/s43247-024-01570-w"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "Interdependent adoption of climate change adaptation strategies among rice farmers in northwest Bangladesh (498 ราย; multivariate probit; ประสบการณ์ สินเชื่อ สมาชิกกลุ่ม; ปรับตัวแบบชุด/bundles), Islam M.S., Ghosh B.C., Adhikary A., Scientific Reports 16, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s41598-026-51096-8"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "Thailand's National Adaptation Plan (NAP) 2024 (6 สาขา รวมเกษตรและความมั่นคงอาหาร — แนวทางการปรับตัว/การจัดสรรงบประมาณ), UNFCCC, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://unfccc.int/sites/default/files/resource/NAP_THAILAND_2024.pdf"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "แผนปฏิบัติการด้านการเกษตรเพื่อรองรับการเปลี่ยนแปลงสภาพภูมิอากาศ พ.ศ. 2566–2570 (ฉบับแรกของภาคเกษตร; เป้าคาร์บอนสุทธิเป็นศูนย์ 2065), สผ. (ONEP)/กระทรวงเกษตรฯ — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://eqmplatform.onep.go.th/public-plan/detail/1033"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "มาแล้ว โครงการประกันภัยข้าวนาปี 67 คุ้มภัยครอบคลุม 21 ล้านไร่ (Tier 1 เบี้ย 115 บาท/ไร่: รัฐ 69 + ธ.ก.ส. 46; นำร่อง 689 อำเภอ 5 ล้านไร่ เบี้ย 70/รัฐ 65/เกษตรกร 5; คุ้มครอง 1,190 + 595 บาท/ไร่), ไทยรัฐออนไลน์, 2024-07-17 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thairath.co.th/agriculture/agricultural-policy/2801382"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "'เงินประกันข้าว 66/67' เงินเยียวยาไร่ละ 1,000 (วงเงิน 56,321 ล้านบาท; 4.68 ล้านครัวเรือน; ไม่เกิน 20 ไร่; มาตรการ นบข. รวม 69,043 ล้านบาท), คมชัดลึก, 2024-02-02 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.komchadluek.net/news/economic/562494"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "ผลงานรัฐบาล: เยียวยาไร่ละ 1,000 บาท ปีการผลิต 2567/68 (4.61 ล้านครัวเรือน; วงเงิน 38,578.22 ล้านบาท; ไม่เกิน 10 ไร่/ครัวเรือน; โอน 5 รอบภูมิภาค ธ.ค. 2567), กรมประชาสัมพันธ์, 2024-12-13 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.prd.go.th/th/content/category/detail/id/39/iid/348213"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "เกษตรฯ ชงปรับเกณฑ์เยียวยาภัยพิบัติ: นาข้าว 2,236 / พืชไร่-ผัก 3,180 / ไม้ผล 6,794 บาทต่อไร่ (เดิม 1,340/1,980/4,048; สูงสุด 30 ไร่; อยู่ระหว่างกรมบัญชีกลางพิจารณา; น้ำท่วม ก.ย. 2567: 39 จังหวัด 133,804 ราย 871,063 ไร่), ฐานเศรษฐกิจ, 2024-09-14 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thansettakij.com/business/trade-agriculture/606646"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "กระทรวงเกษตรฯ ประเมินภัยแล้ง 'เอลนีโญ' กระทบพื้นที่ 16.5 ล้านไร่ (16.51 ล้านไร่: ในเขตชลประทานลุ่มเจ้าพระยา 7.34 + นอกเขต 9.17 ล้านไร่; แผน: พืชทดแทน/แหล่งน้ำ/เปียกสลับแห้ง), The Bangkok Insight, 2023-08-22 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thebangkokinsight.com/news/politics-general/general/1162272/"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "Agricultural Weather Forecasting Services Market ($1.97B 2025 → $4.58B 2034, CAGR 9.8%; APAC 38.2%) — Dataintelo, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://dataintelo.com/report/agricultural-weather-forecasting-services-market"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "Climate Services for Agriculture Market ($4.8B 2025 → $10.2B 2034, CAGR 9.2%; APAC โตเร็วสุด 21.8%) — Market Intelo, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://marketintelo.com/report/climate-services-for-agriculture-market"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "Farmer adaptation and maladaptation in the face of extreme weather events (TVSEP 970 ครัวเรือน บุรีรัมย์/อุบลราชธานี/นครพนม; state aid ↔ maladaptation เพิ่ม; risk tolerance → ปรับตัวถูกต้อง; patience → ลด), Vargas-Lopez A., Koessler A.-K., Q Open 4(2):qoae028, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1093/qopen/qoae028"
+    }
+  ],
+  "reference_count": 34,
+  "article_file": "agri-11-010.md",
+  "source_file": "11-การปรับตัวต่อสภาพอากาศและระบบเตือนภัย\\เจาะลึก-11-การปรับตัวของเกษตรกรไทย.md"
+}

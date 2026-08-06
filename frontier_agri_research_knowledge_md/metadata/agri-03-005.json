@@ -1,0 +1,70 @@
+{
+  "slug": "agri-03-005",
+  "title": "การจัดการน้ำเค็มหมุนเวียน (Brackish & Saline Water Reuse)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "น้ำและชลประทานอัจฉริยะ",
+  "domain_code": "03",
+  "topic_id": "03-005",
+  "handle_id": "03-005",
+  "abstract": "- **ใจความ**: \"น้ำเค็มหมุนเวียน\" คือการนำน้ำกร่อย/น้ำเค็ม/น้ำเสียมาใช้ซ้ำในระบบเกษตรอย่างเป็นระบบ — ทั้งบำบัดให้กลับมาใช้ได้ (RO/ED ต้นทุนถูกลง), ใช้เลี้ยงสัตว์น้ำ (RAS — เชื่อม 09), ใช้กับพืชทนเค็ม (halophyte), หรือจัดการ \"สมดุลเกลือ\" ไม่ให้สะสมในแปลง [1] เป็นส่วนสำคัญของ \"การหมุนเวียนน้ำ\" ในเขตขาดแคลนน้ำจืด",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.fao.org/in-action/remote-sensing-for-water-productivity/en",
+  "pdf_url": null,
+  "source_urls": [
+    "https://www.fao.org/in-action/remote-sensing-for-water-productivity/en",
+    "https://idadesal.org",
+    "https://www.dgr.go.th",
+    "https://so01.tci-thaijo.org/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "FAO: Water reuse in agriculture / saline water irrigation guidelines — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.fao.org/in-action/remote-sensing-for-water-productivity/en"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "งาน/รายงานการใช้น้ำเสียบำบัดแล้วเพื่อชลประทาน (อิสราเอล/เมดิเตอร์เรเนียน — UNESCO/FAO) — เข้าถึงเมื่อ 2026-08-02 *(ตัวเลข >80% — ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "International Desalination Association (IDA) / บทความทบทวนต้นทุน RO — — เข้าถึงเมื่อ 2026-08-02 *(ตัวเลขต้นทุน/พลังงาน — ดูหัวข้อ 10)*",
+      "url": "https://idadesal.org"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "งาน RAS ลดการใช้น้ำ (Aquacultural Engineering; Aquaculture) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งานระบบน้ำเค็ม->น้ำจืดด้วยพลังงานแสงอาทิตย์ (Nature Water/Applied Energy) — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "กรมทรัพยากรน้ำบาดาล: ข้อมูลน้ำบาดาลเค็ม/การจัดการ — — เข้าถึงเมื่อ 2026-08-02 *(ข้อมูลกุ้งน้ำเค็มอีสาน — ดูหัวข้อ 10)*",
+      "url": "https://www.dgr.go.th"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "งานวิจัยไทยน้ำหมุนเวียน/น้ำเสียเกษตร (TCI-Thaijo/ThaiJo) — รายชิ้นยังไม่ยืนยัน (ดูหัวข้อ 10) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so01.tci-thaijo.org/"
+    }
+  ],
+  "reference_count": 7,
+  "article_file": "agri-03-005.md",
+  "source_file": "03-น้ำและชลประทานอัจฉริยะ\\เจาะลึก-03-การจัดการน้ำเค็มหมุนเวียน.md"
+}

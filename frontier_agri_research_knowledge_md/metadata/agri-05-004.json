@@ -1,0 +1,59 @@
+{
+  "slug": "agri-05-004",
+  "title": "Plant Wearables — เซนเซอร์นาโนติดต้นไม้/ใบ วัดสุขภาพพืชแบบต่อเนื่อง",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "เซนเซอร์ ไอโอที และการสำรวจระยะไกล",
+  "domain_code": "05",
+  "topic_id": "05-004",
+  "handle_id": "05-004",
+  "abstract": "- **ใจความ**: Plant wearables = เซนเซอร์ขนาดเล็ก/ยืดหยุ่น ติดบนใบ/ลำต้น/ผล วัด \"สัญญาณของพืชโดยตรง\" ต่อเนื่อง — การเจริญ (strain gauge), การคายน้ำ/ความเครียดน้ำ (ใบเทียม/เซนเซอร์สเปกตรัม), สารเคมีในเนื้อเยื่อ (นาโนเซนเซอร์ SWNT วัด H₂O₂/ฮอร์โมน), อุณหภูมิใบ — เร็วกว่าการดูจากภายนอก (ใบซีด/โรค) หลายวัน [1][2][3]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "งานนาโนเซนเซอร์พืช (Nature Nanotechnology 2016, Nature Plants, Science Advances 2018–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "งานทบทวน plant sensors/wearables (Advanced Materials, Trends in Plant Science 2020–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "เอกสาร/ข่าวบริษัท (Phytech, Florapulse, Saturas) + analyst — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "งานวิจัยไทยเซนเซอร์/นาโน (TCI/ThaiJo — มจธ./มก./มข.) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "สถานการณ์สวนทุเรียน/ผลไม้ไทย + การใช้น้ำหยด (ข่าว/งาน — เชื่อม 03-012) — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "(สำรองสำหรับข้อมูลการยอมรับ/ตลาดเซนเซอร์ไทยที่พบในรอบอัปเดต) — placeholder",
+      "url": null
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-05-004.md",
+  "source_file": "05-เซนเซอร์ ไอโอที และการสำรวจระยะไกล\\เจาะลึก-05-PlantWearables-เซนเซอร์ติดต้นไม้.md"
+}

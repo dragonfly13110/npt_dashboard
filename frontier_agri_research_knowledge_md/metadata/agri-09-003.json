@@ -1,0 +1,290 @@
+{
+  "slug": "agri-09-003",
+  "title": "สาหร่ายทะเลและ Blue Carbon — คาร์บอนเครดิตทางทะเล",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ประมงและสัตว์น้ำ",
+  "domain_code": "09",
+  "topic_id": "09-003",
+  "handle_id": "09-003",
+  "abstract": "- **ใจความ**: \"Blue Carbon\" = คาร์บอนที่กักเก็บในระบบนิเวศทางทะเล 3 กลุ่มหลัก — (1) **ระบบนิเวศชายฝั่ง** (ป่าชายเลน/หญ้าทะเล/ที่ลุ่มน้ำเค็ม — พื้นฐานทางวิทยาศาสตร์แน่นหนา วัด/ขายเครดิตได้แล้วจริง), (2) **การเพาะเลี้ยงสาหร่ายทะเล** (kelp/algae — ผลผลิตโลก ~40 ล้านตัน/ปี แต่องค์ประกอบ \"กักเก็บระยะยาว\" ยังเป็นประเด็นถกเถียง, ยังไม่มีระเบียบวิธีเครดิตที่อนุมัติ), (3) **สาหร่ายเป็นอาหารสัตว์** (Asparagopsis ลดมีเทนวัว — เป็นงานของโดเมนปศุสัตว์ ดู `../10-ปศุสัตว์และโปรตีนทางเลือก/README.md`) [1][2][8][10][14]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://openknowledge.fao.org/server/api/core/bitstreams/14a24942-2e1a-4170-af9f-6dd56b03bfdb/content/sofia-2026/aquaculture-production.html",
+  "pdf_url": "https://algecenterdanmark.com/wp-content/uploads/2025/07/nsc25-silje-forbord.pdf",
+  "source_urls": [
+    "https://openknowledge.fao.org/server/api/core/bitstreams/14a24942-2e1a-4170-af9f-6dd56b03bfdb/content/sofia-2026/aquaculture-production.html",
+    "https://aquahoy.com/fao-yearbook-2023-aquaculture-records-fisheries-stable/",
+    "https://seaweedinsights.com/south-east-asia",
+    "https://www.nature.com/articles/s44183-025-00122-9",
+    "https://algecenterdanmark.com/wp-content/uploads/2025/07/nsc25-silje-forbord.pdf",
+    "https://www.dnv.com/news/2024/new-seaweed-farm-off-the-norwegian-coast-seeks-to-remove-co2-from-the-atmosphere-252006/",
+    "https://www.fisheries.noaa.gov/national/aquaculture/seaweed-aquaculture",
+    "https://www.nature.com/articles/s41558-024-02238-1",
+    "https://www.iaea.org/newscenter/news/study-reveals-potential-of-seaweed-farms-as-carbon-storage-solution",
+    "https://onlinelibrary.wiley.com/doi/10.1111/jpy.13249",
+    "https://doi.org/10.1016/j.scitotenv.2024.170525",
+    "https://www.semanticscholar.org/paper/1778530e32323f1f35b40d6645cd861023d6ce16",
+    "https://www.e-algae.org/journal/view.php?doi=10.4490%2Falgae.2024.39.10.28",
+    "https://verra.org/methodologies/vm0033-methodology-for-tidal-wetland-and-seagrass-restoration-v2-1/",
+    "https://verra.org/methodologies/methodology-framework-for-seaweed-carbon-projects/",
+    "https://carbon-pulse.com/462962/",
+    "https://verra.org/case-studies/delta-blue-carbon",
+    "https://www.dialectica.io/community-hub/blue-carbon-markets-2025-innovation-and-investment-trends",
+    "https://www.frontiersin.org/journals/marine-science/articles/10.3389/fmars.2025.1622255/full",
+    "https://www.senken.io/academy/blue-carbon",
+    "https://www.worldbank.org/en/topic/environment/publication/global-seaweed-new-and-emerging-markets-report-2023",
+    "https://www.planvivo.org/projects/mikoko-pamoja-kenya",
+    "https://www.thebluecarboninitiative.org/about-blue-carbon",
+    "https://www.sciencedirect.com/science/article/pii/S1385110124000376",
+    "https://www.bangkokbiznews.com/business/economic/1174671",
+    "https://www.khaosod.co.th/technologychaoban/featured/article_98550",
+    "https://www.sdthailand.com/2023/07/blue-carbon-ecosystem-opportunity-of-carbon-offsets-and-cobenefit-business/",
+    "https://www.bcg.in.th/data-center/articles/mangrove-forest-bcg-economy-model",
+    "https://www.thaipost.net/main/detail/116442",
+    "https://tver.tgo.or.th/database/public/project/1/1/451",
+    "https://unfccc.int/sites/default/files/2025-11/TH%20NDC%203.0.pdf",
+    "https://unfccc.int/sites/default/files/NDC/2022-11/Thailand%202nd%20Updated%20NDC.pdf",
+    "https://doi.org/10.1016/j.anifeedsci.2024.116118",
+    "https://www.worldbank.org/en/programs/indonesia-sustainable-landscapes-management-program/practice",
+    "https://www.nature.com/articles/s41559-022-01926-5",
+    "https://www.nature.com/articles/s44458-025-00004-8",
+    "https://www.fao.org/publications/fao-flagship-publications/the-state-of-world-fisheries-and-aquaculture/en",
+    "https://hub.unido.org/sites/default/files/publications/Blue%20Economy%20Policy%20Brief%20Indonesias%20Seaweed%20Industry%20as%20Key%20Sources%20of%20Growth%20-%20UNIDO.pdf"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "The State of World Fisheries and Aquaculture (SOFIA) 2026 — FAO, 2026 — — เข้าถึงเมื่อ 2026-08-02 (ผลผลิตสาหร่าย ~40 ล้านตัน 2024, เอเชีย 97%)",
+      "url": "https://openknowledge.fao.org/server/api/core/bitstreams/14a24942-2e1a-4170-af9f-6dd56b03bfdb/content/sofia-2026/aquaculture-production.html"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "FAO Yearbook of Fishery and Aquaculture Statistics 2023 (ข้อมูล 2023: สาหร่าย 39 ล้านตัน; จีน 61.3% อินโดนีเซีย 25.9%) — สรุปโดย AquaHoy, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://aquahoy.com/fao-yearbook-2023-aquaculture-records-fisheries-stable/"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Southeast Asia / Global Production Overview — Seaweed Insights (Hatch Blue), 2024–2025 — และ ; ตัวเลขผลผลิตอินโดนีเซีย 10.7 ล้านตัน (2023) — KKP/Indonesia Supplier, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://seaweedinsights.com/south-east-asia"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Roadmap to sustainably develop the European seaweed industry — Jueterbock, A. et al., npj Ocean Sustainability 4:22, 2025 — — เข้าถึงเมื่อ 2026-08-02 (เป้า 8 ล้านตัน/€9B/85,000 งาน; ต้นทุน €1,800–5,200/ตัน DW; 34.7 ล้านตัน มูลค่า $14.85B)",
+      "url": "https://www.nature.com/articles/s44183-025-00122-9"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Development of the seaweed industry and R&D in Norway — Forbord, S. (SINTEF), Norwegian Seaweed Conference 2025 — — เข้าถึงเมื่อ 2026-08-02 (kelp เพาะเลี้ยง 770 ตัน 2023 → 470 ตัน 2024)",
+      "url": "https://algecenterdanmark.com/wp-content/uploads/2025/07/nsc25-silje-forbord.pdf"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "New seaweed farm off the Norwegian coast seeks to remove CO₂ — DNV/SINTEF, 2024 — — เข้าถึงเมื่อ 2026-08-02 (ฟาร์ม 20 เฮกตาร์; 150 ตัน ≈ 15 ตัน CO₂; งบ NOK 50 ล้าน)",
+      "url": "https://www.dnv.com/news/2024/new-seaweed-farm-off-the-norwegian-coast-seeks-to-remove-co2-from-the-atmosphere-252006/"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Seaweed Aquaculture — NOAA Fisheries, 2025 — — เข้าถึงเมื่อ 2026-08-02 (อะแลสกา 112,000 ปอนด์ 2019; อุตสาหกรรมขั้นพัฒนาการ)",
+      "url": "https://www.fisheries.noaa.gov/national/aquaculture/seaweed-aquaculture"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Carbon burial in sediments below seaweed farms matches that of Blue Carbon habitats — Duarte, C.M. et al., Nature Climate Change 15:180–187, 2025 — — เข้าถึงเมื่อ 2026-08-02 (20 ฟาร์ม; 1.87±0.73 tCO₂e/ha/yr; excess 1.06±0.74; 140 tC/ha)",
+      "url": "https://www.nature.com/articles/s41558-024-02238-1"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Study reveals potential of seaweed farms as carbon storage solution — IAEA, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.iaea.org/newscenter/news/study-reveals-potential-of-seaweed-farms-as-carbon-storage-solution"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Forensic carbon accounting: assessing the role of seaweeds for carbon sequestration — Hurd, C.L. et al., Journal of Phycology 58:347–363, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1111/jpy.13249"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Carbon removal and climate change mitigation by seaweed farming: a state of knowledge review — Pessarrodona, A. et al., Science of the Total Environment 918:170525, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.scitotenv.2024.170525"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Seaweed ecosystems may not mitigate CO₂ emissions (Gallagher et al. 2022) + Seaweed forests are carbon sinks: a comment on Gallagher et al. (Filbee-Dexter et al.) — งานโต้แย้งคู่, 2022–2023 — — เข้าถึงเมื่อ 2026-08-02 (ใช้เป็นหลักฐาน \"ข้อถกเถียง\")",
+      "url": "https://www.semanticscholar.org/paper/1778530e32323f1f35b40d6645cd861023d6ce16"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Harnessing seaweed farming for climate mitigation in South Korea — Algae (Korean J. Phycol.) 39, 2024 — — เข้าถึงเมื่อ 2026-08-02 (61–268 Tg C/ปี; DOC 10–60%; RDOC 1–7%; POC 5–70%)",
+      "url": "https://www.e-algae.org/journal/view.php?doi=10.4490%2Falgae.2024.39.10.28"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "VM0033 Methodology for Tidal Wetland and Seagrass Restoration v2.1 + Verra Revises Blue Carbon Methodology — Verra, 2023 — และ — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://verra.org/methodologies/vm0033-methodology-for-tidal-wetland-and-seagrass-restoration-v2-1/"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "Methodology Framework for Seaweed Carbon Projects (M0172, ขั้น draft) + Methodology for Carbon Removals Through Seaweed Aquaculture (CN0122, archived 2024) — Verra, 2024–2026 — และ — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://verra.org/methodologies/methodology-framework-for-seaweed-carbon-projects/"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Plan Vivo consults on coastal blue carbon methodology — Carbon Pulse, 2025-11-28 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://carbon-pulse.com/462962/"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Restoring Pakistan's Mangroves (Delta Blue Carbon case study) — Verra, 2026 — ; Delta Blue, Pakistan — Trafigura, 2023 — — เข้าถึงเมื่อ 2026-08-02 (350,000 เฮกตาร์; ~75,000 เฮกตาร์ฟื้นฟู; ~128 ล้าน tCO₂e/60 ปี)",
+      "url": "https://verra.org/case-studies/delta-blue-carbon"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "Blue Carbon Markets 2025: Innovation and Investment Trends — Dialectica, 2025 — — เข้าถึงเมื่อ 2026-08-02 (81 โครงการ/2.0 ล้านเฮกตาร์/20.4 MtCO₂e/ปี; 6.96M issued/3.65M retired)",
+      "url": "https://www.dialectica.io/community-hub/blue-carbon-markets-2025-innovation-and-investment-trends"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "The Blue Carbon Cost Tool — understanding market dynamics — Frontiers in Marine Science, 2025 — — เข้าถึงเมื่อ 2026-08-02 ($26.03 เฉลี่ย 2023; $32 ปี 2024; VCM เฉลี่ย $6.63; ป่าไม้ $9.91)",
+      "url": "https://www.frontiersin.org/journals/marine-science/articles/10.3389/fmars.2025.1622255/full"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "The Complete Guide to Blue Carbon — Senken, 2025 — — เข้าถึงเมื่อ 2026-08-02 (DBC-1 $25.25 ธ.ค. 2024 → $29.30 ส.ค. 2025; ~0.2–0.35% ของ VCM; 6–7 ล้านเครดิต)",
+      "url": "https://www.senken.io/academy/blue-carbon"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "Global Seaweed New and Emerging Markets Report 2023 — World Bank, 2023 — — เข้าถึงเมื่อ 2026-08-02 ($11.8 พันล้าน ภายใน 2030)",
+      "url": "https://www.worldbank.org/en/topic/environment/publication/global-seaweed-new-and-emerging-markets-report-2023"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "Mikoko Pamoja — Plan Vivo/Commonwealth/Evertreen (VCS 3660), 2014–2026 — ; — เข้าถึงเมื่อ 2026-08-02 (117 เฮกตาร์; 2,043 เครดิต ปี 2019; โครงการ blue carbon ชุมชนแรก)",
+      "url": "https://www.planvivo.org/projects/mikoko-pamoja-kenya"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "What is Blue Carbon? — The Blue Carbon Initiative, เข้าถึง 2026 — — เข้าถึงเมื่อ 2026-08-02 (6–8 Mg CO₂e/ha/yr; สต็อก 280/250/140 Mg C/ha)",
+      "url": "https://www.thebluecarboninitiative.org/about-blue-carbon"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "Blue carbon and the role of mangroves in carbon sequestration — Choudhary, B. et al., Ecological Indicators 163, 2024 — — เข้าถึงเมื่อ 2026-08-02 (11.5 พันล้านตัน C; ชายเลน 6.5; หญ้าทะเล 10–15%; salt marsh 210 gC/m²/yr)",
+      "url": "https://www.sciencedirect.com/science/article/pii/S1385110124000376"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "กรมประมง เร่งผลิตสาหร่ายทะเลเพิ่มมูลค่า ชูเป็นอาหารแห่งอนาคต — กรุงเทพธุรกิจ, 2025-04-05 — — เข้าถึงเมื่อ 2026-08-02 (ผลผลิต 1,031.31 ตัน มูลค่า 43.335 ล้านบาท ปี 2567)",
+      "url": "https://www.bangkokbiznews.com/business/economic/1174671"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "สาหร่ายพวงองุ่น แหลมสัก กระบี่ ได้คุณภาพ โดนใจลูกค้า — เทคโนโลยีชาวบ้าน, 2024 (ปรับปรุงจาก 2019) — — เข้าถึงเมื่อ 2026-08-02 (ต้นทุน 2,380 บาท/กระชัง; 6–8 กก./60 วัน; ราคา 150–200 บาท/กก.)",
+      "url": "https://www.khaosod.co.th/technologychaoban/featured/article_98550"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "ทำความรู้จักระบบนิเวศ Blue Carbon... ต่อยอดมูลค่าได้กว่า 4.8 แสนล้านบาทต่อปี — SD Thailand (อ้าง Krungthai COMPASS/ทช.), 2023 — — เข้าถึงเมื่อ 2026-08-02 (1.74 ล้านไร่; หญ้าทะเล 99,325/160,628 ไร่; โครงการ 300,000 ไร่; 9.4 tCO₂/ไร่/ปี; ≥28 ล้าน tCO₂e; 41,000 ไร่/14 ราย)",
+      "url": "https://www.sdthailand.com/2023/07/blue-carbon-ecosystem-opportunity-of-carbon-offsets-and-cobenefit-business/"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "ฟื้นฟูป่าชายเลน สร้างเศรษฐกิจฐานราก ลดก๊าซเรือนกระจก — BCG Economy (สวทช./ทช.), 2021–2022 — — เข้าถึงเมื่อ 2026-08-02 (ระเบียบ ทช. 2564; แบ่ง 90:10; ป่าชายเลนดูดซับมากกว่าป่าบก 2–4 เท่า)",
+      "url": "https://www.bcg.in.th/data-center/articles/mangrove-forest-bcg-economy-model"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "ปลดล็อคป่า นำไทยสู่ตลาดคาร์บอนเครดิต — ไทยโพสต์ (สัมภาษณ์ อบก./ทช.), 2023 — — เข้าถึงเมื่อ 2026-08-02 (นำร่อง ~700 ไร่ จันทบุรี/ตราด; ฟื้นฟูแล้ว 1.4 แสนไร่ ตั้งแต่ 2546; T-VER ป่าไม้ ~3 แสนตัน/ปี)",
+      "url": "https://www.thaipost.net/main/detail/116442"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "ฐานข้อมูลโครงการ T-VER (โครงการป่าชายเลนโดย ทช. ร่วมราช กรุ๊ป/ไอชิน ทากาโอกะ; Premium T-VER รายแรก SCGC) — อบก., 2024–2026 — ; — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://tver.tgo.or.th/database/public/project/1/1/451"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "Thailand's Nationally Determined Contribution (NDC) 3.0 — ประเทศไทย/UNFCCC, 2025 — ; สรุป: Cabinet approves NDC 3.0 — Nation Thailand, 2025-11-05 — — เข้าถึงเมื่อ 2026-08-02 (152 MtCO₂e 2035 = −47% จาก 2019; Net Zero 2050; ลงทุน $7.05 พันล้าน)",
+      "url": "https://unfccc.int/sites/default/files/2025-11/TH%20NDC%203.0.pdf"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "Thailand's 2nd Updated NDC — ประเทศไทย, 2022 — — เข้าถึงเมื่อ 2026-08-02 (30% ไม่มีเงื่อนไข/40% มีเงื่อนไข เทียบ BAU 555 MtCO₂e; CN 2050/NZ 2065)",
+      "url": "https://unfccc.int/sites/default/files/NDC/2022-11/Thailand%202nd%20Updated%20NDC.pdf"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "Asparagopsis และการลดมีเทน: Kinley et al. 2020; Roque et al. 2021 (PLoS ONE); The anti-methanogenic efficacy of Asparagopsis armata (Animal Feed Science and Technology, 2024 — 95.6% vs 59.6%) — ; CH4 Global, 2024 — — เข้าถึงเมื่อ 2026-08-02 (รายละเอียด/อัปเดต ดูโดเมนปศุสัตว์ 10)",
+      "url": "https://doi.org/10.1016/j.anifeedsci.2024.116118"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "Indonesia's Mangrove Rehabilitation 600,000 ha target — World Bank/Sekretariat Kabinet/Kompas, 2021–2025 — ; — เข้าถึงเมื่อ 2026-08-02 (ทำได้จริง ~130,000–150,000 เฮกตาร์ = ~25% ของเป้า; ป่าชายเลนอินโดนีเซีย 3.31 ล้านเฮกตาร์ กัก 3.1 พันล้านตัน C)",
+      "url": "https://www.worldbank.org/en/programs/indonesia-sustainable-landscapes-management-program/practice"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "Challenges and opportunities for achieving SDGs through mangrove rehabilitation (Indonesia) — Sasmito, S.D. et al., Nature Ecology & Evolution 7:62–70, 2023 — — เข้าถึงเมื่อ 2026-08-02 (พื้นที่เหมาะจริง 193,367 เฮกตาร์ = 30% ของเป้า; ต้นทุน $0.29–1.74 พันล้าน)",
+      "url": "https://www.nature.com/articles/s41559-022-01926-5"
+    },
+    {
+      "id": "36",
+      "index": 36,
+      "label": "Seaweed farms enhance alkalinity production and carbon capture — Communications Sustainability, 2026 — — เข้าถึงเมื่อ 2026-08-02 (~0.85 tCO₂/ha/yr; 3.5M ha → 0.35–7 MtCO₂/yr; 2050: 67.78M ha → ~57.6 MtCO₂/yr)",
+      "url": "https://www.nature.com/articles/s44458-025-00004-8"
+    },
+    {
+      "id": "37",
+      "index": 37,
+      "label": "The State of World Fisheries and Aquaculture (SOFIA) 2024 — FAO, 2024 — — เข้าถึงเมื่อ 2026-08-02 (สาหร่าย 37.8 ล้านตัน ปี 2022)",
+      "url": "https://www.fao.org/publications/fao-flagship-publications/the-state-of-world-fisheries-and-aquaculture/en"
+    },
+    {
+      "id": "38",
+      "index": 38,
+      "label": "Indonesia's Seaweed Industry as Key Sources of Growth — UNIDO, 2025 — — เข้าถึงเมื่อ 2026-08-02 (คาราจีแนน $924.74M/2023; ส่งออกอินโดนีเซีย $399M/2022)",
+      "url": "https://hub.unido.org/sites/default/files/publications/Blue%20Economy%20Policy%20Brief%20Indonesias%20Seaweed%20Industry%20as%20Key%20Sources%20of%20Growth%20-%20UNIDO.pdf"
+    }
+  ],
+  "reference_count": 38,
+  "article_file": "agri-09-003.md",
+  "source_file": "09-ประมงและสัตว์น้ำ\\เจาะลึก-09-สาหร่ายทะเล-BlueCarbon.md"
+}

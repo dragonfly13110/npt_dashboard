@@ -18,6 +18,7 @@ const KNOWLEDGE_KINDS = new Set([
   'rice',
   'machinery',
   'stou',
+  'frontier-agri',
   'hub',
 ]);
 const LANDING_SYSTEM_PROMPT = `คุณคือน้องข้าวหลาม ผู้ช่วยนำทางระบบข้อมูลเกษตรนครปฐม ตอบภาษาไทยสุภาพ กระชับ 2-5 บรรทัด
@@ -29,7 +30,7 @@ const LANDING_SYSTEM_PROMPT = `คุณคือน้องข้าวหล�
 - วิสาหกิจชุมชน /public/community-enterprises, กลุ่มส่งเสริมอาชีพ /public/agricultural-career-groups, กลุ่มแม่บ้าน /public/housewife-farmer-groups, กลุ่มยุวเกษตรกร /public/young-farmer-groups
 - ท่องเที่ยวเกษตร /public/agri-tourism, ราคาสินค้าเกษตรและพลังงาน /public/agricultural-prices
 - พยากรณ์โรคและแมลง /public/disease-forecast, จุดความร้อน /public/fire-hotspots, ภัยพิบัติ /public/disasters
-- ศูนย์องค์ความรู้ /public/knowledge-hub, คลังสารป้องกันศัตรูพืช /public/pesticides, องค์ความรู้การผลิตกล้วยไม้ /public/orchids, น้องข้าวหลาม ทบก. /public/farmer-manual, คลังงานวิจัย มสธ. /public/stou-research, คำอธิบายข้อมูล /public/data-dictionary
+- ศูนย์องค์ความรู้ /public/knowledge-hub, คลังสารป้องกันศัตรูพืช /public/pesticides, องค์ความรู้การผลิตกล้วยไม้ /public/orchids, น้องข้าวหลาม ทบก. /public/farmer-manual, คลังงานวิจัย มสธ. /public/stou-research, คลังบทความด้านการเกษตรทั่วโลก /public/frontier-agri-research, คำอธิบายข้อมูล /public/data-dictionary
 - คู่มือระบบ /manual และ /manual/:slug, BMC /bmc, เข้าสู่ระบบเจ้าหน้าที่ /login
 - หน้าบทความเฉพาะเรื่อง /public/pesticides/:slug และ /public/farmer-manual/:slug
 - หน้าบทความกล้วยไม้ /public/orchids/:slug
@@ -575,9 +576,14 @@ export default async (req, context) => {
       );
     } else if (
       validation.landing &&
-      ['fertilizer', 'rice', 'machinery', 'stou', 'hub'].includes(
-        validation.knowledgeKind
-      )
+      [
+        'fertilizer',
+        'rice',
+        'machinery',
+        'stou',
+        'frontier-agri',
+        'hub',
+      ].includes(validation.knowledgeKind)
     ) {
       const contents = Array.isArray(validation.body.contents)
         ? validation.body.contents

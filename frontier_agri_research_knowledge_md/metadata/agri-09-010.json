@@ -1,0 +1,283 @@
+{
+  "slug": "agri-09-010",
+  "title": "ไมโครสาหร่ายเชิงพาณิชย์ — Spirulina/Chlorella/แอสตาแซนธิน",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ประมงและสัตว์น้ำ",
+  "domain_code": "09",
+  "topic_id": "09-010",
+  "handle_id": "09-010",
+  "abstract": "- **ใจความ**: \"ไมโครสาหร่ายเชิงพาณิชย์\" หมายถึงการเพาะเลี้ยงสาหร่ายขนาดเล็ก 4 กลุ่มหลัก — (1) **Spirulina (Arthrospira)** อาหารเสริม/โปรตีน/ไฟโคไซยานิน, (2) **Chlorella** อาหารเสริม/เครื่องสำอาง, (3) **Haematococcus pluvialis → แอสตาแซนธิน** สารต้านอนุมูลอิสระมูลค่าสูงสุดในกลุ่ม, (4) **Nannochloropsis/น้ำมันสาหร่าย** (EPA/DHA — AlgaPrime™, Veramaris) อาหารสัตว์น้ำทดแทนน้ำมันปลา/ปลาป่น — สารออกฤทธิ์หลัก: โปรตีน 55–70% ของน้ำหนักแห้ง (Spirulina), phycocyanin (สีน้ำเงินธรรมชาติ), β-carotene (Dunaliella), omega-3 DHA/EPA [12][26][33][18]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.meticulousresearch.com/product/microalgae-market-5197",
+  "pdf_url": "https://www.pnnl.gov/main/publications/external/technical_reports/PNNL-28201.pdf",
+  "source_urls": [
+    "https://www.meticulousresearch.com/product/microalgae-market-5197",
+    "https://www.usdanalytics.com/industry-reports/microalgae-market",
+    "https://www.futuremarketinsights.com/reports/microalgae-market",
+    "https://www.precedenceresearch.com/microalgae-market",
+    "https://www.marketresearchfuture.com/reports/spirulina-market-1321",
+    "https://www.futuremarketinsights.com/reports/spirulina-powder-market",
+    "https://www.globalgrowthinsights.com/market-reports/haematococcus-pluvialis-astaxanthin-market-106160",
+    "https://www.verifiedmarketreports.com/product/haematococcus-pluvialis-astaxanthin-market/",
+    "https://marketintelo.com/report/haematococcus-pluvialis-astaxanthin-market",
+    "https://www.marketresearchfuture.com/reports/astaxanthin-market-4833",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC12734979",
+    "https://www.sciencedirect.com/science/article/pii/S0734975025000059",
+    "https://pubmed.ncbi.nlm.nih.gov/21497650/",
+    "https://www.pnnl.gov/main/publications/external/technical_reports/PNNL-28201.pdf",
+    "https://www.sciencedirect.com/science/article/pii/S2589014X1930218X",
+    "https://www.sciencedirect.com/science/article/pii/S0306261910001294",
+    "https://kommunikasjon.ntb.no/pressemelding/18054253",
+    "https://elements.evonik.com/en/articles/OnlineOnly/veramaris.html",
+    "https://www.seafoodsource.com/news/aquaculture/veramaris-reached-full-operational-capacity-in-2024-as-it-reaches-moment-of-truth",
+    "https://pubmed.ncbi.nlm.nih.gov/38315337/",
+    "https://www.mdpi.com/2304-8158/14/5/781",
+    "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7665073",
+    "https://www.24chemicalresearch.com/reports/308852/algae-derived-phycocyanin-natural-blue-pigment-market",
+    "https://www.foodingredientsfirst.com/news/fda-expands-spirulina-blue-food-use.html",
+    "https://www.biotec.or.th/home/biosciences-and-systems-biology-research-team-th",
+    "https://www3.rdi.ku.ac.th/?p=79495",
+    "https://www.mitrpholmodernfarm.com/news/2018/09/",
+    "https://cads.arda.or.th/th/documents/research/9d9d908c-10cb-475f-838b-03b3ea3ba860",
+    "https://www4.fisheries.go.th/doffile/hkey/276047/1427",
+    "https://www.nstda.or.th/home/performance_post/technology-to-enhance-the-potential-of-the-thai-shrimp-industry",
+    "https://techcrunch.com/2023/07/25/brevel-18-5m-microalgae-alternative-proteins-foodtech",
+    "https://www.hatcheryinternational.com/eu-report-touts-algae-based-feed-as-sustainable-alternative-to-fishmeal-and-fish-oil/",
+    "https://www.feedipedia.org/node/67",
+    "https://nelha.hawaii.gov/our-clients/cyanotech",
+    "https://www.marketresearchfuture.com/reports/india-spirulina-market-46682",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC10778407",
+    "https://www.pcaarrd.dost.gov.ph/index.php/quick-information-dispatch-qid-articles/microalgae-can-be-a-potential-feed-for-aquaculture-species"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Microalgae Market Size, Share & Trends Analysis (Global Forecast to 2035) — Meticulous Research, 2025 — — เข้าถึงเมื่อ 2026-08-02 ($1.26B 2024 → $3.04B 2035, CAGR 8.4%)",
+      "url": "https://www.meticulousresearch.com/product/microalgae-market-5197"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Global Microalgae Market Demand and Growth Insights 2025 — USD Analytics, 2025 — — เข้าถึงเมื่อ 2026-08-02 ($1.3B 2025 → $2.5B 2034, CAGR 7.5%)",
+      "url": "https://www.usdanalytics.com/industry-reports/microalgae-market"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Explore the Global Microalgae Market (2026–2036) — Future Market Insights, 2026 — — เข้าถึงเมื่อ 2026-08-02 ($13.7B 2025 → $14.8B 2026 → $31.9B 2036, CAGR 8.0%, Spirulina 22%)",
+      "url": "https://www.futuremarketinsights.com/reports/microalgae-market"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Microalgae Market Size to Hit USD 29.42 Billion by 2035 — Precedence Research, 2025 — — เข้าถึงเมื่อ 2026-08-02 ($13.85B 2025, CAGR 7.82%)",
+      "url": "https://www.precedenceresearch.com/microalgae-market"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Spirulina Market Size, Share, Trends, Forecast to 2035 — Market Research Future, 2026-06-02 — — เข้าถึงเมื่อ 2026-08-02 ($0.612B 2024 → $1.624B 2035, CAGR 9.28%; NA ~35%)",
+      "url": "https://www.marketresearchfuture.com/reports/spirulina-market-1321"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Spirulina Powder Market Size & Growth 2025 to 2035 — Future Market Insights, 2025 — — เข้าถึงเมื่อ 2026-08-02 ($461M 2024 → $861.1M 2035, CAGR 5.9%)",
+      "url": "https://www.futuremarketinsights.com/reports/spirulina-powder-market"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Haematococcus Pluvialis Astaxanthin Market (2025–2033) — Global Growth Insights, 2025 — — เข้าถึงเมื่อ 2026-08-02 ($115.7M 2024 → $345.15M 2033, CAGR 10.5%)",
+      "url": "https://www.globalgrowthinsights.com/market-reports/haematococcus-pluvialis-astaxanthin-market-106160"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Haematococcus Pluvialis Astaxanthin Market Size (2023–2033) — Verified Market Reports, 2025 — — เข้าถึงเมื่อ 2026-08-02 ($350M 2024 → $700M 2033, CAGR 8.5%)",
+      "url": "https://www.verifiedmarketreports.com/product/haematococcus-pluvialis-astaxanthin-market/"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Haematococcus pluvialis Astaxanthin Market Research Report 2034 — MarketIntelo, 2026 — — เข้าถึงเมื่อ 2026-08-02 ($0.8B 2025 → $2.3B 2034, CAGR 12.5%)",
+      "url": "https://marketintelo.com/report/haematococcus-pluvialis-astaxanthin-market"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Astaxanthin Market (2026–2035) — Market Research Future, 2026-07-01 — — เข้าถึงเมื่อ 2026-08-02 ($2.10B 2025 → $4.18B 2035 CAGR 7.9%; ธรรมชาติ 42%; BGG 120 ตัน/ปี 2024; Algalif €22M; EFSA 8 มก./วัน; ต้นทุน $2,500–7,000 vs สังเคราะห์ $1,000–1,500)",
+      "url": "https://www.marketresearchfuture.com/reports/astaxanthin-market-4833"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Astaxanthin from Haematococcus pluvialis and Chromochloris zofingiensis (review) — PMC12734979, 2025 — — เข้าถึงเมื่อ 2026-08-02 (ราคา $3,000–7,000/กก.; สังเคราะห์ >95% ของตลาด; downstream 20–30% ต้นทุน; C. zofingiensis heterotrophic หนาแน่น 10–15 เท่า; Paraphysoderma)",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12734979"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Advancements of astaxanthin production in Haematococcus pluvialis: Update insight and way forward — Biotechnology Advances, 2025 — — เข้าถึงเมื่อ 2026-08-02 (CS-AXT $1,000/กก. vs NE-AXT สูงสุด $7,000/กก.; ต้นทุน NE 1,536–1,800 EUR/กก.; AXT 5.6–7.7% DW; ผลิตโลกรวม ~800 ตัน/ปี; สาหร่ายครอง AXT ตลาด ~1% ปี 2021; ราคา food-grade $6,000–7,150/กก.; ต้นทุนผลิตสูงสุด $2,500/กก.)",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0734975025000059"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "An economic assessment of astaxanthin production by large scale cultivation of Haematococcus pluvialis — Wang et al., Biotechnology Advances, 2011 — — เข้าถึงเมื่อ 2026-08-02 (ต้นทุนต่ำสุด $718/กก. AXT, $18/กก. ชีวมวล, โรง 900 กก./ปี)",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/21497650/"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Development of Photobioreactor (PBR) based Algae Farm Cost Model — Davis et al., PNNL-28201, 2018 — — เข้าถึงเมื่อ 2026-08-02 (pond 8.5 g/m²/วัน MBSP $1,227/ตัน; PBR 50 g/m²/วัน $676/ตัน −45%; PBR <20 g/m²/วัน ไม่ได้เปรียบ; Case C +124%)",
+      "url": "https://www.pnnl.gov/main/publications/external/technical_reports/PNNL-28201.pdf"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "Comparison of productivity and economic analysis of microalgae cultivation in open raceways and flat panel photobioreactor — Banerjee & Ramaswamy, Bioresource Technology Reports, 2019 — — เข้าถึงเมื่อ 2026-08-02 (บ่อเปิด $540/ตัน vs PBR $3,452/ตัน ~7 เท่า; ผลผลิต 2,000–7,200 t/km²/ปี)",
+      "url": "https://www.sciencedirect.com/science/article/pii/S2589014X1930218X"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Techno-economic analysis of autotrophic microalgae for fuel production — Davis et al., Applied Energy 88:3524–3531, 2011 — — เข้าถึงเมื่อ 2026-08-02 (pond 0.5 g/L vs PBR 4 g/L; PBR 1.25 kg/m³/วัน; น้ำ ~300 แกลลอน/แกลลอนน้ำมัน)",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0306261910001294"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Enhancing Omega-3 in diets: Millennial Salmon Project maximizes inclusion of AlgaPrime™ DHA — Corbion/Nofima/GlobeNewswire + Feed & Additive Magazine, 2024 — ; — เข้าถึงเมื่อ 2026-08-02 (8% LS ≈ 10% fish oil; coating 14%; ยอดขาย Corbion €1,443M 2023)",
+      "url": "https://kommunikasjon.ntb.no/pressemelding/18054253"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "Veramaris: New Source of Natural Nutrients — Evonik Elements, 2025 + dsm-firmenich — ; — เข้าถึงเมื่อ 2026-08-02 (1 ตัน = ปลาเป็ด 60 ตัน; EPA+DHA ~50%; JV 2017; โรง Blair 2019)",
+      "url": "https://elements.evonik.com/en/articles/OnlineOnly/veramaris.html"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Veramaris reached full operational capacity in 2024 — SeafoodSource, 2025-06-04 — — เข้าถึงเมื่อ 2026-08-02 (เต็มกำลังครั้งแรก 2024; โรง $200M เปิด ก.ค. 2019)",
+      "url": "https://www.seafoodsource.com/news/aquaculture/veramaris-reached-full-operational-capacity-in-2024-as-it-reaches-moment-of-truth"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "Microalgae as fishmeal alternatives in aquaculture: a review — Aquaculture International, 2024 (PubMed 38315337) — — เข้าถึงเมื่อ 2026-08-02 (ทดแทนสูงสุด: คาร์ป 100%/กุ้ง 95%/ปลาดุก 95%/tilapia 64.1%/ปลาทะเล 25.6%/แซลมอน-เทราต์ 18.6%)",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38315337/"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "Towards Sustainable Aquafeeds: Nannochloropsis sp. QH25 Co-Product Biomass Can Fully Replace Fishmeal in Rainbow Trout — Foods (MDPI) 14(5):781, 2025 — — เข้าถึงเมื่อ 2026-08-02 (ทดแทน 100%; ADC >90%; 16/29 ล้านตันปลาเป็ด; โลหะหนักต่ำกว่าเกณฑ์ EU)",
+      "url": "https://www.mdpi.com/2304-8158/14/5/781"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "Microalgae-blend tilapia feed eliminates fishmeal and fish oil, improves growth, and is cost viable — Sarker, Kapuscinski et al., Scientific Reports 10:19328, 2020 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7665073"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "ตลาดไฟโคไซยานิน: Algae Derived Phycocyanin Natural Blue Pigment Market — 24ChemicalResearch, 2026 ($167.3M 2025 → $398.7M 2034, CAGR 9.2%) — ; Spirulina Blue (Phycocyanin) Market — Global Market Insights, 2026 ($283.6M 2025 → $1.4B 2035, CAGR 17.5%; DIC >15.2%, Top5 = 52%) — ; Phycocyanin Market — Intel Market Research, 2025 ($61.8M 2024 → $178M 2032, CAGR 16.7%) — — เข้าถึงเมื่อ 2026-08-05 (ใช้เทียบเคียงทิศทาง — ขอบเขตต่างกัน)",
+      "url": "https://www.24chemicalresearch.com/reports/308852/algae-derived-phycocyanin-natural-blue-pigment-market"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "US FDA clears spirulina-based blue colors for wider use in food — Food Ingredients First, 2026-02-09 + FDA Color Additives page (คำสั่ง 6 ก.พ. 2026, ชะลอ effective date 20 มี.ค. 2026) — ; ; HKTDC (อนุมัติเครื่องดื่ม 2022) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.foodingredientsfirst.com/news/fda-expands-spirulina-blue-food-use.html"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "ทีมวิจัยชีวศาสตร์และชีววิทยาระบบ — กลุ่มเทคโนโลยีชีวภาพสาหร่าย, ไบโอเทค สวทช. — — เข้าถึงเมื่อ 2026-08-02 (Spirulina consortium; GLA; phycocyanin; ยาต้านไวรัส)",
+      "url": "https://www.biotec.or.th/home/biosciences-and-systems-biology-research-team-th"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "ไอศกรีมนมผสมไฟโคไซยานินจากสาหร่ายสไปรูลิน่า — วนิดา ปานอุทัย, สถาบันค้นคว้าและพัฒนาผลิตภัณฑ์อาหาร ม.เกษตรศาสตร์ (KURDI), 2023 — — เข้าถึงเมื่อ 2026-08-02 (โปรตีนสไปรูลินา 55–70%)",
+      "url": "https://www3.rdi.ku.ac.th/?p=79495"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "ฟาร์มสาหร่ายสไปรูลิน่าที่ผ่าน อย. แห่งแรกในไทย — มิตรผลโมเดิร์นฟาร์ม (อ้างสยามรัฐ), 2018 — — เข้าถึงเมื่อ 2026-08-02 (นาทับ สงขลา: 40 บ่อ/60 ไร่; 45 วัน 1→10 กก.; 900 บาท/150 กรัม; ~5 แสนบาท/เดือน)",
+      "url": "https://www.mitrpholmodernfarm.com/news/2018/09/"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "การพัฒนามาตรฐานฟาร์มสาหร่ายสไปรูลิน่าสำหรับกลุ่มเครือข่ายเกษตรกรภาคเหนือตอนบน — ARDA — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://cads.arda.or.th/th/documents/research/9d9d908c-10cb-475f-838b-03b3ea3ba860"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "ไมโครแอลจี: วัตถุดิบยั่งยืนและอเนกประสงค์สำหรับอาหารสัตว์น้ำ — กรมประมง, 2026-01-05 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www4.fisheries.go.th/doffile/hkey/276047/1427"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "เทคโนโลยีเสริมศักยภาพอุตสาหกรรมกุ้งไทย (30 ปี สวทช.) — NSTDA, 2021 — ; ไบโอเทค สวทช. มุ่งมั่นวิจัยเทคโนโลยีชีวภาพด้านสาหร่ายกว่า 20 ปี — ; ห่วงโซ่อาหารทะเลเข้มงวด ไทยดัน 'ปลาป่นยั่งยืน' สู่ Green Feed — กรุงเทพธุรกิจ, 2026-03-15 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nstda.or.th/home/performance_post/technology-to-enhance-the-potential-of-the-thai-shrimp-industry"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "Brevel microalgae protein: Brevel sprouts $18.5M — TechCrunch, 2023 — ; Microalgae protein start-up bags $25m funding — FoodNavigator, 2025-03-25 — — เข้าถึงเมื่อ 2026-08-02 (โรง 5,000 L → แผน 900,000 L ปี 2025; อ้างลดต้นทุน >90%)",
+      "url": "https://techcrunch.com/2023/07/25/brevel-18-5m-microalgae-alternative-proteins-foodtech"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "EU report: algae as sustainable alternative to fishmeal and fish oil — EC Maritime Affairs (ผ่าน Hatchery International/CB Insights), 2026 — ; Global Microalgae Market 2026 (กล่าวถึง EU 2025/688 อนุมัติ Schizochytrium oil เป็น novel food) — PW Consulting, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.hatcheryinternational.com/eu-report-touts-algae-based-feed-as-sustainable-alternative-to-fishmeal-and-fish-oil/"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "Microalgae (feed datasheet) — Feedipedia, อัปเดต 2023–2025 — — เข้าถึงเมื่อ 2026-08-02 (สไปรูลินาจีน 16,483 ตัน (2003) → 97,104 ตัน (2010); สปีชีส์ hatchery: Chaetoceros/Nannochloropsis/Tetraselmis/Isochrysis; 10% อาหารทดแทนปลาป่นดีสุด — Phromkunthong et al. 2005)",
+      "url": "https://www.feedipedia.org/node/67"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "Cyanotech (BioAstin®, Spirulina Pacifica®) — NELHA Hawaii, เข้าถึง 2026 — — เข้าถึงเมื่อ 2026-08-02 (anchor tenant 25+ ปี, 40+ ประเทศ); รายได้ Cyanotech $24.22M (2025) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://nelha.hawaii.gov/our-clients/cyanotech"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "India Spirulina Market — Market Research Future, 2026 — ; Spirulina Market Report 2026–2034 (Earthrise/แคลิฟอร์เนีย 2025; อินเดีย $35.03M 2025) — Fortune Business Insights, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.marketresearchfuture.com/reports/india-spirulina-market-46682"
+    },
+    {
+      "id": "36",
+      "index": 36,
+      "label": "Legal Aspects of Microalgae in the European Food Sector — Foods (MDPI), 2023 — ; Extension of the list of algae species authorized as food (20+ สปีชีส์) — EC Maritime Forum, 2024 — ; Microalgae to market: Regulatory essentials (EU 2015/2283) — Biosafe, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10778407"
+    },
+    {
+      "id": "37",
+      "index": 37,
+      "label": "Microalgae can be a potential feed for aquaculture species (algal paste $50–150/ลิตร) — PCAARRD-DOST ฟิลิปปินส์, 2013 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.pcaarrd.dost.gov.ph/index.php/quick-information-dispatch-qid-articles/microalgae-can-be-a-potential-feed-for-aquaculture-species"
+    }
+  ],
+  "reference_count": 37,
+  "article_file": "agri-09-010.md",
+  "source_file": "09-ประมงและสัตว์น้ำ\\เจาะลึก-09-ไมโครสาหร่ายเชิงพาณิชย์.md"
+}

@@ -1,0 +1,241 @@
+{
+  "slug": "agri-11-009",
+  "title": "วนเกษตรเพื่อปรับตัวต่อสภาพอากาศ — ร่มเงา คาร์บอน กระจายเสี่ยง",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "การปรับตัวต่อสภาพอากาศและระบบเตือนภัย",
+  "domain_code": "11",
+  "topic_id": "11-009",
+  "handle_id": "11-009",
+  "abstract": "- **ใจความ**: วนเกษตร (ต้นไม้+พืชในแปลงเดียวกัน) เป็น \"ฉนวนทางความร้อน + ประกันรายได้ + ธนาคารคาร์บอน\" กลไก 3 ต่อ: (1) ไมโครไคลเมต — ต้นไม้ลดอุณหภูมิทรงพุ่มใต้ร่ม 2–4°C [1] และลดอุณหภูมิอากาศสูงสุดได้ถึง 4°C (ต้นไม้สูง >7 ม.) [3] ทำให้กาแฟ/พืชใต้ร่มหนีเกณฑ์ heat stress ได้จริง; (2) กระจายความเสี่ยง — meta-analysis 68 การศึกษา (2026) พบระบบวนเกษตรกาแฟลดโอกาสเสียผลผลิต -31%, ลดโรค/แมลง -24%, ลดคุณภาพเสื่อม -19% เทียบ monoculture [1]; (3) คาร์บอน — ระบบกาแฟวนเกษตรเอธิโอเปียกักเก็บ 254.9–321.8 tC/ha (เฉลี่ย 287.1) [6] ในขณะที่ SOC เพิ่มเฉลี่ย +10.7% ทั่วโลก (เขตแห้งแล้ง +18.7%) [7]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.frontiersin.org/journals/climate/articles/10.3389/fclim.2025.1699037/full",
+  "pdf_url": "https://www.fao.org/climatechange/36110-0dff1bd456fb39dbcf4d3b211af5684e2.pdf",
+  "source_urls": [
+    "https://www.frontiersin.org/journals/climate/articles/10.3389/fclim.2025.1699037/full",
+    "https://agris.fao.org/search/en/providers/122575/records/669f736c00eb85b7d72d1945",
+    "https://www.sciencedirect.com/science/article/abs/pii/S1161030121001672",
+    "https://link.springer.com/article/10.1007/s10457-026-01558-9",
+    "https://www.rabobank.com/knowledge/q011519061-climate-change-redefines-suitability-and-resilience-in-global-arabica-coffee-production",
+    "https://www.cambridge.org/core/journals/journal-of-agricultural-science/article/contribution-of-coffee-plants-to-carbon-sequestration-in-agroforestry-systems-of-southwestern-ethiopia/320308C9F0281FB4911D64988E75394E",
+    "https://doi.org/10.1016/j.catena.2024.108667",
+    "https://www.fao.org/climatechange/36110-0dff1bd456fb39dbcf4d3b211af5684e2.pdf",
+    "https://www.cifor-icraf.org/publications/pdfs/B19034.pdf",
+    "https://www.american.edu/sis/centers/carbon-removal/fact-sheet-agroforestry.cfm",
+    "https://are-journal.com/are/article/view/1036",
+    "https://www.sciencedirect.com/science/article/pii/S2666154324003843",
+    "https://link.springer.com/article/10.1007/s13593-023-00874-z",
+    "https://www.farmafrica.org/wp-content/uploads/2025/05/FA-Coffee-for-Conservation-learning-report-2025.pdf",
+    "https://www.mightyearth.org/wp-content/uploads/Mighty-Earth-Agroforestry-Rubber-Report-May-2021.pdf",
+    "https://link.springer.com/article/10.1007/s10457-022-00734-x",
+    "https://news.mongabay.com/2024/07/agroforestry-offers-thai-rubber-farmers-a-pathway-to-profit-and-sustainability",
+    "https://www.doa.go.th/share/attachment.php?aid=1193",
+    "https://www.bangkokbiznews.com/economics/1242554",
+    "https://www.khaosod.co.th/technologychaoban/techno-news/article_137937",
+    "https://www.siamnewsline.net/2024/09/MaeChanLuang.html",
+    "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Coffee%20Annual_Hanoi_Vietnam_VM2024-0012",
+    "https://doi.org/10.1016/j.ecolecon.2023.107980",
+    "https://journals.openedition.org/ried/15062",
+    "https://www.nature.com/articles/s41598-024-62426-z",
+    "https://link.springer.com/article/10.1007/s11842-025-09613-6",
+    "https://www.musimmas.com/resources/blogs/rooted-in-diversity-how-agroforestry-is-strengthening-smallholder-farms-in-indonesia/",
+    "https://www.doae.go.th/wp-content/uploads/2025/12/%E0%B9%81%E0%B8%99%E0%B8%A7%E0%B8%97%E0%B8%B2%E0%B8%87%E0%B8%82%E0%B8%B1%E0%B8%9A%E0%B9%80%E0%B8%84%E0%B8%A5%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%AA%E0%B9%88%E0%B8%87%E0%B9%80%E0%B8%AA%E0%B8%A3%E0%B8%B4%E0%B8%A1%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%80%E0%B8%81%E0%B8%A9%E0%B8%95%E0%B8%A3%E0%B8%94%E0%B9%89%E0%B8%A7%E0%B8%A2-BCG-%E0%B8%81%E0%B8%AA%E0%B8%81..pdf",
+    "https://coffeewatch.org/new-coffee-agroforestry-e-library/",
+    "https://worldcoffeeresearch.org/resources/the-shade-catalog",
+    "https://unfccc.int/sites/default/files/resource/FAO_Addressing_Forestry_and_Agroforestry_in_NAPs.pdf"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Mitigating climate risks in coffee production through agroforestry: global evidence from a systematic review and meta-analysis (68 การศึกษา: อุณหภูมิ -2–4°C, yield loss -31%, โรค -24%, คุณภาพ -19%, ร่ม 30–60%), Frontiers in Climate, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.frontiersin.org/journals/climate/articles/10.3389/fclim.2025.1699037/full"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Agroforestry systems can mitigate the impacts of climate change on coffee production: A spatially explicit assessment in Brazil, Gomes L.C. et al., Agriculture, Ecosystems & Environment (10.1016/j.agee.2020.106858), 2020 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://agris.fao.org/search/en/providers/122575/records/669f736c00eb85b7d72d1945"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Microclimate estimation under different coffee-based agroforestry systems using full-sun weather data and shade tree characteristics (Tmax -4°C, ต้นไม้ >7 ม.), Gagliardi S. et al., Agricultural and Forest Meteorology, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S1161030121001672"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Effect of agroforestry shading on Robusta coffee (Coffea canephora) suitability under climate change in Uganda (จำลอง -3°C/+1°C), Agroforestry Systems, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://link.springer.com/article/10.1007/s10457-026-01558-9"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Climate change redefines suitability and resilience in global arabica coffee production (8%→20% พื้นที่ไม่เหมาะสม 2050), Bonilla Cedrez C. et al., Rabobank RaboResearch, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.rabobank.com/knowledge/q011519061-climate-change-redefines-suitability-and-resilience-in-global-arabica-coffee-production"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Contribution of coffee plants to carbon sequestration in agroforestry systems of Southwestern Ethiopia (254.9–321.8 tC/ha), Getachew Y. et al., The Journal of Agricultural Science, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.cambridge.org/core/journals/journal-of-agricultural-science/article/contribution-of-coffee-plants-to-carbon-sequestration-in-agroforestry-systems-of-southwestern-ethiopia/320308C9F0281FB4911D64988E75394E"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Agroforestry increases soil carbon sequestration, especially in arid areas: A global meta-analysis (561 คู่, SOC +10.7%, arid +18.7%), Pan J. et al., CATENA 249:108667, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.catena.2024.108667"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Agroforestry and climate change (เขตร้อนชื้น 50–75 tC/ha; พื้นที่เกษตร 46%/27%/7.5% คลุมต้นไม้ — Zomer 2009), Torquebiau E., FAO, 2013 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.fao.org/climatechange/36110-0dff1bd456fb39dbcf4d3b211af5684e2.pdf"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Agroforestry Systems for Ecological Restoration (AFS เซาเปาโล 6.6 tC/ha/ปี; ปาล์ม Pará 6.6–8.3 tC/ha/ปี), CIFOR-ICRAF — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.cifor-icraf.org/publications/pdfs/B19034.pdf"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Fact Sheet: Agroforestry (IPCC 0.1–5.7 GtCO₂/ปี; ~43% พื้นที่เกษตร ≈ 1 พันล้าน ha; MRV เป็นข้อจำกัด), Institute for Carbon Removal Law & Policy, American University, 2020 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.american.edu/sis/centers/carbon-removal/fact-sheet-agroforestry.cfm"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Economic, social and environmental benefits of coffee intercropping: evidence from Dak Nong Province, Vietnam (280 ครัวเรือน; คาร์บอน 4.1x/2.7x; กำไรสูงสุด กาแฟ-ทุเรียน), Agricultural and Resource Economics, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://are-journal.com/are/article/view/1036"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Sensory quality of coffee (Coffea arabica L.): Influence of tree diversity and harvest segmentation in agroforestry systems (ระบบผสม 82.86 คะแนน = specialty), Journal of Agriculture and Food Research, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/pii/S2666154324003843"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Ecological quality as a coffee quality enhancer. A review (ต้นไม้เพิ่มขนาด/น้ำหนักเมล็ด ลดเมล็ดเสีย — ผลไม่สม่ำเสมอตามความสูง), Agronomy for Sustainable Development, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://link.springer.com/article/10.1007/s13593-023-00874-z"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Coffee for Conservation learning report (รายได้กาแฟ +45%, ผัก +280%, ลดตัดไม้ -43%, adoption 49%→76%, EUDR compliance 99% export quality), Farm Africa, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.farmafrica.org/wp-content/uploads/2025/05/FA-Coffee-for-Conservation-learning-report-2025.pdf"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "Rubber Agroforestry: livelihood, social, environmental, and climate resilience effects (ยาง-มันสำปะหลังต้นทุน -60%; รายได้แซม 0–26.8%; ข้อจำกัดตลาดรอง), Warren-Thomas E. et al., Mighty Earth, 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mightyearth.org/wp-content/uploads/Mighty-Earth-Agroforestry-Rubber-Report-May-2021.pdf"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Economic outcomes of rubber-based agroforestry systems: a systematic review and narrative synthesis (5/12 การศึกษา NPV ดีกว่าแปลงเดี่ยว — ยาง+ไม้ผลไทย ยาง+ชาจีน), Agroforestry Systems, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://link.springer.com/article/10.1007/s10457-022-00734-x"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Agroforestry offers Thai rubber farmers a pathway to profit and sustainability (>1 ล้านครัวเรือน, 90% ผลผลิต; GPSNR อบรมสงขลา; ใบร่วงลดน้ำยาง), Mongabay, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://news.mongabay.com/2024/07/agroforestry-offers-thai-rubber-farmers-a-pathway-to-profit-and-sustainability"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "ทางเลือกการปลูกพืชแซมยาง พืชร่วมยาง และกิจกรรมเสริมรายได้ (ระดับแสงตามอายุสวน: 50–70%/30–50%/10–30%; ชนิด: ระกำ สละ หวาย กระวาน ตะเคียน กฤษณา), การยางแห่งประเทศไทย/กรมวิชาการเกษตร — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.doa.go.th/share/attachment.php?aid=1193"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "สมศักดิ์ สั่งปฏิวัติสวนยาง ดันปลูกทุเรียนแซม โกยรายได้ (กยท. ส่งเสริมทุเรียน/กาแฟแซมสวนยาง), กรุงเทพธุรกิจ, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.bangkokbiznews.com/economics/1242554"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "เกษตรกรสงขลา สร้างป่าในสวนยาง สร้างรายได้ตลอดทั้งปี (อุณหภูมิในสวน -2–3°C, ประหยัดวัชพืช ~300 บาท/ไร่ — ประมาณการฟาร์มต้นแบบ), เทคโนโลยีชาวบ้าน, 2564 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.khaosod.co.th/technologychaoban/techno-news/article_137937"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "\"ปลูกกาแฟอะราบิกาใต้ร่มเงา\" งานวิจัยสู่การพัฒนา สร้างป่า สร้างรายได้ ชุมชนบ้านแม่จันหลวง เชียงราย (2,771 ไร่, +150,000 บาท/ปี, 29.41 ล้านบาท, ป่า +1,300 ไร่), สถาบันวิจัยและพัฒนาพื้นที่สูง (สวพส.), 2567 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.siamnewsline.net/2024/09/MaeChanLuang.html"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "Coffee Annual — Vietnam (พื้นที่กาแฟ ~600,000 ha; ~30% ผสม; ทุเรียนกำไร 2.5–3 เท่า; replant 130,000 ha → 2.8–3.0 t/ha; แผน 100,000 ha 2025), USDA FAS VM2024-0012/VM2026-0016, 2024–2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Coffee%20Annual_Hanoi_Vietnam_VM2024-0012"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "Transitioning from Monoculture to Mixed Cropping Systems: The Case of Coffee, Pepper, and Fruit Trees in Vietnam (49% ของ >15,000 ครัวเรือนผสม ≥1 พืช), Rigal C. et al., Ecological Economics 214:107980, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.ecolecon.2023.107980"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "Income Diversification for Rubber Farmers Through Agroforestry Practices (ผลตอบแทนต่อแรงงานเท่าหรือดีกว่าแปลงเดี่ยว), Stroesser L. et al./ANR-Heveadapt, พัทลุง ภาคใต้ไทย — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://journals.openedition.org/ried/15062"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "Strengthening oil palm smallholder farmers' resilience to future industrial challenges (5 กลุ่ม resilience), Hendrawan D. et al., Scientific Reports 14, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s41598-024-62426-z"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "Smallholder Perceptions Toward Oil Palm Agroforestry in Tropical Peatlands, Indonesia (รายได้รวมต่ำกว่าแต่ความมั่นคงอาหารดีกว่า), Small-scale Forestry, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://link.springer.com/article/10.1007/s11842-025-09613-6"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "Rooted in Diversity: How Agroforestry Is Strengthening Smallholder Farms in Indonesia (BIPOSC 10 ปี ภาคเหนือสุมาตรา 5 โมเดล; Kaleka 6 ha ปาล์ม+ทุเรียน/เงาะ/มะม่วง/เสง), Musim Mas, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.musimmas.com/resources/blogs/rooted-in-diversity-how-agroforestry-is-strengthening-smallholder-farms-in-indonesia/"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "แนวทางการขับเคลื่อนการส่งเสริมการเกษตรด้วย BCG Model (มติ ครม. 8 ก.พ. 2565, แผน BCG 2564–2570, เป้า 3 สูง), กรมส่งเสริมการเกษตร/กระทรวงเกษตรและสหกรณ์, 2565 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.doae.go.th/wp-content/uploads/2025/12/%E0%B9%81%E0%B8%99%E0%B8%A7%E0%B8%97%E0%B8%B2%E0%B8%87%E0%B8%82%E0%B8%B1%E0%B8%9A%E0%B9%80%E0%B8%84%E0%B8%A5%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%AA%E0%B9%88%E0%B8%87%E0%B9%80%E0%B8%AA%E0%B8%A3%E0%B8%B4%E0%B8%A1%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%80%E0%B8%81%E0%B8%A9%E0%B8%95%E0%B8%A3%E0%B8%94%E0%B9%89%E0%B8%A7%E0%B8%A2-BCG-%E0%B8%81%E0%B8%AA%E0%B8%81..pdf"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "New Coffee Agroforestry E-Library (ฐานข้อมูลงานวิจัยกาแฟใต้ร่มแรกของโลก), CATIE + Coffee Watch, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://coffeewatch.org/new-coffee-agroforestry-e-library/"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "The Shade Catalog (คลังข้อมูลต้นไม้ให้ร่ม: คุณสมบัติ/การจัดการ เพื่อออกแบบทั้งฟาร์ม), World Coffee Research, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://worldcoffeeresearch.org/resources/the-shade-catalog"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "Addressing Forestry and Agroforestry in National Adaptation Plans (รวมบทการประเมินความเสี่ยงภูมิอากาศภาคเกษตรของไทย), FAO/UNFCCC — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://unfccc.int/sites/default/files/resource/FAO_Addressing_Forestry_and_Agroforestry_in_NAPs.pdf"
+    }
+  ],
+  "reference_count": 31,
+  "article_file": "agri-11-009.md",
+  "source_file": "11-การปรับตัวต่อสภาพอากาศและระบบเตือนภัย\\เจาะลึก-11-วนเกษตร-ปรับตัวสภาพอากาศ.md"
+}

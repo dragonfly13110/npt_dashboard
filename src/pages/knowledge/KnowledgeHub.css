@@ -126,6 +126,11 @@
   background: #dcfce7;
 }
 
+.knowledge-hub-card.frontier .knowledge-hub-card-icon {
+  color: #166534;
+  background: #d1fae5;
+}
+
 .knowledge-hub-card-body {
   min-width: 0;
 }

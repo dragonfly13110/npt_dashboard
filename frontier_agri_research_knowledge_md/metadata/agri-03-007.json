@@ -1,0 +1,64 @@
+{
+  "slug": "agri-03-007",
+  "title": "การเก็บน้ำฝนและสระน้ำในไร่นา (Farm Ponds & Rainwater Harvesting)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "น้ำและชลประทานอัจฉริยะ",
+  "domain_code": "03",
+  "topic_id": "03-007",
+  "handle_id": "03-007",
+  "abstract": "- **ใจความ**: การเก็บน้ำฝน/น้ำท่าไว้ใช้ในแปลง — \"สระน้ำในไร่นา\" (ทฤษฎีใหม่ของในหลวง ร.9: แบ่งพื้นที่ 30:30:30:10 มีสระ 1 ไร่ กักน้ำ ~1,000 ลบ.ม.) [1] รวมถึงฝายชะลอน้ำ บ่อน้ำใต้ดินตื้น และการเก็บน้ำจากหลังคาเรือน/พื้นที่ลาดเอียง [2]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.rdpb.go.th",
+  "pdf_url": null,
+  "source_urls": [
+    "https://www.rdpb.go.th",
+    "https://www.fao.org",
+    "https://www.moac.go.th",
+    "https://so01.tci-thaijo.org/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "สำนักงาน กปร./กรมส่งเสริมการเกษตร: เกษตรทฤษฎีใหม่ (สัดส่วน 30:30:30:10, สระ 1 ไร่ ~1,000 ลบ.ม.) — / — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.rdpb.go.th"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "FAO: Rainwater Harvesting for Agriculture — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.fao.org"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "กระทรวงเกษตรฯ/กรมชลประทาน: โครงการสระน้ำในไร่นาและ \"1 ไร่ 1 แสน\" — / — เข้าถึงเมื่อ 2026-08-02 *(ตัวเลขสะสม/ต้นทุน — ดูหัวข้อ 10)*",
+      "url": "https://www.moac.go.th"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "โครงการฝายชะลอน้ำเฉลิมพระเกียรติ (กปร./กรมชลประทาน) — เข้าถึงเมื่อ 2026-08-02 *(จำนวนฝาย — ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งานวิจัยผลตอบแทนทฤษฎีใหม่/สระในไร่นาไทย (TCI-Thaijo/ThaiJo) — รายชิ้นยังไม่ยืนยัน (ดูหัวข้อ 10) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so01.tci-thaijo.org/"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "งานลดการระเหยของแหล่งน้ำเปิด (Agricultural Water Management; Journal of Hydrology) — เข้าถึงเมื่อ 2026-08-02 *(ช่วง 10–30% — ดูหัวข้อ 10)*",
+      "url": null
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-03-007.md",
+  "source_file": "03-น้ำและชลประทานอัจฉริยะ\\เจาะลึก-03-สระน้ำในไร่นา-เก็บน้ำฝน.md"
+}

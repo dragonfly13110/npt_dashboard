@@ -1,0 +1,59 @@
+{
+  "slug": "agri-05-001",
+  "title": "ดาวเทียมและภาพไฮเปอร์สเปกตรัม — การประเมินผลผลิตและโรคพืช",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "เซนเซอร์ ไอโอที และการสำรวจระยะไกล",
+  "domain_code": "05",
+  "topic_id": "05-001",
+  "handle_id": "05-001",
+  "abstract": "- **ใจความ**: ดาวเทียมหลายดวง (Sentinel-2: ฟรี, 10 ม., กลับมา 5 วัน; Landsat; Planet: 3 ม. ทุกวัน; GISTDA THEOS-2) + ภาพไฮเปอร์สเปกตรัม (PRISMA/EnMAP) — ประเมินผลผลิต (yield), โรค/ศัตรู, ความเครียดน้ำ (เชื่อม 03-002/03-011), พื้นที่เพาะปลูกทั้งประเทศได้แบบ \"เห็นจากฟ้า\" ด้วย AI/Deep learning [1][3]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://nasaharvest.org",
+  "pdf_url": null,
+  "source_urls": ["https://nasaharvest.org", "https://www.gistda.or.th"],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "งานทบทวนการสำรวจระยะไกลการเกษตร (Remote Sensing of Environment, Remote Sensing — Sentinel/NDVI/yield) — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "งาน Deep learning crop mapping/โรค (ISPRS, Computers and Electronics in Agriculture 2019–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "NASA Harvest + ข้อมูลตลาด ( analyst reports) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": "https://nasaharvest.org"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "งานวิจัยไทย: ประเมินผลผลิต/โรคข้าว-อ้อย-ยาง-มัน (TCI/ThaiJo, วารสาร GISTDA) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "GISTDA: THEOS-2/บริการข้อมูล/โครงการนาข้าว () — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": "https://www.gistda.or.th"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "สศก./กรมส่งเสริมการเกษตร: สถิติพื้นที่/ผลผลิต + การใช้ภาพถ่ายดาวเทียม — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-05-001.md",
+  "source_file": "05-เซนเซอร์ ไอโอที และการสำรวจระยะไกล\\เจาะลึก-05-ดาวเทียมไฮเปอร์สเปกตรัม-ผลผลิตและโรค.md"
+}

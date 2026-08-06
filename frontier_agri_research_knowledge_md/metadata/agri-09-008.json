@@ -1,0 +1,255 @@
+{
+  "slug": "agri-09-008",
+  "title": "การเพาะเลี้ยงในทะเลเปิด (offshore) — กระชัง/แพลอยน้ำนอกชายฝั่ง",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ประมงและสัตว์น้ำ",
+  "domain_code": "09",
+  "topic_id": "09-008",
+  "handle_id": "09-008",
+  "abstract": "- **ใจความ**: การเพาะเลี้ยงในทะเลเปิด/นอกชายฝั่ง = ย้ายกระชังจากชายฝั่งแออัดออกไปน้ำลึก/คลื่นแรง เพื่อหลบปัญหาโรค-เห็บทะเล-พื้นที่จำกัด แต่แลกด้วยทุน/วิศวกรรม/โลจิสติกส์ที่สูงขึ้นมาก [1][2][4] — ผู้นำโลกคือ **จีน** (รัฐหนุนเต็มที่: ผลผลิต 500,000 ตัน/65.2 ล้าน ลบ.ม. ปี 2024) ตามด้วย **นอร์เวย์** (SalMar Ocean, Havfarm — ยังขาดทุน) ส่วน **สหรัฐฯ/ไทย** ยังเป็นนำร่อง [7][10][17][18]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.frontiersin.org/journals/aquaculture/articles/10.3389/faquc.2025.1544379/full",
+  "pdf_url": "https://dspace.stir.ac.uk/bitstream/1893/33563/1/Morro-etal-RinA-2022.pdf",
+  "source_urls": [
+    "https://www.frontiersin.org/journals/aquaculture/articles/10.3389/faquc.2025.1544379/full",
+    "https://www.frontiersin.org/journals/aquaculture/articles/10.3389/faquc.2024.1388280/full",
+    "https://doi.org/10.1088/1755-1315/1604/1/012002",
+    "https://dspace.stir.ac.uk/bitstream/1893/33563/1/Morro-etal-RinA-2022.pdf",
+    "https://www.abvp.com/wp-content/uploads/2025/11/2025-11-Nov-Fish-deeper-offshore-aquaculture.pdf",
+    "https://dialogue.earth/en/ocean/chinas-offshore-fish-farming-grows-amid-environmental-concerns/",
+    "http://yyj.moa.gov.cn/gzdt/202510/t20251027_6478454.htm",
+    "https://news.qq.com/rain/a/20250828A0209P00",
+    "https://www.seafoodsource.com/news/supply-trade/guoxin-wanzefeng-celebrate-offshore-yellow-croaker-salmon-farming-milestones-in-china-s-yellow-sea",
+    "https://live.euronext.com/sites/default/files/company_press_releases/attachments_oslo/2026/02/10/665209_SalMar%20Q4%2025%20-%20Report.pdf",
+    "https://www.fiskeridir.no/media/Files/akvakultur/tildeling-og-tillatelser/saertillatelser/utviklingstillatelser/kunnskapsdeling/Sluttrapport-Salmar.pdf",
+    "https://www.fishfarmingexpert.com/arctic-offshore-farming-development-licences-directorate-of-fisheries/salmar-wins-approval-to-convert-6000-tonne-development-licences/2087626",
+    "https://nordlaks.com/ocean-farm-jostein-albert/",
+    "https://www.regjeringen.no/contentassets/990c65f20b4644fabdd0a7f3d3991478/horingsnotat.pdf",
+    "https://www.seafoodwatch.org/globalassets/sfw-data-blocks/reports/c/seafood-watch-cobia-panama-27965.pdf",
+    "https://www.undercurrentnews.com/2026/03/03/open-blue-ends-commercial-cobia-farming-operations-switches-to-rd-model/",
+    "https://www.epa.gov/npdes-permits/ocean-era-inc-velella-epsilon-aquatic-animal-production-facility-national-pollutant",
+    "https://aquaculturemag.com/2026/07/17/after-8-years-final-permit-issued-for-velella-epsilon-offshore-aquaculture-demonstration-project-in-the-gulf/",
+    "https://institutodepesca.org/index.php/bip/en/article/view/1037",
+    "https://doi.org/10.1007/s10499-015-9951-2",
+    "https://reference-global.com/download/article/10.2478/aoas-2023-0066.pdf",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC10226880/",
+    "https://www.readkong.com/page/open-ocean-finfish-aquaculture-business-case-february-7049624",
+    "https://www.nature.org/content/dam/tnc/nature/en/documents/TNC_EncourageCapital_TowardsABlueRevolution_FINAL.pdf",
+    "https://thefishsite.com/articles/the-prospects-for-offshore-aquaculture-a-rabobank-perspective-gorjan-nikolik",
+    "https://ussec.org/news/indonesia-continues-develop-offshore-marine-aquaculture-industry/",
+    "https://aquatec.co.id/index.php?page=single_workshop&workshopId=101",
+    "https://samutsakhon.moc.go.th/th/file/get/file/2024030754f0952ebbe90d0288bb925daace19e2174233.pdf",
+    "https://so18.tci-thaijo.org/index.php/IAJ_FMS/article/view/633",
+    "https://www4.fisheries.go.th/local/file_document/20231130091814_1_file.pdf",
+    "https://mgronline.com/greeninnovation/detail/9640000094349",
+    "https://www3.rdi.ku.ac.th/?p=88914",
+    "http://www.zj.xinhuanet.com/20250930/d6665daed5ee4b54b19dec675cd5805d/c.html"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Editorial: Differentiating and defining \"exposed\" and \"offshore\" aquaculture, Buck B.H. et al., Frontiers in Aquaculture, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.frontiersin.org/journals/aquaculture/articles/10.3389/faquc.2025.1544379/full"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Hydrodynamic exposure — on the quest to deriving quantitative metrics for mariculture sites, Lojek O. et al., Frontiers in Aquaculture, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.frontiersin.org/journals/aquaculture/articles/10.3389/faquc.2024.1388280/full"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Challenges and Risk Management of Offshore Aquaculture, Wen X., Ong M.C., Liu Y., IOP Conf. Ser. Earth Environ. Sci. 1604:012002, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1088/1755-1315/1604/1/012002"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Offshore aquaculture of finfish: Big expectations at sea, Morro B. et al., Reviews in Aquaculture 14(2):791–815, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://dspace.stir.ac.uk/bitstream/1893/33563/1/Morro-etal-RinA-2022.pdf"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Fish deeper: offshore aquaculture (global inventory of cage/vessel designs incl. Deep Blue 1/2, Guoxin, Aquapod, Sadco), AquaBioTech/ABVP, 2025-11 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.abvp.com/wp-content/uploads/2025/11/2025-11-Nov-Fish-deeper-offshore-aquaculture.pdf"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "China's offshore fish farming grows amid environmental concerns, Feng Y., China Dialogue Ocean, 2023-10-12 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://dialogue.earth/en/ocean/chinas-offshore-fish-farming-grows-amid-environmental-concerns/"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "耕海牧渔 跃向深蓝——\"十四五\"期间深远海养殖取得积极进展 (ผลผลิต深远海 50 หมื่นตัน/65.2 ล้าน ลบ.ม. ปี 2024), 渔业渔政管理局 (MARA), 2025-10-27 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "http://yyj.moa.gov.cn/gzdt/202510/t20251027_6478454.htm"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "深海下，万亿级\"赌局\" (จิงไห่ หยานไถ: เทราต์ 95% รอด, HDPE 5 แสนหยวน, Hengyi 1 ต้านลม 17), Tencent News, 2025-08-28 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://news.qq.com/rain/a/20250828A0209P00"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Guoxin, Wanzefeng celebrate offshore yellow croaker and salmon farming milestones in China's Yellow Sea (Deep Blue 2, Sea Granary 1, Guoxin 1), SeafoodSource — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.seafoodsource.com/news/supply-trade/guoxin-wanzefeng-celebrate-offshore-yellow-croaker-salmon-farming-milestones-in-china-s-yellow-sea"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "SalMar ASA Q4/Full Year 2025 Report (SalMar Ocean: 7.2 kt, EBIT -170 MNOK, -23.7 NOK/kg; เป้า 2026 = 5,000 ตัน), SalMar, 2026-02-10 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://live.euronext.com/sites/default/files/company_press_releases/attachments_oslo/2026/02/10/665209_SalMar%20Q4%2025%20-%20Report.pdf"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Sluttrapport Arctic Offshore Farming (ออกแบบ Hs 6.7 ม., รอบ 1 = 4,211 ตัน/4.4 กก., รอบ 2 = 2,330 ตัน/3.83 กก., รูตาข่าย พ.ย. 2024), SalMar/Fiskeridirektoratet, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.fiskeridir.no/media/Files/akvakultur/tildeling-og-tillatelser/saertillatelser/utviklingstillatelser/kunnskapsdeling/Sluttrapport-Salmar.pdf"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "SalMar wins approval to convert 6,000-tonne development licences (ค่าพิสูจน์ 130.3 ล้านโครน; Mattilsynet ปลดใบอนุญาต ธ.ค. 2025), Fish Farming Expert, 2026-03-16 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.fishfarmingexpert.com/arctic-offshore-farming-development-licences-directorate-of-fisheries/salmar-wins-approval-to-convert-6000-tonne-development-licences/2087626"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "The Ocean Farm \"Jostein Albert\" (Havfarm: 385 ม., 10,000 ตัน MTB, turret mooring, ผลตรวจสิ่งแวดล้อมเกรด 1–2–1), Nordlaks, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://nordlaks.com/ocean-farm-jostein-albert/"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Høringsnotat — havbruk til havs (กรอบ \"områdetilsagn\" พื้นที่นอกชายฝั่ง ออกแบบเลียนแบบปิโตรเลียม), Nærings- og fiskeridepartementet, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.regjeringen.no/contentassets/990c65f20b4644fabdd0a7f3d3991478/horingsnotat.pdf"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "Environmental sustainability assessment of farmed cobia from Panama (Open Blue: 11–12 กม. offshore, ลึก 65–70 ม., กระชังจม 10 ม., เก็บ 1,500 ตัน 2014, อาหาร 57% ส่วนผสมทะเล), Seafood Watch Report 27965, 2022-03-07 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.seafoodwatch.org/globalassets/sfw-data-blocks/reports/c/seafood-watch-cobia-panama-27965.pdf"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Open Blue ends commercial cobia farming operations, switches to R&D model, Undercurrent News, 2026-03-03 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.undercurrentnews.com/2026/03/03/open-blue-ends-commercial-cobia-farming-operations-switches-to-rd-model/"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Ocean Era, Inc. – Velella Epsilon NPDES Permit (20,000 ตัว red drum, 55,000 ปอนด์, 40 ม.ลึก), US EPA Region 4, 2020–2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.epa.gov/npdes-permits/ocean-era-inc-velella-epsilon-aquatic-animal-production-facility-national-pollutant"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "After 8 Years, Final Permit Issued for Velella Epsilon Offshore Aquaculture Demonstration Project in the Gulf, Aquaculture Magazine, 2026-07-17 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://aquaculturemag.com/2026/07/17/after-8-years-final-permit-issued-for-velella-epsilon-offshore-aquaculture-demonstration-project-in-the-gulf/"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Economic feasibility of offshore cobia farming in Pernambuco, Northeastern Brazil (กำไรเฉพาะ R$15/กก.+10 กก./ลบ.ม.; อาหาร 39.8–76.4%), Hamilton S. et al., Boletim do Instituto de Pesca, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://institutodepesca.org/index.php/bip/en/article/view/1037"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "Economic analysis of cobia cage culture in large- and small-scale production systems in Brazil (IS 24×1,607 ลบ.ม. ลงทุน $1.5M คืนทุน 3.88 ปี; FS $16k คืนทุน 2.07 ปี), Cavalli R.O. et al., Aquaculture International 24, 2016 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1007/s10499-015-9951-2"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "Assessment of initial investment strategies for different farm-scale scenarios with economic cost analyses in offshore salmon farming (ทะเลดำ: ต้นทุน 3.38 ดอลลาร์/กก., BEP 303 ตัน/ปี), Yigit U. et al., Annals of Animal Science, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://reference-global.com/download/article/10.2478/aoas-2023-0066.pdf"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "Analysis of the economic performance of salmon farming in submerged cages (กระชังจม: ต้นทุน +8.6%, กำไร +72.7%), Yigit U. et al., 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10226880/"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "Open Ocean Finfish Aquaculture: Business Case (10,000 ตัน: CAPEX NZ$188M, $7,124/ตัน, IRR 12–19%), Envirostrat/MPI New Zealand, 2020-02 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.readkong.com/page/open-ocean-finfish-aquaculture-business-case-february-7049624"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "Towards a Blue Revolution: Encouraging Capital Investment in Sustainable Aquaculture (CAPEX กระชังนอกฝั่ง $16–24/กก. เล็ก, $8–12/กก. ใหญ่; ต้นทุนดำเนินการ $4.00–9.50/กก.), The Nature Conservancy, 2020 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.org/content/dam/tnc/nature/en/documents/TNC_EncourageCapital_TowardsABlueRevolution_FINAL.pdf"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "The prospects for offshore aquaculture: a Rabobank perspective (≤10% ของแซลมอนโลกนอกฝั่งภายในปลายทศวรรษ; $10B/1 ล้านตัน), The Fish Site, 2021-09-13 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://thefishsite.com/articles/the-prospects-for-offshore-aquaculture-a-rabobank-perspective-gorjan-nikolik"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "Indonesia Continues to Develop its Offshore Marine Aquaculture Industry (3 จุดนำร่อง × 6 กระชัง 30 ม., งบ 45 พันล้านรูเปียห์/จุด), USSEC, 2018-01-15 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://ussec.org/news/indonesia-continues-develop-offshore-marine-aquaculture-industry/"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "Offshore Aquaculture Feasibility Report Indonesia (19,500 กระชัง HDPE, KIORCC เกาหลี-อินโดนีเซีย, แท่นปิโตรเลียมปลดระวาง), ciiz/Aquatec, 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://aquatec.co.id/index.php?page=single_workshop&workshopId=101"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "รายงานสถานการณ์ปลากะพง (ผลผลิต 2565–2567 รายจังหวัด, สัดส่วนบ่อ:กระชัง, มาตรฐาน มกษ. 7016-2558), สำนักงานพาณิชย์จังหวัดสมุทรสาคร/กรมประมง, 2567 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://samutsakhon.moc.go.th/th/file/get/file/2024030754f0952ebbe90d0288bb925daace19e2174233.pdf"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "ต้นทุนและผลตอบแทนการเลี้ยงปลากะพงขาวในกระชัง: กรณีศึกษาวิสาหกิจชุมชนบ้านอ่าวมะนาว จ.นราธิวาส (ต้นทุน 14,041 บาท/กระชัง, ROI 18.78%), วารสารวิชาการเพื่อการพัฒนาความมั่นคงของมนุษย์, 2567 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so18.tci-thaijo.org/index.php/IAJ_FMS/article/view/633"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "การประเมินความเป็นไปได้การจัดการสุขภาพปลากะพงขาวด้วยพันธุศาสตร์ต้าน ISKNV (อัตราพันธุกรรม 0.285, ลดขาดทุน 155 ล้านบาท/ปี), กรมประมง, 2566 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www4.fisheries.go.th/local/file_document/20231130091814_1_file.pdf"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "\"ซูเปอร์กระชัง\" คณะประมง มก. นำร่อง IMTA สู่การเลี้ยงสัตว์น้ำแบบผสมผสาน (กระชัง 2 ชั้น ศรีราชา 2 กม., auto-feeding/กล้องใต้น้ำ), MGR Online, 2564-09-23 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://mgronline.com/greeninnovation/detail/9640000094349"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "การพัฒนาการเลี้ยงปลาช่อนทะเลในกระชัง (cobia ชุมชนกระบี่ อาหารโปรตีน 45%), สถานีวิจัยอันดามัน ม.เกษตรศาสตร์, 2567 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www3.rdi.ku.ac.th/?p=88914"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "大黄鱼\"搬家\"深远海 — 东海1号 (แพลอยกึ่งจมน้ำเจ้อเจียง: 82×32 ม., 3 กระชัง, 400 ตัน/ปี, ลงทุน 60 ล้านหยวน) — 瞭望/新华社, 2025-09-30 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "http://www.zj.xinhuanet.com/20250930/d6665daed5ee4b54b19dec675cd5805d/c.html"
+    }
+  ],
+  "reference_count": 33,
+  "article_file": "agri-09-008.md",
+  "source_file": "09-ประมงและสัตว์น้ำ\\เจาะลึก-09-กระชังทะเลเปิด-นอกชายฝั่ง.md"
+}

@@ -1,0 +1,290 @@
+{
+  "slug": "agri-13-006",
+  "title": "ความยืดหยุ่นของห่วงโซ่อาหารโลก (Food Supply Chain Resilience) — วิกฤต 4 ระลอก/ราคา/สำรอง — \"ห่วงโซ่ยืดหยุ่น = มีแผนสำรองก่อนวิกฤต ไม่ใช่แก้หลังวิกฤต\"",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-05",
+  "created_at": "2026-08-05",
+  "review_at": "2027-02-05",
+  "category": "ความมั่นคงอาหารและห่วงโซ่อุปทานยั่งยืน",
+  "domain_code": "13",
+  "topic_id": "13-006",
+  "handle_id": "13-006",
+  "abstract": "- **ใจความ**: ความยืดหยุ่นของห่วงโซ่อาหาร (Supply Chain Resilience) = ความสามารถ **absorb** (รับแรงกระแทก) + **adapt** (ปรับตัว) + **recover** (ฟื้นตัว) จากวิกฤต — หลักฐานเชิงประจักษ์ 2020–2026 จากวิกฤต 4 ระลอก: (1) **COVID-19 2020** (แรงงาน/โรงฆ่าสัตว์/เที่ยวบิน — เนื้อสหรัฐฯ slaughter เหลือ 65% ของปีก่อน สัปดาห์ 2 พ.ค. 2020 [6]; กำลังผลิตหาย 25% (วัว)/43% (หมู)/15% (ไก่) [6]; ผู้คนล็อกดาวน์ → ย้ายการบริโภคออกจากบ้าน FAFH -17% [6]) (2) **สงครามยูเครน 2022** (รัสเซีย+ยูเครน = ~30% ส่งออกข้าวสาลีโลก/~20% ข้าวโพด [10] → FAO Food Price Index พีค 159.7 จุด มี.ค. 2022 — สูงสุดในรอบ 60 ปี [4]; มาตรการจำกัดส่งออกพีค ~17% ของแคลอรีที่ค้าขายโลก [8]) (3) **เอลนีโญ/ภัยแล้ง 2023–24 และ 2026** (El Niño 2",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.fao.org/worldfoodsituation/foodpricesindex/en/",
+  "pdf_url": "https://ers.usda.gov/sites/default/files/_laserfiche/publications/103178/AP-098.pdf",
+  "source_urls": [
+    "https://www.fao.org/worldfoodsituation/foodpricesindex/en/",
+    "https://reliefweb.int/report/world/fao-food-price-index-dips-december-despite-higher-world-cereal-quotations",
+    "https://www.fao.org/newsroom/detail/fao-food-price-index-dips-during-the-month-of-december-month-on-month/en",
+    "https://lab.imedd.org/en/fao-global-food-prices-still-hit-60-year-record-high-2022/",
+    "https://tradingeconomics.com/world/food-price-index",
+    "https://ers.usda.gov/sites/default/files/_laserfiche/publications/103178/AP-098.pdf",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC8014318/",
+    "https://www.ifpri.org/blog/bad-worse-how-export-restrictions-exacerbate-global-food-security/",
+    "https://www.ifpri.org/blog/food-export-restrictions-have-eased-russia-ukraine-war-continues-concerns-remain-key",
+    "https://news.un.org/en/story/2022/04/1115852",
+    "https://www.nature.com/articles/s43247-024-01638-7",
+    "https://news.un.org/en/story/2023/07/1138532",
+    "https://www.un.org/en/black-sea-grain-initiative/update-15-july-2023",
+    "https://southasia.ifpri.info/2023/07/29/indias-new-ban-on-rice-exports-potential-threats-to-global-supply-prices-and-food-security",
+    "https://southasia.ifpri.info/2024/02/12/indias-export-restrictions-on-rice-continue-to-disrupt-global-markets-supplies-and-prices",
+    "https://www.sciencedirect.com/science/article/pii/S0306919225000983",
+    "https://www.iseas.edu.sg/articles-commentaries/iseas-perspective/2023-53-rice-production-and-food-security-in-southeast-asia-under-threat-from-el-nino-by-elyssa-ludher-and-paul-teng",
+    "https://thedocs.worldbank.org/en/doc/40ebbf38f5a6b68bfc11e5273e1405d4-0090012022/related/Food-Security-Update-XCIII-Oct-12-2023.pdf",
+    "https://www.nationthailand.com/news/general/40066149",
+    "https://www.kasikornresearch.com/en/analysis/k-social-media/Pages/THAI-RICE-AND-EL-NINO-CIS3410-FB-21-05-2023.aspx",
+    "https://www.nationthailand.com/business/trade/40061515",
+    "https://cb.apps.fao.org/country.jsp?code=THA",
+    "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Oilseeds%20and%20Products%20Annual_Bangkok_Thailand_TH2025-0009.pdf",
+    "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Grain%20and%20Feed%20Monthly_Bangkok_Thailand_TH2025-0002.pdf",
+    "https://finance.yahoo.com/news/thailand-fertilizer-industry-research-report-132200476.html",
+    "https://tradingeconomics.com/thailand/imports/fertilizers",
+    "https://www.argusmedia.com/en/news-and-insights/latest-market-news/2797370-thailand-s-fertilizer-supply-ample-as-war-continues",
+    "https://www.straitstimes.com/asia/se-asia/thailand-faces-tougher-durian-export-competition-in-china-ministry-warns",
+    "https://www.nationthailand.com/business/economy/40068168",
+    "https://www.bangkokpost.com/business/general/2978013/fruit-exports-produce-6-51bn",
+    "https://thailand.go.th/issue-focus-detail/government-absorbs-3-million-tonnes-of-rice-to-stabilise-prices",
+    "https://www.un.org/ohrlls/sites/www.un.org.ohrlls/files/speaker_-_dr._choomjet_karnjanakesorn_asean_apterr.pdf",
+    "https://cil.nus.edu.sg/wp-content/uploads/2020/05/2011-APTERR.pdf",
+    "https://mataram.antaranews.com/berita/550340/indonesia-rice-reserves-hit-historic-high-of-519-million-tons",
+    "https://www.nature.com/articles/s43016-023-00800-2",
+    "https://www.sciencedirect.com/science/article/pii/S1043951X25001415",
+    "https://www.sciencedirect.com/science/article/pii/S221191242300010X",
+    "https://onlinelibrary.wiley.com/doi/10.1111/cjag.12279"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "FAO, Food Price Index (หน้าเป็นทางการ — FFPI มิ.ย. 2026 = 130.3 จุด, ต่ำกว่าพีค มี.ค. 2022 = 18.7%; Cereal/Dairy/Meat/Oils/Sugar ย่อย), 2026 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.fao.org/worldfoodsituation/foodpricesindex/en/"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "FAO Newsroom ผ่าน ReliefWeb, \"FAO Food Price Index dips in December despite higher world cereal quotations\" (FFPI ธ.ค. 2025 = 124.3; เฉลี่ยปี 2025 = 127.2 +4.3%; ข้าว -35.2%; น้ำมันพืช +17.1%; เนื้อ +5.1%; นม +13.2%; น้ำตาล -17.0%), 9 ม.ค. 2026 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://reliefweb.int/report/world/fao-food-price-index-dips-december-despite-higher-world-cereal-quotations"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "FAO Newsroom, \"FAO Food Price Index dips during the month of December\" (ธ.ค. 2024 = 127.0; เฉลี่ย 2024 = 122.0 -2.1%; ข้าว 2024 สูงสุดรอบ 16 ปี), ม.ค. 2025 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.fao.org/newsroom/detail/fao-food-price-index-dips-during-the-month-of-december-month-on-month/en"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "iMEdD Lab, \"Global food prices still hit 60-year record high in 2022\" (FFPI มี.ค. 2022 = 159.7 จุด +13.2% MoM; +60% เทียบก่อนระบาด; สูงสุดนับแต่ 1961), 2022 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://lab.imedd.org/en/fao-global-food-prices-still-hit-60-year-record-high-2022/"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "TradingEconomics, \"World Food Price Index\" (พีค 160.20 มี.ค. 2022; FFPI มิ.ย. 2026 = 130.3; สต็อกข้าวอินเดีย 68.43 ล้านตัน 1 มิ.ย. 2026 = >5 เท่าบัฟเฟอร์ 13.5 ล้านตัน; สต็อกข้าวโลก 196.2 ล้านตัน; สต็อกไทยสูงสุดรอบทศวรรษ), 2026 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://tradingeconomics.com/world/food-price-index"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "USDA ERS, COVID-19 Working Paper AP-098 \"COVID-19 and the U.S. Meat and Poultry Supply Chains\" (slaughter 65% ของปีก่อน สัปดาห์ 2 พ.ค. 2020; FAFH -17% ปี 2020; ลดครั้งแรกนับแต่ 2009), 2021 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://ers.usda.gov/sites/default/files/_laserfiche/publications/103178/AP-098.pdf"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "OECD, \"Food Supply Chains and Covid-19: Impacts and policy lessons\" (บทเรียนตลาดเปิด/กระจายแหล่ง/ตาข่ายความปลอดภัย; WFP คาด 265 ล้านคนอดอยากเฉียบพลัน 2020), 2020 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8014318/"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "IFPRI, \"From bad to worse: How Russia-Ukraine war-related export restrictions exacerbate global food security\" (พีค ~17% ของแคลอรีค้าขาย 23 ประเทศ; COVID 4 สัปดาห์แรก 21 ประเทศ ~8% พีค มิ.ย. 2020; 2008 = 35 ประเทศ 16%), เม.ย. 2022 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.ifpri.org/blog/bad-worse-how-export-restrictions-exacerbate-global-food-security/"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "IFPRI, \"Food export restrictions have eased as the Russia-Ukraine war continues...\" (2022 = 32 ประเทศ/77 มาตรการ; อินโดนีเซียแบนปาล์ม 28 เม.ย.–22 พ.ค. 2022 — ส่งออก พ.ค. -92% YoY; 3 ใน 4 ประเทศนำเข้าปุ๋ย ≥50% ของความต้องการ; ปาล์ม = 58% ของการค้าน้ำมันพืชโลก), ม.ค. 2023 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.ifpri.org/blog/food-export-restrictions-have-eased-russia-ukraine-war-continues-concerns-remain-key"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "UN News, \"Ukraine war drives international food prices to 'new all-time high'\" (Cereal Index +17.1% MoM มี.ค. 2022 = 170.1 จุด สูงสุดนับแต่ 1990; รัสเซีย+ยูเครน ~30% ข้าวสาลี/~20% ข้าวโพดของการส่งออกโลก), เม.ย. 2022 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://news.un.org/en/story/2022/04/1115852"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Nature Communications Earth & Environment, \"International cooperation was key to stabilize wheat prices\" (BSGI+Solidarity Lanes+ยกเลิกข้อจำกัด ลดราคาข้าวสาลี 2022 ได้ 13 เปอร์เซ็นต์พอยต์; รัสเซีย+ยูเครน ~1 ใน 3 ของส่งออกข้าวสาลีโลก; WFP ซื้อข้าวสาลีจากยูเครนเกือบครึ่งก่อนสงคราม), ก.ย. 2024 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nature.com/articles/s43247-024-01638-7"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "UN News, \"One year of the Black Sea Initiative: Key facts and figures\" (>32 ล้านตัน ไป 45 ประเทศ; ข้าวโพด 51%/ข้าวสาลี 27%; FFPI ลด >23% จากพีค มี.ค. 2022 ภายใน ก.ค. 2023; FFPI ก.ค. 2022 = 140.6), ก.ค. 2023 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://news.un.org/en/story/2023/07/1138532"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "UN JCC, \"Update from the Office of the UN Coordinator for the Black Sea Grain Initiative\" (32,817,650 ตัน/1,003 เที่ยว; WFP ซื้อข้าวสาลีจากยูเครน 80%; ช่วยเหลือ 725,167 ตัน; พีคเดือน ต.ค. 2022 = 4.24 ล้านตัน), 15 ก.ค. 2023 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.un.org/en/black-sea-grain-initiative/update-15-july-2023"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "IFPRI (Glauber & Mamun), \"India's ban on rice exports: Potential threats to global supply, prices, and food security\" (แบน 20 ก.ค. 2023 ครอบ 75–80% ของส่งออกอินเดีย; อินเดีย = ~40% ของการค้าข้าวโลก 2022/23; ข้าวค้าขาย ~11% ของผลผลิต เทียบข้าวสาลี 27%), 29 ก.ค. 2023 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://southasia.ifpri.info/2023/07/29/indias-new-ban-on-rice-exports-potential-threats-to-global-supply-prices-and-food-security"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "IFPRI (Glauber & Mamun), \"India's export restrictions on rice continue to disrupt global markets...\" (ข้าวไทย 5% broken +22% หลังแบน 6 เดือน; ส่งออกอินเดีย ส.ค.–พ.ย. 2023 = 3.7 ล้านตัน -46%, broken 28.5k ตัน -95%, white 154k ตัน -93%; มาดากัสการ์นำเข้า -44%; เคนยา/เซเนกัล — แอฟริกาเปลี่ยนไปปากีสถาน), ก.พ. 2024 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://southasia.ifpri.info/2024/02/12/indias-export-restrictions-on-rice-continue-to-disrupt-global-markets-supplies-and-prices"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Food Policy (ScienceDirect), \"Economic impacts of the Indian ban on non-Basmati rice exports\" (ราคาข้าวโลกสูงขึ้นถึง 32% ในประเทศผู้ส่งออกหลัก), 2025 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0306919225000983"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "ISEAS Perspective 2023/53 (Ludher & Teng), \"Rice Production and Food Security in Southeast Asia under Threat from El Niño\" (เอลนีโญ 2015-16: ข้าวอาเซียน -15 ล้านตัน; ราคาข้าวโลก +16%; เวียดนามน้ำเค็ม 90 กม. เสียหาย 674 ล้าน USD; เอลนีโญ 1997-98/2015-16 = very strong), 2023 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.iseas.edu.sg/articles-commentaries/iseas-perspective/2023-53-rice-production-and-food-security-in-southeast-asia-under-threat-from-el-nino-by-elyssa-ludher-and-paul-teng"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "World Bank, Food Security Update XCIII (ข้าวไทย +29.5%, เวียดนาม +31.9% ก.ย. 2023 เทียบสิ้นปี 2022; FEWS NET คาด ~100 ล้านคนต้องการความช่วยเหลือ), ต.ค. 2023 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://thedocs.worldbank.org/en/doc/40ebbf38f5a6b68bfc11e5273e1405d4-0090012022/related/Food-Security-Update-XCIII-Oct-12-2023.pdf"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "The Nation Thailand, \"El Niño fears push rice importers to build stocks as Thailand watches drought risk\" (กรมอุตุฯไทย คาดโอกาสเอลนีโญ 61% พ.ค.–ก.ค. 2026; มาเลเซีย/ฟิลิปปินส์สต็อกกัก; ข้าวไทย/เวียดนาม >400 USD/ตัน), 13 พ.ค. 2026 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nationthailand.com/news/general/40066149"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "Kasikorn Research Center, \"El Niño in 2023 may dent in-season rice output\" (นาปีไทย -4.1~-6.0% หากเอลนีโญปานกลาง; ผลรวม 32.7–33.2 ล้านตัน), 2023 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.kasikornresearch.com/en/analysis/k-social-media/Pages/THAI-RICE-AND-EL-NINO-CIS3410-FB-21-05-2023.aspx"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "The Nation Thailand, \"Thailand's 2025 rice exports top target at 7.9m tonnes\" (ส่งออก 2025 = 7.9 ล้านตัน มูลค่า 148,204 ล้านบาท ~4,515 ล้าน USD; ข้าวขาว 3.62 ล้านตัน -39.87%; 2026 เป้า 7 ล้านตัน; แข่งราคาอินเดีย/เวียดนาม/ปากีสถาน), 21 ม.ค. 2026 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nationthailand.com/business/trade/40061515"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "FAO GIEWS, Country Brief Thailand (ส่งออกข้าว 2025 ≈ 7.7 ล้านตัน เทียบ 9.9 ใน 2024; ผลผลิตข้าว 2025/26 = 33.5 ล้านตัน -1.9%; ราคาข้าวในประเทศ ธ.ค. 2025 ต่ำกว่าปีก่อน ~30%), 23 ม.ค. 2026 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://cb.apps.fao.org/country.jsp?code=THA"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "USDA FAS GAIN TH2025-0009, \"Oilseeds and Products Annual — Thailand\" (ผลิตถั่วเหลืองไทย 50–60k ตัน; นำเข้า 3.3–4.0 ล้านตัน — บราซิล 88–90%; อาหารสัตว์โปรตีนเทียบถั่วเหลือง ~4.7–5.0 ล้านตัน; กากปาล์มนำเข้า ~290–325k ตัน; น้ำมันปาล์มนำเข้าเฉพาะผ่าน อคส./PWO), 2025 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Oilseeds%20and%20Products%20Annual_Bangkok_Thailand_TH2025-0009.pdf"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "USDA FAS GAIN TH2025-0002, \"Grain and Feed Monthly — Thailand\" (ผลผลิตข้าว 20.0 ล้านตัน 2024/25; ข้าวโพด 5.4 ล้านตัน + นำเข้า duty-free จากเพื่อนบ้าน; ข้าวสาลีนำเข้า ~3.2 ล้านตัน; โครงการรับจำนำ 3 MMT งบ 9.9 พันล้านบาท), ม.ค. 2025 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Grain%20and%20Feed%20Monthly_Bangkok_Thailand_TH2025-0002.pdf"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "Research and Markets (GlobeNewswire), \"Thailand Fertilizer Industry Research Report 2024-2033\" (นำเข้า >4 ล้านตัน/ปี เทียบส่งออก ~0.5 ล้านตัน; ยูเรีย = 73.6% ของการนำเข้าปุ๋ย 2021; แหล่ง 2022: ซาอุฯ/จีน/รัสเซีย/แคนาดา/มาเลเซีย; ราคาปุ๋ยขึ้น 2022 → รัฐจำกัดราคา), เม.ย. 2024 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://finance.yahoo.com/news/thailand-fertilizer-industry-research-report-132200476.html"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "TradingEconomics/UN COMTRADE, \"Thailand Imports of Fertilizers\" (นำเข้าปุ๋ย 2024 = 2.56 พันล้าน USD), 2026 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://tradingeconomics.com/thailand/imports/fertilizers"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "Argus Media, \"Thailand's fertilizer supply ample as war continues\" (สต็อกปุ๋ยรวม 1.52 ล้านตัน (ม.ค. 2026) — ยูเรีย 320,000 ตัน (6.5 ล้านถุง) อุ้มได้ >2 เดือน; ซาอุฯเตรียมส่งเพิ่ม ~100,000 ตัน (มี.ค. 2026); ซาอุฯ = แหล่งใหญ่สุด ~1.1 ล้านตัน (2025); ตะวันออกกลาง = 35% ของการค้ายูเรียทางเรือโลก; ราคายูเรียในประเทศ 17,000 บาท/ตัน (6 มี.ค. 2026); รัฐเตือนผู้ค้าอย่าฉวยโอกาสขึ้นราคา), 6 มี.ค. 2026 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.argusmedia.com/en/news-and-insights/latest-market-news/2797370-thailand-s-fertilizer-supply-ample-as-war-continues"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "The Straits Times (The Nation/ANN), \"Thailand faces tougher durian export competition in China, ministry warns\" (ส่งออกทุเรียน 2025 = 982,016 ตัน มูลค่า 125.868 พันล้านบาท — ลดจาก 2024 = 859,157 ตัน/134.852 พันล้านบาท; OAE คาดผลผลิต 2026 = 1.781 ล้านตัน +15.71%), 6 ม.ค. 2026 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.straitstimes.com/asia/se-asia/thailand-faces-tougher-durian-export-competition-in-china-ministry-warns"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "The Nation Thailand, \"Thai fresh durian exports to China exceed THB100bn in first half\" (H1-2026 (ถึง 30 มิ.ย.): 872,237.24 ตัน/100.07992 พันล้านบาท (53,665 ตู้) — ครั้งแรกที่ครึ่งปีทะลุ 1 แสนล้านบาท; มาตรการ \"Four Nos\" (กันทุเรียนอ่อน/หนอน/แอบอ้างแหล่งกำเนิด/สารปนเปื้อน BY2) + e-Phyto; เป้าทั้งปี 2026 = 150 พันล้านบาท), 2 ก.ค. 2026 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nationthailand.com/business/economy/40068168"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "Bangkok Post (อ้าง TPSO), \"Fruit exports produce $6.51bn\" (ผลไม้ไทย 2024 = 6.51 พันล้าน USD = 22.6% ของมูลค่าส่งออกสินค้าเกษตร (ค่าเฉลี่ย 5 ปี 5.86B); ผลไม้สด 5.15B; ทุเรียน 859,183 ตัน/3.76B = 72.9% ของผลไม้สด; จีน = 97.4% ของตลาดผลไม้สด), 12 มี.ค. 2025 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.bangkokpost.com/business/general/2978013/fruit-exports-produce-6-51bn"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "Thailand.go.th, \"Government absorbs 3 million tonnes of rice to stabilise prices\" (Paddy Absorption Project ข้าวนาปี 2025/26 = 3 ล้านตัน งบ 1.68 พันล้านบาท; เงินกู้ชะลอขายข้าว 3 ล้านตัน ค่าฝากเก็บ 1,500 บาท/ตัน; ปรับพื้นที่นาปรัง 160,000 เฮกตาร์), 25 ธ.ค. 2025 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://thailand.go.th/issue-focus-detail/government-absorbs-3-million-tonnes-of-rice-to-stabilise-prices"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "APTERR Secretariat (Dr. Choomjet Karnjanakesorn), \"ASEAN Plus Three Emergency Rice Reserve (APTERR)\" — เอกสารนำเสนอ UN OHRLLS (กลไก 3 Tier — Tier 1 forward contract/Tier 2 เงินกู้-เงินให้/Tier 3 บริจาค; Tier 3 ตั้งแต่ 2011 ปล่อยข้าว >60,000 ตัน ช่วยผู้รับเกือบ 6,000,000 คน; สำนักงานเลขาธิการตั้งในกรุงเทพฯ; ดำเนินการต่อภายใต้ APTCS-FAF 2026-2035), 2026 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.un.org/ohrlls/sites/www.un.org.ohrlls/files/speaker_-_dr._choomjet_karnjanakesorn_asean_apterr.pdf"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "APTERR, \"2011 ASEAN Plus Three Emergency Rice Reserve Agreement\" (Earmarked รวม 787,000 ตัน — จีน 300,000/ญี่ปุ่น 250,000/เกาหลีใต้ 150,000 — จึง \"<800,000 ตัน\"; apterr.org เผยแพร่ \"Weekly Update on Natural Disasters/Rice Situations\" รายสัปดาห์ (ฉบับที่ 477, 22–28 ก.ค. 2026) + ระบบเฝ้าระวัง FEMI), 2011/2026 — และ — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://cil.nus.edu.sg/wp-content/uploads/2020/05/2011-APTERR.pdf"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "ANTARA English, \"Indonesia rice reserves hit historic high of 5.19 million tons\" (สต็อก CBP/บูล็อก = 5,198,000 ตัน ณ 23 เม.ย. 2026 — สูงสุดในประวัติศาสตร์ (ช่วงเม.ย.); นำเข้าข้าว ~7 ล้านตัน (2023-24) → หยุดนำเข้า 2025 และตั้งเป้าไม่นำเข้า 2026; เช่าคลังเพิ่ม 2 ล้านตัน), 23 เม.ย. 2026 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://mataram.antaranews.com/berita/550340/indonesia-rice-reserves-hit-historic-high-of-519-million-tons"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "Nature Food, \"Structural chokepoints determine the resilience of the food supply chain in the United States\" (จุดคอขวดเชิงโครงสร้างของโครงข่ายโลจิสติกส์ (ท่าเรือ/คลัง/ทางรถไฟ) กำหนดความยืดหยุ่นห่วงโซ่อาหารสหรัฐฯ — วางแผน/ลงทุนที่ chokepoint ได้ผลกว่าการกระจายแบบสุ่ม), ก.ค. 2023 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nature.com/articles/s43016-023-00800-2"
+    },
+    {
+      "id": "36",
+      "index": 36,
+      "label": "China Economic Review (Li, Liu, Wang & Chen), \"Import diversification, market risk co-movement and Agri-food supply chain resilience\" (กระจายแหล่งนำเข้าลดความเสี่ยง disruption ของวิสาหกิจ agri-food จีนจริง (survival analysis) แต่ risk co-movement ระหว่างแหล่ง (เสี่ยงวิกฤตพร้อมกัน) ลดประสิทธิผล; ความสัมพันธ์ไม่เป็นเส้นตรง), vol. 93 (มี.ค. 2025) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.sciencedirect.com/science/article/pii/S1043951X25001415"
+    },
+    {
+      "id": "39",
+      "index": 39,
+      "label": "Global Food Security (Elsevier — Diao, Ellis & Thurlow, IFPRI), \"The Ukraine war and rising commodity prices: Implications for developing countries\" (โมเดล RIAPA ครอบ 19 ประเทศพัฒนาแล้ว/กำลังพัฒนา: วิกฤตราคา 2022 ผลักคนจนเพิ่ม 27.2 ล้านคน และคนหิวโหยเพิ่ม 22.3 ล้านคน), มี.ค. 2023 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.sciencedirect.com/science/article/pii/S221191242300010X"
+    },
+    {
+      "id": "40",
+      "index": 40,
+      "label": "Hobbs, J.E., \"Food supply chain resilience and the COVID-19 pandemic: What have we learned?\" (Canadian Journal of Agricultural Economics 69(2): 189-196 — ห่วงโซ่อาหารแคนาดา/สหรัฐฯ \"ทำงานดีเกินคาด\" ใน COVID; จุดพังจริง = แรงงานโรงฆ่าสัตว์ + ผักผลไม้สด; ข้อแลกเปลี่ยน \"economies of scale vs adaptability\" (รวมศูนย์ = ต้นทุนต่ำแต่เปราะ) — ยังไม่มีมาตรวัดความยืดหยุ่นเป็นตัวเลข), มิ.ย. 2021 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1111/cjag.12279"
+    }
+  ],
+  "reference_count": 38,
+  "article_file": "agri-13-006.md",
+  "source_file": "13-ความมั่นคงอาหารและห่วงโซ่อุปทานยั่งยืน\\เจาะลึก-13-ความยืดหยุ่นห่วงโซ่อาหาร-SupplyChainResilience.md"
+}

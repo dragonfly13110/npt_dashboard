@@ -1,0 +1,59 @@
+{
+  "slug": "agri-07-002",
+  "title": "หุ่นยนต์กำจัดวัชพืชแบบแม่นยำ — เลเซอร์ / กลไก / ไฟฟ้า — วัชพืชตาย 100% ในจุดที่เลเซอร์เล็ง 100 ครั้งต่อวินาที",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "หุ่นยนต์และเครื่องจักรอัตโนมัติ",
+  "domain_code": "07",
+  "topic_id": "07-002",
+  "handle_id": "07-002",
+  "abstract": "- **ใจความ**: หุ่นยนต์กำจัดวัชพืชแม่นยำ = AI จำแนก \"พืช vs วัชพืช\" แบบเรียลไทม์ (ภาพ/กล้อง) แล้วกำจัดเฉพาะวัชพืชด้วย 3 วิธี: (1) **เลเซอร์** (Carbon Robotics LaserWeeder — ยิงเลเซอร์ความร้อนฆ่ายอดวัชพืช) (2) **กลไก** (จอบ/มีดหมุนเฉพาะจุด — FarmWise/Steketee/Naïo/Odd.Bot — ฝังดิน/ถอน/ตัด) (3) **ไฟฟ้า** (กระแสไฟฟ้าเผาเนื้อเยื่อ — RootWave/Zasso — ไม่ต้องสัมผัส) — เป้าหมาย: ลด/เลิกสารเคมีกำจัดวัชพืช (glyphosate-class) + ลดแรงงานถอนวัชพืช (แพงที่สุดในผัก/ออร์แกนิก) [1][2][3]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "งานทบทวน smart/robotic weeding (Weed Science, Computers and Electronics in Agriculture 2015–2024) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "งานทดลองเลเซอร์/กลไก/ไฟฟ้ากำจัดวัชพืช (Agronomy, Frontiers in Plant Science 2020–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "เอกสาร/ข่าวผู้ผลิต (Carbon Robotics, FarmWise, Steketee, Naïo, Odd.Bot, FarmDroid, RootWave, Zasso 2021–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "รายงานตลาด weeding/agricultural robotics (analyst/AgFunder/The Robot Report 2023–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งานวิจัย AI/วัชพืชไทย (TCI/ThaiJo — มก./มข./มจธ.) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "สถานะการใช้สารเคมี/แรงงานถอนวัชพืชไทย (กรมวิชาการ/สศก./ข่าว) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-07-002.md",
+  "source_file": "07-หุ่นยนต์และเครื่องจักรอัตโนมัติ\\เจาะลึก-07-หุ่นยนต์กำจัดวัชพืช-เลเซอร์-กล-ไฟฟ้า.md"
+}

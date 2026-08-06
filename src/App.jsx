@@ -92,6 +92,9 @@ const MachineryKnowledge = lazy(
 const StouResearchKnowledge = lazy(
   () => import('./pages/stouResearch/StouResearchKnowledge')
 );
+const FrontierAgriResearchKnowledge = lazy(
+  () => import('./pages/frontierAgriResearch/FrontierAgriResearchKnowledge')
+);
 
 // Strategy
 const Disasters = lazy(() => import('./pages/strategy/Disasters'));
@@ -452,6 +455,18 @@ function AppRoutes() {
         <Route
           path="/public/stou-research/:slug"
           element={<StouResearchKnowledge />}
+        />
+        <Route
+          path="/public/frontier-agri-research"
+          element={<FrontierAgriResearchKnowledge />}
+        />
+        <Route
+          path="/public/frontier-agri-research/catalog"
+          element={<FrontierAgriResearchKnowledge />}
+        />
+        <Route
+          path="/public/frontier-agri-research/:slug"
+          element={<FrontierAgriResearchKnowledge />}
         />
 
         {/* Interactive Dashboard — PUBLIC */}

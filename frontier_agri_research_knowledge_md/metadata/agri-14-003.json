@@ -1,0 +1,82 @@
+{
+  "slug": "agri-14-003",
+  "title": "ปัจจัยการยอมรับเทคโนโลยีของเกษตรกรไทย (TAM/UTAUT)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-01",
+  "created_at": "2026-08-01",
+  "review_at": "2027-02-01",
+  "category": "สตาร์ทอัพ นวัตกรรม และการยอมรับเทคโนโลยี",
+  "domain_code": "14",
+  "topic_id": "14-003",
+  "handle_id": "14-003",
+  "abstract": "- **ใจความ**: งานนี้เป็น \"เจาะลึกทฤษฎีและหลักฐานเชิงประจักษ์\" เกี่ยวกับ **ปัจจัยที่ทำให้เกษตรกร (ไม่) ยอมรับเทคโนโลยีการเกษตร** โดยใช้กรอบแนวคิดหลัก 3 ตัว ได้แก่ (1) ทฤษฎีการแพร่กระจายนวัตกรรม (Diffusion of Innovations, DOI) ของ Everett Rogers ค.ศ. 1962 [1] (2) แบบจำลองการยอมรับเทคโนโลยี (Technology Acceptance Model, TAM) ของ Fred Davis ค.ศ. 1989 [2] และ (3) ทฤษฎีรวมว่าด้วยการยอมรับและการใช้เทคโนโลยี (UTAUT) ของ Venkatesh และคณะ ค.ศ. 2003 [3] รวมถึงส่วนขยาย UTAUT2 (ค.ศ. 2012) [4]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://en.wikipedia.org/wiki/Diffusion_of_innovations",
+  "pdf_url": null,
+  "source_urls": [
+    "https://en.wikipedia.org/wiki/Diffusion_of_innovations",
+    "https://en.wikipedia.org/wiki/Technology_acceptance_model",
+    "https://en.wikipedia.org/wiki/UTAUT",
+    "https://so01.tci-thaijo.org/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Rogers, E. M. — Diffusion of Innovations (พิมพ์ครั้งแรก ค.ศ. 1962, รุ่นที่ 5 ค.ศ. 2003, Free Press) — หมวดผู้ยอมรับ 2.5/13.5/34/34/16 และ 5 ลักษณะนวัตกรรม — เข้าถึงผ่านสรุปทฤษฎี: — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://en.wikipedia.org/wiki/Diffusion_of_innovations"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Davis, F. D. (1989) — \"Perceived usefulness, perceived ease of use, and user acceptance of information technology\", MIS Quarterly 13(3):319–340 — ตัวแบบ TAM — อ้างผ่าน: — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://en.wikipedia.org/wiki/Technology_acceptance_model"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Venkatesh, V., Morris, M. G., Davis, G. B., & Davis, F. D. (2003) — \"User acceptance of information technology: Toward a unified view\", MIS Quarterly 27(3):425–478 — UTAUT อธิบายแปรปรวน BI ~70% และ use ~50% — อ้างผ่าน: — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://en.wikipedia.org/wiki/UTAUT"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Venkatesh, V., Thong, J. Y. L., & Xu, X. (2012) — \"Consumer acceptance and use of information technology: Extending the unified theory (UTAUT2)\", MIS Quarterly 36(1):157–178 — อ้างผ่าน: — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://en.wikipedia.org/wiki/UTAUT"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Venkatesh, V., & Davis, F. D. (2000) — \"A theoretical extension of the technology acceptance model: Four longitudinal field studies (TAM2)\", Management Science 46(2):186–204 — อ้างผ่าน: — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://en.wikipedia.org/wiki/Technology_acceptance_model"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Venkatesh, V., & Bala, H. (2008) — \"Technology Acceptance Model 3\", Decision Sciences 39(2):273–315 — อ้างผ่าน: — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://en.wikipedia.org/wiki/Technology_acceptance_model"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Rogers, E. M. — 5 ลักษณะนวัตกรรม (relative advantage, compatibility, complexity, trialability, observability) — สรุปใน: — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://en.wikipedia.org/wiki/Diffusion_of_innovations"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Williams, M. D., Rana, N. P., & Dwivedi, Y. K. (2015) — \"The unified theory of acceptance and use of technology (UTAUT): a literature review\", Journal of Enterprise Information Management 28(3):443–488 — บทวิจารณ์ UTAUT — อ้างผ่าน: — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://en.wikipedia.org/wiki/UTAUT"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "งานวิจัยไทยว่าด้วยการยอมรับเทคโนโลยีการเกษตร (วารสาร TCI-Thaijo / ThaiJO, งานวิทยานิพนธ์) — รายชื่อ/ค่าตัวเลขรายชิ้นยังไม่ถูกยืนยันในรอบนี้ (ดูหัวข้อ 10) — ช่องค้นหลัก: (ระบบ ThaiJO) — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://so01.tci-thaijo.org/"
+    }
+  ],
+  "reference_count": 9,
+  "article_file": "agri-14-003.md",
+  "source_file": "14-สตาร์ทอัพ นวัตกรรม และการยอมรับเทคโนโลยี\\เจาะลึก-14-การยอมรับเทคโนโลยี-เกษตรกรไทย.md"
+}

@@ -1,0 +1,86 @@
+{
+  "slug": "agri-14-004",
+  "title": "นวัตกรรมองค์กรเกษตรไทย (สหกรณ์/วิสาหกิจ) — การสเกลเทคโนโลยี/เครื่องจักรผ่านองค์กรเกษตรกร",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-01",
+  "created_at": "2026-08-01",
+  "review_at": "2027-02-01",
+  "category": "สตาร์ทอัพ นวัตกรรม และการยอมรับเทคโนโลยี",
+  "domain_code": "14",
+  "topic_id": "14-004",
+  "handle_id": "14-004",
+  "abstract": "- **ใจความ**: องค์กรเกษตรกร (กลุ่ม/สหกรณ์/วิสาหกิจชุมชน) เป็น \"กลไกกลาง\" ที่ทำให้เกษตรรายย่อยเข้าถึงและสเกลเทคโนโลยี-เครื่องจักรได้ จากการรวมกำลังซื้อ ลดต้นทุนต่อหน่วย และใช้ทรัพยากรเครื่องจักรร่วมกัน (cost-sharing/asset-sharing) แทนการให้เกษตรกรซื้อรายตัว งานชิ้นนี้เป็นแนวคิดที่เคลื่อนจาก \"นำร่องเฉพาะพื้นที่\" ไปสู่ \"การนำไปใช้ในวงกว้างโดยมีองค์กรเป็นจุดรวม\" มากกว่างานเชิงพาณิชย์เต็มรูปแบบ",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://ica.coop/en/cooperatives/facts-and-figures",
+  "pdf_url": null,
+  "source_urls": [
+    "https://ica.coop/en/cooperatives/facts-and-figures",
+    "https://en.wikipedia.org/wiki/International_Year_of_Cooperatives",
+    "https://www.fao.org",
+    "https://ica.coop",
+    "https://www.matichon.co.th/tag/สหกรณ์",
+    "https://www.prachachat.net/tag/วิสาหกิจชุมชน",
+    "https://www.fao.org/newsroom/detail/Agricultural-cooperatives-are-key-to-reducing-hunger-and-poverty/en",
+    "https://agfunder.com/research/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "ICA: Facts & Figures — 3 ล้านสหกรณ์, ≥12% ของประชากรโลกเป็นสมาชิก, 280 ล้านคน/10% ผู้มีงานทำ, 300 สหกรณ์ใหญ่สุดมูลค่าธุรกรรม 2.79 ล้านล้านดอลลาร์สหรัฐ (World Cooperative Monitor 2025) — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://ica.coop/en/cooperatives/facts-and-figures"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "UN: 2025 International Year of Cooperatives (ประกาศโดย UNGA 2024-06-19, ธีม \"Cooperatives Build a Better World\"; ปีแรกคือ 2012) — และ — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://en.wikipedia.org/wiki/International_Year_of_Cooperatives"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "FAO/IFAD literature on agricultural cooperatives (economies of scale, machinery pooling, smallholder benefits) — — เข้าถึงเมื่อ 2026-08-01 (ตัวเลขเชิงปริมาณบางส่วนยังไม่ยืนยัน)",
+      "url": "https://www.fao.org"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "ICA: Cooperative Identity Statement (7 หลักสหกรณ์) — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://ica.coop"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "ข่าว กรมส่งเสริมสหกรณ์: \"สร้างความเข้มแข็งยกระดับสหกรณ์\" และแนวคิด Smart Cooperative — — เข้าถึงเมื่อ 2026-08-01 (รายละเอียดเชิงตัวเลขยังไม่ยืนยัน)",
+      "url": "https://www.matichon.co.th/tag/สหกรณ์"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "ประชาชาติธุรกิจ: ข่าววิสาหกิจชุมชน — วิสาหกิจท่องเที่ยวบ้านธรรมชาติล่าง จ.ตราด (รายได้ >5 ล้านบาท/ปี 2566), วิสาหกิจแปรรูปบ้านแคว (>28 ปี), น่าน-ไผ่ คลัสเตอร์สู่ตลาดโลก, โครงการ New Engine for New S-curve — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.prachachat.net/tag/วิสาหกิจชุมชน"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "FAO: เรื่องบทบาทสหกรณ์ต่อความมั่นคงอาหารและเกษตรรายย่อย (overview) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.fao.org/newsroom/detail/Agricultural-cooperatives-are-key-to-reducing-hunger-and-poverty/en"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "AgFunder: Global AgriFoodTech Investment Report 2026 (ปี 2025 รวม $16.2B, -3% YoY) — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://agfunder.com/research/"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "มติชน: ข่าวปัญหาสหกรณ์ไทย (กรณีทุจริต/สหกรณ์ล่ม — เช่น ศาลพิทักษ์ทรัพย์สหกรณ์-กลุ่มเกษตรกร 20 แห่ง; เรื่อง \"ลบชื่อคนตาย\" กู้เงิน) — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.matichon.co.th/tag/สหกรณ์"
+    }
+  ],
+  "reference_count": 9,
+  "article_file": "agri-14-004.md",
+  "source_file": "14-สตาร์ทอัพ นวัตกรรม และการยอมรับเทคโนโลยี\\เจาะลึก-14-นวัตกรรมองค์กร-สหกรณ์-วิสาหกิจไทย.md"
+}

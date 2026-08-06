@@ -1,0 +1,59 @@
+{
+  "slug": "agri-04-009",
+  "title": "การจัดการศัตรูพืชในระบบปิด — IPM และชีววิธี (Greenhouse IPM & Biological Control)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "การผลิตพืชระบบปิดและแนวดิ่ง",
+  "domain_code": "04",
+  "topic_id": "04-009",
+  "handle_id": "04-009",
+  "abstract": "- **ใจความ**: ระบบปิด (โรงเรือน/VF) เป็น \"บ่อเพาะ\" ทั้งแมลงและโรค — ความหนาแน่นสูง + ความชื้น + อากาศหมุนเวียน = ระบาดเร็ว แต่ข้อดีคือควบคุมได้ด้วย IPM: (1) กันแมลงเข้าจากภายนอก (มุ้ง/ห้องสะอาด) (2) เฝ้าระวัง (กับดักเหนียว/สแกน AI — เชื่อม 04-004) (3) ใช้ชีววิธี (แมลงตัวห้ำ/แตนเบียน/จุลินทรีย์) ก่อนสารเคมี [1][2][4]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "งานทบทวนชีววิธีโรงเรือน (Annual Review of Entomology / BioControl — Encarsia/ตัวห้ำ) — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "คู่มือ/งาน IPM โรงเรือน (Koppert, Biobest, FAO IPM) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "งาน UV-C/AI สแกนโรค (Biosystems Engineering, Computers and Electronics in Agriculture 2015–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "ข่าว/ตลาดชีวภัณฑ์โลก + นโยบาย EU (AgFunderNews, รายงานตลาด) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งานวิจัยไทย IPM/ชีววิธี (TCI/ThaiJo, กรมวิชาการเกษตร — ไตรโคเดอร์มา/บาซิลลัส/ตัวห้ำ) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "สถานการณ์ฟาร์ม/ตลาดชีวภัณฑ์ไทย (ข่าว/ผู้จำหน่าย/ศูนย์บริหารศัตรูพืช) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-04-009.md",
+  "source_file": "04-การผลิตพืชระบบปิดและแนวดิ่ง\\เจาะลึก-04-การจัดการศัตรูพืชระบบปิด-IPM-ชีววิธี.md"
+}

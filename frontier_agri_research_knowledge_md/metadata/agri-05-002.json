@@ -1,0 +1,59 @@
+{
+  "slug": "agri-05-002",
+  "title": "เซนเซอร์ราคาถูกบนสมาร์ตโฟน — การเกษตรที่เข้าถึงได้ (Smartphone Sensing)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "เซนเซอร์ ไอโอที และการสำรวจระยะไกล",
+  "domain_code": "05",
+  "topic_id": "05-002",
+  "handle_id": "05-002",
+  "abstract": "- **ใจความ**: สมาร์ตโฟน (กล้อง RGB/Multispectral, GPS, เซนเซอร์วัดแสง/อุณหภูมิ + AI ในเครื่อง) กลายเป็น \"ห้องแล็บพกพา\" — ตรวจโรคพืชด้วยภาพ (Plantix/Agrio — ใช้งานจริงในอินเดีย/แอฟริกา หลายล้านครั้ง), ประเมินความเขียว (NDVI ด้วยมือถือ+ฟิลเตอร์), วัดพื้นที่/ผลผลิต/ดิน (แอป + กล้อง) ด้วยต้นทุน ~0 บาทเพิ่ม [1][2]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "งานทบทวน smartphone sensing การเกษตร (Computers and Electronics in Agriculture, Remote Sensing 2018–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "งาน NDVI/การวัดด้วยมือถือ (งานเปรียบเทียบ 2020–25) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "ข่าว/ข้อมูล Plantix, Agrio, PlantVillage/Nuru + analyst (AgFunderNews) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งานวิจัยไทย AI ภาพโรค (TCI/ThaiJo — มก./มข./มจพ., 2020–2026) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "สถานการณ์แอป/การใช้สมาร์ตโฟนเกษตรกรไทย (สำนักงานสถิติ, ข่าว, ธ.ก.ส./กรมส่งเสริม) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "(สำรองสำหรับงาน PDPA/ข้อมูลเกษตรที่พบในรอบอัปเดต) — placeholder",
+      "url": null
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-05-002.md",
+  "source_file": "05-เซนเซอร์ ไอโอที และการสำรวจระยะไกล\\เจาะลึก-05-เซนเซอร์สมาร์ตโฟน-การเกษตร.md"
+}

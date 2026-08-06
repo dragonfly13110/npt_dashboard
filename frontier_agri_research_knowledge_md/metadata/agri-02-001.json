@@ -1,0 +1,44 @@
+{
+  "slug": "agri-02-001",
+  "title": "วิศวกรรมจุลินทรีย์ดิน (Soil Microbiome Engineering) / โปรไบโอติกส์ดิน",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-01",
+  "created_at": "2026-08-01",
+  "review_at": "2027-02-01",
+  "category": "ดิน จุลินทรีย์ และธาตุอาหาร",
+  "domain_code": "02",
+  "topic_id": "02-001",
+  "handle_id": "02-001",
+  "abstract": "- **ใจความ**: วิศวกรรมจุลินทรีย์ดินคือการคัดเลือก/เพาะเลี้ยง/จัดการจุลินทรีย์ (ไรโซแบคทีเรียส่งเสริมการเจริญของพืช, PGPR, จุลินทรีย์ตรึงไนโตรเจน, จุลินทรีย์ละลายฟอสฟอรัส, AMF) ลงสู่ดินหรือเมล็ด/ต้นพืช เพื่อเพิ่มผลผลิต เพิ่มประสิทธิภาพการใช้ธาตุอาหาร และเป็นกลไกป้องกันโรค โดยใช้ได้ทั้งแบบเดี่ยว (single strain) และแบบผสม (consortium)",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5770357/",
+  "pdf_url": null,
+  "source_urls": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC5770357/",
+    "https://en.wikipedia.org/wiki/Biofertilizer"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Schütz, L., Gattinger, A., Meier, M., Müller, A., Boller, T., Mäder, P., Mathimaran, N. (2018). \"Improving Crop Yield and Nutrient Use Efficiency via Biofertilization—A Global Meta-analysis\", Frontiers in Plant Science 8:2204, doi 10.3389/fpls.2017.02204 — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5770357/"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Wikipedia. \"Biofertilizer\" (ฉบับแก้ไขล่าสุด 2026-06-22) — — เข้าถึงเมื่อ 2026-08-01 (ข้อมูลทุติยภูมิ ควรยืนยันกับงานต้นทาง)",
+      "url": "https://en.wikipedia.org/wiki/Biofertilizer"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "บทความทบทวนทิศทาง microbiome engineering/โอมิกส์ จาก Nature Microbiology / Microbiome / ISME Journal — URL ยังไม่ยืนยันในรอบนี้ — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    }
+  ],
+  "reference_count": 3,
+  "article_file": "agri-02-001.md",
+  "source_file": "02-ดิน จุลินทรีย์ และธาตุอาหาร\\เจาะลึก-02-วิศวกรรมจุลินทรีย์ดิน.md"
+}

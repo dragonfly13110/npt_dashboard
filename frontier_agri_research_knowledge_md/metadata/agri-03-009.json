@@ -1,0 +1,64 @@
+{
+  "slug": "agri-03-009",
+  "title": "การจัดการน้ำท่วมและการระบายน้ำในพื้นที่นา (Paddy Flood & Drainage Management)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "น้ำและชลประทานอัจฉริยะ",
+  "domain_code": "03",
+  "topic_id": "03-009",
+  "handle_id": "03-009",
+  "abstract": "- **ใจความ**: น้ำท่วมขัง (inundation) ในพื้นที่นา — ทั้งภัยต่อข้าว (จมน้ำ ต้นเน่า ผลผลิตเสียหาย) และ \"ทรัพยากร\" ถ้าจัดการเป็นทุ่งรับน้ำ/กักเก็บไว้ใช้หน้าแล้ง [1] การจัดการมี 3 ด้าน: ระบายน้ำเร็วเมื่อเกินพิกัด (drainage), กัก-ชะลอในทุ่งรับน้ำ (retention), และใช้ข้าวทนน้ำท่วม/การจัดการระดับน้ำ (เชื่อม 01-001) [2]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.fao.org",
+  "pdf_url": null,
+  "source_urls": [
+    "https://www.fao.org",
+    "http://www.knowledgebank.irri.org",
+    "https://www.onwr.go.th",
+    "https://so01.tci-thaijo.org/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "FAO: การจัดการน้ำในนาข้าว/การระบายน้ำ (paddy water management) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.fao.org"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "งานวิจัยความทนน้ำท่วมของข้าว/ผลต่อผลผลิต (Field Crops Research; พันธุ์ Sub1 — IRRI) — — เข้าถึงเมื่อ 2026-08-02 *(ช่วง 7–10 วัน — ดูหัวข้อ 10)*",
+      "url": "http://www.knowledgebank.irri.org"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "สทนช./ธนาคารโลก: ประเมินความเสียหายน้ำท่วม 2554 (~1.44 ล้านล้านบาท) — / — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": "https://www.onwr.go.th"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "งานแบบจำลองน้ำท่วมลุ่มน้ำไทย (HEC-RAS/MIKE — มหาวิทยาลัย/กรมชลประทาน) — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งานประตูน้ำอัตโนมัติ/การตัดสินใจระบายน้ำด้วย IoT-AI (Water Resources Management; Remote Sensing) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "งาน \"กักน้ำท่วมไว้ใช้แล้ง\" (ทุ่งรับน้ำหลายประโยชน์ — วารสารไทย/ThaiJo) — รายชิ้นยังไม่ยืนยัน (ดูหัวข้อ 10) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so01.tci-thaijo.org/"
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-03-009.md",
+  "source_file": "03-น้ำและชลประทานอัจฉริยะ\\เจาะลึก-03-การจัดการน้ำท่วมและระบายน้ำในนา.md"
+}

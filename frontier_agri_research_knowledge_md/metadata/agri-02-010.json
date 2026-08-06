@@ -1,0 +1,65 @@
+{
+  "slug": "agri-02-010",
+  "title": "การจัดการดินกรดและดินเปรี้ยว (Acid & Acid Sulfate Soils)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ดิน จุลินทรีย์ และธาตุอาหาร",
+  "domain_code": "02",
+  "topic_id": "02-010",
+  "handle_id": "02-010",
+  "abstract": "- **ใจความ**: ดินกรด (pH < 5.5–6.5) ครอบคลุมพื้นที่เพาะปลูกไทยจำนวนมาก — โดยเฉพาะ \"ดินเปรี้ยว\" (acid sulfate) แถบที่ราบลุ่มภาคกลาง (รังสิต-นครนายก-ฉะเชิงเทรา) ที่เกิดจากไพไรต์ในดินถูกออกซิไดซ์กลายเป็นกรดกำมะถัน [1][2] ความเป็นกรดทำให้ Al/Mn เป็นพิษต่อราก และฟอสฟอรัสถูกตรึงใช้ไม่ได้ (P fixation)",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.ldd.go.th",
+  "pdf_url": null,
+  "source_urls": ["https://www.ldd.go.th"],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "กรมพัฒนาที่ดิน: เอกสาร/แผนที่ดินเปรี้ยวและดินกรดของประเทศไทย — — เข้าถึงเมื่อ 2026-08-02 *(ตัวเลขพื้นที่ — ดูหัวข้อ 10)*",
+      "url": "https://www.ldd.go.th"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "เอกสารวิชาการ acid sulfate soils (เช่น Soil Survey Manual ฉบับแปล/งานของ มก.) — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "บทความทบทวน Al toxicity/P fixation (Plant and Soil; Geoderma) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "งานทดลองปูนโดโลไมต์ในนาดินเปรี้ยวภาคกลาง (วารสารดินและปุ๋ย/ThaiJo) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งานปุ๋ยฟอสเฟต/ซิลิเกตในดินกรด (Field Crops Research) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "กระทรวงเกษตรฯ/กรมพัฒนาที่ดิน: โครงการปรับปรุงบำรุงดิน — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "งาน remote sensing ประเมินดินเปรี้ยว/พื้นที่น้ำท่วมควบคุม (Remote Sensing) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    }
+  ],
+  "reference_count": 7,
+  "article_file": "agri-02-010.md",
+  "source_file": "02-ดิน จุลินทรีย์ และธาตุอาหาร\\เจาะลึก-02-การจัดการดินกรดและดินเปรี้ยว.md"
+}

@@ -1,0 +1,64 @@
+{
+  "slug": "agri-03-011",
+  "title": "การประเมินการคายระเหยน้ำด้วยภาพดาวเทียม (Remote Sensing ET)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "น้ำและชลประทานอัจฉริยะ",
+  "domain_code": "03",
+  "topic_id": "03-011",
+  "handle_id": "03-011",
+  "abstract": "- **ใจความ**: ET (การคายระเหยน้ำรวมของพืช+ดิน) คือ \"น้ำที่แปลงใช้จริง\" — การประเมินด้วยภาพดาวเทียม (SEBAL/METRIC/SSEBop บน Landsat/Sentinel-2/MODIS) ทำให้รู้ ET รายแปลง/รายตำแหน่งโดยไม่ต้องติดตั้งอุปกรณ์ในแปลง [1][2] เป็นข้อมูลพื้นฐานของการวางแผนน้ำและการชลประทานแม่นยำ (เชื่อม 03-001)",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://earlywarning.usgs.gov/ssebop",
+  "pdf_url": null,
+  "source_urls": [
+    "https://earlywarning.usgs.gov/ssebop",
+    "https://openetdata.org",
+    "https://www.gistda.or.th",
+    "https://so01.tci-thaijo.org/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Bastiaanssen W.G.M. et al. (1998): SEBAL — Remote Sensing of Environment 65(1):85–101 — DOI 10.1016/S0034-4257(98)00020-4 — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Allen R.G., Tasumi M., Trezza R. (2007): METRIC — Agricultural and Forest Meteorology / Journal of Irrigation and Drainage Engineering — เข้าถึงเมื่อ 2026-08-02 *(RMSE 10–20% — ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Senay G.B. et al.: SSEBop (USGS) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://earlywarning.usgs.gov/ssebop"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "OpenET: แพลตฟอร์ม ET เปิด — — เข้าถึงเมื่อ 2026-08-02 *(ขอบเขต/ปี — ดูหัวข้อ 10)*",
+      "url": "https://openetdata.org"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "GISTDA: บริการข้อมูลดาวเทียม/แพลตฟอร์ม — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.gistda.or.th"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "งาน ET-ดาวเทียมไทย (ข้าว/อ้อย/ลุ่มน้ำ — TCI-Thaijo/ThaiJo) — รายชิ้นยังไม่ยืนยัน (ดูหัวข้อ 10) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so01.tci-thaijo.org/"
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-03-011.md",
+  "source_file": "03-น้ำและชลประทานอัจฉริยะ\\เจาะลึก-03-การประเมินETด้วยภาพดาวเทียม.md"
+}

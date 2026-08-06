@@ -1,0 +1,349 @@
+{
+  "slug": "agri-13-010",
+  "title": "ธนาคารอาหารและการแจกจ่ายอาหารส่วนเกิน (Food Banking & Food Redistribution) — \"ขยะอาหารของคนหนึ่ง คือมื้ออาหารของอีกคน — กฎหมาย+แอป+โลจิสติกส์เปลี่ยน 'ส่วนเกิน' ให้เป็นความมั่นคงอาหาร\"",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-05",
+  "created_at": "2026-08-05",
+  "review_at": "2027-02-05",
+  "category": "ความมั่นคงอาหารและห่วงโซ่อุปทานยั่งยืน",
+  "domain_code": "13",
+  "topic_id": "13-010",
+  "handle_id": "13-010",
+  "abstract": "- **ใจความ**: Food Banking/Food Redistribution = กลไกรวบรวม **อาหารส่วนเกิน (Surplus Food)** จากห่วงโซ่ (ค้าปลีก/ฟาร์ม/โรงงาน/โรงแรม-ภัตตาคาร) ที่ยังปลอดภัยแต่ขายไม่ได้ (เกรดตก/ใกล้วันหมดอายุ/ผลิตเกิน) → แจกจ่ายให้กลุ่มเปราะบางผ่านธนาคารอาหาร/องค์กรการกุศล/แอป — ผลสองด้านในไฟล์เดียว: (1) **ลด Food Loss & Waste** (เชื่อม [13-001 FLW](เจาะลึก-13-ลดFoodLossWaste-ห่วงโซ่อาหาร-ตัวเลขไทย.md) — SDG 12.3 ลดครึ่งภายใน 2573) (2) **เพิ่มการเข้าถึงอาหาร (Access — 13-005)** แก่กลุ่มเปราะบาง — โมเดลอ้างอิง: **FEBA** (ยุโรป — กู้คืน 860,890+ ตัน/ปี (2568) [1]), **Feeding America** (สหรัฐ — โครงข่ายใหญ่สุด ~250 ธนาคารอาหาร/5.9 พันล้านมื้อ/ปี (FY25) [6]), **GFN** (ทั่วโลก — 40.5 ล้านคน/47 ประเทศ [4][5]) — กฎ",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.eurofoodbank.org/wp-content/uploads/2026/07/FEBA-Annual-Report-2025.pdf",
+  "pdf_url": "https://www.eurofoodbank.org/wp-content/uploads/2026/07/FEBA-Annual-Report-2025.pdf",
+  "source_urls": [
+    "https://www.eurofoodbank.org/wp-content/uploads/2026/07/FEBA-Annual-Report-2025.pdf",
+    "https://www.eurofoodbank.org/publications/annual-report-2024/",
+    "https://www.eurofoodbank.org/publications/annual-report-2023/",
+    "https://www.foodbanking.org/network-activity-report/",
+    "https://www.foodbanking.org/about-gfn/",
+    "https://www.feedingamerica.org/sites/default/files/2025-12/FA_25AnnReport_DIGITAL_final.pdf",
+    "https://www.feedingamerica.org/research/map-the-meal-gap",
+    "https://www.govinfo.gov/content/pkg/PLAW-104publ210/pdf/PLAW-104publ210.pdf",
+    "https://compostingtechnology.com/landfill-costs-are-tipping-the-scale-toward-composting/",
+    "https://www.congress.gov/bill/117th-congress/house-bill/3705",
+    "https://www.irs.gov/charities-non-profits/charitable-organizations/charitable-contribution-deductions",
+    "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:C:2017:361:FULL",
+    "https://eur-lex.europa.eu/eli/dir/2025/1892/oj",
+    "https://food.ec.europa.eu/safety/food-waste_en",
+    "https://toogoodtogo.com/en-us",
+    "https://toogoodtogo.com/en/movement",
+    "https://toogoodtogo.com/en-jp",
+    "https://www.thegrocer.co.uk/news/olio-food-waste-app-marks-10th-anniversary-with-120-million-meal-landmark/707257.article",
+    "https://olioapp.com/en/our-impact/",
+    "https://flashfood.com/",
+    "https://flashfood.com/blog",
+    "https://data.wrap.ngo/story/redistribution-2023",
+    "https://fareshare.org.uk/",
+    "https://www.wrap.ngo/resources/guide/waste-prevention-activities/food",
+    "https://www.iceland.co.uk/media/",
+    "https://www.foodbanking.org/blogs/how-gfn-advances-food-banking-as-a-climate-solution/",
+    "https://www.scholarsofsustenance.org/th/sos-thailand",
+    "https://mgronline.com/greeninnovation/detail/9680000100710",
+    "https://www.nstda.or.th/home/news_post/15052567-thailands-food-bank",
+    "https://www.bangkokbiznews.com/",
+    "https://www.thaihealth.or.th/",
+    "https://www.mnre.go.th/",
+    "https://www.nstda.or.th/",
+    "https://webportal.bangkok.go.th/",
+    "https://www.thaipbs.or.th/",
+    "https://www.cpfworldwide.com/",
+    "https://www.centralretail.com/",
+    "https://www.tops.co.th/",
+    "https://www.pcd.go.th/",
+    "https://www.unep.org/resources/publication/food-waste-index-report-2024",
+    "https://www.onep.go.th/",
+    "https://www.oecd.org/",
+    "https://www.foodbanking.org/about/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "FEBA (European Food Banks Federation) — Annual Report 2025 (2568): 860,890+ ตัน/13 ล้านคน/30 ประเทศ. + (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.eurofoodbank.org/wp-content/uploads/2026/07/FEBA-Annual-Report-2025.pdf"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "FEBA — Annual Report 2024 (2567): ~834,000 ตัน/12.2 ล้านคน/351 ธนาคารอาหาร/109,181 คน (92% อาสา); ESF+ 106,300 ตัน/5+ ล้านคน; EU ขยะ ~59 Mt. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.eurofoodbank.org/publications/annual-report-2024/"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "FEBA — Annual Report 2023 (2566): 839,942 ตัน/12.8 ล้านคน/44,374 องค์กรการกุศล; ครบ 40 ปี 2569. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.eurofoodbank.org/publications/annual-report-2023/"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "GFN — Network Activity Report 2024 (2567): 762 ล้านกก./38 ล้านคน/46 ประเทศ/55 ธนาคารอาหาร (+17% YoY); เกษตร 147 ล้านกก.; 3.7 กก. CO2e/กก.; เงินช่วยเหลือ $6.7M. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.foodbanking.org/network-activity-report/"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "GFN — 2568: ~2 พันล้านมื้อ/40.5 ล้านคน/47 ประเทศ (+2.5 ล้านคน YoY). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.foodbanking.org/about-gfn/"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Feeding America — Annual Report FY2025 (รายงาน ม.ค. 2569-class): 5.9 พันล้านมื้อ; 7.2 พันล้านปอนด์แหล่งอาหาร (เกษตร 3.6 พันล้าน); กู้คืน 4.3 พันล้านปอนด์ (+192 ล้าน); MealConnect 1.2 พันล้านมื้อ (ค้าปลีก 1.2 พันล้านปอนด์ + ผักสด 200 ล้านปอนด์); ~250 ธนาคาร/60,000+ พันธมิตร; รายได้ ~$5.2 พันล้าน. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.feedingamerica.org/sites/default/files/2025-12/FA_25AnnReport_DIGITAL_final.pdf"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Feeding America — Map the Meal Gap 2025 (ข้อมูล USDA 2566): 47 ล้านคนไม่มั่นคงอาหาร (เด็ก 14 ล้าน). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.feedingamerica.org/research/map-the-meal-gap"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Bill Emerson Good Samaritan Food Donation Act (2539 — สหรัฐ, 42 U.S.C. §1791): คุ้มครองความรับผิดผู้บริจาค/องค์กรกระจายอาหาร. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.govinfo.gov/content/pkg/PLAW-104publ210/pdf/PLAW-104publ210.pdf"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "RTS (ReFED-class ผ่าน VOA/CTL งานศึกษา): ต้นทุนฝังกลบขยะอาหาร $50–100/ตัน. (เข้าถึงเมื่อ 2026-08-06) — *ใช้เทียบเคียงต้นทุน*",
+      "url": "https://compostingtechnology.com/landfill-costs-are-tipping-the-scale-toward-composting/"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Food Donation Improvement Act (FDIA — ลงนาม 6 ม.ค. 2566): ขยายความคุ้มครองไป \"บริจาคตรงผู้บริโภค/ขายราคาลด\" — มีผลทางกฎหมายสำหรับปีภาษีหลัง 31 ธ.ค. 2565. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.congress.gov/bill/117th-congress/house-bill/3705"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "ภาษีสหรัฐ §170(e)(3): หักลดหย่อนการบริจาคอาหารเกินความรับผิดทั่วไป ได้ถึง 2 เท่าต้นทุน (บางกรณี 1.5 เท่า). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.irs.gov/charities-non-profits/charitable-organizations/charitable-contribution-deductions"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "EU — EU Guidelines on Food Donation (2017/C 361/01, 25 ต.ค. 2560): คลายความไม่แน่นอนด้านกฎหมาย/สุขอนามัยของการบริจาค (วันที่/การแช่แข็ง/ความรับผิด). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:C:2017:361:FULL"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "EU — Directive (EU) 2025/1892 (แก้ Waste Framework Directive; มีผล 16 ต.ค. 2568): เป้าผูกพัน 2030 — ลดขยะอาหาร 30% (ค้าปลีก/บริการ/ครัวเรือน), 10% (แปรรูป); EU ขยะ ~60 Mt/ปี, ต้นทุน €130 พันล้าน+/ปี. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://eur-lex.europa.eu/eli/dir/2025/1892/oj"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "European Commission — Food Waste Prevention (หน้าเป้าหมาย 2030-class). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://food.ec.europa.eu/safety/food-waste_en"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "EU — มาตราใน WFD ฉบับแก้: ประเทศสมาชิกต้องส่งเสริมข้อตกลงการบริจาคอาหารภายใน 17 มิ.ย. 2570 (ตรวจภายใต้ (EU) 2025/1892); ~42 ล้านคน (8.5%) เข้าถึงอาหารมีคุณค่าไม่ได้. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://eur-lex.europa.eu/eli/dir/2025/1892/oj"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Too Good To Go — สหรัฐ 7 เดือนแรก 2568: 8.1 ล้านมื้อ (+67%), 15 ล้านผู้ใช้, 17,000 พันธมิตร; ยูนิคอร์น (2559-class valuation ~$500M เมื่อ 2564). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://toogoodtogo.com/en-us"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Too Good To Go — 2568: 157 ล้านมื้อ/ปี; 600+ ล้านมื้อสะสม; 423,000+ ตัน CO2e/ปี (2.7 กก./มื้อ-class); 120 ล้านผู้ใช้/200,000+ พันธมิตร/20 ประเทศ. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://toogoodtogo.com/en/movement"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "Too Good To Go — เปิดตลาดญี่ปุ่น 2569 (ประเทศเอเชียประเทศแรก). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://toogoodtogo.com/en-jp"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Olio — ครบ 10 ปี (ก.ค. 2568): 120 ล้านมื้อ; 8.5 ล้านผู้ใช้ (UK 4.5 ล้าน); 60 ประเทศ; 150,000 อาสา; 8,500 จุดกู้คืน/เดือน; Tesco+Olio 75 ล้านมื้อ. (เข้าถึงเมื่อ 2026-08-06)",
+      "url": "https://www.thegrocer.co.uk/news/olio-food-waste-app-marks-10th-anniversary-with-120-million-meal-landmark/707257.article"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "Olio — Impact หน้า 2569: 156 ล้านมื้อ; 344,000 ตัน CO2e; 49 พันล้านลิตรน้ำ (การนับรวม upstream — วิธีตรวจ). (เข้าถึงเมื่อ 2026-08-06)",
+      "url": "https://olioapp.com/en/our-impact/"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "Flashfood — สะสมถึง มี.ค. 2569: 145 ล้านปอนด์กู้คืน; ผู้ใช้ประหยัด $370 ล้าน; 2,000+ ร้าน (Loblaw 105 ล้านปอนด์สะสม; 92,000 ผู้ใช้ใหม่ 2568). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://flashfood.com/"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "Flashfood — 2568: 30+ ล้านปอนด์/ปี (84,000 ปอนด์/วัน); ร้านค้าใช้แอปลดขยะเฉลี่ย 27% (บางร้าน 45%). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://flashfood.com/blog"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "WRAP UK — Food Surplus and Waste in the UK 2023 (ต.ค. 2567-class): 191,000 ตันกู้คืน = 456 ล้านมื้อ = £764 ล้าน (+15% YoY); สะสม 2558–2566 ~782,000 ตัน; ยังมี ~130,000 ตัน/ปีหลังฟาร์มเกต (FareShare + ที่อื่น-class); 420 ก./มื้อ. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://data.wrap.ngo/story/redistribution-2023"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "FareShare (UK) — 2568: แจก 130 ล้านมื้อ/ปี; 8,500+ องค์กร; กู้คืน <2% ของส่วนเกิน; UK ฟาร์มทิ้ง 3.6 ล้านตัน/ปี (~2 ล้านตันเปลี่ยนเส้นทางได้); ข้อเสนอ £25 ล้าน/ปี → 42,500 ตัน/100 ล้านมื้อ/£143 ล้าน; รัฐให้ £13.6 ล้าน (มิ.ย. 2568). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://fareshare.org.uk/"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "WRAP — ตาราง waste hierarchy / ตัวเลขการลด GHG ต่อตัน (กู้คืน-แจกคน ~ลด 3,090 กก. CO2e/ตัน; ฝังกลบ +536 กก./ตัน-class). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.wrap.ngo/resources/guide/waste-prevention-activities/food"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "Iceland Foods — ESG Report FY24: 4.3128 กก. CO2e/กก. อาหารกู้คืน; 2,559 ตัน = 11,036 ตัน CO2e. (เข้าถึงเมื่อ 2026-08-05) — *ใช้วิธี WRAP-class*",
+      "url": "https://www.iceland.co.uk/media/"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "GFN + Global Methane Hub + Carbon Trust — FRAME methodology (การลด GHG จากการกอบกู้อาหาร; pilot เม็กซิโก/เอกวาดอร์; 512 ล้านกก. = 1.9 ล้านตัน CO2e = รถยนต์ 443,000 คัน/ปี-class). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.foodbanking.org/blogs/how-gfn-advances-food-banking-as-a-climate-solution/"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "SOS Thailand (มูลนิธิร่วมด้วยช่วยกัน-class) — หน้าเว็บทางการ 2568-69: สะสม 9.8 ล้านกก. = 41 ล้านมื้อ; 3,750+ ชุมชน; 24,874 ตัน CO2e; รับบริจาค 98% ของที่มา (ปฏิเสธ 2–3%); สาขา กทม./เชียงใหม่/ภูเก็ต/หัวหิน; สมาชิก GFN. (เข้าถึงเมื่อ 2026-08-06)",
+      "url": "https://www.scholarsofsustenance.org/th/sos-thailand"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "SOS Thailand — SOS Awards 2568 (ครบ 9 ปี): 15.3 ล้านกก. = 64 ล้านมื้อ; 5,100+ ชุมชน; อาสา 556 คน/20 จังหวัด; 10 ปี (2569) ประกาศแผน \"Thailand's Food Bank\" ขยายระดับจังหวัด (ร่วม สวทช.); Food Safety Guideline อยู่ระหว่างจัดทำ (สสส.-สวทช.-คพ.). (เข้าถึงเมื่อ 2026-08-06)",
+      "url": "https://mgronline.com/greeninnovation/detail/9680000100710"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "NSTDA (สวทช.) — Thailand's Food Bank เปิดตัว 15 พ.ค. 2567 (สวทช.+สวก.+SOS): นำร่องนครสวรรค์/ขอนแก่น; เป้า 10 จังหวัดภายใน 2569; เป้าหมายกอบกู้ ≥10% (~2,000 ตัน/ปี) ของส่วนเกินในพื้นที่นำร่อง-class. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.nstda.or.th/home/news_post/15052567-thailands-food-bank"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "bangkokbiznews (อ้างผลศึกษาสวทช.-class 2567-68): อาหารส่วนเกินไทย ~เกือบ 4 ล้านตัน/ปี. (เข้าถึงเมื่อ 2026-08-05) — *ตรวจวิธีนับ*",
+      "url": "https://www.bangkokbiznews.com/"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "สสส. (2568) — \"ขยะอาหารไทย ~9.7 ล้านตัน/ปี = 146 กก./คน/ปี; ~38% ของขยะมูลฝอย (38.76% ปี 2564); กทม. 46–50%; ศูนย์อาหารนำร่อง 15 แห่ง ลด 20%/ใช้ประโยชน์ 100%/ลด GHG 125 tCO2e; เป้าแผน 2566–2570: ≤28% ภายใน 2570\". (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.thaihealth.or.th/"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "MOU 15 ภาคีลดขยะอาหาร (26 มิ.ย. 2568 — ทส.): \"ปีแห่งการเริ่มต้นรณรงค์ลดขยะอาหาร\"; 86 กก./คน/ปี (UNEP-class — สูงกว่าโลก 79 กก.); อันดับ 2 อาเซียน. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.mnre.go.th/"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "NSTDA — ขยาย Thailand's Food Bank ปทุมธานี (2568), อยุธยา (2569-class), เป้า 10 จังหวัดภายใน 2569. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.nstda.or.th/"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "BKK Food Bank (กรุงเทพมหานคร) — ธ.ค. 2567: ครบ 50 เขต; ~3.3 ล้านมื้อ; เปราะบาง 7,656 ราย; ผู้บริจาค 900; ร้านสะดวกซื้อ 665; ลด CO2 ~2 ล้านกก./2 ปี; แคมเปญ TikTok +1.1 ล้านมื้อ/690,000 กก. CO2. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://webportal.bangkok.go.th/"
+    },
+    {
+      "id": "36",
+      "index": 36,
+      "label": "Bangkok Today/Thai PBS-class — รายงาน BKK Food Bank เริ่ม 2565 นำร่อง 10 เขต. (เข้าถึงเมื่อ 2026-08-05) — *ข้อมูลปีเริ่ม*",
+      "url": "https://www.thaipbs.or.th/"
+    },
+    {
+      "id": "37",
+      "index": 37,
+      "label": "กรุงเทพมหานคร — ระบบ \"แต้มแลกของ\" BKK Food Bank (ผู้รับเลือกของได้ — ลดการเสียศักดิ์ศรี). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://webportal.bangkok.go.th/"
+    },
+    {
+      "id": "38",
+      "index": 38,
+      "label": "CPF x BKK Food Bank (ต.ค. 2568 — วันอาหารโลก): บริจาค 600 กก. (ไข่ 1,500 ฟอง + เนื้อ/ไส้กรอก-class) ที่ตลาดสี่มุมเมือง. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.cpfworldwide.com/"
+    },
+    {
+      "id": "39",
+      "index": 39,
+      "label": "CPF — Circular Meal ปีที่ 5 (2568): 292,000 มื้อสะสม; ลดขยะอาหาร 69 ตัน; 176 tCO2e (~2.55 ตัน CO2e/ตัน). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.cpfworldwide.com/"
+    },
+    {
+      "id": "40",
+      "index": 40,
+      "label": "ท็อปส์ (เซ็นทรัล รีเทล) — Food for Good Deed ปีที่ 6 (2568): 6.7 ล้านมื้อสะสม; 106 สาขา; 3,570 tCO2e; เป้า 4,000 tCO2e ภายใน 2569; (ปี 2565: 2.5 ล้านมื้อ/700 ชุมชน/264 ตัน). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.centralretail.com/"
+    },
+    {
+      "id": "41",
+      "index": 41,
+      "label": "ท็อปส์ — เริ่มโครงการ 2562 (ก่อนขยายทั่วประเทศ). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.tops.co.th/"
+    },
+    {
+      "id": "42",
+      "index": 42,
+      "label": "กรมควบคุมมลพิษ/สสส./สวทช. — คณะทำงานส่งเสริมการบริจาคอาหารส่วนเกิน (ตั้ง 28 มิ.ย. 2566 — คพ.+สสส.+สวทช.+TEI-class); แผนปฏิบัติการ 2566–2570; เป้า ≤28% ภายใน 2570. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.pcd.go.th/"
+    },
+    {
+      "id": "43",
+      "index": 43,
+      "label": "กรุงเทพธุรกิจ/ประชาชาติธุรกิจ-class (อ้าง สวทช.-SOS) — แผนขยาย Thailand's Food Bank 10 จังหวัดภายใน 2569; เป้า ≥10% กู้คืน (~2,000 ตัน/ปี). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.bangkokbiznews.com/"
+    },
+    {
+      "id": "44",
+      "index": 44,
+      "label": "UNEP Food Waste Index Report 2024-class (อ้างตัวเลข 79 กก./คน/ปีค่าเฉลี่ยโลก; ไทย-class 86 กก./คน/ปี ผ่าน สผ.). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.unep.org/resources/publication/food-waste-index-report-2024"
+    },
+    {
+      "id": "45",
+      "index": 45,
+      "label": "สผ. (สำนักงานนโยบายและแผนทรัพยากรธรรมชาติและสิ่งแวดล้อม) — รายงานสถานการณ์ขยะอาหารไทย (ตัวเลข UNEP-class). (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.onep.go.th/"
+    },
+    {
+      "id": "46",
+      "index": 46,
+      "label": "OECD-class — ฐานเปรียบเทียบขยะอาหารระหว่างประเทศ (เป้าหมาย 12.3-class). (เข้าถึงเมื่อ 2026-08-05) — *ข้อมูลประกอบ*",
+      "url": "https://www.oecd.org/"
+    },
+    {
+      "id": "47",
+      "index": 47,
+      "label": "GFN — ประวัติ/การก่อตั้ง (ชิคาโก 2549) และพันธกิจ. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.foodbanking.org/about/"
+    }
+  ],
+  "reference_count": 47,
+  "article_file": "agri-13-010.md",
+  "source_file": "13-ความมั่นคงอาหารและห่วงโซ่อุปทานยั่งยืน\\เจาะลึก-13-ธนาคารอาหาร-FoodBanking.md"
+}

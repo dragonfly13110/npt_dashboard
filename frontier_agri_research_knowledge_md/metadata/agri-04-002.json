@@ -1,0 +1,59 @@
+{
+  "slug": "agri-04-002",
+  "title": "LED สเปกตรัม — เพิ่มผลผลิตและสารอาหาร (Photomorphogenesis)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "การผลิตพืชระบบปิดและแนวดิ่ง",
+  "domain_code": "04",
+  "topic_id": "04-002",
+  "handle_id": "04-002",
+  "abstract": "- **ใจความ**: สเปกตรัม LED เป็น \"ตัวควบคุม\" การเจริญเติบโต สัณฐาน (morphology) และสารทุติยภูมิของพืช — แดง (660 nm) กระตุ้นการสังเคราะห์แสง/ลำต้น, น้ำเงิน (450 nm) ควบคุมรูปทรง/ปากใบ/สารต้านอนุมูลอิสระ, ไกลแดง (730 nm) ยืดใบ/เร่งดอก, UV เพิ่มสารอาหารรอง (แอนโธไซยานิน/ฟลาโวนอยด์) [1][2][6]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "ตำราสรีรวิทยาแสง: phytochrome/cryptochrome — Pigment responses in plants (งานทบทวน) — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "งานทบทวน \"LED lighting in horticulture\" (Frontiers in Plant Science / Scientia Horticulturae) — สเปกตรัม/PPFD/DLI/ผลผลิต — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "ข้อมูลอุตสาหกรรม: แผ่นข้อมูลผู้ผลิต + รายงานตลาด horticultural LED (Signify/Fluence/analyst) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "งาน UV/สารทุติยภูมิ (2020–2025): UV-B กระตุ้นแอนโธไซยานิน/ฟลาโวนอยด์ — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งาน WUR/เนเธอร์แลนด์: แสงเสริม/ intra-canopy ในมะเขือเทศ-แตงกวา — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "งานวิจัยไทย: LED ผักสลัด/เมล่อน/กล้วยไม้ (TCI/ThaiJo, รายงาน มก./มข.) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-04-002.md",
+  "source_file": "04-การผลิตพืชระบบปิดและแนวดิ่ง\\เจาะลึก-04-LEDสเปกตรัม-ผลผลิต-สารอาหาร.md"
+}

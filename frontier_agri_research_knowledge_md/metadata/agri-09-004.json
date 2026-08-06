@@ -1,0 +1,234 @@
+{
+  "slug": "agri-09-004",
+  "title": "IMTA การเลี้ยงแบบผสมผสาน — ลดของเสีย เพิ่มผลผลิตต่อพื้นที่",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ประมงและสัตว์น้ำ",
+  "domain_code": "09",
+  "topic_id": "09-004",
+  "handle_id": "09-004",
+  "abstract": "- **ใจความ**: IMTA (Integrated Multi-Trophic Aquaculture) = เลี้ยง \"สปีชีส์กินอาหาร (fed)\" เช่น ปลา/กุ้ง ร่วมกับ \"สปีชีส์เก็บกู้ (extractive)\" คือ หอยสองฝากรองกินเศษอาหาร/อุจจาระ (organic extractive) + สาหร่ายดูดซับไนโตรเจน/ฟอสฟอรัสที่ละลายน้ำ (inorganic extractive) + ตัวกินตะกอน (detritivore — ปลานิล/ปลาดุกในน้ำจืด, ปลิงทะเล/เม่นทะเล/หนอนโพลีคีทในทะเล) — ของเสียของตัวหนึ่งกลายเป็นอาหารของอีกตัว → ลดของเสียลงน้ำ เพิ่มผลผลิตต่อพื้นที่และกระจายรายได้ [1][16][19]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://doi.org/10.3354/aei00179",
+  "pdf_url": "https://publications.gc.ca/collections/collection_2014/mpo-dfo/Fs70-5-2014-026-eng.pdf",
+  "source_urls": [
+    "https://doi.org/10.3354/aei00179",
+    "https://doi.org/10.3354/aei00144",
+    "https://doi.org/10.1016/j.aquaculture.2013.06.033",
+    "https://pubmed.ncbi.nlm.nih.gov/40215949/",
+    "https://publications.gc.ca/collections/collection_2014/mpo-dfo/Fs70-5-2014-026-eng.pdf",
+    "https://doi.org/10.1080/13657305.2019.1641572",
+    "https://doi.org/10.1080/13657300701202767",
+    "https://summit.sfu.ca/_flysystem/fedora/2025-09/etd23948.pdf",
+    "https://link.springer.com/article/10.1007/s10499-024-01485-5",
+    "https://doi.org/10.1111/raq.12645",
+    "https://clichex.w.uib.no/files/2022/05/214_1.pdf",
+    "https://investigadores.anid.cl/en/public_search/work?id=670299",
+    "https://www.subpesca.cl/fipa/613/articles-89403_informe_final.pdf",
+    "http://hdl.handle.net/1893/28269",
+    "https://aquadapt.org/2025/04/11/fish-shrimp-aquaculture-thai/",
+    "https://aquadapt.org/2024/05/16/imta-sustainable-system-thai/",
+    "https://doi.org/10.1002/9783527843367.ch33",
+    "https://so04.tci-thaijo.org/index.php/JSEE/article/view/8744",
+    "https://doi.org/10.1016/j.aquaculture.2023.739492",
+    "https://ija.scholasticahq.com/article/125026",
+    "https://www.fao.org/newsroom/detail/fao-report-global-fisheries-and-aquaculture-production-reaches-a-new-record-high/en",
+    "https://unctad.org/system/files/official-document/ditcted2024d1_en.pdf",
+    "https://openknowledge.fao.org/server/api/core/bitstreams/3ed17473-4b3f-4f8b-978a-09945412bdf0/content",
+    "https://www.sciencedirect.com/science/article/abs/pii/S1385110120301830",
+    "https://www.sintef.no/en/projects/2022/aurora-imta/",
+    "https://storre.stir.ac.uk/handle/1893/23368",
+    "https://kuojs.lib.ku.ac.th/index.php/jstku/article/download/4073/1924/11630",
+    "https://doi.org/10.1201/9781003323129-10",
+    "https://doi.org/10.1111/raq.70042",
+    "https://doi.org/10.1038/srep46613"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Integrated multi-trophic aquaculture (IMTA) in Sanggou Bay, China, Fang J., Zhang J., Xiao T., Huang D., Liu S., Aquaculture Environment Interactions 8:201–205, 2016 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3354/aei00179"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Impacts of an integrated multi-trophic aquaculture system on benthic nutrient fluxes: a case study in Sanggou Bay, Ning Z., et al., Aquaculture Environment Interactions 7:221–235, 2015 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3354/aei00144"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Ecological–economic assessment of monoculture and integrated multi-trophic aquaculture in Sanggou Bay of China, Shi H., Zheng W., Zhang X., Zhu M., Ding D., Aquaculture 410–411:172–178, 2013 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.aquaculture.2013.06.033"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Shellfish-macroalgae IMTA maintaining water environment stability: Crassostrea gigas and Gracilaria lemaneiformis in Sanggou Bay, PubMed 40215949, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40215949/"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Review of the Potential Near- and Far-Field Effects of the Organic Extractive Component of IMTA in Southwest New Brunswick (Blue Mussel), Robinson S.M.C., Reid G.K., DFO CSAS Research Document 2014/026, 2014 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://publications.gc.ca/collections/collection_2014/mpo-dfo/Fs70-5-2014-026-eng.pdf"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "A discounted cash-flow analysis of salmon monoculture and Integrated Multi-Trophic Aquaculture in eastern Canada, Carras M.A., Knowler D., Pearce C.M., Hamer A., Chopin T., Weaire T., Aquaculture Economics & Management, 2019 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1080/13657305.2019.1641572"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Integrated Multi-Trophic Aquaculture (IMTA): A Potential Strategic Choice for Farmers, Ridler N., Wowchuk M., Robinson B., Barrington K., Chopin T., Robinson S., Page F., Aquaculture Economics & Management 11(1):99–110, 2007 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1080/13657300701202767"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "A Bioeconomic Analysis of Salmon Farming in British Columbia with an Integrated Multi-Trophic Aquaculture Component, SFU (Summit) etd23948, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://summit.sfu.ca/_flysystem/fedora/2025-09/etd23948.pdf"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Sludge from sea-based Atlantic salmon production: quantification, composition, and potential application in IMTA, Aquaculture International, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://link.springer.com/article/10.1007/s10499-024-01485-5"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Nutrient retention efficiencies in integrated multi-trophic aquaculture, Nederlof M.A.J., Verdegem M.C.J., Smaal A.C., Jansen H.M., Reviews in Aquaculture 14:1322–1334, 2021 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1111/raq.12645"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Integrated Multi Trophic Aquaculture in Norway, Banshoya A.Y.I., University of Bergen (CLICHEX), 2022 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://clichex.w.uib.no/files/2022/05/214_1.pdf"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Recommendations for implementing integrated multitrophic aquaculture in commercial farms at the landscape scale in southern Chile, Camelo-Guarin S., et al. (ANID/Chile) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://investigadores.anid.cl/en/public_search/work?id=670299"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "INFORME FINAL: Acuicultura Multi-Trófica Integrada (IMTA) Tenaún, Chiloé (Mytilus chilensis + macroalgas con salmónidos), FIPA/Subpesca Chile, 2017 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.subpesca.cl/fipa/613/articles-89403_informe_final.pdf"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Exploring the Sustainability of Open-Water Marine, Integrated Multi-Trophic Aquaculture, Using Life-Cycle Assessment, Prescott S., University of Stirling (PhD), 2017 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "http://hdl.handle.net/1893/28269"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "การเลี้ยงปลานิลและกุ้งขาวในบ่อเดียวกัน (อ้างข้อมูลกรมประมง 2564, Suwimol 2011, Juárez-Rosales 2019), AQUADAPT, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://aquadapt.org/2025/04/11/fish-shrimp-aquaculture-thai/"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "การเพาะเลี้ยงสัตว์น้ำหลายชั้นแบบบูรณาการ (IMTA): ระบบที่ยั่งยืน, AQUADAPT, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://aquadapt.org/2024/05/16/imta-sustainable-system-thai/"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Algae-Mediated Bioremediation in Thailand: An Overview, Ruangchuay R., Chirapart A., Lewmanomont K., Wiley (Handbook of Algal Biofuels), 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1002/9783527843367.ch33"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "Design of Integrated Aquaculture of the Pacific White Shrimp, Tilapia and Green Seaweed, Attasat S., Journal of Sustainable Energy & Environment — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so04.tci-thaijo.org/index.php/JSEE/article/view/8744"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Integrated multitrophic aquaculture system applied to shrimp, tilapia, and seaweed (Ulva ohnoi) using biofloc technology, Morais A.P.M., et al., Aquaculture 570:739492, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.aquaculture.2023.739492"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "Intensive white shrimp culture integrated with green mussel (Perna viridis), seaweed (Gracilariopsis bailiniae), and tilapia (Oreochromis mossambicus), Elle B.J.G., et al., Israeli Journal of Aquaculture – Bamidgeh, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://ija.scholasticahq.com/article/125026"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "The State of World Fisheries and Aquaculture (SOFIA) 2024 — FAO, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.fao.org/newsroom/detail/fao-report-global-fisheries-and-aquaculture-production-reaches-a-new-record-high/en"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "An Ocean of Opportunities: The Potential of Seaweed to Advance Food, Environmental and Gender Dimensions of the SDGs, UNCTAD, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://unctad.org/system/files/official-document/ditcted2024d1_en.pdf"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "Seaweed trade and market (FAO), 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://openknowledge.fao.org/server/api/core/bitstreams/3ed17473-4b3f-4f8b-978a-09945412bdf0/content"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "Effects of mussel-kelp ratios in integrated mariculture on the carbon dioxide system in Sanggou Bay, Jiang Z., et al., Journal of Sea Research (2020) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S1385110120301830"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "AURORA IMTA (salmon–kelp co-production, Northern Norway), SINTEF, 2022–2027 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sintef.no/en/projects/2022/aurora-imta/"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "Analysis of production and environmental effects of Nile tilapia and white shrimp culture in Thailand, Ferreira J.G., Falconer L., Kittiwanich J., et al., Aquaculture 447:23–36, 2015 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://storre.stir.ac.uk/handle/1893/23368"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "ระบบการเลี้ยงสัตว์น้ำผสมผสานแบบบูรณาการเพื่อเป็นอาชีพทางเลือกของเกษตรกรรายย่อยตามแนวปรัชญาเศรษฐกิจพอเพียง, วารสารวิทยาศาสตร์ ม.เกษตรศาสตร์ (JSTKU) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://kuojs.lib.ku.ac.th/index.php/jstku/article/download/4073/1924/11630"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "Advances and Constraints of Integrated Multi-Trophic Aquaculture (IMTA) Development in Coastal Ecosystems, Hernández-González M.C., Pereda S.V., Buschmann A.H., 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1201/9781003323129-10"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "The Role of Seaweed Cultivation in Integrated Multi-Trophic Aquaculture (IMTA): The Current Status and Challenges, Reviews in Aquaculture 17, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1111/raq.70042"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "Nutrient removal from Chinese coastal waters by large-scale seaweed aquaculture, Xiao X., et al., Scientific Reports 7:46613, 2017 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1038/srep46613"
+    }
+  ],
+  "reference_count": 30,
+  "article_file": "agri-09-004.md",
+  "source_file": "09-ประมงและสัตว์น้ำ\\เจาะลึก-09-IMTA-การเลี้ยงแบบผสมผสาน.md"
+}

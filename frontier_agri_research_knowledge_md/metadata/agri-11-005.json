@@ -1,0 +1,297 @@
+{
+  "slug": "agri-11-005",
+  "title": "การคาดการณ์ ENSO (เอลนีโญ/ลานีญา) — วางแผนเพาะปลูกล่วงหน้ารายฤดู",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "การปรับตัวต่อสภาพอากาศและระบบเตือนภัย",
+  "domain_code": "11",
+  "topic_id": "11-005",
+  "handle_id": "11-005",
+  "abstract": "- **ใจความ**: ENSO (เอลนีโญ/ลานีญา) เป็นตัวขับเคลื่อนความแปรปรวนฝนรายปีที่แรงสุดของโลก — ดัชนี ONI ที่ Niño 3.4 (ค่าผิดปกติ ≥ ±0.5°C นาน ≥5 ฤดูต่อเนื่อง) ใช้ประกาศสถานะราย 3 เดือน และระบบพยากรณ์รายฤดู (NOAA CPC/IRI plume: 26 โมเดล = dynamical 15 + statistical 11) แจกความน่าจะเป็นล่วงหน้าได้ถึง 9 ฤดู แต่ skill จำกัด: เอลนีโญพยากรณ์ onset แม่น ~60% ล่วง 3 เดือน ส่วนลานีญาแย่กว่ามาก [1][5][6][7]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml",
+  "pdf_url": "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_disc_dec2025/ensodisc.pdf",
+  "source_urls": [
+    "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml",
+    "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_disc_mar2026/ensodisc.shtml",
+    "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_disc_dec2025/ensodisc.pdf",
+    "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/probabilities.php",
+    "https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current/",
+    "https://www.nature.com/articles/s41612-024-00845-5",
+    "https://www.climate.gov/news-features/blogs/enso/how-good-have-models-been-predicting-enso-21st-century",
+    "https://staff.cgd.ucar.edu/cdeser/docs/peng.2324ElNino_ocean_dynamics.natgeo25.pdf",
+    "https://content-drupal.climate.gov/news-features/blogs/enso/december-2023-el-nino-update-adventure",
+    "https://www.nature.com/articles/s43247-024-01867-w",
+    "https://en.wikipedia.org/wiki/2023%E2%80%9324_El_Ni%C3%B1o_event",
+    "https://doi.org/10.32526/ennrj.17.4.2019.29",
+    "https://doi.org/10.1016/j.envc.2025.101123",
+    "https://link.springer.com/article/10.1007/s00704-026-06166-2",
+    "https://www.mdpi.com/2297-8747/26/4/72",
+    "https://www.tmd.go.th/climate/El-Nino-La-Nina",
+    "https://li01.tci-thaijo.org/index.php/aginujournal/article/view/266111",
+    "https://www.krungsri.com/en/research/research-intelligence/drought-2023",
+    "https://www.krungsri.com/en/research/research-intelligence/drought-2024",
+    "https://www.bot.or.th/content/dam/bot/documents/en/our-roles/monetary-policy/mpc-publication/monetary-policy-report/mpr-box/MPR_2023_Q3_BOX2.pdf",
+    "https://www.kasikornresearch.com/en/analysis/k-econ/business/Pages/Elnino-Agri-CIS3424-B-20-07-2023.aspx",
+    "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Grain+and+Feed+Update_Bangkok_Thailand_TH2024-0007.pdf",
+    "https://thethaiger.com/news/business/el-nino-effect-forecasted-to-lower-thai-rice-production-in-2023-24",
+    "https://www.bangkokpost.com/thailand/general/994313/relief-as-rain-falls-but-droughts-aftermath-to-linger",
+    "https://www.ametsoc.net/eee/2016/ch25.pdf",
+    "https://www.nationthailand.com/in-focus/30280606",
+    "https://www.nationthailand.com/news/general/40068423",
+    "https://www.bangkokpost.com/thailand/general/3295280/super-el-ni%C3%B1o-to-arrive-in-thailand-next-year",
+    "https://www.nationthailand.com/news/policy/40069161",
+    "https://www.nationthailand.com/sustaination/40067487",
+    "https://www.nationthailand.com/sustaination/40068976",
+    "https://doi.org/10.3390/cli6030077",
+    "https://era.dpi.qld.gov.au/id/eprint/11480/1/Quality%20and%20potential%20utility%20of%20ENSO-based%20forecasts%20of%20spring%20rainfall%20and%20wheat%20yield%20in%20south-eastern%20Australia.pdf",
+    "https://oar.icrisat.org/2698/1/Journal%20of%20Agrometeorology_150_S1_150-158_2008.pdf",
+    "https://iopscience.iop.org/article/10.1088/1748-9326/ad6a6f",
+    "https://epic.uchicago.in/wp-content/uploads/2022/08/20241007_BJKLS_forecasts.pdf",
+    "https://agronomy.agr.ku.ac.th/kucci.html",
+    "https://live1.hii.or.th/product/latest/dashboard/docs/rain_forecast_6m/202601_RainfallSeasonal_public.pdf",
+    "https://wmo.int/media/news/asean-climate-outlook-consensus-bulletin-june-august-2026"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "ENSO Diagnostic Discussion (El Niño Advisory: Niño3.4 +1.2°C, 97% ถึงต้นฤดูใบไม้ผลิ 2027, 81% very strong OND 2026), NOAA Climate Prediction Center, 2026-07-09 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "ENSO Diagnostic Discussion (ลานีญา→neutral ภายใน 1 เดือน; neutral MJJ 55%, El Niño JJA 62%), NOAA CPC, 2026-03-12 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_disc_mar2026/ensodisc.shtml"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "ENSO Diagnostic Discussion (La Niña Advisory, อ่อน: DJF 54%, neutral JFM 68%), NOAA CPC, 2025-12-11 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_disc_dec2025/ensodisc.pdf"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Official NOAA CPC ENSO Probabilities (El Niño 100% JJA–NDJ 2026), NOAA CPC, issued 2026-07 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/probabilities.php"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "ENSO Forecast (plume: 26 โมเดล = dynamical 15 + statistical 11, consensus El Niño ถึงต้น 2027), IRI/Columbia, 2026-07-20 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current/"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Real-time ENSO forecast skill evaluated over the last two decades, with focus on the onset of ENSO events (253 forecasts 2002–2023; DYN>STAT; spring barrier; warm onset แม่นกว่า), Ehsan M.A. et al., npj Climate and Atmospheric Science 7:322, 2024-12-19 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s41612-024-00845-5"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "How good have models been at predicting ENSO in the 21st century? (DYN ~60% onset เอลนีโญ ≤3 เดือน; ลานีญา 40–60% ที่ 2 ฤดู แล้ว <20%; STAT ≈0), L'Heureux M., NOAA Climate.gov, 2025-02-27 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.climate.gov/news-features/blogs/enso/how-good-have-models-been-predicting-enso-21st-century"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Strong 2023–2024 El Niño generated by ocean dynamics (hindcast ทำซ้ำ 87% ของการอุ่น มิ.ย.–ธ.ค. 2023; ไม่ต้องพึ่ง Bjerknes feedback), Peng Q. et al., Nature Geoscience, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://staff.cgd.ucar.edu/cdeser/docs/peng.2324ElNino_ocean_dynamics.natgeo25.pdf"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "December 2023 El Niño update: adventure! (เกณฑ์ strong ≥1.5°C/very strong ≥2.0°C; สถิติ: 2015/16 = 2.6°C สูงสุด), NOAA Climate.gov, 2023-12 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://content-drupal.climate.gov/news-features/blogs/enso/december-2023-el-nino-update-adventure"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Predicting the 2023/24 El Niño from a multi-scale and global perspective (NDJ 2023/24 ≈1.91°C, แรงอันดับ 2 ของศตวรรษนี้; อินเดีย-แอตแลนติกร้อนลดทอน), Nature Communications Earth & Environment 5:648, 2024-11-08 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s43247-024-01867-w"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "2023–2024 El Niño event (อันดับ 5 แรงสุดในประวัติศาสตร์; WMO ประกาศ 4 ก.ค. 2023; อินเดีย ส.ค. 2023 แห้งสุดตั้งแต่ 1901; แอฟริกาใต้ 61 ล้านคนเดือดร้อน), Wikipedia/WMO, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://en.wikipedia.org/wiki/2023%E2%80%9324_El_Ni%C3%B1o_event"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Impacts of El Niño-Southern Oscillation (ENSO) on Rice Production in Thailand during 1961-2016 (เอลนีโญ 5 ครั้งแรงสุด: ผลผลิต -16%, ผลผลิต/ไร่ -8.8%; 2015/16 นาปรัง ~-10 ล้านตัน; asymmetry; R²=0.36/0.27, เฉพาะ El Niño = 0.45/0.39), Limsakul A., Environment and Natural Resources Journal 17(4):30–42, 2019 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.32526/ennrj.17.4.2019.29"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Quantification and prediction of the impact of ENSO on rainfed rice yields in Thailand (ENSO-CropNet R²=0.89; เอลนีโญ→เหนือ -12%), Wannasingha U.H. et al., Environmental Challenges, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.envc.2025.101123"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "A geospatial graph neural network framework for analyzing climate variability impacts on crop yields in northeast Thailand (GeoGNN-Yield R²=0.94/0.86; ผลต่าง El Niño vs La Niña ±78.9%; Niño4 สำคัญสุด), Theoretical and Applied Climatology, 2026-03-21 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://link.springer.com/article/10.1007/s00704-026-06166-2"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "Predicting Rice Production in Central Thailand Using the WOFOST Model with ENSO Impact (ข้าวสุพรรณบุรี 1: corr -0.4 @lag 8 เดือน; 2019 -8.5%, 2021 +12.7%; RMSE 752 กก./เฮกตาร์), MDPI AgriEngineering 26(4):72, 2021-10-20 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mdpi.com/2297-8747/26/4/72"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "การเฝ้าระวังปรากฏการณ์เอลนีโญ-ลานีญา (เผยแพร่รายเดือนถึง มิ.ย. 2569), กองพัฒนาอุตุนิยมวิทยา กรมอุตุนิยมวิทยา, 2569 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.tmd.go.th/climate/El-Nino-La-Nina"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "อิทธิพลของเอนโซที่มีผลต่อการเปลี่ยนแปลงปริมาณฝนในช่วงฤดูฝนและฤดูแล้ง...ภาคเหนือตอนบนของประเทศไทย (2547–2563, p<0.05: เอลนีโญ→ฝนฤดูฝนลด, ลานีญา→เพิ่ม/เสี่ยงท่วม), วารสารเกษตรศาสตร์ (TCI-Thaijo), 2568-05-15 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://li01.tci-thaijo.org/index.php/aginujournal/article/view/266111"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "Drought (ผลกระทบเอลนีโญ: แล้ง 50,000 ล้านบาท base/78,000 worst = 0.29–0.45% GDP; ฝน 2566 -5–10%, 2567 -10–15%), Krungsri Research, 2023-08 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.krungsri.com/en/research/research-intelligence/drought-2023"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Drought and Flood Risk 2024 (แล้ง+ท่วม 55,800 ล้านบาท = -0.31% GDP; ท่วม 1.7 ล้านไร่/4,200 ล้านบาท), Krungsri Research, 2024-03-13 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.krungsri.com/en/research/research-intelligence/drought-2024"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "Box 2: El Niño – a risk to Thai economy going forward (ฝน มิ.ย.–ส.ค. 66 -15%; ผลผลิตพืช -0.9% H2/66, -5.4% H1/67; รายได้เกษตร -0.4%/-2.1%; GDP -0.1/-0.2 pp; เงินเฟ้อ +0.2/+0.4 pp), ธนาคารแห่งประเทศไทย, รายงานนโยบายการเงิน Q3/2566 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.bot.or.th/content/dam/bot/documents/en/our-roles/monetary-policy/mpc-publication/monetary-policy-report/mpr-box/MPR_2023_Q3_BOX2.pdf"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "This year's El Niño episode is expected to cause damage of around THB 48 billion to the Thai agricultural sector, Kasikorn Research Center (KResearch), 2023-07-20 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.kasikornresearch.com/en/analysis/k-econ/business/Pages/Elnino-Agri-CIS3424-B-20-07-2023.aspx"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "Grain and Feed Update: Bangkok (ข้าว MY2023/24 = 19.9 MMT -5%; ฝน พ.ค.–ส.ค. 66 -18%; เขื่อนเหนือ+กลาง 10,187 ล้าน ลบ.ม. -20%), FAS/USDA GAIN TH2024-0007, 2567 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Grain+and+Feed+Update_Bangkok_Thailand_TH2024-0007.pdf"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "El Niño effect forecasted to lower Thai rice production in 2023-24 (OAE: ข้าว -871,000 ตัน = -3.27%, 25.8 ล้านตัน; 62.4 ล้านไร่), สำนักงานเศรษฐกิจการเกษตร ผ่าน Thaiger, 2023-09-23 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://thethaiger.com/news/business/el-nino-effect-forecasted-to-lower-thai-rice-production-in-2023-24"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "Relief as rain falls, but drought's aftermath to linger (ข้าว 2015/16 = 27.4 ล้านตัน ต่ำสุดตั้งแต่ 2000/01; เสียหาย Q1/59 ~80,000 ล้านบาท; 44.6°C แม่ฮ่องสอน สถิติ 5 ทศวรรษ), Bangkok Post, 2016-05-30 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.bangkokpost.com/thailand/general/994313/relief-as-rain-falls-but-droughts-aftermath-to-linger"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "The Hot and Dry April of 2016 in Thailand (41 จังหวัด; ขาดทุนเกษตร ~US$500M ตาม MOAC; เม.ย. 2559 ร้อนสุดตั้งแต่ 1900; heatstroke ×6 เทียบ 2557), Christidis N. et al., Explaining Extreme Events of 2015, BAMS 97(12):S105–S110, 2016 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.ametsoc.net/eee/2016/ch25.pdf"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "Reservoir crisis forcing extreme dam measures (เขื่อน 10 แห่งวิกฤต; 4 เขื่อนหลักลุ่มเจ้าพระยา ~16% ความจุ ต่ำสุดตั้งแต่ 2537; เตรียมใช้ dead storage), The Nation Thailand, 2016-03-02 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nationthailand.com/in-focus/30280606"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "El Niño could cost Thai agriculture THB62 billion (ข้าว -5.4 ล้านตัน/43,046 ลบ., อ้อย -12 ล้านตัน/10,711 ลบ., มัน -3.1 ล้านตัน/8,098 ลบ.; รายได้เกษตร -8%; ข้าวเปลือก 7,305→~8,000 บาท/ตัน; เขื่อนกลาง 28%; เอลนีโญถี่ขึ้นทุก ~3 ปี), Krungthai COMPASS ผ่าน The Nation, 2026-07-09 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nationthailand.com/news/general/40068423"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "Super El Niño to arrive in Thailand next year (TMD: ฝนลด ≥10%; RID: นาปรัง 2570 -20%; แผนน้ำ 14.956 พันล้าน ลบ.ม.; เขื่อน 4 หลัก -10% YoY), Bangkok Post, 2026-08-02 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.bangkokpost.com/thailand/general/3295280/super-el-ni%C3%B1o-to-arrive-in-thailand-next-year"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "Thailand Braces for Severe El Niño as Water Office Warns of Dry Spells into 2027 (ONWR: 14 หน่วยงาน; เขื่อน 4 หลัก = 12,105 ล้าน ลบ.ม. (คาด 1 พ.ย. 69) vs 17,245 (พ.ย. 68) vs 4,247 (วิกฤต 2558)), The Nation Thailand, 2026-07-29 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nationthailand.com/news/policy/40069161"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "Thailand faces prolonged El Niño risk as DCCE steps up response (โอกาส El Niño 96–98% มิ.ย.–ก.ค. 2569; Climate Risk Map ระดับตำบลเสร็จ 2028; ชุดข้อมูลน้ำท่วม 90×90 ม. กับ Weathernews), The Nation Thailand, 2026-06-16 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nationthailand.com/sustaination/40067487"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "Thailand confronts drought, fires and floods as El Niño grows (super El Niño ต.ค. 2569, SST anomaly ~2.5°C = แรงกว่า 2023/24 ราว 30–40%; พายุหมุน +10–20%; อุณหภูมิรู้สึกจริง >50°C มี.ค.–พ.ค. 2570), The Nation Thailand, 2026-07-23 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nationthailand.com/sustaination/40068976"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "The Value of Tactical Adaptation to El Niño–Southern Oscillation for East Australian Wheat (fixed +1.15 ตัน/เฮกตาร์, AU$223; tactical +0.26 ตัน/เฮกตาร์, AU$63.9; ภูมิภาค AU$440M+188M/ปี; Hammer: กำไร +20%, เสี่ยง -35%), Zheng B., Chapman S., Chenu K., Climate (MDPI) 6(3):77, 2018-09-11 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3390/cli6030077"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "Quality and potential utility of ENSO-based forecasts of spring rainfall and wheat yield in south-eastern Australia (consistency 60–83%; พยากรณ์ได้ตั้งแต่ปลาย ก.ค.; 4 พื้นที่ 104–117 ปี), Potgieter A. et al., 2005 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://era.dpi.qld.gov.au/id/eprint/11480/1/Quality%20and%20potential%20utility%20of%20ENSO-based%20forecasts%20of%20spring%20rainfall%20and%20wheat%20yield%20in%20south-eastern%20Australia.pdf"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "Cropping systems options in relation to ENSO phase for Nandyal in Andhra Pradesh — A simulation analysis (El Niño→maize/pigeonpea; La Niña→groundnut-chickpea; Neutral→groundnut/pigeonpea), ICRISAT, Journal of Agrometeorology, 2008 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://oar.icrisat.org/2698/1/Journal%20of%20Agrometeorology_150_S1_150-158_2008.pdf"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "El Niño and positive Indian Ocean Dipole conditions simultaneously reduce the production of multiple cereals across India (>70% ของ districts ผลผลิต/ผลผลิต/ไร่ลด; ข้าวโพด-ลูกเดือยแย่สุด; ลานีญาเพิ่ม), Environmental Research Letters, 2024-09-09 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://iopscience.iop.org/article/10.1088/1748-9326/ad6a6f"
+    },
+    {
+      "id": "36",
+      "index": 36,
+      "label": "Long-range forecasts as climate adaptation: an experimental study of monsoon onset forecasts in India (RCT 250 หมู่บ้าน: ข่าวร้าย พื้นที่ -22%/ผลผลิต -25%; ข่าวดี +21%/+31%; WTP เท่าประกันภัย; สวัสดิการ +0.06 SD), EPIC/University of Chicago, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://epic.uchicago.in/wp-content/uploads/2022/08/20241007_BJKLS_forecasts.pdf"
+    },
+    {
+      "id": "37",
+      "index": 37,
+      "label": "KUCCI — Kasetsart University Center for Climate Intelligence (synthesized outlook 7 หน่วยงาน: Chao Phraya 65–80% ของปกติ; JMA El Niño 60% ภายใน JJA; เขื่อนภูมิพล 45%/สิริกิติ์ 52%), มหาวิทยาลัยเกษตรศาสตร์, 2569 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://agronomy.agr.ku.ac.th/kucci.html"
+    },
+    {
+      "id": "38",
+      "index": 38,
+      "label": "คาดการณ์ฝน สถานการณ์น้ำ (พยากรณ์รายฤดูกาล 2569: ฝน ~1,479 มม. = -1% จากค่าปกติ), สถาบันสารสนเทศทรัพยากรน้ำ (องค์การมหาชน) HII, 2569-01 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://live1.hii.or.th/product/latest/dashboard/docs/rain_forecast_6m/202601_RainfallSeasonal_public.pdf"
+    },
+    {
+      "id": "39",
+      "index": 39,
+      "label": "ASEAN Climate Outlook — Consensus Bulletin for June to August 2026 (El Niño ปานกลาง JJA 2026; ฝนต่ำกว่าปกติถึงใกล้ปกติภาคกลาง/ใต้ของไทย; IOD+ ช่วงปลายปี), ASMC/WMO, 2026-06-10 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://wmo.int/media/news/asean-climate-outlook-consensus-bulletin-june-august-2026"
+    }
+  ],
+  "reference_count": 39,
+  "article_file": "agri-11-005.md",
+  "source_file": "11-การปรับตัวต่อสภาพอากาศและระบบเตือนภัย\\เจาะลึก-11-การคาดการณ์ENSO-เอลนีโญ-ลานีญา.md"
+}

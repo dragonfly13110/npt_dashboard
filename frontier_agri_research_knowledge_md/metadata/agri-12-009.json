@@ -1,0 +1,202 @@
+{
+  "slug": "agri-12-009",
+  "title": "มาตรฐานรับรองและตลาดพรีเมียมสำหรับสินค้าเกษตรไทย",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-04",
+  "created_at": "2026-08-04",
+  "review_at": "2027-02-04",
+  "category": "ระบบอาหาร เศรษฐศาสตร์ และนโยบาย",
+  "domain_code": "12",
+  "topic_id": "12-009",
+  "handle_id": "12-009",
+  "abstract": "- **ใจความ**: มาตรฐานรับรองเป็น \"ประตูเข้าตลาด\" ทั้งตลาดส่งออกและตลาดพรีเมียม: Q-GAP เป็นมาตรฐานบังคับโดยพฤตินัยสำหรับส่งออกผักผลไม้ไทย ขณะที่อินทรีย์ (Organic/ACT) GI และ GlobalG.A.P. เปิดโอกาสราคาพรีเมียม [1][2][3] — ไทยมีผู้ถือใบรับรอง Q-GAP จำนวนมาก (ระดับแสนแปลง) แต่พื้นที่เกษตรอินทรีย์ยังน้อย (<1% ของพื้นที่เกษตร) และส่วนใหญ่ยังไม่ใช้อินทรีย์เชิงพาณิชย์เต็มรูปแบบ [4][5] — GI สร้างมูลค่าเพิ่มได้จริง (ข้าวหอมมะลิทุ่งกุลาร้องไห้ ทุเรียน GI ฯลฯ) และถูกใช้เป็นเครื่องมือการตลาดระดับจังหวัด [6] — ราคาพรีเมียมมีจริงแต่มักไม่คุ้มต้นทุนการรับรองในฟาร์มเล็กถ้าไม่มีตลาดรองรับชัดเจน [7][8]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.doa.go.th",
+  "pdf_url": null,
+  "source_urls": [
+    "https://www.doa.go.th",
+    "https://www.acfs.go.th",
+    "https://www.globalgap.org",
+    "https://www.actorganic-cert.or.th",
+    "https://www.ifoam.bio",
+    "https://www.ipthailand.go.th",
+    "https://www.fao.org",
+    "https://www.tci-thaijo.org",
+    "https://environment.ec.europa.eu",
+    "https://www.wto.org",
+    "https://www.ams.usda.gov",
+    "https://www.fairtrade.net",
+    "https://standardsmap.org",
+    "https://www.oae.go.th",
+    "https://www.prachachat.net",
+    "https://www.bangkokbiznews.com",
+    "https://www.cpd.go.th",
+    "https://www.oecd.org",
+    "https://www.undp.org",
+    "https://www.fti.or.th",
+    "https://www.thairath.co.th",
+    "https://www.tpso.go.th"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "กรมวิชาการเกษตร. \"การรับรองมาตรฐาน GAP/Q-GAP และข้อมูลผู้ได้รับรอง.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.doa.go.th"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ (มกอช./ACFS). \"มาตรฐานสินค้าเกษตร (มกษ.) GAP.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.acfs.go.th"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "GlobalG.A.P. \"GlobalG.A.P. IFA and certification database.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.globalgap.org"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "สมาคมการค้าเกษตรอินทรีย์ไทย (ACT). \"ข้อมูลผู้ประกอบการที่ได้รับการรับรองอินทรีย์.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.actorganic-cert.or.th"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "IFOAM – Organics International. \"The World of Organic Agriculture: Statistics and Emerging Trends.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.ifoam.bio"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "กรมทรัพย์สินทางปัญญา. \"ฐานข้อมูลสิ่งบ่งชี้ทางภูมิศาสตร์ (GI) ของไทย.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.ipthailand.go.th"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "FAO. \"Voluntary standards and sustainable agrifood systems\" (งานศึกษา). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.fao.org"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "มหาวิทยาลัย/วารสารไทย (TCI). \"งานศึกษาต้นทุนการรับรองและราคาพรีเมียมของสินค้าเกษตรอินทรีย์/GI ไทย.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.tci-thaijo.org"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "คณะกรรมาธิการยุโรป. \"EU Deforestation Regulation (EUDR) 2023/1115.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://environment.ec.europa.eu"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "WTO. \"Technical Barriers to Trade (TBT) — private standards.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.wto.org"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "USDA AMS. \"National Organic Program.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.ams.usda.gov"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Fairtrade International. \"Fairtrade standards and premium.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.fairtrade.net"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "ITC. \"Standards Map — ฐานข้อมูลมาตรฐานสมัครใจ.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://standardsmap.org"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "สำนักงานเศรษฐกิจการเกษตร (สศก.). \"การรับรอง GAP กับโอกาสทางการตลาด\" (งานศึกษา). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.oae.go.th"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "ประชาชาติธุรกิจ. \"สินค้า GI ไทย: มูลค่าและแนวโน้มตลาด.\" 2566. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.prachachat.net"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "กรุงเทพธุรกิจ. \"เกษตรอินทรีย์ไทยยังต่ำกว่า 1% ของพื้นที่ — ความท้าทายการขยาย.\" 2566–2567. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.bangkokbiznews.com"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ. \"การเทียบเคียงมาตรฐาน GAP ไทยกับ GLOBALG.A.P.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.acfs.go.th"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "กรมส่งเสริมสหกรณ์. \"โครงการรับรองแบบกลุ่ม (Group Certification) ในสหกรณ์การเกษตร.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.cpd.go.th"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "OECD. \"Agricultural Policy Monitoring and Evaluation 2024: Thailand\" (มาตรฐานและการตลาด). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.oecd.org"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "UNDP/GIZ. \"Participatory Guarantee Systems (PGS) ในเอเชียตะวันออกเฉียงใต้.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.undp.org"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "สภาอุตสาหกรรมแห่งประเทศไทย/สมาคมผู้ส่งออก. \"มุมมองผู้ส่งออกต่อมาตรฐานและตลาดพรีเมียม.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.fti.or.th"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "ไทยรัฐ/ฐานเศรษฐกิจ. \"ทุเรียน GI และการตลาดพรีเมียมไทย-จีน.\" 2566–2568. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.thairath.co.th"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "FAO. \"GLOBALG.A.P. and smallholder inclusion\" (งานศึกษา). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.fao.org"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "มหาวิทยาลัยเชียงใหม่/ขอนแก่น (วารสารไทย). \"งานศึกษาผลของ GI ต่อราคาสินค้าเกษตรไทย.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.tci-thaijo.org"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "IFOAM – Organics International. \"Organic certification and smallholder costs\" (รายงาน). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.ifoam.bio"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "สำนักงานนโยบายและยุทธศาสตร์การค้า (สนค.). \"ตลาดสินค้าพรีเมียมและโอกาสของไทย.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.tpso.go.th"
+    }
+  ],
+  "reference_count": 26,
+  "article_file": "agri-12-009.md",
+  "source_file": "12-ระบบอาหาร เศรษฐศาสตร์ และนโยบาย\\เจาะลึก-12-มาตรฐานรับรอง-ตลาดพรีเมียม.md"
+}

@@ -1,0 +1,59 @@
+{
+  "slug": "agri-04-001",
+  "title": "เศรษฐศาสตร์ Plant Factory และ Vertical Farming — จุดคุ้มทุนที่แท้จริง",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "การผลิตพืชระบบปิดและแนวดิ่ง",
+  "domain_code": "04",
+  "topic_id": "04-001",
+  "handle_id": "04-001",
+  "abstract": "- **ใจความ**: Vertical farm/Plant factory (VF/PF) ผลิตผักใบได้ 30–50 เท่าต่อพื้นที่/ปี เทียบแปลงกลางแจ้ง ใช้น้ำ ~95% น้อยกว่า ไม่ใช้ยาฆ่าแมลง [1][6] — แต่ **หน่วยเศรษฐศาสตร์ยังเปราะบาง**: ต้นทุน CAPEX สูง (หลายหมื่นล้านบาทต่อโรงขนาดใหญ่), พลังงาน 25–40% ของ OPEX, กำไรจริงเกิดได้เฉพาะผักใบราคาสูง/ตลาดเฉพาะ (เช่น สิงคโปร์ ญี่ปุ่น เอมิเรตส์) [2][3][4]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://agfundernews.com",
+  "pdf_url": null,
+  "source_urls": ["https://agfundernews.com"],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "FAO/UN: \"The State of the World's Land and Water Resources\" + เอกสาร CEA — ผลผลิต/น้ำ/ยาฆ่าแมลง VF — เข้าถึงเมื่อ 2026-08-02 *(ตัวเลขทั่วไป ยืนยันได้)*",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "NREL/งานวิชาการ: \"Energy use in vertical farming\" (LED/HVAC สัดส่วนค่าไฟ 25–40%, kWh/กก.) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "AgFunderNews: รายงาน State of Agrifoodtech + ข่าว AeroFarms/Kalera/Infarm/Bowery/Plenty 2022–2025 — — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": "https://agfundernews.com"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Future Farming / Vertical Farm Daily: บทวิเคราะห์การหดตัวและโมเดลที่รอด 2023–2025 — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งานวิจัย WUR/นโยบายสิงคโปร์-ญี่ปุ่น-เอมิเรตส์: เงินอุดหนุน/โมเดลธุรกิจ CEA — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "สถานการณ์ไทย: ข่าว/บทวิเคราะห์ผักไฮโดรโปนิกส์และ VF ไทย (TCI/ข่าวเกษตร, รายงานฟาร์มไทย) — เข้าถึงเมื่อ 2026-08-02 *(ตัวเลขไทย — ดูหัวข้อ 10)*",
+      "url": null
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-04-001.md",
+  "source_file": "04-การผลิตพืชระบบปิดและแนวดิ่ง\\เจาะลึก-04-เศรษฐศาสตร์-PlantFactory-VerticalFarm.md"
+}

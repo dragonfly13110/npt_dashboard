@@ -1,0 +1,444 @@
+{
+  "slug": "agri-14-007",
+  "title": "Agri-fintech — สินเชื่อการเกษตรดิจิทัล ประกันภัยพืชผลแบบพารามิเตอร์ (Index/Parametric Crop Insurance) และฟินเทคเพื่อเกษตรกร",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-05",
+  "created_at": "2026-08-05",
+  "review_at": "2027-02-05",
+  "category": "สตาร์ทอัพ นวัตกรรม และการยอมรับเทคโนโลยี",
+  "domain_code": "14",
+  "topic_id": "14-007",
+  "handle_id": "14-007",
+  "abstract": "- **ใจความ**: Agri-fintech (การเงินเกษตรดิจิทัล) กำลังเป็น \"หมวดที่เงิน VC ไหลเข้าแรงที่สุด\" ในอัปสตรีมของโลกกำลังพัฒนา — ปี 2567 หมวด Ag Marketplaces & Fintech ระดม **$561 ล้าน / 96 ดีล** คิดเป็น **49% ของเงินลงทุนอัปสตรีม** ในตลาดเกิดใหม่ที่โตรวม +63% ($3.7B) สวนทางโลกที่ -4% [7][8] — ตลาด agri-fintech โลกประเมินหลากหลายสำนัก: **$4.8–9.4 พันล้าน (2025)** โต CAGR **13–21%** ไปถึง $18.6–64.7 พันล้าน (2034–2035) [1][2][3][4] — ด้านประกันพารามิเตอร์ Pula ผู้นำระดับโลกคุ้มครองเกษตรกรแล้ว **19–21 ล้านราย** ในแอฟริกา/เอเชีย ระดมเบี้ย $126 ล้าน จ่ายสินไหม $92 ล้าน [10][11][15] — งานวิจัย RCT ยืนยันว่า index insurance เพิ่มการลงทุนปุ๋ย/เมล็ดพันธุ์เสี่ยงสูงของเกษตรกร (เคนยา/อินเดีย/จีน) แต่มีจุดอ่อน",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://bisresearch.com/industry-report/agri-fintech-market.html",
+  "pdf_url": "https://www.nber.org/system/files/working_papers/w19702/w19702.pdf",
+  "source_urls": [
+    "https://bisresearch.com/industry-report/agri-fintech-market.html",
+    "https://growthmarketreports.com/report/agri-fintech-market",
+    "https://growthmarketreports.com/report/ag-fintech-lending-platform-market",
+    "https://dataintelo.com/report/agri-fintech-market",
+    "https://www.qyresearch.com/reports/6094155/agri-fintech-platforms",
+    "https://www.prnewswire.com/news-releases/farming-and-agriculture-finance-market-to-reach-usd-256-97-billion-by-2032-as-capital-access-becomes-central-to-global-food-security-and-sustainable-farming-302644715.html",
+    "https://agfunder.com/research/developing-markets-agrifoodtech-investment-report-2025/",
+    "https://agfundernews.com/new-report-agrifoodtech-funding-in-developing-markets-surges-63-bucking-global-decline",
+    "https://agfunder.com/research/agfunder-global-agrifoodtech-investment-report-2026/",
+    "https://data.unhcr.org/en/documents/details/116210",
+    "https://www.pula-advisors.com/",
+    "https://www.bayer.com/media/en-us/bayer-and-pula-foundation-partner-up-to-insure-10-million-smallholder-farmers-in-sub-saharan-africa-and-south-asia/",
+    "https://kilimo.go.ke/kenya-partners-with-pula-advisors-to-boost-climate-resilience-for-smallholder-farmers-through-innovative-insurance-program/",
+    "https://beinsure.com/news/bayer-pula-insure-10mn-farmers-africa/",
+    "https://www.smefinanceforum.org/post/sme-finance-virtual-marketplace-insurtech-smallholder-farmers",
+    "https://www.globalinclusiveinsuranceforum.org/news/acre-africa-protecting-rural-africa-through-creative-partnerships-and-technology",
+    "https://www.climatepolicyinitiative.org/gca-africa-adaptation-finance/case_studies/agriculture-and-climate-risk-enterprise-acre-2/",
+    "https://www.worldbank.org/en/news/feature/2022/06/15/disruptive-innovations-boost-uptake-of-agriculture-insurance-solutions-in-kenya",
+    "https://acreafrica.com/",
+    "https://acreafrica.com/scaling-climate-insurance-and-digital-finance/",
+    "https://techcrunch.com/2019/05/03/worldcover-raises-6m-round-for-emerging-markets-climate-insurance/",
+    "https://www.artemis.bm/news/nephila-assists-insurtech-worldcover-with-reinsurance-via-lloyds-syndicate/",
+    "https://www.heifer.org/blog/report-finds-agricultural-finance-model-created-by-heifer-international-and-hello-tractor-profitable-effective",
+    "https://hellotractor.com/",
+    "https://www.acdivoca.org/2024/03/hello-tractor-kenya-secures-debt-from-ink-fund/",
+    "https://businesstoday.co.ke/absa-bank-revs-up-tractor-purchase-lending-with-ksh500m-deal/",
+    "https://www.heifer.org/press-release/hello-tractor-heifer-international-unveil-pay-as-you-go-tractor-financing-for-agripreneurs-in-nigeria",
+    "https://agfundernews.com/wefarm-gets-11m-series-a-funding-goes-from-sms-service-to-online-marketplace",
+    "https://www.nber.org/system/files/working_papers/w19702/w19702.pdf",
+    "https://ideas.repec.org/a/eee/deveco/v129y2017icp14-28.html",
+    "https://ideas.repec.org/a/aea/aecrev/v103y2013i3p375-80.html",
+    "https://www.povertyactionlab.org/evaluation/formal-rainfall-insurance-informally-insured-india",
+    "https://doi.org/10.20944/preprints202504.2032.v1",
+    "https://cgspace.cgiar.org/server/api/core/bitstreams/d879c7c0-fc7c-4c1a-9661-2daa098b0b9d/content",
+    "https://www.nber.org/system/files/working_papers/w34797/w34797.pdf",
+    "https://www.thansettakij.com/business/trade-agriculture/601891",
+    "https://www.thansettakij.com/economy/trade-agriculture/629373",
+    "https://www.fpo.go.th",
+    "https://www.siamturakij.com/news/50341",
+    "https://www.thansettakij.com/general-news/658049",
+    "https://www.moneylifenews.com/th/articles/297042-fint",
+    "https://www.bangkokbiznews.com/economics/1230910",
+    "https://www.bangkokbiznews.com/economics/1238934",
+    "https://www.thansettakij.com/finance/financial-banking/642281",
+    "https://play.google.com/store/apps/details?id=com.baac.amobileplus",
+    "https://www.kaohoon.com/finance/210151",
+    "https://www.krungsri.com/en/newsandactivities/krungsri-banking-news/bualuang-ventures-krungsri-finnovate-invest-recult",
+    "https://asia.nikkei.com/business/36kr-krasia/thai-agritech-startup-raises-2m-in-pre-series-a-round",
+    "https://www.cnbc.com/2021/11/29/thailand-start-up-ricult-has-mobile-app-designed-to-boost-crop-yields.html",
+    "https://www.scb.co.th/th/personal-banking/stories/success-story/ricult-startup-agritech",
+    "https://www.nationthailand.com/business/corporate/40035664",
+    "https://theaseanmagazine.asean.org/article/agritech-startup-ricult-built-with-farmers-rooted-in-innovation/",
+    "https://techsauce.co/news/ricult-series-pre-b",
+    "https://linkedin.com/company/moneyguruthailand",
+    "https://www.ryt9.com/s/prg/2050164",
+    "https://eln.siamkubota.co.th/courses/764/info",
+    "https://thereporter.asia/2026/06/kubota-data-driven-farming/",
+    "https://www.baac.or.th/th/content-about.php?content_group_sub=16",
+    "https://www.nso.go.th",
+    "https://www.growersedge.com/press-release/growers-edge-raises-25m-2025/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "BIS Research. \"Agri-Fintech Market: The Rise of Digital Lending and Insurance for Farmers, 2025–2035\" — $7,299.6M (2024), $9,401.9M (2025), $64,696.8M (2035), CAGR 21.27% — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://bisresearch.com/industry-report/agri-fintech-market.html"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Growth Market Reports. \"Agri-FinTech Market\" — $9.3B (2025) → $32.1B (2034), CAGR 13.7%; digital lending 31.2% — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://growthmarketreports.com/report/agri-fintech-market"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Growth Market Reports. \"Ag Fintech Lending Platform Market\" — $7.0B (2025) → $21.4B (2034), CAGR 13.2%; APAC $2.7B (38.5%) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://growthmarketreports.com/report/ag-fintech-lending-platform-market"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Dataintelo. \"Agri Fintech Market Research Report 2034\" — $4.8B (2025) → $18.6B (2034), CAGR 16.2%; อ้าง FAO credit gap >$170B; 570 ล้านฟาร์มรายย่อย — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://dataintelo.com/report/agri-fintech-market"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "QY Research. \"Agri-Fintech Platforms Market 2026-2032\" — $2,360M (2025) → $4,320M (2032), CAGR 9.2% — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.qyresearch.com/reports/6094155/agri-fintech-platforms"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "DataM Intelligence (PRNewswire). \"Farming and Agriculture Finance Market to Reach USD 256.97 Billion by 2032\" — $183.21B (2024), CAGR 4.32%; loans 52%, banks 58%, fintech+coops 15% — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.prnewswire.com/news-releases/farming-and-agriculture-finance-market-to-reach-usd-256-97-billion-by-2032-as-capital-access-becomes-central-to-global-food-security-and-sustainable-farming-302644715.html"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "AgFunder/Omnivore/FMO. \"Developing Markets AgriFoodTech Investment Report 2025\" — ตลาดเกิดใหม่ $3.7B (+63%), Ag Marketplaces & Fintech $561M/96 ดีล = 49% ของอัปสตรีม — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://agfunder.com/research/developing-markets-agrifoodtech-investment-report-2025/"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "AgFunderNews. \"Developing markets agrifoodtech bucks global decline\" (16 เม.ย. 2025) — Agrolend $53M, Pula $20M, SunCulture $28M, Techcoop $75M, Sarvagram $67M — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://agfundernews.com/new-report-agrifoodtech-funding-in-developing-markets-surges-63-bucking-global-decline"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "AgFunder. \"Global AgriFoodTech Investment Report 2026\" — $16.2B (2025, -3%), upstream $9B (+7%) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://agfunder.com/research/agfunder-global-agrifoodtech-investment-report-2026/"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Pula Advisors. \"Insuring Farmers' resilience amid a Changing Climate\" (presentation, พ.ค. 2025) — 19M เกษตรกร, 41% ผู้หญิง, เบี้ยเฉลี่ย $6.8/ฤดู, ปลดล็อก $2.22B, จ่าย $92M — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://data.unhcr.org/en/documents/details/116210"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Pula Advisors. เว็บไซต์ทางการ — 21M+ เกษตรกร, 12+ ประเทศ — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.pula-advisors.com/"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Bayer (ข่าวประชาสัมพันธ์ 23 ม.ค. 2025). \"Bayer and Pula Foundation partner up to insure 10 million smallholder farmers\" — เงินสนับสนุนเบี้ย €10M → คุ้มครอง $127M, 10M เกษตรกรภายใน 2030 (บังกลาเทศ/ปากีสถาน/มาลาวี/กานา/ไนจีเรีย/เคนยา/มาลี); ซิมบับเวนำร่อง 31,000 ราย → 1 ล้านรายใน 3 ปี — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.bayer.com/media/en-us/bayer-and-pula-foundation-partner-up-to-insure-10-million-smallholder-farmers-in-sub-saharan-africa-and-south-asia/"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Kenya MoALD. \"Kenya Partners With Pula Advisors\" (9 พ.ค. 2025) — MoU 11 เคาน์ตี, ผูกกับโปรแกรมปุ๋ยอุดหนุน — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://kilimo.go.ke/kenya-partners-with-pula-advisors-to-boost-climate-resilience-for-smallholder-farmers-through-innovative-insurance-program/"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Beinsure. \"Bayer and Insurtech Pula plan to insure 10 mn farmers in Africa\" (ก.พ. 2025) — Pula Series B $20M (BlueOrchard), Series A $6M (2021) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://beinsure.com/news/bayer-pula-insure-10mn-farmers-africa/"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "SME Finance Forum. \"Insurtech for Smallholder Farmers\" (ก.ย. 2025) — Pula 19M เกษตรกร, $126M เบี้ยสะสม, $92M สินไหม, 19 ประเทศ — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.smefinanceforum.org/post/sme-finance-virtual-marketplace-insurtech-smallholder-farmers"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Global Inclusive Insurance Forum (GIIF). \"ACRE Africa: Protecting Rural Africa\" (ม.ค. 2020) — 1.7M สัญญา, 8.5M ผู้รับประโยชน์ (เคนยา/รวันดา/แทนซาเนีย) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.globalinclusiveinsuranceforum.org/news/acre-africa-protecting-rural-africa-through-creative-partnerships-and-technology"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Climate Policy Initiative (CPI). \"Agriculture and Climate Risk Enterprise (ACRE)\" — 1.7M เกษตรกร, $180M คุ้มครอง (ถึง 2018); กำเนิดจาก Kilimo Salama (2009), ก่อตั้ง 2014 โดย Syngenta Foundation + GIIF — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.climatepolicyinitiative.org/gca-africa-adaptation-finance/case_studies/agriculture-and-climate-risk-enterprise-acre-2/"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "World Bank. \"Disruptive Innovations Boost Uptake of Agriculture Insurance Solutions in Kenya\" (มิ.ย. 2022) — One Million Farmers Platform, Bima Pima (KES 50), 70,000 เกษตรกร/15 เคาน์ตี, ลดเวลาจ่ายจาก 3 สัปดาห์เป็นทันที — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.worldbank.org/en/news/feature/2022/06/15/disruptive-innovations-boost-uptake-of-agriculture-insurance-solutions-in-kenya"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "ACRE Africa. เว็บไซต์ทางการ — ครบ 10 ปี, เป้าหมาย 5M เกษตรกรภายใน 2026 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://acreafrica.com/"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "ACRE Africa. \"Scaling Climate Insurance And Digital Finance\" (12 พ.ค. 2026) — ความร่วมมือ AFD + ZEP-RE (ประกันพารามิเตอร์+เครดิต) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://acreafrica.com/scaling-climate-insurance-and-digital-finance/"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "TechCrunch (Jake Bright). \"WorldCover raises $6M round for emerging markets' climate insurance\" (3 พ.ค. 2019) — Series A นำโดย MS&AD Ventures; 30,000 เกษตรกร (เคนยา/ยูกันดา/กานา); จ่าย 5x–15x ของเบี้ย; เคนยา ก.พ. 2019: ~3 ใน 4 คำร้องได้รับสินไหม — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://techcrunch.com/2019/05/03/worldcover-raises-6m-round-for-emerging-markets-climate-insurance/"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "Artemis. \"Nephila assists insurtech WorldCover with reinsurance via Lloyd's syndicate\" (8 พ.ค. 2019) — ประกันภัยต่อผ่าน Lloyd's 2357, trigger จากข้อมูลดาวเทียม — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.artemis.bm/news/nephila-assists-insurtech-worldcover-with-reinsurance-via-lloyds-syndicate/"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "Heifer International/Aceli Africa. \"2024 Financial Benchmark Report\" (ส.ค. 2025) — 32,600 กู้ / $1.98B / 41 ผู้ให้กู้ / 5 ประเทศ; Hello Tractor: จ่ายคืน 95% vs ธนาคาร 86%; ความสามารถทำกำไร 7.2% vs NBFI -6.8%; 72 กู้ $10K–$2M — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.heifer.org/blog/report-finds-agricultural-finance-model-created-by-heifer-international-and-hello-tractor-profitable-effective"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "Hello Tractor. เว็บไซต์ทางการ — 2.5M เกษตรกร, 6,500 เจ้าของเครื่องจักร, รายได้เกษตรกร +227%, NPL <2%, 100% ผู้กู้เคย unbanked, 20+ ประเทศ — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://hellotractor.com/"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "ACDI/VOCA. \"Hello Tractor Kenya Secures $750,000 in Debt from the Impact for Northern Kenya Fund\" (มี.ค. 2024) — PAYG, เกณฑ์ 1,200 เอเคอร์จองจอง→เป็นเจ้าของรถ; 1M+ เกษตรกร 18 ประเทศ — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.acdivoca.org/2024/03/hello-tractor-kenya-secures-debt-from-ink-fund/"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "Business Today (เคนยา). \"Absa Bank Revs Up Tractor Purchase Lending With Ksh500M Deal\" (เม.ย. 2025) — วงเงิน Ksh500M + John Deere 100 คัน; เป้า 3,000 งาน / 300,000 เกษตรกร / อาหาร ~1 ล้านตัน (KES 21.4B ≈ $150M) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://businesstoday.co.ke/absa-bank-revs-up-tractor-purchase-lending-with-ksh500m-deal/"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "Heifer International. \"Hello Tractor, Heifer International Unveil Pay-As-You-Go Tractor Financing\" (เม.ย. 2022) — ลงทุน $1M ในไนจีเรีย — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.heifer.org/press-release/hello-tractor-heifer-international-unveil-pay-as-you-go-tractor-financing-for-agripreneurs-in-nigeria"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "AgFunderNews/TechCrunch. \"Wefarm nets $11m Series A+\" (9 มี.ค. 2021) — รวมระดมทุน $32M (Seed $5M 2018, Series A $13M 2019 True Ventures, Series A+ $11M 2021 Octopus Ventures); 2.5M เกษตรกร, 37M บทสนทนา, ยอดขายตลาด $29M; 400M ฟาร์มรายย่อยโลก, ซื้อปัจจัยการผลิต $400B/ปี — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://agfundernews.com/wefarm-gets-11m-series-a-funding-goes-from-sms-service-to-online-marketplace"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "Janzen, S. & Carter, M. \"After the Drought: The Impact of Microinsurance on Consumption Smoothing and Asset Protection.\" AJAE 101(3): 651-671, 2019 (NBER WP 19702) — IBLI เคนยาเหนือ: ลดคาดการณ์ขายทรัพย์สิน -36pp, ลดลดมื้ออาหาร -25pp; ครัวเรือนระดับบน -96pp ขายทรัพย์สิน, ครัวเรือนล่าง -49pp ลดมื้อ — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nber.org/system/files/working_papers/w19702/w19702.pdf"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "Jensen, N., Barrett, C., Mude, A. \"Cash transfers and index insurance: A comparative impact analysis from northern Kenya.\" JDE 129: 14-28, 2017 — IBLI เพิ่มการลงทุน ลด distress sale รายได้ต่อผู้ใหญ่สูงขึ้น; ประสิทธิภาพต่อต้นทุนส่วนเพิ่มสูงกว่าเงินโอน — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://ideas.repec.org/a/eee/deveco/v129y2017icp14-28.html"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "Mobarak, A.M. & Rosenzweig, M. \"Informal Risk Sharing, Index Insurance, and Risk Taking in Developing Countries.\" AER 103(3): 375-80, 2013 — อินเดีย: ข้อเสนอประกัน → เกษตรกรข้าวหันปลูกพันธุ์ผลผลิตสูงเสี่ยงกว่า; effect ทั่วไปต่อค่าแรง/แรงงานไร้ที่ดิน — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://ideas.repec.org/a/aea/aecrev/v103y2013i3p375-80.html"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "J-PAL. \"Formal Rainfall Insurance for the Informally Insured in India\" — take-up ~40%; ลดราคาครึ่ง → +17.6pp; ห่างสถานี 1 กม. → demand -6.4%; สินค้าราคาเฉลี่ย INR 145/unit — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.povertyactionlab.org/evaluation/formal-rainfall-insurance-informally-insured-india"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "Muleke, P., Ji, Y., Fu, Y., Kipkogei, S. \"Weather Index Insurance and Input Intensification: Evidence from Smallholder Farmers in Kenya.\" Preprints.org, เม.ย. 2025 (ยังไม่ peer-review) — ผู้มีประกันใช้ปุ๋ยเคมี +99% (67.99 vs 34.14 กก./เอเคอร์) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://doi.org/10.20944/preprints202504.2032.v1"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "CGIAR (ILRI/UC Davis ฯลฯ). \"Risk-contingent credit RCT, Kenya\" (1,053 ครัวเรือน หลายปี หลายแขนง) — RCC: adoption ปุ๋ย +14%, intensive margin >100%; ใช้จ่ายปุ๋ย +Ksh ~1,900/เอเคอร์ (LATE) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://cgspace.cgiar.org/server/api/core/bitstreams/d879c7c0-fc7c-4c1a-9661-2daa098b0b9d/content"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "Cai, J. \"Contract Design and Insurance Take-up: Evidence from a Large-Scale Randomized Experiment in China.\" NBER WP 34797 (2026) — 38 หมู่บ้าน; take-up พื้นฐาน ~20% (2009) → ~60% ด้วยเมนูหลายสัญญา; premium actuarially fair 12 หยวน/หมู่ ≈ 3% ต้นทุน; จ่ายสูงสุด 200 หยวน/หมู่ ≈ 50% ต้นทุน — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nber.org/system/files/working_papers/w34797/w34797.pdf"
+    },
+    {
+      "id": "36",
+      "index": 36,
+      "label": "ฐานเศรษฐกิจ. \"ธ.ก.ส.พร้อมรับประกันภัยข้าวนาปี วงเงินคุ้มครองไร่ละ 1,190 บาท\" (16 ก.ค. 2567) — มติ ครม. 16 ก.ค. 2567; 7 ภัยธรรมชาติ 1,190 บาท/ไร่ + ศัตรูพืช 595 บาท/ไร่; เป้า 21 ล้านไร่/600,000 ราย — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.thansettakij.com/business/trade-agriculture/601891"
+    },
+    {
+      "id": "37",
+      "index": 37,
+      "label": "ฐานเศรษฐกิจ. \"วิธีเช็คสิทธิ์ เงินประกันภัยข้าวนาปี 2567\" (7 มิ.ย. 2568) — รัฐอุดหนุนเบี้ยรวม 2,302.16 ล้านบาท (รัฐ 1,612.16 + ธ.ก.ส. 690); บริษัทประกัน 12 ราย; ตรวจสิทธิ์ rice.tgia.org — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.thansettakij.com/economy/trade-agriculture/629373"
+    },
+    {
+      "id": "38",
+      "index": 38,
+      "label": "สำนักงานเศรษฐกิจการคลัง (สศค.). \"รายงานประจำปี 2565\" — สศค. นำโครงการประกันภัยข้าวนาปีตั้งแต่ปีการผลิต 2554; ปีการผลิต 2565: งบ 1,925,065,000 บาท, เบี้ยตามความเสี่ยง 40/60/110 บาท/ไร่; ข้าวโพดเลี้ยงสัตว์เริ่มปีการผลิต 2562 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.fpo.go.th"
+    },
+    {
+      "id": "39",
+      "index": 39,
+      "label": "สยามธุรกิจ. \"ธ.ก.ส.โอนเงินค่าสินไหมประกันภัยข้าวนาปีและข้าวโพด ปี 64 กว่า 1.5 พันล้านบาท\" — ข้าว: 1,531 ล้านบาท/19 ครั้ง/1.2 ล้านไร่; ข้าวโพด: 34.7 ล้านบาท/10 ครั้ง/23,141 ไร่; รวม 113,668 ราย; วงเงินคุ้มครองปี 64: ข้าว 1,260 บาท/ไร่, ข้าวโพด 1,500 บาท/ไร่ — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.siamturakij.com/news/50341"
+    },
+    {
+      "id": "40",
+      "index": 40,
+      "label": "ฐานเศรษฐกิจ. \"เช็คเงินเยียวยาเกษตรกร 2568/69 ผู้ประสบภัยพิบัติกรณีฉุกเฉิน ด้านพืช\" (3 พ.ค. 2569) — ข้าว 1,340 บาท/ไร่, พืชไร่/ผัก 1,980, ไม้ผล/ยืนต้น 4,048; สูงสุด 30 ไร่/ครัวเรือน; ต้องขึ้นทะเบียน ทบก. ก่อนเกิดภัย — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.thansettakij.com/general-news/658049"
+    },
+    {
+      "id": "41",
+      "index": 41,
+      "label": "Money Life News. \"ธ.ก.ส. - TechXPlattnera\" — LPS Go-Live 9 ก.ค. 2567 ครบทุกสาขา; ร่วมกับ SCB TechX + บริษัท แพลท เนรา — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.moneylifenews.com/th/articles/297042-fint"
+    },
+    {
+      "id": "42",
+      "index": 42,
+      "label": "กรุงเทพธุรกิจ. \"ธ.ก.ส. ชู 'สินเชื่อดอกเบี้ยคนละครึ่ง' หนุนเกษตรแม่นยำ\" (23 เม.ย. 2569) — วงเงิน 30,000 ล้านบาท/3 ปี, ≤100,000 บาท/ราย ดอกเบี้ย 3%; สินเชื่อคงค้าง ~1.7 ล้านล้านบาท, ปล่อยใหม่ 7–8 แสนล้านบาท/ปี; เป้าปี 2569 +30,000 ล้านบาท (เกษตร 15,000 + นอกภาค 15,000); สินเชื่อนอกภาค 13–14% (เพดานกฎหมาย 20%) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.bangkokbiznews.com/economics/1230910"
+    },
+    {
+      "id": "43",
+      "index": 43,
+      "label": "กรุงเทพธุรกิจ. \"บอร์ด ธ.ก.ส. เคาะ 3 หมื่นล้าน ออกสินเชื่อดอกเบี้ยคนละครึ่งอุ้มเกษตรกร\" (17 มิ.ย. 2569) — มติบอร์ด; หักชำระอัตโนมัติจากรายได้ผลผลิต — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.bangkokbiznews.com/economics/1238934"
+    },
+    {
+      "id": "44",
+      "index": 44,
+      "label": "ฐานเศรษฐกิจ. \"ธ.ก.ส.ปล่อยสินเชื่อกว่า 5.5 แสนล้าน ลุยสร้างตลาดใหม่เกษตรกร\" (24 ต.ค. 2568) — H1 ปีบัญชี 2568 ปล่อย 551,502 ล้านบาท; BAAC Matching เปิด 11 พ.ย. 2568; พักชำระหนี้เข้าร่วม 1.35 ล้านราย — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.thansettakij.com/finance/financial-banking/642281"
+    },
+    {
+      "id": "45",
+      "index": 45,
+      "label": "ธ.ก.ส./Google Play. \"BAAC Mobile\" — e-KYC, ขอสินเชื่อ/เปิดบัญชีในแอป, เบิกสินเชื่อหมุนเวียน, ตรวจเครดิตบูโร (ร่วม NCB) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://play.google.com/store/apps/details?id=com.baac.amobileplus"
+    },
+    {
+      "id": "46",
+      "index": 46,
+      "label": "เคหการณ์. \"ธ.ก.ส.เปิดตัวแอปพลิเคชั่นใหม่ ยกระดับสู่เกษตรกร 4.0\" (9 ม.ค. 2561) — เปิดตัว A-Mobile — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.kaohoon.com/finance/210151"
+    },
+    {
+      "id": "47",
+      "index": 47,
+      "label": "Krungsri. \"Two big banks enter joint venture for AgriTech startup Ricult\" — Pre-Series A $2M (Bualuang Ventures + Krungsri Finnovate), รวม seed $5M; 200,000 เกษตรกรไทย (2563); เป้ารายได้ +15% — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.krungsri.com/en/newsandactivities/krungsri-banking-news/bualuang-ventures-krungsri-finnovate-invest-recult"
+    },
+    {
+      "id": "48",
+      "index": 48,
+      "label": "KrASIA/Nikkei. \"Thai agritech startup Ricult raises $2 million in pre-Series A round\" (ส.ค. 2563) — ภัยแล้งไทย 2563 เสียหาย $1.5B; พยากรณ์ล่วงหน้า 9 เดือน — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://asia.nikkei.com/business/36kr-krasia/thai-agritech-startup-raises-2m-in-pre-series-a-round"
+    },
+    {
+      "id": "49",
+      "index": 49,
+      "label": "CNBC. \"Thailand start-up Ricult has mobile app designed to boost crop yields\" (พ.ย. 2564) — ~400,000 เกษตรกรไทย; อ้างรายได้เพิ่ม \"อย่างน้อย 50%\" — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.cnbc.com/2021/11/29/thailand-start-up-ricult-has-mobile-app-designed-to-boost-crop-yields.html"
+    },
+    {
+      "id": "50",
+      "index": 50,
+      "label": "SCB. \"รู้จัก Ricult สตาร์ทอัพ AgriTech\" (ธ.ค. 2565) — 600,000 เกษตรกรไทย, รวม 1 ล้านราย (ไทย/เวียดนาม/ปากีสถาน) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.scb.co.th/th/personal-banking/stories/success-story/ricult-startup-agritech"
+    },
+    {
+      "id": "51",
+      "index": 51,
+      "label": "The Nation. \"Thai startup harnesses tech to turn abandoned lands into sustainable farms\" (ก.พ. 2567) — ทุนรวม >$10M; 1 ล้านเกษตรกร; ไทยมีเกษตรกร 15 ล้านคน อายุเฉลี่ย 55 ปี — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nationthailand.com/business/corporate/40035664"
+    },
+    {
+      "id": "52",
+      "index": 52,
+      "label": "The ASEAN Magazine. \"Agritech Startup Ricult: Built with Farmers, Rooted in Innovation\" (เม.ย. 2568) — 1M+ เกษตรกร SEA; อ้างกำไรเพิ่ม 20–30% — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://theaseanmagazine.asean.org/article/agritech-startup-ricult-built-with-farmers-rooted-in-innovation/"
+    },
+    {
+      "id": "53",
+      "index": 53,
+      "label": "Ricult (ข้อมูลบริษัท, Exa crawl มิ.ย. 2569) — รายได้ $4.9M, พนักงาน 7 คน, 500,000 เกษตรกร, 7 รอบระดมทุน; บริการหลักปัจจุบัน = EUDR compliance — — เข้าถึงเมื่อ 2026-08-06",
+      "url": "https://techsauce.co/news/ricult-series-pre-b"
+    },
+    {
+      "id": "54",
+      "index": 54,
+      "label": "MoneyGuru LinkedIn. \"MoneyGuru ยุติการประกอบกิจการแล้ว\" — Hyphen Group ถอนตัวจากตลาดไทย (มีผลทันที หลัง ต.ค. 2565) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://linkedin.com/company/moneyguruthailand"
+    },
+    {
+      "id": "55",
+      "index": 55,
+      "label": "RYT9/PR. \"MoneyGuru.co.th เปิดตัวเว็บไซต์เปรียบเทียบผลิตภัณฑ์ทางการเงิน\" (2557) — สังกัด CompareGlobalGroup/CompareAsiaGroup, เปิดไทย พ.ย. 2557 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.ryt9.com/s/prg/2050164"
+    },
+    {
+      "id": "56",
+      "index": 56,
+      "label": "The Cloud. \"ปฏิทินเพาะปลูกในไลน์ ทำนาลดคาร์บอน นวัตกรรมจากสยามคูโบต้า\" (ธ.ค. 2567) — KUBOTA (Agri) Solutions (KAS), KAS Crop Calendar บน LINE — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://eln.siamkubota.co.th/courses/764/info"
+    },
+    {
+      "id": "57",
+      "index": 57,
+      "label": "TheReporterAsia. \"คูโบต้า จับมือรัฐ ดันบิ๊กดาต้า ยกระดับมันสำปะหลังไทย\" (มิ.ย. 2569) — แอป K-iField บันทึก/วิเคราะห์แปลง, ภาพถ่ายดาวเทียม — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://thereporter.asia/2026/06/kubota-data-driven-farming/"
+    },
+    {
+      "id": "58",
+      "index": 58,
+      "label": "ธ.ก.ส. \"ยุทธศาสตร์การดำเนินขององค์กร ระยะ 5 ปี ปีบัญชี 2567–2571\" — เป้าหมายตำแหน่ง \"Modern Agricultural Bank\" (2569–2571) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.baac.or.th/th/content-about.php?content_group_sub=16"
+    },
+    {
+      "id": "59",
+      "index": 59,
+      "label": "สำนักงานสถิติแห่งชาติ (สสช.). \"สำมะโนการเกษตร พ.ศ. 2566 ทั่วราชอาณาจักร\" — ผู้ถือครอง 8.7 ล้านราย (30.2% ของ 28.68 ล้านครัวเรือน), เนื้อที่ 141.7 ล้านไร่, เฉลี่ย 17.4 ไร่; อีสาน 4.0 ล้านราย (46%) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nso.go.th"
+    },
+    {
+      "id": "60",
+      "index": 60,
+      "label": "Growers Edge. \"Growers Edge Raises $25M\" (เม.ย. 2025) — Series ร่วมนำโดย S2G/Cibus/Lowercarbon; Crop Plan Warranty 1M+ เอเคอร์; $19B สินเชื่อเกษตรผ่านแพลตฟอร์ม — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.growersedge.com/press-release/growers-edge-raises-25m-2025/"
+    }
+  ],
+  "reference_count": 60,
+  "article_file": "agri-14-007.md",
+  "source_file": "14-สตาร์ทอัพ นวัตกรรม และการยอมรับเทคโนโลยี\\เจาะลึก-14-AgriFintech-สินเชื่อ-ประกันพารามิเตอร์.md"
+}

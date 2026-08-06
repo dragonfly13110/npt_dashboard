@@ -1,0 +1,311 @@
+{
+  "slug": "agri-12-003",
+  "title": "ระบบตลาดกลางข้อมูลเกษตรและธรรมาภิบาลข้อมูล (Agricultural Data Governance & Data Marketplaces)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ระบบอาหาร เศรษฐศาสตร์ และนโยบาย",
+  "domain_code": "12",
+  "topic_id": "12-003",
+  "handle_id": "12-003",
+  "abstract": "- **ใจความ**: \"ข้อมูลฟาร์ม\" (ผลผลิต ดิน เครื่องจักร สภาพอากาศ ภาพถ่ายแปลง) กำลังกลายเป็นสินทรัพย์เศรษฐกิจใหม่ของเกษตรกรรมดิจิทัล — ฟาร์มเฉลี่ยจะผลิตข้อมูลมากกว่า 4.1 ล้านจุด/วัน ภายในปี 2050 [2] และตลาด smart agriculture โลกมีมูลค่า ~US$25.4 พันล้าน (2024) คาดโตถึง US$83.7 พันล้าน (2033) CAGR 14.6% [1] — แต่คำถาม \"ใครเป็นเจ้าของข้อมูลฟาร์ม\" ยังไม่มีคำตอบทางกฎหมายตายตัว โลกจึงตอบด้วย 3 กลไกขนาน: (1) กฎหมาย (EU Data Act มีผล 2025-09-12 ให้สิทธิ์ผู้ใช้เครื่องจักรเข้าถึงข้อมูลที่เครื่องสร้างฟรี) [3][8] (2) ภาคสมัครใจ (US Farm Data Principles 2014–2024 มีองค์กรยอมรับแล้ว 37+ [4], EU Code of Conduct 2018 ว่าด้วย \"data originator\" คือเกษตรกร [10], Australian Farm Data Code 2020 [13]) (3) โครงสร้างต",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.grandviewresearch.com/industry-analysis/smart-agriculture-farming-market",
+  "pdf_url": "https://kilimo.go.ke/wp-content/uploads/2025/02/DATA_GOVERNANCE_FRAMEWORK_TODATE_REVISED_8.10.241-edited.pdf",
+  "source_urls": [
+    "https://www.grandviewresearch.com/industry-analysis/smart-agriculture-farming-market",
+    "https://aisel.aisnet.org/amcis2025/data_eco/data_eco/8",
+    "https://digital-strategy.ec.europa.eu/en/factpages/data-act-explained",
+    "https://www.agdatatransparent.com/principles",
+    "https://www.foodagility.com/posts/why-do-we-need-a-farm-data-code",
+    "https://hdl.handle.net/1887/4273621",
+    "https://www.nstda.or.th/home/news_post/s-and-t-implementation-agrinext/",
+    "https://www.osborneclarke.com/insights/what-impact-eu-data-act-agritech",
+    "https://haerting.de/en/insights/data-act-in-agriculture-a-use-case/",
+    "https://fefac.eu/resources/good-practices/eu-code-of-conduct-on-agricultural-data-sharing-by-contractual-agreement/",
+    "https://kilimo.go.ke/wp-content/uploads/2025/02/DATA_GOVERNANCE_FRAMEWORK_TODATE_REVISED_8.10.241-edited.pdf",
+    "https://www.opsmoac.go.th/pdpa-policy-files-451691791793",
+    "https://nff.org.au/wp-content/uploads/2020/02/Farm_Data_Code_Edition_1_WEB_FINAL.pdf",
+    "https://digital-strategy.ec.europa.eu/en/library/blueprint-proposal-common-european-agricultural-data-space",
+    "https://ceads.eu/at_a_glance/",
+    "https://agridataspace-csa.eu/wp-content/uploads/2024/04/D4.1_4.2_ADS_Roadmap-towards-CEADS.pdf",
+    "https://kilimo.go.ke/wp-content/uploads/2026/03/Final-DRAFT-KENYA-AGRICULTURAL-DATA-INFORMATION-AND-DIGITAL-3.pdf",
+    "https://kilimo.go.ke/wp-content/uploads/2026/03/THE-DRAFT-DIGITAL-AGRICULTURAL-INFORMATION-BILL-04.03.2026-1.pdf",
+    "https://www.powerprogress.com/news/aef-to-launch-agricultural-interoperability-network-during-agritechnica/8087092.article",
+    "https://www.agri-pulse.com/articles/4599-farm-groups-and-ag-tech-companies-outline-data-privacy-protocols",
+    "https://www.precedenceresearch.com/smart-agriculture-market",
+    "https://www.futuremarketinsights.com/reports/smart-agriculture-market",
+    "https://www.khaosod.co.th/pr-news/news_9618551",
+    "https://www.nstda.or.th/nac/2025/exhibitions/ai08/",
+    "https://catalog.oae.go.th/th/about",
+    "https://www.trinityncpc.com/nasda-uk2",
+    "https://www.cambridge.org/core/journals/data-and-policy/article/shared-yet-owned-the-dual-path-of-data-ownership-in-agriculture-a-systematic-review/F70D1CCA14E0A31B74B4CD0EF5CF74AA",
+    "https://agriaicoop.com/",
+    "https://agridatacoop.com/",
+    "https://www.mdpi.com/2673-4052/7/2/57",
+    "https://www.nectec.or.th/news/news-article/precision-farming.html",
+    "https://web.nabc.go.th/",
+    "https://farmer.doae.go.th/privacynotice",
+    "https://www.opsmoac.go.th/pdpa-website_policy-data_governance_policy",
+    "https://www.dga.or.th/",
+    "https://www.aef-online.org/aef-ag-in/",
+    "https://www.materna.de/branchen/agrarwirtschaft/agin-data-space/",
+    "https://openag.io/principles/",
+    "https://nff.org.au/programs/australian-farm-data-code",
+    "https://www.aef-online.org/fileadmin/MEDIA/downloads/2023/AEF-PR-AgIN-Commitment-EN-20230926.pdf",
+    "https://www.bkt-tires.com/en-in/bkt-blog/insights-forecasts/data-act-2025-a-revolution-in-agricultural-machinery-data-management"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Grand View Research. \"Smart Agriculture Market Size Report, 2025–2033.\" GVR, 2025. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.grandviewresearch.com/industry-analysis/smart-agriculture-farming-market"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Sun S.Z., Yeo L. \"From Data to Dollars: Equitable Value Creation in Agricultural Data Markets.\" AMCIS 2025 (อ้าง Talaviya et al. 2020), 2025. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://aisel.aisnet.org/amcis2025/data_eco/data_eco/8"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "European Commission. \"Data Act explained.\" Shaping Europe's Digital Future, 2025-12-15. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://digital-strategy.ec.europa.eu/en/factpages/data-act-explained"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Ag Data Transparent. \"Core Principles (updated 2024).\" ADT, 2024. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.agdatatransparent.com/principles"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Food Agility CRC. \"Why do we need a Farm Data Code?\" Food Agility, 2020. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.foodagility.com/posts/why-do-we-need-a-farm-data-code"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Canfield M.C., Juster K., Maina A., Maingi D., Muya G., Ntambirweki B. \"Connecting communities or corporations? Digital agriculture, data harvests, and food sovereignty in Kenya.\" Leiden University, 2025. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://hdl.handle.net/1887/4273621"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "สวทช. \"'AgriNEXT' บูรณาการ 'IoT–ดาวเทียม–AI' เพื่อการทำเกษตรอัจฉริยะแบบแม่นยำด้วยฐานข้อมูล.\" NSTDA, 2026-01-27. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.nstda.or.th/home/news_post/s-and-t-implementation-agrinext/"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Osborne Clarke. \"What is the impact of the EU Data Act on Agritech?\" Osborne Clarke, 2024-06-24. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.osborneclarke.com/insights/what-impact-eu-data-act-agritech"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "HÄRTING Rechtsanwälte. \"Data Act in agriculture – a use case.\" HÄRTING, 2025-09-23. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://haerting.de/en/insights/data-act-in-agriculture-a-use-case/"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "FEFAC/CEETTAR/CEJA/CEMA/COPA-COGECA/ECPA/EFFAB/ESA/Fertilizers Europe. \"EU Code of Conduct on Agricultural Data Sharing by Contractual Agreement.\" FEFAC, 2018. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://fefac.eu/resources/good-practices/eu-code-of-conduct-on-agricultural-data-sharing-by-contractual-agreement/"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "MoALD Kenya. \"KIAMIS Data Governance Framework.\" Ministry of Agriculture and Livestock Development, Kenya, 2024. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://kilimo.go.ke/wp-content/uploads/2025/02/DATA_GOVERNANCE_FRAMEWORK_TODATE_REVISED_8.10.241-edited.pdf"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "สำนักงานปลัดกระทรวงเกษตรและสหกรณ์ (สป.กษ.). \"แนวทางการปฏิบัติตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562.\" สป.กษ., 2565. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.opsmoac.go.th/pdpa-policy-files-451691791793"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "National Farmers' Federation. \"Australian Farm Data Code — Edition 1.\" NFF, 2020-02. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://nff.org.au/wp-content/uploads/2020/02/Farm_Data_Code_Edition_1_WEB_FINAL.pdf"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "European Commission / AgriDataSpace CSA. \"Blueprint proposal for the Common European Agricultural Data Space.\" EC, 2024-04-25. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://digital-strategy.ec.europa.eu/en/library/blueprint-proposal-common-european-agricultural-data-space"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "CEADS Project. \"At a glance — CEADS Project.\" CEADS, 2025. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://ceads.eu/at_a_glance/"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "AgriDataSpace CSA. \"Roadmap for deployment and operating the data space for agriculture (D4.1 & D4.2).\" ADS, 2024-04. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://agridataspace-csa.eu/wp-content/uploads/2024/04/D4.1_4.2_ADS_Roadmap-towards-CEADS.pdf"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "MoALD Kenya. \"Draft Kenya Agricultural Data, Information and Digital Policy.\" MoALD, 2026-03. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://kilimo.go.ke/wp-content/uploads/2026/03/Final-DRAFT-KENYA-AGRICULTURAL-DATA-INFORMATION-AND-DIGITAL-3.pdf"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "MoALD Kenya. \"The Draft Digital Agricultural Information Bill, 2026.\" MoALD, 2026-03-04. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://kilimo.go.ke/wp-content/uploads/2026/03/THE-DRAFT-DIGITAL-AGRICULTURAL-INFORMATION-BILL-04.03.2026-1.pdf"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Power Progress. \"AEF to launch Agricultural Interoperability Network during Agritechnica.\" Power Progress, 2025-10-14. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.powerprogress.com/news/aef-to-launch-agricultural-interoperability-network-during-agritechnica/8087092.article"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "Agri-Pulse. \"Farm groups and ag tech companies outline data privacy protocols.\" Agri-Pulse, 2014-11-13. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.agri-pulse.com/articles/4599-farm-groups-and-ag-tech-companies-outline-data-privacy-protocols"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "Precedence Research. \"Smart Agriculture Market Size, Share, and Trends 2026 to 2035.\" Precedence Research, 2026-01-08. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.precedenceresearch.com/smart-agriculture-market"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "Future Market Insights. \"Smart Agriculture Market | Global Market Analysis Report – 2035.\" FMI, 2025-09-18. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.futuremarketinsights.com/reports/smart-agriculture-market"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "ข่าวสด. \"กฟก.สตาร์ทแผน PDPA ป้องกันข้อมูลเกษตรกรไม่ให้รั่วไหลสู่กลุ่มมิจฉาชีพ.\" ข่าวสด, 2025-02-03. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.khaosod.co.th/pr-news/news_9618551"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "สวทช. NAC 2025. \"Agri-Map ระบบแผนที่เกษตรเพื่อการบริหารจัดการเชิงรุกบนสมาร์ทโฟน.\" NSTDA, 2025. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.nstda.or.th/nac/2025/exhibitions/ai08/"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "สำนักงานเศรษฐกิจการเกษตร. \"ระบบบัญชีข้อมูลสำนักงานเศรษฐกิจการเกษตร (OAE Catalog).\" สศก., 2568. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://catalog.oae.go.th/th/about"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "Trinity Natural Capital Pro Council. \"NASDA UK — Monetise & Control Your Data.\" NASDA UK, 2023. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.trinityncpc.com/nasda-uk2"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "Berisha F. \"Shared Yet Owned: The Dual Path of Data Ownership in Agriculture — A Systematic Review.\" Data & Policy (Cambridge University Press), 2025. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.cambridge.org/core/journals/data-and-policy/article/shared-yet-owned-the-dual-path-of-data-ownership-in-agriculture-a-systematic-review/F70D1CCA14E0A31B74B4CD0EF5CF74AA"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "AgriAICoop. \"Farmer-Owned Agricultural Data Cooperative.\" AgriAICoop, 2025. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://agriaicoop.com/"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "AgriData Cooperative. \"Empowering Farmers Through Data Management & AI.\" AgriData Cooperative, 2025. (เข้าถึงเมื่อ 2026-08-06)",
+      "url": "https://agridatacoop.com/"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "AgriTrust. \"The AgriTrust Framework: Federated Semantic Governance for Trusted and Interoperable Agricultural Data Sharing.\" AgriEngineering (MDPI) 7(2):57, 2026-03-31. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.mdpi.com/2673-4052/7/2/57"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "NECTEC. \"Precision Farming เทคโนโลยีผสมผสานการเกษตรยุคดิจิทัล.\" NECTEC-สวทช., 2020-02-03. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.nectec.or.th/news/news-article/precision-farming.html"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "สำนักงานเศรษฐกิจการเกษตร. \"ศูนย์ข้อมูลเกษตรแห่งชาติ — National Agricultural Big Data Center.\" สศก., 2568. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://web.nabc.go.th/"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "กรมส่งเสริมการเกษตร. \"ประกาศความเป็นส่วนตัว ระบบฐานข้อมูลทะเบียนเกษตรกรกลาง.\" กรมส่งเสริมการเกษตร, 2568. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://farmer.doae.go.th/privacynotice"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "สำนักงานปลัดกระทรวงเกษตรและสหกรณ์ (สป.กษ.). \"การคุ้มครองข้อมูลส่วนบุคคล — นโยบายธรรมาภิบาลข้อมูล.\" สป.กษ., 2566. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.opsmoac.go.th/pdpa-website_policy-data_governance_policy"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "สำนักงานพัฒนารัฐบาลดิจิทัล (สพร./DGA). \"บริการและโครงการ — GDX, Open Government Data, DIGI.\" DGA, 2568. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.dga.or.th/"
+    },
+    {
+      "id": "36",
+      "index": 36,
+      "label": "AEF. \"Agricultural Interoperability Network (AgIN).\" Agricultural Industry Electronics Foundation, 2025. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.aef-online.org/aef-ag-in/"
+    },
+    {
+      "id": "37",
+      "index": 37,
+      "label": "Materna. \"AgIN Data Space — A new era of interoperability.\" Materna, 2025. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.materna.de/branchen/agrarwirtschaft/agin-data-space/"
+    },
+    {
+      "id": "38",
+      "index": 38,
+      "label": "Open Ag Data Alliance. \"Principles.\" OADA, 2014. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://openag.io/principles/"
+    },
+    {
+      "id": "39",
+      "index": 39,
+      "label": "National Farmers' Federation. \"Australia's first Farm Data Code set to give farmers control of their data (ศักยภาพข้อมูล: เพิ่มมูลค่าภาคฟาร์ม US$20.3 พันล้าน/ปี).\" NFF, 2020-02-17. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://nff.org.au/programs/australian-farm-data-code"
+    },
+    {
+      "id": "40",
+      "index": 40,
+      "label": "AEF. \"AEF members commit to the Agricultural Interoperability Network (AgIN) (สมาชิก 280+ รายจากผู้ผลิตเครื่องจักร/ระบบนำทางรายใหญ่).\" AEF, 2023-09-26. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.aef-online.org/fileadmin/MEDIA/downloads/2023/AEF-PR-AgIN-Commitment-EN-20230926.pdf"
+    },
+    {
+      "id": "41",
+      "index": 41,
+      "label": "BKT. \"How will the EU Data Act impact farming and the agricultural machinery industry (สัญญาเก่า: ต้องแก้เงื่อนไขไม่เป็นธรรมภายใน 2027).\" BKT Tires, 2025-12-05. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.bkt-tires.com/en-in/bkt-blog/insights-forecasts/data-act-2025-a-revolution-in-agricultural-machinery-data-management"
+    }
+  ],
+  "reference_count": 41,
+  "article_file": "agri-12-003.md",
+  "source_file": "12-ระบบอาหาร เศรษฐศาสตร์ และนโยบาย\\เจาะลึก-12-ตลาดกลางข้อมูลเกษตร-DataGovernance.md"
+}

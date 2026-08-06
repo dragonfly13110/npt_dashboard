@@ -1,0 +1,297 @@
+{
+  "slug": "agri-11-007",
+  "title": "ระบบเตือนภัยแล้งการเกษตร — ดัชนี+ดาวเทียม+พยากรณ์รายฤดู",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "การปรับตัวต่อสภาพอากาศและระบบเตือนภัย",
+  "domain_code": "11",
+  "topic_id": "11-007",
+  "handle_id": "11-007",
+  "abstract": "- **ใจความ**: ระบบเตือนภัยแล้งการเกษตร = การเรียงซ้อนข้อมูล 4 ตระกูล — (1) ดัชนีอุตุนิยม/อุทก (SPI/SPEI/scPDSI) [1][2][3] (2) ความชื้นดินจากดาวเทียม L-band (SMOS/SMAP → RZSM) [15][16][17][18] (3) ดัชนีพืช (NDVI anomaly/VCI/TCI/VHI) [5][6][7][8] (4) พยากรณ์รายฤดูเชื่อม ENSO (analog year + ML) [9][30][31] — ประเทศที่ใช้งานจริง: สหรัฐฯ (USDM รายสัปดาห์ D0–D4) [10], FEWS NET/USAID (แอฟริกาตะวันออก) [11][12], ยุโรป EDO/GDO (Combined Drought Indicator v4.1, ก.พ. 2569) [13], จีน (แพลตฟอร์มชาติ 2566 ใช้จริงในวิกฤต 2565–67) [4][14]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://doi.org/10.1016/j.scitotenv.2024.175933",
+  "pdf_url": "https://fews.net/sites/default/files/Joint%20Statement%20-%20February%2016%202023%20-%20Final.pdf",
+  "source_urls": [
+    "https://doi.org/10.1016/j.scitotenv.2024.175933",
+    "https://link.springer.com/article/10.1007/s11356-024-35740-2",
+    "https://www.nature.com/articles/s41598-024-83522-0",
+    "https://essd.copernicus.org/articles/17/837/2025/",
+    "https://www.mdpi.com/2072-4292/16/23/4507",
+    "https://www.mdpi.com/2072-4292/17/21/3560",
+    "https://doi.org/10.3389/frwa.2025.1559046",
+    "https://link.springer.com/article/10.1007/s00704-025-05527-7",
+    "https://nhess.copernicus.org/articles/25/1521/2025/",
+    "https://droughtmonitor.unl.edu/About/WhatistheUSDM.aspx",
+    "https://fews.net/topics/special/horn-africa",
+    "https://fews.net/sites/default/files/Joint%20Statement%20-%20February%2016%202023%20-%20Final.pdf",
+    "https://drought.emergency.copernicus.eu/data/factsheets/factsheet_combinedDroughtIndicator_v4.pdf",
+    "https://d.wanfangdata.com.cn/periodical/zhonggsl202510003",
+    "https://horizon.documentation.ird.fr/exl-doc/pleins_textes/2024-07/010090716.pdf",
+    "https://www.frontiersin.org/journals/remote-sensing/articles/10.3389/frsen.2024.1440891/full",
+    "https://doi.org/10.5194/egusphere-egu25-549",
+    "https://hess.copernicus.org/articles/28/2375/2024/",
+    "https://www.nature.com/articles/s41597-026-06940-x",
+    "https://www.thansettakij.com/business/420437",
+    "https://thaipublica.org/2020/02/krungsri-research-drought-crisis-hit-agriculture-economic/",
+    "https://www.thebangkokinsight.com/news/politics-general/general/1162272/",
+    "https://www.ejan.co/economics/1r8hk6iulnfj",
+    "https://www.thansettakij.com/business/663284",
+    "https://gdcatalog.go.th/dataset/gdpublish-dataset-30-581",
+    "https://cropsdrought.gistda.or.th/",
+    "https://opendata.gistda.or.th/th/dataset/cropsdrought",
+    "https://disaster.gistda.or.th/dashboard",
+    "https://www.nstda.or.th/nac/2025/exhibitions/ai08/",
+    "https://www.tmd.go.th/climate/El-Nino-La-Nina",
+    "https://live1.hii.or.th/product/latest/dashboard/docs/rain_forecast_6m/202601_RainfallSeasonal_public.pdf",
+    "https://doi.org/10.14457/tu.the.2023.1185",
+    "http://ethesisarchive.library.tu.ac.th/thesis/2023/TU_2023_6110033583_18315_28668.pdf",
+    "https://doi.org/10.14457/tu.the.2023.1186",
+    "https://thaicid.rid.go.th/public/files/proposal/2025/fullpaper/1752740497_132967d08816fc0c1d66.pdf",
+    "https://doi.org/10.1063/5.0209709",
+    "https://preparecenter.org/wp-content/uploads/2023/12/undrr-global-status-of-mhews-2023_0.pdf",
+    "https://www.unccd.int/sites/default/files/2023-08/Policy%20Brief_Drought%20Finance_August%202023.pdf",
+    "https://documents1.worldbank.org/curated/en/190261468181486694/pdf/WPS6058.pdf"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "The optimal applications of scPDSI and SPEI in characterizing meteorological drought, agricultural drought and terrestrial water availability on a global scale, Science of the Total Environment, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1016/j.scitotenv.2024.175933"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "SPEI and SPI correlation in the study of drought phenomena in Umbria region (central Italy) (r>0.9 แต่ลดลงระหว่างยุค 1961–90 vs 1991–2020), Environmental Science and Pollution Research, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://link.springer.com/article/10.1007/s11356-024-35740-2"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Comparative study on bivariate statistical characteristics of drought using SPI and SPEI (Shandong จีน; SPEI ให้ระยะเวลา/ความรุนแรงยาวกว่า; return period 65–90 ปี), Scientific Reports 14:27854, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s41598-024-83522-0"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "A new high-resolution multi-drought-index dataset for mainland China (CHM_Drought 0.1° 1961–2022: SPI/SPEI/EDDI/PDSI/SC-PDSI/VPD; จับวิกฤตแยงซี 2565), Earth System Science Data 17:837, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://essd.copernicus.org/articles/17/837/2025/"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Optimizing the Vegetation Health Index for Agricultural Drought Monitoring: Yellow River Basin (VCI weight 0.29/TCI 0.71; corr SPEI3 0.61; R vs SMA +0.03), Remote Sensing 16(23):4507, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mdpi.com/2072-4292/16/23/4507"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Optimizing Agricultural Drought Monitoring in East Africa: Integrated Soil Moisture–Vegetation Health Index (SM-VHI, CSI 0.78, α=0.5; maize R 0.45–0.72), Remote Sensing 17(21):3560, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mdpi.com/2072-4292/17/21/3560"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Probabilistic linkages of propagation from meteorological to agricultural drought in the North African semi-arid region (VCI 0.78/NDVI anom 0.71/VHI 0.63 vs SPEI3; propagation ~70 วัน), Frontiers in Water, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3389/frwa.2025.1559046"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Integrating remote sensing and meteorological analysis for monitoring drought in arid regions: Sistan and Baluchestan, Iran (accuracy 88%, multi-index +12%, LST RMSE 1.8°C, NDVI r 0.82), Theoretical and Applied Climatology, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://link.springer.com/article/10.1007/s00704-025-05527-7"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Evaluation of machine learning approaches for large-scale agricultural drought forecasts (VHI) to improve monitoring and preparedness in Brazil (gradient boosting R2 ~0.8 NE; ดีกว่าในลานีญา; SPEI3 เหมาะสุด), Nat. Hazards Earth Syst. Sci. 25:1521, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://nhess.copernicus.org/articles/25/1521/2025/"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "What is the U.S. Drought Monitor? (D0–D4, รายสัปดาห์ตั้งแต่ 2543, ผู้เชี่ยวชาญ 450+, convergence of evidence; NDMC/NOAA/USDA/NASA), National Drought Mitigation Center — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://droughtmonitor.unl.edu/About/WhatistheUSDM.aspx"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "FEWS NET: Horn of Africa (เอกสาร/แถลงการณ์แล้ง 2564–2567 — 5 ฤดูติดต่อกันครั้งแรกในประวัติศาสตร์; 22.5–23.4 ล้านคน IPC3+ ม.ค. 2566), USAID FEWS NET, 2566 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://fews.net/topics/special/horn-africa"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Sustained \"no regrets\" humanitarian efforts urgently needed in response to drought in the Horn of Africa (คำเตือนล่วงหน้า + วิธี SST analog/ENSO; USAID เพิ่มเงินช่วยเหลือ $39 ล้านหลัง Joint Alert), FEWS NET Joint Statement, 2023-02-16 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://fews.net/sites/default/files/Joint%20Statement%20-%20February%2016%202023%20-%20Final.pdf"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Combined Drought Indicator (CDI) factsheet v4.1 (SPI-1<-2/SPI-3<-1/SMA/FAPAR + crop/snow mask; Watch-Warning-Alert; อัปเดต 3 ครั้ง/เดือน), EC-JRC Copernicus EDO, ก.พ. 2569 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://drought.emergency.copernicus.eu/data/factsheets/factsheet_combinedDroughtIndicator_v4.pdf"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "全国旱情监测预警综合平台建设与应用实践 (แพลตฟอร์มเตือนภัยแล้งแห่งชาติจีน 2566; ประยุกต์ใช้ 2565 แยงซี/2566 ตะวันตกเฉียงเหนือ/2567 Huang-Huai — เหอหนาน ~3,000 หมู่ (20 ล้านไร่), เหอเป่ย/ซานตง/ซานซี >700 หมู่), cehome/วารสารจีน, 2568 — — เข้าถึงเมื่อ 2026-08-06",
+      "url": "https://d.wanfangdata.com.cn/periodical/zhonggsl202510003"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "Assessment of SMOS Root Zone Soil Moisture: comparative study using SMAP, ERA5, and GLDAS (r 0.54–0.80 vs ISMN, ubRMSD <0.04 ลบ.ม./ลบ.ม.; SMOS จับชลประทานได้), Ojha N. et al., 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://horizon.documentation.ird.fr/exl-doc/pleins_textes/2024-07/010090716.pdf"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Seasonal-scale intercomparison of SMAP and fused SMOS-SMAP soil moisture products (Fused-IB R 0.70/ubRMSD 0.058; SMAP-E 0.68/0.059; 2016–2020), Frontiers in Remote Sensing, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.frontiersin.org/journals/remote-sensing/articles/10.3389/frsen.2024.1440891/full"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Assessment of Root Zone Soil Moisture Products from the Passive Microwave sensors over Iran (SMOS RZSM RMSE 0.03–0.09, SMAP 0.03–0.21 ลบ.ม./ลบ.ม.), EGU25, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.5194/egusphere-egu25-549"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "Evaluation of root zone soil moisture products over the Huai River basin (GLDAS_CLSM R 0.69/ubRMSE 0.018 ดีสุด; SMOS L4 แย่สุด แต่ดีในฤดูแล้ง), HESS 28:2375, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://hess.copernicus.org/articles/28/2375/2024/"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Development of Gridded Root-Zone Soil Moisture Product for India, 1981–2024 (0.05° รายวัน; R²/NSE>0.90 vs SMAP, RMSE<0.03; vs in-situ r 0.94), Chuphal D.S. et al., Scientific Data, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s41597-026-06940-x"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "ภัยแล้งทำไร่-นา-สวนเสียหาย 2.3 ล้านไร่ (พื้นที่คาดเสียหาย 2,328,302 ไร่/22 จังหวัด; เสียหาย 1,328,455 ไร่/1,484.58 ล้านบาท ณ 31 ม.ค. 63), ฐานเศรษฐกิจ, 2563-01-31 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thansettakij.com/business/420437"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "วิจัยกรุงศรี วิเคราะห์ ปี'63 ภัยแล้งวิกฤติ ข้าว-มันสำปะหลังเสียหาย ลามอุตสาหกรรม GDP กระเทือน 0.34% (46,365 ล้านบาท = 0.27% GDP กรณีฐาน; 57,545 ล้านบาท = 0.34%; นาปรังปลูกรวม 3.32 ล้านไร่ เกินแผน 43.6%), ไทยพับลิกา, 2563-02-10 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://thaipublica.org/2020/02/krungsri-research-drought-crisis-hit-agriculture-economic/"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "กระทรวงเกษตรฯ ประเมินภัยแล้ง 'เอลนีโญ' กระทบพื้นที่ 16.5 ล้านไร่ (16.51 ล้านไร่: ในเขตชลประทานเจ้าพระยา 22 จังหวัด 7.34 ล้านไร่ + นอกเขต 60 จังหวัด 9.17 ล้านไร่), The Bangkok Insight, 2566-08-22 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thebangkokinsight.com/news/politics-general/general/1162272/"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "พิษร้าย เอลนีโญ-ลานีญา ฉุด GDP ด้านการเกษตร ไตรมาส 3 หดตัว 0.7% (Q2 −1.5%, Q3 −0.7%; ข้าวนาปรัง/มันสำปะหลัง/ยาง/ทุเรียนผลผลิตลด), Ejan.co อ้าง สศก., 2567-10-21 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.ejan.co/economics/1r8hk6iulnfj"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "Krungthai COMPASS เตือน เอลนีโญ ฉุดภาคเกษตรเสียหาย 6.2 หมื่นล้านบาท (62,000 ล้านบาท = 0.31% GDP; ข้าว −5.4 ล้านตัน/43,046 ล้านบาท; อ้อย −12 ล้านตัน/10,711 ล้านบาท; มัน −3.1 ล้านตัน/8,098 ล้านบาท; รายได้เกษตรกร 2569 −8%), ฐานเศรษฐกิจ, 2569-07-06 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.thansettakij.com/business/663284"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "มูลค่าความเสียหายจากภัยแล้งด้านการเกษตร (พื้นที่เสียหายเฉลี่ย 2.57 ล้านไร่/ปี; มูลค่าหลักพันล้านถึง >60,000 ล้านบาทในปีวิกฤต 2563–2567; ปี 2566–67 ไม่มีประกาศภัยแล้ง — ตัวอย่าง จ.อุทัยธานี), กรมส่งเสริมการเกษตร/Government Data Catalog, อัปเดต 2569-02-06 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://gdcatalog.go.th/dataset/gdpublish-dataset-30-581"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "ระบบเช็คแล้ง (Crops Drought) — ระบบติดตามการใช้น้ำของพืชและประเมินความเสี่ยงภัยแล้ง (ET รายวัน, ดัชนีคาดการณ์ 6 เดือน, สอบเทียบ Eddy Covariance/IrriWatch ณ บางเลน นครปฐม; ประชุมคณะทำงาน 3–4/2569; เปิดตัว 7 พ.ค. 2569), GISTDA, 2569 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://cropsdrought.gistda.or.th/"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "ข้อมูลพื้นที่เสี่ยงภัยแล้งและการใช้น้ำของพืช ของระบบเช็คแล้ง (API 6 ชุด: พื้นที่เสี่ยงรายจังหวัด/พื้นที่ชลประทาน/ลุ่มน้ำ + การใช้น้ำพืช; อัปเดตรายสัปดาห์; ข้อมูลเริ่ม 1 ม.ค. 2566), GISTDA Open Data, 2568-09-01 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://opendata.gistda.or.th/th/dataset/cropsdrought"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "GISTDA Disaster Platform (สรุปสถานการณ์ภัยพิบัติ 7 วัน; ดัชนี DRI+ พื้นที่เสี่ยงภัยแล้งทั้งประเทศ/รายพื้นที่เกษตร) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://disaster.gistda.or.th/dashboard"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "Agri-Map ระบบแผนที่เกษตรเพื่อการบริหารจัดการเชิงรุก (ชั้นข้อมูล >200 ชุด: พื้นที่เพาะปลูก/ดิน/น้ำ/ตลาด/เกษตรกร), กระทรวงเกษตรและสหกรณ์, NAC2025/สวทช. — และ — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nstda.or.th/nac/2025/exhibitions/ai08/"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "ปรากฏการณ์เอลนีโญ-ลานีญาประจำเดือน (ติดตามรายเดือน) + การติดตามและคาดหมาย ENSO ธ.ค. 2568–ก.พ. 2569 (ลานีญา Nino3.4 = −0.5; กลับปกติ ม.ค.–มี.ค. 2569 ความน่าจะเป็น ~61% อ้าง IRI/CPC), กรมอุตุนิยมวิทยา, 2568-11-27 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.tmd.go.th/climate/El-Nino-La-Nina"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "คาดการณ์ฝน สถานการณ์น้ำ มกราคม–มิถุนายน 2569 (ฝนปี 2569 ~1,479 มม. = −1% จากปกติ ใกล้ปี 2555; ONI −0.55/PDO −1.01/IOD −0.59; เดือน ม.ค. +188%, ก.พ. −6%, มี.ค. −6%, เม.ย. +17%, พ.ค. +22%, มิ.ย. −21%), สถาบันสารสนเทศทรัพยากรน้ำ (องค์การมหาชน), 2569-01-03 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://live1.hii.or.th/product/latest/dashboard/docs/rain_forecast_6m/202601_RainfallSeasonal_public.pdf"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "การพัฒนาแบบจำลองการพยากรณ์น้ำฝนเพื่อวิเคราะห์ภัยแล้งในลุ่มน้ำมูล (LSTM ดีกว่า ARIMA 77.78% vs 22.22%; ความแม่นยำพยากรณ์ 5 ปี 76.30% เทียบดัชนี/54.07% เทียบภัยแล้งจริง; 27 สถานี 2534–2563), ฐิติวัฒน์ กล่ำศิริ, วิทยานิพนธ์ มธ., 2566 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.14457/tu.the.2023.1185"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "การพัฒนาแบบจำลองการพยากรณ์ปริมาณน้ำฝน เพื่อวิเคราะห์ภัยแล้งในลุ่มน้ำน่าน (LSTM ดีกว่า ARIMA 10/15 สถานี; SPI สอดคล้อง 76–88%; 15 สถานี 2497–2564), จิตราภรณ์ สงเคราะห์, วิทยานิพนธ์ มธ., 2566 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "http://ethesisarchive.library.tu.ac.th/thesis/2023/TU_2023_6110033583_18315_28668.pdf"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "การพัฒนาแบบจำลองการพยากรณ์น้ำฝนเพื่อวิเคราะห์ภัยแล้งในลุ่มน้ำป่าสัก (LSTM 92% vs ARIMA 8%; SPI12 สอดคล้องสุด; แนะนำเกณฑ์ SPI<−0.5 ให้ความสอดคล้อง 46–92%; 13 สถานี 2508–2564), วรัญชิต ช่วยเมือง, วิทยานิพนธ์ มธ., 2566 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.14457/tu.the.2023.1186"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "การสร้างแผนที่เสี่ยงดัชนีภัยแล้งสุดขีดหลายตัวแปรโดยวิธีการเรียนรู้ของเครื่องแบบผสมผสาน (MEDI: SPI/SRI/SSI/SPEI + SMAP, 100 สถานี 2543–2567, PC1>80%, น้ำหนัก SPEI 0.270/SPI 0.267/SRI 0.256/SSI 0.207; ensemble DT/SVM/ANN/AdaBoost/XGBoost), การประชุม NCCE ครั้งที่ 30 (เอกสารเสนอ), 2568 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://thaicid.rid.go.th/public/files/proposal/2025/fullpaper/1752740497_132967d08816fc0c1d66.pdf"
+    },
+    {
+      "id": "36",
+      "index": 36,
+      "label": "A deep learning perspective on meteorological droughts prediction in the Mun River Basin, Thailand (WBRF R² 0.89–0.97 SPI-3; WBi-LSTM R² 0.87–0.91; MAE 0.144–0.21 SPI-6; RMSE 0.2–0.3 SPI-12; 2536–2565), Humphries U.W. et al., AIP Conf. Proc. 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1063/5.0209709"
+    },
+    {
+      "id": "37",
+      "index": 37,
+      "label": "Global Status of Multi-Hazard Early Warning Systems 2023 (ROI ≥10 เท่า; ประเทศที่ครอบคลุมต่ำ: เสียชีวิตสูงกว่า 4.05 vs 0.71/แสน และผู้ได้รับผลกระทบ 3,132 vs 688; แผน EW4All 3.1 พันล้าน USD), UNDRR/WMO, 2566 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://preparecenter.org/wp-content/uploads/2023/12/undrr-global-status-of-mhews-2023_0.pdf"
+    },
+    {
+      "id": "38",
+      "index": 38,
+      "label": "Investing in Resilience: Innovative finance for drought preparedness (BCR 2:1–10:1; $1 ความยืดหยุ่น → $3 ประโยชน์ลด aid/ความสูญเสีย; 23,000 ชีวิต/$2 พันล้าน USD ต่อปี avoided ในประเทศกำลังพัฒนา), UNCCD Policy Brief, 2566-08 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.unccd.int/sites/default/files/2023-08/Policy%20Brief_Drought%20Finance_August%202023.pdf"
+    },
+    {
+      "id": "39",
+      "index": 39,
+      "label": "A Cost Effective Solution to Reduce Disaster Losses in Developing Countries: Hydro-Meteorological Services, Early Warning, and Evacuation (BCR 4–36; 23,000 ชีวิต/ปี; 300 ล้าน–2 พันล้าน USD/ปี avoided asset losses; ค่าใช้จ่าย ~1 พันล้าน USD/ปี), Hallegatte S., World Bank Policy Research WP6058, 2555 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://documents1.worldbank.org/curated/en/190261468181486694/pdf/WPS6058.pdf"
+    }
+  ],
+  "reference_count": 39,
+  "article_file": "agri-11-007.md",
+  "source_file": "11-การปรับตัวต่อสภาพอากาศและระบบเตือนภัย\\เจาะลึก-11-ระบบเตือนภัยแล้ง-ดาวเทียม.md"
+}

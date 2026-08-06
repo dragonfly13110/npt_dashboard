@@ -1,0 +1,72 @@
+{
+  "slug": "agri-03-006",
+  "title": "นาเปียกสลับแห้ง (Alternate Wetting and Drying — AWD) ในข้าว",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "น้ำและชลประทานอัจฉริยะ",
+  "domain_code": "03",
+  "topic_id": "03-006",
+  "handle_id": "03-006",
+  "abstract": "- **ใจความ**: AWD คือการปล่อยให้ผิวดินนาข้าวแห้งสลับกับการขังน้ำเป็นรอบ (แทนการขังน้ำตลอดฤดู) โดยไม่ให้รากขาดน้ำเกินกำหนด — ใช้อุปกรณ์ \"ท่อวัดน้ำ\" (water tube) ง่าย ๆ กำกับ [1] เป็นวิธีลดน้ำที่ถูกสุด/ใช้ได้จริงในนาข้าว",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "http://www.knowledgebank.irri.org",
+  "pdf_url": null,
+  "source_urls": [
+    "http://www.knowledgebank.irri.org",
+    "https://sustainablerice.org",
+    "https://www.ecosystemmarketplace.com",
+    "https://www.ricethailand.go.th",
+    "https://www.rid.go.th",
+    "https://so01.tci-thaijo.org/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "IRRI: \"Water-saving technology — Alternate Wetting and Drying (AWD)\" + คู่มือท่อวัดน้ำ — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "http://www.knowledgebank.irri.org"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "SRP (Sustainable Rice Platform): มาตรฐานข้าวยั่งยืน/การลด GHG — — เข้าถึงเมื่อ 2026-08-02 *(ตัวเลขมีเทน 30–50% — ดูหัวข้อ 10)*",
+      "url": "https://sustainablerice.org"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "งาน meta-analysis AWD (Field Crops Research; Agricultural Water Management) — เข้าถึงเมื่อ 2026-08-02 *(ตัวเลขน้ำ/ผลผลิต — ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "ตลาดคาร์บอนภาคเกษตร/ข้าว (Ecosystem Marketplace; Verra) — — เข้าถึงเมื่อ 2026-08-02 *(ราคาเครดิต — ดูหัวข้อ 10)*",
+      "url": "https://www.ecosystemmarketplace.com"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "กรมการข้าว/ศูนย์วิจัยข้าว: โครงการ AWD นำร่องไทย — — เข้าถึงเมื่อ 2026-08-02 *(พื้นที่/ตัวเลข — ดูหัวข้อ 10)*",
+      "url": "https://www.ricethailand.go.th"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "กรมชลประทาน/แผนลดก๊าซเรือนกระจกภาคเกษตร (NDC) — / — เข้าถึงเมื่อ 2026-08-06 *(ดูหัวข้อ 10)*",
+      "url": "https://www.rid.go.th"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "งาน AWD ไทย (TCI-Thaijo/ThaiJo) — รายชิ้นยังไม่ยืนยัน (ดูหัวข้อ 10) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so01.tci-thaijo.org/"
+    }
+  ],
+  "reference_count": 7,
+  "article_file": "agri-03-006.md",
+  "source_file": "03-น้ำและชลประทานอัจฉริยะ\\เจาะลึก-03-นาเปียกสลับแห้ง-AWD-ข้าว.md"
+}

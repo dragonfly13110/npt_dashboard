@@ -1,0 +1,269 @@
+{
+  "slug": "agri-01-004",
+  "title": "การควบคุมศัตรูพืชด้วย Gene Drive และ RNAi",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-01",
+  "created_at": "2026-08-01",
+  "review_at": "2027-02-01",
+  "category": "เทคโนโลยีชีวภาพและพันธุวิศวกรรม",
+  "domain_code": "01",
+  "topic_id": "01-004",
+  "handle_id": "01-004",
+  "abstract": "- **ใจความ**: RNAi และ gene drive เป็นอาวุธชีวภาพรุ่นใหม่สองแบบที่มาไกลไม่เท่ากัน — **RNAi แบบพ่นไปถึงเชิงพาณิชย์แล้ว** (Calantha ของ GreenLight Biosciences กำจัดด้วงมันฝรั่งโคโลราโด ขึ้นทะเบียน EPA สหรัฐฯ ธ.ค. 2566 = ผลิตภัณฑ์ RNAi พ่นตัวแรกของโลก; ใช้ 4 กรัม/เอเคอร์ ≈ 1/10 ของสารเคมี) [1][11] ขณะที่ **gene drive แท้ยังไม่เคยถูกปล่อยในสนามเลยแม้แต่ครั้งเดียว** — ใช้ได้แต่ห้องแล็บ/กรงทดลอง [12][15]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.prnewswire.com/news-releases/greenlight-biosciences-secures-epa-registration-for-new-bioinsecticide-calantha-historic-step-towards-a-safer-and-more-sustainable-food-system-302026247.html",
+  "pdf_url": "https://www.sciopen.com/local/article_pdf/10.1016/j.cj.2025.05.006.pdf",
+  "source_urls": [
+    "https://www.prnewswire.com/news-releases/greenlight-biosciences-secures-epa-registration-for-new-bioinsecticide-calantha-historic-step-towards-a-safer-and-more-sustainable-food-system-302026247.html",
+    "https://link.springer.com/chapter/10.1007/978-3-031-81549-2_27",
+    "https://www.greenlightbiosciences.com/articles/greenlight-biosciences-secures-belgian-emergency-use-authorization-for-first-rna-based-insecticide-in-the-eu",
+    "https://www.nasdaqtrader.com/TraderNews.aspx?id=ECA2023-416",
+    "https://www.goodwinlaw.com/en/news-and-events/news/2023/05/announcements-otherindustries-ma-greenlight-biosciences",
+    "https://www.greenlightbiosciences.com/",
+    "https://doi.org/10.1021/acs.jafc.4c00654",
+    "https://www.sciopen.com/local/article_pdf/10.1016/j.cj.2025.05.006.pdf",
+    "https://targetmalaria.org/wp-content/uploads/2023/01/Funding_FS_EN_Funding_our_research_Jan23.pdf",
+    "https://malariajournal.biomedcentral.com/articles/10.1186/s12936-021-03929-2",
+    "https://pubs.acs.org/doi/10.1021/cen-10201-polcon2",
+    "https://www.science.org/content/article/after-humiliating-raid-burkina-faso-halts-gene-drive-project-fight-malaria",
+    "https://www.isaaa.org/kc/cropbiotechupdate/article/default.asp?ID=21511",
+    "https://targetmalaria.org/latest/news/target-malaria-activities-suspended-in-burkina-faso/",
+    "https://www.nature.com/articles/s41467-024-44907-x",
+    "https://www.schweizerbart.de/papers/entomologia/detail/45/107520/",
+    "https://link.springer.com/article/10.1007/s10669-025-10051-0",
+    "https://aces.illinois.edu/news/weeds-amaranth-genomes-reveal-secrets-success",
+    "https://www.cropscience.bayer.us/traits/corn/smartstax-pro",
+    "https://www.dtnpf.com/agriculture/web/ag/news/article/2016/08/10/rootworm-resistance-pyramided-bt",
+    "https://www.nature.com/articles/s41598-018-20416-y",
+    "https://www.rnaissanceag.net/solutions/",
+    "https://pmarketresearch.com/hc/rnai-pesticides-market",
+    "https://www.techsciresearch.com/report/rnai-pesticides-market/25012.html",
+    "https://www.gminsights.com/industry-analysis/gene-drive-technology-for-agricultural-pests-market",
+    "https://www.insightaceanalytic.com/report/rnai-pesticides-market/2799",
+    "https://www.regulations.gov/docket/EPA-HQ-OPP-2021-0271",
+    "https://link.springer.com/chapter/10.1007/978-3-031-81549-2_24",
+    "https://efsa.onlinelibrary.wiley.com/doi/10.2903/j.efsa.2025.9321",
+    "https://www.geneconvenevi.org/cartagena-protocol/",
+    "https://data.consilium.europa.eu/doc/document/ST-16867-2024-INIT/en/pdf",
+    "https://www.cirs-group.com/en/agrochemicals/china-to-approve-the-first-rna-pesticides",
+    "https://newwebs2.ricethailand.go.th/upload/doc/5938/1662623651.pdf",
+    "https://cads.arda.or.th/th/documents/research/2812c0d0-6fb8-4aff-8cd7-ce17d873ec3d_th-TH",
+    "https://foe.org/wp-content/uploads/2020/10/RNAi_FullReport.pdf"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "GreenLight Biosciences: EPA Registration for Calantha (4 ม.ค. 2567) — เข้าใช้ 2026-08-01",
+      "url": "https://www.prnewswire.com/news-releases/greenlight-biosciences-secures-epa-registration-for-new-bioinsecticide-calantha-historic-step-towards-a-safer-and-more-sustainable-food-system-302026247.html"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Springer (7 พ.ค. 2568): Calantha — First Commercialized Sprayable dsRNA Product — เข้าใช้ 2026-08-01",
+      "url": "https://link.springer.com/chapter/10.1007/978-3-031-81549-2_27"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "GreenLight: Belgian EUA — first RNA insecticide in the EU (6 พ.ค. 2569) — เข้าใช้ 2026-08-01",
+      "url": "https://www.greenlightbiosciences.com/articles/greenlight-biosciences-secures-belgian-emergency-use-authorization-for-first-rna-based-insecticide-in-the-eu"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Nasdaq Trader: GRNA go-private (ก.ค. 2566) — เข้าใช้ 2026-08-01",
+      "url": "https://www.nasdaqtrader.com/TraderNews.aspx?id=ECA2023-416"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Goodwin: GreenLight acquired by Fall Line (~$45.5M, 30 พ.ค. 2566) — เข้าใช้ 2026-08-01",
+      "url": "https://www.goodwinlaw.com/en/news-and-events/news/2023/05/announcements-otherindustries-ma-greenlight-biosciences"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "GreenLight Biosciences (เว็บทางการ) — เข้าใช้ 2026-08-01",
+      "url": "https://www.greenlightbiosciences.com/"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Wang et al., J. Agric. Food Chem. (2567): RNAi ต้านมดคันไฟ — เข้าใช้ 2026-08-01",
+      "url": "https://doi.org/10.1021/acs.jafc.4c00654"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Cao et al., The Crop Journal (2568): RNAi technologies for insect control — เข้าใช้ 2026-08-01",
+      "url": "https://www.sciopen.com/local/article_pdf/10.1016/j.cj.2025.05.006.pdf"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Target Malaria: Funding our research (ม.ค. 2566) — เข้าใช้ 2026-08-01",
+      "url": "https://targetmalaria.org/wp-content/uploads/2023/01/Funding_FS_EN_Funding_our_research_Jan23.pdf"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Target Malaria/BMC Malaria J. (2564): Small-scale release of non-gene drive mosquitoes — เข้าใช้ 2026-08-01",
+      "url": "https://malariajournal.biomedcentral.com/articles/10.1186/s12936-021-03929-2"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "C&EN (8 ม.ค. 2567): EPA allows RNAi pesticide for 3 years — เข้าใช้ 2026-08-01",
+      "url": "https://pubs.acs.org/doi/10.1021/cen-10201-polcon2"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Science (3 ก.ย. 2568): Burkina Faso halts 'gene drive' project after raid — เข้าใช้ 2026-08-01",
+      "url": "https://www.science.org/content/article/after-humiliating-raid-burkina-faso-halts-gene-drive-project-fight-malaria"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "ISAAA (17 ก.ย. 2568): Burkina Faso Suspends Field Trials of GM Mosquito — เข้าใช้ 2026-08-01",
+      "url": "https://www.isaaa.org/kc/cropbiotechupdate/article/default.asp?ID=21511"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Target Malaria: Activities suspended in Burkina Faso (22 ส.ค. 2568) — เข้าใช้ 2026-08-01",
+      "url": "https://targetmalaria.org/latest/news/target-malaria-activities-suspended-in-burkina-faso/"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "D'Amato et al., Nat. Commun. 15:952 (2567): Anti-CRISPR Anopheles inhibit gene drive spread — เข้าใช้ 2026-08-01",
+      "url": "https://www.nature.com/articles/s41467-024-44907-x"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Entomologia Generalis 45(6) (2568): Homing gene drive for agricultural pest suppression — เข้าใช้ 2026-08-01",
+      "url": "https://www.schweizerbart.de/papers/entomologia/detail/45/107520/"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Environ. Syst. Decis. (2568): Experts' uncertainties about gene drive for ag pest control (US) — เข้าใช้ 2026-08-01",
+      "url": "https://link.springer.com/article/10.1007/s10669-025-10051-0"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "U. Illinois (25 ก.พ. 2568): Amaranth genomes — sex-determining genes — เข้าใช้ 2026-08-01",
+      "url": "https://aces.illinois.edu/news/weeds-amaranth-genomes-reveal-secrets-success"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Bayer: SmartStax PRO Corn Rootworm — เข้าใช้ 2026-08-01",
+      "url": "https://www.cropscience.bayer.us/traits/corn/smartstax-pro"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "DTN/Progressive Farmer: Rootworm resistance to Bt confirmed — เข้าใช้ 2026-08-01",
+      "url": "https://www.dtnpf.com/agriculture/web/ag/news/article/2016/08/10/rootworm-resistance-pyramided-bt"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "Head et al. (2560) อ้างใน Nature Sci. Rep. 8:2992 (2561) — เข้าใช้ 2026-08-01",
+      "url": "https://www.nature.com/articles/s41598-018-20416-y"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "RNAissance Ag: Solutions — เข้าใช้ 2026-08-01",
+      "url": "https://www.rnaissanceag.net/solutions/"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "PW Consulting: RNAi Pesticides Market — เข้าใช้ 2026-08-01",
+      "url": "https://pmarketresearch.com/hc/rnai-pesticides-market"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "TechSci Research: RNAi Pesticides Market (AgroSpheres $37M Series B) — เข้าใช้ 2026-08-01",
+      "url": "https://www.techsciresearch.com/report/rnai-pesticides-market/25012.html"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "GMInsights: Gene Drive Technology for Agricultural Pests Market — เข้าใช้ 2026-08-01",
+      "url": "https://www.gminsights.com/industry-analysis/gene-drive-technology-for-agricultural-pests-market"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "InsightAce Analytic: RNAi Pesticides Market — เข้าใช้ 2026-08-01",
+      "url": "https://www.insightaceanalytic.com/report/rnai-pesticides-market/2799"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "EPA: Registration decision for Ledprona (EPA-HQ-OPP-2021-0271) — เข้าใช้ 2026-08-01",
+      "url": "https://www.regulations.gov/docket/EPA-HQ-OPP-2021-0271"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "Welch et al., Springer (2568): Regulation of RNAi in Pesticidal Products in the US — เข้าใช้ 2026-08-01",
+      "url": "https://link.springer.com/chapter/10.1007/978-3-031-81549-2_24"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "EFSA Journal (2568): Risk assessment for RNAi-based GMPs — เข้าใช้ 2026-08-01",
+      "url": "https://efsa.onlinelibrary.wiley.com/doi/10.2903/j.efsa.2025.9321"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "GeneConvene: Cartagena Protocol COP-MOP 11 decision (CBD/CP/MOP/DEC/11/4, 1 พ.ย. 2567) — เข้าใช้ 2026-08-01",
+      "url": "https://www.geneconvenevi.org/cartagena-protocol/"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "EU Council: COP-MOP 11 report (ST-16867-24) — เข้าใช้ 2026-08-01",
+      "url": "https://data.consilium.europa.eu/doc/document/ST-16867-2024-INIT/en/pdf"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "CIRS (16 เม.ย. 2569): China to Approve the First RNA Pesticides — เข้าใช้ 2026-08-01",
+      "url": "https://www.cirs-group.com/en/agrochemicals/china-to-approve-the-first-rna-pesticides"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "กรมการข้าว: การบริหารจัดการศัตรูพืช (ธ.ค. 2565) — เข้าใช้ 2026-08-01",
+      "url": "https://newwebs2.ricethailand.go.th/upload/doc/5938/1662623651.pdf"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "ARDA: การวิจัยและพัฒนาการจัดการแมลงและสัตว์ศัตรูข้าว — เข้าใช้ 2026-08-01",
+      "url": "https://cads.arda.or.th/th/documents/research/2812c0d0-6fb8-4aff-8cd7-ce17d873ec3d_th-TH"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "Friends of the Earth (2563): Gene-Silencing Pesticides (รายงานเชิงวิพากษ์ RNAi) — เข้าใช้ 2026-08-01",
+      "url": "https://foe.org/wp-content/uploads/2020/10/RNAi_FullReport.pdf"
+    }
+  ],
+  "reference_count": 35,
+  "article_file": "agri-01-004.md",
+  "source_file": "01-เทคโนโลยีชีวภาพและพันธุวิศวกรรม\\เจาะลึก-01-ยีนไดรฟ์และRNAiกำจัดศัตรูพืช.md"
+}

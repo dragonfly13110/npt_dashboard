@@ -1,0 +1,65 @@
+{
+  "slug": "agri-03-002",
+  "title": "ดัชนีความเครียดน้ำพืช (CWSI) ด้วยกล้องเทอร์มอล (โดรน/ดาวเทียม) — บอกเวลาให้น้ำแม่นยำ",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-01",
+  "created_at": "2026-08-01",
+  "review_at": "2027-02-01",
+  "category": "น้ำและชลประทานอัจฉริยะ",
+  "domain_code": "03",
+  "topic_id": "03-002",
+  "handle_id": "03-002",
+  "abstract": "- **CWSI (Crop Water Stress Index)** คือดัชนี 0–1 ที่แปลง \"อุณหภูมิทรงพุ่ม\" (canopy temperature, Tc) จากกล้องเทอร์มอลบนโดรน/ดาวเทียมให้เป็นระดับความเครียดน้ำของพืช โดย 0 = พืชมีน้ำเพียงพอ (ระบายความร้อนเต็มที่) และ 1 = ปากใบปิดเต็มที่ (เครียดน้ำสุดขีด) — ใช้บอก \"เวลาให้น้ำ\" ที่แม่นยำระดับจุดย่อยในแปลง [1][2]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Idso, S.B., Jackson, R.D., Pinter, P.J., Reginato, R.J., Hatfield, J.L., \"Normalizing the stress-degree-day parameter for environmental variability\", Agricultural Meteorology, 1981 — พื้นฐาน CWSI เชิงประจักษ์ (เข้าถึงและยืนยันเนื้อหาจากแหล่งรองเมื่อ 2026-08-01; ลิงก์/DOI เต็มควรตรวจสอบ)",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Jackson, R.D., Idso, S.B., Reginato, R.J., Pinter, P.J., \"Canopy temperature as a crop water stress indicator\", Water Resources Research, 1981 — พื้นฐาน CWSI เชิงทฤษฎี/สมดุลพลังงาน (เข้าถึงเมื่อ 2026-08-01; DOI ตรวจสอบเพิ่ม)",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "De Swaef, T., Roldán-Ruiz, I., Vleugels, T., et al., \"Phenotypic characterization of drought responses in red clover (Trifolium pratense L.)\", Frontiers in Plant Science 14:1304411, 2024 — โดรนเทอร์มอล+วัด CWSI คัดกรองทนแล้งโคลเวอร์แดง แล้งจำลอง 6–8 สัปดาห์ — PMID 38283975, PMCID อ้างอิงได้ (frontiersin.org/articles/10.3389/fpls.2023.1304411/full) — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Dwivedi, A.K., Ojha, C.S.P., \"Evaluation of Crop Water Stress Index (CWSI) for Irrigation Scheduling of Wheat in Sub-Humid Conditions of India\", preprint Research Square, 2025-11-18 — baseline R² 0.95–0.99, CWSI 0.07–1.00, น้ำ 390.5→150.5 มม., WUE 2.71 กก./เฮกตาร์/มม. — DOI 10.21203/rs.3.rs-8008539/v1 — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Yadav, A., Upreti, H., Singhal, G.D., \"Effect of field of view of canopy temperature observations on crop water stress index for irrigation scheduling\", Water Supply, 2023-11-28 — FOV เปลี่ยน Tc 0.65–2.71% และ CWSI 9.2–36.4%, R² CWSI-ความชื้นดิน 0.78/0.77 — DOI 10.2166/ws.2023.313 — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Mailapalli, (และคณะ), \"Water stress mapping in crops ... using UAV based thermal and multispectral imagery\", preprint AGU ESSOAr, 2022-03-07 — เลือก NGRDI R²>0.5, WDI เหนือกว่า CWSI บริสุทธิ์ — DOI 10.1002/essoar.10510759.1 — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Wanjura, D.F., Upchurch, D.R., \"Accounting for humidity in canopy-temperature-controlled irrigation scheduling\", Agricultural Water Management, 1997-10 — ปรับการชลประทานควบคุมด้วยอุณหภูมิทรงพุ่มด้วยความชื้นอากาศ — DOI 10.1016/s0378-3774(97)00024-3 — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    }
+  ],
+  "reference_count": 7,
+  "article_file": "agri-03-002.md",
+  "source_file": "03-น้ำและชลประทานอัจฉริยะ\\เจาะลึก-03-ดัชนีความเครียดน้ำ-CWSI-เทอร์มอล.md"
+}

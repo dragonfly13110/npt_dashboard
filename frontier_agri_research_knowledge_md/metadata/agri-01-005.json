@@ -1,0 +1,160 @@
+{
+  "slug": "agri-01-005",
+  "title": "ข้าว GEd สายพันธุ์ไทย (ขาวดอกมะลิ 105 — KDML105)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-01",
+  "created_at": "2026-08-01",
+  "review_at": "2027-02-01",
+  "category": "เทคโนโลยีชีวภาพและพันธุวิศวกรรม",
+  "domain_code": "01",
+  "topic_id": "01-005",
+  "handle_id": "01-005",
+  "abstract": "- **ใจความ**: ไทยปลดล็อกกฎหมาย GEd แล้วตั้งแต่ ส.ค. 2567 (ประกาศกระทรวงเกษตรฯ + กรมวิชาการเกษตร) [1][2] แต่ยัง **ไม่มีข้าว GEd ไทยสายพันธุ์ใดผ่านการรับรอง (หนังสือรับรอง พป.2) มาจนถึงปัจจุบัน** — งานที่ใกล้ที่สุดเป็น \"GEd-ready\" คือระบบนิเวศวิจัยข้าวของ BIOTEC/มก./กรมการข้าวที่สั่งสมเครื่องมือมา 30 ปี (ฐานพันธุกรรมข้าวไทย 700 สายพันธุ์ + เครื่องหมายโมเลกุล 250 ชุด) และประกาศ \"ขับเคลื่อน GEd ในข้าว\" ในงาน NAC2026 (มิ.ย. 2569) [6]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.thaipbs.or.th/news/content/341978",
+  "pdf_url": "https://www.biotec.or.th/biosafety/images/document/guideline/GEd2024_rev1.pdf",
+  "source_urls": [
+    "https://www.thaipbs.or.th/news/content/341978",
+    "https://www.doa.go.th/nitikan/?p=8784",
+    "https://www.biotec.or.th/biosafety/images/document/guideline/GEd2024_rev1.pdf",
+    "https://www.biotec.or.th/home/thai_rice_biotech_nac2026/",
+    "https://www.nstda.or.th/home/performance_post/rice-genome/",
+    "https://www.nstda.or.th/archives/ข้าวขาวดอกมะลิ-105-ต้านทาน/",
+    "https://dna.kps.ku.ac.th/research/breeding/hommali-80",
+    "https://www.irri.org/news-and-events/news/new-rice-gene-variant-boosts-yield-under-drought-irri",
+    "https://doi.org/10.4067/s0718-58392022000100097",
+    "https://www.tcc.or.th/220868-genome-editing/",
+    "https://www.tcc.or.th/wp-content/uploads/2026/05/ปัญหากฎหมายคุม-genome-editing.pdf",
+    "https://en.mahidol.ac.th/envinews/2436-2024-12-16-09-09-31",
+    "https://www.thansettakij.com/economy/trade-agriculture/661941",
+    "https://li03.tci-thaijo.org/index.php/TRRJ/article/view/16",
+    "https://www.tcc.or.th/070868-genome-editing/",
+    "https://www.thansettakij.com/economy/trade-agriculture/665177"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "ประกาศกระทรวงเกษตรและสหกรณ์ เรื่อง \"การขอรับรองสิ่งมีชีวิตที่พัฒนาจากเทคโนโลยีการปรับแต่งจีโนมเพื่อใช้ประโยชน์ในภาคการเกษตร พ.ศ. 2567\" (ธรรมนัส พรหมเผ่า ลงนาม 11 ก.ค. 2567; ราชกิจจานุเบกษา 16 ก.ค. 2567) — ข่าว Thai PBS (12 ก.ค. 2567) — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.thaipbs.or.th/news/content/341978"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "กรมวิชาการเกษตร ลงนามประกาศ \"หลักการ วิธีการ และเงื่อนไขการรับรองพืชที่พัฒนาจากเทคโนโลยีการปรับแต่งจีโนม พ.ศ. 2567\" (9 ส.ค. 2567) — สำนักนิติการ กรมวิชาการเกษตร และ ฐานเศรษฐกิจ (9 ส.ค. 2567) — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.doa.go.th/nitikan/?p=8784"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "USDA FAS GAIN Report: \"Regulation on Plants Developed Using Genome Editing Technology\" TH2024-0052 (พ.ย. 2567) — รายละเอียด พป.1/พป.2, ระยะเวลา 7+30+15 วัน, เอกสาร 6 ชุด — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "USDA FAS GAIN Report: \"Agricultural Biotechnology Annual — Thailand\" TH2024-0064 (พ.ย. 2567) — กรอบกฎหมาย/รายการนำเข้า GM — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "BIOTEC: \"แนวทางการพิจารณาเทคโนโลยีการปรับแต่งจีโนม (genome editing)\" GEd2024 (rev1) — เกณฑ์ Cartagena 3 ข้อ, SDN-1/2/3 — ลิงก์ — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.biotec.or.th/biosafety/images/document/guideline/GEd2024_rev1.pdf"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "BIOTEC/สวทช.: \"เทคโนโลยีชีวภาพเพื่อการยกระดับมูลค่าข้าวไทย\" NAC2026 (10 มิ.ย. 2569) — 700 สายพันธุ์/250 เครื่องหมาย/ขับเคลื่อน GEd — ลิงก์ — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.biotec.or.th/home/thai_rice_biotech_nac2026/"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "สวทช. \"จีโนมข้าว ตัวเร่งการพัฒนาพันธุ์ข้าวไทย\" (2564) — IRGSP โครโมโซม 9/8, สิทธิบัตร Os2AP — ลิงก์ — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.nstda.or.th/home/performance_post/rice-genome/"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "NSTDA archives: \"ข้าวขาวดอกมะลิ 105 ต้านทานโรค\" — KDML105 ทนน้ำท่วม/เค็ม, กข6 ต้านไหม้ (ร่วม กรมการข้าว, โครงการนาน้ำฝน) — ลิงก์ — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.nstda.or.th/archives/ข้าวขาวดอกมะลิ-105-ต้านทาน/"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Rice Science Center มก.: \"ข้าวหอมมะลิ 80\" — KDML105 + SUB1 (ทนน้ำท่วม) แบบ MAS ผ่านการยอมรับแปลงเกษตรกร 2550 — ลิงก์ — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://dna.kps.ku.ac.th/research/breeding/hommali-80"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "IRRI: \"New rice gene variant boosts yield under drought\" (12 ส.ค. 2568) — OsIRO2 +27% ใน DRR Dhan 44, 450 สายพันธุ์, J. Experimental Botany — ลิงก์ — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.irri.org/news-and-events/news/new-rice-gene-variant-boosts-yield-under-drought-irri"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "BioSpectrum Asia: \"Thailand gets new certified rice variety (RD51/กข51)\" — KDML105 + IR49830 ทนน้ำท่วมฉับพลัน ผ่านรับรอง — เข้าถึงเมื่อ 2026-08-01",
+      "url": null
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Pamuta et al.: \"Physio-biochemical traits in improved 'KDML105' jasmine rice lines containing drought and salt tolerance gene under drought and salt stress\", Chilean J. of Agricultural Research 82(1):97 (2565) — CSSL94/103 (DT-QTL) และ RGD1/4 (SKC1) — DOI — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://doi.org/10.4067/s0718-58392022000100097"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "สภาองค์กรของผู้บริโภค: \"เรียกร้องทบทวนประกาศเทคโนโลยีจีโนม...\" (22 ส.ค. 2568) — ลิงก์ — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.tcc.or.th/220868-genome-editing/"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "ไพศาล ลิ้มสถิตย์ (ธรรมศาสตร์): \"ปัญหากฎหมายควบคุม genome editing\" (เอกสาร TCC, 2568) — PDF — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.tcc.or.th/wp-content/uploads/2026/05/ปัญหากฎหมายคุม-genome-editing.pdf"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "มหาวิทยาลัยมหิดล (สำนักข่าวสิ่งแวดล้อม): \"ค้านเทคโนโลยีปรับแต่งจีโนม ชี้ขัดต่อความปลอดภัยทางชีวภาพ\" (16 ธ.ค. 2567) — สภาผู้บริโภคยื่นขอเพิกถอน — ลิงก์ — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://en.mahidol.ac.th/envinews/2436-2024-12-16-09-09-31"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "ฐานเศรษฐกิจ: \"เช็กเลย พันธุ์ข้าวใหม่ 2569 กรมการข้าวเตรียมรับรอง 4 สายพันธุ์เด่น\" (21 มิ.ย. 2569) — กข121 (1,200 กก./ไร่) + ปริมาณเมล็ดขาวดอกมะลิ 34,970 ตัน — ลิงก์ — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.thansettakij.com/economy/trade-agriculture/661941"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "วราพงษ์ ชมาฤกษ์: \"การประยุกต์ใช้เทคนิคการปรับแต่งจีโนมด้วยระบบ CRISPR/Cas9 ในการวิจัยและพัฒนาข้าว\", วารสารวิจัยข้าว ปีที่ 13 ฉบับที่ 1 (2565) หน้า 86–105 — ข้อเสนอให้ไทยมีกฎระเบียบชัดเจน — ลิงก์ — เข้าถึงเมื่อ 2026-08-06",
+      "url": "https://li03.tci-thaijo.org/index.php/TRRJ/article/view/16"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "สภาองค์กรของผู้บริโภค: \"'ปรับแต่งจีโนม' ความปลอดภัยอันเปราะบาง\" (7 ส.ค. 2568) — หลักการป้องกันไว้ก่อน, สถานะกฎหมาย EU — ลิงก์ — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.tcc.or.th/070868-genome-editing/"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "ฐานเศรษฐกิจ: \"ไทยปลดล็อก gene editing...ชูมันสำปะหลังแวกซี\" (29 ก.ค. 2569) — ระยะเวลา 3 ปี vs 7–10 ปี, ตัวอย่าง GBSSI — ลิงก์ — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.thansettakij.com/economy/trade-agriculture/665177"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "เจาะลึก-01-003 (โมเลคิวลาร์ฟาร์มมิ่ง): Reg (EU) 2026/1388 — NGT-1 หลุดระบอบ GMO (มิ.ย. 2569) — อ้างข้ามภายในคลัง",
+      "url": null
+    }
+  ],
+  "reference_count": 20,
+  "article_file": "agri-01-005.md",
+  "source_file": "01-เทคโนโลยีชีวภาพและพันธุวิศวกรรม\\เจาะลึก-01-ข้าวGEdไทย-KDML105.md"
+}

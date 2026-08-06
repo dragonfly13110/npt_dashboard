@@ -1,0 +1,59 @@
+{
+  "slug": "agri-06-005",
+  "title": "Explainable AI (XAI) ในคำแนะนำเกษตร — ทำไมโมเดลถึงแนะนำแบบนี้ และทำไมเกษตรกรถึงต้องเชื่อถือ",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ปัญญาประดิษฐ์ ข้อมูลใหญ่ และดิจิทัลทวิน",
+  "domain_code": "06",
+  "topic_id": "06-005",
+  "handle_id": "06-005",
+  "abstract": "- **ใจความ**: Explainable AI (XAI) = การอธิบายว่า \"AI แนะนำทำไม\" (ตัวแปรอะไรมีผล/มากน้อยแค่ไหน — ภาพความร้อน (heatmap), รายการเหตุผล, \"ถ้าไม่ทำ X จะเปลี่ยนคำแนะนำไหม\") — ในเกษตรสำคัญมาก: เกษตรกร/เจ้าหน้าที่/หน่วยงานต้อง \"ไว้ใจ\" ก่อนทำตาม (แนะนำผิด = เสียเงิน/ผลผลิต) และกฎหมาย/การรับรองเริ่มต้องการคำอธิบาย (EU AI Act-class; ไทยเริ่มมีแนวทาง) [1][2][3]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "งาน XAI (LIME/SHAP — arXiv/ICML-class 2016–2025) + งานทบทวน XAI เกษตร (Computers and Electronics in Agriculture, Artificial Intelligence Review 2020–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "งาน XAI ประยุกต์เกษตร (น้ำ/ปุ๋ย/โรค/ราคา — 2021–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "EU AI Act/แนวทาง XAI + analyst ตลาด — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "งานวิจัยไทย XAI/ML เกษตร (TCI/ThaiJo — มก./มจธ./มข.) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "นโยบาย/แนวทาง AI ไทย (สวทช./ETDA/NIA) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "งานการยอมรับเทคโนโลยีเกษตรกรไทย (ต่อยอด 14-003 — สถานะล่าสุด) — เข้าถึงเมื่อ 2026-08-02",
+      "url": null
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-06-005.md",
+  "source_file": "06-ปัญญาประดิษฐ์ ข้อมูลใหญ่ และดิจิทัลทวิน\\เจาะลึก-06-ExplainableAI-คำแนะนำเกษตร.md"
+}

@@ -1,0 +1,304 @@
+{
+  "slug": "agri-12-005",
+  "title": "นโยบายข้าวและยางพาราไทย — ประกันรายได้ vs รับจำนำ",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": null,
+  "category": "ระบบอาหาร เศรษฐศาสตร์ และนโยบาย",
+  "domain_code": "12",
+  "topic_id": "12-005",
+  "handle_id": "12-005",
+  "abstract": "",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://library.parliament.go.th/en/radioscript/matrkarchwyehluuexrakhaphuuechphlekstrtktakhxngithy",
+  "pdf_url": "https://regional.moc.go.th/th/file/get/file/20240401282a793f82187362e5f5f4840cd6fb85095820.pdf",
+  "source_urls": [
+    "https://library.parliament.go.th/en/radioscript/matrkarchwyehluuexrakhaphuuechphlekstrtktakhxngithy",
+    "https://www.thansettakij.com/business/trade-agriculture/580514",
+    "https://regional.moc.go.th/th/file/get/file/20240401282a793f82187362e5f5f4840cd6fb85095820.pdf",
+    "https://www.thansettakij.com/business/trade-agriculture/612222",
+    "https://www.moc.go.th/th/gallery/article/detail/id/5/iid/642",
+    "https://www.bangkokbiznews.com/business/economic/1167020",
+    "https://www.infoquest.co.th/2025/508272",
+    "https://www.moc.go.th/th/gallery/article/detail/id/5/iid/999",
+    "https://www.bangkokbiznews.com/business/economic/1197356",
+    "https://www.ryt9.com/s/iq03/12821973",
+    "https://www.komchadluek.net/news/562494",
+    "https://thaipublica.org/2021/11/income-insurance-scheme-for-rice-farmers-2564-2565/",
+    "https://www.thansettakij.com/economy/505110",
+    "https://www.thaipost.net/hi-light/35881",
+    "https://www.thairath.co.th/news/2274210",
+    "https://www.bangkokbiznews.com/business/economic/1061044",
+    "https://www.prachachat.net/hilight-prachachat/news-1399584",
+    "https://www.bangkokbiznews.com/business/economic/1169043",
+    "https://thaipublica.org/2012/08/tdri-criticize-rice-pledging-scheme/",
+    "https://thaipublica.org/2016/07/plegd-rice-101/",
+    "https://tdri.or.th/2016/10/2016-10-04/",
+    "https://www.isranews.org/content-page/item/34169-rice_571105.html",
+    "https://www.bangkokbiznews.com/business/economic/1110192",
+    "https://thaipublica.org/2016/09/plegd-rice-102",
+    "https://thaipublica.org/2013/12/plegd-rice-12-years",
+    "https://thaipublica.org/2013/10/letter-to-the-prime-minister",
+    "https://www.infoquest.co.th/2023/279681",
+    "https://www.thansettakij.com/business/505997",
+    "https://www.prachachat.net/prachachat-hilight/news-1263291",
+    "https://regional.moc.go.th/th/file/get/file/202401295635ee303e261977776a5f722b583ad9085422.pdf",
+    "https://www.prachachat.net/economic/news-1937513",
+    "https://region1.prd.go.th/th/content/category/detail/id/57/iid/340622",
+    "https://www.rakakaset.com",
+    "https://www.khaosod.co.th/economics/news_9912420",
+    "https://www.ryt9.com/s/oae/3472913",
+    "https://www.prachachat.net/breaking-news/news-792460",
+    "https://www.topnews.co.th/news/1025164",
+    "https://www.prachachat.net/hilight-prachachat/news-1461846",
+    "https://so02.tci-thaijo.org/index.php/JRKSA/article/view/272044",
+    "https://so01.tci-thaijo.org/index.php/eascramJ/article/view/280826"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "หอสมุดรัฐสภา. \"มาตรการช่วยเหลือราคาพืชผลเกษตรกร: ระบบประกันรายได้และรับจำนำ.\" สำนักงานเลขาธิการสภาผู้แทนราษฎร, 2562. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://library.parliament.go.th/en/radioscript/matrkarchwyehluuexrakhaphuuechphlekstrtktakhxngithy"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "ฐานเศรษฐกิจ. \"ครม.เคาะมาตรการข้าว 66/67 ไร่ละ 1,000 บาท วงเงิน 10,601.96 ล้านบาท.\" ฐานเศรษฐกิจ, 2566. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.thansettakij.com/business/trade-agriculture/580514"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "กรมการค้าภายใน. \"สถานการณ์ราคาและต้นทุนการผลิตข้าวเปลือก (เอกสารวิเคราะห์).\" กระทรวงพาณิชย์, 2567. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://regional.moc.go.th/th/file/get/file/20240401282a793f82187362e5f5f4840cd6fb85095820.pdf"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "ฐานเศรษฐกิจ. \"ส่งออกข้าวไทยปี 2567 ทะลุ 9 ล้านตัน ราคาหอมมะลิพุ่ง FOB 935 ดอลลาร์.\" ฐานเศรษฐกิจ, 2567. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.thansettakij.com/business/trade-agriculture/612222"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "กระทรวงพาณิชย์. \"มติ นบข. มาตรการรักษาเสถียรภาพราคาข้าว ปีการผลิต 2567/68.\" กระทรวงพาณิชย์, 2567. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.moc.go.th/th/gallery/article/detail/id/5/iid/642"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร (ธ.ก.ส.). \"ข่าว ธ.ก.ส. ฉบับที่ 224/2567 มาตรการรักษาเสถียรภาพราคาข้าว ปีการผลิต 2567/68 วงเงิน 50,000 ล้านบาท.\" ธ.ก.ส., 16 ก.พ. 2568. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.bangkokbiznews.com/business/economic/1167020"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "InfoQuest. \"นบข.อนุมัติมาตรการข้าวนาปี 68/69 วงเงิน 50,038.67 ล้านบาท ครอบคลุม 4 โครงการ.\" InfoQuest, 27 มิ.ย. 2568. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.infoquest.co.th/2025/508272"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "กระทรวงพาณิชย์. \"นบข. เห็นชอบมาตรการข้าว ปีการผลิต 2568/69 (รายละเอียดโครงการ).\" กระทรวงพาณิชย์, 2568. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.moc.go.th/th/gallery/article/detail/id/5/iid/999"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "กรุงเทพธุรกิจ. \"ครม.อนุมัติมาตรการข้าว 68/69 วงเงิน 61,697.06 ล้านบาท (สินเชื่อ 51,632.50 + จ่ายขาด 10,464.56).\" กรุงเทพธุรกิจ, 2568. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.bangkokbiznews.com/business/economic/1197356"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "RYT9/InfoQuest. \"นบข.ไฟเขียวมาตรการข้าว ปี 2569/70 วงเงิน 59,467 ล้านบาท (สินเชื่อ 49,275 + จ่ายขาด 10,192.58) เป้าหมาย 11.50 ล้านตัน.\" RYT9, 11 มิ.ย. 2569. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.ryt9.com/s/iq03/12821973"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Share2Trade. \"สรุปมาตรการข้าว ปีการผลิต 2566/67 วงเงิน 69,043 ล้านบาท (ไร่ละ 1,000 บาท 56,321.07 ล้านบาท).\" 2566. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.komchadluek.net/news/562494"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "ไทยพับลิก้า. \"ธ.ก.ส. จ่ายชดเชยประกันรายได้ข้าว 2564/65 ไปแล้ว 13,225 ล้านบาท รอบแรก.\" ไทยพับลิก้า, 16 พ.ย. 2564. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://thaipublica.org/2021/11/income-insurance-scheme-for-rice-farmers-2564-2565/"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "ฐานเศรษฐกิจ. \"ครม.เห็นชอบวงเงินจ่ายขาดประกันรายได้ข้าว 2564/65 วงเงิน 89,306.39 ล้านบาท.\" ฐานเศรษฐกิจ, 2564. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.thansettakij.com/economy/505110"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "ไทยโพสต์. \"ครม.อนุมัติงบเพิ่มเติมประกันรายได้ข้าว 76,080.95 ล้านบาท.\" ไทยโพสต์, 2564. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.thaipost.net/hi-light/35881"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "ไทยรัฐออนไลน์. \"ประกันรายได้ข้าว ธ.ค. 2564 จ่ายแล้ว 8.3 หมื่นล้านบาท 4.47 ล้านครัวเรือน.\" ไทยรัฐ, 2564. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.thairath.co.th/news/2274210"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "กรุงเทพธุรกิจ. \"งวด 1-24 ประกันรายได้ข้าว 65/66 จ่าย 7,863.72 ล้านบาท + ไร่ละ 1,000 วงเงิน 54,020.70 ล้านบาท.\" กรุงเทพธุรกิจ, 2565. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.bangkokbiznews.com/business/economic/1061044"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "ประชาชาติธุรกิจ. \"PIER ชี้หนี้เกษตรกร 2565 เฉลี่ย 4.5 แสนบาท/ราย รวม 1.8 ล้านล้านบาท 90% ของ 4 ล้านครัวเรือนมีหนี้.\" ประชาชาติธุรกิจ, 2566. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.prachachat.net/hilight-prachachat/news-1399584"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "กรุงเทพธุรกิจ. \"งบดูแลสินค้าเกษตรหด เหลือ 6.5 หมื่นล้านบาท/ปี จากเดิม 1.07 แสนล้านบาท (2562-2565).\" กรุงเทพธุรกิจ, 2567. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.bangkokbiznews.com/business/economic/1169043"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "ไทยพับลิก้า. \"TDRI ชี้จำนำข้าว 1 ปี สูญรายได้ส่งออก 6 หมื่นล้านบาท ราคาในประเทศสูงกว่าตลาดโลก.\" ไทยพับลิก้า, ส.ค. 2555. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://thaipublica.org/2012/08/tdri-criticize-rice-pledging-scheme/"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "ไทยพับลิก้า. \"TDRI ประเมินจำนำข้าว 2554/55-2555/56 ขาดทุน 5.49 แสนล้านบาท ข้าว 34.5 ล้านตันเข้าสต็อก.\" ไทยพับลิก้า, ก.ค. 2559. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://thaipublica.org/2016/07/plegd-rice-101/"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "TDRI. \"การประเมินผลนโยบายรับจำนำข้าวและทางเลือกที่เหมาะสม.\" สถาบันวิจัยเพื่อการพัฒนาประเทศไทย (TDRI), 2559. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://tdri.or.th/2016/10/2016-10-04/"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "Isranews. \"TDRI ชี้ทุจริตจำนำข้าวมูลค่า 0.94-1.09 แสนล้านบาท.\" สำนักข่าวอิศรา, 2557. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.isranews.org/content-page/item/34169-rice_571105.html"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "กรุงเทพธุรกิจ. \"อคส. ประเมินความเสียหายจำนำข้าวรวม 7.0 แสนล้านบาท จาก 44.66 ล้านตัน.\" กรุงเทพธุรกิจ, 2567. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.bangkokbiznews.com/business/economic/1110192"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "ไทยพับลิก้า. \"กรมบัญชีกลางประเมินความเสียหายจำนำข้าว 1.78 แสนล้านบาท.\" ไทยพับลิก้า, ต.ค. 2559. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://thaipublica.org/2016/09/plegd-rice-102"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "ไทยพับลิก้า. \"เสวนาสภาฯ จำนำข้าว: เงินหมุนเวียนสูงถึง 5 แสนล้านบาท.\" ไทยพับลิก้า, ก.พ. 2557. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://thaipublica.org/2013/12/plegd-rice-12-years"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "กรุงเทพธุรกิจ. \"จำนำข้าว 2 ปี ใช้เงิน 7.1 แสนล้านบาท ขายคืนได้ 1.39 แสนล้านบาท ขาดทุนเกิน 4 แสนล้านบาท.\" กรุงเทพธุรกิจ, 2556. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://thaipublica.org/2013/10/letter-to-the-prime-minister"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "InfoQuest. \"ครม.อนุมัติประกันรายได้ชาวสวนยาง ระยะที่ 4 วงเงิน 7,643 ล้านบาท.\" InfoQuest, 2565. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.infoquest.co.th/2023/279681"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "ฐานเศรษฐกิจ. \"ประกันรายได้ยางพารา ระยะ 1-3 งบรวม 30,100 ล้านบาท จ่ายชดเชย 2.9 ล้านราย.\" ฐานเศรษฐกิจ, 2564. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.thansettakij.com/business/505997"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "คมชัดลึก. \"ประกันรายได้ยาง ระยะ 4 ราคาอ้างอิง แผ่นดิบ 60 น้ำยางสด 57 ก้อนถ้วย 23 บาท/กก.\" คมชัดลึก, 2566. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.prachachat.net/prachachat-hilight/news-1263291"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "กรมการค้าภายใน. \"สถานการณ์ยางพารา: ต้นทุนยางแผ่นดิบ 2564-2566 (58.73/62.52/61.63 บาท/กก.) และผลผลิต.\" กระทรวงพาณิชย์, ม.ค. 2567. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://regional.moc.go.th/th/file/get/file/202401295635ee303e261977776a5f722b583ad9085422.pdf"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "ข่าวสด. \"กยท. งบ 2,280 ล้านบาท ดูดซับน้ำยาง 2.5 แสนตัน/ปี รักษาเสถียรภาพราคายาง.\" ข่าวสด, ธ.ค. 2568. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.prachachat.net/economic/news-1937513"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "ศูนย์ประชาสัมพันธ์เขต 1. \"โครงการชะลอการขายยาง ปี 2568 งบ 800 ล้านบาท; ผลชะลอขาย 2564-2567 ส่วนต่างราคา +5.43 บาท/กก. มูลค่า 441.16 ล้านบาท.\" สำนักงานประชาสัมพันธ์เขต 1, 2568. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://region1.prd.go.th/th/content/category/detail/id/57/iid/340622"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "RakaKaset (สศก.). \"ราคายางพาราวันนี้: ยางแผ่นดิบชั้น 3 = 87.80 บาท/กก. (21 ก.ค. 2569).\" 2569. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.rakakaset.com"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "ไทยโพสต์. \"กยท. อนุมัติงบโค่นยางทดแทน 2,860 ล้านบาท ช่วยเหลือไร่ละ 16,000 บาท.\" ไทยโพสต์, 2568. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.khaosod.co.th/economics/news_9912420"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "สำนักงานเศรษฐกิจการเกษตร. \"สถานการณ์การผลิตข้าว ปี 2566/67: พื้นที่ 61.928 ล้านไร่ ผลผลิต 25.569 ล้านตัน.\" สศก., 2567. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.ryt9.com/s/oae/3472913"
+    },
+    {
+      "id": "36",
+      "index": 36,
+      "label": "ประชาชาติธุรกิจ. \"ประกันรายได้ 5 สินค้าเกษตร 2564/65: ราคาเป้าหมายข้าวและยาง (60/57/23 บาท/กก.) เงื่อนไข 25 ไร่.\" ประชาชาติธุรกิจ, 2564. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.prachachat.net/breaking-news/news-792460"
+    },
+    {
+      "id": "37",
+      "index": 37,
+      "label": "TopNews. \"ไร่ละ 1,000 บาท ปีการผลิต 2566/67 วงเงิน 5.6 หมื่นล้านบาท ครอบคลุม 4.68 ล้านครัวเรือน.\" TopNews, 2566. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.topnews.co.th/news/1025164"
+    },
+    {
+      "id": "38",
+      "index": 38,
+      "label": "ประชาชาติธุรกิจ. \"ธ.ก.ส. โอนเงินรอบที่ 1 ไร่ละ 1,000 บาท ให้ 3,817,901 ครัวเรือน วงเงิน 44,433 ล้านบาท.\" ประชาชาติธุรกิจ, 2567. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://www.prachachat.net/hilight-prachachat/news-1461846"
+    },
+    {
+      "id": "39",
+      "index": 39,
+      "label": "มานิตย์ ศรีไพร และคณะ. \"การนำนโยบายประกันรายได้เกษตรกรผู้ปลูกข้าวไปปฏิบัติ: กรณีศึกษา จ.พิษณุโลก.\" วารสารราชภัฏสุราษฎร์ธานี มนุษยศาสตร์และสังคมศาสตร์, 9(8), 2567. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://so02.tci-thaijo.org/index.php/JRKSA/article/view/272044"
+    },
+    {
+      "id": "40",
+      "index": 40,
+      "label": "วารสารวิชาการ (eascramJ). \"การประเมินผลการดำเนินนโยบายประกันรายได้สินค้าเกษตรของประเทศไทย.\" Journal of East Asian Social and Cultural Research and Management, 2569. (เข้าถึงเมื่อ 2026-08-05)",
+      "url": "https://so01.tci-thaijo.org/index.php/eascramJ/article/view/280826"
+    }
+  ],
+  "reference_count": 40,
+  "article_file": "agri-12-005.md",
+  "source_file": "12-ระบบอาหาร เศรษฐศาสตร์ และนโยบาย\\เจาะลึก-12-นโยบายข้าวยาง-ประกันรายได้.md"
+}

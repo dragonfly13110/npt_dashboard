@@ -1,0 +1,65 @@
+{
+  "slug": "agri-02-002",
+  "title": "การกักเก็บคาร์บอนในดิน เกษตรคาร์บอน และการวัด-รายงาน-ตรวจสอบ (MRV) ด้วย remote sensing",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-01",
+  "created_at": "2026-08-01",
+  "review_at": "2027-02-01",
+  "category": "ดิน จุลินทรีย์ และธาตุอาหาร",
+  "domain_code": "02",
+  "topic_id": "02-002",
+  "handle_id": "02-002",
+  "abstract": "- **ใจความ**: การกักเก็บคาร์บอนในดิน (Soil Organic Carbon, SOC sequestration) เป็นกลไกหลักของ “เกษตรคาร์บอน” (Carbon Farming) ที่ลด CO₂ ในบรรยากาศพร้อมกับเพิ่มความอุดมสมบูรณ์ของดิน แต่หัวใจของการนำไปขายเป็นคาร์บอนเครดิตคือระบบ MRV (Measurement–Reporting–Verification) ซึ่งมีต้นทุนและความไม่แน่นอนสูง Remote sensing ร่วมกับ machine learning กำลังถูกนำมาใช้ลดต้นทุน MRV แต่ถูกจำกัดด้วยความลึกตรวจวัดที่ตื้นมาก (ไม่กี่เซนติเมตร) และสัญญาณการเปลี่ยนแปลง SOC ต่อปีที่เล็กมาก",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.fao.org/soils-portal/soil-management/soil-carbon-sequestration/en/",
+  "pdf_url": null,
+  "source_urls": [
+    "https://www.fao.org/soils-portal/soil-management/soil-carbon-sequestration/en/",
+    "https://verra.org/methodologies/vm0042-methodology-for-improved-agricultural-land-management-v2-0/",
+    "https://4p1000.org/en/",
+    "https://en.wikipedia.org/wiki/Soil_carbon",
+    "https://ghgreduction.tgo.or.th/en/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Soil Carbon Sequestration — FAO SOILS PORTAL, Food and Agriculture Organization of the United Nations — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://www.fao.org/soils-portal/soil-management/soil-carbon-sequestration/en/"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "VM0042 Methodology for Improved Agricultural Land Management, v2.2 — Verra (Verified Carbon Standard) — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://verra.org/methodologies/vm0042-methodology-for-improved-agricultural-land-management-v2-0/"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "4 per 1000 Initiative (2015, COP21, Paris) — ข้อเสนอเพิ่ม SOC 0.4%/ปี — — เข้าถึงเมื่อ 2026-08-01 (ตัวเลข 20–35% ยังไม่ยืนยันจากแหล่งนี้โดยตรง → ดู Section 10)",
+      "url": "https://4p1000.org/en/"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Soil carbon — Wikipedia — — เข้าถึงเมื่อ 2026-08-01 (ใช้สำหรับภาพรวม SOC stock; ตัวเลขยังไม่ยืนยัน)",
+      "url": "https://en.wikipedia.org/wiki/Soil_carbon"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งานทบทวน remote sensing + machine learning สำหรับ SOC estimation (หลายผลงาน) — เซนเซอร์ดาวเทียม/hyperspectral, PLSR/Random Forest, R² ~0.7–0.9 — (ยังไม่ยืนยัน หมายเลขบทความ/ปีต้องค้นเพิ่ม → ดู Section 10)",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "องค์การบริหารจัดการก๊าซเรือนกระจก (TGO) / โครงการ T-VER — — เข้าถึงเมื่อ 2026-08-06",
+      "url": "https://ghgreduction.tgo.or.th/en/"
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-02-002.md",
+  "source_file": "02-ดิน จุลินทรีย์ และธาตุอาหาร\\เจาะลึก-02-คาร์บอนอินดินและคาร์บอนฟาร์มมิ่ง-MRV.md"
+}

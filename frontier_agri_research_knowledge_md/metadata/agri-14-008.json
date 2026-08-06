@@ -1,0 +1,218 @@
+{
+  "slug": "agri-14-008",
+  "title": "กลไกสนับสนุนรัฐและแหล่งเงินทุน AgTech ไทย (NIA, เงินกู้/VC รัฐ, BOI, กระทรวงเกษตรฯ, กองทุนต่าง ๆ)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-05",
+  "created_at": "2026-08-05",
+  "review_at": "2027-02-05",
+  "category": "สตาร์ทอัพ นวัตกรรม และการยอมรับเทคโนโลยี",
+  "domain_code": "14",
+  "topic_id": "14-008",
+  "handle_id": "14-008",
+  "abstract": "- **ใจความ**: หัวข้อนี้คือ \"แผนที่กลไกฝั่งนโยบาย/แหล่งเงินทุน\" ของ AgTech ไทย — เอกสารคู่ขนานกับไฟล์ 14-002 (แผนที่ผู้เล่น/ดีล) และ 14-001 (เงิน VC โลก) — มุ่งตอบว่า \"รัฐไทยมีกลไกอะไร วงเงินเท่าไร ผู้ประกอบการเข้าถึงได้อย่างไร และเทียบกับต่างประเทศเป็นอย่างไร\" ระบบไทยเป็นแบบ \"หลายชั้น\": (1) ทุนให้เปล่า/เงินอุดหนุน (NIA, บพข./กองทุน ววน.), (2) สิทธิประโยชน์ภาษี (BOI, มาตรการยกเว้น Capital Gains Tax), (3) สินเชื่อผ่อนปรน (ธ.ก.ส., กลไก NIA+ธนาคาร 7 แห่ง), (4) กลไกตลาดทุน (LiVEx, PE Trust), (5) กองทุนระดับฐานราก (กองทุนหมู่บ้าน/วิสาหกิจชุมชน) และ (6) ตลาดคาร์บอนภาคสมัครใจ (TGO/T-VER)",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.nia.or.th/service/financial-support",
+  "pdf_url": "https://www.boi.go.th/upload/content/PR13_2565TH.pdf",
+  "source_urls": [
+    "https://www.nia.or.th/service/financial-support",
+    "https://techsauce.co/news/nia-new-machanism-finance-supporting-innovative-businesses",
+    "https://nia.or.th/AGROWTH-2025-Demo-Day",
+    "https://www.opsmoac.go.th/datacenter-news-preview-472791791409",
+    "https://www.baac.or.th/th/out/index.html",
+    "https://www.thebangkokinsight.com/news/business/398712/",
+    "https://www.boi.go.th/upload/content/PR13_2565TH.pdf",
+    "https://www.nia.or.th/index.php/Source-of-Fund-for-AgTech-Startup-series-IV",
+    "http://www.boi.go.th/upload/Section1_en_22093.pdf",
+    "https://www.krungsri.com/th/newsandactivities/krungsri-banking-news/krungsri-finnovate-goal-global-venture-capital",
+    "https://www.nia.or.th/service/Capital-Gains-Tax",
+    "https://www.nia.or.th/STARTUPNIA",
+    "https://news.trueid.net/detail/EgV4MzzQmBp7",
+    "https://www.nia.or.th/QuickWin-Smart-Farming",
+    "https://nia.or.th/NIA-AgTech2025-DemoDay",
+    "https://www.krungsri.com/th/newsandactivities/krungsri-banking-news/bualuang-ventures-krungsri-finnovate-invest-recult",
+    "https://r236.ryt9.com/s/oae/3493172",
+    "https://www.doae.go.th/wp-content/uploads/2025/04/%E0%B8%A3%E0%B8%B2%E0%B8%A2%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%9C%E0%B8%A5-6-%E0%B9%80%E0%B8%94%E0%B8%B7%E0%B8%AD%E0%B8%99-%E0%B8%9B%E0%B8%B5-2568-%E0%B8%81%E0%B8%AA%E0%B8%81%E0%B8%93310368.pdf",
+    "https://www.prd.go.th/th/content/category/detail/id/33/iid/382735",
+    "https://carbonmarket.tgo.or.th/",
+    "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=2051719",
+    "https://innovationisrael.org.il/en/press_release/stimulus-to-boost-israeli-high-tech/",
+    "https://topsectoragrifood.nl/en/pps-call-for-innovation-boost-agri-food/",
+    "https://www.moa.gov.cn/nybgb/2024/202411/202411/t20241122_6466716.htm",
+    "https://www.searca.org/grains",
+    "https://pmuc.or.th/funding-program/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "NIA: การสนับสนุนด้านการเงิน (กลไก Regional/Mandatory Platform 7+5 กลไก, วงเงิน/สัดส่วนรายกลไก, Listed Investor 24 ราย) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nia.or.th/service/financial-support"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "NIA/Techsauce: \"NIA ปรับโฉมกลไกการเงิน 300 ล้านบาท\" (17 ต.ค. 2566; สัดส่วนเดิม 95% เป็นทุนสร้างต้นแบบ, สกสว. มอบหมายผลักดันเชิงพาณิชย์) — + — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://techsauce.co/news/nia-new-machanism-finance-supporting-innovative-businesses"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "NIA: \"AGROWTH 2025 Demo Day\" (30 บริษัท/6 ปี, เงินรวม >200 ล้านบาท, 8 ทีมปี 2568) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://nia.or.th/AGROWTH-2025-Demo-Day"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "NIA: ประกาศรายชื่อแหล่งทุนที่ผ่านการรับรอง (Listed Investor) 24 แหล่งทุน ลงวันที่ 22 ธ.ค. 2568 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nia.or.th/service/financial-support"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "สำนักงานปลัดกระทรวงเกษตรฯ/สื่อ: \"ธ.ก.ส. จัดสินเชื่อ Smart Tech หนุน Smart Farmer\" (วงเงิน 15,000 ล้านบาท, MRR−1 ≈ 5.625%, ผ่อนสูงสุด 10 ปี, เปิดตัวปี 2567) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.opsmoac.go.th/datacenter-news-preview-472791791409"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "ธ.ก.ส.: สินเชื่อนวัตกรรมดีมีเงินทุน (สูงสุด 300,000 บาท, 4% ปี 1–3, ระยะเวลาสูงสุด 10 ปี) — + — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.baac.or.th/th/out/index.html"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "The Bangkok Insight: \"สินเชื่อไร้ดอกเบี้ย 3 ปี ธ.ก.ส. จับมือ NIA\" (ชดเชยดอกเบี้ย ≤5 ล้านบาท/โครงการ ≤3 ปี; ความร่วมมือลงนามปี 2563) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.thebangkokinsight.com/news/business/398712/"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "BOI: ประชาสัมพันธ์บอร์ด BOI อนุมัติมาตรการส่งเสริมการลงทุนภาคเกษตร (Bio Hub, ศูนย์การค้าผลผลิตเกษตรดิจิทัล CIT 5 ปี, นิคมอุตสาหกรรมเกษตร-อาหาร, สมุนไพร) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.boi.go.th/upload/content/PR13_2565TH.pdf"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "NIA×BOI: สัมมนา \"Source of Fund for AgTech Startup series IV\" (15 มี.ค. 2566; ยุทธศาสตร์ BOI 2566–2570 9 มาตรการ; ตัวอย่าง เสโนเวท เอไอ, อีซีไรซ์) — + ข่าว BOI เกษตรสมัยใหม่ (CIT 8 ปีเครื่องจักรกล/ระบบเกษตรสมัยใหม่, 3 ปีบริการ) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nia.or.th/index.php/Source-of-Fund-for-AgTech-Startup-series-IV"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "BOI: คู่มือประเภทกิจการ หมวด 1 เกษตรกรรมและผลิตผลการเกษตร (Section 1) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "http://www.boi.go.th/upload/Section1_en_22093.pdf"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Krungsri Finnovate: \"เป้าหมาย Global Venture Capital\" (มี.ค. 2568: 4,039 ล้านบาท/25 สตาร์ทอัพ/4 ยูนิคอร์น, FinnoVenture PE Trust I 2,700 ล้านบาท ลงแล้ว 1,731 ล้านบาท/15 ราย) + The Story Thailand: แผนปี 2569 FinnoEfra PE Trust 5 บริษัท (เม.ย. 2569) — + — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.krungsri.com/th/newsandactivities/krungsri-banking-news/krungsri-finnovate-goal-global-venture-capital"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "NIA: การรับรองบริษัทเป้าหมาย (Capital Gains Tax) — พ.ร.ฎ. (ฉบับที่ 750) พ.ศ. 2565 มีผล 15 มิ.ย. 2565–30 มิ.ย. 2575, 14 อุตสาหกรรม, รายได้ ≥80%, ถือหุ้น ≥24 เดือน + ประมาณการ ≥3 แสนล้านบาท/5 แสนตำแหน่ง — + — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nia.or.th/service/Capital-Gains-Tax"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "NIA: \"Startup ไทย ในบทบาทของ NIA\" (มติ ครม. 7 พ.ค. 2562, One-Stop Service, กองทุนพัฒนาและส่งเสริมวิสาหกิจ) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nia.or.th/STARTUPNIA"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "LiVEx: \"ครบรอบ 4 ปี\" (10 บริษัท, 5,477.25 ล้านบาท, ระดมทุน 395 ล้านบาท ณ 5 พ.ค. 2569; เปิด 2565, ย้ายไป mai 1 ราย) — + กลต. ประกาศเกณฑ์ LiVEx มีผล 16 ม.ค. 2568 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://news.trueid.net/detail/EgV4MzzQmBp7"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "NIA: \"โดรนคนละครึ่งพลัส สู่ Smart Farming\" (40 บาท/ไร่, 100,000 ไร่, ≤30 ไร่/ราย, นำร่อง อยุธยา-อ่างทอง-ปทุมธานี ธ.ค. 2568–มิ.ย. 2569; โดรน 3 สตาร์ทอัพไทย) — + — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nia.or.th/QuickWin-Smart-Farming"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "NIA: AgTech Connext 2025 Demo Day (11 ก.ย. 2568; 50 กลุ่ม/5 จังหวัด, ผลผลิต-รายได้ >20%; รางวัลจาก ธ.ก.ส.) + NIA×ADB (5 สตาร์ทอัพ, แปลงสาธิต 12 ไร่ สุพรรณบุรี, ต.ค. 2567) — + — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://nia.or.th/NIA-AgTech2025-DemoDay"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Krungsri: \"2 บิ๊กแบงก์ร่วมลงทุน Ricult\" (Bualuang Ventures + Krungsri Finnovate; ข้อมูลปี 2564: เกษตรกรไทย 2 แสนราย/โลก 1 แสนราย, Pre-Series A, ทุนจาก Angel/VC/Gates Foundation) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.krungsri.com/th/newsandactivities/krungsri-banking-news/bualuang-ventures-krungsri-finnovate-invest-recult"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "RYT9/สำนักงานเศรษฐกิจการเกษตร: \"เกษตรฯ ชงเสนองบ ปี 68 รวม 4.37 แสนล้านบาท\" (437,340 ล้านบาท; 9 ประเด็น 357,276 ล้านบาท; รายได้ 3 เท่าใน 4 ปี) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://r236.ryt9.com/s/oae/3493172"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "กรมส่งเสริมการเกษตร: แผนปฏิบัติราชการ/รายงานผล 6 เดือน ปีงบ 2568 (Smart Farmer เป้า 11,635 ราย, อบรมแล้ว 11,036 ราย) + ศูนย์ข่าว กสก. เปิดรับสมัคร SF/YSF ปี 2569 — + — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.doae.go.th/wp-content/uploads/2025/04/%E0%B8%A3%E0%B8%B2%E0%B8%A2%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%9C%E0%B8%A5-6-%E0%B9%80%E0%B8%94%E0%B8%B7%E0%B8%AD%E0%B8%99-%E0%B8%9B%E0%B8%B5-2568-%E0%B8%81%E0%B8%AA%E0%B8%81%E0%B8%93310368.pdf"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "กรมประชาสัมพันธ์: \"รัฐบาลเติมงบ 11,392 ล้านบาท กองทุนหมู่บ้าน ปี 2568\" (21 เม.ย. 2568) + The Standard: \"ไทยช่วยไทย เพิ่มทุน\" รอบแรก 570 กองทุน/38.53 ล้านบาท และเพิ่มทุนระยะ 3 = 3,400 ล้านบาท (26 มิ.ย. 2569) — + — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.prd.go.th/th/content/category/detail/id/33/iid/382735"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "TGO: ตลาดคาร์บอน (สถิติซื้อขาย/ราคารายประเภท) — + Energy Thai Chamber: สถิติถึง 30 เม.ย. 2568 (สะสม 3,358,208 tCO₂e/320.1 ล้านบาท) + Than Settakij: Q1 ปีงบ 68 (สะสม 3,589,957 tCO₂e/323.94 ล้านบาท; ราคาเกษตรยืนต้น 1,000 บาท/tCO₂e) — + — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://carbonmarket.tgo.or.th/"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "PIB India: \"Digital Agriculture Mission\" (₹2,817 crore/กลาง ₹1,940 crore, 2 ก.ย. 2567; 11 crore farmer IDs; 6 แผนงาน ₹14,235.3 crore) — + Global Agriculture: RKVY agri-startup (2,096 ราย/₹168.14 crore FY2019–20 ถึง 2025–26; pre-seed ₹5 แสน, seed ₹25 แสน; >6,000 รายอบรม) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=2051719"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "Israel Innovation Authority: stimulus package (15 ม.ค. 2567: Pre-Seed 60% cap ₪1.5M, Seed 50% cap ₪5M, Round A 30% cap ₪15M) — + Jerusalem Post: agritech pilot ₪16M เขตฉนวนกาซา (21 ส.ค. 2567) — + Statista: IIA agri-foodtech grants 2023 (ตัวเลขไม่เปิด) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://innovationisrael.org.il/en/press_release/stimulus-to-boost-israeli-high-tech/"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "TKI Agri&Food/Topsector: PPS Call 2026 (€2.5 ล้าน, ≤€500k/โครงการ, ≤2 ปี, co-financing ≥50%) — + Foodvalley SME Innovation Voucher (€10k–50k, งบขยาย €1.3M) — + Graduate Ventures WUR (มี.ค. 2569: pre-seed เฉลี่ย €100k, seed €500k–2M) + StartLife (Startup Fund Gelderland €25k–250k; Rabobank Innovation Fund €20M) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://topsectoragrifood.nl/en/pps-call-for-innovation-boost-agri-food/"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "MARA จีน: 全国智慧农业行动计划(2024—2028年) (informatization >30% ปลาย 2026, >32% ปลาย 2028; นำร่องเจ้อเจียง 1,000+ โรงงานดิจิทัล/100 ฟาร์มอนาคต) — + OECD Agricultural Policy Monitoring 2025: China (ประกันภัยการเกษตร ¥54.5 พันล้าน พ.ค. 2567; ฉบับที่ 1 ปี 2025 เน้น biotech+ดิจิทัลครั้งแรก) — + China Briefing (informatization 25.4% 2021→27.6% 2023) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.moa.gov.cn/nybgb/2024/202411/202411/t20241122_6466716.htm"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "SEARCA GRAINS 2025 (สถาบัน US$10–15k, บุคคล US$5–10k; เปิดรับถึง 22 ต.ค. 2568) — + Grow Asia (4 กองทุน blended finance เปิด 2565; GrowVentures Fund; 70 ล้านวิสาหกิจรายย่อย SEA) — + Better Earth Ventures ClimAccelerator AgriTech Singapore (350+ สตาร์ทอัพ/$500M+) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.searca.org/grains"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "บพข./PMUC: 8 กลุ่มแผนงานหลัก (รวมอาหารมูลค่าสูง/ผลิตภัณฑ์เกษตรมูลค่าสูง), คู่มือส่งข้อเสนอโครงการ — + — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://pmuc.or.th/funding-program/"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "Amity Robotics Seed US$7M (ก.ค. 2569) — อ้างอิงข้ามจาก \"เจาะลึก-14-สตาร์ทอัพ-AgTech-ไทย-SEA\" (14-002) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    }
+  ],
+  "reference_count": 28,
+  "article_file": "agri-14-008.md",
+  "source_file": "14-สตาร์ทอัพ นวัตกรรม และการยอมรับเทคโนโลยี\\เจาะลึก-14-กลไกสนับสนุนรัฐ-เงินทุน-AgTech-ไทย.md"
+}

@@ -1,0 +1,59 @@
+{
+  "slug": "agri-02-009",
+  "title": "การจัดการดินทรายภาคอีสาน — ความชื้นและธาตุอาหาร",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ดิน จุลินทรีย์ และธาตุอาหาร",
+  "domain_code": "02",
+  "topic_id": "02-009",
+  "handle_id": "02-009",
+  "abstract": "- **ใจความ**: ดินทรายภาคอีสาน (เนื้อดินทราย/ทรายปนดินร่วน) เก็บน้ำและธาตุอาหารต่ำ (CEC ต่ำ, OM ต่ำ, น้ำซึมเร็ว) — เป็นข้อจำกัดหลักของผลผลิตข้าว/มันสำปะหลัง/อ้อยในภูมิภาคที่ฝนไม่สม่ำเสมอ [1] วิธีแก้หลัก: เพิ่มอินทรียวัตถุ/ไบโอชาร์, เทคนิค \"ขุดหลุม-ฝังดินเหนียว\" (clay amendment), พืชคลุมดิน/ไถอนุรักษ์, วัสดุอุ้มน้ำ (superabsorbent) [1][2]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.ldd.go.th",
+  "pdf_url": null,
+  "source_urls": ["https://www.ldd.go.th", "https://so01.tci-thaijo.org/"],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "กรมพัฒนาที่ดิน: เอกสารชุดดิน/แผนที่ดินภาคตะวันออกเฉียงเหนือ — — เข้าถึงเมื่อ 2026-08-02 *(ตัวเลขพื้นที่ — ดูหัวข้อ 10)*",
+      "url": "https://www.ldd.go.th"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "กรมพัฒนาที่ดิน/มหาวิทยาลัยขอนแก่น: เอกสารเทคนิคปรับปรุงดินทราย (ขุดหลุมฝังวัสดุ/ดินเหนียว) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "บทความไบโอชาร์ในดินทราย/นาข้าว (Soil & Tillage Research; Agriculture, Ecosystems & Environment) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "เอกสารสเปก superabsorbent polymer (ผู้ผลิต) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งานวิจัยมันสำปะหลัง/อ้อยบนดินทรายอีสาน (มข./ศูนย์วิจัยพืชไร่ — ผ่าน TCI-Thaijo) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so01.tci-thaijo.org/"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Analyst report: Soil Amendments Market — MarketsandMarkets/Grand View — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-02-009.md",
+  "source_file": "02-ดิน จุลินทรีย์ และธาตุอาหาร\\เจาะลึก-02-การจัดการดินทรายภาคอีสาน.md"
+}

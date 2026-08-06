@@ -1,0 +1,87 @@
+{
+  "slug": "agri-14-001",
+  "title": "การลงทุน AgTech ทั่วโลก 2025–2026",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-01",
+  "created_at": "2026-08-01",
+  "review_at": "2027-02-01",
+  "category": "สตาร์ทอัพ นวัตกรรม และการยอมรับเทคโนโลยี",
+  "domain_code": "14",
+  "topic_id": "14-001",
+  "handle_id": "14-001",
+  "abstract": "- **ใจความ**: เงินลงทุน Agrifoodtech ทั่วโลกปี 2025 เกือบคงที่ — ยอดรวม **$16.2 พันล้านดอลลาร์ (-3% YoY)** แต่เกิด \"การเปลี่ยนทิศของเงิน\" ครั้งสำคัญ: นักลงทุนเขียนเช็คแบบคัดเลือกมากขึ้น มุ่งสู่บริษัทที่มีวิทยาศาสตร์จับต้องได้ หน่วยเศรษฐศาสตร์จริง และทางชัดสู่รายได้ แทนที่จะโตแบบ \"growth-at-all-costs\" ในยุค 2021 [1] เงินไหลเข้าสู่ **Upstream agtech** (เทคโนโลยีสำหรับฟาร์ม/การผลิตอาหาร/ระบบชีวภาพ) ถึง **$9 พันล้าน +7% YoY** แม้จำนวนดีลจะลดลง 12% [1]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://agfunder.com/agfunder-global-agrifoodtech-investment-report-2026/",
+  "pdf_url": null,
+  "source_urls": [
+    "https://agfunder.com/agfunder-global-agrifoodtech-investment-report-2026/",
+    "https://agfunder.com/research/",
+    "https://agfundernews.com/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "AgFunder: Global AgriFoodTech Investment Report 2026 (ครอบคลุมปี 2025) — ยอดรวม $16.2B (-3%), upstream $9B (+7%, ดีล -12%), mega deal เล็กลง 80%, บทวิเคราะห์ deeptech — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://agfunder.com/agfunder-global-agrifoodtech-investment-report-2026/"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "AgFunder: Global AgriFoodTech Investment Report 2025 (ครอบคลุมปี 2024) — $16B (-4%) — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://agfunder.com/research/"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "AgFunder Research (หน้าแสดงรายงาน) — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://agfunder.com/research/"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "AgFunder: Developing Markets AgriFoodTech Investment Report 2025 — ตลาดเกิดใหม่ +63% (2023→2024) vs โลก -4% — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://agfunder.com/research/"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "AgFunder: Asia-Pacific AgriFoodTech Investment Report 2024 — APAC $4.2B ณ ต.ค. 2567 (+38%) — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://agfunder.com/research/"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "AgFunder: Africa AgriFoodTech Investment Report 2024 — แอฟริกา H1 2567 $145M (+1.6%), 2023 $275M (-62%) — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://agfunder.com/research/"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "AgFunder: India 2024 AgriFoodTech Investment Report — อินเดีย 2023 $940M/129 ดีล (-60%) — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://agfunder.com/research/"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "AgFunderNews (หน้าแรก ข่าวรายเดือด 2026): Micropep, Moa $30M, Quercus $5M, Cargill Ventures, cultivated meat post-crash, All G, Hippo Harvest $30M, Athian/Brazil beef inset, Drone Motors — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://agfundernews.com/"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "AgFunder/ISF Advisors + BMGF: Climate Capital (Financing Adaptation Pathways for Smallholder Farmers) — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://agfunder.com/research/"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "AgFunder: 2021 AgriFoodTech Investment Report — ปี 2020 ยอดรวม $26.1B (+15.5%) — — เข้าถึงเมื่อ 2026-08-01",
+      "url": "https://agfunder.com/research/"
+    }
+  ],
+  "reference_count": 10,
+  "article_file": "agri-14-001.md",
+  "source_file": "14-สตาร์ทอัพ นวัตกรรม และการยอมรับเทคโนโลยี\\เจาะลึก-14-การลงทุน-AgTech-2025-2026.md"
+}

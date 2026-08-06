@@ -1,0 +1,201 @@
+{
+  "slug": "agri-12-007",
+  "title": "แรงงานเกษตรสูงวัยและการแทนที่ด้วยเครื่องจักรกล",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-04",
+  "created_at": "2026-08-04",
+  "review_at": "2027-02-04",
+  "category": "ระบบอาหาร เศรษฐศาสตร์ และนโยบาย",
+  "domain_code": "12",
+  "topic_id": "12-007",
+  "handle_id": "12-007",
+  "abstract": "- **ใจความ**: ภาคเกษตรไทยกำลัง \"สูงวัย-หดตัว\": แรงงานภาคเกษตรเหลือ ~31% ของการจ้างงานรวม (2566) จากกว่า 40% ในช่วงต้นทศวรรษ 2540 [1][2] — อายุเฉลี่ยหัวหน้าครัวเรือนเกษตรเพิ่มเป็น ~58–60 ปี ขณะที่สัดส่วนเกษตรกรอายุ 60+ เพิ่มขึ้นต่อเนื่อง และเกษตรกรอายุน้อยกว่า 35 ปีมีไม่ถึง ~10% [3][4] — ครัวเรือนเกษตรลดจาก ~6.3 ล้าน (สำมะโน 2556) เหลือ ~5.8 ล้าน (สำมะโน 2566) [5] — เครื่องจักรกลจึงเป็นตัวชดเชยแรงงานหลัก: ไทยใช้รถแทรกเตอร์/รถเกี่ยวนวดหนาแน่นสูงในอาเซียน และติดอันดับโลกด้านโดรนเกษตร [6][7] — นัยต่อไทย: การเปลี่ยนผ่านสู่ \"เกษตรไร้คน/คนน้อยแต่ทักษะสูง\" เป็นเรื่องจำเป็น ไม่ใช่ทางเลือก แต่ต้องคำนึงถึงต้นทุนการเข้าถึงของรายย่อยและระบบรับจ้างบริการ [6][8]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.nso.go.th",
+  "pdf_url": null,
+  "source_urls": [
+    "https://www.nso.go.th",
+    "https://ilostat.ilo.org",
+    "https://www.fao.org",
+    "https://www.worldbank.org/en/country/thailand",
+    "https://www.fao.org/faostat",
+    "https://www.oae.go.th",
+    "https://www.doae.go.th",
+    "https://www.tdri.or.th",
+    "https://www.mol.go.th",
+    "https://www.sciencedirect.com/journal/journal-of-rural-studies",
+    "https://www.adb.org",
+    "https://www.ifad.org",
+    "https://www.nesdc.go.th",
+    "https://www.tci-thaijo.org",
+    "https://www.prachachat.net",
+    "https://www.doa.go.th",
+    "https://www.thaipost.net",
+    "https://www.bot.or.th",
+    "https://www.oecd.org",
+    "https://www.sciencedirect.com",
+    "https://www.kasikornresearch.com"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "สำนักงานสถิติแห่งชาติ. \"การสำรวจภาวะการทำงานของประชากร (Labor Force Survey).\" 2560–2566. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.nso.go.th"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "ILO. \"ILOSTAT — Employment by sector: Thailand.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://ilostat.ilo.org"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "FAO. \"The State of Food and Agriculture\" (การจ้างงานชนบท/คนรุ่นใหม่). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.fao.org"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "World Bank. \"Thailand – Rural Labor and Agriculture\" (งานศึกษาแรงงานชนบท). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.worldbank.org/en/country/thailand"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "สำนักงานสถิติแห่งชาติ. \"สำมะโนการเกษตร พ.ศ. 2566 (Agricultural Census).\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.nso.go.th"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "FAO. \"FAOSTAT — Agricultural machinery\" (ข้อมูลเครื่องจักรกลเกษตรรายประเทศ). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.fao.org/faostat"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "สำนักงานเศรษฐกิจการเกษตร (สศก.). \"รายงานการใช้เทคโนโลยีการเกษตรและโดรน\" 2565–2566. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.oae.go.th"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "กรมส่งเสริมการเกษตร. \"โครงการ Young Smart Farmer และการรวมแปลงใหญ่.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.doae.go.th"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "สถาบันวิจัยเพื่อการพัฒนาประเทศไทย (TDRI). \"งานศึกษาแรงงานภาคเกษตรไทยและการยอมรับเทคโนโลยี.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.tdri.or.th"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "กระทรวงแรงงาน. \"สถิติแรงงานต่างด้าวในภาคการเกษตร.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.mol.go.th"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Journal of Rural Studies. \"งานวิจัยการสูงวัยของแรงงานเกษตรในเอเชีย (Aging farm labor)\" — สังเคราะห์. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.sciencedirect.com/journal/journal-of-rural-studies"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Asian Development Bank (ADB). \"Aging, Agriculture and Rural Development in Asia.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.adb.org"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "IFAD. \"Rural Youth Employment\" (โอกาส-อุปสรรคคนรุ่นใหม่ในชนบท). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.ifad.org"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "สำนักงานสภาพัฒนาการเศรษฐกิจและสังคมแห่งชาติ (สศช.). \"รายงานภาวะสังคมไทย\" (โครงสร้างประชากร). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.nesdc.go.th"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "มหาวิทยาลัย/วารสารไทย (TCI). \"งานศึกษาการยอมรับเครื่องจักรกลและโดรนของเกษตรกรไทยรายจังหวัด.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.tci-thaijo.org"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "FAO. \"Agricultural Mechanization: A Key Input for Sub-Saharan Africa/Asia\" (บทบาทเครื่องจักรกลทดแทนแรงงาน). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.fao.org"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "ประชาชาติธุรกิจ. \"โดรนเกษตรไทย: พื้นที่พ่นสารหลายสิบล้านไร่ต่อปี.\" 2566. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.prachachat.net"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "กรมวิชาการเกษตร. \"การรับรองมาตรฐานการพ่นสารด้วยอากาศยานไร้คนขับ (โดรน).\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.doa.go.th"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "สำนักงานเศรษฐกิจการเกษตร. \"ภาวะเศรษฐกิจการเกษตร\" (แรงงาน/โครงสร้างการผลิต). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.oae.go.th"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "ไทยโพสต์/ฐานเศรษฐกิจ. \"วิกฤตขาดแคลนแรงงานเก็บเกี่ยวและแนวโน้มค่าแรงภาคเกษตร.\" 2567–2568. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.thaipost.net"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "ธนาคารแห่งประเทศไทย. \"บทความเศรษฐกิจภาคการเกษตร: แรงงานและผลิตภาพ.\" — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.bot.or.th"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "OECD. \"Agricultural Policy Monitoring and Evaluation\" (ไทย). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.oecd.org"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "World Bank. \"Thailand Economic Monitor\" (ตอนแรงงานและการเปลี่ยนผ่านโครงสร้าง). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.worldbank.org/en/country/thailand"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "Liu, Y., Yamauchi, F. \"Population aging, farm size, and farm exit/mechanization in Asia.\" Journal of Rural Studies / World Development, 2022–2023. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.sciencedirect.com"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "กสิกรไทย KResearch. \"ตลาดเครื่องจักรกลการเกษตรไทยและบริการรับจ้าง.\" 2566. — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.kasikornresearch.com"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "สำนักงานสถิติแห่งชาติ. \"รายงานประชากรสูงอายุไทย\" (สถานการณ์สูงวัย). — เข้าถึงเมื่อ 2026-08-04",
+      "url": "https://www.nso.go.th"
+    }
+  ],
+  "reference_count": 26,
+  "article_file": "agri-12-007.md",
+  "source_file": "12-ระบบอาหาร เศรษฐศาสตร์ และนโยบาย\\เจาะลึก-12-แรงงานเกษตรสูงวัย-เครื่องจักรกล.md"
+}

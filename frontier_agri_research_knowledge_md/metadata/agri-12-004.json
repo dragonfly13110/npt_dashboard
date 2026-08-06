@@ -1,0 +1,311 @@
+{
+  "slug": "agri-12-004",
+  "title": "EUDR ไม้ ยาง ปาล์ม โกโก้ กาแฟ ถั่วเหลือง โค — มาตรฐานการค้ายุโรปกับสินค้าเกษตรไทย (CBAM และ NTB)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ระบบอาหาร เศรษฐศาสตร์ และนโยบาย",
+  "domain_code": "12",
+  "topic_id": "12-004",
+  "handle_id": "12-004",
+  "abstract": "- **ใจความ**: EUDR (Regulation (EU) 2023/1115) คือกฎหมายบังคับ (ไม่ใช่มาตรฐานสมัครใจ) ที่ห้ามสินค้า 7 กลุ่ม — ไม้ ยางพารา ปาล์ม โกโก้ กาแฟ ถั่วเหลือง โค — เข้าตลาด EU หากพิสูจน์ไม่ได้ว่า \"ปลอดการทำลายป่า\" ผ่าน Due Diligence Statement (DDS) พร้อมพิกัดภูมิศาสตร์แปลงปลูก (geolocation) [1] — ถูกเลื่อนบังคับใช้ 2 ครั้ง: ผู้ประกอบการรายใหญ่-กลาง เริ่ม 2026-12-30, รายย่อย-เล็ก (สินค้าไม่ใช่ไม้) 2027-06-30 [2][3][4] — ไทยถูกจัด \"ประเทศความเสี่ยงต่ำ (Low Risk)\" จึงได้ตรวจ 1% + Due Diligence แบบย่อ [10][11][14] — สินค้าไทยที่กระทบมากสุดคือยางพารา (คิด 92% ของมูลค่าส่งออกสินค้า EUDR ไทยไป EU) [14] รองลงมาไม้และปาล์ม [15] — ด้านคาร์บอน CBAM เริ่มระยะ definitive 2026-01-01 ราคาใบรับรอง Q1/2569 ที่ €75.36",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R1115",
+  "pdf_url": "https://environment.ec.europa.eu/document/download/15e6d00c-28bc-48db-9b32-b485742d372b_en?filename=Proposal%20for%20a%20Regulation%20-%20EUDR.pdf",
+  "source_urls": [
+    "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R1115",
+    "https://eudr-navigator.com/deadlines",
+    "https://www.consilium.europa.eu/en/press/press-releases/2025/12/18/deforestation-council-signs-off-targeted-revision-to-simplify-and-postpone-the-regulation/",
+    "https://getbindu.com/eudr/deadlines",
+    "https://environment.ec.europa.eu/document/download/15e6d00c-28bc-48db-9b32-b485742d372b_en?filename=Proposal%20for%20a%20Regulation%20-%20EUDR.pdf",
+    "https://www.mayerbrown.com/en/insights/publications/2025/10/the-european-commission-proposes-targeted-eudr-simplification-measures",
+    "https://ec.europa.eu/commission/presscorner/api/files/document/print/en/ip_26_941/IP_26_941_EN.pdf",
+    "https://epoch.blue/article/eudr-simplification-who-actually-saves/index.html",
+    "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R3234",
+    "https://green-forum.ec.europa.eu/countries-and-partnerships/country-classification-list_en",
+    "https://eur-lex.europa.eu/eli/reg_impl/2025/1093/oj/eng",
+    "https://eudrscope.com/guide/eudr-country-benchmarking-risk-tiers/",
+    "https://www.coolset.com/academy/2-eudr-country-risk-classification-review-2026-what-changes-when-the-benchmarks-are-updated",
+    "https://www.bot.or.th/th/research-and-publications/research/economic-pulse/economic-pulse-202509.html",
+    "https://thaipublica.org/2023/12/krungsri-research-on-eu-deforestation-regulation/",
+    "https://thaipublica.org/2025/03/setthakittiddin05-eudr",
+    "https://www.prachachat.net/hilight-prachachat/news-1511042",
+    "https://www.ryt9.com/s/iq03/3527135",
+    "https://thailand.go.th/issue-focus-detail/thailand-launches-eudr-one-data-platform-for-farm-exports",
+    "https://www.dtn.go.th/th/file/get/file/1.2026033119dc59ad5edd43edef855cbda6e35068112424.pdf",
+    "https://www.tpso.go.th/news/2502-0000000023",
+    "https://www.thansettakij.com/economy/trade-agriculture/627537",
+    "https://www.prachachat.net/economic/news-2014497",
+    "https://brussels.thaiembassy.org/th/content/การเจรจาความตกลงการค้าเสรีไทย-สหภาพยุโรป-thai-eu-f",
+    "https://www.thaipost.net/hi-light/1027728/",
+    "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R0956",
+    "https://agrinfo.eu/book-of-reports/review-of-eu-carbon-border-adjustment-mechanism-cbam/pdf",
+    "https://www.greentryst.com/guides/cbam-2026-definitive-regime",
+    "https://cbamguide.com/learn/eu-cbam/",
+    "https://www.pwc.nl/en/insights-and-publications/tax-news/other/ec-proposes-cbam-expansion-to-180-downstream-products.html",
+    "https://sustainablefutures.linklaters.com/post/102me4c/eu-commission-proposes-to-extend-cbam-scope-and-adopts-implementing-legislation",
+    "https://www.mondaq.com/contracts-and-commercial-law/1724768/cbam-implementation-package-published-and-proposals-for-future-expansion",
+    "https://www.thailandplus.tv/archives/831188",
+    "https://environment.ec.europa.eu/document/download/9b5c8907-8651-440f-be8f-bb2d3d549763_en?filename=Commission%20Staff%20Working%20Document%20on%20Delegated%20Regulation%20on%20EUDR%20list%20of%20relevant%20commodities%20and%20products.pdf",
+    "https://news.mongabay.com/2025/03/eudr-compliance-costs-to-be-minimal-report-finds-but-industry-disagrees/",
+    "https://agrinfo.eu/book-of-reports/organic-products-recognition-of-control-bodies/",
+    "https://agrinfo.eu/book-of-reports/eu-vision-for-agriculture-and-food-20252029/",
+    "https://www.fas.usda.gov/data/gain/2026/02/european-union-eu-proposes-reduce-mrls-limit-quantification-pesticides-imported-products",
+    "https://www.salika.co/2026/02/26/eu-deforestation-regulation-2026/",
+    "https://www.tpso.go.th/news/2602-0000000013",
+    "https://www.doa.go.th/hort/wp-content/uploads/2026/03/แผนพัฒนากาแฟแห่งชาติ-ฉบับที่-1-พ.ศ.-2568-–-2575.pdf"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "European Commission/EP/Council. \"Regulation (EU) 2023/1115 on deforestation-free products (EUDR).\" Official Journal of the EU, 2023. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R1115"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "EUDR Navigator. \"EUDR Deadlines & Timeline (2026 & 2027).\" 2026-06-04. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://eudr-navigator.com/deadlines"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Council of the EU. \"Regulation (EU) 2025/2650 — second postponement and targeted simplifications of EUDR (published OJ 2025-12-23).\" 2025-12-18. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2025/12/18/deforestation-council-signs-off-targeted-revision-to-simplify-and-postpone-the-regulation/"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Bindu/HQTS/TracePlot. \"EUDR deadline 2026/2027: the dates that actually apply (Reg (EU) 2025/2650, Art. 38).\" 2026-07-11. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://getbindu.com/eudr/deadlines"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "European Commission. \"Proposal COM(2025) 652 final amending Regulation (EU) 2023/1115 (information system: opened 2024-11-06, launched 2024-12-04).\" 2025-10-21. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://environment.ec.europa.eu/document/download/15e6d00c-28bc-48db-9b32-b485742d372b_en?filename=Proposal%20for%20a%20Regulation%20-%20EUDR.pdf"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Mayer Brown. \"The European Commission Proposes Targeted EUDR Simplification Measures (micro/small primary operators, downstream relief, grace period).\" 2025-10-30. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.mayerbrown.com/en/insights/publications/2025/10/the-european-commission-proposes-targeted-eudr-simplification-measures"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "European Commission. \"Commission publishes simplification review of EU deforestation regulation (IP/26/941).\" 2026-05-04. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://ec.europa.eu/commission/presscorner/api/files/document/print/en/ip_26_941/IP_26_941_EN.pdf"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Epoch Blue. \"EUDR Simplification 2026: Who Actually Saves €6.1 Billion (COM(2026) 191; €8.1bn→€2.0bn; per-tonne industry estimates €15–40/€40–80).\" 2026-05-29. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://epoch.blue/article/eudr-simplification-who-actually-saves/index.html"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "European Commission. \"Regulation (EU) 2024/3234 — first postponement of EUDR application.\" OJ, 2024-12-19. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R3234"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "European Commission, Green Forum. \"EUDR Country Classification List — Thailand: low risk category.\" 2026. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://green-forum.ec.europa.eu/countries-and-partnerships/country-classification-list_en"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "European Commission. \"Implementing Regulation (EU) 2025/1093 — EUDR benchmarking (adopted 2025-05-22).\" EUR-Lex. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://eur-lex.europa.eu/eli/reg_impl/2025/1093/oj/eng"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "eudrscope.com. \"EUDR country benchmarking: low, standard & high-risk explained (~140 low-risk countries; high risk: Belarus, DPRK, Myanmar, Russia).\" 2026-07-09. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://eudrscope.com/guide/eudr-country-benchmarking-risk-tiers/"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Coolset Academy. \"EUDR country risk classification: how 2026 benchmark updates affect your compliance strategy (FAO FRA 2025-10; first review 2026).\" 2026-07-27. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.coolset.com/academy/2-eudr-country-risk-classification-review-2026-what-changes-when-the-benchmarks-are-updated"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "พิมลพรรณ์ โสรีกุล, ณิชมล ปัญญาวชิโรกุล, ศุภณิดา รัตนบุรี. \"ผลกระทบของกฎระเบียบ EU Deforestation Regulation (EUDR) ต่ออุตสาหกรรมยางพาราไทย.\" Economic Pulse Issue 9, ธนาคารแห่งประเทศไทย, 2025-09-23. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.bot.or.th/th/research-and-publications/research/economic-pulse/economic-pulse-202509.html"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "วิจัยกรุงศรี (Krungsri Research). \"EUDR เมื่อสินค้าที่ส่งออกไปสหภาพยุโรปต้องปราศจากการทำลายป่า.\" ธนาคารกรุงศรีอยุธยา, 2023-12-18 (สรุปใน ThaiPublica 2023-12-28). (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://thaipublica.org/2023/12/krungsri-research-on-eu-deforestation-regulation/"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "จิตเกษม พรประพันธ์. \"ยางไทยไม่ใช่ยางเทา: EUDR โอกาสและการปรับตัว ยกเครื่องอุตสาหกรรมยางพาราไทย (ปริมาณซื้อขายยาง EUDR 2567: 297,703 ตัน; พื้นที่ 6.4 แสนไร่; 30 ล้านไร่; เอกสารสิทธิ 83.3%).\" ThaiPublica, 2026-02-23. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://thaipublica.org/2025/03/setthakittiddin05-eudr"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "ประชาชาติธุรกิจ. \"กยท. มั่นใจยางทะลุ 100 บาท/กก. ระบบ EUDR การันตีไม่รุกป่า (งบ TRT 50 ล้านบาท; NER: ผู้ซื้อจ่ายเพิ่ม 10–15%).\" 2024-02-27. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.prachachat.net/hilight-prachachat/news-1511042"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "สำนักข่าวอินโฟเควสท์ (IQ). \"กยท. ประเดิมซื้อขายน้ำยางสด EUDR ครั้งแรก ราคาสูงสุด 78 บาท/กก. (138,000 กก. มูลค่า 10.5 ล้านบาท).\" RYT9, 2024-06-26. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.ryt9.com/s/iq03/3527135"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "กรมประชาสัมพันธ์ (thailand.go.th). \"Thailand Launches EUDR One Data Platform for Farm Exports (ARDA NESW, eudrthai.com; 10 agencies; >64.9 billion baht).\" 2026-06-19. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://thailand.go.th/issue-focus-detail/thailand-launches-eudr-one-data-platform-for-farm-exports"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "กรมเจรจาการค้าระหว่างประเทศ (DTN). \"ความสัมพันธ์ทางการค้าไทย–สหภาพยุโรป (การค้ารวม 2568: 45,033.47 ล้านดอลลาร์; ส่งออก 26,449.08 ล้านดอลลาร์ +9.27%; ดุลเกิน 7,864.69 ล้านดอลลาร์).\" กระทรวงพาณิชย์, 2026-03-26. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.dtn.go.th/th/file/get/file/1.2026033119dc59ad5edd43edef855cbda6e35068112424.pdf"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "สำนักงานนโยบายและยุทธศาสตร์การค้า (สนค./TP SO). \"พาณิชย์เผยสถิติที่สุดแห่งปี การส่งออกสินค้าเกษตรไทย ปี 67 (ยางพารา 4,992.4 ล้านดอลลาร์ สัดส่วน 17.32%).\" 2025-02-04. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.tpso.go.th/news/2502-0000000023"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "สำนักงานเศรษฐกิจการเกษตร (สศก.). \"สศก. เผยภาพรวมส่งออกสินค้าเกษตรไทยปี 2567 (EU = 9% ของการค้าสินค้าเกษตรไทย).\" ผ่านฐานเศรษฐกิจ, 2025-05-14. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.thansettakij.com/economy/trade-agriculture/627537"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "ประชาชาติธุรกิจ. \"ไทยถก EU เร่งยกระดับเกษตรรับกติกาเขียว ดัน FTA เปิดทางสินค้าไทยบุกยุโรป (7 เดือนแรก 2568: เกษตร-อาหาร-ยางไป EU 1.17 แสนล้านบาท +2.26%).\" 2026-05-29. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.prachachat.net/economic/news-2014497"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "สถานเอกอัครราชทูตไทย ณ กรุงบรัสเซลส์. \"การเจรจาความตกลงการค้าเสรีไทย–สหภาพยุโรป (Thai–EU FTA): รอบ 8 (2026-02-02/06 เชียงใหม่) สรุป 11/24 บท; รอบ 5 (เม.ย. 2568) มีบทระบบอาหารยั่งยืน.\" 2026-03-07. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://brussels.thaiembassy.org/th/content/การเจรจาความตกลงการค้าเสรีไทย-สหภาพยุโรป-thai-eu-f"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "ไทยโพสต์/ส.อ.ท. \"ศุภจี เผยเจรจา FTA ไทย–EU รอบที่ 9 คืบหน้าเข้าสู่โค้งสุดท้าย สรุป 15/24 บท (~2 ใน 3).\" 2026-07-07. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.thaipost.net/hi-light/1027728/"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "European Commission/EP/Council. \"Regulation (EU) 2023/956 — Carbon Border Adjustment Mechanism (CBAM).\" Official Journal of the EU, 2023. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R0956"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "AGRINFO (COLEAD). \"Review of EU Carbon Border Adjustment Mechanism (CBAM) — CBAM does not apply to agri-food products; 50-tonne threshold covers >99% of emissions.\" 2025-05-20. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://agrinfo.eu/book-of-reports/review-of-eu-carbon-border-adjustment-mechanism-cbam/pdf"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "Greentryst. \"EU CBAM 2026: Timeline, Deadlines & First Payment (Q1 2026 price €75.36/tCO₂e; sales 2027-02-01; first surrender 2027-09-30; Simplification Reg (EU) 2025/2083).\" 2026-05-03. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.greentryst.com/guides/cbam-2026-definitive-regime"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "CBAM Guide. \"EU CBAM Guide 2026 (fertilizers: urea ~2.5 tCO₂e/tonne; 1% default-value mark-up; indirect emissions priced for cement and fertilizers).\" 2026-04-08. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://cbamguide.com/learn/eu-cbam/"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "PwC Nederland. \"EC proposes CBAM expansion to 180 downstream products (from 2028-01-01; proposal COM(2025) 989; Council position 2026-06-12).\" 2026-06-12. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.pwc.nl/en/insights-and-publications/tax-news/other/ec-proposes-cbam-expansion-to-180-downstream-products.html"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "Linklaters. \"EU: Commission proposes to extend CBAM scope and adopts implementing legislation (report COM(2025) 783; 2027: review of indirect emissions and other sectors incl. chemicals).\" 2025-12. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://sustainablefutures.linklaters.com/post/102me4c/eu-commission-proposes-to-extend-cbam-scope-and-adopts-implementing-legislation"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "Mondaq. \"CBAM Implementation Package Published And Proposals For Future Expansion (Temporary Decarbonisation Fund up to €630 million, 2028–2029; ~7,500 additional importers; ETS free allowances phase-out 2026–2034).\" 2025-12-29. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.mondaq.com/contracts-and-commercial-law/1724768/cbam-implementation-package-published-and-proposals-for-future-expansion"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "Krungthai COMPASS ผ่าน ThailandPlus. \"EUDR ความคืบหน้าและผลกระทบต่อผู้ประกอบการไทย (ลงทุนระบบ DD ครั้งแรก €5,000–90,000/ราย; ต้นทุน DD 0.29–4.3% ของมูลค่าส่งออก; EXIM BANK เผยแพร่สรุป CBAM/EUDR).\" 2024-06-10. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.thailandplus.tv/archives/831188"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "European Commission. \"Staff Working Document — methodology for EUDR compliance costs (IA 2021: €1,000/€10,000/€15,000 per operator per year; low-risk countries 50%; Annex I product-scope analysis).\" 2026. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://environment.ec.europa.eu/document/download/9b5c8907-8651-440f-be8f-bb2d3d549763_en?filename=Commission%20Staff%20Working%20Document%20on%20Delegated%20Regulation%20on%20EUDR%20list%20of%20relevant%20commodities%20and%20products.pdf"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "Mongabay. \"EUDR compliance costs to be minimal, report finds — but industry disagrees (Rijk & Kuepper: SMEs 0.17% of revenues; consumer prices +0.001–0.07%; Profundo: 0.10%).\" 2025-03-18. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://news.mongabay.com/2025/03/eudr-compliance-costs-to-be-minimal-report-finds-but-industry-disagrees/"
+    },
+    {
+      "id": "36",
+      "index": 36,
+      "label": "AGRINFO (COLEAD). \"Organic products: Recognition of control bodies (Reg (EU) 2018/848; from 2025-01-01 control bodies must be EU-listed under Reg 2021/1378; 63 bodies as of June 2026).\" 2024-06-23 (แก้ไข 2026-07-06). (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://agrinfo.eu/book-of-reports/organic-products-recognition-of-control-bodies/"
+    },
+    {
+      "id": "37",
+      "index": 37,
+      "label": "AGRINFO (COLEAD). \"EU Vision for Agriculture and Food 2025–2029 (mirror clauses: import tolerance MRLs for EU-banned pesticides; animal welfare; import controls).\" 2025-03-07. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://agrinfo.eu/book-of-reports/eu-vision-for-agriculture-and-food-20252029/"
+    },
+    {
+      "id": "38",
+      "index": 38,
+      "label": "FAS USDA GAIN. \"European Union: EU Proposes to Reduce MRLs to Limit of Quantification for Pesticides in Imported Products (Food & Feed Omnibus draft 2025-12-16).\" 2026-02-24. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.fas.usda.gov/data/gain/2026/02/european-union-eu-proposes-reduce-mrls-limit-quantification-pesticides-imported-products"
+    },
+    {
+      "id": "39",
+      "index": 39,
+      "label": "Salika. \"EUDR: 'ใบเบิกทาง' หรือ 'กำแพงภาษี' กติกาใหม่ที่คนส่งออกต้องรู้ (EUDR Effect แผ่ขยายสู่คู่ค้านอก EU).\" 2026-02-26. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.salika.co/2026/02/26/eu-deforestation-regulation-2026/"
+    },
+    {
+      "id": "40",
+      "index": 40,
+      "label": "สำนักงานนโยบายและยุทธศาสตร์การค้า (สนค./TP SO). \"สนค. ชี้โอกาสกาแฟไทยในตลาดโลกที่โตต่อเนื่อง (โลกส่งออกเมล็ดกาแฟ 2567: 9.3 ล้านตัน, 51,544.9 ล้านดอลลาร์ +21.7%; EU เป็นผู้บริโภคใหญ่สุด).\" 2569. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.tpso.go.th/news/2602-0000000013"
+    },
+    {
+      "id": "41",
+      "index": 41,
+      "label": "กรมวิชาการเกษตร (DOA). \"แผนพัฒนากาแฟแห่งชาติ ฉบับที่ 1 (พ.ศ. 2568–2575) — เนื้อที่เพาะปลูกกาแฟ 257,935 ไร่ (อาหรับ 106,666 ไร่ 41.3%; โรบัสตา 151,269 ไร่).\" 2026-03. (เข้าถึงเมื่อ 2026-08-02)",
+      "url": "https://www.doa.go.th/hort/wp-content/uploads/2026/03/แผนพัฒนากาแฟแห่งชาติ-ฉบับที่-1-พ.ศ.-2568-–-2575.pdf"
+    }
+  ],
+  "reference_count": 41,
+  "article_file": "agri-12-004.md",
+  "source_file": "12-ระบบอาหาร เศรษฐศาสตร์ และนโยบาย\\เจาะลึก-12-การค้า-มาตรฐานอาหาร-EUDR.md"
+}

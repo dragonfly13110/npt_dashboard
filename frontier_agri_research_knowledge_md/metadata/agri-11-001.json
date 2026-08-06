@@ -1,0 +1,164 @@
+{
+  "slug": "agri-11-001",
+  "title": "AI พยากรณ์อากาศระดับฟาร์ม — ML/GraphCast ลดความเสี่ยงน้ำท่วม-แล้ง",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "การปรับตัวต่อสภาพอากาศและระบบเตือนภัย",
+  "domain_code": "11",
+  "topic_id": "11-001",
+  "handle_id": "11-001",
+  "abstract": "- **ใจความ**: ตั้งแต่ 2023 \"สมองพยากรณ์อากาศแบบ ML\" (GraphCast/Pangu-Weather/GenCast/AIFS) เอาชนะแบบจำลองฟิสิกส์มาตรฐานโลก (ECMWF) ทั้งความแม่นยำและความเร็ว (ระดับนาที vs ชั่วโมง) — โมเดลเหล่านี้ให้การพยากรณ์ระดับ grid ~25–31 กม. ทั่วโลกฟรี/โอเพนซอร์ส แต่ระดับฟาร์มต้องผ่าน **downscaling** (ย่อความละเอียดสู่รายแปลง) + การผูกข้อมูลสถานี (05-008) และโมเดลน้ำท่วม (Google Flood Hub class) เพื่อแปลงเป็น \"เตือนภัย/คำแนะนำรายแปลง\" ที่ลดความเสียหายน้ำท่วม-แล้งได้จริง [1][2][5][8]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://www.science.org/doi/10.1126/science.adi2336",
+  "pdf_url": null,
+  "source_urls": [
+    "https://www.science.org/doi/10.1126/science.adi2336",
+    "https://deepmind.google/discover/blog/graphcast-ai-model-for-faster-and-more-accurate-global-weather-forecasting/",
+    "https://www.technologyreview.com/2023/11/14/1083366/",
+    "https://www.nature.com/articles/s41586-023-06185-3",
+    "https://www.nature.com/articles/s41586-024-08252-9",
+    "https://www.ecmwf.int/en/about/media-centre/news/2025/ecmwfs-ai-forecasts-become-operational",
+    "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/weathernext-2/",
+    "https://www.nature.com/articles/s41586-024-07145-1",
+    "https://www.sciencedirect.com/science/article/pii/S0168169925002352",
+    "https://foresightweather.dev/",
+    "https://www.ai-market-watch.com/company/tomorrow-io",
+    "https://ascelibrary.org/doi/10.1061/NHREFO.NHENG-2094",
+    "https://www.gfdrr.org/en/publication/economic-value-weather-forecasts-quantitative-systematic-literature-review",
+    "https://blog.google/innovation-and-ai/products/google-ai-global-flood-forecasting/",
+    "https://www.krungsri.com/th/research/research-intelligence/drought-2024",
+    "https://policywatch.thaipbs.or.th/article/environment-70",
+    "https://www.gistda.or.th/news_view.php?n_id=6549&lang=EN",
+    "https://www.tmd.go.th/activity/",
+    "https://www.nature.com/articles/s41598-025-98944-7",
+    "https://www.krungsri.com/th/research/research-intelligence/flood-impact-2025"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Lam, R. et al. \"Learning skillful medium-range global weather forecasting\" (GraphCast), Science 382, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.science.org/doi/10.1126/science.adi2336"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Google DeepMind. \"GraphCast: AI model for faster and more accurate global weather forecasting\", 14 พ.ย. 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://deepmind.google/discover/blog/graphcast-ai-model-for-faster-and-more-accurate-global-weather-forecasting/"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Heikkilä, M. \"Google DeepMind's weather AI can forecast extreme weather faster and more accurately\", MIT Technology Review, 14 พ.ย. 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.technologyreview.com/2023/11/14/1083366/"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Bi, K. et al. \"Accurate medium-range global weather forecasting with 3D neural networks\" (Pangu-Weather), Nature 619:533–538, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s41586-023-06185-3"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Price, I. et al. \"Probabilistic weather forecasting with machine learning\" (GenCast), Nature 637, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s41586-024-08252-9"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "ECMWF. \"ECMWF's AI forecasts become operational\" (25 ก.พ. 2025) และ \"ECMWF's ensemble AI forecasts become operational — AIFS ENS\" (1 ก.ค. 2025) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.ecmwf.int/en/about/media-centre/news/2025/ecmwfs-ai-forecasts-become-operational"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Google DeepMind. \"WeatherNext 2: Google DeepMind's most advanced forecasting model\", 17 พ.ย. 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/weathernext-2/"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Nearing, G. et al. \"Global prediction of extreme floods in ungauged watersheds\", Nature 627:559–563, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s41586-024-07145-1"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "\"AI-driven weather downscaling for smart agriculture using autoencoders and transformers\" (CAE-LSTMT, ไต้หวัน), Computers and Electronics in Agriculture 232:110129, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0168169925002352"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "ForeSight. \"Hyperlocal Weather Intelligence\" (10-m downscaling, ตัวเลขบริษัท — ยังไม่ผ่าน peer-review) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://foresightweather.dev/"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "AI Market Watch. \"Tomorrow.io — AI Startup Profile\" (เงินทุน ~450 ล้านดอลลาร์/Series E 175M 2024) + Tomorrow.io Blog (Series F 210M พ.ค. 2026, DeepSky ม.ค. 2026) + Climavision/DTN (หน้าโซลูชันการเกษตร) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.ai-market-watch.com/company/tomorrow-io"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Van Houtven, G. \"Economic Value of Flood Forecasts and Early Warning Systems: A Review\", Natural Hazards Review 25(4):03124002, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://ascelibrary.org/doi/10.1061/NHREFO.NHENG-2094"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "World Bank/GFDRR. \"The Economic Value of Weather Forecasts: A Quantitative Systematic Literature Review\", ก.ย. 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.gfdrr.org/en/publication/economic-value-weather-forecasts-quantitative-systematic-literature-review"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Google. \"How Google uses AI to improve global flood forecasting\" (80 ประเทศ/460 ล้านคน, ความเสียหายน้ำท่วมโลก ~50 พันล้านดอลลาร์/ปี), 20 มี.ค. 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://blog.google/innovation-and-ai/products/google-ai-global-flood-forecasting/"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "วิจัยกรุงศรี. \"ความเสี่ยงภัยแล้งและน้ำท่วมปี 2567\" และ \"อุทกภัยปี 2567: ความเสี่ยงและผลกระทบ\" (51.3/55.8 พันล้านบาท; 8.6 ล้านไร่/46.5 พันล้านบาท), 2567 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.krungsri.com/th/research/research-intelligence/drought-2024"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "ไทยพีบีเอส Policy Watch. \"เกษตรเสียหาย 3.54 ล้านไร่ จากอุทกภัยปี 67\", 18 พ.ย. 2567 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://policywatch.thaipbs.or.th/article/environment-70"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "GISTDA. \"GISTDA จับมือกรมอุตุฯ ใช้ภูมิสารสนเทศพัฒนางานวิจัยการเปลี่ยนแปลงสภาพอากาศ\" (MOU, พ.ย. 2565) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.gistda.or.th/news_view.php?n_id=6549&lang=EN"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "กรมอุตุนิยมวิทยา. \"กรมอุตุนิยมวิทยาร่วมเปิดตัวห้องปฏิบัติการ AI ไทย–จีน ยกระดับการพยากรณ์และเตือนภัยอากาศ\", 17 ก.ค. 2569 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.tmd.go.th/activity/"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "\"Evaluation of precipitation forecasting based on GraphCast over mainland China\", Scientific Reports 15, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nature.com/articles/s41598-025-98944-7"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "วิจัยกรุงศรี. \"อุทกภัยปี 2568: ความเสี่ยงและผลกระทบ\" (อัปเดตพื้นที่เสี่ยง/ความเสียหาย — ควรนำมาเปรียบเทียบกับตัวเลข 2567), ส.ค. 2568 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.krungsri.com/th/research/research-intelligence/flood-impact-2025"
+    }
+  ],
+  "reference_count": 20,
+  "article_file": "agri-11-001.md",
+  "source_file": "11-การปรับตัวต่อสภาพอากาศและระบบเตือนภัย\\เจาะลึก-11-AIพยากรณ์อากาศระดับฟาร์ม.md"
+}

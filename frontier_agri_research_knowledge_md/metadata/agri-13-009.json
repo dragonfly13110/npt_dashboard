@@ -1,0 +1,269 @@
+{
+  "slug": "agri-13-009",
+  "title": "การสำรองอาหารเชิงยุทธศาสตร์ (Strategic Food Reserves) — สต็อกข้าวโลก/APTERR/คลังข้าวไทย — \"สต็อกโลกอยู่ฝั่งอินเดีย-จีน ~80% แต่สต็อกไทย ~3 เดือน — ไทยต้องเลือกระหว่าง 'อุ้มตัวเอง' กับ 'ต้นทุนถือครอง'\"",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-05",
+  "created_at": "2026-08-05",
+  "review_at": "2027-02-05",
+  "category": "ความมั่นคงอาหารและห่วงโซ่อุปทานยั่งยืน",
+  "domain_code": "13",
+  "topic_id": "13-009",
+  "handle_id": "13-009",
+  "abstract": "- **ใจความ**: การสำรองอาหารเชิงยุทธศาสตร์ = สต็อก/คลังอาหารที่รัฐถือไว้รับมือวิกฤต (ภัยพิบัติ/ราคาพุ่ง/ห้ามส่งออกของคู่ค้า) — หัวใจคือ **ข้าว** (พืชหลักในเอเชีย — 18% ของพลังงานรายวันของคนโลก-class [14]) — โครงสร้างสต็อกโลกเบี้ยวสุดขั้ว: **จีน + อินเดีย ถือ ~80% ของสต็อกข้าวโลก** (สต็อกโลก 188.8 ล้านตัน-class 2025/26 — USDA) [1][17] — กลไกระดับภูมิภาค: **APTERR** (ASEAN+3 — โควตา 787,000 ตัน-class — แต่เล็กกว่า \"อุปสงค์อาเซียน 1.5 วัน\") [7][10] — บทเรียน: **อินเดียห้ามส่งออกข้าวขาว 2023 → ราคาข้าวโลกพุ่ง 15–32%-class** [11][12][13][14] — ไทย: สต็อก ~2.85 ล้านตัน-class (อันดับ 5 โลก) vs บริโภคในประเทศ ~11 ล้านตัน/ปี → **อุ้มได้ ~2–3 เดือน-class** [17][18] แต่สต็อกภาครัฐแท้จริงเล็ก (~2.4 แสนตั",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://ers.usda.gov/sites/default/files/_laserfiche/outlooks/113584/RCS-25K.pdf",
+  "pdf_url": "https://ers.usda.gov/sites/default/files/_laserfiche/outlooks/113584/RCS-25K.pdf",
+  "source_urls": [
+    "https://ers.usda.gov/sites/default/files/_laserfiche/outlooks/113584/RCS-25K.pdf",
+    "https://www.usda.gov/oce/commodity/wasde/wasde0626v2.pdf",
+    "https://esmis.nal.usda.gov/sites/default/release-files/3t945q76s/1r66m015q/ws85cd79j/wasde0525v2.pdf",
+    "https://agriinsite.com/usda-forecasts-record-25-mnt-of-indian-rice-exports-in-my-2026-27/",
+    "https://agriinsite.com/global-rice-production-forecast-for-2024-25-raised-to-record-high/",
+    "https://www.apterr.org/what-is-apterr/history2",
+    "https://cil.nus.edu.sg/wp-content/uploads/2020/05/2011-APTERR.pdf",
+    "https://ssricenews.com/rice-news/extended-news/asean-plus-three-strengthens-rice-reserves-for-potential-climate-crisis.html",
+    "https://www.un.org/ohrlls/sites/www.un.org.ohrlls/files/speaker_-_dr._choomjet_karnjanakesorn_asean_apterr.pdf",
+    "https://rsis.edu.sg/rsis-publication/nts/co15047-its-not-the-size-but-how-its-used-lesson-for-asean-rice-reserves",
+    "https://www.reuters.com/markets/commodities/global-rice-supplies-tighten-after-indias-july-export-ban-2023-08-31/",
+    "https://www.ers.usda.gov/data-products/charts-of-note/107638",
+    "https://www.foodsecurityportal.org/node/2689",
+    "https://www.sciencedirect.com/science/article/pii/S0306919225000983",
+    "https://southasia.ifpri.info/2023/07/29/indias-new-ban-rice-exports-potential-threats-global-supply-prices-and-food-security",
+    "https://eng.ruralvoice.in/international/india-lifts-ban-on-export-of-100-percent-broken-rice.html",
+    "https://www.nationthailand.com/news/general/40060191",
+    "https://www.thaipbs.or.th/news/content/346657",
+    "https://thaipublica.org/2014/11/the-governments-rice-stocks",
+    "https://www.nationthailand.com/in-focus/40009917",
+    "https://tdri.or.th/en/2014/11/rice-scheme-loss-may-reach-b1tn",
+    "https://thediplomat.com/2014/07/thailands-divisive-rice-scheme",
+    "https://documents1.worldbank.org/curated/en/099042625211562573/pdf/P504545-488431b2-0565-40f9-852c-e8db32d22559.pdf",
+    "https://www.iatp.org/buffer-food-stocks-developing-countries-trends",
+    "https://www.fao.org/worldfoodsituation/csdb/en/",
+    "https://www.iatp.org/public-stocks-wto",
+    "https://eng.ruralvoice.in/international/wto-members-push-for-permanent-solution-on-public-stockholding-call-it-crucial-for-global-food-security.html",
+    "https://ifp.org/food-reserves-global-food-security/",
+    "https://www.ricethailand.go.th/",
+    "https://www.bangkokbiznews.com/economics/1217584",
+    "https://www.thairath.co.th/news/governmentpolicy/2904360",
+    "https://www.adb.org/publications/climate-change-and-price-volatility-can-we-count-asean-plus-three-emergency-rice-reserve",
+    "https://rri.co.id/en/national/2506429/indonesia-remains-southeast-asias-top-rice-producer-fao-reports",
+    "https://www.gnlm.com.mm/apterr-to-contribute-over-1000-tonnes-of-reserved-rice-to-flood-victims",
+    "https://today.line.me/th/v3/article/PGMqQzl"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "USDA ERS, \"Rice Outlook: December 2025 (RCS-25K)\", 2025 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://ers.usda.gov/sites/default/files/_laserfiche/outlooks/113584/RCS-25K.pdf"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "USDA, \"World Agricultural Supply and Demand Estimates (WASDE-672)\", มิ.ย. 2569 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.usda.gov/oce/commodity/wasde/wasde0626v2.pdf"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "USDA WASDE-660 (พ.ค. 2568) — สต็อกโลก 185.1 ล้านตัน/อินเดียส่งออก 24 ล้านตัน-class — — เข้าถึงเมื่อ 2026-08-05 *(ใช้เทียบเคียงทิศทาง)*",
+      "url": "https://esmis.nal.usda.gov/sites/default/release-files/3t945q76s/1r66m015q/ws85cd79j/wasde0525v2.pdf"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "AgriInsite, \"USDA forecasts record 25 mnt of Indian rice exports in MY 2026-27\", 24 มิ.ย. 2569 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://agriinsite.com/usda-forecasts-record-25-mnt-of-indian-rice-exports-in-my-2026-27/"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "AgriInsite/The Nation, \"Global rice production 2024/25 raised to record (USDA Rice Outlook April 2025)\", 27 พ.ค. 2568 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://agriinsite.com/global-rice-production-forecast-for-2024-25-raised-to-record-high/"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "APTERR Secretariat, \"The History of APTERR\" — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.apterr.org/what-is-apterr/history2"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "ASEAN Plus Three Emergency Rice Reserve Agreement (7 ต.ค. 2554) — ภาคผนวกโควตา/กองทุน — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://cil.nus.edu.sg/wp-content/uploads/2020/05/2011-APTERR.pdf"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "SS Rice News/Bernama-The Star, \"Asean Plus Three strengthens rice reserves for potential climate crisis\", 11 ม.ค. 2568 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://ssricenews.com/rice-news/extended-news/asean-plus-three-strengthens-rice-reserves-for-potential-climate-crisis.html"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Dr. Choomjet Karnjanakesorn (GM, APTERR Secretariat), \"APTERR presentation, Expert Group Meeting on Food Stockholding, UNHQ\", 4–5 ก.พ. 2569 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.un.org/ohrlls/sites/www.un.org.ohrlls/files/speaker_-_dr._choomjet_karnjanakesorn_asean_apterr.pdf"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "RSIS, \"It's Not the Size, But How It's Used: Lesson for ASEAN Rice Reserves\", 2558 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://rsis.edu.sg/rsis-publication/nts/co15047-its-not-the-size-but-how-its-used-lesson-for-asean-rice-reserves"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Reuters, \"Global rice supplies tighten after India's July export ban\", 31 ส.ค. 2566 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.reuters.com/markets/commodities/global-rice-supplies-tighten-after-indias-july-export-ban-2023-08-31/"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "USDA ERS, \"India's recent export restrictions expected to reduce global rice trade in 2023 and 2024\" (Chart of Note), 18 ต.ค. 2566 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.ers.usda.gov/data-products/charts-of-note/107638"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "J. Glauber & A. Mamun (IFPRI), \"India's export restrictions on rice continue to disrupt global markets, supplies, and prices\", 9 ต.ค. 2567 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.foodsecurityportal.org/node/2689"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "K. Nes, K.A. Schaefer, J. Yu, \"Economic impacts of the Indian ban on non-Basmati rice exports\", Food Policy 134 (102893), ก.ค. 2568 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0306919225000983"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "J. Glauber & A. Mamun (IFPRI), \"India's ban on rice exports: Potential threats to global supply, prices, and food security\", 29 ก.ค. 2566 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://southasia.ifpri.info/2023/07/29/indias-new-ban-rice-exports-potential-threats-global-supply-prices-and-food-security"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Rural Voice, \"India Lifts Ban on Export of 100% Broken Rice\" (FCI stock 67.6 ล้านตัน vs norm 7.6 ล้านตัน), 8 มี.ค. 2568 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://eng.ruralvoice.in/international/india-lifts-ban-on-export-of-100-percent-broken-rice.html"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "The Nation, \"India eyes record rice crop; Thai prices up on China, Singapore deals\" (USDA Rice Outlook ธ.ค. 2568), 23 ธ.ค. 2568 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nationthailand.com/news/general/40060191"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "ไทยพีบีเอส, \"ศึกสิบทิศ 'ข้าวไทย' 2568 'สต็อก' โลกล้น เขย่าธุรกิจวงการค้า\", 27 พ.ย. 2567 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.thaipbs.or.th/news/content/346657"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "ThaiPublica, \"สต็อกข้าว 18 ล้านตัน บทเรียนจำนำข้าวทุกเมล็ด ขาดทุนเพิ่ม 1.9–3.3 แสนล้านบาท\", 4 พ.ย. 2557 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://thaipublica.org/2014/11/the-governments-rice-stocks"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "The Nation, \"Yingluck's rice-pledging scheme racked up staggering losses, massive debts, tonnes of rotting rice\", 13 ธ.ค. 2564 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.nationthailand.com/in-focus/40009917"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "TDRI, \"Rice scheme loss 'may reach B1tn'\", พ.ย. 2557 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://tdri.or.th/en/2014/11/rice-scheme-loss-may-reach-b1tn"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "The Diplomat, \"Thailand's Rice Scheme Post-Mortem\" (ส่งออกร่วง 45.8% ครึ่งปีแรก 2555-class), 24 ก.ค. 2557 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://thediplomat.com/2014/07/thailands-divisive-rice-scheme"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "World Bank/WFP/FAO, \"Strengthening Strategic Grain Reserves to Enhance Food Security\", 25 เม.ย. 2568 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://documents1.worldbank.org/curated/en/099042625211562573/pdf/P504545-488431b2-0565-40f9-852c-e8db32d22559.pdf"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "IATP, \"Buffer Food Stocks for Addressing Volatility and Food Security in Developing Countries\", 26 พ.ย. 2567 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.iatp.org/buffer-food-stocks-developing-countries-trends"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "FAO, \"Cereal Supply and Demand Brief\" (สต็อก/การใช้ 32% — ก.ค. 2569), 3 ก.ค. 2569 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.fao.org/worldfoodsituation/csdb/en/"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "IATP, \"Public stocks at the WTO\" (Bali 2556/Peace Clause/MC13), 23 ก.พ. 2567 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.iatp.org/public-stocks-wto"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "Rural Voice, \"WTO Members Push for Permanent Solution on Public Stockholding... MC14\", 4 พ.ค. 2568 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://eng.ruralvoice.in/international/wto-members-push-for-permanent-solution-on-public-stockholding-call-it-crucial-for-global-food-security.html"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "Institute for Public Policy (IFP), \"Food Reserves, Food Security, and Global Stability\" (สต็อก <17% ในวิกฤต-class; ลดราคาพุ่ง 38–52%-class), 3 ธ.ค. 2568 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://ifp.org/food-reserves-global-food-security/"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "กรมการข้าว, \"ขับเคลื่อน 3 โครงการมาตรการรักษาเสถียรภาพราคาข้าวเปลือก 68/69 (เป้า 4 ล้านตัน/ราคา 12,000 บาท)\", 24 ต.ค. 2568 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.ricethailand.go.th/"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "กรุงเทพธุรกิจ, \"'พาณิชย์' เผย ไทยส่งออกข้าวปี 68 ทะลุเป้า 7.9 ล้านตัน\", 2568–2569 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.bangkokbiznews.com/economics/1217584"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "ไทยรัฐ, \"ส่งออกข้าวไทยปี 68 จ่อทะลุ 8 ล้านตัน พาณิชย์เบรกเป้าปี 69\", 26 ธ.ค. 2568 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.thairath.co.th/news/governmentpolicy/2904360"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "R. Briones (PIDS), \"Climate Change and Price Volatility: Can We Count on the ASEAN Plus Three Emergency Rice Reserve?\", ADB, 16 พ.ย. 2560 — — เข้าถึงเมื่อ 2026-08-05 *(งานเก่า — อัปเดตได้)*",
+      "url": "https://www.adb.org/publications/climate-change-and-price-volatility-can-we-count-asean-plus-three-emergency-rice-reserve"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "RRI/FAO, \"Indonesia Remains Southeast Asia's Top Rice Producer\" (FAO Food Outlook มิ.ย. 2569 — สต็อกข้าวโลก 213.8 ล้านตัน 2026/27; CBP อินโดนีเซีย 5.2 ล้านตัน), 20 มิ.ย. 2569 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://rri.co.id/en/national/2506429/indonesia-remains-southeast-asias-top-rice-producer-fao-reports"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "Global New Light of Myanmar, \"APTERR to contribute over 1,000 tonnes of reserved rice to flood victims\" (1,002.71 ตัน), 2567 — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.gnlm.com.mm/apterr-to-contribute-over-1000-tonnes-of-reserved-rice-to-flood-victims"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "LINE Today/ข่าว อคส., \"อคส. เตรียมเปิดระบายข้าวล็อตสุดท้าย 15,013 ตัน จาก 2.4 แสนตัน (สต็อกคงเหลือ)\", 2568 — — เข้าถึงเมื่อ 2026-08-05 *(ข่าว — ตรวจกับรายงาน อคส. ทางการ)*",
+      "url": "https://today.line.me/th/v3/article/PGMqQzl"
+    }
+  ],
+  "reference_count": 35,
+  "article_file": "agri-13-009.md",
+  "source_file": "13-ความมั่นคงอาหารและห่วงโซ่อุปทานยั่งยืน\\เจาะลึก-13-สำรองอาหารเชิงยุทธศาสตร์-FoodReserves.md"
+}

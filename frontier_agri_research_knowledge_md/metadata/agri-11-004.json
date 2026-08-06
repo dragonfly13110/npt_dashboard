@@ -1,0 +1,346 @@
+{
+  "slug": "agri-11-004",
+  "title": "พืชทนสภาพอากาศสุดขั้ว — Heat Stress สรีรวิทยา-พันธุกรรม-การจัดการ",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "การปรับตัวต่อสภาพอากาศและระบบเตือนภัย",
+  "domain_code": "11",
+  "topic_id": "11-004",
+  "handle_id": "11-004",
+  "abstract": "- **ใจความ**: ความร้อนทำลายผลผลิตพืชผ่าน \"หน้าต่างวิกฤตช่วงออกดอก\" เป็นหลัก — เกณฑ์วิกฤต (critical threshold) ของการติดเมล็ด: ข้าว 37.2±0.2°C, ข้าวโพด 37.9±0.4°C, ข้าวสาลี 27.3±0.5°C [2] แต่แม้แต่อุณหภูมิอากาศ >35°C เพียง 1 วันตอนข้าวออกดอก (anthesis) ก็ทำ grain set ลดลงครึ่งหนึ่งในพันธุ์อ่อนแอ [1] กลไกหลักคือ pollen tube หยุดยืดตัว (inflection point 34.8°C) [1] + anther dehiscence ผิดปกติ [3][42] ขณะที่อุณหภูมิกลางคืนสูง (HNT) โหดร้ายกว่า: ข้าวผลผลิต -7%/°C เหนือ 22°C กลางคืน [19] และเพิ่มข้าวลีบ-ชอล์ก (chalkiness) จนข้าวคุณภาพส่งออกเสียหาย [20][21]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://doi.org/10.33545/2618060x.2024.v7.i6a.5039",
+  "pdf_url": "https://clibdoc.psu.ac.th/public31/e-book/448281.pdf",
+  "source_urls": [
+    "https://doi.org/10.33545/2618060x.2024.v7.i6a.5039",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC10721465/",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC11681873/",
+    "https://www.sciencedirect.com/science/article/pii/S1672630824000131",
+    "https://www.mdpi.com/2223-7747/14/22/3492",
+    "https://doi.org/10.1093/jxb/erad506",
+    "https://iopscience.iop.org/article/10.1088/1748-9326/ace7e3",
+    "https://doi.org/10.3389/fpls.2023.1186921",
+    "https://doi.org/10.3390/agronomy14112510",
+    "https://www.mdpi.com/2223-7747/14/2/148",
+    "https://link.springer.com/article/10.1186/s12870-025-06285-4",
+    "https://doi.org/10.3389/fpls.2024.1364244",
+    "https://www.mdpi.com/2223-7747/13/5/616",
+    "https://link.springer.com/article/10.1007/s11540-024-09767-4",
+    "https://link.springer.com/article/10.1186/s12870-024-05784-0",
+    "https://www.mdpi.com/1422-0067/25/14/7995",
+    "https://www.sciencedirect.com/science/article/abs/pii/S0304423824006125",
+    "https://www.sciencedirect.com/science/article/abs/pii/S0048969724077039",
+    "https://www.sciencedirect.com/science/article/abs/pii/S0048969723038792",
+    "https://doi.org/10.3390/agronomy13061475",
+    "http://www.ricesci.org/EN/Y2024/V31/I5/572",
+    "http://www.zgdm.net/EN/10.3969/j.issn.1006-8082.2024.04.019",
+    "https://www.jstage.jst.go.jp/article/agrmet/80/3/80_D-24-00002/_article",
+    "https://dna.kps.ku.ac.th/research/breeding/kimhan-rice",
+    "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/258373",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/182",
+    "https://clibdoc.psu.ac.th/public31/e-book/448281.pdf",
+    "https://en.vietnamplus.vn/heat-wave-hammers-thailands-agriculture-post285739.vnp",
+    "https://www.theguardian.com/environment/article/2024/may/04/inside-an-oven-how-life-in-south-east-asia-is-a-struggle-amid-sweltering-heat",
+    "https://www.tridge.com/news/thailands-durian-production-is-set-to-see-it-ucobjx",
+    "https://www.nationthailand.com/business/economy/40037986",
+    "https://joint-research-centre.ec.europa.eu/jrc-news-and-updates/below-average-maize-yield-expected-eu-2023-09-18_en",
+    "https://iopscience.iop.org/article/10.1088/2976-601X/adb03d",
+    "https://eciu.net/media/press-releases/june-heatwave-knocks-2-billion-off-european-harvest-prospects-new-analysis",
+    "https://www.europarl.europa.eu/RegData/etudes/STUD/2023/733115/IPOL_STU(2023",
+    "https://www.fao.org/newsroom/story/the-heat-is-on/en",
+    "https://issca.icrisat.org/scalable-solutions/intelligent-agricultural-systems-advisory-tool-isat",
+    "https://doi.org/10.3390/atmos16030291",
+    "https://preparecenter.org/wp-content/uploads/2026/06/Global-HEWS-report-final.pdf",
+    "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Grain+and+Feed+Annual_Bangkok_Thailand_TH2024-0018.pdf",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC11889333/",
+    "https://doi.org/10.3389/fpls.2024.1489331",
+    "https://erp.mju.ac.th/researchDetailPublic.aspx?rid=3728",
+    "https://www.biotec.or.th/home/rice-department-meeting-nstda/",
+    "https://www.sciopen.com/article/10.3864/j.issn.0578-1752.2023.15.004",
+    "https://www.mea.or.th/en/public-relations/corporate-news-activities/announcement/cKGUkW95G"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Effect of elevated temperature on pollen viability and grain setting in rice, Blackwell S.A., Int. J. Res. Agronomy 7(6a), 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.33545/2618060x.2024.v7.i6a.5039"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "From the floret to the canopy: High temperature tolerance during flowering (rice 37.2°C / wheat 27.3°C / maize 37.9°C), Plant Communications (PMC10721465), 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10721465/"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Adverse effects of heat shock in rice (Oryza sativa L.) and approaches to mitigate it, PMC11681873, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11681873/"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Rice Heat Tolerance Breeding: A Comprehensive Review and Forward Gaze, Rice Science, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/pii/S1672630824000131"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Genetic and Molecular Basis for Heat Tolerance in Rice: Strategies for Resilience Under Climate Change, Plants 14(22):3492, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mdpi.com/2223-7747/14/22/3492"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Heat stress and sexual reproduction in maize: unveiling the most pivotal factors and the greatest opportunities, Lv X. et al., J. Experimental Botany (erad506), 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.1093/jxb/erad506"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Short-term extreme heat at flowering amplifies the impacts of climate change on maize production, Environ. Res. Lett. (ace7e3), 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://iopscience.iop.org/article/10.1088/1748-9326/ace7e3"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "Heat stress affects tassel development and reduces the kernel number of summer maize, Front. Plant Sci. 14:1186921, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3389/fpls.2023.1186921"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Impacts of High Temperature and Vapor Pressure Deficit on the Maize Opened Spikelet Ratio and Pollen Viability, Guan L. et al., Agronomy 14(11):2510, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3390/agronomy14112510"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "The Genetics and Breeding of Heat Stress Tolerance in Wheat, Plants 14(2):148, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mdpi.com/2223-7747/14/2/148"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Unraveling the genetic basis of heat tolerance and yield in bread wheat: QTN discovery and its KASP-assisted validation, BMC Plant Biology 25, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://link.springer.com/article/10.1186/s12870-025-06285-4"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Assessing heat tolerance in potatoes: Responses to stressful Texas field locations and controlled contrasting greenhouse conditions, Front. Plant Sci. 15:1364244, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3389/fpls.2024.1364244"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Genetic Basis of Potato Tuber Defects and Identification of Heat-Tolerant Clones (GWAS 217 clones), Plants 13(5):616, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mdpi.com/2223-7747/13/5/616"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Elevated Carbon Dioxide only Partly Alleviates the Negative Effects of Elevated Temperature on Potato Growth and Tuber Yield, Potato Research, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://link.springer.com/article/10.1007/s11540-024-09767-4"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "Mitigating excessive heat in Arabica coffee using nanosilicon and seaweed extract (cv. Chiang Mai 80, heat 49°C), BMC Plant Biology 24, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://link.springer.com/article/10.1186/s12870-024-05784-0"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "Transcriptomic Analyses Reveal That Coffea arabica and Coffea canephora Have More Complex Responses under Combined Heat and Drought, IJMS 25(14):7995, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mdpi.com/1422-0067/25/14/7995"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "Intraspecific variation in the thermal safety margin in Coffea arabica L., Scientia Horticulturae 337:113455, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S0304423824006125"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "A bitter cup of coffee? Assessing the impact of climate change on Arabica coffee production in Brazil, Sci. Total Environ., 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S0048969724077039"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Rice yield and quality in response to daytime and nighttime temperature increase — A meta-analysis perspective, Sci. Total Environ. 898:165256, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S0048969723038792"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "Physiological Basis of High Nighttime Temperature-Induced Chalkiness Formation during Early Grain-Filling Stage in Rice, Du Y. et al., Agronomy 13(6):1475, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3390/agronomy13061475"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "Higher Grain-Filling Rate in Inferior Spikelets of Tolerant Rice Genotype Offset Grain Yield Loss under Post-Anthesis High Night Temperatures, Sharma N. et al., Rice Science 31(5):572–586, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "http://www.ricesci.org/EN/Y2024/V31/I5/572"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "Characteristics and Control Measures of High Temperature Heat Damage in Flowering and Fruiting Stage of Single Season Rice (Yangtze), Fang W. et al., China Rice 30(4):98–100, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "http://www.zgdm.net/EN/10.3969/j.issn.1006-8082.2024.04.019"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "Revealing the spatial characteristics of rice heat exposure in Japan through panicle temperature analysis, J. Agricultural Meteorology 80(3):79–89, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.jstage.jst.go.jp/article/agrmet/80/3/80_D-24-00002/_article"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "ข้าวคิมหันต์ — พันธุ์ข้าวทนทานต่ออุณหภูมิสูงพันธุ์แรกของประเทศไทย (ติดเมล็ด >70% ที่ 40–42°C, 830 กก./ไร่, รับรอง 5 ก.ค. 2564), ศูนย์วิทยาศาสตร์ข้าว มก. — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://dna.kps.ku.ac.th/research/breeding/kimhan-rice"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "การประเมินความทนทานต่ออุณหภูมิสูงในเชื้อพันธุกรรมข้าวนาสวนพื้นเมืองไทย (132 พันธุ์, LLR-232), เทิดกิจเจริญ ก. และคณะ, วารสารแก่นเกษตร 51(5):975–993, 2566 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/258373"
+    },
+    {
+      "id": "26",
+      "index": 26,
+      "label": "การทดสอบประสิทธิภาพของเครื่องหมายโมเลกุลที่ใช้ในการคัดเลือกลักษณะทนร้อนในประชากรข้าวหอมที่พัฒนาขึ้นใหม่ (RGD×N22, BC2F3), วารสารวิทยาศาสตร์เกษตรและการจัดการ 6(2), 2566 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/182"
+    },
+    {
+      "id": "27",
+      "index": 27,
+      "label": "รายงานวิจัยฉบับสมบูรณ์: การประเมินความทนร้อนในระยะกล้าและทนร้อนควบแล้งในช่วงเจริญพันธุ์ของข้าวพันธุ์รับรอง (16 พันธุ์ vs N22/IR64), ปวีณา พงษ์ดนตรี, สกว./ARDA, 2560 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://clibdoc.psu.ac.th/public31/e-book/448281.pdf"
+    },
+    {
+      "id": "28",
+      "index": 28,
+      "label": "Heat wave hammers Thailand's agriculture (ทุเรียน 40% มะพร้าว 90% องุ่น 70% — ประมาณการ Seri Suparatit), VietnamPlus, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://en.vietnamplus.vn/heat-wave-hammers-thailands-agriculture-post285739.vnp"
+    },
+    {
+      "id": "29",
+      "index": 29,
+      "label": "Sweltering heat ravages crops and takes lives in south-east Asia (heatstroke ≥30 รายไทย; ทุเรียนแตกบนต้น), The Guardian, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.theguardian.com/environment/article/2024/may/04/inside-an-oven-how-life-in-south-east-asia-is-a-struggle-amid-sweltering-heat"
+    },
+    {
+      "id": "30",
+      "index": 30,
+      "label": "Thailand's durian production is set to see its biggest drop in 15 years (Kasikorn Research: ใต้ -25% ตะวันออก -14% รวม -18% = 960,000 ตัน), Tridge/Kasikorn Research Center, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.tridge.com/news/thailands-durian-production-is-set-to-see-it-ucobjx"
+    },
+    {
+      "id": "31",
+      "index": 31,
+      "label": "Drought will dry up Thailand's durian exports, warns academic (ส่งออก 2566 = 140,000 ล้านบาท; คาด 5 ปีผลผลิต -53%), Aat Pisanwanich, The Nation Thailand, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.nationthailand.com/business/economy/40037986"
+    },
+    {
+      "id": "32",
+      "index": 32,
+      "label": "Below-average maize yield expected in EU (MARS Bulletin ก.ย. 2023: grain maize -3% vs เฉลี่ย 5 ปี), JRC, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://joint-research-centre.ec.europa.eu/jrc-news-and-updates/below-average-maize-yield-expected-eu-2023-09-18_en"
+    },
+    {
+      "id": "33",
+      "index": 33,
+      "label": "The vulnerability of European agricultural areas to anthesis heat stress (2018–2022 heatwave storylines; +4K → >30% พื้นที่ severe), Environ. Res. Commun. (adb03d), 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://iopscience.iop.org/article/10.1088/2976-601X/adb03d"
+    },
+    {
+      "id": "34",
+      "index": 34,
+      "label": "June heatwave knocks €2 billion off European harvest prospects (9–10 ล้านตัน; ฝรั่งเศสข้าวโพด -3.4 ล้านตัน/€891M; ฮังการี -2.4M t; สเปน -1.4M t), ECIU, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://eciu.net/media/press-releases/june-heatwave-knocks-2-billion-off-european-harvest-prospects-new-analysis"
+    },
+    {
+      "id": "35",
+      "index": 35,
+      "label": "The impact of extreme climate events on agricultural production in the EU (2003 heatwave €13B; ภัยแล้งการเกษตร ~€5B/ปี), European Parliament study 733115, 2023 — )733115_EN.pdf — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.europarl.europa.eu/RegData/etudes/STUD/2023/733115/IPOL_STU(2023"
+    },
+    {
+      "id": "36",
+      "index": 36,
+      "label": "The heat is on (early warning-early action; PEARL กัมพูชา 450,000 ครัวเรือน; ปากีสถาน ROI สูงสุด 8:1), FAO Newsroom — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.fao.org/newsroom/story/the-heat-is-on/en"
+    },
+    {
+      "id": "37",
+      "index": 37,
+      "label": "iSAT — Intelligent Agricultural Systems Advisory Tool (AI advisory WhatsApp, >6,000 เกษตรกร; ขยาย Maharashtra/เอธิโอเปีย), ICRISAT — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://issca.icrisat.org/scalable-solutions/intelligent-agricultural-systems-advisory-tool-isat"
+    },
+    {
+      "id": "38",
+      "index": 38,
+      "label": "Establishment and Operation of an Early Warning Service for Agrometeorological Disasters Customized for Farmers (เกาหลี, 3 ระดับความเสี่ยง), Shin Y.S. et al., Atmosphere 16(3):291, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3390/atmos16030291"
+    },
+    {
+      "id": "39",
+      "index": 39,
+      "label": "Understanding the global landscape of heat early warning systems (54% NMHS ออกคำเตือน — WMO 2023; HHWS ช่วยชีวิต ~100,000 ราย/ปี; heatwave ลดผลผลิตเกษตรได้ถึง 50%), Global Heat Health Information Network/Prepare Center, 2026 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://preparecenter.org/wp-content/uploads/2026/06/Global-HEWS-report-final.pdf"
+    },
+    {
+      "id": "40",
+      "index": 40,
+      "label": "Thailand Grain and Feed Annual (ข้าว 2566/67 = 19.7 MMT -6%; น้ำชลประทาน -26%; ฝน มี.ค.–พ.ค. 67 ต่ำกว่าปกติ 20–30%), USDA FAS GAIN TH2024-0018, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Grain+and+Feed+Annual_Bangkok_Thailand_TH2024-0018.pdf"
+    },
+    {
+      "id": "41",
+      "index": 41,
+      "label": "Emerging strategies to improve heat stress tolerance in crops (thermomemory HSP101–HSA32; GS ข้าว 0.12–0.54; qEMF3; OsHTAS 48°C), PMC11889333, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11889333/"
+    },
+    {
+      "id": "42",
+      "index": 42,
+      "label": "Physiological traits, gene expression responses, and proteomics of rice varieties varying in heat stress tolerance at the flowering stage (38°C 6 ชม./วัน 3 วัน: spikelet fertility HZ 54.5% vs YD 14.3%; GA/ABA ratio 10.65 vs 3.84), Front. Plant Sci. 15:1489331, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://doi.org/10.3389/fpls.2024.1489331"
+    },
+    {
+      "id": "43",
+      "index": 43,
+      "label": "การศึกษาการทำงานของยีนทนร้อนเพื่อพัฒนาพันธุ์ข้าวไทยให้ทนทานอุณหภูมิสูง (HSF genes, ปี 2), มหาวิทยาลัยแม่โจ้ ERP 3728, 2557 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://erp.mju.ac.th/researchDetailPublic.aspx?rid=3728"
+    },
+    {
+      "id": "44",
+      "index": 44,
+      "label": "กรมการข้าว – สวทช. เดินหน้าผสานความร่วมมือวิจัยและพัฒนาข้าว (MOU 5 ปี พ.ย. 2566–พ.ย. 2571: ข้าวคาร์บอนต่ำ/ปรับปรุงพันธุ์/ข้าวหอมไทย), BIOTEC, 2025 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.biotec.or.th/home/rice-department-meeting-nstda/"
+    },
+    {
+      "id": "45",
+      "index": 45,
+      "label": "Effects of Tassel Sizes on Post-Flowering Dry Matter Accumulation and Yield of Different Maize Varieties Under High Temperature Stress During Pollination (XD20 -12.32%, NH101 -25.00%), Mu X. et al., Scientia Agricultura Sinica 56(15):2880–2894, 2023 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.sciopen.com/article/10.3864/j.issn.0578-1752.2023.15.004"
+    },
+    {
+      "id": "46",
+      "index": 46,
+      "label": "MEA warns the highest average temperature in 2024 (TMD: เม.ย. 2567 = 42.9°C สูงสุดเฉลี่ยรายเดือน), Metropolitan Electricity Authority, 2024 — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://www.mea.or.th/en/public-relations/corporate-news-activities/announcement/cKGUkW95G"
+    }
+  ],
+  "reference_count": 46,
+  "article_file": "agri-11-004.md",
+  "source_file": "11-การปรับตัวต่อสภาพอากาศและระบบเตือนภัย\\เจาะลึก-11-พืชทนสภาพอากาศสุดขั้ว-HeatStress.md"
+}

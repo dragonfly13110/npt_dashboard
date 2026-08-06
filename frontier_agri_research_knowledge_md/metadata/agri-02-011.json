@@ -1,0 +1,63 @@
+{
+  "slug": "agri-02-011",
+  "title": "ไมโครพลาสติกและโลหะหนักปนเปื้อนในดิน (Soil Pollution)",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "ดิน จุลินทรีย์ และธาตุอาหาร",
+  "domain_code": "02",
+  "topic_id": "02-011",
+  "handle_id": "02-011",
+  "abstract": "- **ใจความ**: ดินเกษตรทั่วโลกเริ่มมีไมโครพลาสติกสะสมจากฟิล์มคลุมดิน (mulch film), กากตะกอนน้ำเสีย (biosolids), น้ำชลประทาน และการสลายของขยะ [1] ส่วนโลหะหนัก (Cd จากปุ๋ยฟอสเฟต, As จากน้ำบาดาล, Pb จากกิจกรรมมนุษย์) สะสมในดินและเข้าสู่พืช/อาหาร [3] — สองประเด็นนี้กระทบสุขภาพดิน จุลินทรีย์ และการส่งออกอาหาร",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://eur-lex.europa.eu",
+  "pdf_url": null,
+  "source_urls": [
+    "https://eur-lex.europa.eu",
+    "https://www.fao.org",
+    "https://so01.tci-thaijo.org/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "บทความทบทวนไมโครพลาสติกในดินเกษตร (Nature Reviews Earth & Environment / Environmental Pollution / Science of the Total Environment) — เข้าถึงเมื่อ 2026-08-02 *(ตัวเลขช่วง/วิธีวัด — ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "EU: Regulation (EU) 2019/1009 (ปุ๋ย/แคดเมียม) + Proposal Soil Monitoring Law (2023–24) — — เข้าถึงเมื่อ 2026-08-02 *(สถานะล่าสุด — ดูหัวข้อ 10)*",
+      "url": "https://eur-lex.europa.eu"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "FAO/WHO และงานวิชาการ: สารหนู/แคดเมียมในข้าวและปุ๋ย — — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": "https://www.fao.org"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "งานศึกษาการดูดซึมไมโครพลาสติกเข้าสู่พืช (Journal of Hazardous Materials ฯลฯ) — เข้าถึงเมื่อ 2026-08-02 *(ยังถกเถียง — ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งานวิจัยไทย: ไมโครพลาสติก/โลหะหนักในดิน-น้ำ (TCI-Thaijo/ThaiJo) — รายชิ้นยังไม่ยืนยัน (ดูหัวข้อ 10) — — เข้าถึงเมื่อ 2026-08-02",
+      "url": "https://so01.tci-thaijo.org/"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "เอกสารตลาดฟิล์มคลุมดิน/ฟิล์มย่อยสลายได้ (analyst reports) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-02-011.md",
+  "source_file": "02-ดิน จุลินทรีย์ และธาตุอาหาร\\เจาะลึก-02-ไมโครพลาสติกและโลหะหนักในดิน.md"
+}

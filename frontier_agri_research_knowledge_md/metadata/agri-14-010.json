@@ -1,0 +1,182 @@
+{
+  "slug": "agri-14-010",
+  "title": "บทเรียนการสเกล (Scale-up) AgTech จากตลาดเกิดใหม่ — เคนยา/อินเดีย/จีน/บราซิล และบทเรียนสำหรับไทย",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-05",
+  "created_at": "2026-08-05",
+  "review_at": "2027-02-05",
+  "category": "สตาร์ทอัพ นวัตกรรม และการยอมรับเทคโนโลยี",
+  "domain_code": "14",
+  "topic_id": "14-010",
+  "handle_id": "14-010",
+  "abstract": "- **ใจความ**: เอกสารนี้รวบรวม \"บทเรียนการสเกล (scale-up)\" ของ AgTech ในตลาดเกิดใหม่ 4 กลุ่ม — แอฟริกา (เคนยา: Twiga, Hello Tractor, M-KOPA), อินเดีย (Ninjacart, WayCool, DeHaat, AgroStar, CropIn), จีน (โดรน DJI/XAG, Alibaba Taobao Village) และบราซิล (Agrosmart, Solinftec) — แล้วสกัดเป็นบทเรียนเชิงปฏิบัติ 10 ข้อ พร้อมเชื่อมโยงกับผู้เล่นไทย (Ricult ฯลฯ) ภาพรวม: **การสเกล AgTech ในตลาดเกิดใหม่ย้ายจาก \"โตด้วย GMV/การเผาเงิน\" ไปสู่ \"โตด้วย unit economics จริง\"** — กรณีส่องทาง (Twiga, eFishery) เป็นหลักฐานว่าสเกลเร็วแบบ asset-heavy + ตัวเลขไม่จริงพังซ้ำแล้วซ้ำเล่า ขณะที่ผู้รอดชีวิต (Ninjacart, DeHaat, Hello Tractor, M-KOPA) ล้วนปรับเป็น asset-light, B2B, และพึ่งเครือข่ายตัวกลางท้องถิ่น",
+  "source_type": "Frontier agricultural research article",
+  "source_url": "https://techcabal.com/",
+  "pdf_url": null,
+  "source_urls": [
+    "https://techcabal.com/",
+    "https://techmoran.com/",
+    "https://techpoint.africa/",
+    "https://growthgateway.campaign.gov.uk/",
+    "https://www.dealstreetasia.com/",
+    "https://m-kopa.com/",
+    "https://www.cropin.com/",
+    "https://the-ken.com/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "TechCabal: \"Twiga Foods creates holding company, cuts over 300 jobs\" (24 พ.ค. 2568) + \"Twiga shifts strategy as it leans on Kenyan distributors for scale\" (20 พ.ค. 2568) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://techcabal.com/"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "The ASEAN Magazine: \"Agritech Startup Ricult: Built with Farmers, Rooted in Innovation\" (เม.ย. 2568) + Techsauce: \"Ricult ปิดระดมทุน Series Pre-B นำโดย Innospace UOB และ Sojitz\" (ก.พ. 2567) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "TechMoran: \"Twiga Unveils NewCo With Outsourced Logistics, Trims Staff by 73%\" (9 มิ.ย. 2568) + Business Daily Africa: \"Twiga Foods to fire more staff after operations freeze\" (29 พ.ค. 2568) — / — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://techmoran.com/"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Techpoint Africa: \"Hello Tractor is the Uber for Africa's smallholder farmers\" (19 มิ.ย. 2568) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://techpoint.africa/"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Ambrook/Offrange: \"Tractors for the People\" (20 มิ.ย. 2568 — ข้อมูล 1.3/116/128 แทรกเตอร์ต่อ ตร.กม., USAID -83%) + Empower Africa: \"How Hello Tractor is Scaling Farm Mechanization\" (18 มี.ค. 2569 — 2.5M ฟาร์มเมอร์/6.8M เอเคอร์/8,000 เครื่อง/9 พันล้าน data packets) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Growth Gateway (UK): \"Hello Tractor case study\" (ธ.ค. 2568 — PAYG, £8M term sheet สู่ £47M) + ACDI/VOCA: \"Hello Tractor Kenya Secures $750,000 in Debt\" (19 มี.ค. 2567) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://growthgateway.campaign.gov.uk/"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "DealStreetAsia: \"Charticle: Draft forensic audit paints grim picture of eFishery\" (25 ก.พ. 2568 — รายได้จริง US$150M vs อ้าง $750M, eFeeder 6,300 vs 400,000, AR 76% หนี้เสีย, พนักงาน 2,600→116) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.dealstreetasia.com/"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "The Business Times: \"Lesson from eFishery's fraud: A wake-up call for Indonesia's startup ecosystem\" (30 มิ.ย. 2568) + The Diplomat: \"The Financial Scandal at Indonesian Tech Unicorn eFishery, Explained\" (ก.พ. 2568 — ยอมรับ manipulating ตั้งแต่ 2561, dual books) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "M-KOPA Impact Report 2025 (ก.ย. 2568 — 7M+ ลูกค้า, $2B สินเชื่อ, 200K ราย/เดือน, 35,000 ตัวแทน) + TechCabal: \"M-KOPA crosses $1.6 billion in loans\" (24 พ.ย. 2568 — เคนยา 4.8M ราย/KES 207B, 4.5M สมาร์ทโฟน, 5,000 e-motorbike) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://m-kopa.com/"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "Silicon Africa: \"M-KOPA Exceeds 5 Million Customers\" (ก.ย. 2567) + Today Africa: \"Inside M-KOPA's Journey\" (30 ก.ย. 2568 — ประวัติ PAYG, $35 ดาวน์ + $0.50/วัน, patient capital LGT/Generation/Gates) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "Swala Nyeti: \"10 key lessons for investors from the spectacular downfall of Twiga Foods\" + OfficePhase: \"What Twiga Foods' Restructuring Teaches Us About Scaling\" (26 พ.ค. 2568) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Cropin: \"Agtech Enterprise Shift: Pilots to Million-Dollar Deals\" (ก.พ. 2569) + Agro Spectrum India: \"Cropin: Architecting agriculture's AI backbone\" (30 มี.ค. 2569 — 1B เอเคอร์ intelligence/30M เอเคอร์ digitized/100+ ประเทศ) + Cropin-ADPC case study (8,200 ฟาร์มเมอร์/90% adoption/+30% ผลผลิต/-23% ขาดทุน) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://www.cropin.com/"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Inc42: \"Inside DeHaat's INR 3000 Cr Scale And Its Long Road To Profitability\" (30 ต.ค. 2568 — กำไรสุทธิ ₹369 cr, ขาดทุนปฏิบัติการ ₹207 cr, EBITDA breakeven Q1 FY26, 13M ฟาร์มเมอร์, 15,000+ ศูนย์, $247M+) + The Hindu BusinessLine: \"DeHaat's FY25 revenues grew 11% to ₹3,000 crore\" (29 ก.ค. 2568 — ส่งออก ₹430 cr→เป้า ₹800 cr, 32 ประเทศ, AgriCentral) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "The Ken: \"Waycool's pivot and the false promise of agritech\" (24 เม.ย. 2567 — รายได้ FY24 ₹1,600 cr, ~1/3 จากแบรนด์ FMCG เอง, ขาย SunnyBee, เลย์ออฟ ~400+70, ตัดคลัง 1 ใน 4) — — เข้าถึงเมื่อ 2026-08-05",
+      "url": "https://the-ken.com/"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "YourStory: \"Ninjacart's revenue surges 74% to Rs 2,002 Cr in FY24\" (29 ต.ค. 2567) + Business Standard: \"Ninjacart posts Rs 256-cr loss in FY25, revenue drops to Rs 1,634 cr\" (26 ธ.ค. 2568 — ตัดธุรกิจ margin ต่ำ, core กำไรปฏิบัติการ, เป้ากำไร FY27) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "AgroStar (หน้าบริษัท — 9M+ ฟาร์มเมอร์, 7,000+ ร้าน, funding US$189.9M, Series E $6.7M นำโดย Accel เม.ย. 2568) + Business Today: \"How improving profitability is reviving investor interest in agritech\" (23 ก.ค. 2569) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "CNBC: \"Thailand start-up Ricult has mobile app designed to boost crop yields\" (29 พ.ย. 2564 — เกือบ 400,000 ฟาร์มเมอร์, รายได้ +50% อ้าง, โมเดลเก็บค่าธรรมเนียมจากธนาคาร) + Nation Thailand (18 ก.พ. 2567 — farming-as-a-service, 1M ฟาร์มเมอร์, funding >US$10M) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "Americas Quarterly: \"The Next Generation of Agtech in Brazil\" (20 ม.ค. 2569 — Agrosmart 100,000+ ฟาร์มเมอร์/9 ประเทศ/48M เฮกตาร์, เตือนภัยน้ำท่วม RS 2567, คาดกำไร เม.ย. 2569; Embrapa: 2,000 agtech +75% จาก 2562–2567) + Global Venturing (2566 — เงินทุน ~$9M, ลูกค้า Cargill/Coca-Cola) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "Campo e Negocios: \"Solinftec supera R$ 1,3 BI em captações\" (5 ก.พ. 2568 — ARR R$370M, 90% share อ้อย, 3M เฮกตาร์ธัญพืช/8% พื้นที่บราซิล, 700 Solix ภายใน 2569) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "Valor International: \"Project assesses financial return of connected machines\" (2 พ.ค. 2568 — BNDES/FIA pilot Mato Grosso: ดีเซล -23%, พื้นที่ 43.36→51.74 เฮกตาร์/วัน, CO2/ตัว -70%, น้ำ -21%, R$32,000/100 ตัว) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "China Daily: \"Drones boost agricultural productions\" (27 ส.ค. 2568 — White Paper 2567/68: >500,000 ลำ, 173M เฮกตาร์, ~¥13B/US$1.8B, 500,000 งาน, 12,000 ผู้หญิง, กล้วย Yunnan ขาดทุน 30%→<5%) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "SCMP: \"China's drone-farming boom eyes emerging markets\" (29 ก.ค. 2569 — ยอดสะสม 700,000+ ลำ, โต 5 เท่าใน 5 ปี, ขนส่ง 17M ตัน, share >40% ตาม Global Market Insights) + CleanTechnica: \"Third Of China's Farms Sprayed By Drones\" (25 เม.ย. 2568 — DJI อ้าง 1 ใน 3 พื้นที่จีน, >300,000 ลำ ปลาย 2566) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "Turkish Agri News: \"China's farming drones take root\" (3 ม.ค. 2568 — 251,000 ลำ/178M เฮกตาร์ ตาม National Agro-tech Extension Centre, XAG, เอกสารเลข 1 ปี 2567, NDRC low-altitude dept) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "AliResearch: \"China Taobao Village Research Report 2020\" (5,425 หมู่บ้าน/1,756 ตำบล/¥1 ล้านล้าน/2.96M ร้าน/8.28M งาน/745 หมู่บ้านร้อยล้านหยวน) + Land (MDPI): \"Urbanization, Rural E-Commerce Villages...\" (2565: 7,780 หมู่บ้าน) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "TechCrunch: \"South African startup Aerobotics raises $17M\" (21 ม.ค. 2564) + AgriWeb: \"Aerobotics: Transforming South African Agriculture\" (21 พ.ย. 2568 — 400M+ ต้น, 18 ประเทศ, 1,000+ ผู้ผลิต, 85–90% แม่นยำพยากรณ์) — เข้าถึงเมื่อ 2026-08-05",
+      "url": null
+    }
+  ],
+  "reference_count": 25,
+  "article_file": "agri-14-010.md",
+  "source_file": "14-สตาร์ทอัพ นวัตกรรม และการยอมรับเทคโนโลยี\\เจาะลึก-14-บทเรียนสเกล-AgTech-ตลาดเกิดใหม่.md"
+}

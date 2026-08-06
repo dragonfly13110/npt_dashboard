@@ -1,0 +1,59 @@
+{
+  "slug": "agri-07-010",
+  "title": "หุ่นยนต์สำรวจ/ตรวจแปลงภาคพื้นดิน (UGV Scouting Robots) — รถเล็กเดินตรวจแปลงทั้งวัน เก็บภาพ/เซนเซอร์ทุกต้น ส่ง AI วิเคราะห์ — \"โดรนมองจากฟ้า หุ่นยนต์ภาคพื้นเดินดูใต้ทรงพุ่ม\"",
+  "author": "Agricultural Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-02",
+  "created_at": "2026-08-02",
+  "review_at": "2027-02-02",
+  "category": "หุ่นยนต์และเครื่องจักรอัตโนมัติ",
+  "domain_code": "07",
+  "topic_id": "07-010",
+  "handle_id": "07-010",
+  "abstract": "- **ใจความ**: หุ่นยนต์สำรวจแปลงภาคพื้น (ground/UGV scouting robot) = รถ/หุ่นยนต์อัตโนมัติเดินตรวจแปลง (ตามแถว/เส้นทาง) พร้อมกล้อง/เซนเซอร์ เก็บภาพ/ข้อมูลรายต้น (ใต้ทรงพุ่ม — ที่โดรนมองไม่เห็น) แล้วส่ง AI วิเคราะห์ (โรค/แมลง/ธาตุอาหาร/ความเครียด/นับผล) — ตอบโจทย์ \"การตรวจแปลงที่คนทำได้น้อย/ช้า/พลาด\" + \"ข้อมูลรายต้นที่โดรนมองไม่เห็น\" — ตัวอย่าง: Thorvald (UV — กำจัดโรคราแป้ง — Saga Robotics, นอร์เวย์), Burro (ช่วยขน/อัตโนมัติ — US), Solix (Solinftec — ตรวจ+พ่นจุด — บราซิล), GUSS (พ่นสวนผลไม้ — US), Agrointelli Robotti (แพลตฟอร์มทำงานหลายอย่าง — เดนมาร์ก) [1][2][3]",
+  "source_type": "Frontier agricultural research article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "งานทบทวน UGV เกษตร (Computers and Electronics in Agriculture, Journal of Field Robotics 2015–2024) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "งาน UGV+AI ตรวจโรค/แมลง/นับผล (Frontiers in Plant Science, Agronomy 2019–2024) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "ข่าว/เอกสารผู้เล่น (Saga Robotics, Solinftec, Burro, GUSS, Agrointelli 2020–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "รายงานตลาด agricultural robots/UGV (analyst/AgFunder/The Robot Report 2023–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งานวิจัย UGV/การตรวจแปลงไทย (TCI/ThaiJo — มก./มจธ./มข.) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "สถานะแรงงานตรวจ/หมอพืช/นับผลไทย (ข่าว/งาน 2023–2025) — เข้าถึงเมื่อ 2026-08-02 *(ดูหัวข้อ 10)*",
+      "url": null
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "agri-07-010.md",
+  "source_file": "07-หุ่นยนต์และเครื่องจักรอัตโนมัติ\\เจาะลึก-07-หุ่นยนต์สำรวจแปลง-UGV-ภาคพื้นดิน.md"
+}
