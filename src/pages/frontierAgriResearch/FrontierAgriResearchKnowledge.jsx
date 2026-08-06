@@ -23,7 +23,7 @@ import {
   KnowledgeSectionHeading,
   KnowledgeStats,
 } from '../../components/PublicKnowledge';
-import { parseArticleBlocks } from '../../utils/markdownBlocks';
+import { getFrontierArticleBlockGroups } from '../../utils/frontierArticle';
 import '../rice/RiceKnowledge.css';
 import '../stouResearch/StouResearchKnowledge.css';
 import './FrontierAgriResearchKnowledge.css';
@@ -135,6 +135,29 @@ function ErrorState() {
       ไม่สามารถโหลด catalog บทความการเกษตรได้ กรุณาลองใหม่อีกครั้ง
     </div>
   );
+}
+
+function FrontierArticleMarkdown({ content }) {
+  return getFrontierArticleBlockGroups(content).map((group, groupIndex) => (
+    <div
+      className={group.isReferences ? 'frontier-reference-section' : undefined}
+      key={groupIndex}
+    >
+      {group.blocks.map((block, index) => (
+        <MarkdownBlock
+          key={index}
+          block={block}
+          tableClassName="rice-table-wrap"
+          tocClassName="rice-toc"
+          citationTarget="#frontier-reference"
+          referenceList={
+            group.isReferences &&
+            (block.type === 'list' || block.type === 'ordered-list')
+          }
+        />
+      ))}
+    </div>
+  ));
 }
 
 function FrontierAgriResearchHub({ catalog }) {
@@ -375,14 +398,7 @@ function FrontierAgriResearchArticle({ catalog }) {
             <p>{article.author}</p>
           </header>
           <div className="rice-markdown">
-            {parseArticleBlocks(content).map((block, index) => (
-              <MarkdownBlock
-                key={index}
-                block={block}
-                tableClassName="rice-table-wrap"
-                tocClassName="rice-toc"
-              />
-            ))}
+            <FrontierArticleMarkdown content={content} />
           </div>
         </article>
         <aside className="rice-article-aside">

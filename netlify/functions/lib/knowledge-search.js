@@ -387,13 +387,24 @@ export function loadFrontierAgriResearchChunks() {
     const articlesByFile = new Map(
       catalog.articles.map((article) => [article.article_file, article])
     );
+    const articlesByTopic = new Map(
+      catalog.articles.map((article) => [article.topic_id, article])
+    );
     frontierAgriResearchChunksCache = readMarkdownChunks(
       path.join(root, 'articles'),
-      (file) => {
+      (file, content) => {
         const article = articlesByFile.get(file);
         if (!article) return { document_slug: file.replace(/\.md$/, '') };
+        const relatedDocumentSlugs = [
+          ...new Set(
+            [...String(content || '').matchAll(/(?<!\d)(\d{2}-\d{3})(?!\d)/g)]
+              .map((match) => articlesByTopic.get(match[1])?.slug)
+              .filter(Boolean)
+          ),
+        ];
         return {
           document_slug: article.slug,
+          related_document_slugs: relatedDocumentSlugs,
           title: article.title,
           author: article.author,
           category: article.category,
@@ -422,12 +433,25 @@ export function searchFrontierAgriChunks(
   limit = 10,
   preferredDocumentSlug = ''
 ) {
-  return searchChunks(
-    loadFrontierAgriResearchChunks(),
-    queryText,
-    limit,
-    preferredDocumentSlug
-  );
+  const chunks = loadFrontierAgriResearchChunks();
+  if (preferredDocumentSlug) {
+    const preferredChunk = chunks.find(
+      (chunk) => chunk.document_slug === preferredDocumentSlug
+    );
+    if (preferredChunk) {
+      const scopedSlugs = new Set([
+        preferredDocumentSlug,
+        ...(preferredChunk.related_document_slugs || []),
+      ]);
+      return searchChunks(
+        chunks.filter((chunk) => scopedSlugs.has(chunk.document_slug)),
+        queryText,
+        limit,
+        preferredDocumentSlug
+      );
+    }
+  }
+  return searchChunks(chunks, queryText, limit, preferredDocumentSlug);
 }
 
 export function searchKnowledgeHubChunks(queryText, limit = 12) {

@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 import './MarkdownBlock.css';
 
 const INLINE_TOKEN_PATTERN =
-  /(<br\s*\/?\s*>|`[^`]+`|\[[^\]]+\]\([^)]+\)|\*\*[^*\n]+?\*\*|__[^_\n]+?__|(?<![\p{L}\p{N}\\])\*[^*\n]+?\*(?![\p{L}\p{N}])|(?<![\p{L}\p{N}\\])_[^_\n]+?_(?![\p{L}\p{N}]))/gu;
+  /(<br\s*\/?\s*>|`[^`]+`|\[[^\]]+\]\([^)]+\)|https?:\/\/[^\s<>()]+|\[\d+\]|\*\*[^*\n]+?\*\*|__[^_\n]+?__|(?<![\p{L}\p{N}\\])\*[^*\n]+?\*(?![\p{L}\p{N}])|(?<![\p{L}\p{N}\\])_[^_\n]+?_(?![\p{L}\p{N}]))/gu;
 
-function renderInline(text) {
+function renderInline(text, citationTarget = '') {
   if (!text) return '';
 
   return String(text)
@@ -12,6 +12,15 @@ function renderInline(text) {
     .map((part, index) => {
       if (/^<br\s*\/?\s*>$/i.test(part)) {
         return <br key={index} />;
+      }
+      const citation = citationTarget ? part.match(/^`?\[(\d+)\]`?$/) : null;
+      if (citation) {
+        const number = citation[1];
+        return (
+          <sup className="markdown-citation" key={index}>
+            <a href={`${citationTarget}-${number}`}>[{number}]</a>
+          </sup>
+        );
       }
       if (part.startsWith('`') && part.endsWith('`')) {
         return <code key={index}>{part.slice(1, -1)}</code>;
@@ -53,6 +62,18 @@ function renderInline(text) {
           );
         }
       }
+      if (/^https?:\/\//i.test(part)) {
+        const href = part.replace(/[.,;:]+$/g, '');
+        const trailing = part.slice(href.length);
+        return (
+          <span key={index}>
+            <a href={href} target="_blank" rel="noopener noreferrer">
+              {href}
+            </a>
+            {trailing}
+          </span>
+        );
+      }
       return part.replace(/\\\*/g, '*');
     });
 }
@@ -61,22 +82,34 @@ export function MarkdownBlock({
   block,
   tableClassName = 'markdown-table-wrap',
   tocClassName = 'markdown-toc',
+  citationTarget = '',
+  referenceList = false,
 }) {
   if (block.type === 'hr') return <hr />;
   if (block.type === 'blockquote') {
-    return <blockquote>{renderInline(block.text)}</blockquote>;
+    return <blockquote>{renderInline(block.text, citationTarget)}</blockquote>;
   }
   if (block.type === 'heading') {
     const Tag = `h${Math.min(block.level + 1, 4)}`;
-    return <Tag>{renderInline(block.text)}</Tag>;
+    return <Tag>{renderInline(block.text, citationTarget)}</Tag>;
   }
   if (block.type === 'list' || block.type === 'ordered-list') {
     const Tag = block.type === 'ordered-list' ? 'ol' : 'ul';
     return (
       <Tag>
-        {block.items.map((item, index) => (
-          <li key={index}>{renderInline(item)}</li>
-        ))}
+        {block.items.map((item, index) => {
+          const referenceNumber = referenceList
+            ? item.match(/^\s*`?\[(\d+)\]`?\s*/)?.[1]
+            : null;
+          const referenceId = referenceNumber
+            ? `${citationTarget.replace(/^#/, '')}-${referenceNumber}`
+            : undefined;
+          return (
+            <li key={index} id={referenceId}>
+              {renderInline(item, referenceList ? '' : citationTarget)}
+            </li>
+          );
+        })}
       </Tag>
     );
   }
@@ -86,7 +119,7 @@ export function MarkdownBlock({
         {block.items.map((item, index) => (
           <div className="markdown-toc-item" key={`${item.label}-${index}`}>
             <span className="markdown-toc-label">
-              {renderInline(item.label)}
+              {renderInline(item.label, citationTarget)}
             </span>
             {item.page && (
               <span className="markdown-toc-page">{item.page}</span>
@@ -104,7 +137,7 @@ export function MarkdownBlock({
           <thead>
             <tr>
               {head.map((cell, index) => (
-                <th key={index}>{renderInline(cell)}</th>
+                <th key={index}>{renderInline(cell, citationTarget)}</th>
               ))}
             </tr>
           </thead>
@@ -112,7 +145,7 @@ export function MarkdownBlock({
             {body.map((row, rowIndex) => (
               <tr key={rowIndex}>
                 {row.map((cell, cellIndex) => (
-                  <td key={cellIndex}>{renderInline(cell)}</td>
+                  <td key={cellIndex}>{renderInline(cell, citationTarget)}</td>
                 ))}
               </tr>
             ))}
@@ -128,5 +161,5 @@ export function MarkdownBlock({
       </pre>
     );
   }
-  return <p>{renderInline(block.text)}</p>;
+  return <p>{renderInline(block.text, citationTarget)}</p>;
 }
