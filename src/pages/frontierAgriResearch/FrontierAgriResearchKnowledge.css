@@ -14,3 +14,31 @@
   color: #476558;
   line-height: 1.7;
 }
+
+.frontier-agri-page .markdown-citation {
+  margin-left: 2px;
+  font-size: 0.72em;
+  line-height: 0;
+  vertical-align: super;
+}
+
+.frontier-agri-page .markdown-citation a {
+  display: inline;
+  color: #15803d;
+  text-decoration: none;
+}
+
+.frontier-agri-page .markdown-citation a:hover {
+  text-decoration: underline;
+}
+
+.frontier-agri-page .frontier-reference-section {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid #cde8d6;
+  font-size: 0.94rem;
+}
+
+.frontier-agri-page .frontier-reference-section li {
+  scroll-margin-top: 24px;
+}

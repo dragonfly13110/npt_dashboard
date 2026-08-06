@@ -90,4 +90,29 @@ describe('knowledge bots', () => {
     expect(serialized).toContain('/public/frontier-agri-research/');
     expect(serialized).not.toContain('/public/stou-research/');
   });
+
+  it('keeps an article-scoped frontier bot inside the current article corpus', () => {
+    const body = buildKnowledgeBody(
+      'gemini',
+      { model: 'gemini-3.5-flash-lite' },
+      'ข้อมูลเกี่ยวกับปุ๋ยและนวัตกรรมล้ำยุคที่เชื่อมโยงในคลังมีอะไรบ้าง',
+      [
+        {
+          role: 'user',
+          parts: [
+            {
+              text: 'ข้อมูลเกี่ยวกับปุ๋ยและนวัตกรรมล้ำยุคที่เชื่อมโยงในคลังมีอะไรบ้าง',
+            },
+          ],
+        },
+      ],
+      'frontier-agri',
+      'agri-02-012'
+    );
+    const serialized = JSON.stringify(body);
+    expect(serialized).toContain('/public/frontier-agri-research/agri-02-012');
+    expect(serialized).not.toContain(
+      '/public/frontier-agri-research/agri-08-009'
+    );
+  });
 });

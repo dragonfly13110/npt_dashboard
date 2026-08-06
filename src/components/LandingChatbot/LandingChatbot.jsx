@@ -319,10 +319,16 @@ const KNOWLEDGE_BOT_CONFIGS = {
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const parseMarkdownText = (text) => {
+export const parseMarkdownText = (text, options = {}) => {
   if (!text) return '';
   const regex = /(\[[^\]]+\]\([^\s)]+\)|\*\*.*?\*\*|\/[a-zA-Z0-9/_-]+)/g;
   const parts = text.split(regex);
+  const isAllowedArticleLink = (url) => {
+    const articleSlug = options.knowledgeArticleSlug;
+    if (!articleSlug) return true;
+    const match = url.match(/^\/public\/frontier-agri-research\/([^/?#]+)$/);
+    return !match || match[1] === articleSlug;
+  };
 
   return parts.map((part, idx) => {
     if (!part) return null;
@@ -333,7 +339,7 @@ export const parseMarkdownText = (text) => {
         const label = labelMatch[1];
         const safeUrl = normalizeLandingChatbotLink(urlMatch[1]);
 
-        if (!safeUrl) {
+        if (!safeUrl || !isAllowedArticleLink(safeUrl)) {
           return <span key={idx}>{label}</span>;
         }
 
@@ -355,10 +361,14 @@ export const parseMarkdownText = (text) => {
       }
     }
     if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={idx}>{parseMarkdownText(part.slice(2, -2))}</strong>;
+      return (
+        <strong key={idx}>
+          {parseMarkdownText(part.slice(2, -2), options)}
+        </strong>
+      );
     }
     const safeUrl = normalizeLandingChatbotLink(part);
-    if (safeUrl) {
+    if (safeUrl && isAllowedArticleLink(safeUrl)) {
       return (
         <Link
           key={idx}
@@ -903,11 +913,16 @@ export default function LandingChatbot() {
                   <div className="message-bubble">
                     <div className="message-content">
                       {msg.content.split('\n').map((line, lIdx) => {
-                        const parsedLine = parseMarkdownText(line);
+                        const parsedLine = parseMarkdownText(line, {
+                          knowledgeArticleSlug,
+                        });
                         if (line.trim().startsWith('•')) {
                           return (
                             <div key={lIdx} className="bullet-line">
-                              • {parseMarkdownText(line.trim().slice(1))}
+                              •{' '}
+                              {parseMarkdownText(line.trim().slice(1), {
+                                knowledgeArticleSlug,
+                              })}
                             </div>
                           );
                         }

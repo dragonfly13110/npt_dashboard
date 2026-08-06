@@ -28,4 +28,18 @@ describe('parseMarkdownText', () => {
       screen.getByRole('link', { name: '/public/large-plots' })
     ).toHaveAttribute('href', '/public/large-plots');
   });
+
+  it('hides unrelated frontier article links in an article-scoped chat', () => {
+    render(
+      <BrowserRouter>
+        {parseMarkdownText(
+          '[แหล่งข้อมูล](/public/frontier-agri-research/agri-08-009)',
+          { knowledgeArticleSlug: 'agri-02-012' }
+        )}
+      </BrowserRouter>
+    );
+
+    expect(screen.queryByRole('link')).not.toBeInTheDocument();
+    expect(screen.getByText('แหล่งข้อมูล')).toBeInTheDocument();
+  });
 });

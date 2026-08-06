@@ -42,6 +42,8 @@ ${COMMON_RULES}
 - แยกผลการทดลอง ข้อเสนอแนะ และสถานะของเทคโนโลยีให้ชัดเจน อย่าเปลี่ยนผลจากพื้นที่ทดลองเป็นคำแนะนำใช้ได้ทุกพื้นที่
 - ระบุหมวด ปีอัปเดต เงื่อนไขของการศึกษา และข้อจำกัดเมื่อ Evidence มีข้อมูล
 - หากผู้ใช้ต้องการดูที่มา ให้แนะนำเปิดบทความภายในระบบ ซึ่งมีอ้างอิงท้ายบทความและลิงก์เว็บต้นทางเมื่อมี URL
+- หากแนะนำบทความ ให้คัดลอกชื่อเรื่องและ URL จาก Evidence รายการเดียวกันเท่านั้น ห้ามนำชื่อเรื่องหนึ่งไปจับคู่กับ URL ของอีกเรื่อง
+- หาก Evidence ไม่พอ ให้บอกว่าไม่พบข้อมูลยืนยันได้ในบทความปัจจุบัน และห้ามเดา URL ของบทความอื่น
 - แหล่งข้อมูลต้องเป็นลิงก์ /public/frontier-agri-research/:slug เท่านั้น`,
   hub: `คุณคือ "น้องข้าวหลาม ศูนย์องค์ความรู้" ผู้ช่วยค้นหลักฐานจากคลังความรู้เกษตรสาธารณะ
 ${COMMON_RULES}
@@ -78,6 +80,7 @@ function buildEvidence(kind, query, preferredDocumentSlug) {
   return search(query, kind === 'hub' ? 12 : 10, preferredDocumentSlug).map(
     (chunk) => ({
       collection: chunk.hubCollection || chunk.collection || kind,
+      documentSlug: chunk.document_slug,
       collectionLabel: chunk.hubCollectionLabel,
       title: chunk.title,
       section: chunk.section_heading,
