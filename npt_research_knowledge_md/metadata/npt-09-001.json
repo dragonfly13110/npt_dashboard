@@ -1,0 +1,132 @@
+{
+  "slug": "npt-09-001",
+  "title": "งานวิจัยเทคโนโลยีการเกษตรในจังหวัดนครปฐม (2023–2026)",
+  "author": "Nakhon Pathom Plant Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-07",
+  "created_at": "2026-08-07",
+  "review_at": "2027-02-07",
+  "category": "เทคโนโลยีการเกษตร",
+  "domain_code": "09",
+  "topic_id": "09-001",
+  "handle_id": "09-001",
+  "abstract": "- **ใจความ**: งานวิจัยเทคโนโลยีการเกษตรในนครปฐม 2023–2026 มี 13 รายการหลัก แบ่งออกเป็น 5 กลุ่มเทคโนโลยีสำคัญ ได้แก่: 1. **โรงเรือนและปัญญาประดิษฐ์ (AI) 3 ชิ้น**: โรงเรือนอัจฉริยะทนภูมิอากาศ AI [1], ระบบสมาร์ทฟาร์มไฮโดรโปนิกส์ขึ้นฉ่าย IoT และการจำลอง ROI เชิงพาณิชย์ [2], ระบบประยุกต์ใช้ AI ในการผลิตอ้อย [6] 2. **IoT และเทคโนโลยีเซนเซอร์ 3 ชิ้น**: ระบบจัดสรรน้ำอัจฉริยะ iWASAM [3], ระบบไมโครชิปติดตามและประเมินพฤติกรรมโคนม [5], เทคโนโลยีเซนเซอร์และโดรนเฝ้าสังเกตการณ์แปลงเกษตร [8] 3. **UAV และเทคโนโลยีดาวเทียม 2 ชิ้น**: ระบบจำลอง downwash จาก UAV เพื่อผสมเกสรข้าวโพด [4], ระบบแผนที่และการพยากรณ์ผลผลิตข้าวด้วยข้อมูลดาวเทียม [11] 4. **เครื่องจักรกลการเกษตรและหุ่นยนต์ 2 ชิ้น**: การพัฒนาหุ่นยนต์/เครื่",
+  "source_type": "Nakhon Pathom agricultural research review",
+  "source_url": "https://app.csc.ku.ac.th/sdgs/project/smart-greenhouse-climate-crops-2023",
+  "pdf_url": null,
+  "source_urls": [
+    "https://app.csc.ku.ac.th/sdgs/project/smart-greenhouse-climate-crops-2023",
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2025&ProjectNumber=2530682000",
+    "https://eng.kps.ku.ac.th",
+    "https://li01.tci-thaijo.org/index.php/anres/article/view/272592",
+    "https://li01.tci-thaijo.org/index.php/itech/article/view/268871",
+    "https://www.tci-thaijo.org/index.php/jkmutnb/article/view/255283",
+    "https://eng.kps.ku.ac.th/fe",
+    "https://kuojs.lib.ku.ac.th/index.php/kasetsart_ss/article/view/5717",
+    "https://agr.kps.ku.ac.th",
+    "https://so05.tci-thaijo.org/index.php/sujthai/article/view/261779",
+    "http://www.phtnet.org",
+    "https://suwanfarm.agr.ku.ac.th"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "มก.กำแพงแสน (2023): โรงเรือนอัจฉริยะทนภูมิอากาศ (มะเขือเทศ/พริก, AI) — KU SDG — เข้าใช้ 2026-08-07",
+      "url": "https://app.csc.ku.ac.th/sdgs/project/smart-greenhouse-climate-crops-2023"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "มก.กำแพงแสน (ทุน ว.กพส., 2568): สมาร์ทฟาร์มไฮโดรโปนิกส์ขึ้นฉ่าย IoT — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2025&ProjectNumber=2530682000"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "วิศวกรรมชลประทาน มก.กำแพงแสน (2569): ระบบบริหารจัดการและจัดสรรน้ำชลประทานอัจฉริยะ (iWASAM) ด้วยเทคโนโลยี IoT และ AI — ภาควิชาวิศวกรรมชลประทาน คณะวิศวกรรมศาสตร์ กำแพงแสน — เข้าใช้ 2026-08-07",
+      "url": "https://eng.kps.ku.ac.th"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Boonprasert, R., Siriake, P., Vijuksungsith, P., Pakoktom, T., & Panprayun, G. (2026): Simulation spatial model for analyzing cooling effects of downwash turbulence on maize canopies to enhance pollination efficiency using thermal imaging data collected from unmanned aerial vehicles. Agriculture and Natural Resources, 60(3), 272592 — เข้าใช้ 2026-08-07",
+      "url": "https://li01.tci-thaijo.org/index.php/anres/article/view/272592"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "ITECH (2025): ระบบไมโครชิปติดตามวัวโคนม — ม.มหิดล เทคโนโลยีสารสนเทศ — เข้าใช้ 2026-08-07",
+      "url": "https://li01.tci-thaijo.org/index.php/itech/article/view/268871"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "จักกริช พฤษการ และคณะ (มก.กำแพงแสน, 2568): การถ่ายทอดเทคโนโลยีและการประยุกต์ใช้แอปพลิเคชัน CropIrisX Community สำหรับการบริหารจัดการแปลงอ้อยแบบแม่นยำด้วย IoT และภาพถ่ายดาวเทียม — เข้าใช้ 2026-08-07",
+      "url": "https://eng.kps.ku.ac.th"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "มก.กำแพงแสน (2566–2568): การวิจัยและพัฒนาหุ่นยนต์และเครื่องจักรกลเกษตรอัจฉริยะแบบขับเคลื่อนอัตโนมัติ — ภาควิชาวิศวกรรมเกษตร คณะวิศวกรรมศาสตร์ กำแพงแสน — เข้าใช้ 2026-08-07",
+      "url": "https://eng.kps.ku.ac.th"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "อริสรา เกษมจิตร์, วรัญญา อรรถเสนา, พิเชษฐ์ สืบสายพรหม, และ ฐิติพงษ์ สถิรเมธีกุล (2566): ระบบเฝ้าสังเกตและวิเคราะห์การเจริญเติบโตของอ้อยโดยใช้โดรนสังเกตการณ์. วารสารวิชาการพระจอมเกล้าพระนครเหนือ, 33(2), 493-505 — เข้าใช้ 2026-08-07",
+      "url": "https://www.tci-thaijo.org/index.php/jkmutnb/article/view/255283"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "มก.กำแพงแสน (2566–2568): งานวิจัยการพัฒนากระบวนการแปรรูปและการสกัดสารสำคัญจากอาหารและสมุนไพร — ภาควิชาวิศวกรรมการอาหาร คณะวิศวกรรมศาสตร์ กำแพงแสน — เข้าใช้ 2026-08-07",
+      "url": "https://eng.kps.ku.ac.th/fe"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "KUOJS (2567): NIRS ตรวจวิเคราะห์อาหารโคนมเร็ว — ผลิตภัณฑ์ประมง+สัตวศาสตร์ — เข้าใช้ 2026-08-07",
+      "url": "https://kuojs.lib.ku.ac.th/index.php/kasetsart_ss/article/view/5717"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "มก.กำแพงแสน (2567): การประยุกต์ใช้ระบบภูมิสารสนเทศและภาพถ่ายดาวเทียมเพื่อการพยากรณ์ผลผลิตและวางแผนพื้นที่ปลูกข้าว — คณะเกษตร กำแพงแสน — เข้าใช้ 2026-08-07",
+      "url": "https://agr.kps.ku.ac.th"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "ม.ศิลปากร สนามจันทร์ (2566): แพลตฟอร์มข้อมูลการเกษตร/แอป (ตลาดปลอดภัย) — เข้าใช้ 2026-08-07",
+      "url": "https://so05.tci-thaijo.org/index.php/sujthai/article/view/261779"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "รณฤทธิ์ ฤทธิรณ (มก.กำแพงแสน, 2567): เครื่องวิเคราะห์คุณภาพผลไม้และทุเรียนอย่างรวดเร็วด้วยเทคนิค Near Infrared (NIR) — ภาควิชาวิศวกรรมการอาหาร คณะวิศวกรรมศาสตร์ กำแพงแสน — เข้าใช้ 2026-08-07",
+      "url": "https://eng.kps.ku.ac.th/fe"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "วิศวกรรมเกษตร มก.กำแพงแสน: เครื่องจักรกล/เซนเซอร์/โรงเรือน — เข้าใช้ 2026-08-07",
+      "url": "https://eng.kps.ku.ac.th"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "ศูนย์นวัตกรรมเทคโนโลยีหลังการเก็บเกี่ยว (CEPPG): หลังเก็บเกี่ยว/แปรรูป — เข้าใช้ 2026-08-07",
+      "url": "http://www.phtnet.org"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "ไร่สุวรรณ: แปลงทดลอง UAV/AI — เข้าใช้ 2026-08-07",
+      "url": "https://suwanfarm.agr.ku.ac.th"
+    }
+  ],
+  "reference_count": 16,
+  "article_file": "npt-09-001.md",
+  "source_file": "09-เทคโนโลยีการเกษตร\\บทความรีวิว-09-เทคโนโลยีการเกษตร.md"
+}

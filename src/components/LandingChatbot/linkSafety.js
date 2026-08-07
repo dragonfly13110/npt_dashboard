@@ -23,6 +23,7 @@ export const LANDING_CHATBOT_ALLOWED_LINKS = Object.freeze({
   '/public/farmer-manual': 'คู่มือขึ้นทะเบียนเกษตรกร',
   '/public/stou-research': 'คลังงานวิจัย มสธ.',
   '/public/frontier-agri-research': 'คลังบทความด้านการเกษตรทั่วโลก',
+  '/public/npt-research': 'คลังงานวิจัยพืชนครปฐม',
 });
 
 const LANDING_CHATBOT_LINK_ALIASES = Object.freeze({
@@ -68,6 +69,7 @@ export function normalizeLandingChatbotLink(rawUrl) {
   if (/^\/public\/stou-research\/[^/?#]+$/.test(pathOnly)) return pathOnly;
   if (/^\/public\/frontier-agri-research\/[^/?#]+$/.test(pathOnly))
     return pathOnly;
+  if (/^\/public\/npt-research\/[^/?#]+$/.test(pathOnly)) return pathOnly;
   const normalizedPath =
     pathOnly.length > 1 ? pathOnly.replace(/\/+$/, '') : pathOnly;
   const aliasedPath =

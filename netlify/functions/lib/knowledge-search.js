@@ -9,6 +9,7 @@ let riceChunksCache = null;
 let machineryChunksCache = null;
 let stouResearchChunksCache = null;
 let frontierAgriResearchChunksCache = null;
+let nptResearchChunksCache = null;
 
 const QUERY_STOPWORDS = new Set([
   'อะไร',
@@ -454,6 +455,81 @@ export function searchFrontierAgriChunks(
   return searchChunks(chunks, queryText, limit, preferredDocumentSlug);
 }
 
+export function loadNptResearchChunks() {
+  if (nptResearchChunksCache) return nptResearchChunksCache;
+  try {
+    const root = path.join(process.cwd(), 'public/data/npt-research');
+    const catalog = JSON.parse(
+      fs.readFileSync(path.join(root, 'catalog.json'), 'utf8')
+    );
+    const articlesByFile = new Map(
+      catalog.articles.map((article) => [article.article_file, article])
+    );
+    const articlesByTopic = new Map(
+      catalog.articles.map((article) => [article.topic_id, article])
+    );
+    nptResearchChunksCache = readMarkdownChunks(
+      path.join(root, 'articles'),
+      (file, content) => {
+        const article = articlesByFile.get(file);
+        if (!article) return { document_slug: file.replace(/\.md$/, '') };
+        const relatedDocumentSlugs = [
+          ...new Set(
+            [...String(content || '').matchAll(/(?<!\d)(\d{2}-\d{3})(?!\d)/g)]
+              .map((match) => articlesByTopic.get(match[1])?.slug)
+              .filter(Boolean)
+          ),
+        ];
+        return {
+          document_slug: article.slug,
+          related_document_slugs: relatedDocumentSlugs,
+          title: article.title,
+          author: article.author,
+          category: article.category,
+          collection: 'npt-research',
+          topic: article.topic_id,
+          source_year: article.source_year,
+          updated_at: article.updated_at,
+          review_at: article.review_at,
+          reference_count: article.reference_count,
+          source_urls: article.source_urls,
+          url: `/public/npt-research/${article.slug}`,
+        };
+      }
+    );
+  } catch (error) {
+    console.error('Error loading Nakhon Pathom research knowledge:', error);
+    nptResearchChunksCache = [];
+  }
+  return nptResearchChunksCache;
+}
+
+export function searchNptResearchChunks(
+  queryText,
+  limit = 10,
+  preferredDocumentSlug = ''
+) {
+  const chunks = loadNptResearchChunks();
+  if (preferredDocumentSlug) {
+    const preferredChunk = chunks.find(
+      (chunk) => chunk.document_slug === preferredDocumentSlug
+    );
+    if (preferredChunk) {
+      const scopedSlugs = new Set([
+        preferredDocumentSlug,
+        ...(preferredChunk.related_document_slugs || []),
+      ]);
+      return searchChunks(
+        chunks.filter((chunk) => scopedSlugs.has(chunk.document_slug)),
+        queryText,
+        limit,
+        preferredDocumentSlug
+      );
+    }
+  }
+  return searchChunks(chunks, queryText, limit, preferredDocumentSlug);
+}
+
 export function searchKnowledgeHubChunks(queryText, limit = 12) {
   const sources = [
     {
@@ -506,6 +582,12 @@ export function searchKnowledgeHubChunks(queryText, limit = 12) {
       collection: 'frontier-agri-research',
       label: 'บทความเกษตรทั่วโลก',
       search: searchFrontierAgriChunks,
+      url: (chunk) => chunk.url,
+    },
+    {
+      collection: 'npt-research',
+      label: 'งานวิจัยพืชนครปฐม',
+      search: searchNptResearchChunks,
       url: (chunk) => chunk.url,
     },
   ];

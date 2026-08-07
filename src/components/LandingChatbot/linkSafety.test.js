@@ -19,6 +19,9 @@ describe('normalizeLandingChatbotLink', () => {
     expect(
       normalizeLandingChatbotLink('/public/frontier-agri-research/agri-01-001')
     ).toBe('/public/frontier-agri-research/agri-01-001');
+    expect(normalizeLandingChatbotLink('/public/npt-research/npt-01-001')).toBe(
+      '/public/npt-research/npt-01-001'
+    );
   });
 
   it('normalizes safe aliases to public routes', () => {

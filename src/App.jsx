@@ -468,6 +468,18 @@ function AppRoutes() {
           path="/public/frontier-agri-research/:slug"
           element={<FrontierAgriResearchKnowledge />}
         />
+        <Route
+          path="/public/npt-research"
+          element={<FrontierAgriResearchKnowledge collection="npt" />}
+        />
+        <Route
+          path="/public/npt-research/catalog"
+          element={<FrontierAgriResearchKnowledge collection="npt" />}
+        />
+        <Route
+          path="/public/npt-research/:slug"
+          element={<FrontierAgriResearchKnowledge collection="npt" />}
+        />
 
         {/* Interactive Dashboard — PUBLIC */}
         <Route

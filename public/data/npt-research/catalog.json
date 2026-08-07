@@ -1,0 +1,1644 @@
+{
+  "schema_version": 1,
+  "collection": "npt-research",
+  "title": "Nakhon Pathom plant research reviews",
+  "source": {
+    "name": "Nakhon Pathom Plant Research Knowledge Library",
+    "url": null,
+    "note": "Imported from the Nakhon Pathom agricultural research review collection with source links preserved."
+  },
+  "stats": {
+    "total": 11,
+    "years": {
+      "2026": 11
+    },
+    "categories": {
+      "ข้าว": 1,
+      "ดิน-ปุ๋ย-น้ำ": 1,
+      "เทคโนโลยีการเกษตร": 1,
+      "ประมง": 1,
+      "ปศุสัตว์": 1,
+      "พืชผัก": 1,
+      "พืชไร่": 1,
+      "ไม้ดอกไม้ประดับ": 1,
+      "ไม้ผล": 1,
+      "ศัตรูพืช-อารักขาพืช": 1,
+      "อาหาร-แปรรูปผลผลิต": 1
+    },
+    "references": 196,
+    "linked_articles": 11
+  },
+  "articles": [
+    {
+      "slug": "npt-01-001",
+      "title": "งานวิจัยข้าวในจังหวัดนครปฐม (2023–2026)",
+      "author": "Nakhon Pathom Plant Research Knowledge Library",
+      "source_year": 2026,
+      "updated_at": "2026-08-07",
+      "created_at": "2026-08-07",
+      "review_at": "2027-02-07",
+      "category": "ข้าว",
+      "domain_code": "01",
+      "topic_id": "01-001",
+      "handle_id": "01-001",
+      "abstract": "- **ใจความ**: ในช่วงปี 2023–2026 จังหวัดนครปฐมเป็นที่ตั้งของงานวิจัยข้าวเชิงลึกและรอบด้าน — สถาบันในพื้นที่ เช่น มก.กำแพงแสน และ มรภ.นครปฐม ตีพิมพ์และนำเสนอผลงานระดับประเทศและนานาชาติรวม 20 ชิ้น ครอบคลุม 6 ด้านหลัก: (1) พันธุศาสตร์-จีโนมิกส์ (GWAS/QTL-seq, ยีน OsSAMHD1 ในข้าวสรรพสี RBR05) [1][2][14], (2) โรคและศัตรูข้าว (โรคไหม้, จุดสีน้ำตาล, และโรคเมล็ดเน่าดำจาก *Burkholderia glumae*) [3][4][21], (3) ความทนทานสภาพเครียดและการจัดการน้ำ (แล้ง, ร้อน, เค็ม, AWD ร่วมกับจัดการฟางข้าว) [5][12][13][15][22][23], (4) คุณภาพเมล็ด การสะสมไฟโตลิท และสารระเหยหอม (2AP, metabolomics, ยีน OsLsi2/OsLsi3) [7][8][9][24], (5) ธาตุอาหาร-เมล็ดพันธุ์ในชุดดินนครปฐม [10][11], และ (6) การพัฒนาช่องทางการตลาดดิจิทัลและ",
+      "source_type": "Nakhon Pathom agricultural research review",
+      "source_url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720060001",
+      "pdf_url": "https://www.scienceasia.org/2023.49.n5/scias49_744.pdf",
+      "source_urls": [
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720060001",
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720060002",
+        "https://li01.tci-thaijo.org/index.php/thaiagriculturalresearch/article/view/259053",
+        "https://li01.tci-thaijo.org/index.php/thaiagriculturalresearch/article/view/258283",
+        "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/257530",
+        "https://li01.tci-thaijo.org/index.php/anres/article/view/259081",
+        "https://www.scienceasia.org/2023.49.n5/scias49_744.pdf",
+        "https://ijat-aatsea.com/pdf/v20_n3_2024_May/9_IJAT_20(3)_2024_Dangthaisong,%20P.--350.pdf",
+        "https://pubmed.ncbi.nlm.nih.gov/37734150/",
+        "https://ag2.kku.ac.th/kaj/PDF.cfm?filename=5-Full%20Paper3.pdf&id=4910",
+        "https://research.ku.ac.th/forest/Present.aspx?PresentID=38019",
+        "https://www.ricesci.org/EN/10.1016/j.rsci.2024.12.002",
+        "https://li01.tci-thaijo.org/index.php/anres/article/view/268871",
+        "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2025.1622640/full",
+        "https://tci-thaijo.org/articles/physical03-2931",
+        "https://dna.kps.ku.ac.th",
+        "https://agkb.lib.ku.ac.th/rice",
+        "https://kukr.lib.ku.ac.th/kukr_es/KPS",
+        "https://misc.npru.ac.th/ricekm/index1.php",
+        "https://dept.npru.ac.th/agridvnp/",
+        "https://doi.org/10.14456/thaidoa-agres.2026.5",
+        "https://li01.tci-thaijo.org/index.php/anres/article/view/259717",
+        "https://li01.tci-thaijo.org/index.php/anres/article/view/261287",
+        "https://li01.tci-thaijo.org/index.php/physical03",
+        "https://so08.tci-thaijo.org/index.php/VCMBS"
+      ],
+      "references": [
+        {
+          "id": "1",
+          "index": 1,
+          "label": "ศูนย์วิทยาศาสตร์ข้าว มก.กำแพงแสน (2567): การสืบหาตำแหน่ง QTL/ยีนควบคุมโปรตีนในเมล็ด ระแง้ถี่ ความต้านทานโรคใบขีดโปร่งแสง (GWAS/QTL-seq) — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720060001"
+        },
+        {
+          "id": "2",
+          "index": 2,
+          "label": "มก.กำแพงแสน (2567): การใช้เทคโนโลยีโอมิกส์ปรับปรุงพันธุ์ข้าวโภชนาการสูง หุงต้มดี ต้านทานโรคแมลง — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720060002"
+        },
+        {
+          "id": "3",
+          "index": 3,
+          "label": "Thai Agricultural Research Journal 42(1):14–23 (2024): Variability of Pyricularia oryzae (Rice Blast) in Thailand — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/thaiagriculturalresearch/article/view/259053"
+        },
+        {
+          "id": "4",
+          "index": 4,
+          "label": "Thai Agricultural Research Journal 41(3):263–273 (2023): Evaluation of Thai Rice Varieties for Resistance to Bipolaris oryzae (Brown Spot) — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/thaiagriculturalresearch/article/view/258283"
+        },
+        {
+          "id": "5",
+          "index": 5,
+          "label": "แก่นเกษตร 51(4):735–755 (2566): ผลกระทบการขาดน้ำระยะสืบพันธุ์ต่อการแลกเปลี่ยนแก๊สข้าวไทย 6 พันธุ์ — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/257530"
+        },
+        {
+          "id": "6",
+          "index": 6,
+          "label": "Agriculture and Natural Resources 57(2):233–248 (2023): Efficiency of short-grain rice breeding (pedigree vs SSD, indica×japonica) — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/anres/article/view/259081"
+        },
+        {
+          "id": "7",
+          "index": 7,
+          "label": "ScienceAsia 49(5):744–753 (2023): ความหลากหลายพันธุกรรมข้าวพื้นเมืองไทย 82 พันธุ์ (lowland) — เข้าใช้ 2026-08-07",
+          "url": "https://www.scienceasia.org/2023.49.n5/scias49_744.pdf"
+        },
+        {
+          "id": "8",
+          "index": 8,
+          "label": "International Journal of Agricultural Technology 20(3):1017–1036 (2024): พื้นที่ปลูกมีผลต่อผลผลิต คุณภาพ และ 2AP ข้าวหอมมะลิ (6 จว. รวมนครปฐม) — เข้าใช้ 2026-08-07",
+          "url": "https://ijat-aatsea.com/pdf/v20_n3_2024_May/9_IJAT_20(3)_2024_Dangthaisong,%20P.--350.pdf"
+        },
+        {
+          "id": "9",
+          "index": 9,
+          "label": "Food Chemistry 434:137424 (2024): Metabolomics สารระเหยหลักข้าวสีไทยจากแหล่งปลูกต่างพื้นที่ — เข้าใช้ 2026-08-07",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37734150/"
+        },
+        {
+          "id": "10",
+          "index": 10,
+          "label": "แก่นเกษตร 52(Suppl.1):144–149 (2567): ปุ๋ยแอมโมเนียมคลอไรด์ต่อการสะสมคลอรีน/ผลผลิตข้าวปทุมธานี 1 ในชุดดินนครปฐม — เข้าใช้ 2026-08-07",
+          "url": "https://ag2.kku.ac.th/kaj/PDF.cfm?filename=5-Full%20Paper3.pdf&id=4910"
+        },
+        {
+          "id": "11",
+          "index": 11,
+          "label": "มก.กำแพงแสน (2568): ผลของปุ๋ยยูเรียเคลือบต่อผลผลิต/คุณภาพเมล็ดพันธุ์ข้าวปทุมธานี 1 ในดินนครปฐม (ประชุมเมล็ดพันธุ์ครั้งที่ 18) — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Present.aspx?PresentID=38019"
+        },
+        {
+          "id": "12",
+          "index": 12,
+          "label": "Rice Science 32(1):67–80 (2025): Breeding for Heat Tolerant Aromatic Rice + QTL-Seq (qSF2.1) — เข้าใช้ 2026-08-07",
+          "url": "https://www.ricesci.org/EN/10.1016/j.rsci.2024.12.002"
+        },
+        {
+          "id": "13",
+          "index": 13,
+          "label": "Agriculture and Natural Resources 59(3):590311 (2026): Effects of alternate wetting and drying or low light intensity factors on increasing grain yield and 2AP content in fragrant rice — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/anres/article/view/268871"
+        },
+        {
+          "id": "14",
+          "index": 14,
+          "label": "Frontiers in Plant Science 16:1622640 (2025): พันธุศาสตร์ใบขาวลาย (Rainbow Rice RBR05, ยีน OsSAMHD1) + เครื่องหมาย KASP — เข้าใช้ 2026-08-07",
+          "url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2025.1622640/full"
+        },
+        {
+          "id": "15",
+          "index": 15,
+          "label": "วารสารวิทยาศาสตร์และเทคโนโลยี มก. 14(2):82–92 (2568): การประเมินสมรรถนะ AquaCrop จำลองผลผลิตข้าวภายใต้ความเค็ม — เข้าใช้ 2026-08-07",
+          "url": "https://tci-thaijo.org/articles/physical03-2931"
+        },
+        {
+          "id": "16",
+          "index": 16,
+          "label": "ศูนย์วิทยาศาสตร์ข้าว มก.กำแพงแสน: ฐานข้อมูลพันธุ์ข้าว (หอมมาลัยแมน, เรดเบอร์รี่, ไรซ์เบอร์รี่, หอมสยาม, สรรพสี) — เข้าใช้ 2026-08-07",
+          "url": "https://dna.kps.ku.ac.th"
+        },
+        {
+          "id": "17",
+          "index": 17,
+          "label": "ฐานข้อมูลข้าวและชาวนาไทย มก.: 22,357 รายการ — เข้าใช้ 2026-08-07",
+          "url": "https://agkb.lib.ku.ac.th/rice"
+        },
+        {
+          "id": "18",
+          "index": 18,
+          "label": "คลังความรู้ดิจิทัล วิทยาเขตกำแพงแสน: 13,964 รายการ — เข้าใช้ 2026-08-07",
+          "url": "https://kukr.lib.ku.ac.th/kukr_es/KPS"
+        },
+        {
+          "id": "19",
+          "index": 19,
+          "label": "มรภ.นครปฐม (ทุน สวก.): แพลตฟอร์มความรู้ข้าว AI — 6 ชุดความรู้ + AI-chatbot — เข้าใช้ 2026-08-07",
+          "url": "https://misc.npru.ac.th/ricekm/index1.php"
+        },
+        {
+          "id": "20",
+          "index": 20,
+          "label": "ศูนย์วิจัยเพื่อการพัฒนาพืชเกษตรหลักนครปฐม (มรภ.): คลังผลงานวิจัย-บทความ — เข้าใช้ 2026-08-07",
+          "url": "https://dept.npru.ac.th/agridvnp/"
+        },
+        {
+          "id": "21",
+          "index": 21,
+          "label": "Thai Agricultural Research Journal 44(1):52–63 (2026): Responses of Rice Varieties to the Pathogenesis of Burkholderia glumae Collected from Different Regions of Thailand under Screenhouse Conditions — เข้าใช้ 2026-08-07",
+          "url": "https://doi.org/10.14456/thaidoa-agres.2026.5"
+        },
+        {
+          "id": "22",
+          "index": 22,
+          "label": "Agriculture and Natural Resources 57(3):437–446 (2023): Effects of alternate wetting and drying water management and rice straw incorporation for sustainable rice production under dry season conditions in central Thailand — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/anres/article/view/259717"
+        },
+        {
+          "id": "23",
+          "index": 23,
+          "label": "Agriculture and Natural Resources 57(5):777–786 (2023): Effects of alternate wetting and drying water management and rice straw incorporation on sustainable rice production under rainy season conditions in central Thailand — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/anres/article/view/261287"
+        },
+        {
+          "id": "24",
+          "index": 24,
+          "label": "วารสารวิทยาศาสตร์และเทคโนโลยี มก. 14(2):35–45 (2568): Potential of Phytolith Accumulation in Thai Rice Cultivars — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/physical03"
+        },
+        {
+          "id": "25",
+          "index": 25,
+          "label": "วารสารการจัดการโซ่คุณค่าและกลยุทธ์ธุรกิจ 2(4):45-56 (2566): การสำรวจกลยุทธ์การตลาดดิจิทัลบนสื่อสังคมออนไลน์ และการพัฒนาตราสินค้าและฉลากสินค้าผลิตภัณฑ์ข้าวเกษตรอินทรีย์ของวิสาหกิจชุมชนโรงสีข้าวไร่ขิง จังหวัดนครปฐม — เข้าใช้ 2026-08-07",
+          "url": "https://so08.tci-thaijo.org/index.php/VCMBS"
+        }
+      ],
+      "reference_count": 25,
+      "article_file": "npt-01-001.md",
+      "source_file": "01-ข้าว\\บทความรีวิว-01-ข้าว.md"
+    },
+    {
+      "slug": "npt-07-001",
+      "title": "งานวิจัยดิน-ปุ๋ย-น้ำในจังหวัดนครปฐม (2023–2026)",
+      "author": "Nakhon Pathom Plant Research Knowledge Library",
+      "source_year": 2026,
+      "updated_at": "2026-08-07",
+      "created_at": "2026-08-07",
+      "review_at": "2027-02-07",
+      "category": "ดิน-ปุ๋ย-น้ำ",
+      "domain_code": "07",
+      "topic_id": "07-001",
+      "handle_id": "07-001",
+      "abstract": "- **ใจความ**: ภาพรวมงานวิจัยและฐานข้อมูลดิน-ปุ๋ย-น้ำในจังหวัดนครปฐม ระหว่างปี 2023–2026 ประกอบด้วยงานวิจัยเด่น 13 รายการ แบ่งเป็น 3 กลุ่มหลัก คือ **กลุ่มที่ 1 ปุ๋ยและธาตุอาหารในดิน (7 รายการ)** ศึกษาอิทธิพลของปุ๋ยไนโตรเจน (N) และปุ๋ยโพแทสเซียม (K) ชนิดปลดปล่อยช้าและวัสดุเหลือทิ้งจากฟาร์ม/โรงงานน้ำตาล เช่น กากส่า ต่อพืชไร่เศรษฐกิจ (อ้อย [1] และมันสำปะหลัง [2][3]) รวมถึงการฉีดพ่นปุ๋ยทางใบในแปลงดินโพแทสเซียมต่ำ [4], การใช้แมกนีเซียมปุ๋ยหมักร่วมกับปูนขาว [5] และนวัตกรรมปุ๋ยหมุนเวียนจากเปลือกไข่+มูลสัตว์ [12] **กลุ่มที่ 2 น้ำและการจัดการความเค็มลุ่มน้ำท่าจีน (4 รายการ)** วิเคราะห์ภัยคุกคามความเค็มของแม่น้ำท่าจีนตอนล่างที่เพิ่มสูงขึ้นจากอิทธิพลของคลองลัด [6], ระบบตัดสินใจชลประทานระดับแปลงใหญ่ข้าว ",
+      "source_type": "Nakhon Pathom agricultural research review",
+      "source_url": "https://li01.tci-thaijo.org/index.php/JASM/article/view/264563",
+      "pdf_url": null,
+      "source_urls": [
+        "https://li01.tci-thaijo.org/index.php/JASM/article/view/264563",
+        "https://li01.tci-thaijo.org/index.php/JASM/article/view/263567",
+        "https://li01.tci-thaijo.org/index.php/JASM/article/view/261313",
+        "https://www.frontiersin.org/articles/10.3389/fsoil.2025.1564810/full",
+        "https://agri.kps.ku.ac.th/",
+        "https://li01.tci-thaijo.org/index.php/vruj/article/view/265147",
+        "http://rio13.rid.go.th/nakhonpathom/",
+        "https://li01.tci-thaijo.org/index.php/JASM",
+        "https://www.onwr.go.th/",
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2330662000",
+        "https://eng.kps.ku.ac.th/",
+        "https://research.ku.ac.th/",
+        "https://agri-map.ldd.go.th"
+      ],
+      "references": [
+        {
+          "id": "1",
+          "index": 1,
+          "label": "ณัชชา ทองนวล, ชัยสิทธิ์ ทองจู, ธวัชชัย อินทร์บุญช่วย, อัญธิชา พรมเมืองคุก, จุฑามาศ ร่มแก้ว และ ณัชชา ศรหิรัญ (2566): ผลของปุ๋ยไนโตรเจนชนิดต่างๆ ต่อการเจริญเติบโต และผลผลิตของอ้อย. วารสารวิทยาศาสตร์เกษตรและการจัดการ, 6(3), 112-120. — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/JASM/article/view/264563"
+        },
+        {
+          "id": "2",
+          "index": 2,
+          "label": "ธนากร คุ้มตรีทอง, ชัยสิทธิ์ ทองจู, ธวัชชัย อินทร์บุญช่วย, อัญธิชา พรมเมืองคุก, ณัชชา ศรหิรัญ, และ ศุภวิชญ์ บัวลอย (2567): ผลของปุ๋ยไนโตรเจนชนิดต่างๆ ต่อผลผลิต องค์ประกอบผลผลิตของมันสำปะหลัง และสมบัติบางประการของดิน. วารสารวิทยาศาสตร์เกษตรและการจัดการ, 6(2), 112-123. — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/JASM/article/view/263567"
+        },
+        {
+          "id": "3",
+          "index": 3,
+          "label": "รุ่งนภา จำปาทอง, ชัยสิทธิ์ ทองจู, ณัชชา ศรหิรัญ, และ ธีรยุทธ คล้ำชื่น (2566): การใช้ผลพลอยได้จากโรงงานน้ำตาลเป็นแหล่งโพแทสเซียมต่อการเจริญเติบโต และผลผลิตของมันสำปะหลัง. วารสารวิทยาศาสตร์เกษตรและการจัดการ, 6(2), 112-123. — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/JASM/article/view/261313"
+        },
+        {
+          "id": "4",
+          "index": 4,
+          "label": "Frontiers in Soil Science (2025): Foliar application of KNO3 and K2SiO3 improves potassium nutrition, growth, and yield of ratoon sugarcane. Frontiers in Soil Science, 5, 1564810. — เข้าใช้ 2026-08-07",
+          "url": "https://www.frontiersin.org/articles/10.3389/fsoil.2025.1564810/full"
+        },
+        {
+          "id": "5",
+          "index": 5,
+          "label": "ภาควิชาปฐพีวิทยา คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์ (2564): อิทธิพลของการใช้ปุ๋ยหมักร่วมกับปูนขาวเพื่อแก้ไขการขาดธาตุแมกนีเซียมและปรับปรุงสมบัติทางเคมีของดินกรดในการปลูกพืชผักและไม้ผล. รายงานผลงานวิจัยประจำปีวิทยาเขตกำแพงแสน. — เข้าใช้ 2026-08-07",
+          "url": "https://agri.kps.ku.ac.th/"
+        },
+        {
+          "id": "6",
+          "index": 6,
+          "label": "สุพัตรา สมตระกูล, เจษฎา ดีแท้, และ ธวัชชัย กอบแก้ว (2566): การรุกล้ำความเค็มที่ส่งผลจากการเพิ่มคลองลัดในแม่น้ำท่าจีนตอนล่าง. วารสารวิจัยราชภัฏวไลยอลงกรณ์ ในพระบรมราชูปถัมภ์ สาขาวิทยาศาสตร์และเทคโนโลยี, 18(2), 45-56. — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/vruj/article/view/265147"
+        },
+        {
+          "id": "7",
+          "index": 7,
+          "label": "โครงการชลประทานนครปฐม สำนักงานชลประทานที่ 13 กรมชลประทาน (2567): รายงานสถานการณ์จัดสรรน้ำชลประทานและการทำนาเปียกสลับแห้งของเกษตรกรแปลงใหญ่ข้าวในเขตลุ่มน้ำท่าจีน. — เข้าใช้ 2026-08-07",
+          "url": "http://rio13.rid.go.th/nakhonpathom/"
+        },
+        {
+          "id": "8",
+          "index": 8,
+          "label": "ภาควิชาปฐพีวิทยา คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์ (2567): คู่มือวิชาการการจัดการดินและน้ำในแปลงไม้ผลสวนยกร่องบริเวณลุ่มน้ำท่าจีนตอนล่างเพื่อรองรับปัญหาคุณภาพน้ำเค็ม. — เข้าใช้ 2026-08-07",
+          "url": "https://agri.kps.ku.ac.th/"
+        },
+        {
+          "id": "9",
+          "index": 9,
+          "label": "อัญธิชา พรมเมืองคุก, ชัยสิทธิ์ ทองจู, ณัชชา ศรหิรัญ, และ ธวัชชัย อินทร์บุญช่วย (2566): ผลของปุ๋ยอินทรีย์และวัสดุปรับปรุงดินจากกากชานอ้อยร่วมกับปุ๋ยเคมีต่อสมบัติทางเคมีของดินกำแพงแสนและการผลิตคะน้า. วารสารวิทยาศาสตร์เกษตรและการจัดการ, 6(3), 73-83. — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/JASM"
+        },
+        {
+          "id": "10",
+          "index": 10,
+          "label": "ภาควิชาปฐพีวิทยา คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์ (2567): การประเมินและการจัดกลุ่มคุณภาพดินของพื้นที่ปลูกข้าวในชุดดินกำแพงแสน จังหวัดนครปฐม เพื่อการจัดการธาตุอาหารเฉพาะพื้นที่. — เข้าใช้ 2026-08-07",
+          "url": "https://agri.kps.ku.ac.th/"
+        },
+        {
+          "id": "11",
+          "index": 11,
+          "label": "สำนักงานทรัพยากรน้ำแห่งชาติ และ มหาวิทยาลัยเกษตรศาสตร์ (2569): โครงการปรับปรุงแผนแม่บทการบริหารจัดการทรัพยากรน้ำลุ่มน้ำท่าจีน (พ.ศ. 2566–2580) และแบบจำลองชลศาสตร์การผันน้ำควบคุมคุณภาพน้ำจืดป้องกันน้ำเค็มหนุน. — เข้าใช้ 2026-08-07",
+          "url": "https://www.onwr.go.th/"
+        },
+        {
+          "id": "12",
+          "index": 12,
+          "label": "ณภาส์ณัฐ อู๋สูงเนิน, วรพจน์ ศตเดชากุล, ทวีพร เรืองพริ้ม, และ มนูญ ปลงรัมย์ (2567): การพัฒนาผลิตภัณฑ์และใช้ประโยชน์แคลเซียมและออร์กาโนซัลเฟอร์จากปุ๋ยหมักมูลสัตว์ร่วมกับเปลือกไข่ที่มีผลต่อการเจริญเติบโต การทนสภาวะเครียดจากความร้อนของมะเขือเทศเชอรี่. ทุนวิจัยวิทยาเขตกำแพงแสน ปีงบประมาณ 2567. — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2330662000"
+        },
+        {
+          "id": "13",
+          "index": 13,
+          "label": "ภาควิชาวิศวกรรมเกษตร คณะวิศวกรรมศาสตร์ กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์ (2568): การประยุกต์ใช้อุปกรณ์ควบคุมอัจฉริยะ (IoT) และระบบพิกัดระบุตำแหน่งสำหรับควบคุมหุ่นยนต์ให้น้ำในแปลงเกษตรความแม่นยำสูง. — เข้าใช้ 2026-08-07",
+          "url": "https://eng.kps.ku.ac.th/"
+        },
+        {
+          "id": "14",
+          "index": 14,
+          "label": "สถานีวิจัยทับกวาง และ ศูนย์วิจัยและพัฒนาปฐพีวิทยาและปุ๋ย คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์: ข้อมูลชุดดินกำแพงแสน ดินมาตรฐานทดลองปุ๋ย — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/"
+        },
+        {
+          "id": "15",
+          "index": 15,
+          "label": "กรมพัฒนาที่ดิน: ระบบแผนที่เกษตรเพื่อการบริหารจัดการเชิงรุกออนไลน์ (Agri-Map) — เข้าใช้ 2026-08-07",
+          "url": "https://agri-map.ldd.go.th"
+        },
+        {
+          "id": "16",
+          "index": 16,
+          "label": "โครงการชลประทานนครปฐม กรมชลประทาน: ระบบติดตามข้อมูลคุณภาพน้ำและการจัดการน้ำเกษตรแปลงใหญ่ — เข้าใช้ 2026-08-07",
+          "url": "http://rio13.rid.go.th/nakhonpathom/"
+        }
+      ],
+      "reference_count": 16,
+      "article_file": "npt-07-001.md",
+      "source_file": "07-ดิน-ปุ๋ย-น้ำ\\บทความรีวิว-07-ดิน-ปุ๋ย-น้ำ.md"
+    },
+    {
+      "slug": "npt-09-001",
+      "title": "งานวิจัยเทคโนโลยีการเกษตรในจังหวัดนครปฐม (2023–2026)",
+      "author": "Nakhon Pathom Plant Research Knowledge Library",
+      "source_year": 2026,
+      "updated_at": "2026-08-07",
+      "created_at": "2026-08-07",
+      "review_at": "2027-02-07",
+      "category": "เทคโนโลยีการเกษตร",
+      "domain_code": "09",
+      "topic_id": "09-001",
+      "handle_id": "09-001",
+      "abstract": "- **ใจความ**: งานวิจัยเทคโนโลยีการเกษตรในนครปฐม 2023–2026 มี 13 รายการหลัก แบ่งออกเป็น 5 กลุ่มเทคโนโลยีสำคัญ ได้แก่: 1. **โรงเรือนและปัญญาประดิษฐ์ (AI) 3 ชิ้น**: โรงเรือนอัจฉริยะทนภูมิอากาศ AI [1], ระบบสมาร์ทฟาร์มไฮโดรโปนิกส์ขึ้นฉ่าย IoT และการจำลอง ROI เชิงพาณิชย์ [2], ระบบประยุกต์ใช้ AI ในการผลิตอ้อย [6] 2. **IoT และเทคโนโลยีเซนเซอร์ 3 ชิ้น**: ระบบจัดสรรน้ำอัจฉริยะ iWASAM [3], ระบบไมโครชิปติดตามและประเมินพฤติกรรมโคนม [5], เทคโนโลยีเซนเซอร์และโดรนเฝ้าสังเกตการณ์แปลงเกษตร [8] 3. **UAV และเทคโนโลยีดาวเทียม 2 ชิ้น**: ระบบจำลอง downwash จาก UAV เพื่อผสมเกสรข้าวโพด [4], ระบบแผนที่และการพยากรณ์ผลผลิตข้าวด้วยข้อมูลดาวเทียม [11] 4. **เครื่องจักรกลการเกษตรและหุ่นยนต์ 2 ชิ้น**: การพัฒนาหุ่นยนต์/เครื่",
+      "source_type": "Nakhon Pathom agricultural research review",
+      "source_url": "https://app.csc.ku.ac.th/sdgs/project/smart-greenhouse-climate-crops-2023",
+      "pdf_url": null,
+      "source_urls": [
+        "https://app.csc.ku.ac.th/sdgs/project/smart-greenhouse-climate-crops-2023",
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2025&ProjectNumber=2530682000",
+        "https://eng.kps.ku.ac.th",
+        "https://li01.tci-thaijo.org/index.php/anres/article/view/272592",
+        "https://li01.tci-thaijo.org/index.php/itech/article/view/268871",
+        "https://www.tci-thaijo.org/index.php/jkmutnb/article/view/255283",
+        "https://eng.kps.ku.ac.th/fe",
+        "https://kuojs.lib.ku.ac.th/index.php/kasetsart_ss/article/view/5717",
+        "https://agr.kps.ku.ac.th",
+        "https://so05.tci-thaijo.org/index.php/sujthai/article/view/261779",
+        "http://www.phtnet.org",
+        "https://suwanfarm.agr.ku.ac.th"
+      ],
+      "references": [
+        {
+          "id": "1",
+          "index": 1,
+          "label": "มก.กำแพงแสน (2023): โรงเรือนอัจฉริยะทนภูมิอากาศ (มะเขือเทศ/พริก, AI) — KU SDG — เข้าใช้ 2026-08-07",
+          "url": "https://app.csc.ku.ac.th/sdgs/project/smart-greenhouse-climate-crops-2023"
+        },
+        {
+          "id": "2",
+          "index": 2,
+          "label": "มก.กำแพงแสน (ทุน ว.กพส., 2568): สมาร์ทฟาร์มไฮโดรโปนิกส์ขึ้นฉ่าย IoT — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2025&ProjectNumber=2530682000"
+        },
+        {
+          "id": "3",
+          "index": 3,
+          "label": "วิศวกรรมชลประทาน มก.กำแพงแสน (2569): ระบบบริหารจัดการและจัดสรรน้ำชลประทานอัจฉริยะ (iWASAM) ด้วยเทคโนโลยี IoT และ AI — ภาควิชาวิศวกรรมชลประทาน คณะวิศวกรรมศาสตร์ กำแพงแสน — เข้าใช้ 2026-08-07",
+          "url": "https://eng.kps.ku.ac.th"
+        },
+        {
+          "id": "4",
+          "index": 4,
+          "label": "Boonprasert, R., Siriake, P., Vijuksungsith, P., Pakoktom, T., & Panprayun, G. (2026): Simulation spatial model for analyzing cooling effects of downwash turbulence on maize canopies to enhance pollination efficiency using thermal imaging data collected from unmanned aerial vehicles. Agriculture and Natural Resources, 60(3), 272592 — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/anres/article/view/272592"
+        },
+        {
+          "id": "5",
+          "index": 5,
+          "label": "ITECH (2025): ระบบไมโครชิปติดตามวัวโคนม — ม.มหิดล เทคโนโลยีสารสนเทศ — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/itech/article/view/268871"
+        },
+        {
+          "id": "6",
+          "index": 6,
+          "label": "จักกริช พฤษการ และคณะ (มก.กำแพงแสน, 2568): การถ่ายทอดเทคโนโลยีและการประยุกต์ใช้แอปพลิเคชัน CropIrisX Community สำหรับการบริหารจัดการแปลงอ้อยแบบแม่นยำด้วย IoT และภาพถ่ายดาวเทียม — เข้าใช้ 2026-08-07",
+          "url": "https://eng.kps.ku.ac.th"
+        },
+        {
+          "id": "7",
+          "index": 7,
+          "label": "มก.กำแพงแสน (2566–2568): การวิจัยและพัฒนาหุ่นยนต์และเครื่องจักรกลเกษตรอัจฉริยะแบบขับเคลื่อนอัตโนมัติ — ภาควิชาวิศวกรรมเกษตร คณะวิศวกรรมศาสตร์ กำแพงแสน — เข้าใช้ 2026-08-07",
+          "url": "https://eng.kps.ku.ac.th"
+        },
+        {
+          "id": "8",
+          "index": 8,
+          "label": "อริสรา เกษมจิตร์, วรัญญา อรรถเสนา, พิเชษฐ์ สืบสายพรหม, และ ฐิติพงษ์ สถิรเมธีกุล (2566): ระบบเฝ้าสังเกตและวิเคราะห์การเจริญเติบโตของอ้อยโดยใช้โดรนสังเกตการณ์. วารสารวิชาการพระจอมเกล้าพระนครเหนือ, 33(2), 493-505 — เข้าใช้ 2026-08-07",
+          "url": "https://www.tci-thaijo.org/index.php/jkmutnb/article/view/255283"
+        },
+        {
+          "id": "9",
+          "index": 9,
+          "label": "มก.กำแพงแสน (2566–2568): งานวิจัยการพัฒนากระบวนการแปรรูปและการสกัดสารสำคัญจากอาหารและสมุนไพร — ภาควิชาวิศวกรรมการอาหาร คณะวิศวกรรมศาสตร์ กำแพงแสน — เข้าใช้ 2026-08-07",
+          "url": "https://eng.kps.ku.ac.th/fe"
+        },
+        {
+          "id": "10",
+          "index": 10,
+          "label": "KUOJS (2567): NIRS ตรวจวิเคราะห์อาหารโคนมเร็ว — ผลิตภัณฑ์ประมง+สัตวศาสตร์ — เข้าใช้ 2026-08-07",
+          "url": "https://kuojs.lib.ku.ac.th/index.php/kasetsart_ss/article/view/5717"
+        },
+        {
+          "id": "11",
+          "index": 11,
+          "label": "มก.กำแพงแสน (2567): การประยุกต์ใช้ระบบภูมิสารสนเทศและภาพถ่ายดาวเทียมเพื่อการพยากรณ์ผลผลิตและวางแผนพื้นที่ปลูกข้าว — คณะเกษตร กำแพงแสน — เข้าใช้ 2026-08-07",
+          "url": "https://agr.kps.ku.ac.th"
+        },
+        {
+          "id": "12",
+          "index": 12,
+          "label": "ม.ศิลปากร สนามจันทร์ (2566): แพลตฟอร์มข้อมูลการเกษตร/แอป (ตลาดปลอดภัย) — เข้าใช้ 2026-08-07",
+          "url": "https://so05.tci-thaijo.org/index.php/sujthai/article/view/261779"
+        },
+        {
+          "id": "13",
+          "index": 13,
+          "label": "รณฤทธิ์ ฤทธิรณ (มก.กำแพงแสน, 2567): เครื่องวิเคราะห์คุณภาพผลไม้และทุเรียนอย่างรวดเร็วด้วยเทคนิค Near Infrared (NIR) — ภาควิชาวิศวกรรมการอาหาร คณะวิศวกรรมศาสตร์ กำแพงแสน — เข้าใช้ 2026-08-07",
+          "url": "https://eng.kps.ku.ac.th/fe"
+        },
+        {
+          "id": "14",
+          "index": 14,
+          "label": "วิศวกรรมเกษตร มก.กำแพงแสน: เครื่องจักรกล/เซนเซอร์/โรงเรือน — เข้าใช้ 2026-08-07",
+          "url": "https://eng.kps.ku.ac.th"
+        },
+        {
+          "id": "15",
+          "index": 15,
+          "label": "ศูนย์นวัตกรรมเทคโนโลยีหลังการเก็บเกี่ยว (CEPPG): หลังเก็บเกี่ยว/แปรรูป — เข้าใช้ 2026-08-07",
+          "url": "http://www.phtnet.org"
+        },
+        {
+          "id": "16",
+          "index": 16,
+          "label": "ไร่สุวรรณ: แปลงทดลอง UAV/AI — เข้าใช้ 2026-08-07",
+          "url": "https://suwanfarm.agr.ku.ac.th"
+        }
+      ],
+      "reference_count": 16,
+      "article_file": "npt-09-001.md",
+      "source_file": "09-เทคโนโลยีการเกษตร\\บทความรีวิว-09-เทคโนโลยีการเกษตร.md"
+    },
+    {
+      "slug": "npt-05-001",
+      "title": "งานวิจัยปศุสัตว์ในจังหวัดนครปฐม (2023–2026)",
+      "author": "Nakhon Pathom Plant Research Knowledge Library",
+      "source_year": 2026,
+      "updated_at": "2026-08-07",
+      "created_at": "2026-08-07",
+      "review_at": "2027-02-07",
+      "category": "ปศุสัตว์",
+      "domain_code": "05",
+      "topic_id": "05-001",
+      "handle_id": "05-001",
+      "abstract": "- **ใจความ**: งานวิจัยปศุสัตว์ในจังหวัดนครปฐมในช่วงปี 2023–2026 (รวม 21 รายการ) มีการพัฒนาและกระจายตัวในสองกลุ่มปศุสัตว์เศรษฐกิจหลักอย่างชัดเจน ได้แก่ **กลุ่มโคนมและโคเนื้อ (11 รายการ)** และ **กลุ่มสุกร (6 รายการ)** ร่วมกับสัตว์ปีก (2 รายการ) จุลินทรีย์อาหารหมัก (2 รายการ) และเทคโนโลยีอื่นๆ ในพื้นที่ ดำเนินการโดยสถาบันอุดมศึกษาหลักในพื้นที่ ได้แก่ มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน (เช่น ภาควิชาสัตวบาล คณะเกษตร และศูนย์วิจัยและฝึกอบรมการเลี้ยงสุกรแห่งชาติ), มหาวิทยาลัยมหิดล ศาลายา และมหาวิทยาลัยราชภัฏนครปฐม - **การจัดกลุ่มงานวิจัยและนวัตกรรม**: - **โคนมและโคเนื้อ (11 รายการ)**: เน้นการใช้สารเสริมประสิทธิภาพน้ำเชื้อ [1], แหล่งอาหารหยาบโปรตีนสูงจากถั่วแระร่วมกับกระถินในแพะนม [2], กากมันสำ",
+      "source_type": "Nakhon Pathom agricultural research review",
+      "source_url": "https://kuojs.lib.ku.ac.th/index.php/kasetsart_ss/article/view/5634",
+      "pdf_url": null,
+      "source_urls": [
+        "https://kuojs.lib.ku.ac.th/index.php/kasetsart_ss/article/view/5634",
+        "https://li02.tci-thaijo.org/index.php/kuksu/article/view/2247",
+        "https://kuojs.lib.ku.ac.th/index.php/kasetsart_ss/article/view/5809",
+        "https://kuojs.lib.ku.ac.th/index.php/kasetsart_ss/article/view/5739",
+        "https://kuojs.lib.ku.ac.th/index.php/kasetsart_ss/article/view/5717",
+        "https://kuojs.lib.ku.ac.th/index.php/kasetsart_ss/article/view/6102",
+        "https://li02.tci-thaijo.org/index.php/JASM/article/view/442",
+        "https://li02.tci-thaijo.org/index.php/JASM/article/view/1038",
+        "https://li01.tci-thaijo.org/index.php/tjvm/article/view/265921",
+        "https://li02.tci-thaijo.org/index.php/JASM/article/view/1041",
+        "https://tci-thaijo.org/articles/life02-3787",
+        "https://publication.npru.ac.th/handle/123456789/2121",
+        "https://li01.tci-thaijo.org/index.php/itech/article/view/268871",
+        "https://dept.npru.ac.th/agridvnp/",
+        "https://vet.ku.ac.th",
+        "https://www.ku.ac.th",
+        "https://li01.tci-thaijo.org/index.php/agrinres/article/view/261073",
+        "https://doi.org/10.55003/kmaj.2025.03.24.010",
+        "https://tci-thaijo.org/index.php/agkasetkaj/article/view/264667",
+        "https://so06.tci-thaijo.org/index.php/jvrin/article/view/268153",
+        "https://tci-thaijo.org/index.php/agkasetkaj/article/view/258359"
+      ],
+      "references": [
+        {
+          "id": "1",
+          "index": 1,
+          "label": "KUOJS (2566): ผลของแอล-คาร์นิทีนต่อคุณภาพน้ำเชื้อโคนมระยะยอด — วิทยาลัยเกษตรศาสตร์กำแพงแสน — เข้าใช้ 2026-08-07",
+          "url": "https://kuojs.lib.ku.ac.th/index.php/kasetsart_ss/article/view/5634"
+        },
+        {
+          "id": "2",
+          "index": 2,
+          "label": "KSU (2566): Pigeon pea + Leucaena ในโคนมแพะ — สัตวศาสตร์ มก.กำแพงแสน — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/kuksu/article/view/2247"
+        },
+        {
+          "id": "3",
+          "index": 3,
+          "label": "KUOJS (2567): การใช้กากมันสำปะหลังเป็นพลังงานเสริมโคนม — วิทยาลัยเกษตรศาสตร์กำแพงแสน — เข้าใช้ 2026-08-07",
+          "url": "https://kuojs.lib.ku.ac.th/index.php/kasetsart_ss/article/view/5809"
+        },
+        {
+          "id": "4",
+          "index": 4,
+          "label": "KUOJS (2567): การทำแท้งในโคนมลูกผสม HF เขตแล้ง (สภาพนครปฐม) — สัตวศาสตร์+บัณฑิตวิทยาลัย — เข้าใช้ 2026-08-07",
+          "url": "https://kuojs.lib.ku.ac.th/index.php/kasetsart_ss/article/view/5739"
+        },
+        {
+          "id": "5",
+          "index": 5,
+          "label": "KUOJS (2567): การจำแนกสารประกอบกากปาล์ม/กากมันในอาหารโคนม (NIRS) — ผลิตภัณฑ์ประมง+สัตวศาสตร์ — เข้าใช้ 2026-08-07",
+          "url": "https://kuojs.lib.ku.ac.th/index.php/kasetsart_ss/article/view/5717"
+        },
+        {
+          "id": "6",
+          "index": 6,
+          "label": "KUOJS (2568): การเสริมจุลินทรีย์ + โปรตีนจากปาล์ม (ข้าวโพดหมัก) — วิทยาลัยเกษตรศาสตร์กำแพงแสน — เข้าใช้ 2026-08-07",
+          "url": "https://kuojs.lib.ku.ac.th/index.php/kasetsart_ss/article/view/6102"
+        },
+        {
+          "id": "7",
+          "index": 7,
+          "label": "JASM 6(2) (2566): การใช้เลมอนไทม์ในอาหารไก่เนื้อ — สัตวศาสตร์ มก.กำแพงแสน — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/442"
+        },
+        {
+          "id": "8",
+          "index": 8,
+          "label": "JASM (2568): การใช้โซเดียม-เกลือโซเดียมเชิงซ้อน (เครื่องดื่มเหลือ) ต่อไก่เนื้อ — สัตวศาสตร์ — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/1038"
+        },
+        {
+          "id": "9",
+          "index": 9,
+          "label": "ThaiJVet (2567): ตรวจยีน CAST/CAPN1 แสดงการเจริญเติบโตโคเนื้อกำแพงแสน — สัตวศาสตร์ — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/tjvm/article/view/265921"
+        },
+        {
+          "id": "10",
+          "index": 10,
+          "label": "JASM 8(2) (2568): การใช้แบคทีเรียผลิตกรดแลกติกจากต้นหม่อนต่อคุณภาพอาหารหมัก — สัตวศาสตร์ — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/1041"
+        },
+        {
+          "id": "11",
+          "index": 11,
+          "label": "TCI (2567): ข้าวโพดหมักจากใบข้าวโพดเหลือทิ้ง (ผลิตเม็ดอัด) — ไร่สุวรรณ+สัตวศาสตร์ — เข้าใช้ 2026-08-07",
+          "url": "https://tci-thaijo.org/articles/life02-3787"
+        },
+        {
+          "id": "12",
+          "index": 12,
+          "label": "มรภ.นครปฐม (2567): การใช้ GA และรังสี UV-C ต่อปริมาณวิตามินซีในผักกูด — เกษตรศาสตร์+ประมง+ชีววิทยา — เข้าใช้ 2026-08-07",
+          "url": "https://publication.npru.ac.th/handle/123456789/2121"
+        },
+        {
+          "id": "13",
+          "index": 13,
+          "label": "ITECH (2025): ระบบฝังไมโครชิปติดตามวัวโคนม — ม.มหิดล เทคโนโลยีสารสนเทศ — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/itech/article/view/268871"
+        },
+        {
+          "id": "14",
+          "index": 14,
+          "label": "มรภ.นครปฐม (2565): โครงการปรับปรุงโคเนื้อโคพื้นเมือง — เทคโนโลยีการเกษตร (รายงาน สกว. — นอกช่วง ใช้อ้างอิงบริบท) — เข้าใช้ 2026-08-07",
+          "url": "https://dept.npru.ac.th/agridvnp/"
+        },
+        {
+          "id": "15",
+          "index": 15,
+          "label": "โรงพยาบาลปศุสัตว์ มก.กำแพงแสน: บริการโคนม/โคเนื้อ/สุกร — เข้าใช้ 2026-08-07",
+          "url": "https://vet.ku.ac.th"
+        },
+        {
+          "id": "16",
+          "index": 16,
+          "label": "ศูนย์วิจัยและพัฒนาอาหารสัตว์กำแพงแสน: งานอาหารสัตว์ทดลอง — เข้าใช้ 2026-08-07",
+          "url": "https://www.ku.ac.th"
+        },
+        {
+          "id": "17",
+          "index": 17,
+          "label": "อัญชลี คงประดิษฐ์ และคณะ (2566): การเปรียบเทียบสมรรถภาพการขุน ลักษณะซาก และผลตอบแทนจากการขุนโคเนื้อพันธุ์กำแพงแสนและโคนมเพศผู้ตอน — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/agrinres/article/view/261073"
+        },
+        {
+          "id": "18",
+          "index": 18,
+          "label": "อัญชลี คงประดิษฐ์ และคณะ (2568): เปรียบเทียบการขุนโคพันธุ์กำแพงแสนกับโคลูกผสมวากิวเพศผู้ตอนที่ได้รับอาหารข้นอย่างเต็มที่ ต่อสมรรถภาพการขุน ลักษณะซาก คุณภาพเนื้อ และผลตอบแทนจากการขุนโค — เข้าใช้ 2026-08-07",
+          "url": "https://doi.org/10.55003/kmaj.2025.03.24.010"
+        },
+        {
+          "id": "19",
+          "index": 19,
+          "label": "เฉลิมพันธ์ ตันทะรา และคณะ (2567): ผลของการเสริมสารสกัดจากพืชต่อการกินได้ สารเมแทบอไลต์ในเลือด ปริมาณและองค์ประกอบน้ำนมของโคระยะแรกของการให้นม — เข้าใช้ 2026-08-07",
+          "url": "https://tci-thaijo.org/index.php/agkasetkaj/article/view/264667"
+        },
+        {
+          "id": "20",
+          "index": 20,
+          "label": "อรวรรณ ชุณหชาติ และคณะ (2567): ความเป็นไปได้ในการประยุกต์ใช้โครงข่ายใยประสาทเทียมเพื่อทำนายโรคเต้านมอักเสบในโคนม — เข้าใช้ 2026-08-07",
+          "url": "https://so06.tci-thaijo.org/index.php/jvrin/article/view/268153"
+        },
+        {
+          "id": "21",
+          "index": 21,
+          "label": "ณัฐนิช จิมงคลกุล และ นิติพงศ์ หอมวงษ์ (2566): การประมาณค่าพารามิเตอร์ทางพันธุกรรมของผลผลิตและวันท้องว่างตลอดช่วงชีวิต ของแม่สุกรพันธุ์แท้ — เข้าใช้ 2026-08-07",
+          "url": "https://tci-thaijo.org/index.php/agkasetkaj/article/view/258359"
+        },
+        {
+          "id": "22",
+          "index": 22,
+          "label": "ญาณิกา แสนท้าว และคณะ (2567): ผลของการเสริมสารฟลาวาโนนต่อสมรรถภาพการเจริญเติบโต สภาวะความเครียดจากปฏิกิริยาออกซิเดชัน และภาวะการอักเสบในลูกสุกรหย่านม — เข้าใช้ 2026-08-07",
+          "url": "https://tci-thaijo.org/index.php/agkasetkaj/article/view/264667"
+        },
+        {
+          "id": "23",
+          "index": 23,
+          "label": "ภูเบศวร์ เศรษฐสุข และคณะ (2568): การพัฒนาระบบประเมินคะแนนความสมบูรณ์ร่างกายแม่สุกรโดยใช้โครงข่ายประสาทเทียมแบบคอนโวลูชัน — เข้าใช้ 2026-08-07",
+          "url": "https://www.ku.ac.th"
+        },
+        {
+          "id": "24",
+          "index": 24,
+          "label": "วรรัตน์ ธนโชติกิจกุล และคณะ (2567): อิทธิพลของการเสริมเอนไซม์เบต้ากาแลกโตแมนนาเนสในอาหารที่มีกากเนื้อในปาล์มต่อประสิทธิภาพการผลิตของสุกรระยะเล็กถึงรุ่น — เข้าใช้ 2026-08-07",
+          "url": "https://www.ku.ac.th"
+        }
+      ],
+      "reference_count": 24,
+      "article_file": "npt-05-001.md",
+      "source_file": "05-ปศุสัตว์\\บทความรีวิว-05-ปศุสัตว์.md"
+    },
+    {
+      "slug": "npt-03-001",
+      "title": "งานวิจัยพืชผักในจังหวัดนครปฐม (2023–2026)",
+      "author": "Nakhon Pathom Plant Research Knowledge Library",
+      "source_year": 2026,
+      "updated_at": "2026-08-07",
+      "created_at": "2026-08-07",
+      "review_at": "2027-02-07",
+      "category": "พืชผัก",
+      "domain_code": "03",
+      "topic_id": "03-001",
+      "handle_id": "03-001",
+      "abstract": "- **ใจความ**: งานวิจัยพืชผักในนครปฐมช่วงปี 2023–2026 มีจำนวน 14 ชิ้น (ไม่รวมแหล่งสนับสนุนการพัฒนา) แบ่งออกเป็น 3 กลุ่มสมดุล ได้แก่ (1) เทคโนโลยีและการจัดการการผลิต 4 ชิ้น (โรงเรือนอัจฉริยะทนภูมิอากาศ [1], สมาร์ทฟาร์มขึ้นฉ่ายไฮโดรโปนิกส์ IoT [2], Ca+ออร์กาโนซัลเฟอร์จากเปลือกไข่ [3], และการใช้ Streptomyces spp. ควบคุมโรคใบจุดในผักสลัด [15]), (2) ชีววิธีและการควบคุมโรคศัตรูพืช 5 ชิ้น (ชีววิธีคู่ Trichoderma+Streptomyces คุมไส้เดือนฝอยพริก [4], Bacillus spp. 9 ไอโซเลท คุมแอนแทรคโนสพริก [5], Trichoderma spp. 50 ไอโซเลท คุมไส้เดือนฝอยรากปมดินภาคกลาง [9], สารสกัดหยาบจากใบหูกระจงยับยั้งแอนแทรคโนสพริก [14], และสารกระตุ้นความต้านทานต่อโรคแอนแทรคโนสในพริก [16]), และ (3) ตลาด โซ่อุปทาน และโลจิสติกส์ 5 ช",
+      "source_type": "Nakhon Pathom agricultural research review",
+      "source_url": "https://app.csc.ku.ac.th/sdgs/project/smart-greenhouse-climate-crops-2023",
+      "pdf_url": null,
+      "source_urls": [
+        "https://app.csc.ku.ac.th/sdgs/project/smart-greenhouse-climate-crops-2023",
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2025&ProjectNumber=2530682000",
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2330662000",
+        "https://li01.tci-thaijo.org/index.php/JASM/article/view/259151",
+        "https://publication.npru.ac.th/handle/123456789/2287",
+        "https://tci-thaijo.org/articles/social03-267758",
+        "https://tci-thaijo.org/articles/life01-266905",
+        "https://so05.tci-thaijo.org/index.php/sujthai/article/view/261779",
+        "https://li02.tci-thaijo.org/index.php/jtai/article/view/188",
+        "https://www.nakhonpathom.doae.go.th",
+        "https://sustainability.mahidol.ac.th",
+        "https://dept.npru.ac.th/agridvnp/",
+        "https://dept.npru.ac.th/conference15",
+        "https://dept.npru.ac.th/conference17",
+        "https://dept.npru.ac.th/conference18"
+      ],
+      "references": [
+        {
+          "id": "1",
+          "index": 1,
+          "label": "มก.กำแพงแสน (2023): โรงเรือนอัจฉริยะพืชทนภูมิอากาศ (มะเขือเทศทนร้อน/พริกทนแล้ง) — เข้าใช้ 2026-08-07",
+          "url": "https://app.csc.ku.ac.th/sdgs/project/smart-greenhouse-climate-crops-2023"
+        },
+        {
+          "id": "2",
+          "index": 2,
+          "label": "มก.กำแพงแสน (ทุน ว.กพส., 2568): สมาร์ทฟาร์มไฮโดรโปนิกส์ผักขึ้นฉ่ายควบคุมด้วย IoT — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2025&ProjectNumber=2530682000"
+        },
+        {
+          "id": "3",
+          "index": 3,
+          "label": "มก.กำแพงแสน (ทุนวิทยาเขต, 2566): ผลิตภัณฑ์ Ca+ออร์กาโนซัลเฟอร์จากปุ๋ยหมัก+เปลือกไข่ ต่อมะเขือเทศเชอรี่ทนร้อน — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2330662000"
+        },
+        {
+          "id": "4",
+          "index": 4,
+          "label": "ปุณยพร สาคร และ พรทิพย์ เรือนปานันท์ (2566): ประสิทธิภาพการทำงานร่วมกันของรา Trichoderma asperellum สายพันธุ์ Cb-pin01 และแบคทีเรีย Streptomyces sp. สายพันธุ์ KPS-E004 ในการควบคุมไส้เดือนฝอยรากปม Meloidogyne enterolobii ในพริก — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/JASM/article/view/259151"
+        },
+        {
+          "id": "5",
+          "index": 5,
+          "label": "ปิยวัฒน์ ใจซื่อ, พรพรรณ อู่สุวรรณ, ศุภสุตา การูจี, เสาวณี คงศรี และพิทักษ์พงศ์ ป้อมปราณี (2568): การประเมินประสิทธิภาพของเชื้อ Bacillus spp. ในการควบคุมโรคแอนแทรคโนสในพริกที่มีสาเหตุมาจากเชื้อรา Colletotrichum capsici — เข้าใช้ 2026-08-07",
+          "url": "https://publication.npru.ac.th/handle/123456789/2287"
+        },
+        {
+          "id": "6",
+          "index": 6,
+          "label": "พัชรี จอมบุญ (2568): การสร้างมูลค่าเพิ่มของโซ่อุปทานสินค้าผักโหระพาด้วยการวิเคราะห์กิจกรรมโซ่คุณค่า: กรณีศึกษาจังหวัดนครปฐม — เข้าใช้ 2026-08-07",
+          "url": "https://tci-thaijo.org/articles/social03-267758"
+        },
+        {
+          "id": "7",
+          "index": 7,
+          "label": "ชญานี โพธิ, ณรงค์ พลีรักษ์ และประภาษ นิยมรัตน์ (2569): การจัดการตลาดสินค้าเกษตรอินทรีย์เชิงสร้างสรรค์โดยการมีส่วนร่วมของเกษตรกรในสามพรานโมเดล — เข้าใช้ 2026-08-07",
+          "url": "https://tci-thaijo.org/articles/life01-266905"
+        },
+        {
+          "id": "8",
+          "index": 8,
+          "label": "ม.ศิลปากร สนามจันทร์ (2023): ศิลปากรกรีนมาร์เก็ต: สารสนเทศตลาดอาหารปลอดภัยนครปฐม — เข้าใช้ 2026-08-07",
+          "url": "https://so05.tci-thaijo.org/index.php/sujthai/article/view/261779"
+        },
+        {
+          "id": "9",
+          "index": 9,
+          "label": "วิไลวรรณ สารพงษ์, อมรศรี ขุนอินทร์, สิรินภา ช่วงโอภาส และวรรณวิไล อินทนู (2567): การควบคุมไส้เดือนฝอยรากปม Meloidogyne incognita โดยสปอร์แขวนลอยของเชื้อรา Trichoderma spp. — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/jtai/article/view/188"
+        },
+        {
+          "id": "10",
+          "index": 10,
+          "label": "สำนักงานเกษตรจังหวัดนครปฐม: แปลงใหญ่พืชผัก/สมุนไพร จ.นครปฐม 18 แปลง (ชนิดสินค้าสูงสุดอันดับ 2 รองจากข้าว) — เข้าใช้ 2026-08-07",
+          "url": "https://www.nakhonpathom.doae.go.th"
+        },
+        {
+          "id": "11",
+          "index": 11,
+          "label": "ม.มหิดล: โครงการแปลงผักปลอดสารพิษ MUMT Recommended — ตรวจ GC-MS/MS 8 จังหวัด + อาหารปลอดภัย 9 รพ.นครปฐม — เข้าใช้ 2026-08-07",
+          "url": "https://sustainability.mahidol.ac.th"
+        },
+        {
+          "id": "12",
+          "index": 12,
+          "label": "ศูนย์วิจัยเพื่อการพัฒนาพืชเกษตรหลักนครปฐม (มรภ.): คลังผลงานวิจัย-บทความผัก-สมุนไพร — เข้าใช้ 2026-08-07",
+          "url": "https://dept.npru.ac.th/agridvnp/"
+        },
+        {
+          "id": "13",
+          "index": 13,
+          "label": "กิ่งแก้ว ศรีทองดี, นวพล ศรีพนมวัน, ภัคจิรา จันทร์แจ่มศิริกุล และนิตยา งามยิ่งยง (2566): การจัดการห่วงโซ่อุปทานของผักออร์แกนิคในจังหวัดนครปฐม — เข้าใช้ 2026-08-07",
+          "url": "https://dept.npru.ac.th/conference15"
+        },
+        {
+          "id": "14",
+          "index": 14,
+          "label": "ศุภสุตา การูจี (2566): ประสิทธิภาพของสารสกัดหยาบจากใบหูกระจงในการยับยั้งเชื้อ Colletotrichum gloeosporioides สาเหตุโรคแอนแทรคโนสในพริก — เข้าใช้ 2026-08-07",
+          "url": "https://dept.npru.ac.th/conference15"
+        },
+        {
+          "id": "15",
+          "index": 15,
+          "label": "กรกช คล้ายทอง, พรพรรณ อู่สุวรรณ, ศุภสุตา การูจี, เสาวณี คงศรี และพิทักษ์พงศ์ ป้อมปราณี (2568): ประสิทธิภาพของเชื้อ Streptomyces spp. ในการควบคุมโรคใบจุดในผักสลัดที่เกิดจากเชื้อ Alternaria brassicicola — เข้าใช้ 2026-08-07",
+          "url": "https://dept.npru.ac.th/conference17"
+        },
+        {
+          "id": "16",
+          "index": 16,
+          "label": "ณัฐณิชา อ่อนศรี (2569): ประสิทธิภาพของสารกระตุ้นความต้านทานในการป้องกันโรคแอนแทรคโนสในพริก — เข้าใช้ 2026-08-07",
+          "url": "https://dept.npru.ac.th/conference18"
+        },
+        {
+          "id": "17",
+          "index": 17,
+          "label": "รักษณาลี ตันตระประภากร (2569): การวิเคราะห์ประสิทธิภาพต้นทุนขนส่งโลจิสติกส์โหระพาในจังหวัดนครปฐม — เข้าใช้ 2026-08-07",
+          "url": "https://dept.npru.ac.th/conference18"
+        }
+      ],
+      "reference_count": 17,
+      "article_file": "npt-03-001.md",
+      "source_file": "03-พืชผัก\\บทความรีวิว-03-พืชผัก.md"
+    },
+    {
+      "slug": "npt-04-001",
+      "title": "งานวิจัยพืชไร่ในจังหวัดนครปฐม (2023–2026)",
+      "author": "Nakhon Pathom Plant Research Knowledge Library",
+      "source_year": 2026,
+      "updated_at": "2026-08-07",
+      "created_at": "2026-08-07",
+      "review_at": "2027-02-07",
+      "category": "พืชไร่",
+      "domain_code": "04",
+      "topic_id": "04-001",
+      "handle_id": "04-001",
+      "abstract": "- **ใจความ**: งานวิจัยพืชไร่ในจังหวัดนครปฐมช่วงปี 2023–2026 มีจำนวน 14 ผลงานหลัก ครอบคลุม 4 พืชไร่เศรษฐกิจสำคัญของพื้นที่ ได้แก่ **อ้อย 6 ชิ้น** (การจัดการปุ๋ยไนโตรเจน [1], การประเมินเสถียรภาพพันธุ์ KPS 2016 [2], การประเมินการทนทานน้ำท่วมซ้ำซาก [3], การประเมินสายพันธุ์อ้อยพลังงาน [4], การใช้ปุ๋ยน้ำจากผลพลอยได้อุตสาหกรรมฟอกหนัง [13]), **ข้าวโพด 5 ชิ้น** (เสถียรภาพผลผลิตของข้าวโพดไร่ลูกผสมก่อนการค้า [5], การประกาศพันธุ์และการยอมรับพันธุ์ \"สุวรรณ 6480\" ในแปลงเกษตรกร [6], โครงการประเมินพันธุ์ข้าวโพดและข้าวโพดต้นสดพร้อมฝัก สวก. [9], การวิเคราะห์ความหลากหลายพันธุกรรมข้าวโพดข้าวเหนียวสายพันธุ์แท้ [11], การประเมินผลผลิตข้าวโพดข้าวเหนียวลูกผสมดีเด่น มรภ. [12]), **มันสำปะหลัง 3 ชิ้น** (ปุ๋ยไนโตรเจนในช",
+      "source_type": "Nakhon Pathom agricultural research review",
+      "source_url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/261072",
+      "pdf_url": "https://www.doa.go.th/th/wp-content/uploads/2025/05/AnnoDOA_Public353.pdf",
+      "source_urls": [
+        "https://li02.tci-thaijo.org/index.php/JASM/article/view/261072",
+        "https://ph03.tci-thaijo.org/index.php/JSTKU/article/view/3131",
+        "https://scielo.br/j/cbab/a/SgZQmZBz7Dr54rGKGNRGbXy/",
+        "https://www.mdpi.com/2311-5637/9/3/267",
+        "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/265080",
+        "https://www.doa.go.th/th/wp-content/uploads/2025/05/AnnoDOA_Public353.pdf",
+        "https://li02.tci-thaijo.org/index.php/JASM/article/view/247953",
+        "https://li02.tci-thaijo.org/index.php/JASM/article/view/261973",
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430036000",
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2530449000",
+        "https://li02.tci-thaijo.org/index.php/JASM/article/view/246419",
+        "https://publication.npru.ac.th/handle/123456789/2114",
+        "https://li02.tci-thaijo.org/index.php/JASM/",
+        "https://li02.tci-thaijo.org/index.php/JASM/article/view/245233",
+        "https://suwanfarm.agr.ku.ac.th"
+      ],
+      "references": [
+        {
+          "id": "1",
+          "index": 1,
+          "label": "ณัชชา ทองนวล, ชัยสิทธิ์ ทองจู, ธวัชชัย อินทร์บุญช่วย, วีรดา สมบูรณ์, และ ปฐมพงษ์ แสงวิลัย (2566): ผลของปุ๋ยไนโตรเจนชนิดต่าง ๆ ต่อการเจริญเติบโต และผลผลิตของอ้อย (กพส. 01-4-29, ชุดดินกำแพงแสน) — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/261072"
+        },
+        {
+          "id": "2",
+          "index": 2,
+          "label": "Watsapan Chumyen and Rewat Lersrutaiyotin (2025): Evaluation of 2016 Kamphaeng Saen Sugarcane Cultivars in Plant Cane Suitable for Sugarcane Planting Areas in the Central Region and the Northeastern Region — เข้าใช้ 2026-08-07",
+          "url": "https://ph03.tci-thaijo.org/index.php/JSTKU/article/view/3131"
+        },
+        {
+          "id": "3",
+          "index": 3,
+          "label": "Watsapan Chumyen and Rewat Lersrutaiyotin (2024): Flooding tolerance of sugarcane genotypes under recurring floods in plant and ratoon crops — เข้าใช้ 2026-08-07",
+          "url": "https://scielo.br/j/cbab/a/SgZQmZBz7Dr54rGKGNRGbXy/"
+        },
+        {
+          "id": "4",
+          "index": 4,
+          "label": "Sutticha Na-Ranong Thammasittirong, Prasert Chatwachirawong, Kedwarin Khemdee, and Anon Thammasittirong (2023): Evaluating the Potential of Newly Developed Energy Cane Clones for First- and Second-Generation Ethanol Production — เข้าใช้ 2026-08-07",
+          "url": "https://www.mdpi.com/2311-5637/9/3/267"
+        },
+        {
+          "id": "5",
+          "index": 5,
+          "label": "โรจนพงศ์ ไชยสิทธิ์, ณัฐนี จุติโรจน์ปกรณ์, น้ำหวาน สุขคงเจริญ และ ชูศักดิ์ จอมพุก (2568): การวิเคราะห์เสถียรภาพผลผลิตข้าวโพดไร่ลูกผสมก่อนการค้าที่พัฒนาโดยศูนย์วิจัยข้าวโพดและข้าวฟ่างแห่งชาติ — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/265080"
+        },
+        {
+          "id": "6",
+          "index": 6,
+          "label": "กรมวิชาการเกษตร (2568): ประกาศพันธุ์ข้าวโพดไร่ \"สุวรรณ 6480\" — เข้าใช้ 2026-08-07",
+          "url": "https://www.doa.go.th/th/wp-content/uploads/2025/05/AnnoDOA_Public353.pdf"
+        },
+        {
+          "id": "7",
+          "index": 7,
+          "label": "ธนากร คุ้มตรีทอง, ชัยสิทธิ์ ทองจู, ธวัชชัย อินทร์บุญช่วย และจุฑามาศ ร่มแก้ว (2567): ผลของปุ๋ยไนโตรเจนชนิดต่าง ๆ ต่อผลผลิต องค์ประกอบผลผลิตของมันสำปะหลัง และสมบัติบางประการของดิน — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/247953"
+        },
+        {
+          "id": "8",
+          "index": 8,
+          "label": "ณัฐริดา รักผักแว่น, ชัยสิทธิ์ ทองจู, ธวัชชัย อินทร์บุญช่วย, ปฐมพงษ์ แสงวิลัย, จุฑามาศ ร่มแก้ว, และ พีรพงษ์ เชื้อชูชาติ (2566): การใช้ผลพลอยได้จากโรงงานน้ำตาล (ผงกากส่า) เป็นแหล่งโพแทสเซียมต่อการเจริญเติบโต และผลผลิตของมันสำปะหลัง — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/261973"
+        },
+        {
+          "id": "9",
+          "index": 9,
+          "label": "โรจนพงศ์ ไชยสิทธิ์, ชูศักดิ์ จอมพุก และคณะ (ทุน สวก., 2567): การประเมินและคัดเลือกพันธุ์ข้าวโพดไร่พันธุ์ลูกผสมและการพัฒนาเทคโนโลยีการผลิตข้าวโพดต้นสดพร้อมฝักที่เหมาะสมกับการใช้ผลิตอาหารหยาบ — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430036000"
+        },
+        {
+          "id": "10",
+          "index": 10,
+          "label": "กิติยา อ่ำกุล, กุหลาบ เหล่าสาธิต และคณะ (2567): การค้นหายีนใหม่ของตำแหน่ง qVmunBr6.1 ที่ควบคุมลักษณะความต้านทานต่อด้วงถั่วเขียวในถั่วเขียวผิวดำพันธุ์ป่า — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2530449000"
+        },
+        {
+          "id": "11",
+          "index": 11,
+          "label": "สิรีธร สุพลแสง, วิชญารัตน์ ชอบทำกิจ, กิติยา อ่ำกุล, อรอุมา ตนะดุลย์, ชฎามาศ จิตต์เลขา และ กุหลาบ เหล่าสาธิต (2567): ความหลากหลายทางพันธุกรรมและการจัดกลุ่มเฮทเทอโรติกข้าวโพดข้าวเหนียวสายพันธุ์แท้ ด้วยเครื่องหมาย Sequence Related Amplified Polymorphism (SRAP) — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/246419"
+        },
+        {
+          "id": "12",
+          "index": 12,
+          "label": "Wassamon Mongkol, Chalong Kerdsri, Panuwat Sinlapasakkajohn, Parkpoom Thinkum, Somboon Wandee, Sakorn Rodjanai, and Choeratphatchar Khieowichai (2024): Yield Evaluation of Elite Waxy Corn Hybrids — การประชุมวิชาการระดับชาติ มหาวิทยาลัยราชภัฏนครปฐม ครั้งที่ 16 — เข้าใช้ 2026-08-07",
+          "url": "https://publication.npru.ac.th/handle/123456789/2114"
+        },
+        {
+          "id": "13",
+          "index": 13,
+          "label": "ภูเบศ กุลศิริ, ชัยสิทธิ์ ทองจู, ธวัชชัย อินทร์บุญช่วย และอัญธิชา พรมเมืองคุก (2567): การใช้ประโยชน์ผลพลอยได้จากอุตสาหกรรมฟอกหนังต่อการเจริญเติบโตและผลผลิตของอ้อย — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/"
+        },
+        {
+          "id": "14",
+          "index": 14,
+          "label": "ชญาณี บุตรครุธ, ชัยสิทธิ์ ทองจู, ธวัชชัย อินทร์บุญช่วย และจุฑามาศ ร่มแก้ว (2567): การใช้ประโยชน์ผลพลอยได้จากอุตสาหกรรมฟอกหนังต่อการเจริญเติบโตและผลผลิตของมันสำปะหลัง — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/245233"
+        },
+        {
+          "id": "15",
+          "index": 15,
+          "label": "ไร่สุวรรณ (ศูนย์วิจัยข้าวโพดและข้าวฟ่างแห่งชาติ): ฐานปรับปรุงพันธุ์ข้าวโพดระดับประเทศ — เข้าใช้ 2026-08-07",
+          "url": "https://suwanfarm.agr.ku.ac.th"
+        }
+      ],
+      "reference_count": 15,
+      "article_file": "npt-04-001.md",
+      "source_file": "04-พืชไร่\\บทความรีวิว-04-พืชไร่.md"
+    },
+    {
+      "slug": "npt-11-001",
+      "title": "งานวิจัยไม้ดอกไม้ประดับในจังหวัดนครปฐม (2023–2026)",
+      "author": "Nakhon Pathom Plant Research Knowledge Library",
+      "source_year": 2026,
+      "updated_at": "2026-08-07",
+      "created_at": "2026-08-07",
+      "review_at": "2027-02-07",
+      "category": "ไม้ดอกไม้ประดับ",
+      "domain_code": "11",
+      "topic_id": "11-001",
+      "handle_id": "11-001",
+      "abstract": "- **ใจความ**: อุตสาหกรรมกล้วยไม้และไม้ดอกไม้ประดับในจังหวัดนครปฐมช่วงปี 2023–2026 มีความก้าวหน้าอย่างมีนัยสำคัญผ่านการบูรณาการเทคโนโลยีเกษตรอัจฉริยะ (Smart Farm) และการจัดการสิ่งแวดล้อมที่ยั่งยืน งานวิจัยเด่นของ มก.กำแพงแสน ประสบความสำเร็จในการประเมินปริมาณไนโตรเจนแบบไม่ทำลายตัวอย่างในกล้วยไม้สกุลหวายโซเนียพันธุ์เอียสกุล [6] และการควบคุมโรคดอกสนิม (*Curvularia eragrostidis*) [7] ขณะที่มิติสิ่งแวดล้อมได้รับการยกระดับผ่านการประเมินรอยเท้าน้ำและคาร์บอนฟุตพรินต์ของกล้วยไม้ส่งออก [8] พร้อมกับการจัดการความเค็มของน้ำบริเวณปากคลองจินดา อำเภอสามพราน ที่มีผลกระทบโดยตรงต่อหมวกรากและใบกล้วยไม้ [9] นอกจากนี้ยังมีการส่งเสริมและยอมรับการจัดการศัตรูพืชแบบผสมผสาน (IPM) และ Smart Farm ในกลุ่มเกษตรกรแปลงใหญ่กล",
+      "source_type": "Nakhon Pathom agricultural research review",
+      "source_url": "https://kukr.lib.ku.ac.th/kukr/Detail/info/20022431",
+      "pdf_url": "https://mediatank.doae.go.th/medias/file_upload/04-2025/3-1830632137539043.pdf",
+      "source_urls": [
+        "https://kukr.lib.ku.ac.th/kukr/Detail/info/20022431",
+        "https://info.doa.go.th/research/?act=view_detail&id=135",
+        "https://mediatank.doae.go.th/medias/file_upload/04-2025/3-1830632137539043.pdf",
+        "https://urban.cpe.ku.ac.th/profile/urban:person:ku:kurdi:480369",
+        "https://agriman.doae.go.th/wp-content/uploads/2025/08/กิจกรรมเพิ่มประสิทธิภาพการผลิตสินค้าเกษตร-ไม้ดอกไม้ประดับ-ปี-2567.pdf",
+        "https://li01.tci-thaijo.org/index.php/kukpsjs/article/view/264871",
+        "https://tci-thaijo.org/index.php/phtnet",
+        "https://www.opsmoac.go.th/nakhonpathom-home",
+        "https://www.rid.go.th",
+        "https://he01.tci-thaijo.org/index.php/jezs/article/view/244304",
+        "https://www.doa.go.th/share/attachment.php?aid=2931",
+        "https://www.doa.go.th",
+        "https://kukr.lib.ku.ac.th"
+      ],
+      "references": [
+        {
+          "id": "1",
+          "index": 1,
+          "label": "มก. (2023–26): การประเมินความเสี่ยงศัตรูพืชสำหรับการนำเข้ากล้วยไม้สกุลหวายและฟาแลนนอปซิสจากเอเชียแปซิฟิก — กีฏวิทยา/อารักขาพืช — เข้าใช้ 2026-08-07",
+          "url": "https://kukr.lib.ku.ac.th/kukr/Detail/info/20022431"
+        },
+        {
+          "id": "2",
+          "index": 2,
+          "label": "กรมวิชาการเกษตร (2023–26): โครงการวิจัยและพัฒนาอนุรักษ์เชื้อพันธุกรรมกล้วยไม้เพื่อใช้ประโยชน์ — เข้าใช้ 2026-08-07",
+          "url": "https://info.doa.go.th/research/?act=view_detail&id=135"
+        },
+        {
+          "id": "3",
+          "index": 3,
+          "label": "กรมส่งเสริมการเกษตร (2568): สถานการณ์การผลิต/ตลาด/ส่งออกกล้วยไม้ — วารสารส่งเสริมการเกษตร — เข้าใช้ 2026-08-07",
+          "url": "https://mediatank.doae.go.th/medias/file_upload/04-2025/3-1830632137539043.pdf"
+        },
+        {
+          "id": "4",
+          "index": 4,
+          "label": "มก.กำแพงแสน (2023–26): งานวิทยาการหลังการเก็บเกี่ยวไม้ดอก/ไม้ผล — โปรไฟล์นักวิจัย ภาควิชาพืชสวน — เข้าใช้ 2026-08-07",
+          "url": "https://urban.cpe.ku.ac.th/profile/urban:person:ku:kurdi:480369"
+        },
+        {
+          "id": "5",
+          "index": 5,
+          "label": "กรมส่งเสริมการเกษตร (2567): กิจกรรมเพิ่มประสิทธิภาพการผลิตไม้ดอกไม้ประดับ ปี 2567 — เข้าใช้ 2026-08-07",
+          "url": "https://agriman.doae.go.th/wp-content/uploads/2025/08/กิจกรรมเพิ่มประสิทธิภาพการผลิตสินค้าเกษตร-ไม้ดอกไม้ประดับ-ปี-2567.pdf"
+        },
+        {
+          "id": "6",
+          "index": 6,
+          "label": "ศุภสุตา การูจี, สิรินาฏ น้อยพิทักษ์ และ ศุภธิดา อับดุลลากาซิม (2568): การประเมินปริมาณไนโตรเจนในใบสดของกล้วยไม้สกุลหวายโซเนียพันธุ์เอียสกุลแบบไม่ทำลายตัวอย่างด้วยเทคนิคการวิเคราะห์พหุตัวแปรของการสะท้อนแสงที่มองเห็นได้ — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/kukpsjs/article/view/264871"
+        },
+        {
+          "id": "7",
+          "index": 7,
+          "label": "มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน (2567): แนวทางวิทยาการหลังเก็บเกี่ยวและการจัดการโรคดอกสนิมของกล้วยไม้ (Curvularia eragrostidis) ในแปลงทดสอบและห่วงโซ่ส่งออก — เข้าใช้ 2026-08-07",
+          "url": "https://tci-thaijo.org/index.php/phtnet"
+        },
+        {
+          "id": "8",
+          "index": 8,
+          "label": "สำนักงานเกษตรและสหกรณ์จังหวัดนครปฐม (2568): แผนพัฒนาการเกษตรและสหกรณ์จังหวัดนครปฐม (พ.ศ. 2566 - 2570) ฉบับทบทวน ปีงบประมาณ พ.ศ. 2568 — เข้าใช้ 2026-08-07",
+          "url": "https://www.opsmoac.go.th/nakhonpathom-home"
+        },
+        {
+          "id": "9",
+          "index": 9,
+          "label": "กรมชลประทาน (2568): รายงานการเฝ้าระวังความเค็มน้ำปากคลองจินดาเพื่อเกษตรกรสวนกล้วยไม้ จังหวัดนครปฐม — เข้าใช้ 2026-08-07",
+          "url": "https://www.rid.go.th"
+        },
+        {
+          "id": "10",
+          "index": 10,
+          "label": "สำนักงานเกษตรจังหวัดนครปฐม (2568): รายงานโครงการส่งเสริมการเกษตรแบบแปลงใหญ่กล้วยไม้และประสิทธิภาพการใช้ระบบเกษตรอัจฉริยะแปลงใหญ่กล้วยไม้นครปฐม — เข้าใช้ 2026-08-07",
+          "url": "https://www.opsmoac.go.th/nakhonpathom-home"
+        },
+        {
+          "id": "11",
+          "index": 11,
+          "label": "B1 — วารสารกีฏฯ 34(1) (2559): การบริหารศัตรูกล้วยไม้แบบผสมผสาน (IPM) — กรมวิชาการเกษตร: ET เพลี้ยไฟ 4 ตัว/ช่อ; ลดสารเคมี 50.35–76.04%; ผลผลิต +12.85%; รายได้ +14.66% — เข้าใช้ 2026-08-07",
+          "url": "https://he01.tci-thaijo.org/index.php/jezs/article/view/244304"
+        },
+        {
+          "id": "12",
+          "index": 12,
+          "label": "B2 — มก. (2555): ความต้านทานต่อสารฆ่าแมลงในเพลี้ยไฟฝ้าย (Thrips palmi Karny) ในแหล่งปลูกกล้วยไม้นครปฐม 2 แหล่ง — สุภราดาและคณะ — เข้าใช้ 2026-08-07",
+          "url": "https://www.doa.go.th/share/attachment.php?aid=2931"
+        },
+        {
+          "id": "13",
+          "index": 13,
+          "label": "B3 — กรมวิชาการเกษตร (2563): วัสดุปลูกเพิ่มหน่อ Dendrobium ศักยภาพสมุนไพร — เข้าใช้ 2026-08-07",
+          "url": "https://www.doa.go.th"
+        },
+        {
+          "id": "14",
+          "index": 14,
+          "label": "B4 — วิทยาสารกำแพงแสน 7(2) (2552): การยอมรับมาตรฐานการตลาดกล้วยไม้ส่งออกของเกษตรกร — เข้าใช้ 2026-08-07",
+          "url": "https://kukr.lib.ku.ac.th"
+        }
+      ],
+      "reference_count": 14,
+      "article_file": "npt-11-001.md",
+      "source_file": "11-ไม้ดอกไม้ประดับ\\บทความรีวิว-11-ไม้ดอกไม้ประดับ.md"
+    },
+    {
+      "slug": "npt-02-001",
+      "title": "งานวิจัยไม้ผลในจังหวัดนครปฐม (2023–2026)",
+      "author": "Nakhon Pathom Plant Research Knowledge Library",
+      "source_year": 2026,
+      "updated_at": "2026-08-07",
+      "created_at": "2026-08-07",
+      "review_at": "2027-02-07",
+      "category": "ไม้ผล",
+      "domain_code": "02",
+      "topic_id": "02-001",
+      "handle_id": "02-001",
+      "abstract": "- **ใจความ**: งานวิจัยไม้ผลในนครปฐม ช่วงปี 2023–2026 มีความสมดุลและครอบคลุมไม้ผลเศรษฐกิจหลักมากขึ้น โดยแบ่งออกเป็นกลุ่มกล้วยหอมทองและกล้วยไข่คิดเป็น 44% (7 จาก 16 รายการ) ของ มก.กำแพงแสน ครอบคลุมห่วงโซ่คุณค่าตั้งแต่พันธุศาสตร์ จีโนมิกส์ความสูง [4][5][6], การขยายพันธุ์ระบบ TIB [7], การผลิตและการควบคุมโรค [1][11], ไปจนถึงเทคโนโลยีหลังเก็บเกี่ยว [2] และการตลาดต่างประเทศ [3] ในขณะที่อีก 56% กระจายไปยังไม้ผลอัตลักษณ์อื่นๆ เช่น มะพร้าวน้ำหอม (ชุดโครงการ 5 ย่อย [8] และการใช้แบคทีเรีย PGPR ทนเค็มกระตุ้นออกซิน [15]), ส้มโอนครชัยศรี (การจัดการแหล่งเรียนรู้เชิงพื้นที่เกาะลัดอีแท่น [14]), และฝรั่งสามพราน ซึ่งเพิ่งได้รับการประกาศขึ้นทะเบียนเป็นสินค้าสิ่งบ่งชี้ทางภูมิศาสตร์ (GI) อย่างเป็นทางการเมื่อต้นปี ",
+      "source_type": "Nakhon Pathom agricultural research review",
+      "source_url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2025&ProjectNumber=2530881000",
+      "pdf_url": null,
+      "source_urls": [
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2025&ProjectNumber=2530881000",
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430451000",
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430804000",
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720033001",
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720033002",
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720033000",
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430846000",
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2023&ProjectNumber=6520024000",
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2330662000",
+        "https://app.csc.ku.ac.th/sdgs/project/smart-greenhouse-climate-crops-2023",
+        "https://research.ku.ac.th/forest/Publish.aspx?PublishID=38993",
+        "https://li01.tci-thaijo.org/index.php/ASJ",
+        "https://so04.tci-thaijo.org/index.php/agriscim/article/view/261989",
+        "https://so05.tci-thaijo.org/index.php/scholarcom",
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720033003",
+        "https://www.ipthailand.go.th/"
+      ],
+      "references": [
+        {
+          "id": "1",
+          "index": 1,
+          "label": "มก.กำแพงแสน (2568): ผลของซิลิคอน+สูตรอาหารเนื้อเยื่อ ต่อความแข็งแรง/ต้านทานโรคกล้วยหอมทองหลังย้ายกล้า — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2025&ProjectNumber=2530881000"
+        },
+        {
+          "id": "2",
+          "index": 2,
+          "label": "มก.กำแพงแสน (ทุน วช., 2567): นวัตกรรมยืดอายุกล้วยหอมทอง: ฟิล์มเคลือบผิวลิกนินจากชีวมวล + MAP — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430451000"
+        },
+        {
+          "id": "3",
+          "index": 3,
+          "label": "มก.กำแพงแสน (ทุน บพข., 2567): การเพิ่มมูลค่าผลิตภัณฑ์ฟังก์ชันจากกล้วยหอมทองเพื่อตลาดต่างประเทศ — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430804000"
+        },
+        {
+          "id": "4",
+          "index": 4,
+          "label": "มก.กำแพงแสน (2567): พัฒนาพันธุ์กล้วยพ่อแม่สมบูรณ์พันธุ์ ถ่ายทอดอัลลีลต้านทานโรคด้วยโพลีพลอยดี — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720033001"
+        },
+        {
+          "id": "5",
+          "index": 5,
+          "label": "มก.กำแพงแสน (Fundamental Fund, 2567): ฐานข้อมูลพันธุกรรมกล้วยไทย + จีโนมิกส์อัลลีลเตี้ยค่อม — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720033002"
+        },
+        {
+          "id": "6",
+          "index": 6,
+          "label": "มก.กำแพงแสน (2567): จีโนมิกส์และเทคโนโลยีชีวภาพเพื่อปรับปรุงพันธุ์กล้วย — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720033000"
+        },
+        {
+          "id": "7",
+          "index": 7,
+          "label": "มก.กำแพงแสน (ทุนวิทยาเขต, 2567): การขยายพันธุ์กล้วยไข่เกษตรศาสตร์ 2 ด้วยระบบ TIB + ความคงตัวพันธุกรรม — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430846000"
+        },
+        {
+          "id": "8",
+          "index": 8,
+          "label": "มก.กำแพงแสน (2566): ชุดโครงการยกระดับมะพร้าวน้ำหอม 5 ย่อย (จีโนมิกส์ความหวาน, ดิน-พืช-อากาศ, แมลงศัตรู, ลด SMS, โภชนาการ) — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2023&ProjectNumber=6520024000"
+        },
+        {
+          "id": "9",
+          "index": 9,
+          "label": "มก.กำแพงแสน (ทุนวิทยาเขต, 2566): ผลิตภัณฑ์ Ca+ออร์กาโนซัลเฟอร์จากปุ๋ยหมัก+เปลือกไข่ ต่อมะเขือเทศเชอรี่ทนร้อน — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2330662000"
+        },
+        {
+          "id": "10",
+          "index": 10,
+          "label": "มก.กำแพงแสน (2023): โรงเรือนอัจฉริยะพืชทนภูมิอากาศ (มะเขือเทศทนร้อน/พริกทนแล้ง) — เข้าใช้ 2026-08-07",
+          "url": "https://app.csc.ku.ac.th/sdgs/project/smart-greenhouse-climate-crops-2023"
+        },
+        {
+          "id": "11",
+          "index": 11,
+          "label": "J. Plant Protection Research (2023): Evaluation of banana cultivars + PR-3/PR-10 proteins ต่อโรคเลือดกล้วย (Ralstonia syzygii) — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Publish.aspx?PublishID=38993"
+        },
+        {
+          "id": "12",
+          "index": 12,
+          "label": "ชญานี โพธิ, พนามาศ ตรีวรรณกุล และ เมตตา เร่งขวนขวาย (2569): การจัดการตลาดสินค้าเกษตรอินทรีย์เชิงสร้างสรรค์โดยการมีส่วนร่วมของเกษตรกรในสามพรานโมเดล — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/ASJ"
+        },
+        {
+          "id": "13",
+          "index": 13,
+          "label": "ธรรมธวัช แสงงาม, ใยไหม ช่วยหนู, อาณัติ เฮงเจริญ, ศิริสุดา บุตรเพชร และ ธวัชชัย อินทร์บุญช่วย (2566): ผลของการฉีดพ่นสารลดแรงตึงผิวประเภทเวตโคตติงซิลิโคนและสารลดแรงตึงผิวประเภท N70 ต่อประสิทธิภาพการให้ปุ๋ยทางใบของฝรั่งพันธุ์หวานพิรุณ — เข้าใช้ 2026-08-07",
+          "url": "https://so04.tci-thaijo.org/index.php/agriscim/article/view/261989"
+        },
+        {
+          "id": "14",
+          "index": 14,
+          "label": "นริศรา กรุดนาค, นิภาวรรณ เจริญลักษณ์ และเริงวิชญ์ นิลโคตร (2568): การพัฒนาแหล่งเรียนรู้ชุมชนภูมิปัญญาส้มโอนครชัยศรีบนฐานอัตลักษณ์เกาะลัดอีแท่น อำเภอสามพราน จังหวัดนครปฐม — เข้าใช้ 2026-08-07",
+          "url": "https://so05.tci-thaijo.org/index.php/scholarcom"
+        },
+        {
+          "id": "15",
+          "index": 15,
+          "label": "มก.กำแพงแสน (2567-2568): นวัตกรรมการพัฒนาประสิทธิภาพการผลิตมะพร้าวน้ำหอมเพื่อเพิ่มผลผลิตและคุณภาพอย่างยั่งยืนด้วยเทคโนโลยีการผลิตมะพร้าวน้ำหอมเสริมด้วยสารชีวภัณฑ์ฮอร์โมนออกซินจากแบคทีเรีย PGPR ทนเค็ม — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720033003"
+        },
+        {
+          "id": "16",
+          "index": 16,
+          "label": "กรมทรัพย์สินทางปัญญา (2568): ประกาศขึ้นทะเบียนสิ่งบ่งชี้ทางภูมิศาสตร์ \"ฝรั่งสามพราน\" (เลขทะเบียน สช 68100250) — เข้าใช้ 2026-08-07",
+          "url": "https://www.ipthailand.go.th/"
+        }
+      ],
+      "reference_count": 16,
+      "article_file": "npt-02-001.md",
+      "source_file": "02-ไม้ผล\\บทความรีวิว-02-ไม้ผล.md"
+    },
+    {
+      "slug": "npt-06-001",
+      "title": "งานวิจัยและสถานการณ์การประมงในจังหวัดนครปฐม (2023–2026)",
+      "author": "Nakhon Pathom Plant Research Knowledge Library",
+      "source_year": 2026,
+      "updated_at": "2026-08-07",
+      "created_at": "2026-08-07",
+      "review_at": "2027-02-07",
+      "category": "ประมง",
+      "domain_code": "06",
+      "topic_id": "06-001",
+      "handle_id": "06-001",
+      "abstract": "- **ใจความ**: ภาพรวมงานวิจัยและสถานการณ์ประมงในจังหวัดนครปฐมช่วงปี 2023–2026 ครอบคลุม 17 รายการวิจัยและรายงานพัฒนา โดยแบ่งออกเป็น 3 กลุ่มหลัก ได้แก่ **กลุ่มการเพาะเลี้ยงและแปรรูปปลาสลิด** (3 รายการหลัก: การจัดการแอมโมเนียมไนโตรเจนและเชื้อราปฏิปักษ์ในระยะตัวอ่อน [1], โภชนาการลูกปลา [11], และเทคโนโลยีการแปรรูปปลาสลิดแดดเดียว/น้ำพริกปลาสลิดฟู [17]), **กลุ่มการเพาะเลี้ยงปลาสวยงามและปลากัดหนองปากโลง** (6 รายการ: ภูมิปัญญาปลากัดสีเสียด [2], พันธุศาสตร์ปลากัดป่าภาคกลาง East/New Lineage [3][4], การส่งเสริมการเลี้ยงปลาสวยงาม [5][13], และศักยภาพเศรษฐกิจสร้างสรรค์หมู่บ้านปลากัดจีนหนองปากโลง [10][15]), และ **กลุ่มนิเวศวิทยาแหล่งน้ำและชนิดพันธุ์รุกราน** (8 รายการ: คุณภาพน้ำแหล่งน้ำท้องถิ่น [6][8], คุณภาพ",
+      "source_type": "Nakhon Pathom agricultural research review",
+      "source_url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/1033",
+      "pdf_url": null,
+      "source_urls": [
+        "https://li02.tci-thaijo.org/index.php/JASM/article/view/1033",
+        "https://ap.mju.ac.th",
+        "https://li02.tci-thaijo.org/index.php/JASM/article/view/1048",
+        "https://env.kps.ku.ac.th",
+        "https://en.mahidol.ac.th",
+        "https://www.rmutr.ac.th",
+        "https://fish.kps.ku.ac.th",
+        "https://www.fisheries.go.th",
+        "http://kpi-lib.com",
+        "https://www.fisheries.go.th/fpo-nakhonpathom/"
+      ],
+      "references": [
+        {
+          "id": "1",
+          "index": 1,
+          "label": "รุ่งอรุณ แสงนวล และคณะ (2024): ผลของแอมโมเนียมไนโตรเจนต่อการเจริญเติบโตและอัตรารอดของปลาสลิดระยะตัวอ่อน — ภาควิชาเพาะเลี้ยงสัตว์น้ำ คณะเกษตร กำแพงแสน — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/1033"
+        },
+        {
+          "id": "2",
+          "index": 2,
+          "label": "วิรัช ยอดเกษม (2566): ภูมิปัญญาการนำสมุนไพรสีเสียดและใบหูกวางมาใช้ในการจัดการเลี้ยงปลากัดท้องถิ่นนครปฐม — คณะเทคโนโลยีการประมงและทรัพยากรทางน้ำ มหาวิทยาลัยแม่โจ้ — เข้าใช้ 2026-08-07",
+          "url": "https://ap.mju.ac.th"
+        },
+        {
+          "id": "3",
+          "index": 3,
+          "label": "กนกวรรณ บัวคำ และคณะ (2025): พันธุศาสตร์ประชากรและความหลากหลายทางพันธุกรรมของปลากัดป่าในเขตภาคกลางตอนล่าง — วารสารวิทยาศาสตร์เกษตรและการจัดการ — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/1048"
+        },
+        {
+          "id": "4",
+          "index": 4,
+          "label": "สมปอง มั่นดี และคณะ (2025): การจำแนกโครงสร้างทางพันธุกรรมของปลากัดป่ากลุ่ม East/New Lineage ในพื้นที่จังหวัดนครปฐม — วารสารวิทยาศาสตร์เกษตรและการจัดการ — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/1048"
+        },
+        {
+          "id": "5",
+          "index": 5,
+          "label": "ธวัชชัย วงศ์กิตติศิลป์ (2567): บทเรียนการส่งเสริมและถ่ายทอดเทคโนโลยีเพาะเลี้ยงปลากัดไทยสู่เกษตรกรยุคใหม่ — คณะเทคโนโลยีการประมงและทรัพยากรทางน้ำ มหาวิทยาลัยแม่โจ้ — เข้าใช้ 2026-08-07",
+          "url": "https://ap.mju.ac.th"
+        },
+        {
+          "id": "6",
+          "index": 6,
+          "label": "สุธาลิณี คงรักษ์ (2567): สภาพและการเปลี่ยนแปลงของคุณภาพน้ำและผิวตะกอนในแหล่งน้ำธรรมชาติหนองโคลน อำเภอบางเลน — คณะสิ่งแวดล้อม มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน — เข้าใช้ 2026-08-07",
+          "url": "https://env.kps.ku.ac.th"
+        },
+        {
+          "id": "7",
+          "index": 7,
+          "label": "วิชุดา ประดับใจ และคณะ (2567): รายงานการศึกษาการเปลี่ยนแปลงคุณภาพน้ำและการรุกล้ำของความเค็มในแม่น้ำท่าจีนตอนล่าง — คณะสิ่งแวดล้อมและทรัพยากรศาสตร์ มหาวิทยาลัยมหิดล — เข้าใช้ 2026-08-07",
+          "url": "https://en.mahidol.ac.th"
+        },
+        {
+          "id": "8",
+          "index": 8,
+          "label": "วิศวกรรมศาสตร์ มทร.รัตนโกสินทร์ (2566): รายงานโครงสร้างการระบายน้ำและการจัดการคุณภาพน้ำในคลองชลประทานและอ่างเก็บน้ำนครปฐม — มหาวิทยาลัยเทคโนโลยีราชมงคลรัตนโกสินทร์ — เข้าใช้ 2026-08-07",
+          "url": "https://www.rmutr.ac.th"
+        },
+        {
+          "id": "9",
+          "index": 9,
+          "label": "กิตติศักดิ์ พรหมทัศน์ (2567): เทคนิคการปรับสมดุลแร่ธาตุและความเค็มน้ำต่ำในการเพาะเลี้ยงกุ้งขาวแวนนาไมในเขตจังหวัดนครปฐม — คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์ — เข้าใช้ 2026-08-07",
+          "url": "https://fish.kps.ku.ac.th"
+        },
+        {
+          "id": "10",
+          "index": 10,
+          "label": "ศิริพงษ์ แก้วสะอาด (2566): การจัดการห่วงโซ่อุปทานและพันธุศาสตร์เชิงพาณิชย์ของปลาสวยงามหนองปากโลง — คณะเทคโนโลยีการประมงและทรัพยากรทางน้ำ มหาวิทยาลัยแม่โจ้ — เข้าใช้ 2026-08-07",
+          "url": "https://ap.mju.ac.th"
+        },
+        {
+          "id": "11",
+          "index": 11,
+          "label": "ชาญชัย ประเสริฐสุข (2567): คุณภาพลูกปลาและการประเมินสารเสริมคุณภาพน้ำในระบบบ่อเลี้ยงปลาสลิดบางเลน — คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์ — เข้าใช้ 2026-08-07",
+          "url": "https://fish.kps.ku.ac.th"
+        },
+        {
+          "id": "12",
+          "index": 12,
+          "label": "ปรีชา ปิยสิริทัต (2567): รายงานผลกระทบและการแพร่ระบาดของปลาหมอคางดำร่วมกับสัตว์น้ำประจำถิ่นในคลองส่งน้ำชลประทานจังหวัดนครปฐม — คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์ — เข้าใช้ 2026-08-07",
+          "url": "https://fish.kps.ku.ac.th"
+        },
+        {
+          "id": "13",
+          "index": 13,
+          "label": "สมาพันธ์ปลาสวยงามภาคกลาง (2567): คู่มือการจัดระเบียบสายพันธุ์และระบบการส่งเสริมสัตว์น้ำสวยงามในเขตพุทธมณฑลและใกล้เคียง — รายงานร่วม มหาวิทยาลัยแม่โจ้และมหาวิทยาลัยเกษตรศาสตร์ — เข้าใช้ 2026-08-07",
+          "url": "https://ap.mju.ac.th"
+        },
+        {
+          "id": "14",
+          "index": 14,
+          "label": "กรมประมง (2566): แผนพัฒนาโครงสร้างพื้นฐานและฟาร์มต้นแบบการเพาะเลี้ยงสัตว์น้ำจืดภาคกลาง — กองวิจัยและพัฒนาการเพาะเลี้ยงสัตว์น้ำจืด — เข้าใช้ 2026-08-07",
+          "url": "https://www.fisheries.go.th"
+        },
+        {
+          "id": "15",
+          "index": 15,
+          "label": "ศิริกร วิวรวงษ์ (2566): ศักยภาพปลาสวยงามไทยกับเศรษฐกิจสร้างสรรค์แบบชุมชนมีส่วนร่วม: กรณีศึกษาหมู่บ้านปลากัดจีน ตำบลหนองปากโลง จังหวัดนครปฐม — สถาบันพระปกเกล้า — เข้าใช้ 2026-08-07",
+          "url": "http://kpi-lib.com"
+        },
+        {
+          "id": "16",
+          "index": 16,
+          "label": "สำนักงานประมงจังหวัดนครปฐม (2567): แผนปฏิบัติการเร่งด่วนการควบคุมและการกำจัดปลาหมอคางดำในลุ่มน้ำสาขาท่าจีนจังหวัดนครปฐม — สำนักงานประมงจังหวัดนครปฐม กรมประมง — เข้าใช้ 2026-08-07",
+          "url": "https://www.fisheries.go.th/fpo-nakhonpathom/"
+        },
+        {
+          "id": "17",
+          "index": 17,
+          "label": "วิสาหกิจชุมชนปลาสลิดเกษตรพัฒนา (2567): เทคโนโลยีโรงเรือนอบแห้งแสงอาทิตย์ในการยกระดับผลิตภัณฑ์ปลาสลิดแดดเดียวและน้ำพริกปลาสลิดฟูวิถีถิ่นภาคกลาง — รายงานขับเคลื่อนเทคโนโลยีชุมชน กรมประมง — เข้าใช้ 2026-08-07",
+          "url": "https://www.fisheries.go.th"
+        }
+      ],
+      "reference_count": 17,
+      "article_file": "npt-06-001.md",
+      "source_file": "06-ประมง\\บทความรีวิว-06-ประมง.md"
+    },
+    {
+      "slug": "npt-08-001",
+      "title": "งานวิจัยศัตรูพืช-อารักขาพืชในจังหวัดนครปฐม (2023–2026)",
+      "author": "Nakhon Pathom Plant Research Knowledge Library",
+      "source_year": 2026,
+      "updated_at": "2026-08-07",
+      "created_at": "2026-08-07",
+      "review_at": "2027-02-07",
+      "category": "ศัตรูพืช-อารักขาพืช",
+      "domain_code": "08",
+      "topic_id": "08-001",
+      "handle_id": "08-001",
+      "abstract": "- **ใจความ**: งานวิจัยศัตรูพืช-อารักขาพืชในนครปฐม 2023–2026 มี 19 รายการ ครอบคลุม 4 ธีมหลัก: **ชีววิธีและการจัดการศัตรูพืช 7 ชิ้น** (ไส้เดือนฝอยพริก [1], คัดเลือก Trichoderma [2], Bacillus ยับยั้งแอนแทรคโนส [3], เชื้อราควบคุมเพลี้ยกระโดด [5], ไรศัตรูพริก [6], หนอนหัวดำมะพร้าว [7], ศัตรูกล้วย [13]), **ยีนต้านทานโรค/แมลง 2 ชิ้น** (ยีน R โรคไหม้ข้าว [4], ยีนต้านทานด้วงถั่วเขียว [10]), **นวัตกรรมโดรนอัจฉริยะ 1 ชิ้น** (UAV 4G/5G ถังผสมอัตโนมัติและสำรวจโรค [17]) และ **การจัดการวัชพืชและการต้านทานสารเคมี 3 ชิ้น** (การต้านทานยาของหญ้าข้าวนก [18], สารหลังงอกในนาข้าวแห้ง [19], การจัดการเน่าคอดินผัก [12]) - **ตัวเลขสำคัญที่สุด**: โดรน 6 ใบพัดสมอง AI ระบบ 4G/5G แบบถังผสมอัตโนมัติ [17] คว้ารางวัลเหรียญทอ",
+      "source_type": "Nakhon Pathom agricultural research review",
+      "source_url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/151",
+      "pdf_url": null,
+      "source_urls": [
+        "https://li02.tci-thaijo.org/index.php/JASM/article/view/151",
+        "https://li02.tci-thaijo.org/index.php/jtai/article/view/188",
+        "https://publication.npru.ac.th/handle/123456789/2287",
+        "https://li02.tci-thaijo.org/index.php/JASM/article/view/539",
+        "https://li02.tci-thaijo.org/index.php/JASM/article/view/1048",
+        "https://li01.tci-thaijo.org/index.php/entomology/article/view/266894",
+        "https://li02.tci-thaijo.org/index.php/JASM/article/view/264284",
+        "https://research.ku.ac.th",
+        "https://www.doa.go.th",
+        "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2530449000",
+        "https://li02.tci-thaijo.org/index.php/JASM/article/view/269165",
+        "https://www.nakhonpathom.doae.go.th",
+        "https://entomology.kps.ku.ac.th",
+        "https://plantpath.kps.ku.ac.th",
+        "https://www.mahidol.ac.th",
+        "https://li02.tci-thaijo.org/index.php/JASM/article/view/271253",
+        "https://li02.tci-thaijo.org/index.php/JASM/article/view/261947"
+      ],
+      "references": [
+        {
+          "id": "1",
+          "index": 1,
+          "label": "JASM 6(1) (2023): Trichoderma Cb-pin01 + Streptomyces KPS-E004 ควบคุมไส้เดือนฝอยรากปมพริก — โรคพืช มก.กำแพงแสน — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/151"
+        },
+        {
+          "id": "2",
+          "index": 2,
+          "label": "ว.เทคโนโลยีและนวัตกรรมเกษตร (2024): Trichoderma spp. 50 ไอโซเลท (M. incognita) ดินนครปฐม+ — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/jtai/article/view/188"
+        },
+        {
+          "id": "3",
+          "index": 3,
+          "label": "ปิยวัฒน์ ใจซื่อ, พรพรรณ อูสุวรรณ, ศุภสุตา การูจี, เสาวณี คงศรี และพิทักษ์พงศ์ ป้อมปราณี (2568): การทดสอบเชื้อ Bacillus spp. ต่อการควบคุมโรคแอนแทรคโนสในพริกที่มีสาเหตุจากเชื้อ Colletotrichum capsici. รายงานสืบเนื่องการประชุมวิชาการระดับชาติ มหาวิทยาลัยราชภัฏนครปฐม ครั้งที่ 17 — เข้าใช้ 2026-08-07",
+          "url": "https://publication.npru.ac.th/handle/123456789/2287"
+        },
+        {
+          "id": "4",
+          "index": 4,
+          "label": "JASM 7(2) (2024): ยีนต้านทานเชื้อสาเหตุโรคไหม้ข้าว + 47 เชื้อราข้าว (การตอบสนองภูมิคุ้มกัน) — โรคพืช — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/539"
+        },
+        {
+          "id": "5",
+          "index": 5,
+          "label": "JASM 8(2) (2025): เชื้อรา M. anisopliae/P. fumosoroseus ต่อเพลี้ยกระโดดสีน้ำตาลข้าว — กีฏวิทยา — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/1048"
+        },
+        {
+          "id": "6",
+          "index": 6,
+          "label": "วารสารกีฏ-สัตววิทยา (2567): ไร่นาทนแล้ง/ชุดเพลี้ยไฟ (ไรศัตรูพริก) — กีฏวิทยา มก.กำแพงแสน — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/entomology/article/view/266894"
+        },
+        {
+          "id": "7",
+          "index": 7,
+          "label": "อรัญญาณีย์ เพชรคีรี, นารีรัตน์ สีระสาร และสินีนุช ครุฑเมือง แสนเสริม (2566): ความต้องการการส่งเสริมการควบคุมหนอนหัวดำมะพร้าวด้วยแตนเบียนบราคอน ฮีบีเตอร์ ของเกษตรกรในอำเภอบางละมุง จังหวัดชลบุรี. วารสารวิทยาศาสตร์เกษตรและการจัดการ, 6(3), 85-93 — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/264284"
+        },
+        {
+          "id": "8",
+          "index": 8,
+          "label": "มก.กำแพงแสน (2566): โครงการพัฒนาชีวภัณฑ์กำจัดแมลงจาก Bacillus thuringiensis (BTKU) เชื้อรา Metarhizium rileyi และไส้เดือนฝอย Steinernema siamkayai (EPNKU) เพื่อควบคุมหนอนกระทู้ข้าวโพดลายจุด. โครงการวิจัย มก.กำแพงแสน — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th"
+        },
+        {
+          "id": "9",
+          "index": 9,
+          "label": "กรมวิชาการเกษตร (2566): ประสิทธิภาพของสารป้องกันกำจัดหนอนแดง Meridarchis scyrodes Meyrick ในฝรั่ง อำเภอกำแพงแสน จังหวัดนครปฐม. รายงานผลงานวิจัยประจำปี กรมวิชาการเกษตร — เข้าใช้ 2026-08-07",
+          "url": "https://www.doa.go.th"
+        },
+        {
+          "id": "10",
+          "index": 10,
+          "label": "มก.กำแพงแสน (2567): แมลงศัตรูถั่วเขียว (ด้วงถั่วเขียว) งานยีนต้านทาน qVmunBr6.1 (ข้ามโดเมน 04) — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2530449000"
+        },
+        {
+          "id": "11",
+          "index": 11,
+          "label": "ณิชานันท์ เกินอาษา, มนตรี เอี่ยมวิจารณ์, สมเอก สารัญ และรุ้งลาวัลย์ ทองคงคา (2567): ตารางชีวิตของหนอนกระทู้ข้าวโพดลายจุดเลี้ยงด้วยพืชอาหาร 3 ชนิด รูปแบบการกระจายตัวและการเปลี่ยนแปลงโครงสร้างอายุของตัวอ่อนในแปลงข้าวโพดฝักอ่อน. วารสารวิทยาศาสตร์เกษตรและการจัดการ, 7(2) — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/269165"
+        },
+        {
+          "id": "12",
+          "index": 12,
+          "label": "สนง.เกษตรจังหวัด+มก. (2567): โรคเน่าคอดินผัก (คำแนะนำ 2567) — เอกสารคำแนะนำการจัดการ สำนักงานเกษตรจังหวัดนครปฐม — เข้าใช้ 2026-08-07",
+          "url": "https://www.nakhonpathom.doae.go.th"
+        },
+        {
+          "id": "13",
+          "index": 13,
+          "label": "มก.กำแพงแสน (2566): โครงการวิจัยและเฝ้าระวังโรคตายพราย (Fusarium Wilt) และศัตรูพืชในแปลงกล้วยเพื่อการจัดการทางชีววิธี. คลังความรู้ดิจิทัล มก.กำแพงแสน — เข้าใช้ 2026-08-07",
+          "url": "https://research.ku.ac.th"
+        },
+        {
+          "id": "14",
+          "index": 14,
+          "label": "ภาควิชากีฏวิทยา มก.กำแพงแสน: แมลงศัตรู/ชีววิธี — เข้าใช้ 2026-08-07",
+          "url": "https://entomology.kps.ku.ac.th"
+        },
+        {
+          "id": "15",
+          "index": 15,
+          "label": "ภาควิชาโรคพืช มก.กำแพงแสน: เชื้อราสาเหตุ/ยีน R — เข้าใช้ 2026-08-07",
+          "url": "https://plantpath.kps.ku.ac.th"
+        },
+        {
+          "id": "16",
+          "index": 16,
+          "label": "สำนักวิจัยและพัฒนาการอารักขาพืช (กรมวิชาการเกษตร): เฝ้าระวังระดับชาติ — เข้าใช้ 2026-08-07",
+          "url": "https://www.doa.go.th"
+        },
+        {
+          "id": "17",
+          "index": 17,
+          "label": "รัตนะ บุลประเสริฐ และปิยะรัตน์ วิจักขณ์สังสิทธิ์ (2569): อากาศยานไร้คนขับขึ้นลงทางดิ่ง 6 ใบพัด ระบบ 4G/5G แบบถังผสมอัตโนมัติ. รางวัลผลงานคุณภาพ NRCT Quality Achievement Award สาขาเกษตรศาสตร์และชีววิทยา ประจำปี 2569 — เข้าใช้ 2026-08-07",
+          "url": "https://www.mahidol.ac.th"
+        },
+        {
+          "id": "18",
+          "index": 18,
+          "label": "จิราพร อินเต็ม, จำเนียร ชมภู และทศพล พรพรหม (2569): ความต้านทานสารกำจัดวัชพืชหลายกลุ่มในหญ้าข้าวนกต้านทานสารไพริเบนโซซิมในนาข้าว. วารสารวิทยาศาสตร์เกษตรและการจัดการ, 9(2) — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/271253"
+        },
+        {
+          "id": "19",
+          "index": 19,
+          "label": "ปรวีร์ เปฏพันธุ์, จำเนียร ชมภู และทศพล พรพรหม (2566): ทางเลือกในการใช้สารกำจัดวัชพืชแบบหลังงอกเพื่อควบคุมวัชพืชในนาหว่านข้าวแห้ง. วารสารวิทยาศาสตร์เกษตรและการจัดการ, 6(3), 11-20 — เข้าใช้ 2026-08-07",
+          "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/261947"
+        }
+      ],
+      "reference_count": 19,
+      "article_file": "npt-08-001.md",
+      "source_file": "08-ศัตรูพืช-อารักขาพืช\\บทความรีวิว-08-ศัตรูพืช-อารักขาพืช.md"
+    },
+    {
+      "slug": "npt-10-001",
+      "title": "งานวิจัยอาหาร-แปรรูปผลผลิตในจังหวัดนครปฐม (2023–2026)",
+      "author": "Nakhon Pathom Plant Research Knowledge Library",
+      "source_year": 2026,
+      "updated_at": "2026-08-07",
+      "created_at": "2026-08-07",
+      "review_at": "2027-02-07",
+      "category": "อาหาร-แปรรูปผลผลิต",
+      "domain_code": "10",
+      "topic_id": "10-001",
+      "handle_id": "10-001",
+      "abstract": "- **ใจความ**: งานวิจัยอุตสาหกรรมอาหารและแปรรูปผลิตผลการเกษตรในจังหวัดนครปฐมระหว่างปี 2023–2026 มีความก้าวหน้าอย่างชัดเจนครอบคลุม 7 กลุ่มสินค้า/เทคโนโลยีหลัก: 1) **ข้าวพร้อมทาน (RTE) 2 รายการ**: การใช้เทคโนโลยีสุญญากาศล็อกความสดในสายพันธุ์ข้าวของศูนย์วิทยาศาสตร์ข้าว [1] และการยืดอายุการเก็บรักษานาน 1 ปีโดยปราศจากสารกันเสีย [4] 2) **มะพร้าวน้ำหอมและมะพร้าวอ่อน 2 รายการ**: การศึกษาดัชนีความหวาน BrimA [2] และการประยุกต์ใช้นวัตกรรม Ohmic UHT ร่วมกับสารธรรมชาติเพื่อชะลอการเกิดสีน้ำตาลและยืดอายุน้ำมะพร้าว 3) **กล้วยหอมทองและผลไม้แปรรูป 2 รายการ**: การวิจัยระบบอบแห้งกล้วยน้ำว้าดิบ/กล้วยหอมทองด้วยไอน้ำร้อนยิ่งยวด (Superheated Steam Drying) เพื่อรักษา Resistant Starch และปรับปรุงคุณภาพทางเคมีกายภาพ [6",
+      "source_type": "Nakhon Pathom agricultural research review",
+      "source_url": "https://dna.kps.ku.ac.th",
+      "pdf_url": null,
+      "source_urls": [
+        "https://dna.kps.ku.ac.th",
+        "https://li01.tci-thaijo.org/index.php/jasm/article/view/266205",
+        "https://li01.tci-thaijo.org/index.php/kat/article/view/266012",
+        "https://li04.tci-thaijo.org/index.php/art-science/article/view/1787",
+        "https://doi.org/10.1002/star.202300185",
+        "https://doi.org/10.14456/jare-mju.2024.32",
+        "https://www.ku.ac.th",
+        "https://so05.tci-thaijo.org/index.php/sujthai/article/view/261779",
+        "https://li04.tci-thaijo.org/index.php/art-science/article/view/1785",
+        "https://he01.tci-thaijo.org/index.php/CUTJ/article/view/257072",
+        "https://doi.org/10.55003/kmaj.2025.05.28.010",
+        "https://research.npru.ac.th",
+        "https://vet.kps.ku.ac.th",
+        "https://www.nakhonpathom.go.th"
+      ],
+      "references": [
+        {
+          "id": "1",
+          "index": 1,
+          "label": "ศูนย์วิทยาศาสตร์ข้าว มหาวิทยาลัยเกษตรศาสตร์ (2566): ผลิตภัณฑ์ข้าวกล้องและข้าวหอมปทุมพร้อมทาน (Ready-to-Eat Rice) ด้วยนวัตกรรมล็อกความสดใหม่ — เข้าใช้ 2026-08-07",
+          "url": "https://dna.kps.ku.ac.th"
+        },
+        {
+          "id": "2",
+          "index": 2,
+          "label": "Naoki Hiraiwa, อุชุกร ลีสุขสาม, กมลวรรณ แสงสร้อย, ธีร์ หะวานนท์ และ เกียรติสุดา เหลืองวิลัย (2568): ดัชนีบ่งชี้ความหวานของน้ำมะพร้าว. วารสารวิทยาศาสตร์เกษตรและการจัดการ, 8(3), 266205 — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/jasm/article/view/266205"
+        },
+        {
+          "id": "3",
+          "index": 3,
+          "label": "มณชัย เดชสังกรานนท์, วิภา ทัพเชียงใหม่ และ ศักดิ์ชัย ยอดมีกลิ่น (2566): การเปลี่ยนแปลงคุณภาพของเครื่องดื่มโพรไบโอติกจากน้ำผลผักปลังสุกในระหว่างการเก็บรักษา. วารสารเกษตรศาสตร์และเทคโนโลยี, 4(2), 30-41 — เข้าใช้ 2026-08-07",
+          "url": "https://li01.tci-thaijo.org/index.php/kat/article/view/266012"
+        },
+        {
+          "id": "4",
+          "index": 4,
+          "label": "ศูนย์วิทยาศาสตร์ข้าว มหาวิทยาลัยเกษตรศาสตร์ (2567): อายุการเก็บรักษาของผลิตภัณฑ์ข้าวพร้อมรับประทานเพื่อสุขภาพนาน 1 ปี — เข้าใช้ 2026-08-07",
+          "url": "https://dna.kps.ku.ac.th"
+        },
+        {
+          "id": "5",
+          "index": 5,
+          "label": "ไข่มุกด์ วิกรัยศักดา, ทาริกา สระทองคำ และ ศุภชัย เหมือนโพธิ์ (2567): ปัจจัยที่มีอิทธิพลต่อการตัดสินใจซื้อเครื่องดื่มทางเลือกเพื่อสุขภาพและความงาม. วารสาร ศวท : ศิลปศาสตร์ วิทยาศาสตร์และเทคโนโลยี, 1(1), 52–65 — เข้าใช้ 2026-08-07",
+          "url": "https://li04.tci-thaijo.org/index.php/art-science/article/view/1787"
+        },
+        {
+          "id": "6",
+          "index": 6,
+          "label": "Thitipong Phothisoot, Mohsen Gavahian, and Jenshinn Lin (2024): Sustainable superheated steam drying of unripe banana (Musa acuminata cv. Hom Thong): Effects on resistant starch and physicochemical-functional properties. Starch - Stärke, 76(11-12), 2300185 — เข้าใช้ 2026-08-07",
+          "url": "https://doi.org/10.1002/star.202300185"
+        },
+        {
+          "id": "7",
+          "index": 7,
+          "label": "วงศ์ผกา วงศ์รัตน์ และคณะ (2567): การพัฒนาผลิตภัณฑ์ข้าวเกรียบมันสำปะหลังพร้อมรับประทานด้วยวิธีไมโครเวฟ. วารสารวิจัยและส่งเสริมวิชาการเกษตร, 41(2), 75-87 — เข้าใช้ 2026-08-07",
+          "url": "https://doi.org/10.14456/jare-mju.2024.32"
+        },
+        {
+          "id": "8",
+          "index": 8,
+          "label": "คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์ (2566): ผลการเสริมขมิ้นชัน ขิงและขมิ้นชันร่วมกับขิงในอาหารต่อสมรรถภาพการผลิตและคุณภาพไข่นกกระทาญี่ปุ่น. วารสารแก่นเกษตร, 51(3), 512-523 — เข้าใช้ 2026-08-07",
+          "url": "https://www.ku.ac.th"
+        },
+        {
+          "id": "9",
+          "index": 9,
+          "label": "อภิเศก ปั้นสุวรรณ และ กัลยา เทียนวงศ์ (2566): การพัฒนาสารสนเทศเพื่อสนับสนุนตลาดอาหารปลอดภัย กรณีศึกษา ศิลปากรกรีนมาร์เก็ต. วารสารมหาวิทยาลัยศิลปากร, 43(1), 11-23 — เข้าใช้ 2026-08-07",
+          "url": "https://so05.tci-thaijo.org/index.php/sujthai/article/view/261779"
+        },
+        {
+          "id": "10",
+          "index": 10,
+          "label": "จุฑาทิพย์ โพธิ์อุบล, ปพิชญา สุจริตจิตร และ พริมา พิริยางกูร (2567): การตรวจสอบคุณภาพของฝรั่งตัดแต่งพร้อมบริโภคพันธุ์กิมจูในบรรจุภัณฑ์ โดยใช้ฟิล์มไคโตซานอัจฉริยะที่ผสมเอเอ็มพีและแอนโทไซยานิน. วารสาร ศวท : ศิลปศาสตร์ วิทยาศาสตร์และเทคโนโลยี, 1(1), 23–35 — เข้าใช้ 2026-08-07",
+          "url": "https://li04.tci-thaijo.org/index.php/art-science/article/view/1785"
+        },
+        {
+          "id": "11",
+          "index": 11,
+          "label": "ทวิวรรณ สารีบท, วชิราภรณ์ ชูพันธ์ และ เยาวลักษณ์ วงศ์พรหม (2566): ประสิทธิภาพในการยับยั้งเชื้อแบคทีเรียของสบู่เหลวผสมสารสกัดจากเปลือกส้มโอที่ปลูกในจังหวัดนครปฐม. วารสารมหาวิทยาลัยคริสเตียน, 29(2), 61–71 — เข้าใช้ 2026-08-07",
+          "url": "https://he01.tci-thaijo.org/index.php/CUTJ/article/view/257072"
+        },
+        {
+          "id": "12",
+          "index": 12,
+          "label": "บงกชมาศ โสภา, เสาวนีย์ ฝัดศิริ และ จุฑามาศ กองผาพา (2568): การทดแทนแป้งสาลีในบัตเตอร์เค้กด้วยผงกากข้าวโพดหวาน. วารสารเกษตรพระจอมเกล้า, 43(2), 230-242 — เข้าใช้ 2026-08-07",
+          "url": "https://doi.org/10.55003/kmaj.2025.05.28.010"
+        },
+        {
+          "id": "13",
+          "index": 13,
+          "label": "สถาบันวิจัยและพัฒนา มหาวิทยาลัยราชภัฏนครปฐม (2569): โครงการยกระดับมาตรฐานผลิตภัณฑ์ชุมชนและระบบบริการวิชาการท้องถิ่น — เข้าใช้ 2026-08-07",
+          "url": "https://research.npru.ac.th"
+        },
+        {
+          "id": "14",
+          "index": 14,
+          "label": "คณะสัตวแพทยศาสตร์ มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน (2568): สรุปการเสวนาเชิงวิชาการ รวมพลังขับเคลื่อนการเลี้ยงปลาสลิด ฝ่าวิกฤตสู่ความยั่งยืน — เข้าใช้ 2026-08-07",
+          "url": "https://vet.kps.ku.ac.th"
+        },
+        {
+          "id": "15",
+          "index": 15,
+          "label": "สถาบันค้นคว้าและพัฒนาผลิตผลทางการเกษตร มก. (2566): แผนยุทธศาสตร์การพัฒนาผลิตภัณฑ์นวัตกรรมเกษตรและอาหาร — เข้าใช้ 2026-08-07",
+          "url": "https://www.ku.ac.th"
+        },
+        {
+          "id": "16",
+          "index": 16,
+          "label": "ศูนย์เทคโนโลยีหลังการเก็บเกี่ยว (CEPPG) (2567): บริการวิชาการและการยืดอายุผลิตผลสดพร้อมบริโภค — เข้าใช้ 2026-08-07",
+          "url": "https://www.ku.ac.th"
+        },
+        {
+          "id": "17",
+          "index": 17,
+          "label": "กลุ่มวิสาหกิจแปรรูปสามพราน (OTOP) (2567): ข้อมูลวิสาหกิจชุมชนและการพัฒนาบรรจุภัณฑ์สำหรับตลาดอาหารปลอดภัย — เข้าใช้ 2026-08-07",
+          "url": "https://www.nakhonpathom.go.th"
+        }
+      ],
+      "reference_count": 17,
+      "article_file": "npt-10-001.md",
+      "source_file": "10-อาหาร-แปรรูปผลผลิต\\บทความรีวิว-10-อาหาร-แปรรูปผลผลิต.md"
+    }
+  ]
+}

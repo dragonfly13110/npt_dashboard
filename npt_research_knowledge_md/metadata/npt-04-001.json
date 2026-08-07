@@ -1,0 +1,129 @@
+{
+  "slug": "npt-04-001",
+  "title": "งานวิจัยพืชไร่ในจังหวัดนครปฐม (2023–2026)",
+  "author": "Nakhon Pathom Plant Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-07",
+  "created_at": "2026-08-07",
+  "review_at": "2027-02-07",
+  "category": "พืชไร่",
+  "domain_code": "04",
+  "topic_id": "04-001",
+  "handle_id": "04-001",
+  "abstract": "- **ใจความ**: งานวิจัยพืชไร่ในจังหวัดนครปฐมช่วงปี 2023–2026 มีจำนวน 14 ผลงานหลัก ครอบคลุม 4 พืชไร่เศรษฐกิจสำคัญของพื้นที่ ได้แก่ **อ้อย 6 ชิ้น** (การจัดการปุ๋ยไนโตรเจน [1], การประเมินเสถียรภาพพันธุ์ KPS 2016 [2], การประเมินการทนทานน้ำท่วมซ้ำซาก [3], การประเมินสายพันธุ์อ้อยพลังงาน [4], การใช้ปุ๋ยน้ำจากผลพลอยได้อุตสาหกรรมฟอกหนัง [13]), **ข้าวโพด 5 ชิ้น** (เสถียรภาพผลผลิตของข้าวโพดไร่ลูกผสมก่อนการค้า [5], การประกาศพันธุ์และการยอมรับพันธุ์ \"สุวรรณ 6480\" ในแปลงเกษตรกร [6], โครงการประเมินพันธุ์ข้าวโพดและข้าวโพดต้นสดพร้อมฝัก สวก. [9], การวิเคราะห์ความหลากหลายพันธุกรรมข้าวโพดข้าวเหนียวสายพันธุ์แท้ [11], การประเมินผลผลิตข้าวโพดข้าวเหนียวลูกผสมดีเด่น มรภ. [12]), **มันสำปะหลัง 3 ชิ้น** (ปุ๋ยไนโตรเจนในช",
+  "source_type": "Nakhon Pathom agricultural research review",
+  "source_url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/261072",
+  "pdf_url": "https://www.doa.go.th/th/wp-content/uploads/2025/05/AnnoDOA_Public353.pdf",
+  "source_urls": [
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/261072",
+    "https://ph03.tci-thaijo.org/index.php/JSTKU/article/view/3131",
+    "https://scielo.br/j/cbab/a/SgZQmZBz7Dr54rGKGNRGbXy/",
+    "https://www.mdpi.com/2311-5637/9/3/267",
+    "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/265080",
+    "https://www.doa.go.th/th/wp-content/uploads/2025/05/AnnoDOA_Public353.pdf",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/247953",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/261973",
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430036000",
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2530449000",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/246419",
+    "https://publication.npru.ac.th/handle/123456789/2114",
+    "https://li02.tci-thaijo.org/index.php/JASM/",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/245233",
+    "https://suwanfarm.agr.ku.ac.th"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "ณัชชา ทองนวล, ชัยสิทธิ์ ทองจู, ธวัชชัย อินทร์บุญช่วย, วีรดา สมบูรณ์, และ ปฐมพงษ์ แสงวิลัย (2566): ผลของปุ๋ยไนโตรเจนชนิดต่าง ๆ ต่อการเจริญเติบโต และผลผลิตของอ้อย (กพส. 01-4-29, ชุดดินกำแพงแสน) — เข้าใช้ 2026-08-07",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/261072"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Watsapan Chumyen and Rewat Lersrutaiyotin (2025): Evaluation of 2016 Kamphaeng Saen Sugarcane Cultivars in Plant Cane Suitable for Sugarcane Planting Areas in the Central Region and the Northeastern Region — เข้าใช้ 2026-08-07",
+      "url": "https://ph03.tci-thaijo.org/index.php/JSTKU/article/view/3131"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Watsapan Chumyen and Rewat Lersrutaiyotin (2024): Flooding tolerance of sugarcane genotypes under recurring floods in plant and ratoon crops — เข้าใช้ 2026-08-07",
+      "url": "https://scielo.br/j/cbab/a/SgZQmZBz7Dr54rGKGNRGbXy/"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Sutticha Na-Ranong Thammasittirong, Prasert Chatwachirawong, Kedwarin Khemdee, and Anon Thammasittirong (2023): Evaluating the Potential of Newly Developed Energy Cane Clones for First- and Second-Generation Ethanol Production — เข้าใช้ 2026-08-07",
+      "url": "https://www.mdpi.com/2311-5637/9/3/267"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "โรจนพงศ์ ไชยสิทธิ์, ณัฐนี จุติโรจน์ปกรณ์, น้ำหวาน สุขคงเจริญ และ ชูศักดิ์ จอมพุก (2568): การวิเคราะห์เสถียรภาพผลผลิตข้าวโพดไร่ลูกผสมก่อนการค้าที่พัฒนาโดยศูนย์วิจัยข้าวโพดและข้าวฟ่างแห่งชาติ — เข้าใช้ 2026-08-07",
+      "url": "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/265080"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "กรมวิชาการเกษตร (2568): ประกาศพันธุ์ข้าวโพดไร่ \"สุวรรณ 6480\" — เข้าใช้ 2026-08-07",
+      "url": "https://www.doa.go.th/th/wp-content/uploads/2025/05/AnnoDOA_Public353.pdf"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "ธนากร คุ้มตรีทอง, ชัยสิทธิ์ ทองจู, ธวัชชัย อินทร์บุญช่วย และจุฑามาศ ร่มแก้ว (2567): ผลของปุ๋ยไนโตรเจนชนิดต่าง ๆ ต่อผลผลิต องค์ประกอบผลผลิตของมันสำปะหลัง และสมบัติบางประการของดิน — เข้าใช้ 2026-08-07",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/247953"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "ณัฐริดา รักผักแว่น, ชัยสิทธิ์ ทองจู, ธวัชชัย อินทร์บุญช่วย, ปฐมพงษ์ แสงวิลัย, จุฑามาศ ร่มแก้ว, และ พีรพงษ์ เชื้อชูชาติ (2566): การใช้ผลพลอยได้จากโรงงานน้ำตาล (ผงกากส่า) เป็นแหล่งโพแทสเซียมต่อการเจริญเติบโต และผลผลิตของมันสำปะหลัง — เข้าใช้ 2026-08-07",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/261973"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "โรจนพงศ์ ไชยสิทธิ์, ชูศักดิ์ จอมพุก และคณะ (ทุน สวก., 2567): การประเมินและคัดเลือกพันธุ์ข้าวโพดไร่พันธุ์ลูกผสมและการพัฒนาเทคโนโลยีการผลิตข้าวโพดต้นสดพร้อมฝักที่เหมาะสมกับการใช้ผลิตอาหารหยาบ — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430036000"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "กิติยา อ่ำกุล, กุหลาบ เหล่าสาธิต และคณะ (2567): การค้นหายีนใหม่ของตำแหน่ง qVmunBr6.1 ที่ควบคุมลักษณะความต้านทานต่อด้วงถั่วเขียวในถั่วเขียวผิวดำพันธุ์ป่า — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2530449000"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "สิรีธร สุพลแสง, วิชญารัตน์ ชอบทำกิจ, กิติยา อ่ำกุล, อรอุมา ตนะดุลย์, ชฎามาศ จิตต์เลขา และ กุหลาบ เหล่าสาธิต (2567): ความหลากหลายทางพันธุกรรมและการจัดกลุ่มเฮทเทอโรติกข้าวโพดข้าวเหนียวสายพันธุ์แท้ ด้วยเครื่องหมาย Sequence Related Amplified Polymorphism (SRAP) — เข้าใช้ 2026-08-07",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/246419"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Wassamon Mongkol, Chalong Kerdsri, Panuwat Sinlapasakkajohn, Parkpoom Thinkum, Somboon Wandee, Sakorn Rodjanai, and Choeratphatchar Khieowichai (2024): Yield Evaluation of Elite Waxy Corn Hybrids — การประชุมวิชาการระดับชาติ มหาวิทยาลัยราชภัฏนครปฐม ครั้งที่ 16 — เข้าใช้ 2026-08-07",
+      "url": "https://publication.npru.ac.th/handle/123456789/2114"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "ภูเบศ กุลศิริ, ชัยสิทธิ์ ทองจู, ธวัชชัย อินทร์บุญช่วย และอัญธิชา พรมเมืองคุก (2567): การใช้ประโยชน์ผลพลอยได้จากอุตสาหกรรมฟอกหนังต่อการเจริญเติบโตและผลผลิตของอ้อย — เข้าใช้ 2026-08-07",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "ชญาณี บุตรครุธ, ชัยสิทธิ์ ทองจู, ธวัชชัย อินทร์บุญช่วย และจุฑามาศ ร่มแก้ว (2567): การใช้ประโยชน์ผลพลอยได้จากอุตสาหกรรมฟอกหนังต่อการเจริญเติบโตและผลผลิตของมันสำปะหลัง — เข้าใช้ 2026-08-07",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/245233"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "ไร่สุวรรณ (ศูนย์วิจัยข้าวโพดและข้าวฟ่างแห่งชาติ): ฐานปรับปรุงพันธุ์ข้าวโพดระดับประเทศ — เข้าใช้ 2026-08-07",
+      "url": "https://suwanfarm.agr.ku.ac.th"
+    }
+  ],
+  "reference_count": 15,
+  "article_file": "npt-04-001.md",
+  "source_file": "04-พืชไร่\\บทความรีวิว-04-พืชไร่.md"
+}

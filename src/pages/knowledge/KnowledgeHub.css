@@ -131,6 +131,11 @@
   background: #d1fae5;
 }
 
+.knowledge-hub-card.npt-research .knowledge-hub-card-icon {
+  color: #1d4ed8;
+  background: #dbeafe;
+}
+
 .knowledge-hub-card-body {
   min-width: 0;
 }

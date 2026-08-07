@@ -178,6 +178,13 @@ const FRONTIER_AGRI_QUICK_PROMPTS = [
   { text: 'ขอลิงก์เว็บอ้างอิงท้ายบทความนี้หน่อย 📚' },
 ];
 
+const NPT_RESEARCH_QUICK_PROMPTS = [
+  { text: 'งานวิจัยข้าวในนครปฐมมีประเด็นเด่นอะไรบ้าง? 🌾' },
+  { text: 'ค้นงานวิจัยไม้ผลหรือพืชผักในนครปฐมให้หน่อย 🍊' },
+  { text: 'มีงานวิจัยด้านดิน น้ำ และเทคโนโลยีการเกษตรอะไรบ้าง? 🌱' },
+  { text: 'ขอลิงก์เว็บอ้างอิงของบทความวิจัยนี้หน่อย 📚' },
+];
+
 const KNOWLEDGE_HUB_QUICK_PROMPTS = [
   { text: 'ในศูนย์องค์ความรู้มีคลังอะไรให้ค้นบ้าง? 📚' },
   { text: 'ค้นหลักฐานเรื่องปุ๋ยสำหรับพืชได้ไหม? 🌱' },
@@ -316,6 +323,19 @@ const KNOWLEDGE_BOT_CONFIGS = {
     clearMessage:
       'เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🌍 ถามเรื่องบทความเกษตรทั่วโลกได้เลยนะคะ!',
   },
+  'npt-research': {
+    name: 'ข้าวหลามวิจัยนครปฐม',
+    status: 'ผู้ช่วยเฉพาะทางงานวิจัยพืชนครปฐม',
+    tooltip: 'คุยกับข้าวหลามวิจัยนครปฐม',
+    quickPrompts: NPT_RESEARCH_QUICK_PROMPTS,
+    limitStorageKey: 'npt_npt_research_chatbot_limit',
+    messageStorageKey: 'npt_npt_research_chatbot_messages',
+    placeholder: 'ถามจากคลังงานวิจัยพืชนครปฐม...',
+    welcomeMessage:
+      'สวัสดีค่ะ! 🌱 หนูคือ **ข้าวหลามวิจัยนครปฐม** ผู้ช่วยค้นหลักฐานจากบทความปริทัศน์งานวิจัยในจังหวัดนครปฐมช่วงปี 2023–2026 ค่ะ\n\nหนูช่วยค้นตามโดเมน พืช ผลการศึกษา เงื่อนไขการทดลอง และแหล่งอ้างอิง พร้อมลิงก์กลับไปยังบทความในระบบค่ะ\n\nถามหัวข้อที่ต้องการค้นได้เลยนะคะ 👇',
+    clearMessage:
+      'เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🌱 ถามเรื่องงานวิจัยพืชนครปฐมได้เลยนะคะ!',
+  },
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -326,7 +346,9 @@ export const parseMarkdownText = (text, options = {}) => {
   const isAllowedArticleLink = (url) => {
     const articleSlug = options.knowledgeArticleSlug;
     if (!articleSlug) return true;
-    const match = url.match(/^\/public\/frontier-agri-research\/([^/?#]+)$/);
+    const match = url.match(
+      /^\/public\/(?:frontier-agri-research|npt-research)\/([^/?#]+)$/
+    );
     return !match || match[1] === articleSlug;
   };
 

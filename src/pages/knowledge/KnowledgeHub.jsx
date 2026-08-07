@@ -86,6 +86,15 @@ const knowledgeCollections = [
     Icon: DatabaseOutlined,
     tone: 'frontier',
   },
+  {
+    to: '/public/npt-research',
+    title: 'คลังงานวิจัยพืชนครปฐม',
+    description:
+      'บทความปริทัศน์งานวิจัยในจังหวัดนครปฐมช่วงปี 2023–2026 แยกตาม 11 โดเมน พร้อมผลการศึกษา เงื่อนไขการใช้ และแหล่งอ้างอิง',
+    detail: '11 บทความ · 11 โดเมน · อัปเดต 2026-08-07',
+    Icon: DatabaseOutlined,
+    tone: 'npt-research',
+  },
 ];
 
 export default function KnowledgeHub() {
