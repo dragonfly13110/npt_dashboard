@@ -1,0 +1,199 @@
+{
+  "slug": "npt-01-001",
+  "title": "งานวิจัยข้าวในจังหวัดนครปฐม (2023–2026)",
+  "author": "Nakhon Pathom Plant Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-07",
+  "created_at": "2026-08-07",
+  "review_at": "2027-02-07",
+  "category": "ข้าว",
+  "domain_code": "01",
+  "topic_id": "01-001",
+  "handle_id": "01-001",
+  "abstract": "- **ใจความ**: ในช่วงปี 2023–2026 จังหวัดนครปฐมเป็นที่ตั้งของงานวิจัยข้าวเชิงลึกและรอบด้าน — สถาบันในพื้นที่ เช่น มก.กำแพงแสน และ มรภ.นครปฐม ตีพิมพ์และนำเสนอผลงานระดับประเทศและนานาชาติรวม 20 ชิ้น ครอบคลุม 6 ด้านหลัก: (1) พันธุศาสตร์-จีโนมิกส์ (GWAS/QTL-seq, ยีน OsSAMHD1 ในข้าวสรรพสี RBR05) [1][2][14], (2) โรคและศัตรูข้าว (โรคไหม้, จุดสีน้ำตาล, และโรคเมล็ดเน่าดำจาก *Burkholderia glumae*) [3][4][21], (3) ความทนทานสภาพเครียดและการจัดการน้ำ (แล้ง, ร้อน, เค็ม, AWD ร่วมกับจัดการฟางข้าว) [5][12][13][15][22][23], (4) คุณภาพเมล็ด การสะสมไฟโตลิท และสารระเหยหอม (2AP, metabolomics, ยีน OsLsi2/OsLsi3) [7][8][9][24], (5) ธาตุอาหาร-เมล็ดพันธุ์ในชุดดินนครปฐม [10][11], และ (6) การพัฒนาช่องทางการตลาดดิจิทัลและ",
+  "source_type": "Nakhon Pathom agricultural research review",
+  "source_url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720060001",
+  "pdf_url": "https://www.scienceasia.org/2023.49.n5/scias49_744.pdf",
+  "source_urls": [
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720060001",
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720060002",
+    "https://li01.tci-thaijo.org/index.php/thaiagriculturalresearch/article/view/259053",
+    "https://li01.tci-thaijo.org/index.php/thaiagriculturalresearch/article/view/258283",
+    "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/257530",
+    "https://li01.tci-thaijo.org/index.php/anres/article/view/259081",
+    "https://www.scienceasia.org/2023.49.n5/scias49_744.pdf",
+    "https://ijat-aatsea.com/pdf/v20_n3_2024_May/9_IJAT_20(3)_2024_Dangthaisong,%20P.--350.pdf",
+    "https://pubmed.ncbi.nlm.nih.gov/37734150/",
+    "https://ag2.kku.ac.th/kaj/PDF.cfm?filename=5-Full%20Paper3.pdf&id=4910",
+    "https://research.ku.ac.th/forest/Present.aspx?PresentID=38019",
+    "https://www.ricesci.org/EN/10.1016/j.rsci.2024.12.002",
+    "https://li01.tci-thaijo.org/index.php/anres/article/view/268871",
+    "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2025.1622640/full",
+    "https://tci-thaijo.org/articles/physical03-2931",
+    "https://dna.kps.ku.ac.th",
+    "https://agkb.lib.ku.ac.th/rice",
+    "https://kukr.lib.ku.ac.th/kukr_es/KPS",
+    "https://misc.npru.ac.th/ricekm/index1.php",
+    "https://dept.npru.ac.th/agridvnp/",
+    "https://doi.org/10.14456/thaidoa-agres.2026.5",
+    "https://li01.tci-thaijo.org/index.php/anres/article/view/259717",
+    "https://li01.tci-thaijo.org/index.php/anres/article/view/261287",
+    "https://li01.tci-thaijo.org/index.php/physical03",
+    "https://so08.tci-thaijo.org/index.php/VCMBS"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "ศูนย์วิทยาศาสตร์ข้าว มก.กำแพงแสน (2567): การสืบหาตำแหน่ง QTL/ยีนควบคุมโปรตีนในเมล็ด ระแง้ถี่ ความต้านทานโรคใบขีดโปร่งแสง (GWAS/QTL-seq) — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720060001"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "มก.กำแพงแสน (2567): การใช้เทคโนโลยีโอมิกส์ปรับปรุงพันธุ์ข้าวโภชนาการสูง หุงต้มดี ต้านทานโรคแมลง — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720060002"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Thai Agricultural Research Journal 42(1):14–23 (2024): Variability of Pyricularia oryzae (Rice Blast) in Thailand — เข้าใช้ 2026-08-07",
+      "url": "https://li01.tci-thaijo.org/index.php/thaiagriculturalresearch/article/view/259053"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Thai Agricultural Research Journal 41(3):263–273 (2023): Evaluation of Thai Rice Varieties for Resistance to Bipolaris oryzae (Brown Spot) — เข้าใช้ 2026-08-07",
+      "url": "https://li01.tci-thaijo.org/index.php/thaiagriculturalresearch/article/view/258283"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "แก่นเกษตร 51(4):735–755 (2566): ผลกระทบการขาดน้ำระยะสืบพันธุ์ต่อการแลกเปลี่ยนแก๊สข้าวไทย 6 พันธุ์ — เข้าใช้ 2026-08-07",
+      "url": "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/257530"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "Agriculture and Natural Resources 57(2):233–248 (2023): Efficiency of short-grain rice breeding (pedigree vs SSD, indica×japonica) — เข้าใช้ 2026-08-07",
+      "url": "https://li01.tci-thaijo.org/index.php/anres/article/view/259081"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "ScienceAsia 49(5):744–753 (2023): ความหลากหลายพันธุกรรมข้าวพื้นเมืองไทย 82 พันธุ์ (lowland) — เข้าใช้ 2026-08-07",
+      "url": "https://www.scienceasia.org/2023.49.n5/scias49_744.pdf"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "International Journal of Agricultural Technology 20(3):1017–1036 (2024): พื้นที่ปลูกมีผลต่อผลผลิต คุณภาพ และ 2AP ข้าวหอมมะลิ (6 จว. รวมนครปฐม) — เข้าใช้ 2026-08-07",
+      "url": "https://ijat-aatsea.com/pdf/v20_n3_2024_May/9_IJAT_20(3)_2024_Dangthaisong,%20P.--350.pdf"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "Food Chemistry 434:137424 (2024): Metabolomics สารระเหยหลักข้าวสีไทยจากแหล่งปลูกต่างพื้นที่ — เข้าใช้ 2026-08-07",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37734150/"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "แก่นเกษตร 52(Suppl.1):144–149 (2567): ปุ๋ยแอมโมเนียมคลอไรด์ต่อการสะสมคลอรีน/ผลผลิตข้าวปทุมธานี 1 ในชุดดินนครปฐม — เข้าใช้ 2026-08-07",
+      "url": "https://ag2.kku.ac.th/kaj/PDF.cfm?filename=5-Full%20Paper3.pdf&id=4910"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "มก.กำแพงแสน (2568): ผลของปุ๋ยยูเรียเคลือบต่อผลผลิต/คุณภาพเมล็ดพันธุ์ข้าวปทุมธานี 1 ในดินนครปฐม (ประชุมเมล็ดพันธุ์ครั้งที่ 18) — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Present.aspx?PresentID=38019"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "Rice Science 32(1):67–80 (2025): Breeding for Heat Tolerant Aromatic Rice + QTL-Seq (qSF2.1) — เข้าใช้ 2026-08-07",
+      "url": "https://www.ricesci.org/EN/10.1016/j.rsci.2024.12.002"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "Agriculture and Natural Resources 59(3):590311 (2026): Effects of alternate wetting and drying or low light intensity factors on increasing grain yield and 2AP content in fragrant rice — เข้าใช้ 2026-08-07",
+      "url": "https://li01.tci-thaijo.org/index.php/anres/article/view/268871"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "Frontiers in Plant Science 16:1622640 (2025): พันธุศาสตร์ใบขาวลาย (Rainbow Rice RBR05, ยีน OsSAMHD1) + เครื่องหมาย KASP — เข้าใช้ 2026-08-07",
+      "url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2025.1622640/full"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "วารสารวิทยาศาสตร์และเทคโนโลยี มก. 14(2):82–92 (2568): การประเมินสมรรถนะ AquaCrop จำลองผลผลิตข้าวภายใต้ความเค็ม — เข้าใช้ 2026-08-07",
+      "url": "https://tci-thaijo.org/articles/physical03-2931"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "ศูนย์วิทยาศาสตร์ข้าว มก.กำแพงแสน: ฐานข้อมูลพันธุ์ข้าว (หอมมาลัยแมน, เรดเบอร์รี่, ไรซ์เบอร์รี่, หอมสยาม, สรรพสี) — เข้าใช้ 2026-08-07",
+      "url": "https://dna.kps.ku.ac.th"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "ฐานข้อมูลข้าวและชาวนาไทย มก.: 22,357 รายการ — เข้าใช้ 2026-08-07",
+      "url": "https://agkb.lib.ku.ac.th/rice"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "คลังความรู้ดิจิทัล วิทยาเขตกำแพงแสน: 13,964 รายการ — เข้าใช้ 2026-08-07",
+      "url": "https://kukr.lib.ku.ac.th/kukr_es/KPS"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "มรภ.นครปฐม (ทุน สวก.): แพลตฟอร์มความรู้ข้าว AI — 6 ชุดความรู้ + AI-chatbot — เข้าใช้ 2026-08-07",
+      "url": "https://misc.npru.ac.th/ricekm/index1.php"
+    },
+    {
+      "id": "20",
+      "index": 20,
+      "label": "ศูนย์วิจัยเพื่อการพัฒนาพืชเกษตรหลักนครปฐม (มรภ.): คลังผลงานวิจัย-บทความ — เข้าใช้ 2026-08-07",
+      "url": "https://dept.npru.ac.th/agridvnp/"
+    },
+    {
+      "id": "21",
+      "index": 21,
+      "label": "Thai Agricultural Research Journal 44(1):52–63 (2026): Responses of Rice Varieties to the Pathogenesis of Burkholderia glumae Collected from Different Regions of Thailand under Screenhouse Conditions — เข้าใช้ 2026-08-07",
+      "url": "https://doi.org/10.14456/thaidoa-agres.2026.5"
+    },
+    {
+      "id": "22",
+      "index": 22,
+      "label": "Agriculture and Natural Resources 57(3):437–446 (2023): Effects of alternate wetting and drying water management and rice straw incorporation for sustainable rice production under dry season conditions in central Thailand — เข้าใช้ 2026-08-07",
+      "url": "https://li01.tci-thaijo.org/index.php/anres/article/view/259717"
+    },
+    {
+      "id": "23",
+      "index": 23,
+      "label": "Agriculture and Natural Resources 57(5):777–786 (2023): Effects of alternate wetting and drying water management and rice straw incorporation on sustainable rice production under rainy season conditions in central Thailand — เข้าใช้ 2026-08-07",
+      "url": "https://li01.tci-thaijo.org/index.php/anres/article/view/261287"
+    },
+    {
+      "id": "24",
+      "index": 24,
+      "label": "วารสารวิทยาศาสตร์และเทคโนโลยี มก. 14(2):35–45 (2568): Potential of Phytolith Accumulation in Thai Rice Cultivars — เข้าใช้ 2026-08-07",
+      "url": "https://li01.tci-thaijo.org/index.php/physical03"
+    },
+    {
+      "id": "25",
+      "index": 25,
+      "label": "วารสารการจัดการโซ่คุณค่าและกลยุทธ์ธุรกิจ 2(4):45-56 (2566): การสำรวจกลยุทธ์การตลาดดิจิทัลบนสื่อสังคมออนไลน์ และการพัฒนาตราสินค้าและฉลากสินค้าผลิตภัณฑ์ข้าวเกษตรอินทรีย์ของวิสาหกิจชุมชนโรงสีข้าวไร่ขิง จังหวัดนครปฐม — เข้าใช้ 2026-08-07",
+      "url": "https://so08.tci-thaijo.org/index.php/VCMBS"
+    }
+  ],
+  "reference_count": 25,
+  "article_file": "npt-01-001.md",
+  "source_file": "01-ข้าว\\บทความรีวิว-01-ข้าว.md"
+}

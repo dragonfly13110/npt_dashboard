@@ -1,0 +1,136 @@
+{
+  "slug": "npt-02-001",
+  "title": "งานวิจัยไม้ผลในจังหวัดนครปฐม (2023–2026)",
+  "author": "Nakhon Pathom Plant Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-07",
+  "created_at": "2026-08-07",
+  "review_at": "2027-02-07",
+  "category": "ไม้ผล",
+  "domain_code": "02",
+  "topic_id": "02-001",
+  "handle_id": "02-001",
+  "abstract": "- **ใจความ**: งานวิจัยไม้ผลในนครปฐม ช่วงปี 2023–2026 มีความสมดุลและครอบคลุมไม้ผลเศรษฐกิจหลักมากขึ้น โดยแบ่งออกเป็นกลุ่มกล้วยหอมทองและกล้วยไข่คิดเป็น 44% (7 จาก 16 รายการ) ของ มก.กำแพงแสน ครอบคลุมห่วงโซ่คุณค่าตั้งแต่พันธุศาสตร์ จีโนมิกส์ความสูง [4][5][6], การขยายพันธุ์ระบบ TIB [7], การผลิตและการควบคุมโรค [1][11], ไปจนถึงเทคโนโลยีหลังเก็บเกี่ยว [2] และการตลาดต่างประเทศ [3] ในขณะที่อีก 56% กระจายไปยังไม้ผลอัตลักษณ์อื่นๆ เช่น มะพร้าวน้ำหอม (ชุดโครงการ 5 ย่อย [8] และการใช้แบคทีเรีย PGPR ทนเค็มกระตุ้นออกซิน [15]), ส้มโอนครชัยศรี (การจัดการแหล่งเรียนรู้เชิงพื้นที่เกาะลัดอีแท่น [14]), และฝรั่งสามพราน ซึ่งเพิ่งได้รับการประกาศขึ้นทะเบียนเป็นสินค้าสิ่งบ่งชี้ทางภูมิศาสตร์ (GI) อย่างเป็นทางการเมื่อต้นปี ",
+  "source_type": "Nakhon Pathom agricultural research review",
+  "source_url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2025&ProjectNumber=2530881000",
+  "pdf_url": null,
+  "source_urls": [
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2025&ProjectNumber=2530881000",
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430451000",
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430804000",
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720033001",
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720033002",
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720033000",
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430846000",
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2023&ProjectNumber=6520024000",
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2330662000",
+    "https://app.csc.ku.ac.th/sdgs/project/smart-greenhouse-climate-crops-2023",
+    "https://research.ku.ac.th/forest/Publish.aspx?PublishID=38993",
+    "https://li01.tci-thaijo.org/index.php/ASJ",
+    "https://so04.tci-thaijo.org/index.php/agriscim/article/view/261989",
+    "https://so05.tci-thaijo.org/index.php/scholarcom",
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720033003",
+    "https://www.ipthailand.go.th/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "มก.กำแพงแสน (2568): ผลของซิลิคอน+สูตรอาหารเนื้อเยื่อ ต่อความแข็งแรง/ต้านทานโรคกล้วยหอมทองหลังย้ายกล้า — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2025&ProjectNumber=2530881000"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "มก.กำแพงแสน (ทุน วช., 2567): นวัตกรรมยืดอายุกล้วยหอมทอง: ฟิล์มเคลือบผิวลิกนินจากชีวมวล + MAP — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430451000"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "มก.กำแพงแสน (ทุน บพข., 2567): การเพิ่มมูลค่าผลิตภัณฑ์ฟังก์ชันจากกล้วยหอมทองเพื่อตลาดต่างประเทศ — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430804000"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "มก.กำแพงแสน (2567): พัฒนาพันธุ์กล้วยพ่อแม่สมบูรณ์พันธุ์ ถ่ายทอดอัลลีลต้านทานโรคด้วยโพลีพลอยดี — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720033001"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "มก.กำแพงแสน (Fundamental Fund, 2567): ฐานข้อมูลพันธุกรรมกล้วยไทย + จีโนมิกส์อัลลีลเตี้ยค่อม — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720033002"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "มก.กำแพงแสน (2567): จีโนมิกส์และเทคโนโลยีชีวภาพเพื่อปรับปรุงพันธุ์กล้วย — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720033000"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "มก.กำแพงแสน (ทุนวิทยาเขต, 2567): การขยายพันธุ์กล้วยไข่เกษตรศาสตร์ 2 ด้วยระบบ TIB + ความคงตัวพันธุกรรม — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430846000"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "มก.กำแพงแสน (2566): ชุดโครงการยกระดับมะพร้าวน้ำหอม 5 ย่อย (จีโนมิกส์ความหวาน, ดิน-พืช-อากาศ, แมลงศัตรู, ลด SMS, โภชนาการ) — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2023&ProjectNumber=6520024000"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "มก.กำแพงแสน (ทุนวิทยาเขต, 2566): ผลิตภัณฑ์ Ca+ออร์กาโนซัลเฟอร์จากปุ๋ยหมัก+เปลือกไข่ ต่อมะเขือเทศเชอรี่ทนร้อน — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2330662000"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "มก.กำแพงแสน (2023): โรงเรือนอัจฉริยะพืชทนภูมิอากาศ (มะเขือเทศทนร้อน/พริกทนแล้ง) — เข้าใช้ 2026-08-07",
+      "url": "https://app.csc.ku.ac.th/sdgs/project/smart-greenhouse-climate-crops-2023"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "J. Plant Protection Research (2023): Evaluation of banana cultivars + PR-3/PR-10 proteins ต่อโรคเลือดกล้วย (Ralstonia syzygii) — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Publish.aspx?PublishID=38993"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "ชญานี โพธิ, พนามาศ ตรีวรรณกุล และ เมตตา เร่งขวนขวาย (2569): การจัดการตลาดสินค้าเกษตรอินทรีย์เชิงสร้างสรรค์โดยการมีส่วนร่วมของเกษตรกรในสามพรานโมเดล — เข้าใช้ 2026-08-07",
+      "url": "https://li01.tci-thaijo.org/index.php/ASJ"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "ธรรมธวัช แสงงาม, ใยไหม ช่วยหนู, อาณัติ เฮงเจริญ, ศิริสุดา บุตรเพชร และ ธวัชชัย อินทร์บุญช่วย (2566): ผลของการฉีดพ่นสารลดแรงตึงผิวประเภทเวตโคตติงซิลิโคนและสารลดแรงตึงผิวประเภท N70 ต่อประสิทธิภาพการให้ปุ๋ยทางใบของฝรั่งพันธุ์หวานพิรุณ — เข้าใช้ 2026-08-07",
+      "url": "https://so04.tci-thaijo.org/index.php/agriscim/article/view/261989"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "นริศรา กรุดนาค, นิภาวรรณ เจริญลักษณ์ และเริงวิชญ์ นิลโคตร (2568): การพัฒนาแหล่งเรียนรู้ชุมชนภูมิปัญญาส้มโอนครชัยศรีบนฐานอัตลักษณ์เกาะลัดอีแท่น อำเภอสามพราน จังหวัดนครปฐม — เข้าใช้ 2026-08-07",
+      "url": "https://so05.tci-thaijo.org/index.php/scholarcom"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "มก.กำแพงแสน (2567-2568): นวัตกรรมการพัฒนาประสิทธิภาพการผลิตมะพร้าวน้ำหอมเพื่อเพิ่มผลผลิตและคุณภาพอย่างยั่งยืนด้วยเทคโนโลยีการผลิตมะพร้าวน้ำหอมเสริมด้วยสารชีวภัณฑ์ฮอร์โมนออกซินจากแบคทีเรีย PGPR ทนเค็ม — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=6720033003"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "กรมทรัพย์สินทางปัญญา (2568): ประกาศขึ้นทะเบียนสิ่งบ่งชี้ทางภูมิศาสตร์ \"ฝรั่งสามพราน\" (เลขทะเบียน สช 68100250) — เข้าใช้ 2026-08-07",
+      "url": "https://www.ipthailand.go.th/"
+    }
+  ],
+  "reference_count": 16,
+  "article_file": "npt-02-001.md",
+  "source_file": "02-ไม้ผล\\บทความรีวิว-02-ไม้ผล.md"
+}

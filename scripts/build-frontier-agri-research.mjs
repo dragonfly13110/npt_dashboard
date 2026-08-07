@@ -2,20 +2,55 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+const args = process.argv.slice(2);
+
+function argValue(name) {
+  const index = args.indexOf(name);
+  return index >= 0 ? args[index + 1] : null;
+}
+
+const collection = argValue('--collection') || 'frontier-agri-research';
+const normalizedSourceName =
+  argValue('--normalized-root') || 'frontier_agri_research_knowledge_md';
+const slugPrefix = argValue('--slug-prefix') || 'agri';
+const shouldImport = args.includes('--import');
+const sourceIndex = args.indexOf('--source');
+const rawSourceRoot =
+  sourceIndex >= 0
+    ? args[sourceIndex + 1]
+    : process.env.FRONTIER_AGRI_SOURCE ||
+      'D:\\' +
+        '\u0e04\u0e25\u0e31\u0e07\u0e04\u0e27\u0e32\u0e21\u0e23\u0e39\u0e49\\' +
+        '\u0e07\u0e32\u0e19\u0e27\u0e34\u0e08\u0e31\u0e22\u0e14\u0e49\u0e32\u0e19\u0e01\u0e32\u0e23\u0e40\u0e01\u0e29\u0e15\u0e23';
+
 const REPO_ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
-const NORMALIZED_SOURCE_ROOT = path.join(
-  REPO_ROOT,
-  'frontier_agri_research_knowledge_md'
-);
+const NORMALIZED_SOURCE_ROOT = path.join(REPO_ROOT, normalizedSourceName);
 const NORMALIZED_ARTICLES_ROOT = path.join(NORMALIZED_SOURCE_ROOT, 'articles');
 const NORMALIZED_METADATA_ROOT = path.join(NORMALIZED_SOURCE_ROOT, 'metadata');
-const PUBLIC_ROOT = path.join(
-  REPO_ROOT,
-  'public',
-  'data',
-  'frontier-agri-research'
-);
+const PUBLIC_ROOT = path.join(REPO_ROOT, 'public', 'data', collection);
 const PUBLIC_ARTICLES_ROOT = path.join(PUBLIC_ROOT, 'articles');
+
+const collectionConfig =
+  collection === 'npt-research'
+    ? {
+        source: 'Nakhon Pathom Plant Research Knowledge Library',
+        sourceLabel:
+          'บทความปริทัศน์งานวิจัยด้านการเกษตรในจังหวัดนครปฐม (2023–2026)',
+        catalogTitle: 'Nakhon Pathom plant research reviews',
+        author: 'Nakhon Pathom Plant Research Knowledge Library',
+        sourceType: 'Nakhon Pathom agricultural research review',
+        sourceNote:
+          'Imported from the Nakhon Pathom agricultural research review collection with source links preserved.',
+      }
+    : {
+        source: 'Agricultural Research Knowledge Library',
+        sourceLabel: 'Frontier agricultural research from around the world',
+        catalogTitle: 'Global agricultural research articles',
+        author: 'Agricultural Research Knowledge Library',
+        sourceType: 'Frontier agricultural research article',
+        sourceNote:
+          'Imported from Thai Markdown research articles with source links preserved when present.',
+      };
 
 function longPath(filePath) {
   const absolutePath = path.resolve(filePath);
@@ -56,9 +91,17 @@ function extractYear(value) {
 function extractUrls(text) {
   return [
     ...new Set(
-      (String(text).match(/https?:\/\/[^\s)\]}>]+/g) || []).map((url) =>
-        url.replace(/[.,;:]+$/g, '')
-      )
+      (String(text).match(/https?:\/\/[^\s\]}>]+/g) || []).map((url) => {
+        let cleaned = url.replace(/[.,;:]+$/g, '');
+        while (
+          cleaned.endsWith(')') &&
+          (cleaned.match(/\(/g) || []).length <
+            (cleaned.match(/\)/g) || []).length
+        ) {
+          cleaned = cleaned.slice(0, -1);
+        }
+        return cleaned;
+      })
     ),
   ];
 }
@@ -100,8 +143,8 @@ function extractReferences(markdown) {
     const url = extractUrls(reference.text)[0] || null;
     const label = cleanText(
       reference.text
-        .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
-        .replace(/https?:\/\/[^\s)\]}>]+/g, '')
+        .replace(/\[([^\]]+)\]\(https?:\/\/.*\)/g, '$1')
+        .replace(/https?:\/\/[^\s\]}>]+/g, '')
     );
     return {
       id: String(reference.index),
@@ -113,13 +156,25 @@ function extractReferences(markdown) {
 }
 
 function extractSummary(markdown) {
-  const section = String(markdown).match(
-    /^##\s*1\.[^\n]*\n([\s\S]*?)(?=^##\s|$)/im
+  const lines = String(markdown).split('\n');
+  const start = lines.findIndex((line) => /^##\s*1\./i.test(line));
+  if (start < 0) return '';
+  const end = lines.findIndex(
+    (line, index) => index > start && /^##\s/.test(line)
   );
-  return cleanText(section?.[1] || '').slice(0, 700);
+  return cleanText(lines.slice(start + 1, end < 0 ? lines.length : end).join(' ')).slice(
+    0,
+    700
+  );
 }
 
-function extractMetadata(markdown, categoryFolder, sourceFile, fallbackIndex) {
+function extractMetadata(
+  markdown,
+  categoryFolder,
+  sourceFile,
+  fallbackIndex,
+  config
+) {
   const titleLine = String(markdown).match(/^#\s+(.+)$/m)?.[1] || sourceFile;
   const title = cleanText(
     titleLine.replace(/^\d+(?:-\d+)?\s*\|\s*[^:]+:\s*/i, '')
@@ -136,7 +191,9 @@ function extractMetadata(markdown, categoryFolder, sourceFile, fallbackIndex) {
   const category = categoryFolder.replace(/^\d{2}-/, '').trim();
   const fallbackId = `${domainCode}-${String(fallbackIndex).padStart(3, '0')}`;
   const resolvedTopicId = topicId || fallbackId;
-  const slug = `agri-${resolvedTopicId.toLowerCase().replace(/[^a-z0-9-]+/g, '-')}`;
+  const slug = `${slugPrefix}-${resolvedTopicId
+    .toLowerCase()
+    .replace(/[^a-z0-9-]+/g, '-')}`;
   const references = extractReferences(markdown);
   const sourceUrls = [
     ...new Set(references.map((reference) => reference.url).filter(Boolean)),
@@ -145,7 +202,7 @@ function extractMetadata(markdown, categoryFolder, sourceFile, fallbackIndex) {
   return {
     slug,
     title,
-    author: 'Agricultural Research Knowledge Library',
+    author: config.author,
     source_year: extractYear(updatedAt),
     updated_at: updatedAt,
     created_at: createdAt,
@@ -155,7 +212,7 @@ function extractMetadata(markdown, categoryFolder, sourceFile, fallbackIndex) {
     topic_id: resolvedTopicId,
     handle_id: resolvedTopicId,
     abstract: extractSummary(markdown),
-    source_type: 'Frontier agricultural research article',
+    source_type: config.sourceType,
     source_url: sourceUrls[0] || null,
     pdf_url: sourceUrls.find((url) => /\.pdf(?:$|[?#])/i.test(url)) || null,
     source_urls: sourceUrls,
@@ -196,7 +253,7 @@ function countBy(entries, selector) {
   );
 }
 
-function importRawSource(rawSourceRoot) {
+function importRawSource(rawSourceRoot, config) {
   const rawRoot = path.resolve(rawSourceRoot);
   const files = walkArticles(rawRoot)
     .filter(({ relativePath }) => {
@@ -222,7 +279,8 @@ function importRawSource(rawSourceRoot) {
       markdown,
       categoryFolder,
       relativePath,
-      index + 1
+      index + 1,
+      config
     );
     if (seenSlugs.has(entry.slug)) {
       throw new Error(
@@ -252,8 +310,8 @@ function importRawSource(rawSourceRoot) {
     `${JSON.stringify(
       {
         schema_version: 1,
-        source: 'Agricultural Research Knowledge Library',
-        source_label: 'Frontier agricultural research from around the world',
+        source: config.source,
+        source_label: config.sourceLabel,
         imported_articles: entries.length,
         categories: countBy(entries, (entry) => entry.category),
         imported_at: new Date().toISOString().slice(0, 10),
@@ -287,7 +345,7 @@ function readNormalizedSource() {
   return entries;
 }
 
-function buildPublicData(entries) {
+function buildPublicData(entries, config) {
   fs.rmSync(longPath(PUBLIC_ARTICLES_ROOT), { recursive: true, force: true });
   fs.mkdirSync(longPath(PUBLIC_ARTICLES_ROOT), { recursive: true });
   for (const entry of entries) {
@@ -302,12 +360,12 @@ function buildPublicData(entries) {
     .sort((a, b) => a.title.localeCompare(b.title));
   const catalog = {
     schema_version: 1,
-    collection: 'frontier-agri-research',
-    title: 'Global agricultural research articles',
+    collection,
+    title: config.catalogTitle,
     source: {
-      name: 'Agricultural Research Knowledge Library',
+      name: config.source,
       url: null,
-      note: 'Imported from Thai Markdown research articles with source links preserved when present.',
+      note: config.sourceNote,
     },
     stats: {
       total: catalogEntries.length,
@@ -330,23 +388,12 @@ function buildPublicData(entries) {
   return catalog;
 }
 
-const args = process.argv.slice(2);
-const shouldImport = args.includes('--import');
-const sourceIndex = args.indexOf('--source');
-const rawSourceRoot =
-  sourceIndex >= 0
-    ? args[sourceIndex + 1]
-    : process.env.FRONTIER_AGRI_SOURCE ||
-      'D:\\' +
-        '\u0e04\u0e25\u0e31\u0e07\u0e04\u0e27\u0e32\u0e21\u0e23\u0e39\u0e49\\' +
-        '\u0e07\u0e32\u0e19\u0e27\u0e34\u0e08\u0e31\u0e22\u0e14\u0e49\u0e32\u0e19\u0e01\u0e32\u0e23\u0e40\u0e01\u0e29\u0e15\u0e23';
-
 const entries = shouldImport
-  ? importRawSource(rawSourceRoot)
+  ? importRawSource(rawSourceRoot, collectionConfig)
   : readNormalizedSource();
-const catalog = buildPublicData(entries);
+const catalog = buildPublicData(entries, collectionConfig);
 console.log(
-  `Frontier agricultural research build complete: ${catalog.stats.total} articles, ` +
+  `${collection} build complete: ${catalog.stats.total} articles, ` +
     `${Object.keys(catalog.stats.categories).length} categories, ` +
     `${catalog.stats.linked_articles} articles with linked references`
 );

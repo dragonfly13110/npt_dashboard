@@ -1,0 +1,141 @@
+{
+  "slug": "npt-03-001",
+  "title": "งานวิจัยพืชผักในจังหวัดนครปฐม (2023–2026)",
+  "author": "Nakhon Pathom Plant Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-07",
+  "created_at": "2026-08-07",
+  "review_at": "2027-02-07",
+  "category": "พืชผัก",
+  "domain_code": "03",
+  "topic_id": "03-001",
+  "handle_id": "03-001",
+  "abstract": "- **ใจความ**: งานวิจัยพืชผักในนครปฐมช่วงปี 2023–2026 มีจำนวน 14 ชิ้น (ไม่รวมแหล่งสนับสนุนการพัฒนา) แบ่งออกเป็น 3 กลุ่มสมดุล ได้แก่ (1) เทคโนโลยีและการจัดการการผลิต 4 ชิ้น (โรงเรือนอัจฉริยะทนภูมิอากาศ [1], สมาร์ทฟาร์มขึ้นฉ่ายไฮโดรโปนิกส์ IoT [2], Ca+ออร์กาโนซัลเฟอร์จากเปลือกไข่ [3], และการใช้ Streptomyces spp. ควบคุมโรคใบจุดในผักสลัด [15]), (2) ชีววิธีและการควบคุมโรคศัตรูพืช 5 ชิ้น (ชีววิธีคู่ Trichoderma+Streptomyces คุมไส้เดือนฝอยพริก [4], Bacillus spp. 9 ไอโซเลท คุมแอนแทรคโนสพริก [5], Trichoderma spp. 50 ไอโซเลท คุมไส้เดือนฝอยรากปมดินภาคกลาง [9], สารสกัดหยาบจากใบหูกระจงยับยั้งแอนแทรคโนสพริก [14], และสารกระตุ้นความต้านทานต่อโรคแอนแทรคโนสในพริก [16]), และ (3) ตลาด โซ่อุปทาน และโลจิสติกส์ 5 ช",
+  "source_type": "Nakhon Pathom agricultural research review",
+  "source_url": "https://app.csc.ku.ac.th/sdgs/project/smart-greenhouse-climate-crops-2023",
+  "pdf_url": null,
+  "source_urls": [
+    "https://app.csc.ku.ac.th/sdgs/project/smart-greenhouse-climate-crops-2023",
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2025&ProjectNumber=2530682000",
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2330662000",
+    "https://li01.tci-thaijo.org/index.php/JASM/article/view/259151",
+    "https://publication.npru.ac.th/handle/123456789/2287",
+    "https://tci-thaijo.org/articles/social03-267758",
+    "https://tci-thaijo.org/articles/life01-266905",
+    "https://so05.tci-thaijo.org/index.php/sujthai/article/view/261779",
+    "https://li02.tci-thaijo.org/index.php/jtai/article/view/188",
+    "https://www.nakhonpathom.doae.go.th",
+    "https://sustainability.mahidol.ac.th",
+    "https://dept.npru.ac.th/agridvnp/",
+    "https://dept.npru.ac.th/conference15",
+    "https://dept.npru.ac.th/conference17",
+    "https://dept.npru.ac.th/conference18"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "มก.กำแพงแสน (2023): โรงเรือนอัจฉริยะพืชทนภูมิอากาศ (มะเขือเทศทนร้อน/พริกทนแล้ง) — เข้าใช้ 2026-08-07",
+      "url": "https://app.csc.ku.ac.th/sdgs/project/smart-greenhouse-climate-crops-2023"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "มก.กำแพงแสน (ทุน ว.กพส., 2568): สมาร์ทฟาร์มไฮโดรโปนิกส์ผักขึ้นฉ่ายควบคุมด้วย IoT — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2025&ProjectNumber=2530682000"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "มก.กำแพงแสน (ทุนวิทยาเขต, 2566): ผลิตภัณฑ์ Ca+ออร์กาโนซัลเฟอร์จากปุ๋ยหมัก+เปลือกไข่ ต่อมะเขือเทศเชอรี่ทนร้อน — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2330662000"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "ปุณยพร สาคร และ พรทิพย์ เรือนปานันท์ (2566): ประสิทธิภาพการทำงานร่วมกันของรา Trichoderma asperellum สายพันธุ์ Cb-pin01 และแบคทีเรีย Streptomyces sp. สายพันธุ์ KPS-E004 ในการควบคุมไส้เดือนฝอยรากปม Meloidogyne enterolobii ในพริก — เข้าใช้ 2026-08-07",
+      "url": "https://li01.tci-thaijo.org/index.php/JASM/article/view/259151"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "ปิยวัฒน์ ใจซื่อ, พรพรรณ อู่สุวรรณ, ศุภสุตา การูจี, เสาวณี คงศรี และพิทักษ์พงศ์ ป้อมปราณี (2568): การประเมินประสิทธิภาพของเชื้อ Bacillus spp. ในการควบคุมโรคแอนแทรคโนสในพริกที่มีสาเหตุมาจากเชื้อรา Colletotrichum capsici — เข้าใช้ 2026-08-07",
+      "url": "https://publication.npru.ac.th/handle/123456789/2287"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "พัชรี จอมบุญ (2568): การสร้างมูลค่าเพิ่มของโซ่อุปทานสินค้าผักโหระพาด้วยการวิเคราะห์กิจกรรมโซ่คุณค่า: กรณีศึกษาจังหวัดนครปฐม — เข้าใช้ 2026-08-07",
+      "url": "https://tci-thaijo.org/articles/social03-267758"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "ชญานี โพธิ, ณรงค์ พลีรักษ์ และประภาษ นิยมรัตน์ (2569): การจัดการตลาดสินค้าเกษตรอินทรีย์เชิงสร้างสรรค์โดยการมีส่วนร่วมของเกษตรกรในสามพรานโมเดล — เข้าใช้ 2026-08-07",
+      "url": "https://tci-thaijo.org/articles/life01-266905"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "ม.ศิลปากร สนามจันทร์ (2023): ศิลปากรกรีนมาร์เก็ต: สารสนเทศตลาดอาหารปลอดภัยนครปฐม — เข้าใช้ 2026-08-07",
+      "url": "https://so05.tci-thaijo.org/index.php/sujthai/article/view/261779"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "วิไลวรรณ สารพงษ์, อมรศรี ขุนอินทร์, สิรินภา ช่วงโอภาส และวรรณวิไล อินทนู (2567): การควบคุมไส้เดือนฝอยรากปม Meloidogyne incognita โดยสปอร์แขวนลอยของเชื้อรา Trichoderma spp. — เข้าใช้ 2026-08-07",
+      "url": "https://li02.tci-thaijo.org/index.php/jtai/article/view/188"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "สำนักงานเกษตรจังหวัดนครปฐม: แปลงใหญ่พืชผัก/สมุนไพร จ.นครปฐม 18 แปลง (ชนิดสินค้าสูงสุดอันดับ 2 รองจากข้าว) — เข้าใช้ 2026-08-07",
+      "url": "https://www.nakhonpathom.doae.go.th"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "ม.มหิดล: โครงการแปลงผักปลอดสารพิษ MUMT Recommended — ตรวจ GC-MS/MS 8 จังหวัด + อาหารปลอดภัย 9 รพ.นครปฐม — เข้าใช้ 2026-08-07",
+      "url": "https://sustainability.mahidol.ac.th"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "ศูนย์วิจัยเพื่อการพัฒนาพืชเกษตรหลักนครปฐม (มรภ.): คลังผลงานวิจัย-บทความผัก-สมุนไพร — เข้าใช้ 2026-08-07",
+      "url": "https://dept.npru.ac.th/agridvnp/"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "กิ่งแก้ว ศรีทองดี, นวพล ศรีพนมวัน, ภัคจิรา จันทร์แจ่มศิริกุล และนิตยา งามยิ่งยง (2566): การจัดการห่วงโซ่อุปทานของผักออร์แกนิคในจังหวัดนครปฐม — เข้าใช้ 2026-08-07",
+      "url": "https://dept.npru.ac.th/conference15"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "ศุภสุตา การูจี (2566): ประสิทธิภาพของสารสกัดหยาบจากใบหูกระจงในการยับยั้งเชื้อ Colletotrichum gloeosporioides สาเหตุโรคแอนแทรคโนสในพริก — เข้าใช้ 2026-08-07",
+      "url": "https://dept.npru.ac.th/conference15"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "กรกช คล้ายทอง, พรพรรณ อู่สุวรรณ, ศุภสุตา การูจี, เสาวณี คงศรี และพิทักษ์พงศ์ ป้อมปราณี (2568): ประสิทธิภาพของเชื้อ Streptomyces spp. ในการควบคุมโรคใบจุดในผักสลัดที่เกิดจากเชื้อ Alternaria brassicicola — เข้าใช้ 2026-08-07",
+      "url": "https://dept.npru.ac.th/conference17"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "ณัฐณิชา อ่อนศรี (2569): ประสิทธิภาพของสารกระตุ้นความต้านทานในการป้องกันโรคแอนแทรคโนสในพริก — เข้าใช้ 2026-08-07",
+      "url": "https://dept.npru.ac.th/conference18"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "รักษณาลี ตันตระประภากร (2569): การวิเคราะห์ประสิทธิภาพต้นทุนขนส่งโลจิสติกส์โหระพาในจังหวัดนครปฐม — เข้าใช้ 2026-08-07",
+      "url": "https://dept.npru.ac.th/conference18"
+    }
+  ],
+  "reference_count": 17,
+  "article_file": "npt-03-001.md",
+  "source_file": "03-พืชผัก\\บทความรีวิว-03-พืชผัก.md"
+}

@@ -4,6 +4,7 @@ import {
   searchFertilizerChunks,
   searchFrontierAgriChunks,
   searchMachineryChunks,
+  searchNptResearchChunks,
   searchRiceChunks,
   searchStouResearchChunks,
 } from '../../netlify/functions/lib/knowledge-search.js';
@@ -28,6 +29,9 @@ describe('knowledge bots', () => {
     expect(
       getKnowledgeBotKind('/public/frontier-agri-research/agri-01-001')
     ).toBe('frontier-agri');
+    expect(getKnowledgeBotKind('/public/npt-research/npt-01-001')).toBe(
+      'npt-research'
+    );
   });
 
   it('returns evidence linked to each collection corpus', () => {
@@ -43,6 +47,9 @@ describe('knowledge bots', () => {
     );
     expect(searchFrontierAgriChunks('CRISPR ข้าว')[0].url).toMatch(
       /^\/public\/frontier-agri-research\//
+    );
+    expect(searchNptResearchChunks('งานวิจัยข้าวนครปฐม')[0].url).toMatch(
+      /^\/public\/npt-research\//
     );
   });
 
@@ -89,6 +96,23 @@ describe('knowledge bots', () => {
     expect(body.systemInstruction.parts[0].text).toContain('ข้าวหลามเกษตรโลก');
     expect(serialized).toContain('/public/frontier-agri-research/');
     expect(serialized).not.toContain('/public/stou-research/');
+  });
+
+  it('grounds the Nakhon Pathom research bot in its local article links', () => {
+    const body = buildKnowledgeBody(
+      'gemini',
+      { model: 'gemini-3.5-flash-lite' },
+      'งานวิจัยข้าวในนครปฐมมีอะไรบ้าง',
+      [{ role: 'user', parts: [{ text: 'งานวิจัยข้าวในนครปฐมมีอะไรบ้าง' }] }],
+      'npt-research',
+      'npt-01-001'
+    );
+    const serialized = JSON.stringify(body);
+    expect(body.systemInstruction.parts[0].text).toContain(
+      'ข้าวหลามวิจัยนครปฐม'
+    );
+    expect(serialized).toContain('/public/npt-research/');
+    expect(serialized).not.toContain('/public/frontier-agri-research/');
   });
 
   it('keeps an article-scoped frontier bot inside the current article corpus', () => {
