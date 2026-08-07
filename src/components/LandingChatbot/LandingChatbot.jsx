@@ -26,7 +26,7 @@ const AI_PROXY_URL = '/.netlify/functions/ai-proxy';
 const RAW_PROVIDER_NAME =
   import.meta.env.VITE_LANDING_CHATBOT_PROVIDER || 'gemini';
 const RAW_MODEL_NAME =
-  import.meta.env.VITE_LANDING_CHATBOT_MODEL || 'gemini-3.6-flash';
+  import.meta.env.VITE_LANDING_CHATBOT_MODEL || 'gemini-3.5-flash-lite';
 
 const GEMINI_MODELS = [
   'gemini-3.6-flash',
@@ -60,7 +60,7 @@ if (PROVIDER_NAME === 'gemini' && !GEMINI_MODELS.includes(MODEL_NAME)) {
   if (isKkuModel) {
     PROVIDER_NAME = 'kku';
   } else {
-    MODEL_NAME = 'gemini-3.6-flash';
+    MODEL_NAME = 'gemini-3.5-flash-lite';
   }
 }
 

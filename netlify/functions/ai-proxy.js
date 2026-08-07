@@ -110,6 +110,18 @@ function getEnv(name) {
   return globalThis.Netlify?.env?.get?.(name) || process.env[name] || '';
 }
 
+function shuffleSlots(slots) {
+  const shuffled = [...slots];
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = crypto.randomInt(index + 1);
+    [shuffled[index], shuffled[swapIndex]] = [
+      shuffled[swapIndex],
+      shuffled[index],
+    ];
+  }
+  return shuffled;
+}
+
 function parseAllowedOrigins() {
   return getEnv('ALLOWED_ORIGINS')
     .split(',')
@@ -332,7 +344,7 @@ async function buildLandingBody(body) {
   ];
 
   return {
-    model: body.model || 'gemini-3.6-flash',
+    model: body.model || 'gemini-3.5-flash-lite',
     contents: compactQuestion,
     systemInstruction: { parts: [{ text: LANDING_SYSTEM_PROMPT }] },
     generationConfig: {
@@ -365,7 +377,7 @@ function clampTokenLimits(body) {
 }
 
 async function callGemini(apiKey, body) {
-  const model = body.model || 'gemini-3.6-flash';
+  const model = body.model || 'gemini-3.5-flash-lite';
   const isStream = body.stream === true;
   const endpoint = isStream
     ? 'streamGenerateContent?alt=sse&'
@@ -626,7 +638,7 @@ export default async (req, context) => {
       // Keep the five-key pool self-contained so Netlify does not need to
       // package the optional Supabase SDK just to proxy Gemini requests.
       const slots = Array.from(geminiApiKeys.keys());
-      const shuffled = slots.sort(() => Math.random() - 0.5);
+      const shuffled = shuffleSlots(slots);
       let lastErr;
       for (const slot of shuffled) {
         try {

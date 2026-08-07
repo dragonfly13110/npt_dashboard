@@ -141,7 +141,7 @@ export function buildKnowledgeBody(
 
   if (provider === 'gemini') {
     return {
-      model: body.model || 'gemini-3.6-flash',
+      model: body.model || 'gemini-3.5-flash-lite',
       contents: [
         ...(Array.isArray(history) ? history.slice(0, -1) : []),
         { role: 'user', parts: [{ text: userText }] },
