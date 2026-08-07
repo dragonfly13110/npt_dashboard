@@ -30,10 +30,10 @@ describe('AI model routing', () => {
     );
   });
 
-  it('routes the landing chatbot to Gemini 3.5 Flash-Lite', () => {
+  it('routes the landing chatbot to the stronger Gemini Flash model', () => {
     const landing = read('src/components/LandingChatbot/LandingChatbot.jsx');
     expect(landing).toContain(
-      "VITE_LANDING_CHATBOT_MODEL || 'gemini-3.5-flash-lite'"
+      "VITE_LANDING_CHATBOT_MODEL || 'gemini-3.6-flash'"
     );
     expect(landing).toContain("provider: 'gemini'");
   });

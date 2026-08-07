@@ -3,6 +3,7 @@ import { buildKnowledgeBody } from '../../netlify/functions/lib/knowledge-chat.j
 import {
   searchFertilizerChunks,
   searchFrontierAgriChunks,
+  searchKnowledgeHubChunks,
   searchMachineryChunks,
   searchNptResearchChunks,
   searchRiceChunks,
@@ -51,6 +52,34 @@ describe('knowledge bots', () => {
     expect(searchNptResearchChunks('งานวิจัยข้าวนครปฐม')[0].url).toMatch(
       /^\/public\/npt-research\//
     );
+  });
+
+  it('keeps the matching later collection in the shared Knowledge Hub search', () => {
+    const cases = [
+      ['ข้าว', 'rice'],
+      ['มีข้อมูลโรคและแมลงข้าวหรือไม่?', 'rice'],
+      ['หุ่นยนต์ภาคสนามใช้ในเกษตรอย่างไร', 'machinery'],
+      ['งานวิจัยส่งเสริมการผลิตข้าวมีอะไรบ้าง', 'stou-research'],
+      ['CRISPR ข้าวทนแล้ง', 'frontier-agri-research'],
+      ['งานวิจัยข้าวนครปฐม', 'npt-research'],
+    ];
+
+    for (const [query, collection] of cases) {
+      expect(
+        searchKnowledgeHubChunks(query, 12).some(
+          (chunk) => chunk.hubCollection === collection
+        )
+      ).toBe(true);
+    }
+
+    const body = buildKnowledgeBody(
+      'gemini',
+      { model: 'gemini-3.6-flash' },
+      'มีข้อมูลโรคและแมลงข้าวหรือไม่?',
+      [],
+      'hub'
+    );
+    expect(JSON.stringify(body)).toContain('/public/rice/');
   });
 
   it('puts collection evidence and source links into the model-owned prompt', () => {

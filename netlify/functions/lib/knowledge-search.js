@@ -11,6 +11,11 @@ let stouResearchChunksCache = null;
 let frontierAgriResearchChunksCache = null;
 let nptResearchChunksCache = null;
 
+const THAI_WORD_SEGMENTER = new Intl.Segmenter('th', {
+  granularity: 'word',
+});
+const TEXT_TERMS_CACHE = new Map();
+
 const QUERY_STOPWORDS = new Set([
   'อะไร',
   'อย่างไร',
@@ -28,21 +33,56 @@ const QUERY_STOPWORDS = new Set([
   'ข้อมูล',
   'เรื่อง',
   'หน่อย',
+  'มี',
+  'ไหม',
+  'ไม่',
+  'ได้',
+  'จะ',
+  'คือ',
+  'ใด',
+  'ไหน',
+  'ขอ',
+  'อยาก',
+  'บอก',
+  'ตอนนี้',
+  'ด้วย',
+  'ของ',
+  'ใน',
+  'ที่',
+  'จาก',
+  'สำหรับ',
+  'เกี่ยวกับ',
+  'กับ',
+  'ให้',
   'ครับ',
   'ค่ะ',
   'คุณ',
 ]);
 
 function queryTerms(query) {
-  const segmenter = new Intl.Segmenter('th', { granularity: 'word' });
   return [
     ...new Set(
-      [...segmenter.segment(query)]
+      [...THAI_WORD_SEGMENTER.segment(query)]
         .filter((part) => part.isWordLike)
         .map((part) => part.segment.toLowerCase().trim())
         .filter((term) => term.length >= 2 && !QUERY_STOPWORDS.has(term))
     ),
   ];
+}
+
+function textTerms(text) {
+  const normalized = String(text || '').toLowerCase();
+  if (TEXT_TERMS_CACHE.has(normalized)) {
+    return TEXT_TERMS_CACHE.get(normalized);
+  }
+  const terms = new Set(
+    [...THAI_WORD_SEGMENTER.segment(normalized)]
+      .filter((part) => part.isWordLike)
+      .map((part) => part.segment.trim())
+      .filter(Boolean)
+  );
+  TEXT_TERMS_CACHE.set(normalized, terms);
+  return terms;
 }
 
 function splitMarkdown(text) {
@@ -105,61 +145,84 @@ function readMarkdownChunks(
   }
 }
 
-function searchChunks(
-  chunks,
-  queryText,
-  limit = 10,
-  preferredDocumentSlug = ''
-) {
+function scoreChunk(chunk, query, terms, preferredDocumentSlug = '') {
+  const title = String(chunk.title || '').toLowerCase();
+  const heading = String(chunk.section_heading || '').toLowerCase();
+  const metadata = [
+    chunk.category,
+    chunk.collection,
+    chunk.hubCollection,
+    chunk.hubCollectionLabel,
+    chunk.topic,
+    chunk.plant,
+    chunk.handle_id,
+    chunk.author,
+    chunk.source_pages,
+    chunk.source_pdf_pages,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+  const text = String(chunk.text || '').toLowerCase();
+  const titleTerms = textTerms(title);
+  const headingTerms = textTerms(heading);
+  const metadataTerms = textTerms(metadata);
+  const hubLabelTerms = textTerms(String(chunk.hubCollectionLabel || ''));
+  let score = terms.length >= 2 && text.includes(query) ? 30 : 0;
+
+  for (const term of terms) {
+    if (titleTerms.has(term)) score += 14;
+    if (headingTerms.has(term)) score += 10;
+    if (metadataTerms.has(term)) score += 8;
+    if (hubLabelTerms.has(term)) score += 16;
+    if (text.includes(term)) score += 2;
+  }
+
+  if (chunk.document_slug === preferredDocumentSlug) score += 12;
+  return score;
+}
+
+function rankChunks(chunks, queryText, preferredDocumentSlug = '') {
   const query = String(queryText || '')
     .toLowerCase()
     .trim();
   const terms = queryTerms(query);
   if (query.length < 2 || terms.length === 0) return [];
 
-  const ranked = chunks
-    .map((chunk) => {
-      const title = String(chunk.title || '').toLowerCase();
-      const heading = String(chunk.section_heading || '').toLowerCase();
-      const metadata = [
-        chunk.category,
-        chunk.collection,
-        chunk.topic,
-        chunk.plant,
-        chunk.handle_id,
-        chunk.author,
-        chunk.source_pages,
-        chunk.source_pdf_pages,
-      ]
-        .filter(Boolean)
-        .join(' ')
-        .toLowerCase();
-      const text = String(chunk.text || '').toLowerCase();
-      let score = text.includes(query) ? 30 : 0;
-      for (const term of terms) {
-        if (title.includes(term)) score += 10;
-        if (metadata.includes(term)) score += 7;
-        if (heading.includes(term)) score += 6;
-        if (text.includes(term)) score += 2;
-      }
-      if (chunk.document_slug === preferredDocumentSlug) score += 12;
-      return { chunk, score };
-    })
+  return chunks
+    .map((chunk) => ({
+      chunk,
+      score: scoreChunk(chunk, query, terms, preferredDocumentSlug),
+    }))
     .filter(({ score }) => score > 0)
     .sort((a, b) => b.score - a.score);
+}
 
+function selectRankedChunks(ranked, limit = 10, maxChunksPerDocument = 3) {
   const selected = [];
   const documentCounts = new Map();
   const minimumScore = (ranked[0]?.score || 0) * 0.45;
   for (const { chunk, score } of ranked) {
     if (score < minimumScore) break;
     const count = documentCounts.get(chunk.document_slug) || 0;
-    if (count >= 3) continue;
+    if (count >= maxChunksPerDocument) continue;
     selected.push(chunk);
     documentCounts.set(chunk.document_slug, count + 1);
     if (selected.length >= limit) break;
   }
   return selected;
+}
+
+function searchChunks(
+  chunks,
+  queryText,
+  limit = 10,
+  preferredDocumentSlug = ''
+) {
+  return selectRankedChunks(
+    rankChunks(chunks, queryText, preferredDocumentSlug),
+    limit
+  );
 }
 
 export function loadFertilizerChunks() {
@@ -592,14 +655,15 @@ export function searchKnowledgeHubChunks(queryText, limit = 12) {
     },
   ];
 
-  return sources
-    .flatMap((source) =>
-      source.search(queryText, 3).map((chunk) => ({
-        ...chunk,
-        hubCollection: source.collection,
-        hubCollectionLabel: source.label,
-        url: source.url(chunk),
-      }))
-    )
-    .slice(0, limit);
+  const candidateLimit = Math.max(Math.ceil(limit / 3), 4);
+  const candidates = sources.flatMap((source) =>
+    source.search(queryText, candidateLimit).map((chunk) => ({
+      ...chunk,
+      hubCollection: source.collection,
+      hubCollectionLabel: source.label,
+      url: source.url(chunk),
+    }))
+  );
+
+  return selectRankedChunks(rankChunks(candidates, queryText), limit, 2);
 }

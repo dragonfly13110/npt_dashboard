@@ -332,7 +332,7 @@ async function buildLandingBody(body) {
   ];
 
   return {
-    model: body.model || 'gemini-3.5-flash-lite',
+    model: body.model || 'gemini-3.6-flash',
     contents: compactQuestion,
     systemInstruction: { parts: [{ text: LANDING_SYSTEM_PROMPT }] },
     generationConfig: {
@@ -365,7 +365,7 @@ function clampTokenLimits(body) {
 }
 
 async function callGemini(apiKey, body) {
-  const model = body.model || 'gemini-3.5-flash-lite';
+  const model = body.model || 'gemini-3.6-flash';
   const isStream = body.stream === true;
   const endpoint = isStream
     ? 'streamGenerateContent?alt=sse&'
