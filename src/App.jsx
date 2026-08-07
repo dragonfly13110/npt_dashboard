@@ -470,7 +470,7 @@ function AppRoutes() {
         />
         <Route
           path="/public/npt-research"
-          element={<FrontierAgriResearchKnowledge collection="npt" />}
+          element={<Navigate to="/public/npt-research/catalog" replace />}
         />
         <Route
           path="/public/npt-research/catalog"
