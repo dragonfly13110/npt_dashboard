@@ -481,6 +481,34 @@ describe('ai-proxy', () => {
     );
   });
 
+  it('caps public Gemini landing requests at Flash Lite', async () => {
+    process.env.GEMINI_API_KEY_1 = 'pool-key';
+    mockAllowedRateClaim();
+    fetch.mockResolvedValueOnce(
+      new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      })
+    );
+
+    const response = await handler(
+      request({
+        provider: 'gemini',
+        landing: true,
+        knowledgeKind: 'hub',
+        body: {
+          model: 'gemini-3.6-flash',
+          contents: [{ role: 'user', parts: [{ text: 'ข้าวมีโรคอะไรบ้าง' }] }],
+        },
+      })
+    );
+
+    expect(response.status).toBe(200);
+    expect(fetch.mock.calls[1][0]).toContain(
+      '/gemini-3.5-flash-lite:streamGenerateContent?'
+    );
+  });
+
   it('allows Gemini 3 Flash Preview thinking requests', async () => {
     process.env.GEMINI_API_KEY = 'test-key';
     mockAllowedRateClaim();

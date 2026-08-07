@@ -9,6 +9,7 @@ import { buildKnowledgeBody } from './lib/knowledge-chat.js';
 const MAX_BODY_BYTES = 4 * 1024 * 1024; // 4MB to support larger dashboard contexts
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 30;
+const PUBLIC_GEMINI_MODEL = 'gemini-3.5-flash-lite';
 const memoryRateLimits = new Map();
 const KNOWLEDGE_KINDS = new Set([
   'pesticide',
@@ -344,7 +345,7 @@ async function buildLandingBody(body) {
   ];
 
   return {
-    model: body.model || 'gemini-3.5-flash-lite',
+    model: body.model || PUBLIC_GEMINI_MODEL,
     contents: compactQuestion,
     systemInstruction: { parts: [{ text: LANDING_SYSTEM_PROMPT }] },
     generationConfig: {
@@ -377,7 +378,7 @@ function clampTokenLimits(body) {
 }
 
 async function callGemini(apiKey, body) {
-  const model = body.model || 'gemini-3.5-flash-lite';
+  const model = body.model || PUBLIC_GEMINI_MODEL;
   const isStream = body.stream === true;
   const endpoint = isStream
     ? 'streamGenerateContent?alt=sse&'
@@ -625,6 +626,13 @@ export default async (req, context) => {
       );
     } else if (validation.landing && validation.provider === 'gemini') {
       validation.body = await buildLandingBody(validation.body);
+    }
+
+    if (validation.landing && validation.provider === 'gemini') {
+      validation.body = {
+        ...validation.body,
+        model: PUBLIC_GEMINI_MODEL,
+      };
     }
 
     console.log('AI proxy request', {
