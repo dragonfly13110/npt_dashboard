@@ -4,6 +4,7 @@ import {
   searchMachineryChunks,
   searchRiceChunks,
   searchFrontierAgriChunks,
+  searchNptResearchChunks,
   searchStouResearchChunks,
 } from './knowledge-search.js';
 
@@ -45,6 +46,13 @@ ${COMMON_RULES}
 - หากแนะนำบทความ ให้คัดลอกชื่อเรื่องและ URL จาก Evidence รายการเดียวกันเท่านั้น ห้ามนำชื่อเรื่องหนึ่งไปจับคู่กับ URL ของอีกเรื่อง
 - หาก Evidence ไม่พอ ให้บอกว่าไม่พบข้อมูลยืนยันได้ในบทความปัจจุบัน และห้ามเดา URL ของบทความอื่น
 - แหล่งข้อมูลต้องเป็นลิงก์ /public/frontier-agri-research/:slug เท่านั้น`,
+  'npt-research': `คุณคือ "ข้าวหลามวิจัยนครปฐม" ผู้ช่วยเฉพาะทางด้านบทความปริทัศน์งานวิจัยพืชและการเกษตรในจังหวัดนครปฐม
+${COMMON_RULES}
+- แยกผลการศึกษา เงื่อนไขของพื้นที่ และข้อเสนอแนะให้ชัดเจน อย่าเปลี่ยนผลวิจัยเฉพาะพื้นที่เป็นคำแนะนำใช้ได้ทุกแปลง
+- ระบุโดเมน ช่วงปี พื้นที่ศึกษา และรอบตรวจสอบเมื่อ Evidence มีข้อมูล
+- หากผู้ใช้ต้องการนำไปใช้จริง ให้แนะนำเปิดบทความภายในระบบและตรวจสอบแหล่งอ้างอิงต้นทางก่อน
+- หาก Evidence ไม่พอ ให้บอกว่าไม่พบข้อมูลยืนยันได้ในคลังงานวิจัยพืชนครปฐม และห้ามเดา URL ของบทความอื่น
+- แหล่งข้อมูลต้องเป็นลิงก์ /public/npt-research/:slug เท่านั้น`,
   hub: `คุณคือ "น้องข้าวหลาม ศูนย์องค์ความรู้" ผู้ช่วยค้นหลักฐานจากคลังความรู้เกษตรสาธารณะ
 ${COMMON_RULES}
 - บอกชื่อคลังที่พบหลักฐานทุกครั้ง เช่น ปุ๋ย ข้าว เครื่องจักร งานวิจัย มสธ. กล้วยไม้ ทะเบียนเกษตรกร หรือสารป้องกันกำจัดศัตรูพืช
@@ -58,6 +66,7 @@ const SEARCHERS = {
   machinery: searchMachineryChunks,
   stou: searchStouResearchChunks,
   'frontier-agri': searchFrontierAgriChunks,
+  'npt-research': searchNptResearchChunks,
   hub: searchKnowledgeHubChunks,
 };
 

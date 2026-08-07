@@ -28,10 +28,48 @@ import '../rice/RiceKnowledge.css';
 import '../stouResearch/StouResearchKnowledge.css';
 import './FrontierAgriResearchKnowledge.css';
 
-const BASE_PATH = '/public/frontier-agri-research';
-const CATALOG_URL = '/data/frontier-agri-research/catalog.json';
+const COLLECTION_CONFIGS = {
+  frontier: {
+    basePath: '/public/frontier-agri-research',
+    catalogUrl: '/data/frontier-agri-research/catalog.json',
+    kicker: 'FRONTIER AGRICULTURAL RESEARCH',
+    title: 'คลังบทความด้านการเกษตรทั่วโลก',
+    heroDescription:
+      'รวมบทความวิจัยการเกษตรจากทั่วโลก ตั้งแต่ชีวภาพ ดิน น้ำ AI หุ่นยนต์ ไปจนถึงระบบอาหารและการยอมรับเทคโนโลยี',
+    introEyebrow: 'อ่านงานวิจัยให้เห็นหลักฐาน',
+    introTitle: 'จากงานวิจัยทั่วโลก สู่คำถามที่ใช้ต่อในงานเกษตร',
+    introDescription:
+      'คลังนี้รวบรวมบทความภาษาไทยจากงานวิจัยและข้อมูลเกษตรนานาชาติ แยกหมวดให้ค้นง่าย พร้อมวันที่อัปเดต เงื่อนไขของผลการศึกษา และอ้างอิงท้ายบทความเพื่อเปิดดูเว็บต้นทางได้เมื่อมี URL',
+    scopeLabel: 'ขอบเขตคลังบทความด้านการเกษตรทั่วโลก',
+    categoryLabel: 'หมวดบทความการเกษตรทั่วโลก',
+    articleLabel: 'รายการบทความการเกษตร',
+    searchLabel: 'ค้นหาบทความด้านการเกษตรทั่วโลก',
+    searchPlaceholder: 'ค้นชื่อเรื่อง หมวด หัวข้อย่อย หรือคำสำคัญ...',
+    articleNote:
+      'บทความนี้จัดรูปแบบจากคลังงานวิจัยด้านการเกษตร ควรเปิดดูแหล่งอ้างอิงท้ายบทความและตรวจสอบข้อมูลล่าสุดก่อนนำผลการศึกษาไปใช้กับพื้นที่จริง',
+  },
+  npt: {
+    basePath: '/public/npt-research',
+    catalogUrl: '/data/npt-research/catalog.json',
+    kicker: 'NAKHON PATHOM AGRICULTURAL RESEARCH',
+    title: 'คลังงานวิจัยพืชนครปฐม',
+    heroDescription:
+      'รวมบทความปริทัศน์งานวิจัยด้านการเกษตรในจังหวัดนครปฐม ช่วงปี 2023–2026 ครอบคลุม 11 โดเมน พร้อมเงื่อนไข ผลการศึกษา และแหล่งอ้างอิง',
+    introEyebrow: 'อ่านงานวิจัยเชิงพื้นที่',
+    introTitle: 'จากงานวิจัยในนครปฐม สู่การใช้ประโยชน์ในพื้นที่',
+    introDescription:
+      'คลังนี้รวบรวมบทความปริทัศน์งานวิจัยที่ทำหรือตีพิมพ์โดยหน่วยงานในจังหวัดนครปฐม แยกตามโดเมนตั้งแต่ข้าว ไม้ผล พืชผัก ดิน น้ำ เทคโนโลยี ไปจนถึงอาหารและการแปรรูป พร้อมวันทบทวนและลิงก์อ้างอิงต้นทาง',
+    scopeLabel: 'ขอบเขตคลังงานวิจัยพืชนครปฐม',
+    categoryLabel: 'หมวดงานวิจัยพืชนครปฐม',
+    articleLabel: 'รายการบทความวิจัยพืชนครปฐม',
+    searchLabel: 'ค้นหางานวิจัยพืชนครปฐม',
+    searchPlaceholder: 'ค้นชื่อเรื่อง โดเมน หัวข้อย่อย หรือคำสำคัญ...',
+    articleNote:
+      'บทความนี้เป็นบทความปริทัศน์เชิงพื้นที่ ควรเปิดดูเงื่อนไขของผลการศึกษาและแหล่งอ้างอิงท้ายบทความก่อนนำไปใช้กับแปลงจริง',
+  },
+};
 
-function useCatalog() {
+function useCatalog(catalogUrl) {
   const [state, setState] = useState({
     catalog: null,
     loading: true,
@@ -40,23 +78,24 @@ function useCatalog() {
 
   useEffect(() => {
     let active = true;
-    fetch(CATALOG_URL)
+    setState({ catalog: null, loading: true, error: false });
+    fetch(catalogUrl)
       .then((response) => {
         if (!response.ok)
-          throw new Error('Frontier agriculture catalog not found');
+          throw new Error('Agricultural research catalog not found');
         return response.json();
       })
       .then((catalog) => {
         if (active) setState({ catalog, loading: false, error: false });
       })
       .catch((error) => {
-        console.error('Error loading frontier agriculture catalog:', error);
+        console.error('Error loading agricultural research catalog:', error);
         if (active) setState({ catalog: null, loading: false, error: true });
       });
     return () => {
       active = false;
     };
-  }, []);
+  }, [catalogUrl]);
 
   return state;
 }
@@ -72,7 +111,7 @@ function PageNav({ backTo = '/public/knowledge-hub' }) {
   );
 }
 
-function Header({ catalog, catalogPage = false }) {
+function Header({ catalog, config, catalogPage = false }) {
   return (
     <section
       className={catalogPage ? 'rice-catalog-header' : 'rice-hero'}
@@ -80,12 +119,12 @@ function Header({ catalog, catalogPage = false }) {
         '--knowledge-header-image': `url("${CLOUDINARY_ASSETS.agriHero}")`,
       }}
     >
-      <span className="rice-kicker">FRONTIER AGRICULTURAL RESEARCH</span>
-      <h1>คลังบทความด้านการเกษตรทั่วโลก</h1>
+      <span className="rice-kicker">{config.kicker}</span>
+      <h1>{config.title}</h1>
       <p>
         {catalogPage
-          ? `ค้นหาและอ่านบทความวิจัยการเกษตรล้ำยุค ${catalog.stats.total} เรื่อง พร้อมรายการอ้างอิงและลิงก์เว็บต้นทาง`
-          : 'รวมบทความวิจัยการเกษตรจากทั่วโลก ตั้งแต่ชีวภาพ ดิน น้ำ AI หุ่นยนต์ ไปจนถึงระบบอาหารและการยอมรับเทคโนโลยี'}
+          ? `ค้นหาและอ่านบทความวิจัย ${catalog.stats.total} เรื่อง พร้อมรายการอ้างอิงและลิงก์เว็บต้นทาง`
+          : config.heroDescription}
       </p>
     </section>
   );
@@ -160,29 +199,25 @@ function FrontierArticleMarkdown({ content }) {
   ));
 }
 
-function FrontierAgriResearchHub({ catalog }) {
+function FrontierAgriResearchHub({ catalog, config }) {
   const categories = Object.entries(catalog.stats.categories);
 
   return (
     <main className="rice-page stou-page rice-hub frontier-agri-page">
       <PageNav />
-      <Header catalog={catalog} />
+      <Header catalog={catalog} config={config} />
       <CatalogStats catalog={catalog} />
 
       <section
         className="stou-intro"
-        aria-label="ขอบเขตคลังบทความด้านการเกษตรทั่วโลก"
+        aria-label={config.scopeLabel}
       >
         <div>
-          <span className="stou-eyebrow">อ่านงานวิจัยให้เห็นหลักฐาน</span>
-          <h2>จากงานวิจัยทั่วโลก สู่คำถามที่ใช้ต่อในงานเกษตร</h2>
-          <p>
-            คลังนี้รวบรวมบทความภาษาไทยจากงานวิจัยและข้อมูลเกษตรนานาชาติ
-            แยกหมวดให้ค้นง่าย พร้อมวันที่อัปเดต เงื่อนไขของผลการศึกษา
-            และอ้างอิงท้ายบทความเพื่อเปิดดูเว็บต้นทางได้เมื่อมี URL
-          </p>
+          <span className="stou-eyebrow">{config.introEyebrow}</span>
+          <h2>{config.introTitle}</h2>
+          <p>{config.introDescription}</p>
         </div>
-        <Link className="stou-primary-link" to={`${BASE_PATH}/catalog`}>
+        <Link className="stou-primary-link" to={`${config.basePath}/catalog`}>
           เปิดรายการบทความ <ArrowRightOutlined />
         </Link>
       </section>
@@ -192,11 +227,11 @@ function FrontierAgriResearchHub({ catalog }) {
         title="เลือกหัวข้อที่ต้องการอ่าน"
         count={`${catalog.stats.total} เรื่อง`}
       />
-      <section className="rice-hub-grid" aria-label="หมวดบทความการเกษตรทั่วโลก">
+      <section className="rice-hub-grid" aria-label={config.categoryLabel}>
         {categories.map(([category, count]) => (
           <Link
             key={category}
-            to={`${BASE_PATH}/catalog?category=${encodeURIComponent(category)}`}
+            to={`${config.basePath}/catalog?category=${encodeURIComponent(category)}`}
             className="rice-hub-card stou-category-card"
           >
             <div className="rice-hub-card-icon">
@@ -217,7 +252,7 @@ function FrontierAgriResearchHub({ catalog }) {
   );
 }
 
-function FrontierAgriResearchCatalog({ catalog }) {
+function FrontierAgriResearchCatalog({ catalog, config }) {
   const [searchParams] = useSearchParams();
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState(
@@ -256,27 +291,27 @@ function FrontierAgriResearchCatalog({ catalog }) {
   return (
     <main className="rice-page stou-page rice-catalog frontier-agri-page">
       <PageNav />
-      <Header catalog={catalog} catalogPage />
+      <Header catalog={catalog} config={config} catalogPage />
       <CatalogStats catalog={catalog} />
 
       <KnowledgeSectionHeading
         kicker="ค้นหาและกรองได้"
-        title="รายการบทความด้านการเกษตรทั่วโลก"
+        title={config.title}
         count={`พบ ${filteredArticles.length} เรื่อง`}
       />
       <div className="rice-toolbar stou-toolbar">
         <label className="rice-search">
-          <span className="sr-only">ค้นหาบทความด้านการเกษตรทั่วโลก</span>
+          <span className="sr-only">{config.searchLabel}</span>
           <SearchOutlined aria-hidden="true" />
           <input
             type="search"
-            placeholder="ค้นชื่อเรื่อง หมวด หัวข้อย่อย หรือคำสำคัญ..."
+            placeholder={config.searchPlaceholder}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
         </label>
         <div className="stou-filter-row">
-          <div className="rice-tabs" aria-label="หมวดบทความการเกษตร">
+          <div className="rice-tabs" aria-label={config.categoryLabel}>
             <button
               type="button"
               className={category === 'all' ? 'is-active' : ''}
@@ -313,11 +348,11 @@ function FrontierAgriResearchCatalog({ catalog }) {
       </div>
 
       {filteredArticles.length > 0 ? (
-        <section className="rice-grid" aria-label="รายการบทความการเกษตร">
+        <section className="rice-grid" aria-label={config.articleLabel}>
           {filteredArticles.map((article) => (
             <Link
               key={article.slug}
-              to={`${BASE_PATH}/${article.slug}`}
+              to={`${config.basePath}/${article.slug}`}
               className="rice-card stou-article-card"
             >
               <div className="rice-card-icon">
@@ -347,7 +382,7 @@ function FrontierAgriResearchCatalog({ catalog }) {
   );
 }
 
-function FrontierAgriResearchArticle({ catalog }) {
+function FrontierAgriResearchArticle({ catalog, config }) {
   const { slug } = useParams();
   const article = catalog.articles.find((item) => item.slug === slug);
   const [content, setContent] = useState('');
@@ -358,19 +393,19 @@ function FrontierAgriResearchArticle({ catalog }) {
     if (!article) return undefined;
     setLoading(true);
     setError(false);
-    fetch(`/data/frontier-agri-research/articles/${article.article_file}`)
+    fetch(`${config.catalogUrl.replace(/\/catalog\.json$/, '')}/articles/${article.article_file}`)
       .then((response) => {
         if (!response.ok)
-          throw new Error('Frontier agriculture article not found');
+          throw new Error('Agricultural research article not found');
         return response.text();
       })
       .then(setContent)
       .catch((loadError) => {
-        console.error('Error loading frontier agriculture article:', loadError);
+        console.error('Error loading agricultural research article:', loadError);
         setError(true);
       })
       .finally(() => setLoading(false));
-  }, [article]);
+  }, [article, config]);
 
   if (loading) {
     return (
@@ -380,14 +415,14 @@ function FrontierAgriResearchArticle({ catalog }) {
     );
   }
   if (error || !article)
-    return <Navigate to={`${BASE_PATH}/catalog`} replace />;
+    return <Navigate to={`${config.basePath}/catalog`} replace />;
 
   const references = article.references || [];
   const linkedReferences = references.filter((reference) => reference.url);
 
   return (
     <main className="rice-page stou-page rice-article frontier-agri-page">
-      <PageNav backTo={`${BASE_PATH}/catalog`} />
+      <PageNav backTo={`${config.basePath}/catalog`} />
       <div className="rice-article-layout">
         <article className="rice-article-main">
           <header className="rice-article-header">
@@ -443,9 +478,7 @@ function FrontierAgriResearchArticle({ catalog }) {
             )}
           </div>
           <div className="rice-aside-note">
-            บทความนี้จัดรูปแบบจากคลังงานวิจัยด้านการเกษตร
-            ควรเปิดดูแหล่งอ้างอิงท้ายบทความและตรวจสอบข้อมูลล่าสุด
-            ก่อนนำผลการศึกษาไปใช้กับพื้นที่จริง
+            {config.articleNote}
           </div>
         </aside>
       </div>
@@ -453,17 +486,18 @@ function FrontierAgriResearchArticle({ catalog }) {
   );
 }
 
-export default function FrontierAgriResearchKnowledge() {
+export default function FrontierAgriResearchKnowledge({ collection = 'frontier' }) {
+  const config = COLLECTION_CONFIGS[collection] || COLLECTION_CONFIGS.frontier;
   const location = useLocation();
-  const { catalog, loading, error } = useCatalog();
+  const { catalog, loading, error } = useCatalog(config.catalogUrl);
 
   if (loading) return <LoadingState />;
   if (error || !catalog) return <ErrorState />;
-  if (location.pathname === BASE_PATH) {
-    return <FrontierAgriResearchHub catalog={catalog} />;
+  if (location.pathname === config.basePath) {
+    return <FrontierAgriResearchHub catalog={catalog} config={config} />;
   }
-  if (location.pathname === `${BASE_PATH}/catalog`) {
-    return <FrontierAgriResearchCatalog catalog={catalog} />;
+  if (location.pathname === `${config.basePath}/catalog`) {
+    return <FrontierAgriResearchCatalog catalog={catalog} config={config} />;
   }
-  return <FrontierAgriResearchArticle catalog={catalog} />;
+  return <FrontierAgriResearchArticle catalog={catalog} config={config} />;
 }

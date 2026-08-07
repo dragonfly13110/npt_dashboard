@@ -1,0 +1,155 @@
+{
+  "slug": "npt-08-001",
+  "title": "งานวิจัยศัตรูพืช-อารักขาพืชในจังหวัดนครปฐม (2023–2026)",
+  "author": "Nakhon Pathom Plant Research Knowledge Library",
+  "source_year": 2026,
+  "updated_at": "2026-08-07",
+  "created_at": "2026-08-07",
+  "review_at": "2027-02-07",
+  "category": "ศัตรูพืช-อารักขาพืช",
+  "domain_code": "08",
+  "topic_id": "08-001",
+  "handle_id": "08-001",
+  "abstract": "- **ใจความ**: งานวิจัยศัตรูพืช-อารักขาพืชในนครปฐม 2023–2026 มี 19 รายการ ครอบคลุม 4 ธีมหลัก: **ชีววิธีและการจัดการศัตรูพืช 7 ชิ้น** (ไส้เดือนฝอยพริก [1], คัดเลือก Trichoderma [2], Bacillus ยับยั้งแอนแทรคโนส [3], เชื้อราควบคุมเพลี้ยกระโดด [5], ไรศัตรูพริก [6], หนอนหัวดำมะพร้าว [7], ศัตรูกล้วย [13]), **ยีนต้านทานโรค/แมลง 2 ชิ้น** (ยีน R โรคไหม้ข้าว [4], ยีนต้านทานด้วงถั่วเขียว [10]), **นวัตกรรมโดรนอัจฉริยะ 1 ชิ้น** (UAV 4G/5G ถังผสมอัตโนมัติและสำรวจโรค [17]) และ **การจัดการวัชพืชและการต้านทานสารเคมี 3 ชิ้น** (การต้านทานยาของหญ้าข้าวนก [18], สารหลังงอกในนาข้าวแห้ง [19], การจัดการเน่าคอดินผัก [12]) - **ตัวเลขสำคัญที่สุด**: โดรน 6 ใบพัดสมอง AI ระบบ 4G/5G แบบถังผสมอัตโนมัติ [17] คว้ารางวัลเหรียญทอ",
+  "source_type": "Nakhon Pathom agricultural research review",
+  "source_url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/151",
+  "pdf_url": null,
+  "source_urls": [
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/151",
+    "https://li02.tci-thaijo.org/index.php/jtai/article/view/188",
+    "https://publication.npru.ac.th/handle/123456789/2287",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/539",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/1048",
+    "https://li01.tci-thaijo.org/index.php/entomology/article/view/266894",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/264284",
+    "https://research.ku.ac.th",
+    "https://www.doa.go.th",
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2530449000",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/269165",
+    "https://www.nakhonpathom.doae.go.th",
+    "https://entomology.kps.ku.ac.th",
+    "https://plantpath.kps.ku.ac.th",
+    "https://www.mahidol.ac.th",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/271253",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/261947"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "JASM 6(1) (2023): Trichoderma Cb-pin01 + Streptomyces KPS-E004 ควบคุมไส้เดือนฝอยรากปมพริก — โรคพืช มก.กำแพงแสน — เข้าใช้ 2026-08-07",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/151"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "ว.เทคโนโลยีและนวัตกรรมเกษตร (2024): Trichoderma spp. 50 ไอโซเลท (M. incognita) ดินนครปฐม+ — เข้าใช้ 2026-08-07",
+      "url": "https://li02.tci-thaijo.org/index.php/jtai/article/view/188"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "ปิยวัฒน์ ใจซื่อ, พรพรรณ อูสุวรรณ, ศุภสุตา การูจี, เสาวณี คงศรี และพิทักษ์พงศ์ ป้อมปราณี (2568): การทดสอบเชื้อ Bacillus spp. ต่อการควบคุมโรคแอนแทรคโนสในพริกที่มีสาเหตุจากเชื้อ Colletotrichum capsici. รายงานสืบเนื่องการประชุมวิชาการระดับชาติ มหาวิทยาลัยราชภัฏนครปฐม ครั้งที่ 17 — เข้าใช้ 2026-08-07",
+      "url": "https://publication.npru.ac.th/handle/123456789/2287"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "JASM 7(2) (2024): ยีนต้านทานเชื้อสาเหตุโรคไหม้ข้าว + 47 เชื้อราข้าว (การตอบสนองภูมิคุ้มกัน) — โรคพืช — เข้าใช้ 2026-08-07",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/539"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "JASM 8(2) (2025): เชื้อรา M. anisopliae/P. fumosoroseus ต่อเพลี้ยกระโดดสีน้ำตาลข้าว — กีฏวิทยา — เข้าใช้ 2026-08-07",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/1048"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "วารสารกีฏ-สัตววิทยา (2567): ไร่นาทนแล้ง/ชุดเพลี้ยไฟ (ไรศัตรูพริก) — กีฏวิทยา มก.กำแพงแสน — เข้าใช้ 2026-08-07",
+      "url": "https://li01.tci-thaijo.org/index.php/entomology/article/view/266894"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "อรัญญาณีย์ เพชรคีรี, นารีรัตน์ สีระสาร และสินีนุช ครุฑเมือง แสนเสริม (2566): ความต้องการการส่งเสริมการควบคุมหนอนหัวดำมะพร้าวด้วยแตนเบียนบราคอน ฮีบีเตอร์ ของเกษตรกรในอำเภอบางละมุง จังหวัดชลบุรี. วารสารวิทยาศาสตร์เกษตรและการจัดการ, 6(3), 85-93 — เข้าใช้ 2026-08-07",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/264284"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "มก.กำแพงแสน (2566): โครงการพัฒนาชีวภัณฑ์กำจัดแมลงจาก Bacillus thuringiensis (BTKU) เชื้อรา Metarhizium rileyi และไส้เดือนฝอย Steinernema siamkayai (EPNKU) เพื่อควบคุมหนอนกระทู้ข้าวโพดลายจุด. โครงการวิจัย มก.กำแพงแสน — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th"
+    },
+    {
+      "id": "9",
+      "index": 9,
+      "label": "กรมวิชาการเกษตร (2566): ประสิทธิภาพของสารป้องกันกำจัดหนอนแดง Meridarchis scyrodes Meyrick ในฝรั่ง อำเภอกำแพงแสน จังหวัดนครปฐม. รายงานผลงานวิจัยประจำปี กรมวิชาการเกษตร — เข้าใช้ 2026-08-07",
+      "url": "https://www.doa.go.th"
+    },
+    {
+      "id": "10",
+      "index": 10,
+      "label": "มก.กำแพงแสน (2567): แมลงศัตรูถั่วเขียว (ด้วงถั่วเขียว) งานยีนต้านทาน qVmunBr6.1 (ข้ามโดเมน 04) — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2530449000"
+    },
+    {
+      "id": "11",
+      "index": 11,
+      "label": "ณิชานันท์ เกินอาษา, มนตรี เอี่ยมวิจารณ์, สมเอก สารัญ และรุ้งลาวัลย์ ทองคงคา (2567): ตารางชีวิตของหนอนกระทู้ข้าวโพดลายจุดเลี้ยงด้วยพืชอาหาร 3 ชนิด รูปแบบการกระจายตัวและการเปลี่ยนแปลงโครงสร้างอายุของตัวอ่อนในแปลงข้าวโพดฝักอ่อน. วารสารวิทยาศาสตร์เกษตรและการจัดการ, 7(2) — เข้าใช้ 2026-08-07",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/269165"
+    },
+    {
+      "id": "12",
+      "index": 12,
+      "label": "สนง.เกษตรจังหวัด+มก. (2567): โรคเน่าคอดินผัก (คำแนะนำ 2567) — เอกสารคำแนะนำการจัดการ สำนักงานเกษตรจังหวัดนครปฐม — เข้าใช้ 2026-08-07",
+      "url": "https://www.nakhonpathom.doae.go.th"
+    },
+    {
+      "id": "13",
+      "index": 13,
+      "label": "มก.กำแพงแสน (2566): โครงการวิจัยและเฝ้าระวังโรคตายพราย (Fusarium Wilt) และศัตรูพืชในแปลงกล้วยเพื่อการจัดการทางชีววิธี. คลังความรู้ดิจิทัล มก.กำแพงแสน — เข้าใช้ 2026-08-07",
+      "url": "https://research.ku.ac.th"
+    },
+    {
+      "id": "14",
+      "index": 14,
+      "label": "ภาควิชากีฏวิทยา มก.กำแพงแสน: แมลงศัตรู/ชีววิธี — เข้าใช้ 2026-08-07",
+      "url": "https://entomology.kps.ku.ac.th"
+    },
+    {
+      "id": "15",
+      "index": 15,
+      "label": "ภาควิชาโรคพืช มก.กำแพงแสน: เชื้อราสาเหตุ/ยีน R — เข้าใช้ 2026-08-07",
+      "url": "https://plantpath.kps.ku.ac.th"
+    },
+    {
+      "id": "16",
+      "index": 16,
+      "label": "สำนักวิจัยและพัฒนาการอารักขาพืช (กรมวิชาการเกษตร): เฝ้าระวังระดับชาติ — เข้าใช้ 2026-08-07",
+      "url": "https://www.doa.go.th"
+    },
+    {
+      "id": "17",
+      "index": 17,
+      "label": "รัตนะ บุลประเสริฐ และปิยะรัตน์ วิจักขณ์สังสิทธิ์ (2569): อากาศยานไร้คนขับขึ้นลงทางดิ่ง 6 ใบพัด ระบบ 4G/5G แบบถังผสมอัตโนมัติ. รางวัลผลงานคุณภาพ NRCT Quality Achievement Award สาขาเกษตรศาสตร์และชีววิทยา ประจำปี 2569 — เข้าใช้ 2026-08-07",
+      "url": "https://www.mahidol.ac.th"
+    },
+    {
+      "id": "18",
+      "index": 18,
+      "label": "จิราพร อินเต็ม, จำเนียร ชมภู และทศพล พรพรหม (2569): ความต้านทานสารกำจัดวัชพืชหลายกลุ่มในหญ้าข้าวนกต้านทานสารไพริเบนโซซิมในนาข้าว. วารสารวิทยาศาสตร์เกษตรและการจัดการ, 9(2) — เข้าใช้ 2026-08-07",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/271253"
+    },
+    {
+      "id": "19",
+      "index": 19,
+      "label": "ปรวีร์ เปฏพันธุ์, จำเนียร ชมภู และทศพล พรพรหม (2566): ทางเลือกในการใช้สารกำจัดวัชพืชแบบหลังงอกเพื่อควบคุมวัชพืชในนาหว่านข้าวแห้ง. วารสารวิทยาศาสตร์เกษตรและการจัดการ, 6(3), 11-20 — เข้าใช้ 2026-08-07",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/261947"
+    }
+  ],
+  "reference_count": 19,
+  "article_file": "npt-08-001.md",
+  "source_file": "08-ศัตรูพืช-อารักขาพืช\\บทความรีวิว-08-ศัตรูพืช-อารักขาพืช.md"
+}
