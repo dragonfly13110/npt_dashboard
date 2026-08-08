@@ -52,6 +52,14 @@
 # WordPress APIs (use wp-proxy.js function)
 # Route pattern: /api/doae-{domain}/{path}
 
+# Keep the old Nakhon Pathom research URL as a safe entry point, but skip the
+# redundant hub page and open the article catalog directly.
+[[redirects]]
+  from = "/public/npt-research"
+  to = "/public/npt-research/catalog"
+  status = 301
+  force = true
+
 # RSS APIs (use rss-proxy.js function)  
 # Route pattern: /api/rss/{feed_key}
 
