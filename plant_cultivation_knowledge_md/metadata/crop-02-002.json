@@ -3,45 +3,70 @@
   "title": "การจัดการดิน ปุ๋ยตามค่าวิเคราะห์ดิน และน้ำแบบเปียกสลับแห้ง (AWD)",
   "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
   "source_year": 2026,
-  "updated_at": "2026-08-07",
+  "updated_at": "2026-08-08",
   "created_at": "2026-08-07",
   "review_at": "2027-02-07",
   "category": "ข้าวและพันธุ์ข้าวเกษตรศาสตร์",
   "domain_code": "02",
   "topic_id": "02-002",
   "handle_id": "02-002",
-  "abstract": "ยกระดับการจัดการดินและธาตุอาหารในแปลงนาข้าวของจังหวัดนครปฐม ด้วยการผสมผสานเคมีดินชั้นสูงของชุดดินกำแพงแสน (Kps) ชุดนครปฐม (Np) และชุดกระทุ่มแบน (Kt) เข้ากับระบบ **ปุ๋ยสั่งตัด (Site-Specific Nutrient Management: SSNM)** และ **นาเปียกสลับแห้ง (Alternate Wetting and Drying: AWD)** การใส่ปุ๋ย N-P-K ตามสมการคำนวณความต้องการของพืชและปริมาณธาตุอาหารเดิมในดิน (Indigenous Nutrient Supply: INS) ช่วยลดการใช้ปุ๋ยเคมีลง 25–40% เพิ่มประสิทธิภาพการใช้ไนโตรเจน (Agronomic Efficiency of N: $AE_N$) ขึ้นสู่ 20–25 kg grain/kg N ขณะที่การควบคุมระดับน้ำผ่านท่อ Pani-pipe ต่ำกว่าผิวดิน 15 ซม. (-15 cm) ช่วยปรับเปลี่ยนจลนพลศาสตร์ Redox Potential ($E_h$) จากสภาวะแอนแอโรบิก (-200 mV) สู่สภาวะแอโรบิก (+150 ถึง +300 mV) ล",
+  "abstract": "ยกระดับการจัดการดินและธาตุอาหารในแปลงนาข้าวของจังหวัดนครปฐม ด้วยการผสมผสานเคมีดินชั้นสูงของชุดดินกำแพงแสน (Kps) ชุดนครปฐม (Np) และชุดกระทุ่มแบน (Kt) [1] เข้ากับระบบ **ปุ๋ยสั่งตัด (Site-Specific Nutrient Management: SSNM)** และ **นาเปียกสลับแห้ง (Alternate Wetting and Drying: AWD)** การใส่ปุ๋ย N-P-K ตามสมการคำนวณความต้องการของพืชและปริมาณธาตุอาหารเดิมในดิน (Indigenous Nutrient Supply: INS) ช่วยลดการใช้ปุ๋ยเคมีลง 25–40% เพิ่มประสิทธิภาพการใช้ไนโตรเจน (Agronomic Efficiency of N: $AE_N$) ขึ้นสู่ 20–25 kg grain/kg N ขณะที่การควบคุมระดับน้ำผ่านท่อ Pani-pipe ต่ำกว่าผิวดิน 15 ซม. (-15 cm) ช่วยปรับเปลี่ยนจลนพลศาสตร์ Redox Potential ($E_h$) จากสภาวะแอนแอโรบิก (-200 mV) สู่สภาวะแอโรบิก (+150 ถึง +300 m",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
-  "pdf_url": null,
-  "source_urls": [],
+  "source_url": "http://r01.ldd.go.th/aya/Data/soilgroup/soilgroup7.pdf",
+  "pdf_url": "http://r01.ldd.go.th/aya/Data/soilgroup/soilgroup7.pdf",
+  "source_urls": [
+    "http://r01.ldd.go.th/aya/Data/soilgroup/soilgroup7.pdf",
+    "https://tver.tgo.or.th/database/Uploads/Moc/5b6cf5a9-7b41-4253-8927-e09524e2aebd.pdf",
+    "https://www.ldd.go.th/thaisoils_museum/pf_desc/central/Np.htm",
+    "http://iddindee.ldd.go.th/SoilSeries/N/3_Series_(Np).pdf",
+    "https://www.doa.go.th",
+    "https://nkpathom.nso.go.th/images/2568/%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2%E0%B8%A8%E0%B8%A3%E0%B8%B5_%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2_GI.pdf"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ทัศนีย์ อัตตะนันทน์ และ ชัยฤกษ์ มณีพงษ์. (2562). *คู่มือการใช้ปุ๋ยสั่งตัดในนาข้าวภาคกลาง*. คณะเกษตร มหาวิทยาลัยเกษตรศาสตร์.",
-      "url": null
+      "label": "กรมพัฒนาที่ดิน — กลุ่มชุดดินที่ 7 (ชุดดินกำแพงแสน/นครปฐม/กระทุ่มแบน) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "http://r01.ldd.go.th/aya/Data/soilgroup/soilgroup7.pdf"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "ศิริพร บุญชู และคณะ. (2563). *ประเมินการลดก๊าซมีเทนและศักยภาพโลกร้อนในนาข้าว AWD จังหวัดนครปฐม*. วารสารวิทยาศาสตร์เกษตร, 51(3), 312–326.",
-      "url": null
+      "label": "องค์การบริหารจัดการก๊าซเรือนกระจก (องค์การมหาชน) — โครงการ T-VER การลดก๊าซเรือนกระจกในนาข้าว — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://tver.tgo.or.th/database/Uploads/Moc/5b6cf5a9-7b41-4253-8927-e09524e2aebd.pdf"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "IRRI. (2020). *Field Guide for Alternate Wetting and Drying (AWD) Implementation*. International Rice Research Institute, Philippines.",
-      "url": null
+      "label": "กรมพัฒนาที่ดิน — พิพิธภัณฑ์ดินชุดดินนครปฐม (Np) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.ldd.go.th/thaisoils_museum/pf_desc/central/Np.htm"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "องค์การบริหารจัดการก๊าซเรือนกระจก (TGO). (2564). *ระเบียบวิธี T-VER สำหรับการจัดการน้ำแบบเปียกสลับแห้งในนาข้าว*. กระทรวงทรัพยากรธรรมชาติและสิ่งแวดล้อม.",
-      "url": null
+      "label": "[กรมพัฒนาที่ดิน — เอกสารชุดดิน (Soil Series) ชุดนครปฐม Np](<>) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "http://iddindee.ldd.go.th/SoilSeries/N/3_Series_(Np).pdf"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "กรมวิชาการเกษตร — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "สำนักงานสถิติจังหวัดนครปฐม — บทวิเคราะห์ส้มโอนครชัยศรี สินค้า GI (ข้อมูลสถิติการเกษตรจังหวัด) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://nkpathom.nso.go.th/images/2568/%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2%E0%B8%A8%E0%B8%A3%E0%B8%B5_%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2_GI.pdf"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "องค์การบริหารจัดการก๊าซเรือนกระจก (องค์การมหาชน). (2564). *เอกสารโครงการ T-VER การจัดการน้ำแบบเปียกสลับแห้ง (AWD) ในนาข้าว*. กระทรวงทรัพยากรธรรมชาติและสิ่งแวดล้อม. — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://tver.tgo.or.th/database/Uploads/Moc/5b6cf5a9-7b41-4253-8927-e09524e2aebd.pdf"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 7,
   "article_file": "crop-02-002.md",
   "source_file": "02-ข้าวและพันธุ์ข้าวเกษตรศาสตร์\\02-การจัดการดิน_ปุ๋ย_และน้ำในแปลงนา.md"
 }

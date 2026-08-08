@@ -19,41 +19,48 @@
     "https://npt-dashboard.netlify.app/public/npt-research/npt-04-001",
     "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/265080",
     "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430036000",
-    "https://suwanfarm.agr.ku.ac.th"
+    "https://suwanfarm.agr.ku.ac.th",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/44"
   ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "NPT Research Catalog",
+      "label": "NPT Research Catalog — เข้าถึงเมื่อ 2026-08-08",
       "url": "https://npt-dashboard.netlify.app/public/npt-research/catalog"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "บทความ NPT: งานวิจัยพืชไร่ในจังหวัดนครปฐม",
+      "label": "บทความ NPT: งานวิจัยพืชไร่ในจังหวัดนครปฐม — เข้าถึงเมื่อ 2026-08-08",
       "url": "https://npt-dashboard.netlify.app/public/npt-research/npt-04-001"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "การวิเคราะห์เสถียรภาพผลผลิตข้าวโพดไร่ลูกผสมก่อนการค้า",
+      "label": "การวิเคราะห์เสถียรภาพผลผลิตข้าวโพดไร่ลูกผสมก่อนการค้า (แก่นเกษตร 53(4) 2568) — เข้าถึงเมื่อ 2026-08-08",
       "url": "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/265080"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "โครงการข้าวโพดต้นสดพร้อมฝัก",
+      "label": "โครงการประเมินพันธุ์ข้าวโพดและเทคโนโลยีการผลิตข้าวโพดต้นสดพร้อมฝัก มหาวิทยาลัยเกษตรศาสตร์ (ปีงบประมาณ 2567) — เข้าถึงเมื่อ 2026-08-08",
       "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430036000"
     },
     {
       "id": "5",
       "index": 5,
-      "label": "ศูนย์วิจัยข้าวโพดและข้าวฟ่างแห่งชาติ ไร่สุวรรณ",
+      "label": "ศูนย์วิจัยข้าวโพดและข้าวฟ่างแห่งชาติ ไร่สุวรรณ — เข้าถึงเมื่อ 2026-08-08",
       "url": "https://suwanfarm.agr.ku.ac.th"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "ผลของปุ๋ยไนโตรเจนปลดปล่อยช้าต่อผลผลิตและองค์ประกอบผลผลิตของข้าวโพดเลี้ยงสัตว์ในชุดดินกำแพงแสน (วารสารวิทยาศาสตร์เกษตรและการจัดการ 2(3) 2562) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/44"
     }
   ],
-  "reference_count": 5,
+  "reference_count": 6,
   "article_file": "crop-16-008.md",
   "source_file": "16-พืชไร่เศรษฐกิจและข้าวโพดนครปฐม\\08-เศรษฐศาสตร์การผลิตและแผนทดลองแปลงเกษตรกร.md"
 }

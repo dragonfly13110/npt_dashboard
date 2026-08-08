@@ -12,39 +12,45 @@
   "handle_id": "13-002",
   "abstract": "การเจริญเติบโตเชิงสรีรวิทยาของผักสลัดและพืชแนวตั้งไฮโดรโปนิกส์พึ่งพาความสมดุลของสารละลายธาตุอาหารอย่างสมบูรณ์ งานวิจัยในเขตนครปฐมพบว่าการใช้สูตรสารละลายธาตุอาหารดัดแปลง Cooper, Enshi และสูตร มก.กำแพงแสน ควบคู่กับการคุมค่าความนำไฟฟ้า ($EC = 1.2 - 1.8\\text{ mS/cm}$) ค่าความเป็นกรด-ด่าง ($pH = 5.5 - 6.5$) และการคุมอุณหภูมิสารละลายบริเวณราก (Root Zone Temperature: $RZT < 25^\\circ\\text{C}$) ช่วยให้การซึมซับธาตุอาหารเป็นไปอย่างมีประสิทธิภาพสูงสุด นอกจากนี้การประยุกต์ใช้เทคโนโลยีไมโครนาโนบับเบิล (Micro-Nano Bubbles: MNBs) เพิ่มระดับออกซิเจนละลาย ($DO > 8.0 - 10.0\\text{ mg/L}$) ช่วยลดอัตราการเกิดโรครากเน่าจากเชื้อรา *Pythium ultimum* ลงได้มากกว่า $96\\%$ และยกระดับการดูดซึม $Ca^{2+}$ เพื่อป้องกันอากา",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
+  "source_url": "https://li01.tci-thaijo.org/index.php/agritechjournal/article/view/209769",
   "pdf_url": null,
-  "source_urls": [],
+  "source_urls": [
+    "https://li01.tci-thaijo.org/index.php/agritechjournal/article/view/209769",
+    "https://li01.tci-thaijo.org/index.php/MJUJN/article/view/251737",
+    "https://li01.tci-thaijo.org/index.php/rmutsvrj/article/view/265591",
+    "https://www.nstda.or.th/agritec/wimarc-salad/",
+    "http://books.doa.go.th/ebook_tophit"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ภาควิชาพืชสวน คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์. (2565). *การปรับปรุงสูตรสารละลายธาตุอาหารและการจัดการ EC/pH สำหรับผักสลัดในเขตร้อน*. วารสารวิทยาศาสตร์เกษตร, 53(1), 45–58.",
-      "url": null
+      "label": "วารสารเกษตรพระจอมเกล้า. (2563). *การเจริญเติบโตและผลผลิตของผักสลัดกรีนโอ๊คที่ปลูกในระบบ NFT ด้วยสารละลายธาตุอาหารระดับความเข้มข้นต่างกัน*. วารสารเกษตรพระจอมเกล้า, 38(3), 296–303. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/agritechjournal/article/view/209769"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "ศูนย์วิจัยและพัฒนาการเกษตรนครปฐม (สวพ.5). (2564). *คู่มือการผสมแม่ปุ๋ยสูตร Cooper และ Enshi สำหรับระบบไฮโดรโปนิกส์เชิงพาณิชย์*. กรมวิชาการเกษตร.",
-      "url": null
+      "label": "วารสารวิจัยและส่งเสริมวิชาการเกษตร. (2566). *การเสริมธาตุเหล็กและสังกะสีของผักสลัดที่ปลูกในระบบไฮโดรโปนิกส์*. วารสารวิจัยและส่งเสริมวิชาการเกษตร, 40(2). URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/MJUJN/article/view/251737"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "วารสารแก่นเกษตร (KHON KAEN AGR. J.). (2564). *ผลของอุณหภูมิสารละลายบริเวณรากต่อการดูดซึมแคลเซียมและการเกิดอาการ Tip-burn ในผัก Butterhead*. 49(พิเศษ 1), 180–191.",
-      "url": null
+      "label": "Phankaen, P. & Kumpanuch, W. (2025). *Growth Performance of Green Oak, Red Oak, and Green Cos in a Deep Flow Technique Hydroponic System* (EC 1.2–1.8 mS/cm, pH 5.6–6.5). Recent Science and Technology, 18(1), Article e265591. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/rmutsvrj/article/view/265591"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Journal of Plant Nutrition & Soil Science. (2566). *Application of Micro-Nano Bubbles Technology for Enhancing Dissolved Oxygen and Suppressing Pythium Root Rot in Hydroponics*. JPNSS, 186(4), 412–425.",
-      "url": null
+      "label": "สถาบันการจัดการเทคโนโลยีและนวัตกรรมเกษตร (สท.) สวทช. (2563). *ระบบเซนเซอร์ไร้สายไวมาร์ค (WiMaRC): การเฝ้าติดตามค่า EC อุณหภูมิ และความชื้นในฟาร์มผักไฮโดรโปนิกส์*. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://www.nstda.or.th/agritec/wimarc-salad/"
     },
     {
       "id": "5",
       "index": 5,
-      "label": "Thai Agricultural Research Journal (TCI Tier 1). (2565). *Optimization of Ion-Selective Electrode Dosing System for Closed-loop Hydroponic Lettuce Culture*. TARJ, 40(2), 150–165.",
-      "url": null
+      "label": "กรมวิชาการเกษตร. (ม.ป.ป.). *คลังหนังสืออิเล็กทรอนิกส์ (e-book) กรมวิชาการเกษตร — คู่มือการผลิตผักและเทคโนโลยีการเพาะปลูก*. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "http://books.doa.go.th/ebook_tophit"
     }
   ],
   "reference_count": 5,

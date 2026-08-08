@@ -9,6 +9,22 @@
   display: inline;
 }
 
+.frontier-agri-page .frontier-source-list li {
+  display: grid;
+  gap: 4px;
+}
+
+.frontier-agri-page .frontier-source-label {
+  line-height: 1.55;
+}
+
+.frontier-agri-page .frontier-source-hint {
+  margin: 12px 0 0;
+  color: #6c8175;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
 .frontier-agri-page .frontier-source-empty {
   margin: 0;
   color: #476558;

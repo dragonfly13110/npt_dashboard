@@ -12,39 +12,45 @@
   "handle_id": "13-007",
   "abstract": "การยกระดับฟาร์มผักสลัดไฮโดรโปนิกส์ในจังหวัดนครปฐมเข้าสู่ตลาดมูลค่าสูงในประเทศและตลาดส่งออกระหว่างประเทศ จำเป็นต้องปฏิบัติตามมาตรฐานการปฏิบัติทางการเกษตรที่ดี (GAP ผักไฮโดรโปนิกส์: มกษ. 9001) และนวัตกรรม **Bioponics (Organic Hydroponics)** งานวิจัยนี้ยกระดับกระบวนการเปลี่ยนรูปธาตุอาหารอินทรีย์ด้วยแบคทีเรียไนตริไฟอิ้ง (*Nitrosomonas* spp. และ *Nitrobacter* spp.) เพื่อสังเคราะห์สารละลายปุ๋ยอินทรีย์ชีวภาพมาตรฐาน ควบคู่กับโปรโตคอลการขึ้นทะเบียนโรงคัดบรรจุและแปลงปลูกตามข้อกำหนด **GACC** (General Administration of Customs of China) สำหรับตลาดจีน และมาตรฐานการบรรจุในห้องสะอาดปลอดเชื้อ (Cleanroom ISO Class 8 / GHPs & HACCP) ซึ่งช่วยขจัดสารพิษตกค้าง จุลินทรีย์ก่อโรคในมนุษย์ (*E. coli*, *Salmonella* sp",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
+  "source_url": "https://gap.doa.go.th/",
   "pdf_url": null,
-  "source_urls": [],
+  "source_urls": [
+    "https://gap.doa.go.th/",
+    "https://e-book.acfs.go.th/Book_view/292",
+    "https://e-book.acfs.go.th/Book_view/293",
+    "https://www.acfs.go.th",
+    "https://li01.tci-thaijo.org/index.php/agritechjournal/article/view/209769"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ภาควิชาพืชสวน และ ภาควิชาโรคพืช คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์. (2566). *การพัฒนาเทคโนโลยี Bioponics และการควบคุมไนตริฟิเคชันสำหรับการผลิตผักสลัดอินทรีย์ไร้ดิน*. วารสารเกษตรพระจอมเกล้า, 41(2), 150–164.",
-      "url": null
+      "label": "กรมวิชาการเกษตร. (2566). *ระบบรับรองมาตรฐาน GAP (Good Agricultural Practices)*. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://gap.doa.go.th/"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "ศูนย์วิจัยและพัฒนาการเกษตรนครปฐม (สวพ.5). (2564). *คู่มือการรับรองมาตรฐาน GAP ผักไฮโดรโปนิกส์ มกษ. 9001 และขั้นตอนการขึ้นทะเบียนส่งออก GACC*. กรมวิชาการเกษตร.",
-      "url": null
+      "label": "สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ (มกอช.). (2564). *การปฏิบัติทางการเกษตรที่ดีสำหรับพืชอาหาร มกษ. 9001-2564 (e-book)*. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://e-book.acfs.go.th/Book_view/292"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "วารสารวิทยาศาสตร์เกษตร (Agricultural Science Journal). (2563). *ผลของการบรรจุแบบดัดแปลงบรรยากาศ (MAP) ต่อคุณภาพหลังการเก็บเกี่ยวของผักสลัดส่งออก*. 51(2), 220–235.",
-      "url": null
+      "label": "สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ (มกอช.). (2564). *มาตรฐานสินค้าเกษตรอินทรีย์ มกษ. 9000-2564 (e-book)*. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://e-book.acfs.go.th/Book_view/293"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Food Packaging and Shelf Life (TCI Tier 1 / ISI). (2565). *Postharvest Quality and Microbial Safety of Bioponic Lettuce Cleanroom Packaged for Cold Chain Logistics*. Food Packag Shelf Life, 32, 100840.",
-      "url": null
+      "label": "สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ (มกอช.). (2566). *มาตรฐานสินค้าเกษตรและอาหารของประเทศไทย (GAP, GMP, Organic)*. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://www.acfs.go.th"
     },
     {
       "id": "5",
       "index": 5,
-      "label": "General Administration of Customs of the People's Republic of China (GACC). (2564). *Decree No. 248 and 249: Regulations on the Registration and Administration of Overseas Manufacturers of Imported Food*. GACC Official Publication, Beijing.",
-      "url": null
+      "label": "วารสารเกษตรพระจอมเกล้า. (2563). *การเจริญเติบโตและผลผลิตของผักสลัดกรีนโอ๊คที่ปลูกในระบบ NFT ด้วยสารละลายธาตุอาหารระดับความเข้มข้นต่างกัน*. วารสารเกษตรพระจอมเกล้า, 38(3), 296–303. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/agritechjournal/article/view/209769"
     }
   ],
   "reference_count": 5,

@@ -93,6 +93,7 @@ const COLLECTION_CONFIGS = {
       'ค้นชื่อพืช หัวข้อการปลูก ดิน น้ำ โรค มาตรฐาน หรือคำสำคัญ...',
     articleNote:
       'เนื้อหานี้จัดรูปแบบจากคลังความรู้ต้นทาง ควรตรวจสอบฉลาก มาตรฐาน กฎหมาย และคำแนะนำของหน่วยงานที่รับผิดชอบก่อนนำไปใช้กับแปลงจริง โดยเฉพาะเรื่องสารเคมีและพืชควบคุม',
+    referenceSearchFallback: true,
     statsLabels: {
       article: 'บทความองค์ความรู้',
       category: 'หมวดพืช',
@@ -216,7 +217,7 @@ function ErrorState() {
   );
 }
 
-function FrontierArticleMarkdown({ content }) {
+function FrontierArticleMarkdown({ content, referenceLinks }) {
   return getFrontierArticleBlockGroups(content).map((group, groupIndex) => (
     <div
       className={group.isReferences ? 'frontier-reference-section' : undefined}
@@ -229,6 +230,7 @@ function FrontierArticleMarkdown({ content }) {
           tableClassName="rice-table-wrap"
           tocClassName="rice-toc"
           citationTarget="#frontier-reference"
+          referenceLinks={referenceLinks}
           referenceList={
             group.isReferences &&
             (block.type === 'list' || block.type === 'ordered-list')
@@ -237,6 +239,10 @@ function FrontierArticleMarkdown({ content }) {
       ))}
     </div>
   ));
+}
+
+function buildReferenceSearchUrl(label) {
+  return `https://www.google.com/search?q=${encodeURIComponent(`"${label}"`)}`;
 }
 
 function FrontierAgriResearchHub({ catalog, config }) {
@@ -461,14 +467,32 @@ function FrontierAgriResearchArticle({ catalog, config }) {
 
   const references = article.references || [];
   const linkedReferences = references.filter((reference) => reference.url);
+  const searchableReferences = config.referenceSearchFallback
+    ? references.filter((reference) => !reference.url)
+    : [];
+  const referenceLinks = Object.fromEntries(
+    searchableReferences.map((reference) => [
+      String(reference.index),
+      {
+        url: buildReferenceSearchUrl(reference.label),
+        label: 'ค้นหาแหล่งอ้างอิง',
+      },
+    ])
+  );
   const sourceLinks =
-    linkedReferences.length > 0
-      ? linkedReferences
-      : (article.source_urls || []).map((url, index) => ({
-          id: `url-${index + 1}`,
-          label: url,
-          url,
-        }));
+    config.referenceSearchFallback && references.length > 0
+      ? references.map((reference) => ({
+          ...reference,
+          url: reference.url || buildReferenceSearchUrl(reference.label),
+          isSearch: !reference.url,
+        }))
+      : linkedReferences.length > 0
+        ? linkedReferences
+        : (article.source_urls || []).map((url, index) => ({
+            id: `url-${index + 1}`,
+            label: url,
+            url,
+          }));
 
   return (
     <main className="rice-page stou-page rice-article frontier-agri-page">
@@ -483,7 +507,10 @@ function FrontierAgriResearchArticle({ catalog, config }) {
             <p>{article.author}</p>
           </header>
           <div className="rice-markdown">
-            <FrontierArticleMarkdown content={content} />
+            <FrontierArticleMarkdown
+              content={content}
+              referenceLinks={referenceLinks}
+            />
           </div>
         </article>
         <aside className="rice-article-aside">
@@ -509,14 +536,29 @@ function FrontierAgriResearchArticle({ catalog, config }) {
             </dl>
           </div>
           <div className="stou-source-links">
-            <strong>เว็บอ้างอิงในบทความ</strong>
+            <strong>ลิงก์อ้างอิงในบทความ</strong>
             {sourceLinks.length > 0 ? (
               <ol className="frontier-source-list">
                 {sourceLinks.map((reference) => (
                   <li key={reference.id}>
-                    <a href={reference.url} target="_blank" rel="noreferrer">
-                      <LinkOutlined /> {reference.label || reference.url}
-                    </a>
+                    {reference.isSearch ? (
+                      <>
+                        <span className="frontier-source-label">
+                          {reference.label}
+                        </span>
+                        <a
+                          href={reference.url}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <LinkOutlined /> ค้นหาแหล่งอ้างอิง
+                        </a>
+                      </>
+                    ) : (
+                      <a href={reference.url} target="_blank" rel="noreferrer">
+                        <LinkOutlined /> {reference.label || reference.url}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ol>
@@ -524,6 +566,11 @@ function FrontierAgriResearchArticle({ catalog, config }) {
               <p className="frontier-source-empty">
                 บทความนี้มีรายการอ้างอิงท้ายบทความ แต่ต้นฉบับยังไม่มี URL
                 ตรงให้เปิด
+              </p>
+            )}
+            {searchableReferences.length > 0 && (
+              <p className="frontier-source-hint">
+                รายการที่ไม่มี URL ต้นฉบับใช้ลิงก์ค้นหาจากชื่ออ้างอิงแทน
               </p>
             )}
           </div>

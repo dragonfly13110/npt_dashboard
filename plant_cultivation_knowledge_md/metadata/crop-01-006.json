@@ -3,48 +3,54 @@
   "title": "การจัดการส้มโอนครชัยศรีในภาวะวิกฤตน้ำเค็มและภัยแล้ง",
   "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
   "source_year": 2026,
-  "updated_at": "2026-08-07",
+  "updated_at": "2026-08-08",
   "created_at": "2026-08-07",
   "review_at": "2027-02-07",
   "category": "ส้มโอนครชัยศรี",
   "domain_code": "01",
   "topic_id": "01-006",
   "handle_id": "01-006",
-  "abstract": "วิกฤตน้ำเค็มหนุนแม่น้ำท่าจีนและความแห้งแล้งรุนแรงในช่วงเดือนมกราคม–เมษายน เป็นภัยคุกคามหลักต่อความอยู่รอดและคุณภาพ GI ของส้มโอนครชัยศรี เมื่อค่าความเค็มน้ำร่องสวน $EC_w > 2.0\\,\\text{dS/m}$ (ความเค็ม $> 1.3\\,\\text{ppt}$) ต้นส้มโอจะเผชิญภาวะความเครียดออสโมติกและพิษโซเดียม-คลอไรด์ เอกสารนี้เจาะลึกนวัตกรรมสู้ภัยแล้งและน้ำเค็ม: การติดตั้งระบบกรอง Reverse Osmosis (RO) ประสิทธิภาพสูงร่วมกับบ่อกักเก็บน้ำจืดสดในร่องสวน, การเปลี่ยนกิ่งพันธุ์มาใช้ต้นตอทนเค็มและทนโรค C-35 Citrange และ Swingle Citrumelo, การฉีดพ่นสารสะท้อนแสง Kaolin Clay และ Anti-transpirants ชะลอการคายน้ำ, รวมถึงการฉีดพ่นสารออสโมไลต์ Proline เข้มข้น $20-50\\,\\text{mM}$ กระตุ้นยีน *P5CS* ปกป้องเซลล์ - **สถานะการวิจัย/การประยุกต์**: 🧪 นำร",
+  "abstract": "วิกฤตน้ำเค็มหนุนแม่น้ำท่าจีนและความแห้งแล้งรุนแรงในช่วงเดือนมกราคม–เมษายน เป็นภัยคุกคามหลักต่อความอยู่รอดและคุณภาพ GI ของส้มโอนครชัยศรี [1] เมื่อค่าความเค็มน้ำร่องสวน $EC_w > 2.0\\,\\text{dS/m}$ (ความเค็ม $> 1.3\\,\\text{ppt}$) ต้นส้มโอจะเผชิญภาวะความเครียดออสโมติกและพิษโซเดียม-คลอไรด์ เอกสารนี้เจาะลึกนวัตกรรมสู้ภัยแล้งและน้ำเค็ม: การติดตั้งระบบกรอง Reverse Osmosis (RO) ประสิทธิภาพสูง [2] ร่วมกับบ่อกักเก็บน้ำจืดสดในร่องสวน, การเปลี่ยนกิ่งพันธุ์มาใช้ต้นตอทนเค็มและทนโรค C-35 Citrange และ Swingle Citrumelo, การฉีดพ่นสารสะท้อนแสง Kaolin Clay และ Anti-transpirants ชะลอการคายน้ำ, รวมถึงการฉีดพ่นสารออสโมไลต์ Proline เข้มข้น $20-50\\,\\text{mM}$ กระตุ้นยีน *P5CS* ปกป้องเซลล์ - **สถานะการวิจัย/การประยุกต์*",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
-  "pdf_url": null,
-  "source_urls": [],
+  "source_url": "https://nkpathom.nso.go.th/images/2568/%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2%E0%B8%A8%E0%B8%A3%E0%B8%B5_%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2_GI.pdf",
+  "pdf_url": "https://nkpathom.nso.go.th/images/2568/%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2%E0%B8%A8%E0%B8%A3%E0%B8%B5_%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2_GI.pdf",
+  "source_urls": [
+    "https://nkpathom.nso.go.th/images/2568/%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2%E0%B8%A8%E0%B8%A3%E0%B8%B5_%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2_GI.pdf",
+    "https://www.doa.go.th/plprotect/wp-content/uploads/fullResearch/Research2549/Research2549-1.pdf",
+    "https://www.doa.go.th",
+    "https://www.doae.go.th",
+    "https://e-book.acfs.go.th/Book_view/293"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ภาควิชาพืชสวน. (2564). *การประเมินศักยภาพต้นตอส้มโอ C-35 และ Swingle Citrumelo ในการทนทานต่อสภาวะน้ำเค็มลุ่มน้ำท่าจีน*. มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน.",
-      "url": null
+      "label": "สำนักงานสถิติจังหวัดนครปฐม — บทวิเคราะห์ส้มโอนครชัยศรี สินค้า GI — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://nkpathom.nso.go.th/images/2568/%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2%E0%B8%A8%E0%B8%A3%E0%B8%B5_%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2_GI.pdf"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "สำนักวิจัยและพัฒนาการเกษตรเขตที่ 5. (2564). *คำแนะนำการบริหารจัดการน้ำเค็มและภัยแล้งในสวนส้มโอ จ.นครปฐม*. กรมวิชาการเกษตร.",
-      "url": null
+      "label": "กรมวิชาการเกษตร — รวมงานวิจัยการจัดการโรคและแมลงศัตรูส้มโอ (2549) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th/plprotect/wp-content/uploads/fullResearch/Research2549/Research2549-1.pdf"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "ศรีสุข, ส., และคณะ. (2564). การใช้สาร Proline และ Kaolin ในการบรรเทาความเครียดความเค็มในส้มโอพันธุ์ขาวน้ำผึ้ง. *วารสารพืชศาสตรเกษตร*, 39(2), 150–165. (TCI Tier 1).",
-      "url": null
+      "label": "กรมวิชาการเกษตร — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "ANRES Journal. (2021). Evaluation of Salinity Tolerant Rootstocks (C-35 Citrange and Swingle Citrumelo) for Pomelo Cultivation under Brackish Water Intrusion. *Agriculture and Natural Resources*, 55(1), 88–98.",
-      "url": null
+      "label": "กรมส่งเสริมการเกษตร — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doae.go.th"
     },
     {
       "id": "5",
       "index": 5,
-      "label": "กรมชลประทาน. (2563). *รายงานสถานการณ์น้ำเค็มหนุนลุ่มน้ำท่าจีนตอนล่าง*. กระทรวงเกษตรและสหกรณ์.",
-      "url": null
+      "label": "สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ — มาตรฐานสินค้าเกษตร มกษ. 9000-2564 (GAP) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://e-book.acfs.go.th/Book_view/293"
     }
   ],
   "reference_count": 5,

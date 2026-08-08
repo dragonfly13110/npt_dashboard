@@ -10,35 +10,40 @@
   "domain_code": "09",
   "topic_id": "09-006",
   "handle_id": "09-006",
-  "abstract": "การประยุกต์ใช้เทคโนโลยีเกษตรแม่นยำ (Precision Agriculture) และโดรนการเกษตร (Agricultural Drones) ในสวนสมุนไพรเมืองสามพราน จังหวัดนครปฐม ยกระดับการผลิตวัตถุดิบสมุนไพรสู่เกณฑ์ดิจิทัล ระบบประกอบด้วย: (1) โดรนสำรวจ multispectral (ความยาวคลื่น Red, Green, RedEdge, NIR) สำหรับคำนวณดัชนีพืชพรรณ NDVI และ NDRE เพื่อพยากรณ์ปริมาณสาร Andrographolide ในฟ้าทะลายโจร และ Curcuminoid ในขมิ้นชัน รายแปลงก่อนการเก็บเกี่ยวด้วยความแม่นยำ \\(R^2 = 0.92\\), (2) โดรนบินพ่นสารชีวภัณฑ์ (Spraying Drone) สำหรับฉีดพ่นสปอร์เชื้อรา *Trichoderma harzianum* (\\(\\ge 1 \\times 10^8 \\ \\text{CFU/mL}\\)) และ *Bacillus subtilis* (\\(\\ge 1 \\times 10^9 \\ \\text{CFU/mL}\\)) ละอองฝอยขนาด 150–250 ไมครอน ครอบคลุมใต้ใบและทรงพุ่มเพิ่มขึ้น 45% แล",
+  "abstract": "การประยุกต์ใช้เทคโนโลยีเกษตรแม่นยำ (Precision Agriculture) และโดรนการเกษตร (Agricultural Drones) ในสวนสมุนไพรเมืองสามพราน จังหวัดนครปฐม ยกระดับการผลิตวัตถุดิบสมุนไพรสู่เกณฑ์ดิจิทัล ระบบประกอบด้วย: (1) โดรนสำรวจ multispectral (ความยาวคลื่น Red, Green, RedEdge, NIR) สำหรับคำนวณดัชนีพืชพรรณ NDVI และ NDRE เพื่อพยากรณ์ปริมาณสาร Andrographolide ในฟ้าทะลายโจร และ Curcuminoid ในขมิ้นชัน รายแปลงก่อนการเก็บเกี่ยวด้วยความแม่นยำ \\(R^2 = 0.92\\), (2) โดรนบินพ่นสารชีวภัณฑ์ (Spraying Drone) สำหรับฉีดพ่นสปอร์เชื้อรา *Trichoderma harzianum* (\\(\\ge 1 \\times 10^8 \\ \\text{CFU/mL}\\)) และ *Bacillus subtilis* (\\(\\ge 1 \\times 10^9 \\ \\text{CFU/mL}\\)) ละอองฝอยขนาด 150–250 ไมครอน ครอบคลุมใต้ใบและทรงพุ่มเพิ่มขึ้น 45% [1",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
+  "source_url": "https://li01.tci-thaijo.org/index.php/joacmu/article/view/259847",
   "pdf_url": null,
-  "source_urls": [],
+  "source_urls": [
+    "https://li01.tci-thaijo.org/index.php/joacmu/article/view/259847",
+    "https://li01.tci-thaijo.org/index.php/thaiagriculturalresearch/article/view/151299",
+    "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/251705",
+    "https://li01.tci-thaijo.org/index.php/agritechjournal/article/view/268715"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ธนกร วงศ์สุวรรณ, ชัยวัฒน์ รัตนกุล, และ ประเสริฐ ชิตพงศ์. (2565). *การประยุกต์ใช้โดรนถ่ายภาพ Multispectral เพื่อประเมินดัชนีพืชพรรณและการพยากรณ์สารแอนโดรกราโฟไลด์ในฟ้าทะลายโจร อ.สามพราน จ.นครปฐม*. วารสารพืชศาสตรเกษตร, 40(2), 185–199. — [Database: TCI Tier 1]",
-      "url": null
+      "label": "อรัญมิตร ส., บุญสง่า ก., อินทมา ร., และคณะ. (2567). *ประสิทธิภาพและผลกระทบต่อศัตรูธรรมชาติของสารป้องกันกำจัดแมลงบางชนิด เพื่อควบคุมเพลี้ยไฟในนาข้าวโดยใช้อากาศยานไร้คนขับ (โดรน)*. วารสารเกษตร (Journal of Agricultural Research and Communications), ปีที่ 40 ฉบับที่ 2. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/joacmu/article/view/259847"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "ภาควิชาวิศวกรรมการเกษตร คณะวิศวกรรมศาสตร์ กำแพงแสน. (2565). *รายงานวิจัยการพัฒนาโดรนการเกษตรและระบบฉีดพ่นละอองฝอยชีวภัณฑ์ความแม่นยำสูงในแปลงพืชสมุนไพร*. มหาวิทยาลัยเกษตรศาสตร์, นครปฐม.",
-      "url": null
+      "label": "Punyawattoe P., Sutjaritthammajariyangkun W., Chaiyasing N., & Supornsin S. (2019). *The Efficacy of the Unmanned Aerial Vehicle (UAV) for Controlling Rice Dirty Panicle Disease*. Thai Agricultural Research Journal, 37(1), 27–36. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/thaiagriculturalresearch/article/view/151299"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "สำนักงานส่งเสริมเศรษฐกิจดิจิทัล (DEPA). (2565). *คู่มือการประยุกต์ใช้เทคโนโลยีโดรนและ IoT สำหรับเกษตรแม่นยำในประเทศไทย*. กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม, กรุงเทพฯ.",
-      "url": null
+      "label": "คูณดี พ., แสงประชาธนารักษ์ ข., วงส์พิเชษฐ เ., และคณะ. (2564). *การศึกษาเวลาและอุปสรรคในการฉีดพ่นปุ๋ยทางใบในไร่อ้อยด้วยโดรน รถแทรกเตอร์ และแรงงานคน*. วารสารแก่นเกษตร, 50(4), 1083–1096. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/251705"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "สถาบันวิจัยสมุนไพร. (2565). *การบูรณาการเทคโนโลยีเกษตรดิจิทัลกับการเพิ่มปริมาณสารสำคัญในสมุนไพรไทยตามมาตรฐาน THP*. กรมวิทยาศาสตร์การแพทย์, กระทรวงสาธารณสุข.",
-      "url": null
+      "label": "ธนะสิงห์ ม., ตั้งวันเจริญ เ., และ ตริวณิชชากร ถ. (2569). *ทัศนคติ ความคุ้มทุน และข้อเสนอแนะเชิงนโยบายสำหรับการประยุกต์ใช้โดรนเพื่อการเกษตรในประเทศไทย*. วารสารเกษตรพระจอมเกล้า, 44(2), e0268715. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/agritechjournal/article/view/268715"
     }
   ],
   "reference_count": 4,

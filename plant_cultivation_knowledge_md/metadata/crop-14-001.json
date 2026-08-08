@@ -12,36 +12,48 @@
   "handle_id": "14-001",
   "abstract": "การเพาะปลูกกัญชาทางการแพทย์ (*Cannabis sativa* L.) และกัญชงอุตสาหกรรมในพื้นที่จังหวัดนครปฐมเน้นการผลิตวัตถุดิบช่อดอกแห้งเกรดทางการแพทย์ (Medical Grade / GACP Standard) โดยอาศัยความเข้าใจเชิงลึกด้านสรีรวิทยาพืชวันสั้น (Short-day Plant) ในการบริหารจัดการช่วงแสง (Photoperiod) ร่วมกับการเปรียบเทียบประสิทธิภาพระหว่างระบบ Indoor ปลอดเชื้อ (Plant Factory with Artificial Lighting: PFAL Class ISO 8) และโรงเรือนไฮบริด (Hybrid Greenhouse: EVAP + Light Deprivation + Supplemental LED) สายพันธุ์วิจัยพัฒนาโดยมหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน (เช่น KU-Cannabis 01 สำหรับ High THC และ KU-Hemp 04 สำหรับ High CBD/Fiber) แสดงการตอบสนองต่อสรีรวิทยาการพัฒนาของต่อมเรซิน (Trichomes) อย่างเด่นชัด โดยระบบ Indoor",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
+  "source_url": "https://li01.tci-thaijo.org/index.php/MJUJN/article/view/269602",
   "pdf_url": null,
-  "source_urls": [],
+  "source_urls": [
+    "https://li01.tci-thaijo.org/index.php/MJUJN/article/view/269602",
+    "https://li01.tci-thaijo.org/index.php/MJUJN/article/view/260378",
+    "https://li01.tci-thaijo.org/index.php/japmju/article/view/252697",
+    "http://books.doa.go.th/ebook_tophit",
+    "https://www.who.int/publications/i/item/9241546271"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ศูนย์วิจัยและพัฒนาพืชสมุนไพร มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน. (2565). *รายงานการวิจัยฉบับสมบูรณ์: สรีรวิทยาการเจริญเติบโตและการสะสมสารแคนนาบินอยด์ในกัญชาพันธุ์ KU-Cannabis 01*. มหาวิทยาลัยเกษตรศาสตร์, นครปฐม.",
-      "url": null
+      "label": "จันทวรรณ์ ว. และคณะ. (2569). *ผลของระยะปลูกต่อการเจริญเติบโต ผลผลิต และปริมาณสารแคนนาบิไดออล ของกัญชงสายพันธุ์ EHFGP#1, EHFGP#3 และ EHFGP#8 ภายใต้สภาพโรงเรือน*. วารสารวิจัยและส่งเสริมวิชาการเกษตร, 43(2), 33–45. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/MJUJN/article/view/269602"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "กรมวิชาการเกษตร. (2564). *คู่มือการปฏิบัติทางการเกษตรที่ดีสำหรับพืชกัญชาและกัญชง (GACP Cannabis and Hemp)*. กระทรวงเกษตรและสหกรณ์, กรุงเทพฯ.",
-      "url": null
+      "label": "เกตุเพชร ว. และคณะ. (2567). *การศึกษาวิจัยและพัฒนาเทคโนโลยีการปลูกกัญชงพันธุ์ CBD type และ Superfood type*. วารสารวิจัยและส่งเสริมวิชาการเกษตร, 41(3), 1–20. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/MJUJN/article/view/260378"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "สมชาย ชินวรณ์ และคณะ. (2565). *ผลของสเปกตรัมแสง LED และช่วงแสงต่อพัฒนาการของต่อมทริโคมและปริมาณสาร $\\Delta^9$-THC ในกัญชาทางการแพทย์*. วารสารพืชศาสตร์เกษตร, 51(3), 210–225. — ฐานข้อมูล TCI กลุ่ม 1.",
-      "url": null
+      "label": "จินดาซิงห์ ม. และผลเจริญ ส. (2565). *การระบุชนิดของสารกลุ่ม Cannabinoids และความสัมพันธ์ทางพันธุกรรมของกัญชงและกัญชา โดยโมเลกุลเครื่องหมายเอสเอสอาร์*. วารสารผลิตกรรมการเกษตร, 4(2), 80–91. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/japmju/article/view/252697"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Sam Phran Herbal City Alliance. (2023). *Comparative Analysis of Cannabinoid Yields between PFAL and Hybrid Greenhouse Systems in Nakhon Pathom*. Sam Phran Medical Journal, 15(2), 88–104.",
-      "url": null
+      "label": "กรมวิชาการเกษตร. (ม.ป.ป.). *คลังหนังสืออิเล็กทรอนิกส์ (e-book) — คู่มือสำหรับเกษตรกรการผลิตพืชสกุลกัญชา (Cannabis) และกัญชง (Hemp)*. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "http://books.doa.go.th/ebook_tophit"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "WHO. (2003). *WHO Guidelines on Good Agricultural and Collection Practices (GACP) for Medicinal Plants*. World Health Organization, Geneva. ISBN 9241546271. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://www.who.int/publications/i/item/9241546271"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 5,
   "article_file": "crop-14-001.md",
   "source_file": "14-กัญชาและกัญชงเพื่อการแพทย์และอุตสาหกรรม\\01-หลักการเพาะปลูกและสรีรวิทยากัญชาทางการแพทย์.md"
 }

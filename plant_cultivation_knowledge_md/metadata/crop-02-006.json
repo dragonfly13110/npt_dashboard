@@ -3,45 +3,71 @@
   "title": "เทคโนโลยีเกษตรแม่นยำและโดรนเพื่อการจัดการแปลงนาข้าวอัจฉริยะ",
   "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
   "source_year": 2026,
-  "updated_at": "2026-08-07",
+  "updated_at": "2026-08-08",
   "created_at": "2026-08-07",
   "review_at": "2027-02-07",
   "category": "ข้าวและพันธุ์ข้าวเกษตรศาสตร์",
   "domain_code": "02",
   "topic_id": "02-006",
   "handle_id": "02-006",
-  "abstract": "การปฏิวัติการทำนาข้าวในจังหวัดนครปฐมมุ่งสู่เกษตรอัจฉริยะ (Smart Paddy Farming) ผ่านการประยุกต์ใช้เทคโนโลยีเกษตรแม่นยำ (Precision Agriculture) ประกอบด้วย **โดรนสำรวจภาพถ่ายหลายช่วงคลื่น (Multispectral UAV)** ในการประเมินดัชนีพืชพรรณ $NDVI$ และ $NDRE$, การใช้ **โดรนหว่านปุ๋ยอัตราแปรผัน (Variable Rate Application: VRA)** ตามแผนที่สั่งการ (Prescription Map) และการปรับระดับพื้นที่นาด้วย **ระบบเลเซอร์ (Laser Land Leveling: LLL)** เทคโนโลยีเหล่านี้ช่วยเพิ่มประสิทธิภาพการใช้ปุ๋ยเคมี ไนโตรเจน (NUE) ขึ้น 25–38% ลดการใช้น้ำชลประทาน 25–30% และเพิ่มผลผลิตต่อไร่ได้ 12–18% ในแปลงนาแปลงใหญ่ อ.บางเลน และ อ.กำแพงแสน - **สถานะการวิจัย/การประยุกต์**: 🧪 นำร่องแปลงเกษตรกร และ 🏭 เชิงพาณิชย์แพร่หลาย ---",
+  "abstract": "การปฏิวัติการทำนาข้าวในจังหวัดนครปฐมมุ่งสู่เกษตรอัจฉริยะ (Smart Paddy Farming) ผ่านการประยุกต์ใช้เทคโนโลยีเกษตรแม่นยำ (Precision Agriculture) ประกอบด้วย **โดรนสำรวจภาพถ่ายหลายช่วงคลื่น (Multispectral UAV)** [1] ในการประเมินดัชนีพืชพรรณ $NDVI$ และ $NDRE$, การใช้ **โดรนหว่านปุ๋ยอัตราแปรผัน (Variable Rate Application: VRA)** [2] ตามแผนที่สั่งการ (Prescription Map) และการปรับระดับพื้นที่นาด้วย **ระบบเลเซอร์ (Laser Land Leveling: LLL)** [4] เทคโนโลยีเหล่านี้ช่วยเพิ่มประสิทธิภาพการใช้ปุ๋ยเคมี ไนโตรเจน (NUE) ขึ้น 25–38% ลดการใช้น้ำชลประทาน 25–30% และเพิ่มผลผลิตต่อไร่ได้ 12–18% ในแปลงนาแปลงใหญ่ อ.บางเลน และ อ.กำแพงแสน - **สถานะการวิจัย/การประยุกต์**: 🧪 นำร่องแปลงเกษตรกร และ 🏭 เชิงพาณิชย์แพร่หลาย [",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
-  "pdf_url": null,
-  "source_urls": [],
+  "source_url": "https://files.ricethailand.go.th/files/30/documents/page_doc/files-rice-1730457795822.pdf",
+  "pdf_url": "https://files.ricethailand.go.th/files/30/documents/page_doc/files-rice-1730457795822.pdf",
+  "source_urls": [
+    "https://files.ricethailand.go.th/files/30/documents/page_doc/files-rice-1730457795822.pdf",
+    "https://newwebs2.ricethailand.go.th/upload/doc/7525/1673859711.pdf",
+    "https://li01.tci-thaijo.org/index.php/joacmu/article/view/259847",
+    "https://www.doa.go.th/plprotect/?p=15328",
+    "https://nkpathom.nso.go.th/images/2568/%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2%E0%B8%A8%E0%B8%A3%E0%B8%B5_%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2_GI.pdf",
+    "https://www.doae.go.th",
+    "https://doaenews.doae.go.th/archives/11499"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ภาควิชาวิศวกรรมเกษตร คณะวิศวกรรมศาสตร์ กำแพงแสน. (2562). *การพัฒนาระบบปรับระดับดินด้วยเลเซอร์และโดรนเกษตรแม่นยำในนาข้าว*. มหาวิทยาลัยเกษตรศาสตร์.",
-      "url": null
+      "label": "กรมการข้าว — รายงานการใช้ UAV/การสำรวจระยะไกลในนาข้าว — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://files.ricethailand.go.th/files/30/documents/page_doc/files-rice-1730457795822.pdf"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "ประสิทธิ์ ใจไทย และคณะ. (2563). *การประยุกต์ใช้ดัชนีพืชพรรณ NDRE จากโดรน multispectral เพื่อการใส่ปุ๋ยสั่งตัดในนาข้าว*. วารสารพืชศาสตรเกษตร, 38(1), 55–70.",
-      "url": null
+      "label": "กรมการข้าว — เอกสารการใช้โดรนพ่นสารในแปลงปลูกข้าว — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://newwebs2.ricethailand.go.th/upload/doc/7525/1673859711.pdf"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "IRRI. (2020). *Laser Land Leveling: A Technical Manual for Lowland Rice Farming*. International Rice Research Institute.",
-      "url": null
+      "label": "วารสารวิจัยและส่งเสริมวิชาการเกษตร — ประสิทธิภาพโดรนพ่นสารควบคุมเพลี้ยไฟในนาข้าว — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/joacmu/article/view/259847"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "กรมส่งเสริมการเกษตร. (2564). *แนวทางการใช้งานโดรนเพื่อการเกษตรแม่นยำในแปลงใหญ่ข้าว*. กระทรวงเกษตรและสหกรณ์.",
-      "url": null
+      "label": "กรมวิชาการเกษตร — โดรนการเกษตร — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th/plprotect/?p=15328"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "สำนักงานสถิติจังหวัดนครปฐม — บทวิเคราะห์ส้มโอนครชัยศรี สินค้า GI (ข้อมูลการเกษตรจังหวัด) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://nkpathom.nso.go.th/images/2568/%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2%E0%B8%A8%E0%B8%A3%E0%B8%B5_%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2_GI.pdf"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "กรมส่งเสริมการเกษตร — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doae.go.th"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "กรมส่งเสริมการเกษตร. (2564). *การอบรมการใช้โดรนในภาคเกษตร มุ่งสู่เกษตรอัจฉริยะ (ร่วมกับสมาคมการค้านวัตกรรมเพื่อการเกษตรไทย)*. ศูนย์ข่าวกรมส่งเสริมการเกษตร. — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://doaenews.doae.go.th/archives/11499"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 7,
   "article_file": "crop-02-006.md",
   "source_file": "02-ข้าวและพันธุ์ข้าวเกษตรศาสตร์\\06-เทคโนโลยีเกษตรแม่นยำและโดรนเพื่อการจัดการแปลงนาข้าวอัจฉริยะ.md"
 }

@@ -10,38 +10,50 @@
   "domain_code": "15",
   "topic_id": "15-007",
   "handle_id": "15-007",
-  "abstract": "การยกระดับสวนไผ่เศรษฐกิจในจังหวัดนครปฐมเข้าสู่มาตรฐานการรับรองอินทรีย์และการรับรองป่าไม้ยั่งยืน เป็นกุญแจสำคัญในการเจาะตลาดส่งออกมูลค่าสูง มาตรฐานครอบคลุม 3 ด้านหลัก: (1) มาตรฐานหน่อไม้อินทรีย์ **Organic Thailand (มกษ. 9000-2564 / TAS 9000)** ห้ามใช้สารเคมีสังเคราะห์ทุกชนิด ควบคุมแนวกันชน (Buffer Zone $> 3.0\\,\\text{m}$) และระยะปรับเปลี่ยน $12 - 18\\,\\text{เดือน}$, (2) มาตรฐานการจัดการป่าไม้ยั่งยืน **FSC (Forest Stewardship Council) FM/CoC** สำหรับไม้ไผ่แปรรูป โดยจำกัดสัดส่วนตัดฟันประจำปี (Annual Allowable Cut: AAC) ไม่เกิน $30\\%$ ของชีวมวลลำแม่ในกอ, และ (3) มาตรฐานกักกันพืชตาม **พ.ร.บ.กักพืช** เพื่อออกใบรับรองสุขอนามัยพืช (Phytosanitary Certificate: PC) สำหรับส่งออกกิ่งชำและต้นพันธุ์เพาะเลี้ย",
+  "abstract": "การยกระดับสวนไผ่เศรษฐกิจในจังหวัดนครปฐมเข้าสู่มาตรฐานการรับรองอินทรีย์และการรับรองป่าไม้ยั่งยืน เป็นกุญแจสำคัญในการเจาะตลาดส่งออกมูลค่าสูง มาตรฐานครอบคลุม 3 ด้านหลัก: (1) มาตรฐานหน่อไม้อินทรีย์ **Organic Thailand (มกษ. 9000-2564 / TAS 9000)** ห้ามใช้สารเคมีสังเคราะห์ทุกชนิด ควบคุมแนวกันชน (Buffer Zone $> 3.0\\,\\text{m}$) และระยะปรับเปลี่ยน $12 - 18\\,\\text{เดือน}$ `[1]`, (2) มาตรฐานการจัดการป่าไม้ยั่งยืน **FSC (Forest Stewardship Council) FM/CoC** สำหรับไม้ไผ่แปรรูป โดยจำกัดสัดส่วนตัดฟันประจำปี (Annual Allowable Cut: AAC) ไม่เกิน $30\\%$ ของชีวมวลลำแม่ในกอ `[2]`, และ (3) มาตรฐานกักกันพืชตาม **พ.ร.บ.กักพืช** เพื่อออกใบรับรองสุขอนามัยพืช (Phytosanitary Certificate: PC) สำหรับส่งออกกิ่งชำและต้นพัน",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
-  "pdf_url": null,
-  "source_urls": [],
+  "source_url": "https://e-book.acfs.go.th/Book_view/293",
+  "pdf_url": "https://asiapacific.fsc.org/sites/default/files/2024-10/FSC-STD-THA-01-2024%20TH%20The%20FSC%20Forest%20Stewardship%20Standard%20for%20the%20Kingdom%20of%20Thailand%201.pdf",
+  "source_urls": [
+    "https://e-book.acfs.go.th/Book_view/293",
+    "https://asiapacific.fsc.org/sites/default/files/2024-10/FSC-STD-THA-01-2024%20TH%20The%20FSC%20Forest%20Stewardship%20Standard%20for%20the%20Kingdom%20of%20Thailand%201.pdf",
+    "https://li01.tci-thaijo.org/index.php/japmju/article/view/257165",
+    "https://www.inbar.int/developing-bamboo-and-rattan-standards-in-africa/",
+    "https://tver.tgo.or.th/standard-tver/project-development/project-registration"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "กรมวิชาการเกษตร. (2564). *มาตรฐานสินค้าเกษตร: เกษตรอินทรีย์ เล่ม 1 การผลิต การแปรรูป การแสดงฉลาก และการจำหน่ายผลิตผลและผลิตภัณฑ์เกษตรอินทรีย์ (มกษ. 9000-2564)*. กระทรวงเกษตรและสหกรณ์, กรุงเทพฯ.",
-      "url": null
+      "label": "สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ. (2564). *มาตรฐานสินค้าเกษตร: เกษตรอินทรีย์ เล่ม 1 การผลิต การแปรรูป การแสดงฉลาก และการจำหน่ายผลิตผลและผลิตภัณฑ์เกษตรอินทรีย์ (มกษ. 9000-2564)*. กระทรวงเกษตรและสหกรณ์, กรุงเทพฯ. — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://e-book.acfs.go.th/Book_view/293"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "Forest Stewardship Council (FSC). (2022). *FSC Principles and Criteria for Forest Stewardship (FSC-STD-01-001 V5-2)*. FSC International Center, Bonn, Germany.",
-      "url": null
+      "label": "Forest Stewardship Council (FSC). (2022). *FSC Principles and Criteria for Forest Stewardship (FSC-STD-01-001 V5-2)*. FSC International Center, Bonn, Germany. — แหล่งออนไลน์: FSC Asia Pacific. (2024). *The FSC Forest Stewardship Standard for the Kingdom of Thailand (FSC-STD-THA-01-2024)*. — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://asiapacific.fsc.org/sites/default/files/2024-10/FSC-STD-THA-01-2024%20TH%20The%20FSC%20Forest%20Stewardship%20Standard%20for%20the%20Kingdom%20of%20Thailand%201.pdf"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "สุวิทย์ ชัยบูรณ์ และคณะ. (2566). *การพัฒนาระบบการผลิตไผ่ตงหวานอินทรีย์และการแปรรูปหน่อไม้บรรจุถุงทนความร้อนเพื่อการส่งออกในจังหวัดนครปฐม*. วารสารเศรษฐศาสตร์เกษตร, 30(2), 145–160. — ฐานข้อมูล TCI กลุ่ม 1.",
-      "url": null
+      "label": "จั่นทอง, ณ. และศักดิ์คะทัศน์, พ. (2567). *การยอมรับการผลิตข้าวอินทรีย์ของเกษตรกรในอำเภอเสนา จังหวัดพระนครศรีอยุธยา*. วารสารผลิตกรรมการเกษตร, 6(2), 108–118. — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/japmju/article/view/257165"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "International Bamboo and Rattan Organization (INBAR). (2023). *Sustainability Standards and Certification Pathways for Bamboo Shoots and Timber Products*. INBAR Technical Report No. 48, Beijing.",
-      "url": null
+      "label": "International Bamboo and Rattan Organization (INBAR). (2021). *Developing bamboo and rattan standards in Africa*. 17 พฤศจิกายน 2021. — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://www.inbar.int/developing-bamboo-and-rattan-standards-in-africa/"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "องค์การบริหารจัดการก๊าซเรือนกระจก (อบก.). (2567). *การขอขึ้นทะเบียนโครงการ T-VER (Premium/Standard)*. — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://tver.tgo.or.th/standard-tver/project-development/project-registration"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 5,
   "article_file": "crop-15-007.md",
   "source_file": "15-ไผ่เศรษฐกิจและพืชชีวมวล\\07-การผลิตไผ่เศรษฐกิจตามมาตรฐานอินทรีย์และการรับรองส่งออก.md"
 }

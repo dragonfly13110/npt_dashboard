@@ -84,6 +84,7 @@ export function MarkdownBlock({
   tocClassName = 'markdown-toc',
   citationTarget = '',
   referenceList = false,
+  referenceLinks = {},
 }) {
   if (block.type === 'hr') return <hr />;
   if (block.type === 'blockquote') {
@@ -104,9 +105,22 @@ export function MarkdownBlock({
           const referenceId = referenceNumber
             ? `${citationTarget.replace(/^#/, '')}-${referenceNumber}`
             : undefined;
+          const referenceLink = referenceNumber
+            ? referenceLinks[referenceNumber]
+            : null;
           return (
             <li key={index} id={referenceId}>
               {renderInline(item, referenceList ? '' : citationTarget)}
+              {referenceLink && (
+                <a
+                  className="markdown-reference-link"
+                  href={referenceLink.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {referenceLink.label || 'เปิดลิงก์อ้างอิง'}
+                </a>
+              )}
             </li>
           );
         })}

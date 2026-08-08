@@ -10,38 +10,71 @@
   "domain_code": "06",
   "topic_id": "06-002",
   "handle_id": "06-002",
-  "abstract": "การจัดการโภชนาการพืชเป็นหัวใจสำคัญในการสร้างคุณภาพเนื้อชมพู่ทับทิมจันท์ให้มีความแน่น กรอบ หวานฉ่ำ ไม่เกิดอาการเนื้อแก้ว (Translucent flesh) หรือแกนฟูไส้ฟู (Spongy core breakdown) และยับยั้งการแตกของเปลือกผล การฉีดพ่น **Calcium-Boron (Ca-B)** ทางใบ (CaO 15%, B 1.0% ความเข้มข้น 1,500 ppm) ร่วมกับ **Calcium Nitrate ($15-0-0$)** ทางดิน 500 g/ต้น ช่วยสร้าง Calcium Pectate เพิ่มความแข็งแรงของผนังเซลล์เนื้อผล ขณะที่โปรแกรม Fertigation ปุ๋ย N-$P_2O_5$-$K_2O$ ตามระยะพัฒนาการ ร่วมกับการใส่ **Potassium Sulfate ($0-0-50$)** 500 g/ต้น และการเพิ่มความเข้มแสงบริเวนทรงพุ่ม ช่วยกระตุ้นเอนไซม์ UDPG-flavonoid glucosyltransferase (UFGT) เร่งการสะสมรงควัตถุ **Cyanidin-3-glucoside (Anthocyanin 22.5–35.0 mg/100g F",
+  "abstract": "การจัดการโภชนาการพืชเป็นหัวใจสำคัญในการสร้างคุณภาพเนื้อชมพู่ทับทิมจันท์ให้มีความแน่น กรอบ หวานฉ่ำ ไม่เกิดอาการเนื้อแก้ว (Translucent flesh) หรือแกนฟูไส้ฟู (Spongy core breakdown) และยับยั้งการแตกของเปลือกผล [1] การฉีดพ่น **Calcium-Boron (Ca-B)** ทางใบ (CaO 15%, B 1.0% ความเข้มข้น 1,500 ppm) ร่วมกับ **Calcium Nitrate ($15-0-0$)** ทางดิน 500 g/ต้น ช่วยสร้าง Calcium Pectate เพิ่มความแข็งแรงของผนังเซลล์เนื้อผล [1] ขณะที่โปรแกรม Fertigation ปุ๋ย N-$P_2O_5$-$K_2O$ ตามระยะพัฒนาการ ร่วมกับการใส่ **Potassium Sulfate ($0-0-50$)** 500 g/ต้น และการเพิ่มความเข้มแสงบริเวนทรงพุ่ม ช่วยกระตุ้นเอนไซม์ UDPG-flavonoid glucosyltransferase (UFGT) เร่งการสะสมรงควัตถุ **Cyanidin-3-glucoside (Anthocyanin 22.5–35.0 m",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
-  "pdf_url": null,
-  "source_urls": [],
+  "source_url": "https://info.doa.go.th/research/?act=view_detail&id=80",
+  "pdf_url": "https://info.doa.go.th/kasikorn/wp-content/uploads/2022/12/july-aug-61.pdf",
+  "source_urls": [
+    "https://info.doa.go.th/research/?act=view_detail&id=80",
+    "https://info.doa.go.th/kasikorn/wp-content/uploads/2022/12/july-aug-61.pdf",
+    "https://li01.tci-thaijo.org/index.php/thaiagriculturalresearch/article/view/92551",
+    "https://li01.tci-thaijo.org/index.php/joacmu/article/view/246267",
+    "https://li01.tci-thaijo.org/index.php/agritechjournal",
+    "https://www.ku.ac.th",
+    "https://www.doa.go.th",
+    "https://agris.fao.org"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ภาควิชาปฐพีวิทยา คณะเกษตร กำแพงแสน. (2565). *การจัดการโภชนาการและการใช้ปุ๋ยตามระยะการเจริญเติบโตของชมพู่ทับทิมจันท์*. มหาวิทยาลัยเกษตรศาสตร์.",
-      "url": null
+      "label": "ชัยฤทธิไชย, ว., และคณะ. (2558). *การพัฒนาและทดสอบเทคโนโลยีการผลิตชมพู่ (การพ่น GA3/แคลเซียม-โบรอนเพื่อเพิ่มน้ำหนัก ความหวาน ความแน่นเนื้อ และการควบคุมโรคผลเน่า)*. กรมวิชาการเกษตร. — เข้าถึงเมื่อ 2026-08-08 [1]",
+      "url": "https://info.doa.go.th/research/?act=view_detail&id=80"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "สำนักวิจัยและพัฒนาการเกษตรเขตที่ 5. (2564). *การเพิ่มคุณภาพเนื้อ ความหวาน และสีผิวชมพู่ทับทิมจันท์ด้วยธาตุอาหารแคลเซียม โบรอน และโพแทสเซียม*. กรมวิชาการเกษตร.",
-      "url": null
+      "label": "สำนักวิจัยและพัฒนาการเกษตรเขตที่ 5 (สวพ.5), กรมวิชาการเกษตร. (2561). การขยายผลการใช้เทคโนโลยีแบบผสมผสานเพื่อควบคุมแมลงวันผลไม้ในชมพู่ ฝรั่ง และพุทรา ในพื้นที่ จ.ราชบุรี นครปฐม และสมุทรสาคร. *วารสารเกษตรก้าวหน้า*, ก.ค.–ส.ค. 2561. — เข้าถึงเมื่อ 2026-08-08 [2]",
+      "url": "https://info.doa.go.th/kasikorn/wp-content/uploads/2022/12/july-aug-61.pdf"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "สมชาย ชินวุฒิ, และคณะ. (2565). ผลของการฉีดพ่นแคลเซียม-โบรอนทางใบและโพแทสเซียมซัลเฟตต่อการสะสมสารแอนโทไซยานินและคุณภาพเนื้อชมพู่ทับทิมจันท์. *วารสารพืชศาสตรเกษตร*, 40(3), 210–225. (TCI Tier 1).",
-      "url": null
+      "label": "Wanichkul, K. (2008). ผลของการปลูกชมพู่พันธุ์ทับทิมจันทร์ระยะชิดในระบบรูปทรงต้นต่างกัน. *วารสารวิจัยทางการเกษตร* (Thai Agricultural Research Journal), 26(1). — เข้าถึงเมื่อ 2026-08-08 [3]",
+      "url": "https://li01.tci-thaijo.org/index.php/thaiagriculturalresearch/article/view/92551"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Chinwutti, S., et al. (2023). Enhancement of Cyanidin-3-glucoside content, fruit firmness, and total soluble solids in seedless wax apple (*Syzygium samarangense*) using foliar calcium-boron and potassium fertigation. *Agriculture and Natural Resources*, 57(3), 310–324.",
-      "url": null
+      "label": "วานิชกุล, ก. (2008). การเปรียบเทียบผลผลิตของชมพู่พันธุ์ทับทิมจันท์ ในระบบรูปทรงต้น. *วารสารเกษตร* (วารสารวิชาการ มหาวิทยาลัยเชียงใหม่). — เข้าถึงเมื่อ 2026-08-08 [4]",
+      "url": "https://li01.tci-thaijo.org/index.php/joacmu/article/view/246267"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "วารสารเกษตรพระจอมเกล้า (ThaiJo). *ฐานข้อมูลวารสารวิชาการด้านเกษตรศาสตร์* (สำนักวิทยบริการและเทคโนโลยีสารสนเทศ สจล.). — เข้าถึงเมื่อ 2026-08-08 [5]",
+      "url": "https://li01.tci-thaijo.org/index.php/agritechjournal"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "มหาวิทยาลัยเกษตรศาสตร์. (2565). *เว็บไซต์อย่างเป็นทางการ — งานวิจัยภาควิชาปฐพีวิทยา/พืชสวน วิทยาเขตกำแพงแสน*. — เข้าถึงเมื่อ 2026-08-08 [6]",
+      "url": "https://www.ku.ac.th"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "กรมวิชาการเกษตร (DOA). *เว็บไซต์อย่างเป็นทางการ — ข้อมูลวิชาการและผลงานวิจัย (สถาบันวิจัยพืชสวน)*. — เข้าถึงเมื่อ 2026-08-08 [7]",
+      "url": "https://www.doa.go.th"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "FAO AGRIS. *ฐานข้อมูลบรรณานุกรมการเกษตรนานาชาติ (งานวิจัยโภชนาการพืชและแอนโทไซยานิน)*. — เข้าถึงเมื่อ 2026-08-08 [8]",
+      "url": "https://agris.fao.org"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 8,
   "article_file": "crop-06-002.md",
   "source_file": "06-ชมพู่ทับทิมจันท์\\02-การจัดการธาตุอาหารและคุณภาพเนื้อ.md"
 }

@@ -3,51 +3,64 @@
   "title": "หลักการเพาะปลูกและสรีรวิทยาส้มโอนครชัยศรี",
   "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
   "source_year": 2026,
-  "updated_at": "2026-08-07",
+  "updated_at": "2026-08-08",
   "created_at": "2026-08-07",
   "review_at": "2027-02-07",
   "category": "ส้มโอนครชัยศรี",
   "domain_code": "01",
   "topic_id": "01-001",
   "handle_id": "01-001",
-  "abstract": "ส้มโอนครชัยศรี (*Citrus maxima* (Burm.) Merr.) เป็นผลไม้ที่ได้รับขึ้นทะเบียนสิ่งบ่งชี้ทางภูมิศาสตร์ (GI) ของจังหวัดนครปฐม (เลขที่ สช 48100004) ประกอบด้วย 2 สายพันธุ์หลัก ได้แก่ **ขาวน้ำผึ้ง** (เนื้อสีเหลืองจำปา หวานแหลม กรอบ ไม่ฉ่ำน้ำ) และ **ทองดี** (เนื้อสีชมพูระหง ฉ่ำน้ำ หวานซ่อนเปรี้ยว) เอกสารฉบับนี้ทำการวิเคราะห์เชิงลึกด้านสรีรวิทยาการเจริญเติบโต พันธุศาสตร์โมเลกุล (Marker-Assisted Selection: MAS) กลไกการออกดอก และการตอบสนองต่อสภาพแวดล้อมลุ่มน้ำท่าจีนตอนล่าง ดินเหนียวชุดสามพราน (Sp) และชุดนครปฐม (Np) ร่วมกับการควบคุม Osmotic Adjustment ในช่วงอิทธิพลน้ำเค็มหนุน (ECw 1.2–2.5 dS/m) - **สถานะการวิจัย/การประยุกต์**: 🏭 เชิงพาณิชย์แพร่หลาย (ผลงานวิจัยร่วม มก.กำแพงแสน และ สวพ.5 กรมวิชาการเกษตร)",
+  "abstract": "ส้มโอนครชัยศรี (*Citrus maxima* (Burm.) Merr.) เป็นผลไม้ที่ได้รับขึ้นทะเบียนสิ่งบ่งชี้ทางภูมิศาสตร์ (GI) ของจังหวัดนครปฐม (เลขที่ สช 48100002) [1] ประกอบด้วย 2 สายพันธุ์หลัก ได้แก่ **ขาวน้ำผึ้ง** (เนื้อสีเหลืองจำปา หวานแหลม กรอบ ไม่ฉ่ำน้ำ) และ **ทองดี** (เนื้อสีชมพูระหง ฉ่ำน้ำ หวานซ่อนเปรี้ยว) เอกสารฉบับนี้ทำการวิเคราะห์เชิงลึกด้านสรีรวิทยาการเจริญเติบโต พันธุศาสตร์โมเลกุล (Marker-Assisted Selection: MAS) กลไกการออกดอก และการตอบสนองต่อสภาพแวดล้อมลุ่มน้ำท่าจีนตอนล่าง ดินเหนียวชุดสามพราน (Sp) และชุดนครปฐม (Np) [3] ร่วมกับการควบคุม Osmotic Adjustment ในช่วงอิทธิพลน้ำเค็มหนุน (ECw 1.2–2.5 dS/m) - **สถานะการวิจัย/การประยุกต์**: 🏭 เชิงพาณิชย์แพร่หลาย (ผลงานวิจัยร่วม มก.กำแพงแสน และ สวพ.5 กรมวิชาก",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
-  "pdf_url": null,
-  "source_urls": [],
+  "source_url": "https://webnew.ipthailand.go.th/wp-content/uploads/2026/03/2.48100002.pdf",
+  "pdf_url": "https://webnew.ipthailand.go.th/wp-content/uploads/2026/03/2.48100002.pdf",
+  "source_urls": [
+    "https://webnew.ipthailand.go.th/wp-content/uploads/2026/03/2.48100002.pdf",
+    "https://nkpathom.nso.go.th/images/2568/%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2%E0%B8%A8%E0%B8%A3%E0%B8%B5_%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2_GI.pdf",
+    "https://www.ldd.go.th/thaisoils_museum/pf_desc/central/Np.htm",
+    "https://www.doa.go.th/plprotect/wp-content/uploads/fullResearch/Research2549/Research2549-1.pdf",
+    "https://www.doa.go.th",
+    "https://www.doae.go.th"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ศูนย์วิจัยและพัฒนาพืชสวนนครปฐม. (2564). *รายงานผลการวิจัยสรีรวิทยาและปรับปรุงคุณภาพส้มโอนครชัยศรีตามมาตรฐาน GI*. มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน.",
-      "url": null
+      "label": "กรมทรัพย์สินทางปัญญา — แผนที่แหล่งภูมิศาสตร์/ประกาศขึ้นทะเบียน GI ส้มโอนครชัยศรี (สช 48100002) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://webnew.ipthailand.go.th/wp-content/uploads/2026/03/2.48100002.pdf"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "สำนักวิจัยและพัฒนาการเกษตรเขตที่ 5 (สวพ.5). (2563). *คู่มือสรีรวิทยาและการจัดการสวนส้มโอในเขตลุ่มน้ำท่าจีน*. กรมวิชาการเกษตร.",
-      "url": null
+      "label": "สำนักงานสถิติจังหวัดนครปฐม — บทวิเคราะห์ส้มโอนครชัยศรี สินค้า GI — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://nkpathom.nso.go.th/images/2568/%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2%E0%B8%A8%E0%B8%A3%E0%B8%B5_%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2_GI.pdf"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "สุขเกษม, ส., และคณะ. (2563). การตอบสนองทางสรีรวิทยาและคุณภาพผลผลิตของส้มโอพันธุ์ขาวน้ำผึ้งต่อระดับความเค็มในน้ำร่องสวน. *วารสารวิทยาศาสตร์เกษตร*, 51(2), 145–158. (TCI Tier 1).",
-      "url": null
+      "label": "กรมพัฒนาที่ดิน — ชุดดินนครปฐม (Nakhon Pathom series: Np) กลุ่มชุดดินที่ 7 — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.ldd.go.th/thaisoils_museum/pf_desc/central/Np.htm"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Srisook, S., et al. (2021). Physiological responses, gene expression, and secondary metabolite accumulation in *Citrus maxima* under seasonal brackish water intrusion. *Agriculture and Natural Resources*, 55(4), 512–524.",
-      "url": null
+      "label": "กรมวิชาการเกษตร — รวมงานวิจัยการจัดการโรคและแมลงศัตรูส้มโอ (2549) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th/plprotect/wp-content/uploads/fullResearch/Research2549/Research2549-1.pdf"
     },
     {
       "id": "5",
       "index": 5,
-      "label": "กรมทรัพย์สินทางปัญญา. (2548). *ขึ้นทะเบียนสิ่งบ่งชี้ทางภูมิศาสตร์: ส้มโอนครชัยศรี (ทะเบียนเลขที่ สช 48100004)*. กระทรวงพาณิชย์.",
-      "url": null
+      "label": "กรมวิชาการเกษตร — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "กรมส่งเสริมการเกษตร — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doae.go.th"
     }
   ],
-  "reference_count": 5,
+  "reference_count": 6,
   "article_file": "crop-01-001.md",
   "source_file": "01-ส้มโอนครชัยศรี\\01-หลักการเพาะปลูกและสรีรวิทยา.md"
 }

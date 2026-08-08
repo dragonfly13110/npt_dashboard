@@ -12,36 +12,56 @@
   "handle_id": "15-008",
   "abstract": "การวิเคราะห์เศรษฐศาสตร์การผลิตและการประเมินมูลค่าเพิ่มของสวนไผ่เศรษฐกิจขนาด 10 ไร่ ในจังหวัดนครปฐม แสดงให้เห็นถึงศักยภาพทางการเงินสูงในการสร้างรายได้แบบคู่นวัตกรรม (Dual-Revenue Model: หน่อไม้สดนอกฤดู + ลำไม้แปรรูปและชีวมวล) ผลการวิเคราะห์กระแสเงินสดคิดลด (Discounted Cash Flow: DCF) ระยะเวลา 10 ปี อัตราคิดลด $7\\%$ พบว่ามีมูลค่าปัจจุบันสุทธิ (**NPV**) สูงถึง $1,285,400 - 1,640,000\\,\\text{บาท}$, อัตราผลตอบแทนจากการลงทุน (**IRR**) เท่ากับ $32.5 - 38.0\\%$, อัตราส่วนผลประโยชน์ต่อต้นทุน (**BCR**) เท่ากับ $2.35 - 2.80$, และมีระยะเวลาคืนทุน (**Payback Period**) เพียง $3.2\\,\\text{ปี}$ นอกจากนี้ การซื้อขายคาร์บอนเครดิต T-VER ช่วยสร้างรายได้เสริม $400 - 800\\,\\text{บาท/t CO}_2\\text{e}$ ขณะที่การยกระดับส",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
+  "source_url": "https://so03.tci-thaijo.org/index.php/humsujournal/article/view/242388",
   "pdf_url": null,
-  "source_urls": [],
+  "source_urls": [
+    "https://so03.tci-thaijo.org/index.php/humsujournal/article/view/242388",
+    "https://tver.tgo.or.th/standard-tver/project-development/project-registration",
+    "https://doi.org/10.1007/s00107-019-01486-9",
+    "https://doi.org/10.54113/j.sust.2021.000004",
+    "https://doi.org/10.3390/su10124367",
+    "https://www.fao.org/forestry/nwfp/statistics/bamboo/en",
+    "https://tver.tgo.or.th/database/public/methodologies/1?category_id=6&lang=th"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์. (2566). *การวิเคราะห์เศรษฐศาสตร์การลงทุน และการประเมินมูลค่าคาร์บอนเครดิต T-VER ของสวนไผ่เศรษฐกิจในภาคกลาง*. รายงานวิจัย มก.กำแพงแสน, นครปฐม.",
-      "url": null
+      "label": "ลิอ่อนรัมย์, จ. (2565). *การวิเคราะห์ต้นทุนและผลตอบแทนจากการทำสวนไผ่ในจังหวัดสระแก้ว*. วารสารมนุษย์ศาสตร์และสังคมศาสตร์ มหาวิทยาลัยมหาสารคาม, 41(1), 110–120. — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://so03.tci-thaijo.org/index.php/humsujournal/article/view/242388"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "องค์การบริหารจัดการก๊าซเรือนกระจก (องค์การมหาชน). (2566). *รายงานสถานการณ์ตลาดคาร์บอนและราคาอ้างอิงคาร์บอนเครดิต T-VER ในประเทศไทย*. TGO, กรุงเทพฯ.",
-      "url": null
+      "label": "องค์การบริหารจัดการก๊าซเรือนกระจก (องค์การมหาชน). (2566). *รายงานสถานการณ์ตลาดคาร์บอนและราคาอ้างอิงคาร์บอนเครดิต T-VER ในประเทศไทย*. TGO, กรุงเทพฯ. — แหล่งออนไลน์: อบก. (2567). *การขอขึ้นทะเบียนโครงการ T-VER*. และ *รายการระเบียบวิธี Standard T-VER* — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://tver.tgo.or.th/standard-tver/project-development/project-registration"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "สมนึก ปั้นประโคน และคณะ. (2566). *การประเมินทางการเงินและการเพิ่มมูลค่าลำไผ่ด้วยเทคโนโลยีไม้แปรรูปวิศวกรรม Laminated Bamboo Lumber ในจังหวัดนครปฐม*. วารสารเศรษฐศาสตร์เกษตร, 31(1), 88–104. — ฐานข้อมูล TCI กลุ่ม 1.",
-      "url": null
+      "label": "Chen, G., Yu, Y., Li, X. & He, B. (2019). *Mechanical behavior of laminated bamboo lumber for structural application: an experimental investigation*. European Journal of Wood and Wood Products, 78(1), 53–63. — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://doi.org/10.1007/s00107-019-01486-9"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Asian Timber & Bamboo Engineering Association. (2024). *Mechanical Performance and Economic Viability of Sympodial Laminated Bamboo Lumber (LBL) in Tropical Regions*. Construction and Building Materials, 412, 134250.",
-      "url": null
+      "label": "Dauletbek, A., Li, H., Xiong, Z. & Lorenzo, R. (2021). *A review of mechanical behavior of structural laminated bamboo lumber*. Sustainable Structures, 1(1). — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://doi.org/10.54113/j.sust.2021.000004"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Sharma, R., Wahono, J. & Baral, H. (2018). *Bamboo as an Alternative Bioenergy Crop: Empirical Evidence and Policy Implications*. Sustainability, 10(12), 4367. — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://doi.org/10.3390/su10124367"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "FAO. (n.d.). *Non-Wood Forest Products: Bamboo Statistics*. — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://www.fao.org/forestry/nwfp/statistics/bamboo/en"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 6,
   "article_file": "crop-15-008.md",
   "source_file": "15-ไผ่เศรษฐกิจและพืชชีวมวล\\08-เศรษฐศาสตร์การผลิตไผ่และการประเมินคาร์บอนเครดิต.md"
 }

@@ -12,36 +12,48 @@
   "handle_id": "14-002",
   "abstract": "การควบคุมปัจจัยสภาพแวดล้อมระดับประณีต (Precision Environmental Control) และโภชนาการพืชเป็นหัวใจสำคัญในการเร่งวิถีชีวสังเคราะห์ (Biosynthetic Pathway) ของสารกลุ่มแคนนาบินอยด์ ($\\Delta^9$-THCA, CBDA) และเทอร์พีน (Terpenes) งานวิจัยร่วมระหว่าง มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน และวิสาหกิจชุมชนเมืองสมุนไพรสามพราน ระบุว่าการเสริมก๊าซ $CO_2$ ที่ระดับ $1,200 - 1,500\\,\\text{ppm}$ ควบคู่กับการให้ค่าความเข้มแสง Photosynthetic Photon Flux Density (PPFD) สูงถึง $600 - 900\\,\\mu\\text{mol}/\\text{m}^2/\\text{s}$ ในระยะทำดอก ร่วมกับการบริหารอัตราส่วน N-P-K-Ca-Mg อย่างแม่นยำ สามารถผลักดันระดับสารสำคัญในกัญชงให้ได้ $\\text{CBD} > 10\\%\\text{ w/w}$ ($\\text{THC} < 0.2\\%\\text{ w/w}$) และกัญชาทางการแพทย์ให้ได้ ",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
+  "source_url": "https://li01.tci-thaijo.org/index.php/japmju/article/view/252697",
   "pdf_url": null,
-  "source_urls": [],
+  "source_urls": [
+    "https://li01.tci-thaijo.org/index.php/japmju/article/view/252697",
+    "https://li01.tci-thaijo.org/index.php/MJUJN/article/view/260378",
+    "https://li01.tci-thaijo.org/index.php/MJUJN/article/view/269602",
+    "https://cannabisinfo.fda.moph.go.th/faqs/faq-detail-1/",
+    "https://cannabisinfo.fda.moph.go.th/"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ศูนย์วิจัยและพัฒนาพืชสมุนไพร มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน. (2565). *ผลของความเข้มก๊าซคาร์บอนไดออกไซด์และความเข้มแสงต่อวิถีชีวสังเคราะห์แคนนาบินอยด์ในกัญชาและกัญชง*. รายงานวิชาการ มหาวิทยาลัยเกษตรศาสตร์, นครปฐม.",
-      "url": null
+      "label": "จินดาซิงห์ ม. และผลเจริญ ส. (2565). *การระบุชนิดของสารกลุ่ม Cannabinoids และความสัมพันธ์ทางพันธุกรรมของกัญชงและกัญชา โดยโมเลกุลเครื่องหมายเอสเอสอาร์* (ปริมาณ THC 0.65–6.76%, CBN 0.13–0.52%, CBD 0.96–3.97% ด้วย GC-MS). วารสารผลิตกรรมการเกษตร, 4(2), 80–91. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/japmju/article/view/252697"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "กรมวิทยาศาสตร์การแพทย์. (2565). *เกณฑ์มาตรฐานวิเคราะห์ปริมาณสารสำคัญ THC, CBD และ Terpenes ในวัตถุดิบกัญชาทางการแพทย์*. กระทรวงสาธารณสุข, นนทบุรี.",
-      "url": null
+      "label": "เกตุเพชร ว. และคณะ. (2567). *การศึกษาวิจัยและพัฒนาเทคโนโลยีการปลูกกัญชงพันธุ์ CBD type และ Superfood type* (CBD สูงสุด 10.63% w/w ที่ระยะช่อดอกแก่ 50% พันธุ์ CD1). วารสารวิจัยและส่งเสริมวิชาการเกษตร, 41(3), 1–20. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/MJUJN/article/view/260378"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "นิภาภรณ์ สมบูรณ์ และคณะ. (2565). *ผลของการเสริมแสง UVA และสเปกตรัม LED ต่อปริมาณ THCA และโปรไฟล์เทอร์พีนในกัญชาพันธุ์ไทย*. วารสารวิทยาศาสตร์เกษตร มก., 53(2), 160–175. — ฐานข้อมูล TCI กลุ่ม 1.",
-      "url": null
+      "label": "จันทวรรณ์ ว. และคณะ. (2569). *ผลของระยะปลูกต่อการเจริญเติบโต ผลผลิต และปริมาณสารแคนนาบิไดออล ของกัญชงสายพันธุ์ EHFGP#1, EHFGP#3 และ EHFGP#8 ภายใต้สภาพโรงเรือน* (CBD สูงสุด 14.32% พันธุ์ EHFGP#1 ระยะปลูก 1.0×1.0 ม.). วารสารวิจัยและส่งเสริมวิชาการเกษตร, 43(2), 33–45. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/MJUJN/article/view/269602"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Sam Phran Phytopharmacy Group. (2023). *Optimization of N-P-K-Ca-Mg Nutrition Profiles for Maximizing CBD Yield in Industrial Hemp Cultivations*. Sam Phran Medical Journal, 15(1), 45–62.",
-      "url": null
+      "label": "สำนักงานคณะกรรมการอาหารและยา (อย.). (2566). *คำถามที่พบบ่อย: กัญชา คืออะไร* (ข้อมูล THC สารออกฤทธิ์ต่อจิตและประสาท). ศูนย์รวมข้อมูลกัญชา กัญชง. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://cannabisinfo.fda.moph.go.th/faqs/faq-detail-1/"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "สำนักงานคณะกรรมการอาหารและยา (อย.). (2566). *ศูนย์รวมข้อมูลกัญชา กัญชง — ข้อมูลวิชาการ กฎหมาย และการขออนุญาต*. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://cannabisinfo.fda.moph.go.th/"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 5,
   "article_file": "crop-14-002.md",
   "source_file": "14-กัญชาและกัญชงเพื่อการแพทย์และอุตสาหกรรม\\02-การควบคุมปัจจัยแสง ธาตุอาหาร และสารสำคัญ CBD THC.md"
 }

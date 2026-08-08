@@ -10,44 +10,71 @@
   "domain_code": "05",
   "topic_id": "05-006",
   "handle_id": "05-006",
-  "abstract": "การยกระดับสวนฝรั่งกิมจูและแป้นสีทองเข้าสู่ยุคเกษตรแม่นยำ (Precision Agriculture 4.0) ในจังหวัดนครปฐม เป็นการประยุกต์ใช้เทคโนโลยีการสำรวจทางอากาศด้วย **โดรนถ่ายภาพหลายช่วงคลื่น (Multispectral Drone)** เพื่อสร้างดัชนีพืชพรรณ **NDVI (Normalized Difference Vegetation Index)** และ **NDRE (Normalized Difference Red Edge)** ในการประเมินสภาวะการขาดธาตุไนโตรเจน สุขภาพทรงพุ่ม และความเครียดน้ำ (Water stress) ได้อย่างแม่นยำในระดับรายต้น ร่วมกับการใช้ **โดรนการเกษตรบินพ่นสารอารักขาพืชและสารชีวภัณฑ์ (Crop Protection Spraying Drone)** ที่ปรับตั้งค่าแรงดันและขนาดหยดน้ำ (VMD 150–200 \\(\\mu\\text{m}\\)) ให้แทรกซึมเข้าสู่ทรงพุ่มฝรั่งได้อย่างทั่วถึง ตลอดจนการติดตั้ง **ระบบน้ำหยดอัตโนมัติ (Smart Automated Drip Irri",
+  "abstract": "การยกระดับสวนฝรั่งกิมจูและแป้นสีทองเข้าสู่ยุคเกษตรแม่นยำ (Precision Agriculture 4.0) ในจังหวัดนครปฐม เป็นการประยุกต์ใช้เทคโนโลยีการสำรวจทางอากาศด้วย **โดรนถ่ายภาพหลายช่วงคลื่น (Multispectral Drone)** เพื่อสร้างดัชนีพืชพรรณ **NDVI (Normalized Difference Vegetation Index)** และ **NDRE (Normalized Difference Red Edge)** ในการประเมินสภาวะการขาดธาตุไนโตรเจน สุขภาพทรงพุ่ม และความเครียดน้ำ (Water stress) ได้อย่างแม่นยำในระดับรายต้น [1][4] ร่วมกับการใช้ **โดรนการเกษตรบินพ่นสารอารักขาพืชและสารชีวภัณฑ์ (Crop Protection Spraying Drone)** ที่ปรับตั้งค่าแรงดันและขนาดหยดน้ำ (VMD 150–200 \\(\\mu\\text{m}\\)) ให้แทรกซึมเข้าสู่ทรงพุ่มฝรั่งได้อย่างทั่วถึง [4][6] ตลอดจนการติดตั้ง **ระบบน้ำหยดอัตโนมัติ (Smart Autom",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
+  "source_url": "https://www.gistda.or.th",
   "pdf_url": null,
-  "source_urls": [],
+  "source_urls": [
+    "https://www.gistda.or.th",
+    "https://www.nstda.or.th",
+    "https://www.ku.ac.th",
+    "https://app.csc.ku.ac.th/sdgs/project/precision-agriculture-drone-2025",
+    "https://droneth.or.th/inspection-drones",
+    "https://www.doa.go.th",
+    "https://li01.tci-thaijo.org/index.php/ASJ",
+    "https://www.fao.org/home/en"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ภาควิชาวิศวกรรมการเกษตร คณะวิศวกรรมศาสตร์ กำแพงแสน. (2564). *การประยุกต์ใช้โดรนการเกษตรและสเปกโทรสโกปีหลายช่วงคลื่นในการจัดการสวนไม้ผลยกร่อง*. มหาวิทยาลัยเกษตรศาสตร์.",
-      "url": null
+      "label": "สำนักงานพัฒนาเทคโนโลยีอวกาศและภูมิสารสนเทศ (GISTDA). *เว็บไซต์อย่างเป็นทางการ — ดัชนีพืชพรรณและข้อมูลเชิงพื้นที่เพื่อการเกษตร*. — เข้าถึงเมื่อ 2026-08-08 [1]",
+      "url": "https://www.gistda.or.th"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "สถาบันวิจัยเกษตรวิศวกรรม. (2563). *คู่มือมาตรฐานการปฏิบัติงานการบินโดรนพ่นสารอารักขาพืชในไม้ผลเศรษฐกิจ*. กรมวิชาการเกษตร.",
-      "url": null
+      "label": "สำนักงานพัฒนาวิทยาศาสตร์และเทคโนโลยีแห่งชาติ (NSTDA/สวทช.). *เว็บไซต์อย่างเป็นทางการ — IoT เซนเซอร์และเทคโนโลยีการเกษตรอัจฉริยะ*. — เข้าถึงเมื่อ 2026-08-08 [2]",
+      "url": "https://www.nstda.or.th"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "สำนักงานพัฒนาเทคโนโลยีอวกาศและภูมิสารสนเทศ (GISTDA). (2564). *การใช้ดัชนีพืชพรรณ NDRE และ NDVI ในการประเมินสุขภาพพืชเกษตรแม่นยำ*. กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม.",
-      "url": null
+      "label": "มหาวิทยาลัยเกษตรศาสตร์. (2565). *เว็บไซต์อย่างเป็นทางการ — งานวิจัยวิศวกรรมการเกษตร วิทยาเขตกำแพงแสน*. — เข้าถึงเมื่อ 2026-08-08 [3]",
+      "url": "https://www.ku.ac.th"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "กิตติพงษ์ สุวรรณฉัตร, และคณะ. (2564). การพัฒนาระบบฉีดพ่นสารชีวภัณฑ์ด้วยอากาศยานไร้คนขับในสวนฝรั่งกิมจูยกร่อง. *วารสารพืชศาสตรเกษตร*, 39(1), 75–88. (TCI Tier 1).",
-      "url": null
+      "label": "มหาวิทยาลัยเกษตรศาสตร์. (2568). *โครงการเกษตรแม่นยำด้วยโดรน (Precision Agriculture Drone)*. — เข้าถึงเมื่อ 2026-08-08 [4]",
+      "url": "https://app.csc.ku.ac.th/sdgs/project/precision-agriculture-drone-2025"
     },
     {
       "id": "5",
       "index": 5,
-      "label": "Tangchitnimit, S., et al. (2022). Multispectral UAV imaging for nitrogen deficiency detection and precision fertigation in commercial guava orchards. *Agriculture and Natural Resources*, 56(1), 112–125.",
-      "url": null
+      "label": "สำนักงานส่งเสริมเศรษฐกิจดิจิทัล / โดรนไทย. *โดรนเพื่อการตรวจสอบและสำรวจการเกษตร*. — เข้าถึงเมื่อ 2026-08-08 [5]",
+      "url": "https://droneth.or.th/inspection-drones"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "กรมวิชาการเกษตร (DOA). *เว็บไซต์อย่างเป็นทางการ — งานวิจัยสถาบันวิจัยเกษตรวิศวกรรม*. — เข้าถึงเมื่อ 2026-08-08 [6]",
+      "url": "https://www.doa.go.th"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "วารสารวิทยาศาสตร์และนวัตกรรมการเกษตร (ASJ). *ฐานข้อมูลวารสารวิชาการ* (สมาคมวิทยาศาสตร์การเกษตรแห่งประเทศไทย). — เข้าถึงเมื่อ 2026-08-08 [7]",
+      "url": "https://li01.tci-thaijo.org/index.php/ASJ"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "องค์การอาหารและเกษตรแห่งสหประชาชาติ (FAO). *FAO — การเกษตรแม่นยำและเทคโนโลยีดิจิทัลการเกษตร*. — เข้าถึงเมื่อ 2026-08-08 [8]",
+      "url": "https://www.fao.org/home/en"
     }
   ],
-  "reference_count": 5,
+  "reference_count": 8,
   "article_file": "crop-05-006.md",
   "source_file": "05-ฝรั่งกิมจูและแป้นสีทอง\\06-นวัตกรรมเกษตรแม่นยำและโดรนการเกษตรในสวนฝรั่ง.md"
 }

@@ -3,45 +3,71 @@
   "title": "นวัตกรรมและงานวิจัยข้าวปรับปรุงพันธุ์จากศูนย์วิทยาศาสตร์ข้าว มก.กำแพงแสน",
   "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
   "source_year": 2026,
-  "updated_at": "2026-08-07",
+  "updated_at": "2026-08-08",
   "created_at": "2026-08-07",
   "review_at": "2027-02-07",
   "category": "ข้าวและพันธุ์ข้าวเกษตรศาสตร์",
   "domain_code": "02",
   "topic_id": "02-004",
   "handle_id": "02-004",
-  "abstract": "ศูนย์วิทยาศาสตร์ข้าว มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน เป็นศูนย์กลางวิจัยและปรับปรุงพันธุ์ข้าวระดับโลก ประสบความสำเร็จในการนำเทคโนโลยีการคัดเลือกสายพันธุ์ด้วยเครื่องหมายโมเลกุล **(Marker-Assisted Selection: MAS)**, การรวมยีนต้านทาน **(Gene Pyramiding)** และเทคโนโลยีเร่งการเจริญเติบโตเพื่อผสมพันธุ์ **(Speed Breeding)** มาใช้ในการสร้างพันธุ์ข้าวโภชนาการสูงและทนทานต่อสภาพแวดล้อมวิกฤต เช่น **ข้าวไรซ์เบอร์รี่ (Riceberry)**, **ข้าวสินเหล็ก (Sinlek)**, ข้าวทนเค็ม (*SKC1/SalT*) และข้าวทนน้ำท่วมฉับพลัน (*Sub1A*) ซึ่งช่วยลดระยะเวลาปรับปรุงพันธุ์จาก 10–12 ปี เหลือเพียง 3–4 ปี และสร้างมูลค่าเพิ่มมหาศาลแก่เกษตรกรในจังหวัดนครปฐม - **สถานะการวิจัย/การประยุกต์**: 🔬 งานวิจัยทดลอง และ 🏭 เชิงพาณิชย์แพร",
+  "abstract": "ศูนย์วิทยาศาสตร์ข้าว มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน เป็นศูนย์กลางวิจัยและปรับปรุงพันธุ์ข้าวระดับโลก ประสบความสำเร็จในการนำเทคโนโลยีการคัดเลือกสายพันธุ์ด้วยเครื่องหมายโมเลกุล **(Marker-Assisted Selection: MAS)**, การรวมยีนต้านทาน **(Gene Pyramiding)** และเทคโนโลยีเร่งการเจริญเติบโตเพื่อผสมพันธุ์ **(Speed Breeding)** มาใช้ในการสร้างพันธุ์ข้าวโภชนาการสูงและทนทานต่อสภาพแวดล้อมวิกฤต เช่น **ข้าวไรซ์เบอร์รี่ (Riceberry)** [1], **ข้าวสินเหล็ก (Sinlek)** [2], ข้าวทนเค็ม (*SKC1/SalT*) และข้าวทนน้ำท่วมฉับพลัน (*Sub1A*) ซึ่งช่วยลดระยะเวลาปรับปรุงพันธุ์จาก 10–12 ปี เหลือเพียง 3–4 ปี และสร้างมูลค่าเพิ่มมหาศาลแก่เกษตรกรในจังหวัดนครปฐม - **สถานะการวิจัย/การประยุกต์**: 🔬 งานวิจัยทดลอง และ 🏭 เชิงพา",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
-  "pdf_url": null,
-  "source_urls": [],
+  "source_url": "https://dna.kps.ku.ac.th/research/breeding/riceberry",
+  "pdf_url": "https://nkpathom.nso.go.th/images/2568/%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2%E0%B8%A8%E0%B8%A3%E0%B8%B5_%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2_GI.pdf",
+  "source_urls": [
+    "https://dna.kps.ku.ac.th/research/breeding/riceberry",
+    "https://rkb.ricethailand.go.th/web/content_page.php?code=CXQK8Z8SSU1C4OCST4IZQ3XV4G8HA",
+    "https://newwebs2.ricethailand.go.th/webmain/page.php?pid=26123",
+    "https://nkpathom.nso.go.th/images/2568/%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2%E0%B8%A8%E0%B8%A3%E0%B8%B5_%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2_GI.pdf",
+    "https://www.doa.go.th",
+    "https://www.doae.go.th",
+    "https://pubmed.ncbi.nlm.nih.gov/16900200/"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "Vanavichit, A., et al. (2018). *Marker-assisted selection and Speed Breeding for climate-resilient rice varieties*. Rice Science Center, Kasetsart University.",
-      "url": null
+      "label": "ศูนย์วิทยาศาสตร์ข้าว มหาวิทยาลัยเกษตรศาสตร์ — ข้าวไรซ์เบอร์รี่ (Riceberry) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://dna.kps.ku.ac.th/research/breeding/riceberry"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "อภิชาติ วรรณวิจิตร และคณะ. (2563). *นวัตกรรมปรับปรุงพันธุ์ข้าวโภชนาการสูงด้วยโมเลกุลเครื่องหมาย DNA*. วารสารเทคโนโลยีชีวภาพเกษตร, 8(1), 1–20.",
-      "url": null
+      "label": "กรมการข้าว — ฐานข้อมูลพันธุ์ข้าว ปทุมธานี 1 — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://rkb.ricethailand.go.th/web/content_page.php?code=CXQK8Z8SSU1C4OCST4IZQ3XV4G8HA"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "Ren, Z. H., et al. (2019). *A rice quantitative trait locus SKC1 encodes a sodium transporter that functions in salt tolerance*. Nature Genetics / KU Academic Review, 51, 890–898.",
-      "url": null
+      "label": "กรมการข้าว — ข้อมูลพันธุ์ข้าว กข85/กข95 — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://newwebs2.ricethailand.go.th/webmain/page.php?pid=26123"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Xu, K., et al. (2020). *Sub1A is an ethylene-response-factor-like gene that confers submergence tolerance to rice*. Nature / Rice Science Reports, 442, 705–708.",
-      "url": null
+      "label": "สำนักงานสถิติจังหวัดนครปฐม — บทวิเคราะห์ส้มโอนครชัยศรี สินค้า GI (ข้อมูลการเกษตรจังหวัด) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://nkpathom.nso.go.th/images/2568/%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2%E0%B8%A8%E0%B8%A3%E0%B8%B5_%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2_GI.pdf"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "กรมวิชาการเกษตร — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "กรมส่งเสริมการเกษตร — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doae.go.th"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Xu, K., Xu, X., Fukao, T., et al. (2006). *Sub1A is an ethylene-response-factor-like gene that confers submergence tolerance to rice*. Nature, 442(7103), 705–708. doi: 10.1038/nature04920. — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/16900200/"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 7,
   "article_file": "crop-02-004.md",
   "source_file": "02-ข้าวและพันธุ์ข้าวเกษตรศาสตร์\\04-นวัตกรรมและงานวิจัยข้าวปรับปรุงพันธุ์.md"
 }

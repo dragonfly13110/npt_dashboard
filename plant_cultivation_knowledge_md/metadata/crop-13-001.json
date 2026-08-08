@@ -12,39 +12,45 @@
   "handle_id": "13-001",
   "abstract": "ผักสลัด (*Lactuca sativa* L.) สายพันธุ์ Green Oak, Red Oak, Butterhead, Cos (Romaine) และ Frillice Iceberg เป็นพืชผักใบมูลค่าสูงที่มีระยะเวลาการเจริญเติบโตสั้น ($35 - 42\\text{ วัน}$) ซึ่งได้รับการเพาะปลูกอย่างหนาแน่นในพื้นที่เศรษฐกิจเกษตรอัจฉริยะ ได้แก่ อำเภอพุทธมณฑล (ตำบลศาลายา), อำเภอสามพราน และอำเภอกำแพงแสน จังหวัดนครปฐม การผลิตเชิงพาณิชย์ในพื้นที่ภาคกลางเผชิญความท้าทายจากอุณหภูมิอากาศสะสมสูง ($32 - 38^\\circ\\text{C}$) และความชื้นสัมพัทธ์ผันผวน การเปรียบเทียบเชิงวิศวกรรมเกษตรระหว่างระบบไร้ดิน 3 รูปแบบหลัก ได้แก่ ระบบ **Nutrient Film Technique (NFT)**, ระบบ **Deep Water Culture (DWC / DFT)** และระบบ **Aeroponics (การพ่นหมอกสารละลาย)** พบว่าการรักษาความเข้มข้นออกซิเจนละลายในสารละลาย ($DO > 6",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
+  "source_url": "https://li01.tci-thaijo.org/index.php/agritechjournal/article/view/209769",
   "pdf_url": null,
-  "source_urls": [],
+  "source_urls": [
+    "https://li01.tci-thaijo.org/index.php/agritechjournal/article/view/209769",
+    "https://li01.tci-thaijo.org/index.php/rmutsvrj/article/view/265591",
+    "https://li01.tci-thaijo.org/index.php/MJUJN/article/view/251737",
+    "https://www.nstda.or.th/agritec/wimarc-salad/",
+    "http://books.doa.go.th/ebook_tophit"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ภาควิชาพืชสวน คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์. (2565). *การเปรียบเทียบสรีรวิทยาและผลผลิตของผักสลัด 5 สายพันธุ์ในระบบ NFT และ DWC ภายใต้สภาพอากาศร้อน*. วารสารพืชสวน, 17(2), 88–102.",
-      "url": null
+      "label": "วารสารเกษตรพระจอมเกล้า. (2563). *การเจริญเติบโตและผลผลิตของผักสลัดกรีนโอ๊คที่ปลูกในระบบ NFT ด้วยสารละลายธาตุอาหารระดับความเข้มข้นต่างกัน*. วารสารเกษตรพระจอมเกล้า, 38(3), 296–303. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/agritechjournal/article/view/209769"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "ศูนย์วิจัยและพัฒนาการเกษตรนครปฐม (สวพ.5). (2564). *การจัดการอุณหภูมิสารละลายและออกซิเจนละลายเพื่อป้องกันอาการขอบใบไหม้ในผักสลัดไฮโดรโปนิกส์*. กรมวิชาการเกษตร.",
-      "url": null
+      "label": "Phankaen, P. & Kumpanuch, W. (2025). *Growth Performance of Green Oak, Red Oak, and Green Cos in a Deep Flow Technique Hydroponic System*. Recent Science and Technology, 18(1), Article e265591. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/rmutsvrj/article/view/265591"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "วารสารวิทยาศาสตร์เกษตร (Agricultural Science Journal). (2563). *ผลของระดับออกซิเจนละลายในสารละลายธาตุอาหารต่อการเจริญเติบโตและการสะสมสารขมในผักสลัด*. 51(2), 180–195.",
-      "url": null
+      "label": "วารสารวิจัยและส่งเสริมวิชาการเกษตร. (2566). *การเสริมธาตุเหล็กและสังกะสีของผักสลัดที่ปลูกในระบบไฮโดรโปนิกส์*. วารสารวิจัยและส่งเสริมวิชาการเกษตร, 40(2). URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/MJUJN/article/view/251737"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "AVRDC - World Vegetable Center. (2564). *Heat-tolerant Lettuce Cultivars for Tropical Hydroponic Production Systems*. AVRDC Publication No. 21-1045, pp. 45–58.",
-      "url": null
+      "label": "สถาบันการจัดการเทคโนโลยีและนวัตกรรมเกษตร (สท.) สวทช. (2563). *รู้จักและรู้ใช้ IoT …ก้าวสำคัญของเกษตรกรไทย: ระบบเซนเซอร์ไร้สายไวมาร์ค (WiMaRC) สำหรับฟาร์มผักไฮโดรโปนิกส์*. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://www.nstda.or.th/agritec/wimarc-salad/"
     },
     {
       "id": "5",
       "index": 5,
-      "label": "Thai Journal of Agricultural Science (TCI Tier 1). (2566). *Comparison of NFT, DWC, and Aeroponic Systems for Commercial Lettuce Production in Central Thailand*. TJAS, 56(3), 210–226.",
-      "url": null
+      "label": "กรมวิชาการเกษตร. (ม.ป.ป.). *คลังหนังสืออิเล็กทรอนิกส์ (e-book) กรมวิชาการเกษตร — คู่มือการผลิตผักและเทคโนโลยีการเพาะปลูก*. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "http://books.doa.go.th/ebook_tophit"
     }
   ],
   "reference_count": 5,

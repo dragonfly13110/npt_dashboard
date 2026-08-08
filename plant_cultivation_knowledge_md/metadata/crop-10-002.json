@@ -10,29 +10,33 @@
   "domain_code": "10",
   "topic_id": "10-002",
   "handle_id": "10-002",
-  "abstract": "การผลิตไม้ใบเศรษฐกิจมูลค่าสูงส่งออก ได้แก่ **อโกลนีมา (*Aglaonema* spp.)**, **ฟิโลเดนดรอน (*Philodendron* spp.)** และ **มอนสเตอร่า (*Monstera deliciosa*)** ในพื้นที่ อ.สามพราน และ อ.นครชัยศรี จังหวัดนครปฐม ขับเคลื่อนด้วยเทคโนโลยีการเพาะเลี้ยงเนื้อเยื่อ (Tissue Culture Micropropagation) และการคัดกรองความแปรผันทางพันธุกรรม (Somaclonal Variation Screening) ในห้องปฏิบัติการ ร่วมกับการให้แสงไฟหลอด LED ควบคุมสเปกตรัม (LED Light Spectrum Optimization: Red:Blue:Far-Red Ratio 4:1:1, PPFD 150–250 µmol/m²/s) เพื่อกระตุ้นและรักษาความเสถียรของลวดลายใบด่าง (Variegation Stability) กระบวนการนี้ช่วยรักษาสมดุลของเม็ดสี **แอนโทไซยานิน (Anthocyanins)** และ **แคโรทีนอยด์ (Carotenoids)** ป้องกันการกลายกลับเป็นใบส",
+  "abstract": "การผลิตไม้ใบเศรษฐกิจมูลค่าสูงส่งออก ได้แก่ **อโกลนีมา (*Aglaonema* spp.)**, **ฟิโลเดนดรอน (*Philodendron* spp.)** และ **มอนสเตอร่า (*Monstera deliciosa*)** ในพื้นที่ อ.สามพราน และ อ.นครชัยศรี จังหวัดนครปฐม ขับเคลื่อนด้วยเทคโนโลยีการเพาะเลี้ยงเนื้อเยื่อ (Tissue Culture Micropropagation)[1] และการคัดกรองความแปรผันทางพันธุกรรม (Somaclonal Variation Screening) ในห้องปฏิบัติการ ร่วมกับการให้แสงไฟหลอด LED ควบคุมสเปกตรัม (LED Light Spectrum Optimization[2]: Red:Blue:Far-Red Ratio 4:1:1, PPFD 150–250 µmol/m²/s) เพื่อกระตุ้นและรักษาความเสถียรของลวดลายใบด่าง (Variegation Stability) กระบวนการนี้ช่วยรักษาสมดุลของเม็ดสี **แอนโทไซยานิน (Anthocyanins)** และ **แคโรทีนอยด์ (Carotenoids)** ป้องกันการกลายกลับเ",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
+  "source_url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/688",
   "pdf_url": null,
-  "source_urls": [],
+  "source_urls": [
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/688",
+    "https://li01.tci-thaijo.org/index.php/tjst/article/view/247498",
+    "https://www.doa.go.th/ard/?page_id=303"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ศูนย์เทคโนโลยีชีวภาพเกษตร. (2564). *เทคโนโลยีการเพาะเลี้ยงเนื้อเยื่อและการควบคุม Somaclonal Variation ในไม้ใบเศรษฐกิจส่งออก*. มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน.",
-      "url": null
+      "label": "พันทิพา ลิ้มสงวน, นิสสรณ์ ดีพานทอง และ ภัททิยา ศิริวัฒโก. (2568). *การขยายพันธุ์อโกลนีมาซุปเปอร์เรดจากตาข้างในสภาพปลอดเชื้อ*. วารสารวิทยาศาสตร์เกษตรและการจัดการ (JASM), 8(1), 2568. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/688"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "สุรวิทย์ วงศ์ศิริ และคณะ. (2563). *ผลของสเปกตรัมแสง LED และสัดส่วนปุ๋ย N:K ต่อการรักษาสมดุลเม็ดสีและความเสถียรของใบด่างใน Aglaonema และ Philodendron*. วารสารพืชศาสตรเกษตร, 39(3), 175–190. — [Database: TCI Tier 1]",
-      "url": null
+      "label": "บทความวิจัยอิทธิพลแสง LED ต่อการเจริญเติบโตของผักสลัด 4 ชนิด. *Thai Journal of Science and Technology*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/tjst/article/view/247498"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "สถาบันวิจัยพืชสวน. (2564). *แนวทางการผลิตและควบคุมคุณภาพไม้ใบด่างส่งออกเชิงพาณิชย์*. กรมวิชาการเกษตร, กรุงเทพฯ.",
-      "url": null
+      "label": "กองควบคุมพืชและวัสดุการเกษตร กรมวิชาการเกษตร. *คู่มือการส่งออกกล้วยไม้ตัดดอกไปสหภาพยุโรป*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th/ard/?page_id=303"
     }
   ],
   "reference_count": 3,

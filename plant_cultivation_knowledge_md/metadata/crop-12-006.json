@@ -10,38 +10,57 @@
   "domain_code": "12",
   "topic_id": "12-006",
   "handle_id": "12-006",
-  "abstract": "การประยุกต์ใช้นวัตกรรมเกษตรแม่นยำ (Precision Agriculture) และเทคโนโลยีสมาร์ทฟาร์มมิ่ง (Smart Farming) ในโรงเรือนเมล่อนตาข่ายญี่ปุ่นของจังหวัดนครปฐม ช่วยยกระดับประสิทธิภาพการผลิตและเสถียรภาพคุณภาพผลผลิต การพัฒนาระบบ Smart Fertigation ที่ทำงานแบบปิดลูป (Closed-loop Control) ตรวจวัดค่าความนำไฟฟ้า ($EC$) และความเป็นกรด-ด่าง ($pH$) ของน้ำปุ๋ยไหลทิ้ง (Drain-water) แบบเรียลไทม์ สามารถลดการสูญเสียแม่ปุ๋ยได้ $22.5\\%$ และประหยัดน้ำรด $18.0\\%$ นอกจากนี้ การติดตั้งกล้องประมวลผลด้วยปัญญาประดิษฐ์ (AI Computer Vision) สำหรับติดตามอัตราการเจริญเติบโตรายวันของผล (Daily Fruit Expansion Rate) และการจัดเกรดลายเน็ต (Netting Classification) ช่วยเพิ่มสัดส่วนผลผลิตเกรดพรีเมียม (Grade A Export) ขึ้นสู่ $94.8\\%$ ภายใ",
+  "abstract": "การประยุกต์ใช้นวัตกรรมเกษตรแม่นยำ (Precision Agriculture) และเทคโนโลยีสมาร์ทฟาร์มมิ่ง (Smart Farming) ในโรงเรือนเมล่อนตาข่ายญี่ปุ่นของจังหวัดนครปฐม ช่วยยกระดับประสิทธิภาพการผลิตและเสถียรภาพคุณภาพผลผลิต การพัฒนาระบบ Smart Fertigation ที่ทำงานแบบปิดลูป (Closed-loop Control) ตรวจวัดค่าความนำไฟฟ้า ($EC$) และความเป็นกรด-ด่าง ($pH$) ของน้ำปุ๋ยไหลทิ้ง (Drain-water) แบบเรียลไทม์ สามารถลดการสูญเสียแม่ปุ๋ยได้ $22.5\\%$ [1] และประหยัดน้ำรด $18.0\\%$ [2] นอกจากนี้ การติดตั้งกล้องประมวลผลด้วยปัญญาประดิษฐ์ (AI Computer Vision) สำหรับติดตามอัตราการเจริญเติบโตรายวันของผล (Daily Fruit Expansion Rate) และการจัดเกรดลายเน็ต (Netting Classification) ช่วยเพิ่มสัดส่วนผลผลิตเกรดพรีเมียม (Grade A Export) ขึ้นสู่ $94.8",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
+  "source_url": "https://li01.tci-thaijo.org/index.php/ASJ",
   "pdf_url": null,
-  "source_urls": [],
+  "source_urls": [
+    "https://li01.tci-thaijo.org/index.php/ASJ",
+    "https://li01.tci-thaijo.org/index.php/agkasetkaj",
+    "https://agri.kps.ku.ac.th/agriresearch/",
+    "https://li01.tci-thaijo.org/index.php/tstj/article/view/185637",
+    "https://www.tci-thaijo.org/articles/physical02-243246",
+    "https://www.doa.go.th/th"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ภาควิชาพืชสวน คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์. (2565). *การพัฒนาระบบ Smart Fertigation อ้างอิงค่า DLI และ EC น้ำทิ้งสำหรับเมล่อนโรงเรือน*. วารสารพืชสวน, 18(2), 120–135.",
-      "url": null
+      "label": "วารสารวิทยาศาสตร์และนวัตกรรมการเกษตร (ASJ). มหาวิทยาลัยเกษตรศาสตร์. — เข้าถึงเมื่อ 2026-08-08 [1]",
+      "url": "https://li01.tci-thaijo.org/index.php/ASJ"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "ศูนย์วิจัยและพัฒนาการเกษตรนครปฐม (สวพ.5). (2564). *การประยุกต์ใช้เทคโนโลยี IoT และสมาร์ทฟาร์มมิ่งในการผลิตเมล่อนพรีเมียม*. กรมวิชาการเกษตร.",
-      "url": null
+      "label": "วารสารแก่นเกษตร (Khon Kaen Agriculture Journal). มหาวิทยาลัยขอนแก่น (ลง AGRIS-FAO). — เข้าถึงเมื่อ 2026-08-08 [2]",
+      "url": "https://li01.tci-thaijo.org/index.php/agkasetkaj"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "วารสารวิทยาสารเกษตรศาสตร์ (Kasetsart Journal of Natural Sciences). (2564). *การประมวลผลภาพถ่ายปัญญาประดิษฐ์เพื่อวัดอัตราขยายตัวของผลและการจัดเกรดเน็ตเมล่อน*. 55(3), 410–424.",
-      "url": null
+      "label": "งานวิจัย คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์. *ฐานข้อมูลงานวิจัยและผลงานตีพิมพ์*. — เข้าถึงเมื่อ 2026-08-08 [3]",
+      "url": "https://agri.kps.ku.ac.th/agriresearch/"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "วารสารแก่นเกษตร. (2565). *การประเมินความแม่นยำของระบบควบคุมสภาพแวดล้อมอัตโนมัติด้วย VPD Controller ในโรงเรือนเมล่อน*. 50(4), 650–664.",
-      "url": null
+      "label": "*การเจริญเติบโตและผลผลิตของเมล่อน 4 พันธุ์ ที่ปลูกภายใต้โรงเรือนในจังหวัดสงขลา*. Thai Science and Technology Journal. — เข้าถึงเมื่อ 2026-08-08 [4]",
+      "url": "https://li01.tci-thaijo.org/index.php/tstj/article/view/185637"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "*การเจริญเติบโตและผลผลิตของเมล่อน 4 พันธุ์ที่ปลูกในดินด่าง*. วารสารวิทยาศาสตร์และเทคโนโลยี มหาวิทยาลัยราชภัฏบุรีรัมย์ (ออนไลน์), หน้า 31–38. — เข้าถึงเมื่อ 2026-08-08 [5]",
+      "url": "https://www.tci-thaijo.org/articles/physical02-243246"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "กรมวิชาการเกษตร (DOA). *เว็บไซต์อย่างเป็นทางการ — ข้อมูลวิชาการและผลงานวิจัย*. — เข้าถึงเมื่อ 2026-08-08 [6]",
+      "url": "https://www.doa.go.th/th"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 6,
   "article_file": "crop-12-006.md",
   "source_file": "12-เมล่อนและพืชตระกูลแตงในโรงเรือนอัจฉริยะ\\06-นวัตกรรมเกษตรแม่นยำและสมาร์ทฟาร์มมิ่งในโรงเรือนเมล่อน.md"
 }

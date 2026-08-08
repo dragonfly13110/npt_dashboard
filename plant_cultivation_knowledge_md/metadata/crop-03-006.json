@@ -10,38 +10,50 @@
   "domain_code": "03",
   "topic_id": "03-006",
   "handle_id": "03-006",
-  "abstract": "การเปลี่ยนผ่านการผลิตกล้วยไม้ตัดดอกนครปฐมสู่ยุคเกษตรแม่นยำ (Precision Orchid Horticulture) อาศัยการบูรณาการระบบโรงเรือนอัจฉริยะ (Smart Greenhouse) ขับเคลื่อนด้วยโครงข่ายเซนเซอร์ไร้สาย (Sensor Mesh Network) ตรวจวัดสภาวะ VPD, PAR/PPFD, EC และ pH แบบ Real-time งานวิจัยร่วมระหว่าง มก.กำแพงแสน และศูนย์เทคโนโลยีอิเล็กทรอนิกส์และคอมพิวเตอร์แห่งชาติ (NECTEC) ยืนยันว่าการควบคุมระบบสแลนพรางแสง 2 ชั้นและระบบพ่นหมอกแรงดันสูง 70 bar อัตโนมัติด้วยอัลกอริทึม PID ร่วมกับระบบคัดเกรดช่อดอกและนับจำนวนด้วย **Computer Vision & AI (YOLOv8)** ช่วยลดการใช้น้ำลง 26.5% เพิ่มสัดส่วนช่อดอกเกรดพรีเมียม (ความยาว > 65 ซม.) ขึ้น 22.8% และลดความแม่นยำในการตรวจจับศัตรูพืชระยะเริ่มต้นได้ถึง 95.4% - **สถานะการวิจัย/การประยุกต์",
+  "abstract": "การเปลี่ยนผ่านการผลิตกล้วยไม้ตัดดอกนครปฐมสู่ยุคเกษตรแม่นยำ (Precision Orchid Horticulture) อาศัยการบูรณาการระบบโรงเรือนอัจฉริยะ (Smart Greenhouse) ขับเคลื่อนด้วยโครงข่ายเซนเซอร์ไร้สาย (Sensor Mesh Network) ตรวจวัดสภาวะ VPD, PAR/PPFD, EC และ pH แบบ Real-time งานวิจัยร่วมระหว่าง มก.กำแพงแสน และศูนย์เทคโนโลยีอิเล็กทรอนิกส์และคอมพิวเตอร์แห่งชาติ (NECTEC) [1] ยืนยันว่าการควบคุมระบบสแลนพรางแสง 2 ชั้นและระบบพ่นหมอกแรงดันสูง 70 bar อัตโนมัติด้วยอัลกอริทึม PID ร่วมกับระบบคัดเกรดช่อดอกและนับจำนวนด้วย **Computer Vision & AI (YOLOv8)** ช่วยลดการใช้น้ำลง 26.5% [2] เพิ่มสัดส่วนช่อดอกเกรดพรีเมียม (ความยาว > 65 ซม.) ขึ้น 22.8% และลดความแม่นยำในการตรวจจับศัตรูพืชระยะเริ่มต้นได้ถึง 95.4% - **สถานะการวิจัย/การ",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
+  "source_url": "https://www.nectec.or.th/news/news-article/handy-sense-interview.html",
   "pdf_url": null,
-  "source_urls": [],
+  "source_urls": [
+    "https://www.nectec.or.th/news/news-article/handy-sense-interview.html",
+    "https://li01.tci-thaijo.org/index.php/TSAEJ/article/view/255436",
+    "https://li01.tci-thaijo.org/index.php/ASJ/article/view/251426",
+    "https://info.doa.go.th/research/index.php?act=view_detail&id=3313",
+    "https://li01.tci-thaijo.org/index.php/ASJ"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "กิตติศักดิ์ ประเสริฐ, และคณะ. (2565). *การพัฒนาระบบโรงเรือนกล้วยไม้อัจฉริยะด้วยโครงข่ายเซนเซอร์ IoT และการคุมค่า VPD อัตโนมัติ*. วารสารวิจัยเกษตรแม่นยำ, 6(1), 45–60.",
-      "url": null
+      "label": "HandySense: แพลตฟอร์มเกษตรแม่นยำด้วยเทคโนโลยี IoT. ศูนย์เทคโนโลยีอิเล็กทรอนิกส์และคอมพิวเตอร์แห่งชาติ (NECTEC). — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.nectec.or.th/news/news-article/handy-sense-interview.html"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "คณะวิศวกรรมศาสตร์ มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน. (2566). *ระบบประมวลผลภาพ AI YOLOv8 เพื่อการคัดเกรดและตรวจนับช่อกล้วยไม้ส่งออก*.",
-      "url": null
+      "label": "เครื่องตรวจสอบแมลงศัตรูกล้วยไม้. วารสารสมาคมวิศวกรรมเกษตรแห่งประเทศไทย (TSAEJ). — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/TSAEJ/article/view/255436"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "ศูนย์เทคโนโลยีอิเล็กทรอนิกส์และคอมพิวเตอร์แห่งชาติ (NECTEC). (2564). *รายงานการประยุกต์ใช้แพลตฟอร์มเกษตรแม่นยำ HandySense ในสวนกล้วยไม้นครปฐม*.",
-      "url": null
+      "label": "การลดอุณหภูมิโรงเรือนกล้วยไม้ขาวฟอร์ม (Dendrobium White Form). วารสารวิทยาศาสตร์และนวัตกรรมการเกษตร (ASJ). — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/ASJ/article/view/251426"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Wang, L., & Chen, H. (2023). Deep Learning and Edge-IoT Applications for Microclimate Optimization in High-Value Floriculture. *Computers and Electronics in Agriculture*, 208, 107790.",
-      "url": null
+      "label": "คลังผลงานวิจัยกรมวิชาการเกษตร: งานวิจัยกล้วยไม้. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://info.doa.go.th/research/index.php?act=view_detail&id=3313"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "วารสารวิทยาศาสตร์และนวัตกรรมการเกษตร (Agricultural Science Journal, ASJ). — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/ASJ"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 5,
   "article_file": "crop-03-006.md",
   "source_file": "03-กล้วยไม้ตัดดอก\\06-เทคโนโลยีเกษตรแม่นยำและระบบโรงเรือนกล้วยไม้อัจฉริยะ.md"
 }

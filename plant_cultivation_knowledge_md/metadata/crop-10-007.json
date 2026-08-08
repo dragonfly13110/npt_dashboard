@@ -10,32 +10,50 @@
   "domain_code": "10",
   "topic_id": "10-007",
   "handle_id": "10-007",
-  "abstract": "การส่งออกไม้ดอกไม้ประดับและไม้ใบจาก อ.สามพราน และ อ.นครชัยศรี จังหวัดนครปฐม สู่ตลาดโลก ยุโรป สหรัฐอเมริกา และญี่ปุ่น ต้องปฏิบัติตามมาตรฐานสิ่งแวดล้อมและการกักกันพืชสากลอย่างเคร่งครัด ฟาร์มส่งออกต้องได้รับการรับรองมาตรฐาน **MPS-ABC (Environmental Certification)** และ **GLOBALG.A.P. IFA Floriculture Standard** รวมทั้งปฏิบัติตาม **อนุสัญญา CITES (บัญชีแนบ II)** สำหรับพืชอนุรักษ์ นอกจากนี้ วัสดุปลูกต้องผ่านเกณฑ์ **Soilless Substrate Certification** ปราศจากดินธรรมชาติ (Soil-Free Media) และผ่านการกักกันพืชเข้มงวดเพื่อป้องกันศัตรูพืชกักกัน เช่น เพลี้ยไฟ *Frankliniella occidentalis*, *Thrips palmi* และเชื้อแบคทีเรีย *Xanthomonas* การส่งออกผ่านพิธีการตรวจรับรองใบรับรองสุขอนามัยพืช (Phytosanitary Cert",
+  "abstract": "การส่งออกไม้ดอกไม้ประดับและไม้ใบจาก อ.สามพราน และ อ.นครชัยศรี จังหวัดนครปฐม สู่ตลาดโลก ยุโรป สหรัฐอเมริกา และญี่ปุ่น ต้องปฏิบัติตามมาตรฐานสิ่งแวดล้อมและการกักกันพืชสากลอย่างเคร่งครัด ฟาร์มส่งออกต้องได้รับการรับรองมาตรฐาน **MPS-ABC (Environmental Certification)** และ **GLOBALG.A.P. IFA Floriculture Standard**[2] รวมทั้งปฏิบัติตาม **อนุสัญญา CITES (บัญชีแนบ II)** สำหรับพืชอนุรักษ์[3] นอกจากนี้ วัสดุปลูกต้องผ่านเกณฑ์ **Soilless Substrate Certification** ปราศจากดินธรรมชาติ (Soil-Free Media) และผ่านการกักกันพืชเข้มงวดเพื่อป้องกันศัตรูพืชกักกัน เช่น เพลี้ยไฟ *Frankliniella occidentalis*, *Thrips palmi* และเชื้อแบคทีเรีย *Xanthomonas* การส่งออกผ่านพิธีการตรวจรับรองใบรับรองสุขอนามัยพืช (Phytosanitar",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
-  "pdf_url": null,
-  "source_urls": [],
+  "source_url": "https://so06.tci-thaijo.org/index.php/JSC/article/view/268840",
+  "pdf_url": "https://agriman.doae.go.th/wp-content/uploads/2025/08/36.-กล้วยไม้-orchid.pdf",
+  "source_urls": [
+    "https://so06.tci-thaijo.org/index.php/JSC/article/view/268840",
+    "https://gap.doa.go.th/",
+    "https://www.doa.go.th/ard/?page_id=303",
+    "https://www.doa.go.th/psco/?page_id=2537",
+    "https://agriman.doae.go.th/wp-content/uploads/2025/08/36.-กล้วยไม้-orchid.pdf"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "กรมวิชาการเกษตร. (2564). *คู่มือหลักเกณฑ์การตรวจรับรองสุขอนามัยพืชและมาตรฐาน CITES สำหรับการส่งออกไม้ดอกไม้ประดับ*. กระทรวงเกษตรและสหกรณ์, กรุงเทพฯ.",
-      "url": null
+      "label": "Chanamool N., Kumyat A., & Uraipan N. (2023). *Factors Affecting the Receiving Certification of Good Agricultural Practices by Small Farmers Fruit Growers for Export in Chanthaburi Province*. Journal of Social Science and Cultural, 7(10), 250–264. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://so06.tci-thaijo.org/index.php/JSC/article/view/268840"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "ด่านตรวจพืชพุทธมณฑล. (2564). *รายงานผลการตรวจวิเคราะห์ศัตรูพืชกักกันและข้อกำหนดการส่งออกไม้ประดับไปยัง EU, USA และญี่ปุ่น*. สำนักควบคุมพืชและวัสดุการเกษตร, นครปฐม. — [Database: TCI Tier 1]",
-      "url": null
+      "label": "กรมวิชาการเกษตร. *ระบบการรับรองมาตรฐาน GAP ออนไลน์ (GAP DOA Online)*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://gap.doa.go.th/"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "สมาคมพืชสวนแห่งประเทศไทย. (2563). *แนวทางการยกระดับฟาร์มไม้ดอกไม้ประดับสู่มาตรฐาน MPS-ABC และ GLOBALG.A.P.*. กรุงเทพฯ.",
-      "url": null
+      "label": "กองควบคุมพืชและวัสดุการเกษตร กรมวิชาการเกษตร. *คู่มือการส่งออกกล้วยไม้ตัดดอกไปสหภาพยุโรป*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th/ard/?page_id=303"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "กรมวิชาการเกษตร. *หลักเกณฑ์การรับรองระบบการผลิตพืชตามมาตรฐาน GAP (GAP พืชอาหาร)*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th/psco/?page_id=2537"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "กรมส่งเสริมการเกษตร. *สถิติการผลิตและการส่งออกกล้วยไม้ของไทย (DOAE)*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://agriman.doae.go.th/wp-content/uploads/2025/08/36.-กล้วยไม้-orchid.pdf"
     }
   ],
-  "reference_count": 3,
+  "reference_count": 5,
   "article_file": "crop-10-007.md",
   "source_file": "10-ไม้ใบและไม้ประดับส่งออก\\07-การผลิตไม้ใบและไม้ประดับส่งออกตามมาตรฐานสากลและกักกันพืช.md"
 }

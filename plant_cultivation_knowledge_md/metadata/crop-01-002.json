@@ -3,48 +3,54 @@
   "title": "การจัดการดิน ธาตุอาหาร และน้ำในสวนส้มโอนครชัยศรี",
   "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
   "source_year": 2026,
-  "updated_at": "2026-08-07",
+  "updated_at": "2026-08-08",
   "created_at": "2026-08-07",
   "review_at": "2027-02-07",
   "category": "ส้มโอนครชัยศรี",
   "domain_code": "01",
   "topic_id": "01-002",
   "handle_id": "01-002",
-  "abstract": "การบริหารจัดการดิน ธาตุอาหาร และน้ำในสวนส้มโอนครชัยศรีเพื่อบรรลุมาตรฐาน GI จำเป็นต้องอาศัยปฐพีวิทยาเชิงคำนวณ (Computational Soil Science) และสรีรวิทยาโภชนาการพืชขั้นสูง เอกสารนี้เจาะลึกกลไกการแลกเปลี่ยนประจุคอลลอยด์ดินเหนียวชุดสามพราน (Sp) และชุดนครปฐม (Np) สมการ Sodium Adsorption Ratio ($SAR$), การใช้ธาตุอาหารรองคีเลตความเสถียรสูง (Fe-EDDHA, Fe-EDTA, Zn-EDTA, Mn-EDTA, Cu-EDTA), ระบบประเมินโภชนาการพืช DRIS (Diagnosis and Recommendation Integrated System) และระบบการให้น้ำแบบส่งผ่านสปริงเกลอร์ (Fertigation) เพื่อควบคุมความเค็มและเสริมสร้างเนื้อส้มโอให้หวานกรอบ - **สถานะการวิจัย/การประยุกต์**: 🏭 เชิงพาณิชย์แพร่หลาย (วิจัยร่วมระหว่าง ภาควิชาปฐพีวิทยา มก.กำแพงแสน และ สวพ.5) - **นวัตกรรมสำคัญ**: ",
+  "abstract": "การบริหารจัดการดิน ธาตุอาหาร และน้ำในสวนส้มโอนครชัยศรีเพื่อบรรลุมาตรฐาน GI จำเป็นต้องอาศัยปฐพีวิทยาเชิงคำนวณ (Computational Soil Science) และสรีรวิทยาโภชนาการพืชขั้นสูง เอกสารนี้เจาะลึกกลไกการแลกเปลี่ยนประจุคอลลอยด์ดินเหนียวชุดสามพราน (Sp) และชุดนครปฐม (Np) [1] สมการ Sodium Adsorption Ratio ($SAR$), การใช้ธาตุอาหารรองคีเลตความเสถียรสูง (Fe-EDDHA, Fe-EDTA, Zn-EDTA, Mn-EDTA, Cu-EDTA), ระบบประเมินโภชนาการพืช DRIS (Diagnosis and Recommendation Integrated System) และระบบการให้น้ำแบบส่งผ่านสปริงเกลอร์ (Fertigation) เพื่อควบคุมความเค็มและเสริมสร้างเนื้อส้มโอให้หวานกรอบ - **สถานะการวิจัย/การประยุกต์**: 🏭 เชิงพาณิชย์แพร่หลาย (วิจัยร่วมระหว่าง ภาควิชาปฐพีวิทยา มก.กำแพงแสน และ สวพ.5) - **นวัตกรรมสำคัญ",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
-  "pdf_url": null,
-  "source_urls": [],
+  "source_url": "https://www.ldd.go.th/thaisoils_museum/pf_desc/central/Np.htm",
+  "pdf_url": "http://r01.ldd.go.th/aya/Data/soilgroup/soilgroup7.pdf",
+  "source_urls": [
+    "https://www.ldd.go.th/thaisoils_museum/pf_desc/central/Np.htm",
+    "http://r01.ldd.go.th/aya/Data/soilgroup/soilgroup7.pdf",
+    "http://iddindee.ldd.go.th/SoilSeries/N/3_Series_(Np).pdf",
+    "https://www.doa.go.th",
+    "https://www.doae.go.th"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ภาควิชาปฐพีวิทยา. (2563). *เคมีดินและการจัดการธาตุอาหารส้มโอในเขตลุ่มน้ำท่าจีน*. คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์.",
-      "url": null
+      "label": "กรมพัฒนาที่ดิน — ชุดดินนครปฐม (Nakhon Pathom series: Np) กลุ่มชุดดินที่ 7 — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.ldd.go.th/thaisoils_museum/pf_desc/central/Np.htm"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "สำนักวิจัยและพัฒนาการเกษตรเขตที่ 5. (2564). *การจัดการปุ๋ยตามค่าวิเคราะห์ดินและใบสำหรับส้มโอนครชัยศรี*. กรมวิชาการเกษตร.",
-      "url": null
+      "label": "กรมพัฒนาที่ดิน — กลุ่มชุดดินที่ 7: ลักษณะและความเหมาะสมการใช้ประโยชน์ที่ดิน — เข้าถึงเมื่อ 2026-08-08",
+      "url": "http://r01.ldd.go.th/aya/Data/soilgroup/soilgroup7.pdf"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "บุญคง, ว., และคณะ. (2563). ผลของการฉีดพ่นสังกะสีและเหล็กคีเลตต่อคุณภาพและปริมาณความหวานของส้มโอพันธุ์ขาวน้ำผึ้ง. *วารสารพืชศาสตรเกษตร*, 38(1), 89–102. (TCI Tier 1).",
-      "url": null
+      "label": "[กรมพัฒนาที่ดิน — เอกสารข้อมูลชุดดินนครปฐม (Soil Series: Np)](<>) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "http://iddindee.ldd.go.th/SoilSeries/N/3_Series_(Np).pdf"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "ANRES Journal. (2020). Micronutrient Chelate Stability and Leaf Nutrient Balance (DRIS) in Citrus Orchards on Salt-Affected Clay Soils. *Agriculture and Natural Resources*, 54(3), 301–312.",
-      "url": null
+      "label": "กรมวิชาการเกษตร — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th"
     },
     {
       "id": "5",
       "index": 5,
-      "label": "ศูนย์วิจัยพืชสวนนครปฐม. (2563). *คำแนะนำการปรับปรุงดินเหนียวชุดสามพรานด้วยยิปซัมและอินทรียวัตถุ*. กรมวิชาการเกษตร.",
-      "url": null
+      "label": "กรมส่งเสริมการเกษตร — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doae.go.th"
     }
   ],
   "reference_count": 5,

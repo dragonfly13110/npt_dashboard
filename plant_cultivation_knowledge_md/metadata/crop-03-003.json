@@ -10,38 +10,50 @@
   "domain_code": "03",
   "topic_id": "03-003",
   "handle_id": "03-003",
-  "abstract": "การจัดการโรค แมลงศัตรูพืช และคุณภาพหลังการเก็บเกี่ยวเป็นหัวใจสำคัญของการส่งออกกล้วยไม้ตัดดอกนครปฐมไปสู่ตลาดต่างประเทศ งานวิจัยโดยศูนย์เทคโนโลยีหลังการเก็บเกี่ยว มหาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน ร่วมกับกรมวิชาการเกษตร พบว่าการควบคุมศัตรูพืชตามเกณฑ์เศรษฐกิจ (ETL) ของเพลี้ยไฟ (*Thrips palmi*) ไม่ให้เกิน 5 ตัว/ดอก ร่วมกับการเข้าหลอดน้ำยา Pulse Treatment ด้วยสูตร **1-MCP 500 nL/L + STS 0.2 mM + 8-HQS 200 ppm + Sucrose 2%** สามารถยับยั้งการออกฤทธิ์ของก๊าซเอทิลีน ยับยั้งการอุดตันของท่อน้ำเลี้ยงด้วยแบคทีเรีย *Erwinia carotovora* และขยายอายุการปักแจกัน (Vase Life) ของ *Dendrobium* Sonia 'Bom 28' จากเดิม 8–10 วัน เพิ่มขึ้นเป็น **18–24 วัน** อย่างสมบูรณ์ - **สถานะการวิจัย/การประยุกต์**: 🏭 เชิงพาณิชย",
+  "abstract": "การจัดการโรค แมลงศัตรูพืช และคุณภาพหลังการเก็บเกี่ยวเป็นหัวใจสำคัญของการส่งออกกล้วยไม้ตัดดอกนครปฐมไปสู่ตลาดต่างประเทศ งานวิจัยโดยศูนย์เทคโนโลยีหลังการเก็บเกี่ยว มหาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน ร่วมกับกรมวิชาการเกษตร พบว่าการควบคุมศัตรูพืชตามเกณฑ์เศรษฐกิจ (ETL) ของเพลี้ยไฟ (*Thrips palmi*) ไม่ให้เกิน 5 ตัว/ดอก [1] ร่วมกับการเข้าหลอดน้ำยา Pulse Treatment ด้วยสูตร **1-MCP 500 nL/L + STS 0.2 mM + 8-HQS 200 ppm + Sucrose 2%** สามารถยับยั้งการออกฤทธิ์ของก๊าซเอทิลีน ยับยั้งการอุดตันของท่อน้ำเลี้ยงด้วยแบคทีเรีย *Erwinia carotovora* และขยายอายุการปักแจกัน (Vase Life) ของ *Dendrobium* Sonia 'Bom 28' จากเดิม 8–10 วัน เพิ่มขึ้นเป็น **18–24 วัน** [2] อย่างสมบูรณ์ - **สถานะการวิจัย/การประยุกต์**: 🏭 เช",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
+  "source_url": "https://li01.tci-thaijo.org/index.php/TSAEJ/article/view/255436",
   "pdf_url": null,
-  "source_urls": [],
+  "source_urls": [
+    "https://li01.tci-thaijo.org/index.php/TSAEJ/article/view/255436",
+    "https://www.doa.go.th/ard/?page_id=303",
+    "https://info.doa.go.th/research/index.php?act=view_detail&id=3313",
+    "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/251392",
+    "https://li01.tci-thaijo.org/index.php/ASJ"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "กัญจนา แซ่เตียว, และคณะ. (2565). *ผลของ Pulse Treatment ด้วย STS ร่วมกับ 1-MCP ต่อการยืดอายุการปักแจกันของกล้วยไม้หวาย Sonia 'Bom 28'*. วารสารพืชศาสตรเกษตร, 53(3), 289–304.",
-      "url": null
+      "label": "เครื่องตรวจสอบแมลงศัตรูกล้วยไม้. วารสารสมาคมวิศวกรรมเกษตรแห่งประเทศไทย (TSAEJ). — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/TSAEJ/article/view/255436"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "ศูนย์เทคโนโลยีหลังการเก็บเกี่ยว คณะเกษตร กำแพงแสน. (2566). *นวัตกรรมหลังการเก็บเกี่ยวและการจัดการห่วงโซ่ความเย็นสำหรับกล้วยไม้ส่งออก*. มหาวิทยาลัยเกษตรศาสตร์.",
-      "url": null
+      "label": "คู่มือการส่งออกกล้วยไม้ตัดดอกไปสหภาพยุโรป. กองควบคุมพืชและวัสดุการเกษตร กรมวิชาการเกษตร. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th/ard/?page_id=303"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "กลุ่มวิจัยกีฏและสัตววิทยา กรมวิชาการเกษตร. (2565). *คู่มือการจัดการศัตรูพืชกักกันในกล้วยไม้ตัดดอกเพื่อการส่งออกไปประเทศญี่ปุ่นและสหรัฐอเมริกา*.",
-      "url": null
+      "label": "คลังผลงานวิจัยกรมวิชาการเกษตร: งานวิจัยกล้วยไม้. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://info.doa.go.th/research/index.php?act=view_detail&id=3313"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Kanlayanarat, S., & Boonrit, P. (2023). Postharvest Physiology and Ethylene Inhibition Technology in Tropical Cut Orchids. *Postharvest Biology and Technology*, 198, 112–126.",
-      "url": null
+      "label": "ผลของสารคล้ายบราสซินต่อการเจริญเติบโตของกล้วยไม้ขาวสนาน. วารสารแก่นเกษตร. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/251392"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "วารสารวิทยาศาสตร์และนวัตกรรมการเกษตร (Agricultural Science Journal, ASJ). — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/ASJ"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 5,
   "article_file": "crop-03-003.md",
   "source_file": "03-กล้วยไม้ตัดดอก\\03-โรคแมลงและการจัดการหลังการเก็บเกี่ยว.md"
 }

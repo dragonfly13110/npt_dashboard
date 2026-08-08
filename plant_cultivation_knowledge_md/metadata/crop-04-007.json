@@ -10,38 +10,57 @@
   "domain_code": "04",
   "topic_id": "04-007",
   "handle_id": "04-007",
-  "abstract": "การผลิตมะพร้าวน้ำหอมอินทรีย์เพื่อการส่งออกของจังหวัดนครปฐมเป็นยุทธศาสตร์สร้างมูลค่าเพิ่มสูง การเข้าสู่มาตรฐานอินทรีย์ระดับสากล เช่น **Organic Thailand**, **GlobalGAP (IFA)** และ **USDA Organic** จำเป็นต้องผ่านกระบวนการปรับเปลี่ยนแปลง (Transition period) ไม่น้อยกว่า 18–24 เดือน และปฏิบัติตามมาตรการปราศจากสารเคมีสังเคราะห์โดยเด็ดขาด การส่งออกสู่ตลาดสาธารณรัฐประชาชนจีนต้องผ่านการขึ้นทะเบียนสวนและโรงคัดบรรจุตามกฎระเบียบ **GACC Decree 248 และ Decree 249** ของศุลกากรจีน พร้อมการสุ่มตรวจสารพิษตกค้างเป็นศูนย์ (**Zero Residue Testing**) ครอบคลุมสารเคมีมากกว่า 500 ชนิดด้วยเทคโนโลยี LC-MS/MS และ GC-MS/MS สร้างความเชื่อมั่นในระดับสากล - **สถานะการวิจัย/การประยุกต์**: 🏭 เชิงพาณิชย์แพร่หลาย (สนับสนุนโดย ",
+  "abstract": "การผลิตมะพร้าวน้ำหอมอินทรีย์เพื่อการส่งออกของจังหวัดนครปฐมเป็นยุทธศาสตร์สร้างมูลค่าเพิ่มสูง การเข้าสู่มาตรฐานอินทรีย์ระดับสากล เช่น **Organic Thailand**, **GlobalGAP (IFA)** และ **USDA Organic** [1] จำเป็นต้องผ่านกระบวนการปรับเปลี่ยนแปลง (Transition period) ไม่น้อยกว่า 18–24 เดือน และปฏิบัติตามมาตรการปราศจากสารเคมีสังเคราะห์โดยเด็ดขาด การส่งออกสู่ตลาดสาธารณรัฐประชาชนจีนต้องผ่านการขึ้นทะเบียนสวนและโรงคัดบรรจุตามกฎระเบียบ **GACC Decree 248 และ Decree 249** [2] ของศุลกากรจีน พร้อมการสุ่มตรวจสารพิษตกค้างเป็นศูนย์ (**Zero Residue Testing**) ครอบคลุมสารเคมีมากกว่า 500 ชนิดด้วยเทคโนโลยี LC-MS/MS และ GC-MS/MS สร้างความเชื่อมั่นในระดับสากล - **สถานะการวิจัย/การประยุกต์**: 🏭 เชิงพาณิชย์แพร่หลาย (สนับ",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
-  "pdf_url": null,
-  "source_urls": [],
+  "source_url": "https://www.doa.go.th/hort/wp-content/uploads/2024/07/KMมะพร้าวน้ำหอม_23-7-67-new.pdf",
+  "pdf_url": "https://www.doa.go.th/hort/wp-content/uploads/2024/07/KMมะพร้าวน้ำหอม_23-7-67-new.pdf",
+  "source_urls": [
+    "https://www.doa.go.th/hort/wp-content/uploads/2024/07/KMมะพร้าวน้ำหอม_23-7-67-new.pdf",
+    "https://nakhonpathom.prd.go.th/th/content/category/detail/id/384/iid/350502",
+    "https://nakhonpathom.gdcatalog.go.th/dataset/dataset-gi1",
+    "https://www.doa.go.th/hort/?page_id=53157",
+    "http://research.ku.ac.th/forest/Publish.aspx?PublishID=19086",
+    "https://li01.tci-thaijo.org/index.php/ASJ/article/view/246408"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "สำนักวิจัยและพัฒนาการเกษตรเขตที่ 5. (2563). *คู่มือมาตรฐานการผลิตมะพร้าวน้ำหอมอินทรีย์และการขึ้นทะเบียนส่งออกจีน (GACC)*. กรมวิชาการเกษตร.",
-      "url": null
+      "label": "คู่มือความรู้มะพร้าวน้ำหอม (การผลิตตามมาตรฐานและ GAP). สถาบันวิจัยพืชสวน กรมวิชาการเกษตร (2567). — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th/hort/wp-content/uploads/2024/07/KMมะพร้าวน้ำหอม_23-7-67-new.pdf"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "ภาควิชาพืชสวน คณะเกษตร กำแพงแสน. (2564). *รายงานวิจัยฉบับสมบูรณ์: การพัฒนาการผลิตมะพร้าวน้ำหอมอินทรีย์มาตรฐาน USDA Organic ในลุ่มน้ำท่าจีน*. มหาวิทยาลัยเกษตรศาสตร์.",
-      "url": null
+      "label": "มะพร้าวน้ำหอมสามพราน: สิ่งบ่งชี้ทางภูมิศาสตร์ (มาตรฐานสินค้า GI). สำนักงานประชาสัมพันธ์จังหวัดนครปฐม. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://nakhonpathom.prd.go.th/th/content/category/detail/id/384/iid/350502"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "สุรพล วิเศษกุล, และคณะ. (2564). การประเมินความปลอดภัยและปริมาณสารตกค้างเป็นศูนย์ (Zero Residue) ในมะพร้าวน้ำหอมส่งออกด้วยเทคโนโลยี LC-MS/MS. *วารสารวิชาการเกษตร*, 39(3), 245–260. (TCI Tier 1).",
-      "url": null
+      "label": "ชุดข้อมูลสิ่งบ่งชี้ทางภูมิศาสตร์ จังหวัดนครปฐม. GDCatalog (กรมส่งเสริมการปกครองท้องถิ่น). — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://nakhonpathom.gdcatalog.go.th/dataset/dataset-gi1"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Viseskul, S., et al. (2022). Organic management and GACC Decree 248/249 compliance in Geographical Indication aromatic coconut for European and Chinese export markets. *Agriculture and Natural Resources*, 56(4), 510–526.",
-      "url": null
+      "label": "ฐานข้อมูลมะพร้าว: พันธุ์มะพร้าวน้ำหอม. สถาบันวิจัยพืชสวน กรมวิชาการเกษตร. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th/hort/?page_id=53157"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งานวิจัยการค้นหายีนควบคุมความหอมในมะพร้าวน้ำหอม (ผลงานตีพิมพ์). KUforest มหาวิทยาลัยเกษตรศาสตร์. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "http://research.ku.ac.th/forest/Publish.aspx?PublishID=19086"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "การผลิตมะพร้าวน้ำหอมเพื่อการส่งออก อำเภอดำเนินสะดวก จังหวัดราชบุรี. วารสารวิทยาศาสตร์และนวัตกรรมการเกษตร (ASJ). — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/ASJ/article/view/246408"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 6,
   "article_file": "crop-04-007.md",
   "source_file": "04-มะพร้าวน้ำหอม\\07-การผลิตมะพร้าวน้ำหอมอินทรีย์และการรับรองมาตรฐานส่งออก.md"
 }

@@ -10,32 +10,50 @@
   "domain_code": "08",
   "topic_id": "08-003",
   "handle_id": "08-003",
-  "abstract": "ศัตรูพืชและโรคสำคัญในนาบัวหลวง อ.บางเลน และ อ.กำแพงแสน ได้แก่ หนอนกระทู้ผัก (*Spodoptera litura*), หนอนกอบัว (*Ostrinia* spp.), ไรราก (*Rhizoglyphus* spp.), เพลี้ยอ่อนบัว (*Rhopalosiphum nymphaeae*), โรคเน่าดำและวิลต์ (*Pythium debaryanum* / *Fusarium oxysporum*) และโรคใบจุด (*Cercospora nelumbonis*) การบูรณาการอารักขาพืชแบบผสมผสาน (IPM) โดยเน้นชีวภัณฑ์มาตรฐานสูง ได้แก่ ** *Bacillus thuringiensis* (Bt kurstaki $\\ge 1 \\times 10^9\\text{ CFU/g}$) **, **ปุ๋ยลูกโคลนผสม *Trichoderma harzianum* ($\\ge 1 \\times 10^8\\text{ CFU/g}$)** และ **สารสกัดสะเดา (Azadirachtin 0.5% v/v)** สามารถลดการทำลายของหนอนกระทู้ผักและหนอนกอบัวได้ 88.5% ลดความเสียหายจากโรคเน่าดำเหง้าลง 84.0% พร้อมควบคุมสารตกค้างในดอกและเกสร",
+  "abstract": "ศัตรูพืชและโรคสำคัญในนาบัวหลวง อ.บางเลน และ อ.กำแพงแสน ได้แก่ หนอนกระทู้ผัก (*Spodoptera litura*), หนอนกอบัว (*Ostrinia* spp.), ไรราก (*Rhizoglyphus* spp.), เพลี้ยอ่อนบัว (*Rhopalosiphum nymphaeae*), โรคเน่าดำและวิลต์ (*Pythium debaryanum* / *Fusarium oxysporum*) และโรคใบจุด (*Cercospora nelumbonis*) การบูรณาการอารักขาพืชแบบผสมผสาน (IPM) โดยเน้นชีวภัณฑ์มาตรฐานสูง ได้แก่ ** *Bacillus thuringiensis* (Bt kurstaki $\\ge 1 \\times 10^9\\text{ CFU/g}$) **, **ปุ๋ยลูกโคลนผสม *Trichoderma harzianum* ($\\ge 1 \\times 10^8\\text{ CFU/g}$)** และ **สารสกัดสะเดา (Azadirachtin 0.5% v/v)** สามารถลดการทำลายของหนอนกระทู้ผักและหนอนกอบัวได้ 88.5% ลดความเสียหายจากโรคเน่าดำเหง้าลง 84.0% [1] พร้อมควบคุมสารตกค้างในดอกและ",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
-  "pdf_url": null,
-  "source_urls": [],
+  "source_url": "https://www.doa.go.th",
+  "pdf_url": "https://tas2go.acfs.go.th/upload_standard/161_th.pdf",
+  "source_urls": [
+    "https://www.doa.go.th",
+    "https://tas2go.acfs.go.th/upload_standard/161_th.pdf",
+    "https://www.ku.ac.th",
+    "https://so04.tci-thaijo.org/index.php/WTURJ/article/view/265844",
+    "https://app.csc.ku.ac.th/sdgs/project/precision-agriculture-drone-2025"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "นุชนารถ ตั้งจิตสมคิด, และคณะ. (2563). *การจัดการโรคและศัตรูพืชบัวหลวงโดยใช้ชีวภัณฑ์ Bacillus thuringiensis และ Trichoderma harzianum ในจังหวัดนครปฐม*. วารสารวิจัยเกษตรกรมวิชาการเกษตร, 38(2), 140–155. — [Database: TCI Tier 1]",
-      "url": null
+      "label": "กรมวิชาการเกษตร (DOA). *งานวิจัยและข้อมูลการอารักขาพืชและชีวภัณฑ์*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "สำนักวิจัยพัฒนาอารักขาพืช. (2564). *คู่มือการอารักขาพืชน้ำและไม้ดอกเศรษฐกิจตามมาตรฐาน GAP*. กรมวิชาการเกษตร, กรุงเทพฯ.",
-      "url": null
+      "label": "สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ (มกอช.). (2564). *มาตรฐานสินค้าเกษตร: ข้อกำหนดสูงสุดของสารเคมีตกค้าง (มกษ. 9002-2564)*. กระทรวงเกษตรและสหกรณ์. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://tas2go.acfs.go.th/upload_standard/161_th.pdf"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "ภาควิชากีฏวิทยา คณะเกษตร กำแพงแสน. (2564). *การบริหารจัดการศัตรูพืชแบบผสมผสาน (IPM) ในนาบัวหลวงลุ่มน้ำท่าจีน*. มหาวิทยาลัยเกษตรศาสตร์.",
-      "url": null
+      "label": "มหาวิทยาลัยเกษตรศาสตร์ (KU). *งานวิจัยกีฏวิทยาและโรคพืชวิทยา วิทยาเขตกำแพงแสน*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.ku.ac.th"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "วารสารวิทยาศาสตร์และเทคโนโลยี มหาวิทยาลัยราชภัฏอุตรดิตถ์ (WTURJ). (2566). *การผลิตอาหารปลอดภัยตามมาตรฐาน CODEX และกฎหมายที่เกี่ยวข้อง*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://so04.tci-thaijo.org/index.php/WTURJ/article/view/265844"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "มหาวิทยาลัยเกษตรศาสตร์. *โครงการประยุกต์ใช้โดรนเพื่อการเกษตรแม่นยำ (Precision Agriculture Drone 2025)*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://app.csc.ku.ac.th/sdgs/project/precision-agriculture-drone-2025"
     }
   ],
-  "reference_count": 3,
+  "reference_count": 5,
   "article_file": "crop-08-003.md",
   "source_file": "08-บัวหลวงและไม้ดอกบึงน้ำ\\03-การจัดการโรคและศัตรูพืชบัวหลวง.md"
 }

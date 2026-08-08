@@ -10,38 +10,57 @@
   "domain_code": "09",
   "topic_id": "09-004",
   "handle_id": "09-004",
-  "abstract": "การควบคุมคุณภาพยาสมุนไพรจากเมืองสมุนไพรสามพราน จังหวัดนครปฐม ต้องสอดคล้องกับมาตรฐานตำรับยาสมุนไพรไทย (Thai Herbal Pharmacopoeia: THP) และมาตรฐานสากล การควบคุมคุณภาพครอบคลุม 4 มิติหลัก ได้แก่: (1) ปริมาณสารสำคัญออกฤทธิ์, (2) ขีดจำกัดโลหะหนักพิษสะสม (**ตะกั่ว Pb < 10.0 ppm, สารหนู As < 4.0 ppm, แคดเมียม Cd < 0.3 ppm**), (3) ปริมาณเชื้อจุลินทรีย์ปนเปื้อนและสารพิษอะฟลาท็อกซิน (**Aflatoxin B1 < 5.0 µg/kg, Total Aflatoxins < 20.0 µg/kg, *E. coli* 0 CFU/g, *Salmonella* spp. ไม่พบใน 25 g**), และ (4) สารเคมีป้องกันกำจัดศัตรูพืชตกค้าง (MRLs) การประยุกต์ใช้เทคนิคอบดินพลังงานแสงอาทิตย์ (Soil Solarization 55–65°C) ร่วมกับชีวภัณฑ์ ** *Trichoderma harzianum* (\\(\\ge 1 \\times 10^8 \\ \\text{CFU/g}\\)) ** และ **",
+  "abstract": "การควบคุมคุณภาพยาสมุนไพรจากเมืองสมุนไพรสามพราน จังหวัดนครปฐม ต้องสอดคล้องกับมาตรฐานตำรับยาสมุนไพรไทย (Thai Herbal Pharmacopoeia: THP) [1] และมาตรฐานสากล การควบคุมคุณภาพครอบคลุม 4 มิติหลัก ได้แก่: (1) ปริมาณสารสำคัญออกฤทธิ์, (2) ขีดจำกัดโลหะหนักพิษสะสม (**ตะกั่ว Pb < 10.0 ppm, สารหนู As < 4.0 ppm, แคดเมียม Cd < 0.3 ppm**) [2], (3) ปริมาณเชื้อจุลินทรีย์ปนเปื้อนและสารพิษอะฟลาท็อกซิน (**Aflatoxin B1 < 5.0 µg/kg, Total Aflatoxins < 20.0 µg/kg, *E. coli* 0 CFU/g, *Salmonella* spp. ไม่พบใน 25 g**) [3], และ (4) สารเคมีป้องกันกำจัดศัตรูพืชตกค้าง (MRLs) การประยุกต์ใช้เทคนิคอบดินพลังงานแสงอาทิตย์ (Soil Solarization 55–65°C) ร่วมกับชีวภัณฑ์ ** *Trichoderma harzianum* (\\(\\ge 1 \\times 10^8 \\ \\text{CFU/g}\\",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
-  "pdf_url": null,
-  "source_urls": [],
+  "source_url": "https://thpp.dtam.moph.go.th/thpp_2022_supplement_2025/",
+  "pdf_url": "https://herbal.fda.moph.go.th/media.php?id=788282274377506816&name=Andrographis+paniculata.pdf",
+  "source_urls": [
+    "https://thpp.dtam.moph.go.th/thpp_2022_supplement_2025/",
+    "https://herbal.fda.moph.go.th/media.php?id=788282274377506816&name=Andrographis+paniculata.pdf",
+    "https://herbal.fda.moph.go.th/product/textbook-herb",
+    "https://www.who.int/publications/i/item/9241546271",
+    "https://www.tci-thaijo.org/articles/health01-204996",
+    "https://catalog.fda.moph.go.th/dataset/herbal-ap"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "กรมวิทยาศาสตร์การแพทย์. (2564). *Thai Herbal Pharmacopoeia Volume I-IV*. กระทรวงสาธารณสุข, นนทบุรี.",
-      "url": null
+      "label": "กรมการแพทย์แผนไทยและการแพทย์ทางเลือก. (2568). *ตำรับยาสมุนไพรไทย ฉบับเพิ่มเติม 2568 (THPP 2022 Supplement 2025)*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://thpp.dtam.moph.go.th/thpp_2022_supplement_2025/"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "อารีรัตน์ ลิ้มสุวรรณ, ชัชวาลย์ ชัยประเสริฐ, และ นภาเพ็ญ จิตรประเสริฐ. (2564). *การประเมินสิ่งปนเปื้อนโลหะหนัก สารพิษอะฟลาท็อกซิน และสารเคมีตกค้างในพืชสมุนไพรในเขตจังหวัดนครปฐม*. วารสารการแพทย์แผนไทยและแพทย์ทางเลือก, 19(3), 310–324. — [Database: TCI Tier 1]",
-      "url": null
+      "label": "สำนักงานคณะกรรมการอาหารและยา (อย.), กองผลิตภัณฑ์สมุนไพร. (ม.ป.ป.). *เอกสารมาตรฐานคุณภาพสมุนไพรฟ้าทะลายโจร (Andrographis paniculata)*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://herbal.fda.moph.go.th/media.php?id=788282274377506816&name=Andrographis+paniculata.pdf"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ (มกอช.). (2564). *มาตรฐานสินค้าเกษตร: การปฏิบัติทางการเกษตรที่ดีสำหรับพืชสมุนไพร (มกษ. 3502-2564)*. กระทรวงเกษตรและสหกรณ์, กรุงเทพฯ.",
-      "url": null
+      "label": "สำนักงานคณะกรรมการอาหารและยา (อย.), กองผลิตภัณฑ์สมุนไพร. (ม.ป.ป.). *ตำรายาสมุนไพร: มาตรฐานคุณภาพและข้อกำหนดผลิตภัณฑ์สมุนไพร*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://herbal.fda.moph.go.th/product/textbook-herb"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "ภาควิชาโรคพืช คณะเกษตร กำแพงแสน. (2564). *รายงานวิจัยการควบคุมเชื้อรา Aspergillus flavus และการปนเปื้อนสารพิษอะฟลาท็อกซินในสมุนไพรด้วยเทคโนโลยีปั๊มความร้อน*. มหาวิทยาลัยเกษตรศาสตร์, นครปฐม.",
-      "url": null
+      "label": "องค์การอนามัยโลก (WHO). (2546). *WHO Guidelines on Good Agricultural and Collection Practices (GACP) for Medicinal Plants*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.who.int/publications/i/item/9241546271"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "ลิ้มศิริวงศ์ ม., สหเมธาพัทธ์ ป., และ คณาปรุกร ณ. (2565). *การพัฒนาและตรวจสอบความถูกต้องวิธีวิเคราะห์สาร Andrographolide ด้วย UPLC*. วารสารการแพทย์แผนไทยและการแพทย์ทางเลือก, 153–167. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.tci-thaijo.org/articles/health01-204996"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "สำนักงานคณะกรรมการอาหารและยา (อย.). (ม.ป.ป.). *ชุดข้อมูลการขออนุญาตทะเบียนผลิตภัณฑ์สมุนไพรฟ้าทะลายโจรสำหรับข้อบ่งใช้ต่างๆ*. THFDA DATA CATALOG. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://catalog.fda.moph.go.th/dataset/herbal-ap"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 6,
   "article_file": "crop-09-004.md",
   "source_file": "09-สมุนไพรและพืชเฉพาะถิ่น\\04-การจัดการโรคและมาตรฐานคุณภาพยาสมุนไพร.md"
 }

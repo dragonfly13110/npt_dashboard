@@ -3,45 +3,71 @@
   "title": "หลักการเพาะปลูกและสรีรวิทยาข้าวในพื้นที่จังหวัดนครปฐม",
   "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
   "source_year": 2026,
-  "updated_at": "2026-08-07",
+  "updated_at": "2026-08-08",
   "created_at": "2026-08-07",
   "review_at": "2027-02-07",
   "category": "ข้าวและพันธุ์ข้าวเกษตรศาสตร์",
   "domain_code": "02",
   "topic_id": "02-001",
   "handle_id": "02-001",
-  "abstract": "การผลิตข้าวเชิงชีววิทยาสูงในจังหวัดนครปฐม โดยเฉพาะพันธุ์ **ข้าวไรซ์เบอร์รี่ (Riceberry)** และ **ข้าวสินเหล็ก (Sinlek)** ที่ได้รับการพัฒนาจากศูนย์วิทยาศาสตร์ข้าว มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน อาศัยความเข้าใจสรีรวิทยาของพืช C3 อย่างลึกซึ้ง การทำงานของยีนสังเคราะห์พิกเมนต์แอนโทไซยานิน Cyanidin-3-glucoside ($C_{21}H_{21}O_{11}^+$) ในเยื่อหุ้มเมล็ด (Pericarp) และยีน Ferritin (*OsFer1/OsFer2*) ร่วมกับตัวขนส่งธาตุเหล็ก (*OsNAS1/OsNAS2*, *OsVIT1/OsVIT2*) ควบคู่กับการบริหารค่าดัชนีพื้นที่ใบ (Leaf Area Index: LAI) ให้แตะระดับสูงสุด 5.2–6.5 ในระยะออกดอก ช่วยเพิ่มอัตราการสังเคราะห์แสงสุทธิ ($P_n$) สู่ระดับ $25-32\\ \\mu\\text{mol CO}_2/\\text{m}^2/\\text{s}$ ส่งผลให้ผลผลิตต่อไร่สูงขึ้น 15–22% พร้อม",
+  "abstract": "การผลิตข้าวเชิงชีววิทยาสูงในจังหวัดนครปฐม โดยเฉพาะพันธุ์ **ข้าวไรซ์เบอร์รี่ (Riceberry)** และ **ข้าวสินเหล็ก (Sinlek)** ที่ได้รับการพัฒนาจากศูนย์วิทยาศาสตร์ข้าว มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน [1] อาศัยความเข้าใจสรีรวิทยาของพืช C3 อย่างลึกซึ้ง การทำงานของยีนสังเคราะห์พิกเมนต์แอนโทไซยานิน Cyanidin-3-glucoside ($C_{21}H_{21}O_{11}^+$) ในเยื่อหุ้มเมล็ด (Pericarp) และยีน Ferritin (*OsFer1/OsFer2*) ร่วมกับตัวขนส่งธาตุเหล็ก (*OsNAS1/OsNAS2*, *OsVIT1/OsVIT2*) ควบคู่กับการบริหารค่าดัชนีพื้นที่ใบ (Leaf Area Index: LAI) ให้แตะระดับสูงสุด 5.2–6.5 ในระยะออกดอก ช่วยเพิ่มอัตราการสังเคราะห์แสงสุทธิ ($P_n$) สู่ระดับ $25-32\\ \\mu\\text{mol CO}_2/\\text{m}^2/\\text{s}$ ส่งผลให้ผลผลิตต่อไร่สูงขึ้น 15–22% พ",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
-  "pdf_url": null,
-  "source_urls": [],
+  "source_url": "https://dna.kps.ku.ac.th/research/breeding/riceberry",
+  "pdf_url": "https://nkpathom.nso.go.th/images/2568/%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2%E0%B8%A8%E0%B8%A3%E0%B8%B5_%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2_GI.pdf",
+  "source_urls": [
+    "https://dna.kps.ku.ac.th/research/breeding/riceberry",
+    "https://rkb.ricethailand.go.th/web/content_page.php?code=CXQK8Z8SSU1C4OCST4IZQ3XV4G8HA",
+    "https://newwebs2.ricethailand.go.th/webmain/page.php?pid=26123",
+    "https://nkpathom.nso.go.th/images/2568/%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2%E0%B8%A8%E0%B8%A3%E0%B8%B5_%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2_GI.pdf",
+    "https://www.doa.go.th",
+    "https://www.doae.go.th",
+    "https://dna.kps.ku.ac.th/rice-breeding/sinlek-rice"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "Vanavichit, A., Wongpornchai, S., & Traitangwong, A. (2018). *Riceberry: The Breeding and Health Benefits of Purple Rice*. Rice Science Center, Kasetsart University.",
-      "url": null
+      "label": "ศูนย์วิทยาศาสตร์ข้าว มหาวิทยาลัยเกษตรศาสตร์ — ข้าวไรซ์เบอร์รี่ (Riceberry) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://dna.kps.ku.ac.th/research/breeding/riceberry"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "อภิชาติ วรรณวิจิตร และคณะ. (2563). *กลไกทางพันธุศาสตร์และการสะสมสาร anthocyanin ในข้าวไรซ์เบอร์รี่*. วารสารเทคโนโลยีชีวภาพเกษตร, 8(2), 45–59.",
-      "url": null
+      "label": "กรมการข้าว — ฐานข้อมูลพันธุ์ข้าว ปทุมธานี 1 — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://rkb.ricethailand.go.th/web/content_page.php?code=CXQK8Z8SSU1C4OCST4IZQ3XV4G8HA"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "ประสิทธิ์ ใจไทย และ สมศักดิ์ ดำรงค์ศิลป์. (2562). *สรีรวิทยาการสังเคราะห์แสงและดัชนีพื้นที่ใบของข้าว C3 ในเขตชลประทานภาคกลาง*. วารสารพืชศาสตรเกษตร, 37(1), 88–102.",
-      "url": null
+      "label": "กรมการข้าว — ข้อมูลพันธุ์ข้าว กข85/กข95 — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://newwebs2.ricethailand.go.th/webmain/page.php?pid=26123"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Rice Science Center. (2020). *Biofortification of Iron and Zinc in Sinlek Rice*. Kasetsart University Kamphaeng Saen Campus.",
-      "url": null
+      "label": "สำนักงานสถิติจังหวัดนครปฐม — บทวิเคราะห์ส้มโอนครชัยศรี สินค้า GI (ข้อมูลสถิติการเกษตรจังหวัด) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://nkpathom.nso.go.th/images/2568/%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2%E0%B8%A8%E0%B8%A3%E0%B8%B5_%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2_GI.pdf"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "กรมวิชาการเกษตร — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "กรมส่งเสริมการเกษตร — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doae.go.th"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "Rice Science Center. (2020). *ข้าวสินเหล็ก: การปรับปรุงปริมาณธาตุเหล็กและสังกะสีในเมล็ดข้าว (Biofortification of Iron and Zinc in Sinlek Rice)*. ศูนย์วิทยาศาสตร์ข้าว มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน. — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://dna.kps.ku.ac.th/rice-breeding/sinlek-rice"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 7,
   "article_file": "crop-02-001.md",
   "source_file": "02-ข้าวและพันธุ์ข้าวเกษตรศาสตร์\\01-หลักการเพาะปลูกและสรีรวิทยาข้าว.md"
 }

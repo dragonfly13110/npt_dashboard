@@ -6,6 +6,7 @@ import {
   searchKnowledgeHubChunks,
   searchMachineryChunks,
   searchNptResearchChunks,
+  searchPlantCultivationChunks,
   searchRiceChunks,
   searchStouResearchChunks,
 } from '../../netlify/functions/lib/knowledge-search.js';
@@ -33,6 +34,9 @@ describe('knowledge bots', () => {
     expect(getKnowledgeBotKind('/public/npt-research/npt-01-001')).toBe(
       'npt-research'
     );
+    expect(getKnowledgeBotKind('/public/plant-cultivation/crop-03-005')).toBe(
+      'cultivation'
+    );
   });
 
   it('returns evidence linked to each collection corpus', () => {
@@ -52,6 +56,9 @@ describe('knowledge bots', () => {
     expect(searchNptResearchChunks('งานวิจัยข้าวนครปฐม')[0].url).toMatch(
       /^\/public\/npt-research\//
     );
+    expect(searchPlantCultivationChunks('การจัดการน้ำกล้วยไม้')[0].url).toMatch(
+      /^\/public\/plant-cultivation\//
+    );
   });
 
   it('keeps the matching later collection in the shared Knowledge Hub search', () => {
@@ -62,6 +69,7 @@ describe('knowledge bots', () => {
       ['งานวิจัยส่งเสริมการผลิตข้าวมีอะไรบ้าง', 'stou-research'],
       ['CRISPR ข้าวทนแล้ง', 'frontier-agri-research'],
       ['งานวิจัยข้าวนครปฐม', 'npt-research'],
+      ['หลักการเพาะปลูกกล้วยไม้', 'plant-cultivation'],
     ];
 
     for (const [query, collection] of cases) {
@@ -142,6 +150,28 @@ describe('knowledge bots', () => {
     );
     expect(serialized).toContain('/public/npt-research/');
     expect(serialized).not.toContain('/public/frontier-agri-research/');
+  });
+
+  it('grounds the key crop cultivation bot in its own article links', () => {
+    const body = buildKnowledgeBody(
+      'gemini',
+      { model: 'gemini-3.5-flash-lite' },
+      'กล้วยไม้ควรจัดการน้ำและโรงเรือนอย่างไร',
+      [
+        {
+          role: 'user',
+          parts: [{ text: 'หลักการปลูกกล้วยไม้มีอะไรบ้าง' }],
+        },
+      ],
+      'cultivation',
+      'crop-03-005'
+    );
+    const serialized = JSON.stringify(body);
+    expect(body.systemInstruction.parts[0].text).toContain(
+      'ข้าวหลามหลักการปลูก'
+    );
+    expect(serialized).toContain('/public/plant-cultivation/');
+    expect(serialized).not.toContain('/public/npt-research/');
   });
 
   it('keeps an article-scoped frontier bot inside the current article corpus', () => {

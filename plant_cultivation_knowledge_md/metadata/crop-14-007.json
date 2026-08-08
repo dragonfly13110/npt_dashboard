@@ -12,36 +12,48 @@
   "handle_id": "14-007",
   "abstract": "การยกระดับห่วงโซ่การผลิตกัญชาทางการแพทย์ในจังหวัดนครปฐมมุ่งสู่การเป็นศูนย์กลางยาสมุนไพรส่งออกระดับสากล ต้องเชื่อมโยงมาตรฐานการเพาะปลูกและการเก็บเกี่ยวที่ดี (GACP Standard: Good Agricultural and Collection Practices) จากระดับฟาร์ม เข้าสู่มาตรฐานโรงงานผลิตและสกัดยาระดับสากล (GMP-PIC/S: Pharmaceutical Inspection Co-operation Scheme) ภายใต้การกำกับดูแลตาม พ.ร.บ. ยาเสพติดให้โทษ และ พ.ร.บ. ผลิตภัณฑ์สมุนไพร โดยสำนักงานคณะกรรมการอาหารและยา (อย.) เครือข่ายฟาร์มเมืองสมุนไพรสามพรานและศูนย์วิจัย มก.กำแพงแสน สามารถทำตามโปรโตคอลการส่งออกไปยังตลาดยุโรป (EU-GMP Compliance: EudraLex Vol 4) และออสเตรเลีย (TGA-GMP: TGO 93/TGO 100 Standards) โดยมีเอกสารรับรองวิเคราะห์ Certificate of Analysis (CoA) ครอบคลุมสารสำ",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
+  "source_url": "https://www.who.int/publications/i/item/9241546271",
   "pdf_url": null,
-  "source_urls": [],
+  "source_urls": [
+    "https://www.who.int/publications/i/item/9241546271",
+    "https://herbal.fda.moph.go.th/product/category/permission-prod-canabis",
+    "https://herbal.fda.moph.go.th/law-herbal?page=2",
+    "https://cannabisinfo.fda.moph.go.th/",
+    "http://books.doa.go.th/ebook_tophit"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "สำนักงานคณะกรรมการอาหารและยา (อย.). (2565). *คู่มือการขออนุญาตและการผลิตผลิตภัณฑ์สมุนไพรจากกัญชาและกัญชงตามมาตรฐาน GMP*. กระทรวงสาธารณสุข, นนทบุรี.",
-      "url": null
+      "label": "WHO. (2003). *WHO Guidelines on Good Agricultural and Collection Practices (GACP) for Medicinal Plants* (หลักการ GACP ต้นทางสู่มาตรฐานการผลิตยา). World Health Organization, Geneva. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://www.who.int/publications/i/item/9241546271"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "กรมวิชาการเกษตร. (2565). *เกณฑ์การตรวจประเมินและรับรองมาตรฐาน GACP สำหรับกัญชาและกัญชง*. กระทรวงเกษตรและสหกรณ์, กรุงเทพฯ.",
-      "url": null
+      "label": "กองผลิตภัณฑ์สมุนไพร สำนักงานคณะกรรมการอาหารและยา (อย.). (2566). *การขออนุญาตผลิตภัณฑ์สมุนไพรที่มีกัญชา กัญชง เป็นส่วนประกอบ*. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://herbal.fda.moph.go.th/product/category/permission-prod-canabis"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "พัชราภรณ์ วงษ์สุวรรณ และคณะ. (2566). *การพัฒนาระบบประกันคุณภาพและการควบคุมสิ่งปนเปื้อนในช่อดอกกัญชาทางการแพทย์ตามเกณฑ์ Pharmacopoeia และ TGO 93 สำหรับการส่งออก*. วารสารวิทยาศาสตร์เภสัชกรรมไทย, 18(2), 95–110. — ฐานข้อมูล TCI กลุ่ม 1.",
-      "url": null
+      "label": "กองผลิตภัณฑ์สมุนไพร สำนักงานคณะกรรมการอาหารและยา (อย.). (2566). *กฎหมายผลิตภัณฑ์สมุนไพร: พระราชบัญญัติ กฎกระทรวง และประกาศกระทรวง* (รวมประกาศการดำเนินการผลิตภัณฑ์สมุนไพรที่มีสารสกัดกัญชา/กัญชง พ.ศ. 2564). URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://herbal.fda.moph.go.th/law-herbal?page=2"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Sam Phran Pharmaceutical Quality Group. (2023). *Compliance and Quality Management of GMP-PIC/S Extraction Facilities for Medical Cannabis Products in Thailand*. Sam Phran Medical Journal, 15(2), 160–178.",
-      "url": null
+      "label": "สำนักงานคณะกรรมการอาหารและยา (อย.). (2566). *ศูนย์รวมข้อมูลกัญชา กัญชง — กฎหมาย การยื่นขอรับอนุญาต แบบคำขอจดแจ้งปลูก และการผลิต (สกัด)*. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://cannabisinfo.fda.moph.go.th/"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "กรมวิชาการเกษตร. (ม.ป.ป.). *คลังหนังสืออิเล็กทรอนิกส์ (e-book) — คู่มือสำหรับเกษตรกรการผลิตพืชสกุลกัญชา (Cannabis) และกัญชง (Hemp)*. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "http://books.doa.go.th/ebook_tophit"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 5,
   "article_file": "crop-14-007.md",
   "source_file": "14-กัญชาและกัญชงเพื่อการแพทย์และอุตสาหกรรม\\07-การผลิตกัญชาทางการแพทย์ตามมาตรฐาน GMP-PICS และส่งออก.md"
 }

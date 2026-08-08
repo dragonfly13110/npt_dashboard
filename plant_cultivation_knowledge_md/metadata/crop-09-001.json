@@ -10,38 +10,50 @@
   "domain_code": "09",
   "topic_id": "09-001",
   "handle_id": "09-001",
-  "abstract": "ฟ้าทะลายโจร (*Andrographis paniculata* (Burm.f.) Wall. ex Nees) เป็นพืชสมุนไพรเศรษฐกิจอันดับหนึ่งของเมืองสมุนไพรสามพราน จังหวัดนครปฐม มุ่งเน้นการผลิตมวลชีวภาพใบและกิ่งก้านคุณภาพสูงที่มีปริมาณสารสำคัญ **Andrographolide (\\(C_{20}H_{30}O_5\\)) เกิน 1.5% w/w** และ **Total Diterpene Lactones เกิน 6.0% w/w** ตามเกณฑ์ตำรับยาสมุนไพรไทย (Thai Herbal Pharmacopoeia: THP) การศึกษาสรีรวิทยาการสังเคราะห์แสงวิถี \\(\\text{C}_3\\) พบว่าการพรางแสง 30–40% ด้วยสแลนสีดำ ช่วยเพิ่มดัชนีพื้นที่ใบ (LAI) จาก 3.10 เป็น 4.85–5.20 และเพิ่มอัตราสังเคราะห์แสงสุทธิ (\\(P_n\\)) สูงสุดเท่ากับ \\(18.50 \\ \\mu\\text{mol CO}_2/\\text{m}^2/\\text{s}\\) การเก็บเกี่ยวในระยะเริ่มออกดอกตูมแรก (First Flower Bud Stage / 20–50% flowering) ที่อายุ",
+  "abstract": "ฟ้าทะลายโจร (*Andrographis paniculata* (Burm.f.) Wall. ex Nees) เป็นพืชสมุนไพรเศรษฐกิจอันดับหนึ่งของเมืองสมุนไพรสามพราน จังหวัดนครปฐม มุ่งเน้นการผลิตมวลชีวภาพใบและกิ่งก้านคุณภาพสูงที่มีปริมาณสารสำคัญ **Andrographolide (\\(C_{20}H_{30}O_5\\)) เกิน 1.5% w/w** และ **Total Diterpene Lactones เกิน 6.0% w/w** ตามเกณฑ์ตำรับยาสมุนไพรไทย (Thai Herbal Pharmacopoeia: THP) [1] การศึกษาสรีรวิทยาการสังเคราะห์แสงวิถี \\(\\text{C}_3\\) พบว่าการพรางแสง 30–40% ด้วยสแลนสีดำ ช่วยเพิ่มดัชนีพื้นที่ใบ (LAI) จาก 3.10 เป็น 4.85–5.20 และเพิ่มอัตราสังเคราะห์แสงสุทธิ (\\(P_n\\)) สูงสุดเท่ากับ \\(18.50 \\ \\mu\\text{mol CO}_2/\\text{m}^2/\\text{s}\\) การเก็บเกี่ยวในระยะเริ่มออกดอกตูมแรก (First Flower Bud Stage / 20–50% flowering) ที่",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
-  "pdf_url": null,
-  "source_urls": [],
+  "source_url": "https://herbal.fda.moph.go.th/media.php?id=788282274377506816&name=Andrographis+paniculata.pdf",
+  "pdf_url": "https://herbal.fda.moph.go.th/media.php?id=788282274377506816&name=Andrographis+paniculata.pdf",
+  "source_urls": [
+    "https://herbal.fda.moph.go.th/media.php?id=788282274377506816&name=Andrographis+paniculata.pdf",
+    "https://li01.tci-thaijo.org/index.php/thaiagriculturalresearch/article/view/259308",
+    "https://www.tci-thaijo.org/articles/health01-204996",
+    "http://books.doa.go.th/ebook_tophit",
+    "https://www.doa.go.th/psco/?page_id=2537"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "กรมการแพทย์แผนไทยและการแพทย์ทางเลือก. (2564). *คู่มือการเพาะปลูกและการเก็บเกี่ยวฟ้าทะลายโจรตามมาตรฐานการปฏิบัติทางการเกษตรที่ดี (GAP)*. กระทรวงสาธารณสุข, นนทบุรี.",
-      "url": null
+      "label": "สำนักงานคณะกรรมการอาหารและยา (อย.), กองผลิตภัณฑ์สมุนไพร. (ม.ป.ป.). *เอกสารมาตรฐานคุณภาพสมุนไพรฟ้าทะลายโจร (Andrographis paniculata) และปริมาณสารสำคัญ*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://herbal.fda.moph.go.th/media.php?id=788282274377506816&name=Andrographis+paniculata.pdf"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "สุภาพร ปัญญา, ธนวัฒน์ ชัยมงคล, และ สมชาย กล้าหาญ. (2564). *อิทธิพลของระดับการพรางแสงและธาตุอาหารในชุดดินกำแพงแสนต่อสรีรวิทยาการสังเคราะห์แสงและการสะสมสารแอนโดรกราโฟไลด์ในฟ้าทะลายโจร*. วารสารการแพทย์แผนไทยและแพทย์ทางเลือก, 19(2), 245–258. — [Database: TCI Tier 1]",
-      "url": null
+      "label": "บทความวิจัยการผลิตฟ้าทะลายโจร. (2566). *วารสารวิชาการเกษตร (Thai Agricultural Research Journal)*, ปีที่ 41 ฉบับที่ 3. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/thaiagriculturalresearch/article/view/259308"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "สถาบันวิจัยสมุนไพร. (2564). *Thai Herbal Pharmacopoeia 2021: Standard of Andrographis paniculata*. กรมวิทยาศาสตร์การแพทย์, กระทรวงสาธารณสุข.",
-      "url": null
+      "label": "ลิ้มศิริวงศ์ ม., สหเมธาพัทธ์ ป., และ คณาปรุกร ณ. (2565). *การพัฒนาและตรวจสอบความถูกต้องวิธีวิเคราะห์สาร Andrographolide ด้วย UPLC*. วารสารการแพทย์แผนไทยและการแพทย์ทางเลือก, 153–167. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.tci-thaijo.org/articles/health01-204996"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "ภาควิชาพืชสวน คณะเกษตร กำแพงแสน. (2565). *รายงานวิจัยการเพิ่มประสิทธิภาพการผลิตมวลชีวภาพและสารสำคัญในสมุนไพรฟ้าทะลายโจรด้วยเกษตรแม่นยำ*. มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน, นครปฐม.",
-      "url": null
+      "label": "กรมวิชาการเกษตร. (ม.ป.ป.). *คู่มือสำหรับเกษตรกรการผลิตฟ้าทะลายโจร*. ห้องสมุดดิจิทัลกรมวิชาการเกษตร, สถาบันวิจัยพืชสวน. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "http://books.doa.go.th/ebook_tophit"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "กรมวิชาการเกษตร, กองพัฒนาระบบและรับรองมาตรฐานสินค้าพืช. (ม.ป.ป.). *ขั้นตอนการยื่นขอการรับรองแหล่งผลิต GAP พืชและการผลิตพืชอินทรีย์*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th/psco/?page_id=2537"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 5,
   "article_file": "crop-09-001.md",
   "source_file": "09-สมุนไพรและพืชเฉพาะถิ่น\\01-หลักการเพาะปลูกและสรีรวิทยาฟ้าทะลายโจร.md"
 }

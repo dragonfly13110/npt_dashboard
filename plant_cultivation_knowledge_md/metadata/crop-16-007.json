@@ -10,14 +10,15 @@
   "domain_code": "16",
   "topic_id": "16-007",
   "handle_id": "16-007",
-  "abstract": "บทความ NPT ชี้ให้เห็นงานวิจัยที่นำผลพลอยได้จากโรงงานน้ำตาลและอุตสาหกรรมฟอกหนังมาศึกษาเป็นแหล่งธาตุอาหารสำหรับอ้อยและมันสำปะหลัง ประเด็นนี้มีคุณค่าในฐานะโจทย์วิจัยเศรษฐกิจหมุนเวียน แต่ **งานวิจัยไม่ได้แปลว่าวัสดุจากโรงงานทุกล็อตปลอดภัยหรือใช้ได้ทันที** การจัดการที่ควรใช้เป็นกติกากลางคือ “ตรวจวัสดุ ตรวจดิน ทดลองขนาดเล็ก ติดตามผล และมีเอกสารย้อนกลับได้” หากขาดขั้นใดขั้นหนึ่ง ให้หยุดการใช้เชิงเกษตรไว้ก่อน",
+  "abstract": "บทความ NPT ชี้ให้เห็นงานวิจัยที่นำผลพลอยได้จากโรงงานน้ำตาลและอุตสาหกรรมฟอกหนังมาศึกษาเป็นแหล่งธาตุอาหารสำหรับอ้อยและมันสำปะหลัง `[1]` ประเด็นนี้มีคุณค่าในฐานะโจทย์วิจัยเศรษฐกิจหมุนเวียน แต่ **งานวิจัยไม่ได้แปลว่าวัสดุจากโรงงานทุกล็อตปลอดภัยหรือใช้ได้ทันที** การจัดการที่ควรใช้เป็นกติกากลางคือ “ตรวจวัสดุ ตรวจดิน ทดลองขนาดเล็ก ติดตามผล และมีเอกสารย้อนกลับได้” หากขาดขั้นใดขั้นหนึ่ง ให้หยุดการใช้เชิงเกษตรไว้ก่อน",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
   "source_url": "https://npt-dashboard.netlify.app/public/npt-research/npt-04-001",
   "pdf_url": null,
   "source_urls": [
     "https://npt-dashboard.netlify.app/public/npt-research/npt-04-001",
-    "https://li02.tci-thaijo.org/index.php/JASM/article/view/261973",
-    "https://li02.tci-thaijo.org/index.php/JASM/article/view/245233",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/340",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/657",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/694",
     "https://li02.tci-thaijo.org/index.php/JASM/",
     "https://www.doa.go.th/"
   ],
@@ -25,35 +26,41 @@
     {
       "id": "1",
       "index": 1,
-      "label": "บทความ NPT: งานวิจัยพืชไร่ในจังหวัดนครปฐม",
+      "label": "บทความ NPT: งานวิจัยพืชไร่ในจังหวัดนครปฐม — เข้าถึงเมื่อ 2026-08-08",
       "url": "https://npt-dashboard.netlify.app/public/npt-research/npt-04-001"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "งานวิจัยผงกากส่ากับมันสำปะหลัง",
-      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/261973"
+      "label": "การใช้ผลพลอยได้จากโรงงานน้ำตาล (ผงกากส่า) เป็นแหล่งโพแทสเซียมต่อการเจริญเติบโตและผลผลิตของมันสำปะหลัง (วารสารวิทยาศาสตร์เกษตรและการจัดการ 6(2)) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/340"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "งานวิจัยผลพลอยได้โรงฟอกหนังกับมันสำปะหลัง",
-      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/245233"
+      "label": "การใช้ประโยชน์ผลพลอยได้จากอุตสาหกรรมฟอกหนังต่อการเจริญเติบโตและผลผลิตของอ้อย (วารสารวิทยาศาสตร์เกษตรและการจัดการ 7(3): 61–71) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/657"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "หน้าวารสาร Journal of Agricultural Science and Management",
-      "url": "https://li02.tci-thaijo.org/index.php/JASM/"
+      "label": "การใช้ประโยชน์ผลพลอยได้จากอุตสาหกรรมฟอกหนังต่อการเจริญเติบโตและผลผลิตของมันสำปะหลัง (วารสารวิทยาศาสตร์เกษตรและการจัดการ 7(3): 125–136) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/694"
     },
     {
       "id": "5",
       "index": 5,
-      "label": "กรมวิชาการเกษตร",
+      "label": "หน้าวารสาร Journal of Agricultural Science and Management — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "กรมวิชาการเกษตร — เข้าถึงเมื่อ 2026-08-08",
       "url": "https://www.doa.go.th/"
     }
   ],
-  "reference_count": 5,
+  "reference_count": 6,
   "article_file": "crop-16-007.md",
   "source_file": "16-พืชไร่เศรษฐกิจและข้าวโพดนครปฐม\\07-ปุ๋ยหมุนเวียนและความปลอดภัยผลพลอยได้อุตสาหกรรม.md"
 }

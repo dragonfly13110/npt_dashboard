@@ -10,38 +10,50 @@
   "domain_code": "03",
   "topic_id": "03-004",
   "handle_id": "03-004",
-  "abstract": "เทคโนโลยีชีวภาพกล้วยไม้ในจังหวัดนครปฐม ขับเคลื่อนโดยศูนย์เทคโนโลยีชีวภาพเกษตร (CAB) มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน เน้นการเพิ่มปริมาณขยายพันธุ์ความเร็วสูง (Mass Micropropagation) ผ่าน Protocorm-Like Bodies (PLBs) ในระบบอาหารเหลวเขย่า การดัดแปรพันธุกรรมโพลีพลอยดีด้วยคอลจิซีน (Colchicine) เพื่อสร้างสายพันธุ์หวาย Tetraploid ($2n=4x=76$) ซึ่งให้กลีบดอกหนาขึ้น 34.5% และทนทานต่อการขนส่งไกล ควบคู่กับเทคโนโลยีตรวจคัดกรองไวรัส CymMV และ ORSV ปลอดเชื้อ 100% ด้วย Multiplex RT-PCR ช่วยยับยั้งความเสี่ยงการเกิดความแปรผันทางพันธุกรรม (Somaclonal variation) ให้ต่ำกว่า 1.2% - **สถานะการวิจัย/การประยุกต์**: 🧪 นำร่องแปลงเกษตรกร & 🏭 เชิงพาณิชย์แพร่หลาย ---",
+  "abstract": "เทคโนโลยีชีวภาพกล้วยไม้ในจังหวัดนครปฐม ขับเคลื่อนโดยศูนย์เทคโนโลยีชีวภาพเกษตร (CAB) มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน เน้นการเพิ่มปริมาณขยายพันธุ์ความเร็วสูง (Mass Micropropagation) ผ่าน Protocorm-Like Bodies (PLBs) ในระบบอาหารเหลวเขย่า การดัดแปรพันธุกรรมโพลีพลอยดีด้วยคอลจิซีน (Colchicine) เพื่อสร้างสายพันธุ์หวาย Tetraploid ($2n=4x=76$) ซึ่งให้กลีบดอกหนาขึ้น 34.5% และทนทานต่อการขนส่งไกล ควบคู่กับเทคโนโลยีตรวจคัดกรองไวรัส CymMV และ ORSV ปลอดเชื้อ 100% ด้วย Multiplex RT-PCR [1] ช่วยยับยั้งความเสี่ยงการเกิดความแปรผันทางพันธุกรรม (Somaclonal variation) ให้ต่ำกว่า 1.2% [2] - **สถานะการวิจัย/การประยุกต์**: 🧪 นำร่องแปลงเกษตรกร & 🏭 เชิงพาณิชย์แพร่หลาย ---",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
+  "source_url": "https://li01.tci-thaijo.org/index.php/ASJ/article/view/246409",
   "pdf_url": null,
-  "source_urls": [],
+  "source_urls": [
+    "https://li01.tci-thaijo.org/index.php/ASJ/article/view/246409",
+    "https://li01.tci-thaijo.org/index.php/anres/article/view/240694",
+    "https://info.doa.go.th/research/index.php?act=view_detail&id=3313",
+    "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/251392",
+    "https://li01.tci-thaijo.org/index.php/ASJ"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "อภิเดช แสงดวง, และคณะ. (2565). *การพัฒนาเทคนิค Multiplex RT-PCR เพื่อการตรวจวินิจฉัยเชื้อไวรัส CymMV และ ORSV ในกล้วยไม้ตัดดอกเชิงพาณิชย์*. วารสารเทคโนโลยีชีวภาพเกษตร, 10(2), 112–125.",
-      "url": null
+      "label": "ผลของไวรัสซิมบิเดียมโมเสก (CymMV) ต่อกล้วยไม้สกุลหวาย. วารสารวิทยาศาสตร์และนวัตกรรมการเกษตร (ASJ). — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/ASJ/article/view/246409"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "ศูนย์เทคโนโลยีชีวภาพเกษตร มหาวิทยาลัยเกษตรศาสตร์. (2566). *การปรับปรุงพันธุ์กล้วยไม้หวายโพลีพลอยดีด้วยสารคอลจิซีนและการอนุรักษ์พันธุกรรมแบบแช่เยือกแข็ง*.",
-      "url": null
+      "label": "การตรวจสอบไวรัส CymMV ในกล้วยไม้ด้วยวิธีทางซีรั่มวิทยา (Serology). Agriculture and Natural Resources. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/anres/article/view/240694"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "สถาบันวิจัยพืชสวน กรมวิชาการเกษตร. (2564). *มาตรฐานการผลิตต้นกล้ากล้วยไม้ปลอดไวรัสจากการเพาะเลี้ยงเนื้อเยื่อ*.",
-      "url": null
+      "label": "คลังผลงานวิจัยกรมวิชาการเกษตร: งานวิจัยกล้วยไม้ (รองเท้านารี). — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://info.doa.go.th/research/index.php?act=view_detail&id=3313"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Chantorn, S., & Ruamrungsri, S. (2023). In Vitro Polyploidy Induction and Somaclonal Variation Assessment in *Dendrobium* Hybrids. *Plant Cell, Tissue and Organ Culture (PCTOC)*, 154(1), 45–59.",
-      "url": null
+      "label": "ผลของสารคล้ายบราสซินต่อการเจริญเติบโตของกล้วยไม้ขาวสนาน. วารสารแก่นเกษตร. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/251392"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "วารสารวิทยาศาสตร์และนวัตกรรมการเกษตร (Agricultural Science Journal, ASJ). — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/ASJ"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 5,
   "article_file": "crop-03-004.md",
   "source_file": "03-กล้วยไม้ตัดดอก\\04-งานวิจัยและเทคโนโลยีชีวภาพกล้วยไม้.md"
 }

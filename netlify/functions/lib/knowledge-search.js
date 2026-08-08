@@ -10,6 +10,7 @@ let machineryChunksCache = null;
 let stouResearchChunksCache = null;
 let frontierAgriResearchChunksCache = null;
 let nptResearchChunksCache = null;
+let plantCultivationChunksCache = null;
 
 const THAI_WORD_SEGMENTER = new Intl.Segmenter('th', {
   granularity: 'word',
@@ -593,6 +594,82 @@ export function searchNptResearchChunks(
   return searchChunks(chunks, queryText, limit, preferredDocumentSlug);
 }
 
+export function loadPlantCultivationChunks() {
+  if (plantCultivationChunksCache) return plantCultivationChunksCache;
+  try {
+    const root = path.join(process.cwd(), 'public/data/plant-cultivation');
+    const catalog = JSON.parse(
+      fs.readFileSync(path.join(root, 'catalog.json'), 'utf8')
+    );
+    const articlesByFile = new Map(
+      catalog.articles.map((article) => [article.article_file, article])
+    );
+    const articlesByTopic = new Map(
+      catalog.articles.map((article) => [article.topic_id, article])
+    );
+    plantCultivationChunksCache = readMarkdownChunks(
+      path.join(root, 'articles'),
+      (file, content) => {
+        const article = articlesByFile.get(file);
+        if (!article) return { document_slug: file.replace(/\.md$/, '') };
+        const relatedDocumentSlugs = [
+          ...new Set(
+            [...String(content || '').matchAll(/(?<!\d)(\d{2}-\d{3})(?!\d)/g)]
+              .map((match) => articlesByTopic.get(match[1])?.slug)
+              .filter(Boolean)
+          ),
+        ];
+        return {
+          document_slug: article.slug,
+          related_document_slugs: relatedDocumentSlugs,
+          title: article.title,
+          author: article.author,
+          category: article.category,
+          collection: 'plant-cultivation',
+          topic: article.topic_id,
+          plant: article.category,
+          source_year: article.source_year,
+          updated_at: article.updated_at,
+          review_at: article.review_at,
+          reference_count: article.reference_count,
+          source_urls: article.source_urls,
+          url: `/public/plant-cultivation/${article.slug}`,
+        };
+      }
+    );
+  } catch (error) {
+    console.error('Error loading plant cultivation knowledge:', error);
+    plantCultivationChunksCache = [];
+  }
+  return plantCultivationChunksCache;
+}
+
+export function searchPlantCultivationChunks(
+  queryText,
+  limit = 10,
+  preferredDocumentSlug = ''
+) {
+  const chunks = loadPlantCultivationChunks();
+  if (preferredDocumentSlug) {
+    const preferredChunk = chunks.find(
+      (chunk) => chunk.document_slug === preferredDocumentSlug
+    );
+    if (preferredChunk) {
+      const scopedSlugs = new Set([
+        preferredDocumentSlug,
+        ...(preferredChunk.related_document_slugs || []),
+      ]);
+      return searchChunks(
+        chunks.filter((chunk) => scopedSlugs.has(chunk.document_slug)),
+        queryText,
+        limit,
+        preferredDocumentSlug
+      );
+    }
+  }
+  return searchChunks(chunks, queryText, limit, preferredDocumentSlug);
+}
+
 export function searchKnowledgeHubChunks(queryText, limit = 12) {
   const sources = [
     {
@@ -651,6 +728,12 @@ export function searchKnowledgeHubChunks(queryText, limit = 12) {
       collection: 'npt-research',
       label: 'งานวิจัยพืชนครปฐม',
       search: searchNptResearchChunks,
+      url: (chunk) => chunk.url,
+    },
+    {
+      collection: 'plant-cultivation',
+      label: 'หลักการเพาะปลูกพืชที่สำคัญ',
+      search: searchPlantCultivationChunks,
       url: (chunk) => chunk.url,
     },
   ];

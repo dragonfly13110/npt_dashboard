@@ -10,57 +10,71 @@
   "domain_code": "16",
   "topic_id": "16-003",
   "handle_id": "16-003",
-  "abstract": "คำแนะนำปุ๋ยที่ดีต้องตอบ 3 คำถามก่อนเสมอ 1. ดินมีธาตุอาหารและข้อจำกัดอะไร 2. พืชจะใช้น้ำได้ต่อเนื่องในช่วงสำคัญหรือไม่ 3. ผลผลิตที่ตั้งเป้าหมายขายเป็นอะไรและมีต้นทุนปุ๋ยได้เท่าไร บทความ NPT รายงานงานทดลองปุ๋ยไนโตรเจนชนิดปลดปล่อยช้าในอ้อยและมันสำปะหลังบนเงื่อนไขเฉพาะ โดยมีตัวเลขสูตร 40-0-0 อัตรา 50 กก./ไร่ในบทความทบทวน ตัวเลขนี้เป็น **ผลการทดลองที่ต้องตรวจเงื่อนไข** ไม่ใช่สูตรกลางสำหรับทุกแปลง",
+  "abstract": "คำแนะนำปุ๋ยที่ดีต้องตอบ 3 คำถามก่อนเสมอ 1. ดินมีธาตุอาหารและข้อจำกัดอะไร 2. พืชจะใช้น้ำได้ต่อเนื่องในช่วงสำคัญหรือไม่ 3. ผลผลิตที่ตั้งเป้าหมายขายเป็นอะไรและมีต้นทุนปุ๋ยได้เท่าไร บทความ NPT รายงานงานทดลองปุ๋ยไนโตรเจนชนิดปลดปล่อยช้าในอ้อยและมันสำปะหลังบนเงื่อนไขเฉพาะ โดยมีตัวเลขสูตร 40-0-0 อัตรา 50 กก./ไร่ในบทความทบทวน `[2]` ซึ่งตรงกับผลทดลองปุ๋ยไนโตรเจนชนิดต่างๆ ในมันสำปะหลังชุดดินกำแพงแสน `[4]` ตัวเลขนี้เป็น **ผลการทดลองที่ต้องตรวจเงื่อนไข** ไม่ใช่สูตรกลางสำหรับทุกแปลง",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
   "source_url": "https://npt-dashboard.netlify.app/public/npt-research/npt-07-001",
   "pdf_url": null,
   "source_urls": [
     "https://npt-dashboard.netlify.app/public/npt-research/npt-07-001",
     "https://npt-dashboard.netlify.app/public/npt-research/npt-04-001",
-    "https://li02.tci-thaijo.org/index.php/JASM/article/view/261072",
-    "https://li02.tci-thaijo.org/index.php/JASM/article/view/247953",
-    "https://li02.tci-thaijo.org/index.php/JASM/article/view/261973",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/70",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/776",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/340",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/694",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/44",
     "https://www.doa.go.th/"
   ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "บทความ NPT: งานวิจัยดิน ปุ๋ย และน้ำ",
+      "label": "บทความ NPT: งานวิจัยดิน ปุ๋ย และน้ำ — เข้าถึงเมื่อ 2026-08-08",
       "url": "https://npt-dashboard.netlify.app/public/npt-research/npt-07-001"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "บทความ NPT: งานวิจัยพืชไร่ในจังหวัดนครปฐม",
+      "label": "บทความ NPT: งานวิจัยพืชไร่ในจังหวัดนครปฐม — เข้าถึงเมื่อ 2026-08-08",
       "url": "https://npt-dashboard.netlify.app/public/npt-research/npt-04-001"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "งานวิจัยไนโตรเจนในอ้อย",
-      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/261072"
+      "label": "ผลของปุ๋ยเคมีเคลือบด้วยวัสดุนาโนที่ควบคุมการปลดปล่อยต่อการเจริญเติบโตและผลผลิตของอ้อยในชุดดินกำแพงแสน (วารสารวิทยาศาสตร์เกษตรและการจัดการ 3(2) 2563) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/70"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "งานวิจัยไนโตรเจนในมันสำปะหลัง",
-      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/247953"
+      "label": "ผลของปุ๋ยไนโตรเจนชนิดต่างๆ ต่อผลผลิต องค์ประกอบผลผลิตของมันสำปะหลัง และสมบัติบางประการของดิน (วารสารวิทยาศาสตร์เกษตรและการจัดการ 8(3)) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/776"
     },
     {
       "id": "5",
       "index": 5,
-      "label": "งานวิจัยผงกากส่ากับมันสำปะหลัง",
-      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/261973"
+      "label": "การใช้ผลพลอยได้จากโรงงานน้ำตาล (ผงกากส่า) เป็นแหล่งโพแทสเซียมต่อการเจริญเติบโตและผลผลิตของมันสำปะหลัง (วารสารวิทยาศาสตร์เกษตรและการจัดการ 6(2)) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/340"
     },
     {
       "id": "6",
       "index": 6,
-      "label": "กรมวิชาการเกษตร",
+      "label": "การใช้ประโยชน์ผลพลอยได้จากอุตสาหกรรมฟอกหนังต่อการเจริญเติบโตและผลผลิตของมันสำปะหลัง (วารสารวิทยาศาสตร์เกษตรและการจัดการ 7(3)) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/694"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "ผลของปุ๋ยไนโตรเจนปลดปล่อยช้าต่อผลผลิตและองค์ประกอบผลผลิตของข้าวโพดเลี้ยงสัตว์ในชุดดินกำแพงแสน (วารสารวิทยาศาสตร์เกษตรและการจัดการ 2(3) 2562) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/44"
+    },
+    {
+      "id": "8",
+      "index": 8,
+      "label": "กรมวิชาการเกษตร — เข้าถึงเมื่อ 2026-08-08",
       "url": "https://www.doa.go.th/"
     }
   ],
-  "reference_count": 6,
+  "reference_count": 8,
   "article_file": "crop-16-003.md",
   "source_file": "16-พืชไร่เศรษฐกิจและข้าวโพดนครปฐม\\03-การจัดการดินปุ๋ยและน้ำพืชไร่ในชุดดินนครปฐม.md"
 }

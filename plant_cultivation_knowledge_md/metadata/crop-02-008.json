@@ -3,45 +3,71 @@
   "title": "เศรษฐศาสตร์การผลิตข้าวและการคาร์บอนเครดิตในนาข้าว",
   "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
   "source_year": 2026,
-  "updated_at": "2026-08-07",
+  "updated_at": "2026-08-08",
   "created_at": "2026-08-07",
   "review_at": "2027-02-07",
   "category": "ข้าวและพันธุ์ข้าวเกษตรศาสตร์",
   "domain_code": "02",
   "topic_id": "02-008",
   "handle_id": "02-008",
-  "abstract": "การพัฒนานาข้าวในจังหวัดนครปฐมสู่ความยั่งยืนทางเศรษฐกิจและสิ่งแวดล้อม อาศัยการวิเคราะห์งบลงทุนฟาร์ม (Enterprise Budgeting) การคำนวณดัชนีทางการเงิน ได้แก่ **อัตราส่วนผลประโยชน์ต่อต้นทุน (Benefit-Cost Ratio: BCR)**, **มูลค่าปัจจุบันสุทธิ (Net Present Value: NPV)**, **อัตราผลตอบแทนจากการลงทุน (Return on Investment: ROI)** และ **อัตราผลตอบแทนภายใน (Internal Rate of Return: IRR)** ควบคู่กับการเข้าร่วมโครงการลดก๊าซเรือนกระจกภาคสมัครใจตามมาตรฐานของประเทศไทย **(T-VER)** จากการทำนาเปียกสลับแห้ง (AWD) ซึ่งสามารถสร้าง **คาร์บอนเครดิต** ได้ **0.29–0.40 $tCO_2e$/ไร่/รอบการปลูก** พร้อมทั้งส่งเสริมเศรษฐกิจหมุนเวียน (Circular Economy) ด้วยการนำฟางข้าวมาแปรรูปเป็น **ไบโอชาร์ (Biochar)** และ **ฟางข้าวอัดเม็ด (",
+  "abstract": "การพัฒนานาข้าวในจังหวัดนครปฐมสู่ความยั่งยืนทางเศรษฐกิจและสิ่งแวดล้อม อาศัยการวิเคราะห์งบลงทุนฟาร์ม (Enterprise Budgeting) การคำนวณดัชนีทางการเงิน ได้แก่ **อัตราส่วนผลประโยชน์ต่อต้นทุน (Benefit-Cost Ratio: BCR)**, **มูลค่าปัจจุบันสุทธิ (Net Present Value: NPV)**, **อัตราผลตอบแทนจากการลงทุน (Return on Investment: ROI)** และ **อัตราผลตอบแทนภายใน (Internal Rate of Return: IRR)** ควบคู่กับการเข้าร่วมโครงการลดก๊าซเรือนกระจกภาคสมัครใจตามมาตรฐานของประเทศไทย **(T-VER)** [1] จากการทำนาเปียกสลับแห้ง (AWD) ซึ่งสามารถสร้าง **คาร์บอนเครดิต** ได้ **0.29–0.40 $tCO_2e$/ไร่/รอบการปลูก** [1] พร้อมทั้งส่งเสริมเศรษฐกิจหมุนเวียน (Circular Economy) ด้วยการนำฟางข้าวมาแปรรูปเป็น **ไบโอชาร์ (Biochar)** และ **ฟางข้าวอ",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
-  "pdf_url": null,
-  "source_urls": [],
+  "source_url": "https://tver.tgo.or.th/database/Uploads/Moc/5b6cf5a9-7b41-4253-8927-e09524e2aebd.pdf",
+  "pdf_url": "https://tver.tgo.or.th/database/Uploads/Moc/5b6cf5a9-7b41-4253-8927-e09524e2aebd.pdf",
+  "source_urls": [
+    "https://tver.tgo.or.th/database/Uploads/Moc/5b6cf5a9-7b41-4253-8927-e09524e2aebd.pdf",
+    "https://nkpathom.nso.go.th/images/2568/%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2%E0%B8%A8%E0%B8%A3%E0%B8%B5_%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2_GI.pdf",
+    "https://www.doae.go.th",
+    "https://www.doa.go.th",
+    "https://newwebs2.ricethailand.go.th/webmain/page.php?pid=26123",
+    "https://catalog.ricethailand.go.th/dataset/gap",
+    "https://www.irri.org/news-and-events/news/mobilizing-investment-resilient-and-low-emission-agrifood-systems-asia-through"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "องค์การบริหารจัดการก๊าซเรือนกระจก (TGO). (2564). *คู่มือคำนวณและทวนสอบคาร์บอนเครดิต T-VER สาขาการเกษตร (นาข้าว)*. กระทรวงทรัพยากรธรรมชาติและสิ่งแวดล้อม.",
-      "url": null
+      "label": "องค์การบริหารจัดการก๊าซเรือนกระจก (องค์การมหาชน) — โครงการ T-VER การลดก๊าซเรือนกระจกในนาข้าว — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://tver.tgo.or.th/database/Uploads/Moc/5b6cf5a9-7b41-4253-8927-e09524e2aebd.pdf"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "ภาควิชาเกษตรและทรัพยากรศาสตร์ คณะเศรษฐศาสตร์ มก. (2563). *การวิเคราะห์ต้นทุนและผลตอบแทนทางเศรษฐศาสตร์ของการทำนาเปียกสลับแห้งในภาคกลาง*. วารสารเศรษฐศาสตร์เกษตร, 41(3), 115–130.",
-      "url": null
+      "label": "สำนักงานสถิติจังหวัดนครปฐม — บทวิเคราะห์ส้มโอนครชัยศรี สินค้า GI (ข้อมูลการเกษตรจังหวัด) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://nkpathom.nso.go.th/images/2568/%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2%E0%B8%A8%E0%B8%A3%E0%B8%B5_%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2_GI.pdf"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "สถาบันวิจัยและพัฒนาพลังงาน มหาวิทยาลัยเกษตรศาสตร์. (2563). *เทคโนโลยีการผลิตไบโอชาร์และชีวมวลอัดเม็ดจากฟางข้าวเพื่อเศรษฐกิจหมุนเวียน*. รายงานวิจัยฉบับสมบูรณ์.",
-      "url": null
+      "label": "กรมส่งเสริมการเกษตร — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doae.go.th"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "IRRI & World Bank. (2021). *Carbon Credit Monetization in Asian Paddy Rice Systems*. World Bank Knowledge Series.",
-      "url": null
+      "label": "กรมวิชาการเกษตร — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "กรมการข้าว — ข้อมูลพันธุ์ข้าว กข85/กข95 — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://newwebs2.ricethailand.go.th/webmain/page.php?pid=26123"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "กรมการข้าว — ทะเบียน/ข้อมูลมาตรฐาน GAP ในแปลงนาข้าว — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://catalog.ricethailand.go.th/dataset/gap"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "International Rice Research Institute (IRRI) & World Bank. (2024). *Mobilizing investment for resilient and low-emission agrifood systems in Asia through carbon markets*. — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.irri.org/news-and-events/news/mobilizing-investment-resilient-and-low-emission-agrifood-systems-asia-through"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 7,
   "article_file": "crop-02-008.md",
   "source_file": "02-ข้าวและพันธุ์ข้าวเกษตรศาสตร์\\08-เศรษฐศาสตร์การผลิตข้าวและการคาร์บอนเครดิตในนาข้าว.md"
 }

@@ -12,36 +12,48 @@
   "handle_id": "14-004",
   "abstract": "เทคโนโลยีหลังการเก็บเกี่ยว (Post-harvest Technology) และเทคโนโลยีการสกัดสารสำคัญเกรดเภสัชกรรม เป็นขั้นตอนด่านสุดท้ายในการกำหนดคุณภาพของวัตถุดิบกัญชาและกัญชง การกำหนดดัชนีเก็บเกี่ยวอาศัยการสุกแก่ของต่อมเรซิน (Trichome Maturity Index) โดยเลือกสัดส่วนสีขุ่นนม (Milky 70-80%) และสีน้ำตาลอำพัน (Amber 20-30%) ร่วมกับกระบวนการบ่มอบแห้งแบบ Slow Drying ในห้องคุมสภาพ $18-20^\\circ\\text{C}$ ความชื้นสัมพัทธ์ $55-60\\%$ เป็นเวลา $10-14$ วัน จนค่าค่าน้ำอิสระ ($a_w$) ลดลงเหลือ $0.55-0.62$ งานวิจัยร่วมระหว่าง มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน และโรงงานผลิตยาสมุนไพรเมืองสามพราน ยืนยันว่าการสกัดด้วยคาร์บอนไดออกไซด์สภาวะเหนือวิกฤต ($CO_2$ Supercritical Fluid Extraction: SFE) ที่ความดัน $150-300\\,\\text{bar}$",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
+  "source_url": "https://li01.tci-thaijo.org/index.php/tstj/article/view/261377",
   "pdf_url": null,
-  "source_urls": [],
+  "source_urls": [
+    "https://li01.tci-thaijo.org/index.php/tstj/article/view/261377",
+    "https://li01.tci-thaijo.org/index.php/pajrmu/article/view/264729",
+    "https://li01.tci-thaijo.org/index.php/MJUJN/article/view/260378",
+    "https://li01.tci-thaijo.org/index.php/japmju/article/view/252697",
+    "http://books.doa.go.th/ebook_tophit"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ศูนย์วิจัยและพัฒนาพืชสมุนไพร มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน. (2565). *เทคโนโลยีหลังการเก็บเกี่ยวและการสกัดสารแคนนาบินอยด์ด้วย $CO_2$ Supercritical Fluid Extraction*. รายงานวิจัย มก., นครปฐม.",
-      "url": null
+      "label": "Punamorntarakul, N. et al. (2024). *Cannabinoids Extraction from Cannabis Cultivar Blueberry by Pulsed Electric Field* (สภาวะเหมาะสม 300 พัลส์ 7.5 kV/cm อัตราส่วน 1:20 ได้ THC 254.77 mg/g สูงกว่าการแช่ 20.13% ใช้เวลาน้อยลง 88.9%). Thai Science and Technology Journal, 32(3). URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/tstj/article/view/261377"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "กรมวิทยาศาสตร์การแพทย์. (2565). *คู่มือมาตรฐานการวิเคราะห์และสกัดสารสำคัญจากกัญชาเพื่อประโยชน์ทางการแพทย์*. กระทรวงสาธารณสุข, นนทบุรี.",
-      "url": null
+      "label": "วงศ์ปรีดี พ. และคณะ. (2025). *การเพิ่มประสิทธิภาพการสกัดสารออกฤทธิ์ทางชีวภาพจากใบกัญชาด้วยคลื่นอัลตร้าโซนิค ร่วมกับตัวทำละลายขั้นสูง* (UAE ร่วมเอทานอล 95%). วารสารเกษตรพระวรุณ มหาวิทยาลัยราชภัฏมหาสารคาม, 22(1), 128–139. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/pajrmu/article/view/264729"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "ชัยวัฒน์ วงษ์สว่าง และคณะ. (2565). *จลนพลศาสตร์ปฏิกิริยา Decarboxylation ของ THCA และ CBDA ในสารสกัดกัญชาด้วยความร้อนสุญญากาศ*. วารสารเภสัชกรรมไทย, 14(2), 110–125. — ฐานข้อมูล TCI กลุ่ม 1.",
-      "url": null
+      "label": "เกตุเพชร ว. และคณะ. (2567). *การศึกษาวิจัยและพัฒนาเทคโนโลยีการปลูกกัญชงพันธุ์ CBD type และ Superfood type* (ระยะเก็บเกี่ยวช่อดอก 50, 75 และ 100%; เมล็ดเก็บเกี่ยวระยะ 75% งอกสูงสุด 94%). วารสารวิจัยและส่งเสริมวิชาการเกษตร, 41(3), 1–20. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/MJUJN/article/view/260378"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Sam Phran Herbal Processing Group. (2023). *Optimization of Winterization Parameters and Supercritical CO2 Extraction for Medical Cannabis Oil*. Sam Phran Medical Journal, 15(2), 140–156.",
-      "url": null
+      "label": "จินดาซิงห์ ม. และผลเจริญ ส. (2565). *การระบุชนิดของสารกลุ่ม Cannabinoids และความสัมพันธ์ทางพันธุกรรมของกัญชงและกัญชา โดยโมเลกุลเครื่องหมายเอสเอสอาร์* (การวิเคราะห์ THC/CBN/CBC/CBD ด้วย GC-MS). วารสารผลิตกรรมการเกษตร, 4(2), 80–91. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/japmju/article/view/252697"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "กรมวิชาการเกษตร. (ม.ป.ป.). *คลังหนังสืออิเล็กทรอนิกส์ (e-book) — คู่มือสำหรับเกษตรกรการผลิตพืชสกุลกัญชา (Cannabis) และกัญชง (Hemp)*. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "http://books.doa.go.th/ebook_tophit"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 5,
   "article_file": "crop-14-004.md",
   "source_file": "14-กัญชาและกัญชงเพื่อการแพทย์และอุตสาหกรรม\\04-เทคโนโลยีการเก็บเกี่ยว อบแห้ง และสกัดสารสำคัญ.md"
 }

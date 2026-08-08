@@ -12,36 +12,56 @@
   "handle_id": "15-001",
   "abstract": "ไผ่เศรษฐกิจเป็นพืชวงศ์หญ้า (Poaceae) ที่มีอัตราการเจริญเติบโตและการสะสมมวลชีวภาพ (Biomass Accumulation) สูงที่สุดในกลุ่มไม้ยืนต้นเขตร้อน ในพื้นที่จังหวัดนครปฐม โดยเฉพาะอำเภอดอนตูมและกำแพงแสน มีการส่งเสริมปลูก 3 สายพันธุ์หลัก ได้แก่ **ไผ่ตงหวาน** (*Dendrocalamus asper*), **ไผ่กิมซู / ไผ่ลืมแล้ง** (*Bambusa beecheyana*), และ **ไผ่เลี้ยง** (*Dendrocalamus membranaceus*) สรีรวิทยาการขยายกออาศัยระบบเหง้าประเภท Pachymorph/Sympodial Rhizome ที่มีการสะสมแป้งและน้ำตาลในเหง้าแม่ (Rhizome Energy Flux) เพื่อสนับสนุนการยืดตัวของลำไผ่ใหม่ (Culm Elongation) ซึ่งทำงานผ่านเนื้อเยื่อเจริญเหนือข้อ (Intercalary Meristem) ร่วมกับแรงดันเต่ง ($0.6 - 0.8\\,\\text{MPa}$) ส่งผลให้อัตราการยืดตัวสูงสุดถึง $45 - 75\\,\\text",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
+  "source_url": "https://doi.org/10.14456/tjst.2016.25",
   "pdf_url": null,
-  "source_urls": [],
+  "source_urls": [
+    "https://doi.org/10.14456/tjst.2016.25",
+    "https://www.doa.go.th/hort/?page_id=53092",
+    "https://doi.org/10.14456/tjst.2019.3",
+    "https://doi.org/10.14456/tjst.2018.23",
+    "https://li01.tci-thaijo.org/index.php/tstj/article/view/25871",
+    "https://doi.org/10.14456/tjst.2015.9",
+    "https://li01.tci-thaijo.org/index.php/tjst/article/view/39694"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์. (2565). *สรีรวิทยาการเจริญเติบโต ประสิทธิภาพการสังเคราะห์แสง และการสะสมชีวมวลของไผ่เศรษฐกิจ 3 สายพันธุ์ในเขตภาคกลาง*. รายงานวิจัยฉบับสมบูรณ์ มก.กำแพงแสน, นครปฐม.",
-      "url": null
+      "label": "พวงจิก, ธ., หาระโคตร, พ. และหิรัญยัษฐิติ, ค. (2559). *การศึกษาการเจริญเติบโตของไผ่ 6 พันธุ์*. Thai Journal of Science and Technology, 5(3), 256–264. — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://doi.org/10.14456/tjst.2016.25"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "กรมวิชาการเกษตร. (2565). *คู่มือเทคโนโลยีการเพาะปลูกและการจัดการสวนไผ่เศรษฐกิจเชิงพาณิชย์*. เอกสารวิชาการกรมวิชาการเกษตร, กระทรวงเกษตรและสหกรณ์.",
-      "url": null
+      "label": "กรมวิชาการเกษตร. (ม.ป.ป.). *ฐานข้อมูลความรู้ไผ่ซางนวล: เทคโนโลยีการเพาะปลูกและการจัดการสวนไผ่*. สถาบันวิจัยพืชสวน กรมวิชาการเกษตร. — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://www.doa.go.th/hort/?page_id=53092"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "สุรศักดิ์ เหล่าสุนทร และคณะ. (2565). *การประเมินดรรชนีพื้นที่ใบ อัตราการยืดตัว และผลผลิตหน่อสดของไผ่ตงหวานและไผ่กิมซูในชุดดินนครปฐม*. วารสารเกษตรพระจอมเกล้า, 40(1), 112–125. — ฐานข้อมูล TCI กลุ่ม 1.",
-      "url": null
+      "label": "พวงจิก, ธ., ฤทธิ์เพชร, ต. และหาระโคตร, พ. (2562). *ผลของชนิดและอัตราปุ๋ยเคมีต่อการเจริญเติบโตของไผ่ตงหม้อ*. Thai Journal of Science and Technology, 8(1), 20–30. — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://doi.org/10.14456/tjst.2019.3"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Don Tum Agronomic Research Station. (2023). *Canopy Photosynthetic Dynamics and Turgor-Driven Culm Elongation in Sympodial Bamboo Cultivars*. Thai Journal of Agricultural Science, 56(2), 89–104.",
-      "url": null
+      "label": "พวงจิก, ธ., หาระโคตร, พ. และศรีสกุลไพร, ณ. (2560). *ผลของชนิดและอัตราปุ๋ยเคมีต่อการเจริญเติบโตของไผ่ซางหม่น*. Thai Journal of Science and Technology, 7(2), 113–122. — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://doi.org/10.14456/tjst.2018.23"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "พวงจิก, ธ. (2558). *การศึกษาการเจริญเติบโตและความต้องการน้ำของต้นไผ่ 10 พันธุ์*. Thai Science and Technology Journal, 23(1). — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/tstj/article/view/25871"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "พวงจิก, ธ., รื่นสุข, ป. และจิระเกียรติกุล, เ. (2558). *การศึกษาการเจริญเติบโตของไผ่ 4 สายพันธุ์*. Thai Journal of Science and Technology, 4(3), 302–309. (เข้าถึงผ่าน — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://doi.org/10.14456/tjst.2015.9"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 6,
   "article_file": "crop-15-001.md",
   "source_file": "15-ไผ่เศรษฐกิจและพืชชีวมวล\\01-หลักการเพาะปลูกและสรีรวิทยาไผ่เศรษฐกิจ.md"
 }

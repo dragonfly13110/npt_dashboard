@@ -17,43 +17,57 @@
   "source_urls": [
     "https://npt-dashboard.netlify.app/public/npt-research/npt-04-001",
     "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/265080",
-    "https://publication.npru.ac.th/handle/123456789/2114",
+    "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/255214",
     "https://www.doa.go.th/th/wp-content/uploads/2025/05/AnnoDOA_Public353.pdf",
+    "https://www.doa.go.th/pvp/?page_id=867",
+    "http://research.ku.ac.th/forest/Invent.aspx?InventID=1668&Type=7",
     "https://suwanfarm.agr.ku.ac.th"
   ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "บทความ NPT: งานวิจัยพืชไร่ในจังหวัดนครปฐม",
+      "label": "บทความ NPT: งานวิจัยพืชไร่ในจังหวัดนครปฐม — เข้าถึงเมื่อ 2026-08-08",
       "url": "https://npt-dashboard.netlify.app/public/npt-research/npt-04-001"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "การวิเคราะห์เสถียรภาพผลผลิตข้าวโพดไร่ลูกผสมก่อนการค้า",
+      "label": "การวิเคราะห์เสถียรภาพผลผลิตข้าวโพดไร่ลูกผสมก่อนการค้า (แก่นเกษตร 53(4) 2568) — เข้าถึงเมื่อ 2026-08-08",
       "url": "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/265080"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "Yield Evaluation of Elite Waxy Corn Hybrids",
-      "url": "https://publication.npru.ac.th/handle/123456789/2114"
+      "label": "การเปรียบเทียบสายพันธุ์ทดสอบ Testcross ข้าวโพดข้าวเหนียวลูกผสมเดี่ยว (แก่นเกษตร 51(3) 2566) เข้าถึงไม่ได้เมื่อตรวจ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/255214"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "ประกาศพันธุ์ข้าวโพดของกรมวิชาการเกษตร",
+      "label": "ประกาศพันธุ์ข้าวโพดของกรมวิชาการเกษตร (AnnoDOA_Public353.pdf) — เข้าถึงเมื่อ 2026-08-08",
       "url": "https://www.doa.go.th/th/wp-content/uploads/2025/05/AnnoDOA_Public353.pdf"
     },
     {
       "id": "5",
       "index": 5,
-      "label": "ศูนย์วิจัยข้าวโพดและข้าวฟ่างแห่งชาติ ไร่สุวรรณ",
+      "label": "ทะเบียนขึ้นทะเบียนพันธุ์ข้าวโพด สุวรรณ 6480 (ประกาศ 4 ธ.ค. 2567) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th/pvp/?page_id=867"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "ข้อมูลสิทธิบัตร/อนุสิทธิบัตรข้าวโพดไร่ลูกผสม สุวรรณ 6480 (มก., อนุมัติ 26 ก.พ. 2568) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "http://research.ku.ac.th/forest/Invent.aspx?InventID=1668&Type=7"
+    },
+    {
+      "id": "7",
+      "index": 7,
+      "label": "ศูนย์วิจัยข้าวโพดและข้าวฟ่างแห่งชาติ ไร่สุวรรณ — เข้าถึงเมื่อ 2026-08-08",
       "url": "https://suwanfarm.agr.ku.ac.th"
     }
   ],
-  "reference_count": 5,
+  "reference_count": 7,
   "article_file": "crop-16-002.md",
   "source_file": "16-พืชไร่เศรษฐกิจและข้าวโพดนครปฐม\\02-การเลือกพันธุ์และการจัดการเมล็ดพันธุ์ข้าวโพด.md"
 }

@@ -10,38 +10,57 @@
   "domain_code": "04",
   "topic_id": "04-002",
   "handle_id": "04-002",
-  "abstract": "ความหอมอันเป็นเอกลักษณ์ของมะพร้าวน้ำหอมนครปฐมเกิดจากสารระเหย **2-acetyl-1-pyrroline (2AP)** ซึ่งถูกสังเคราะห์ผ่านวิถีทางชีวเคมีจากกรดอะมิโน L-Glutamic acid และ L-Proline โดยมีเอนไซม์ $\\Delta^1$-pyrroline-5-carboxylate synthetase (P5CS) เป็นเอนไซม์กุญแจสำคัญ การเสริมเกลือแกง (NaCl) ในอัตรา **1.0–2.0 กก./ต้น/ปี** ทำหน้าที่เป็นสวิตช์ไอออนิก ($Na^+$ และ $Cl^-$) เร่งการทำงานของเอนไซม์ P5CS และกระตุ้นการสะสม Proline ในเซลล์ ร่วมกับการจัดการปุ๋ยเคมีสูตร 13-13-21 อัตรา **3.5 กก./ต้น/ปี**, ธาตุอาหารรอง Kieserite ($MgSO_4$) **500 กรัม/ต้น/ปี**, Solubor (Boron 20.5%) **100 กรัม/ต้น/ปี** และการให้น้ำอย่างสมดุล **80–120 ลิตร/ต้น/วัน** ช่วยยกระดับความเข้มข้นสาร 2AP ในน้ำมะพร้าวสดสูงถึง **0.18–0.28 ppm** แ",
+  "abstract": "ความหอมอันเป็นเอกลักษณ์ของมะพร้าวน้ำหอมนครปฐมเกิดจากสารระเหย **2-acetyl-1-pyrroline (2AP)** ซึ่งถูกสังเคราะห์ผ่านวิถีทางชีวเคมีจากกรดอะมิโน L-Glutamic acid และ L-Proline โดยมีเอนไซม์ $\\Delta^1$-pyrroline-5-carboxylate synthetase (P5CS) เป็นเอนไซม์กุญแจสำคัญ [1] การเสริมเกลือแกง (NaCl) ในอัตรา **1.0–2.0 กก./ต้น/ปี** [2] ทำหน้าที่เป็นสวิตช์ไอออนิก ($Na^+$ และ $Cl^-$) เร่งการทำงานของเอนไซม์ P5CS และกระตุ้นการสะสม Proline ในเซลล์ ร่วมกับการจัดการปุ๋ยเคมีสูตร 13-13-21 อัตรา **3.5 กก./ต้น/ปี**, ธาตุอาหารรอง Kieserite ($MgSO_4$) **500 กรัม/ต้น/ปี**, Solubor (Boron 20.5%) **100 กรัม/ต้น/ปี** และการให้น้ำอย่างสมดุล **80–120 ลิตร/ต้น/วัน** ช่วยยกระดับความเข้มข้นสาร 2AP ในน้ำมะพร้าวสดสูงถึง **0.18–0.28",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
-  "pdf_url": null,
-  "source_urls": [],
+  "source_url": "http://research.ku.ac.th/forest/Project.aspx?BudgetYear=2015&ProjectNumber=1530643000",
+  "pdf_url": "https://www.doa.go.th/hort/wp-content/uploads/2024/07/KMมะพร้าวน้ำหอม_23-7-67-new.pdf",
+  "source_urls": [
+    "http://research.ku.ac.th/forest/Project.aspx?BudgetYear=2015&ProjectNumber=1530643000",
+    "https://www.doa.go.th/hort/wp-content/uploads/2024/07/KMมะพร้าวน้ำหอม_23-7-67-new.pdf",
+    "http://research.ku.ac.th/forest/Publish.aspx?PublishID=19086",
+    "https://li01.tci-thaijo.org/index.php/agritechjournal/article/view/180796",
+    "http://research.ku.ac.th/forest/Project.aspx?BudgetYear=2015&ProjectNumber=1540081013",
+    "https://www.doa.go.th/hort/?page_id=53157"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ภาควิชาพืชสวน คณะเกษตร กำแพงแสน. (2564). *รายงานวิจัยฉบับสมบูรณ์: กลไกชีวเคมีและผลของเกลือโซเดียมคลอไรด์ต่อการสังเคราะห์สารหอม 2AP ในมะพร้าวน้ำหอม*. มหาวิทยาลัยเกษตรศาสตร์.",
-      "url": null
+      "label": "การค้นหายีนควบคุมลักษณะความหอมในมะพร้าวน้ำหอม (*Cocos nucifera*) และการสร้างฐานข้อมูลเอกลักษณ์ยีนความหอมในมะพร้าวไทย. KUforest มหาวิทยาลัยเกษตรศาสตร์. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "http://research.ku.ac.th/forest/Project.aspx?BudgetYear=2015&ProjectNumber=1530643000"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "สำนักวิจัยและพัฒนาการเกษตรเขตที่ 5. (2563). *คู่มือการจัดการธาตุอาหารและน้ำแม่นยำในมะพร้าวน้ำหอมลุ่มน้ำท่าจีน*. กรมวิชาการเกษตร.",
-      "url": null
+      "label": "คู่มือความรู้มะพร้าวน้ำหอม. สถาบันวิจัยพืชสวน กรมวิชาการเกษตร (2567). — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th/hort/wp-content/uploads/2024/07/KMมะพร้าวน้ำหอม_23-7-67-new.pdf"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "อภิชาติ วงษ์แก้ว, และคณะ. (2564). การสังเคราะห์สาร 2-acetyl-1-pyrroline และการตอบสนองทางสรีรวิทยาของมะพร้าวน้ำหอมต่อการใส่เกลือแกงและปุ๋ยแมกนีเซียม. *วารสารวิทยาศาสตร์เกษตร*, 52(2), 140–155. (TCI Tier 1).",
-      "url": null
+      "label": "งานวิจัยการค้นหายีนควบคุมความหอมในมะพร้าวน้ำหอม (ผลงานตีพิมพ์). KUforest มหาวิทยาลัยเกษตรศาสตร์. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "http://research.ku.ac.th/forest/Publish.aspx?PublishID=19086"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Wongsawat, A., & Saensouk, P. (2022). Biosynthetic pathway of 2-acetyl-1-pyrroline and P5CS gene expression in dwarf aromatic coconut under sodium chloride and boron management. *Agriculture and Natural Resources*, 56(3), 280–295.",
-      "url": null
+      "label": "ผลของความถี่ในการให้น้ำต่อการแตกของผลมะพร้าวน้ำหอม. วารสารเกษตรพระจอมเกล้า. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/agritechjournal/article/view/180796"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "การศึกษาอิทธิพลของละอองเกสรที่มีผลต่อความหอมของมะพร้าวน้ำหอม. KUforest มหาวิทยาลัยเกษตรศาสตร์. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "http://research.ku.ac.th/forest/Project.aspx?BudgetYear=2015&ProjectNumber=1540081013"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "ฐานข้อมูลมะพร้าว: พันธุ์มะพร้าวน้ำหอม. สถาบันวิจัยพืชสวน กรมวิชาการเกษตร. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th/hort/?page_id=53157"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 6,
   "article_file": "crop-04-002.md",
   "source_file": "04-มะพร้าวน้ำหอม\\02-การจัดการน้ำ_ธาตุอาหาร_และความหอม.md"
 }

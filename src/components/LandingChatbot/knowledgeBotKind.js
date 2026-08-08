@@ -10,5 +10,6 @@ export function getKnowledgeBotKind(pathname = '') {
   if (pathname.startsWith('/public/frontier-agri-research'))
     return 'frontier-agri';
   if (pathname.startsWith('/public/npt-research')) return 'npt-research';
+  if (pathname.startsWith('/public/plant-cultivation')) return 'cultivation';
   return 'general';
 }

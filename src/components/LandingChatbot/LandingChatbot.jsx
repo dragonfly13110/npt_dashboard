@@ -185,11 +185,19 @@ const NPT_RESEARCH_QUICK_PROMPTS = [
   { text: 'ขอลิงก์เว็บอ้างอิงของบทความวิจัยนี้หน่อย 📚' },
 ];
 
+const CULTIVATION_QUICK_PROMPTS = [
+  { text: 'หลักการปลูกพืชเศรษฐกิจในนครปฐมมีอะไรบ้าง? 🌱' },
+  { text: 'ควรจัดการดิน น้ำ และธาตุอาหารอย่างไร? 💧' },
+  { text: 'โรคและศัตรูพืชของพืชแต่ละชนิดมีอะไรบ้าง? 🐛' },
+  { text: 'ขอลิงก์อ้างอิงของบทความเพาะปลูกนี้หน่อย 📚' },
+];
+
 const KNOWLEDGE_HUB_QUICK_PROMPTS = [
   { text: 'ในศูนย์องค์ความรู้มีคลังอะไรให้ค้นบ้าง? 📚' },
   { text: 'ค้นหลักฐานเรื่องปุ๋ยสำหรับพืชได้ไหม? 🌱' },
   { text: 'มีข้อมูลโรคและแมลงข้าวหรือไม่? 🌾' },
   { text: 'ค้นข้อมูลเครื่องจักรการเกษตรให้หน่อย 🚜' },
+  { text: 'ค้นหลักการเพาะปลูกพืชสำคัญให้หน่อย 🌿' },
 ];
 
 const KNOWLEDGE_BOT_CONFIGS = {
@@ -215,7 +223,7 @@ const KNOWLEDGE_BOT_CONFIGS = {
     messageStorageKey: 'npt_knowledge_hub_chatbot_messages',
     placeholder: 'ค้นหลักฐานจากคลังความรู้...',
     welcomeMessage:
-      'สวัสดีค่ะ! 📚 หนูคือผู้ช่วยศูนย์องค์ความรู้ค่ะ\n\nหนูช่วยค้นหลักฐานจากคลังสารป้องกันกำจัดศัตรูพืช ปุ๋ย กล้วยไม้ ทะเบียนเกษตรกร ข้าว และเครื่องจักร พร้อมลิงก์กลับไปยังเอกสารต้นทางค่ะ\n\nลองถามหัวข้อที่ต้องการค้นได้เลยนะคะ 👇',
+      'สวัสดีค่ะ! 📚 หนูคือผู้ช่วยศูนย์องค์ความรู้ค่ะ\n\nหนูช่วยค้นหลักฐานจากคลังสารป้องกันกำจัดศัตรูพืช ปุ๋ย กล้วยไม้ ทะเบียนเกษตรกร ข้าว เครื่องจักร งานวิจัย และหลักการเพาะปลูกพืชที่สำคัญ พร้อมลิงก์กลับไปยังเอกสารต้นทางค่ะ\n\nลองถามหัวข้อที่ต้องการค้นได้เลยนะคะ 👇',
     clearMessage:
       'เริ่มการพูดคุยรอบใหม่แล้วค่ะ 📚 ถามหาหลักฐานจากคลังความรู้ได้เลยนะคะ!',
   },
@@ -336,6 +344,19 @@ const KNOWLEDGE_BOT_CONFIGS = {
     clearMessage:
       'เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🌱 ถามเรื่องงานวิจัยพืชนครปฐมได้เลยนะคะ!',
   },
+  cultivation: {
+    name: 'ข้าวหลามหลักการปลูก',
+    status: 'ผู้ช่วยเฉพาะทางหลักการเพาะปลูกพืช',
+    tooltip: 'คุยกับข้าวหลามหลักการปลูก',
+    quickPrompts: CULTIVATION_QUICK_PROMPTS,
+    limitStorageKey: 'npt_plant_cultivation_chatbot_limit',
+    messageStorageKey: 'npt_plant_cultivation_chatbot_messages',
+    placeholder: 'ถามจากคลังหลักการเพาะปลูกพืชที่สำคัญ...',
+    welcomeMessage:
+      'สวัสดีค่ะ! 🌱 หนูคือ **ข้าวหลามหลักการปลูก** ผู้ช่วยค้นหลักฐานจากคลังหลักการเพาะปลูกพืชที่สำคัญค่ะ\n\nหนูช่วยค้นตามชนิดพืช การวางระบบปลูก ดิน น้ำ ธาตุอาหาร โรค ศัตรูพืช มาตรฐาน เทคโนโลยี และเศรษฐศาสตร์การผลิต พร้อมลิงก์กลับไปยังบทความและ URL อ้างอิงค่ะ\n\nถามหัวข้อที่ต้องการค้นได้เลยนะคะ 👇',
+    clearMessage:
+      'เริ่มการพูดคุยรอบใหม่แล้วค่ะ 🌱 ถามเรื่องหลักการเพาะปลูกพืชได้เลยนะคะ!',
+  },
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -347,7 +368,7 @@ export const parseMarkdownText = (text, options = {}) => {
     const articleSlug = options.knowledgeArticleSlug;
     if (!articleSlug) return true;
     const match = url.match(
-      /^\/public\/(?:frontier-agri-research|npt-research)\/([^/?#]+)$/
+      /^\/public\/(?:frontier-agri-research|npt-research|plant-cultivation)\/([^/?#]+)$/
     );
     return !match || match[1] === articleSlug;
   };

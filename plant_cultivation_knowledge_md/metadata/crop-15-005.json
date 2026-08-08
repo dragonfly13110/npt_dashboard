@@ -12,36 +12,48 @@
   "handle_id": "15-005",
   "abstract": "ภาวะวิกฤตความเค็มรุกตัวในแม่น้ำท่าจีนและภัยแล้งรุนแรงเป็นความท้าทายสำคัญต่อสวนไผ่เศรษฐกิจในจังหวัดนครปฐม ไผ่เศรษฐกิจมีขีดจำกัดความทนเค็มของน้ำรดที่ $EC_w \\le 2.0\\,\\text{dS/m}$ (ค่าความเค็มดิน $EC_e \\le 3.5\\,\\text{dS/m}$, SAR $< 6.0$, $Cl^- < 15\\,\\text{meq/L}$) หากความเค็มเกินขีดจำกัดจะเกิดสภาวะความเค็มชักนำความแห้งแล้ง (Salinity-Induced Osmotic Drought) พืชมีกลไกเอาตัวรอดจากภัยแล้งด้วยการใช้น้ำสำรองภายในท่อยางและเซลล์ Parenchyma ของลำไผ่ (Culm Water Storage & Hydraulic Capacitance) การคุมน้ำในร่องสวนด้วยประตูระบายน้ำกั้นเค็ม ร่วมกับการคลุมดินด้วยเศษใบไผ่หนา $10 - 15\\,\\text{cm}$ ช่วยลดการระเหยน้ำจากผิวดินได้ $45 - 60\\%$ ป้องกันการสะสมของเกลือโซเดียมคลอไรด์ ($\\text{NaCl}$) ในทรงพุ่มกออย่างยั่ง",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
+  "source_url": "https://www.thansettakij.com/business/54487",
   "pdf_url": null,
-  "source_urls": [],
+  "source_urls": [
+    "https://www.thansettakij.com/business/54487",
+    "https://www.doa.go.th/hort/?page_id=53092",
+    "https://li01.tci-thaijo.org/index.php/tjf/article/view/256749",
+    "https://doi.org/10.1080/02757540.2018.1427227",
+    "https://li01.tci-thaijo.org/index.php/tstj/article/view/25871"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์. (2565). *ผลกระทบของความเค็มในแม่น้ำท่าจีนต่อสรีรวิทยาการเจริญเติบโตและการจัดการน้ำในสวนไผ่เศรษฐกิจ*. รายงานวิจัย มก.กำแพงแสน, นครปฐม.",
-      "url": null
+      "label": "ฐานเศรษฐกิจ. (2559). *กรมชลฯผลักดันน้ำเค็มรุกล้ำในแม่น้ำท่าจีน*. 18 พฤษภาคม 2559. — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://www.thansettakij.com/business/54487"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "ศูนย์วิจัยพืชสวนนครปฐม กรมวิชาการเกษตร. (2566). *คำแนะนำการจัดการสวนไม้ผลและพืชเศรษฐกิจในภาวะวิกฤตน้ำเค็มรุกตัวลุ่มน้ำท่าจีน*. เอกสารแนะนำวิชาการ.",
-      "url": null
+      "label": "ศูนย์วิจัยพืชสวนนครปฐม กรมวิชาการเกษตร. (2566). *คำแนะนำการจัดการสวนไม้ผลและพืชเศรษฐกิจในภาวะวิกฤตน้ำเค็มรุกตัวลุ่มน้ำท่าจีน*. เอกสารแนะนำวิชาการ. — แหล่งออนไลน์ที่เกี่ยวข้อง: ฐานข้อมูลความรู้ไผ่ซางนวล สถาบันวิจัยพืชสวน กรมวิชาการเกษตร. — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://www.doa.go.th/hort/?page_id=53092"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "นิพนธ์ วิวรรธนกุล และคณะ. (2566). *กลไกการปรับสมดุลออสโมติกและการกักเก็บน้ำในลำไผ่กิมซูภายใต้สภาวะความเค็มและความแห้งแล้ง*. วารสารอนุรักษ์ดินและน้ำ, 38(1), 45–59. — ฐานข้อมูล TCI กลุ่ม 1.",
-      "url": null
+      "label": "เหลืองแจ่ม, เจ. และบุญภักดี, ล. (2530). *การเปรียบความทนเค็มของไม้ยูคาลิปตัส คามาลดูเลนซิสกับไม้โตเร็วบางชนิด*. วารสารวนศาสตร์ไทย, 6(3). — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/tjf/article/view/256749"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Tha Chin Eco-Hydrological Research Center. (2023). *Salinity Dynamics in Tha Chin River Basin and Physiological Mitigation Strategies for Clump Bamboos*. Environmental and Experimental Botany, 62(3), 178–192.",
-      "url": null
+      "label": "Pulavarty, A. & Sarangi, B.K. (2018). *Screening bamboo species for salt tolerance using growth parameters, physiological response and osmolytes accumulation as effective indicators*. Chemistry and Ecology, 34(4), 340–354. — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://doi.org/10.1080/02757540.2018.1427227"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "พวงจิก, ธ. (2558). *การศึกษาการเจริญเติบโตและความต้องการน้ำของต้นไผ่ 10 พันธุ์*. Thai Science and Technology Journal, 23(1). — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/tstj/article/view/25871"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 5,
   "article_file": "crop-15-005.md",
   "source_file": "15-ไผ่เศรษฐกิจและพืชชีวมวล\\05-การจัดการสวนไผ่ในภาวะวิกฤตน้ำเค็มและภัยแล้ง.md"
 }

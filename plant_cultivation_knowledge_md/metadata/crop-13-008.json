@@ -12,42 +12,41 @@
   "handle_id": "13-008",
   "abstract": "การวิเคราะห์เศรษฐศาสตร์การลงทุนและการบริหารจัดการตลาดสำหรับการผลิตผักสลัดไฮโดรโปนิกส์และเกษตรแนวตั้งในร่ม (Indoor Vertical Farming / Plant Factory) ขนาดพื้นที่ $1,000\\text{ ตารางเมตร}$ (ชั้นปลูกซ้อน 6 ชั้น รวมพื้นที่ปลูก $6,000\\text{ ตารางเมตร}$) ในพื้นที่ยุทธศาสตร์อำเภอพุทธมณฑล (ศาลายา) และอำเภอกำแพงแสน จังหวัดนครปฐม พบว่ามีความคุ้มค่าทางเศรษฐศาสตร์สูงมากภายใต้โมเดลการตลาดพรีเมียม โดยมีเงินลงทุนเริ่มต้น (CapEx) $18.5\\text{ ล้านบาท}$ ต้นทุนการดำเนินงาน (OpEx) $4.2\\text{ ล้านบาท/ปี}$ สามารถสร้างมูลค่าปัจจุบันสุทธิ (**NPV**) ที่อัตราคิดลด $8\\%$ เท่ากับ **$14.82\\text{ ล้านบาท}$** อัตราผลตอบแทนต่อต้นทุน (**BCR**) เท่ากับ **$1.68$** อัตราผลตอบแทนการลงทุน (**ROI**) เท่ากับ **$34.5\\%$ ต่อปี** และมี",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
+  "source_url": "https://li01.tci-thaijo.org/index.php/rmutsvrj/article/view/265591",
   "pdf_url": null,
-  "source_urls": [],
+  "source_urls": [
+    "https://li01.tci-thaijo.org/index.php/rmutsvrj/article/view/265591",
+    "https://www.nstda.or.th/agritec/wimarc-salad/",
+    "https://li01.tci-thaijo.org/index.php/agritechjournal/article/view/209769",
+    "http://books.doa.go.th/ebook_tophit"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ภาควิชาเกษตรและทรัพยากรศาสตร์ และ ภาควิชาพืชสวน มก.กำแพงแสน. (2566). *การวิเคราะห์เศรษฐศาสตร์การลงทุนและจุดคุ้มทุนของโรงงานผลิตพืช (PFAL) ในจังหวัดนครปฐม*. วารสารเศรษฐศาสตร์เกษตร, 41(1), 55–70.",
-      "url": null
+      "label": "Phankaen, P. & Kumpanuch, W. (2025). *Growth Performance of Green Oak, Red Oak, and Green Cos in a Deep Flow Technique Hydroponic System* (กำไรต่อแปลง: Green Cos 4,872.54 บาท, Green Oak 4,526.94 บาท, Red Oak 3,867.88 บาท). Recent Science and Technology, 18(1), Article e265591. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/rmutsvrj/article/view/265591"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "ศูนย์วิจัยและพัฒนาการเกษตรนครปฐม (สวพ.5). (2564). *รายงานการศึกษาวิเคราะห์ห่วงโซ่อุปทานและช่องทางการตลาดผักสลัดปลอดภัยภาคกลาง*. กรมวิชาการเกษตร.",
-      "url": null
+      "label": "สถาบันการจัดการเทคโนโลยีและนวัตกรรมเกษตร (สท.) สวทช. (2563). *กรณีศึกษาแสนสบายฟาร์ม: ผลผลิตผักขึ้นฉ่ายเพิ่มจาก 30–40 เป็น 50–60 กก./โต๊ะ และการวางแผนผลิตตามข้อมูลจากระบบ IoT ไวมาร์ค (WiMaRC)*. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://www.nstda.or.th/agritec/wimarc-salad/"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "วารสารวิทยาศาสตร์เกษตร. (2565). *การบริหารจัดการต้นทุนพลังงานไฟฟ้าและการใช้อัตราค่าไฟ TOU สำหรับฟาร์มแนวตั้งในประเทศไทย*. 53(2), 140–155.",
-      "url": null
+      "label": "วารสารเกษตรพระจอมเกล้า. (2563). *การเจริญเติบโตและผลผลิตของผักสลัดกรีนโอ๊คที่ปลูกในระบบ NFT ด้วยสารละลายธาตุอาหารระดับความเข้มข้นต่างกัน*. วารสารเกษตรพระจอมเกล้า, 38(3), 296–303. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "https://li01.tci-thaijo.org/index.php/agritechjournal/article/view/209769"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "Agricultural Systems (TCI Tier 1 / ISI). (2565). *Financial Feasibility and Risk Analysis of Urban Vertical Farming Systems in Metropolitan Suburbs*. Agric Syst, 196, 103320.",
-      "url": null
-    },
-    {
-      "id": "5",
-      "index": 5,
-      "label": "International Food and Agribusiness Management Review. (2566). *Consumer Willingness-to-Pay for Cleanroom Plant Factory Leafy Vegetables in Thailand*. IFAMR, 26(3), 410–426.",
-      "url": null
+      "label": "กรมวิชาการเกษตร. (ม.ป.ป.). *คลังหนังสืออิเล็กทรอนิกส์ (e-book) กรมวิชาการเกษตร — คู่มือการผลิตผักและเทคโนโลยีการเพาะปลูก*. URL: — เข้าถึงเมื่อ 2026-08-08.",
+      "url": "http://books.doa.go.th/ebook_tophit"
     }
   ],
-  "reference_count": 5,
+  "reference_count": 4,
   "article_file": "crop-13-008.md",
   "source_file": "13-พืชผักสลัดและพืชแนวตั้งไฮโดรโปนิกส์\\08-เศรษฐศาสตร์การผลิตผักสลัดไฮโดรโปนิกส์และการวิเคราะห์ตลาด.md"
 }

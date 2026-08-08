@@ -3,48 +3,54 @@
   "title": "การจัดการโรคและศัตรูพืชในสวนส้มโอนครชัยศรี",
   "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
   "source_year": 2026,
-  "updated_at": "2026-08-07",
+  "updated_at": "2026-08-08",
   "created_at": "2026-08-07",
   "review_at": "2027-02-07",
   "category": "ส้มโอนครชัยศรี",
   "domain_code": "01",
   "topic_id": "01-003",
   "handle_id": "01-003",
-  "abstract": "การอารักขาส้มโอนครชัยศรีเน้นย้ำระบบอารักขาพืชอัจฉริยะ (Smart Plant Protection) และการจัดการศัตรูพืชแบบผสมผสาน (Integrated Pest Management: IPM) ผสานแบบจำลองพยากรณ์โรค HLB / เพลี้ยไก่แจ้ส้มตามองศาความร้อนสะสม (Degree-Days: DD), การใช้แบคทีเรียเฟจ (Bacterial Phages: $\\phi XacM-201$) ควบคุมโรคแคงเกอร์, การตรวจวินิจฉัยโมเลกุลแม่นยำด่วนด้วย Real-time qPCR / LAMP และชีวภัณฑ์มาตรฐาน CFU สูง (*Bacillus subtilis* BS-01, *Beauveria bassiana*, *Trichoderma harzianum* T9) เพื่อลดการใช้สารเคมีสังเคราะห์และรักษาระบบนิเวศยกร่อง - **สถานะการวิจัย/การประยุกต์**: 🧪 นำร่องแปลงเกษตรกรและขยายผลเชิงพาณิชย์ (ภาควิชาโรคพืช/กีฏวิทยา มก.กำแพงแสน และ สวพ.5) - **นวัตกรรมสำคัญ**: แบบจำลอง Degree-Days พยากรณ์ประชากรเพลี",
+  "abstract": "การอารักขาส้มโอนครชัยศรีเน้นย้ำระบบอารักขาพืชอัจฉริยะ (Smart Plant Protection) และการจัดการศัตรูพืชแบบผสมผสาน (Integrated Pest Management: IPM) ผสานแบบจำลองพยากรณ์โรค HLB / เพลี้ยไก่แจ้ส้มตามองศาความร้อนสะสม (Degree-Days: DD), การใช้แบคทีเรียเฟจ (Bacterial Phages: $\\phi XacM-201$) ควบคุมโรคแคงเกอร์ [1], การตรวจวินิจฉัยโมเลกุลแม่นยำด่วนด้วย Real-time qPCR / LAMP และชีวภัณฑ์มาตรฐาน CFU สูง (*Bacillus subtilis* BS-01, *Beauveria bassiana*, *Trichoderma harzianum* T9) เพื่อลดการใช้สารเคมีสังเคราะห์และรักษาระบบนิเวศยกร่อง - **สถานะการวิจัย/การประยุกต์**: 🧪 นำร่องแปลงเกษตรกรและขยายผลเชิงพาณิชย์ (ภาควิชาโรคพืช/กีฏวิทยา มก.กำแพงแสน และ สวพ.5) - **นวัตกรรมสำคัญ**: แบบจำลอง Degree-Days พยากรณ์ประชากร",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
-  "pdf_url": null,
-  "source_urls": [],
+  "source_url": "http://lib.doa.go.th/multim/e-book/eb00096.pdf",
+  "pdf_url": "http://lib.doa.go.th/multim/e-book/eb00096.pdf",
+  "source_urls": [
+    "http://lib.doa.go.th/multim/e-book/eb00096.pdf",
+    "https://www.doa.go.th/share/attachment.php?aid=2889",
+    "https://www.doa.go.th/plprotect/wp-content/uploads/fullResearch/Research2549/Research2549-1.pdf",
+    "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/257218",
+    "https://www.doa.go.th"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "ภาควิชาโรคพืช. (2564). *การประยุกต์ใช้ Real-time qPCR และ LAMP ในการตรวจวินิจฉัยโรคกรีนนิ่งส้มโอ*. คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์.",
-      "url": null
+      "label": "กรมวิชาการเกษตร — โรคแคงเกอร์ของพืชตระกูลส้ม (e-book ห้องสมุด DOA) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "http://lib.doa.go.th/multim/e-book/eb00096.pdf"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "สำนักวิจัยพัฒนาการอารักขาพืช. (2563). *คำแนะนำการควบคุมโรคแคงเกอร์และเพลี้ยไก่แจ้ส้มด้วยชีวภัณฑ์และแบคทีเรียเฟจ*. กรมวิชาการเกษตร.",
-      "url": null
+      "label": "กรมวิชาการเกษตร — โรคแคงเกอร์ (โรคขีกลาก) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th/share/attachment.php?aid=2889"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "กาญจนประเสริฐ, พ., และคณะ. (2563). การใช้แบคทีเรียเฟจควบคุมเชื้อ *Xanthomonas citri* subsp. *citri* ในส้มโอพันธุ์ทองดี. *วารสารอารักขาพืช*, 42(2), 115–128. (TCI Tier 1).",
-      "url": null
+      "label": "กรมวิชาการเกษตร — รวมงานวิจัยการจัดการโรคและแมลงศัตรูส้มโอ (2549) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th/plprotect/wp-content/uploads/fullResearch/Research2549/Research2549-1.pdf"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "ANRES Journal. (2021). Degree-Day Models for Asian Citrus Psyllid (*Diaphorina citri*) and Biological Control via *Beauveria bassiana* in Central Thailand. *Agriculture and Natural Resources*, 55(3), 410–422.",
-      "url": null
+      "label": "ปรีชา, ช. และคณะ. การคัดเลือกแบคทีเรียเอนโดไฟท์ต่อการยับยั้ง *Xanthomonas citri* subsp. *citri* สาเหตุโรคแคงเกอร์ส้มโอ. วารสารแก่นเกษตร 51(5) (2566) — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/257218"
     },
     {
       "id": "5",
       "index": 5,
-      "label": "สวพ.5 กรมวิชาการเกษตร. (2563). *คู่มือ IPM การป้องกันกำจัดศัตรูส้มโอนครชัยศรีแบบยั่งยืน*.",
-      "url": null
+      "label": "กรมวิชาการเกษตร — ฐานข้อมูลงานวิจัย: โรคฮวงลองบิง (กรีนนิ่ง) ของส้ม — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th"
     }
   ],
   "reference_count": 5,

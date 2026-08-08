@@ -10,38 +10,50 @@
   "domain_code": "09",
   "topic_id": "09-007",
   "handle_id": "09-007",
-  "abstract": "การยกระดับห่วงโซ่การผลิตสมุนไพรเมืองสามพราน จังหวัดนครปฐม สู่การรับรองมาตรฐานเกษตรอินทรีย์ระดับสากลและมาตรฐานส่งออก ครอบคลุม 4 มาตรฐานสำคัญ ได้แก่: (1) **Organic Thailand (มกษ. 9000)**, (2) **WHO/ASEAN GACP Guidelines** (Good Agricultural and Collection Practices for Medicinal Plants), (3) **EU Organic Regulation (EU 2018/848)** และ (4) **USDA Organic (NOP)** การพัฒนาระบบบริหารจัดการแปลงปลูกอินทรีย์ร่วมกับชีวภัณฑ์และการใช้ปุ๋ยอินทรีย์หมักมูลสัตว์ สามารถผลิตวัตถุดิบฟ้าทะลายโจรและขมิ้นชันอินทรีย์ที่ปราศจากสารเคมีตกค้าง 100% (Zero Pesticide Residue) ควบคู่กับระบบสอบย้อนกลับดิจิทัล (Digital Traceability) ผ่าน **QR Code** บนบรรจุภัณฑ์ ซึ่งเชื่อมโยงข้อมูลรายพิกัด GPS แปลงปลูก ล็อตวันเก็บเกี่ยว ค่า",
+  "abstract": "การยกระดับห่วงโซ่การผลิตสมุนไพรเมืองสามพราน จังหวัดนครปฐม สู่การรับรองมาตรฐานเกษตรอินทรีย์ระดับสากลและมาตรฐานส่งออก ครอบคลุม 4 มาตรฐานสำคัญ ได้แก่: (1) **Organic Thailand (มกษ. 9000)** [2], (2) **WHO/ASEAN GACP Guidelines** (Good Agricultural and Collection Practices for Medicinal Plants) [1], (3) **EU Organic Regulation (EU 2018/848)** และ (4) **USDA Organic (NOP)** การพัฒนาระบบบริหารจัดการแปลงปลูกอินทรีย์ร่วมกับชีวภัณฑ์และการใช้ปุ๋ยอินทรีย์หมักมูลสัตว์ สามารถผลิตวัตถุดิบฟ้าทะลายโจรและขมิ้นชันอินทรีย์ที่ปราศจากสารเคมีตกค้าง 100% (Zero Pesticide Residue) [3] ควบคู่กับระบบสอบย้อนกลับดิจิทัล (Digital Traceability) ผ่าน **QR Code** บนบรรจุภัณฑ์ ซึ่งเชื่อมโยงข้อมูลรายพิกัด GPS แปลงปลูก ล็อตวันเก",
   "source_type": "Nakhon Pathom key crop cultivation knowledge article",
-  "source_url": null,
-  "pdf_url": null,
-  "source_urls": [],
+  "source_url": "https://www.who.int/publications/i/item/9241546271",
+  "pdf_url": "https://herbal.fda.moph.go.th/media.php?id=788282274377506816&name=Andrographis+paniculata.pdf",
+  "source_urls": [
+    "https://www.who.int/publications/i/item/9241546271",
+    "https://www.doa.go.th/psco/?page_id=2537",
+    "https://herbal.fda.moph.go.th/product/textbook-herb",
+    "https://thpp.dtam.moph.go.th/thpp_2022_supplement_2025/",
+    "https://herbal.fda.moph.go.th/media.php?id=788282274377506816&name=Andrographis+paniculata.pdf"
+  ],
   "references": [
     {
       "id": "1",
       "index": 1,
-      "label": "สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ (มกอช.). (2565). *มาตรฐานสินค้าเกษตร: เกษตรอินทรีย์ เล่ม 1 การผลิต การแปรรูป การแสดงฉลาก และการจำหน่ายผลิตผลและผลิตภัณฑ์เกษตรอินทรีย์ (มกษ. 9000-2564)*. กระทรวงเกษตรและสหกรณ์, กรุงเทพฯ.",
-      "url": null
+      "label": "องค์การอนามัยโลก (WHO). (2546). *WHO Guidelines on Good Agricultural and Collection Practices (GACP) for Medicinal Plants*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.who.int/publications/i/item/9241546271"
     },
     {
       "id": "2",
       "index": 2,
-      "label": "องค์การอนามัยโลก (WHO). (2564). *WHO guidelines on good agricultural and collection practices (GACP) for medicinal plants*. World Health Organization, Geneva.",
-      "url": null
+      "label": "กรมวิชาการเกษตร, กองพัฒนาระบบและรับรองมาตรฐานสินค้าพืช. (ม.ป.ป.). *ขั้นตอนการยื่นขอการรับรองแหล่งผลิต GAP พืชและการผลิตพืชอินทรีย์*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://www.doa.go.th/psco/?page_id=2537"
     },
     {
       "id": "3",
       "index": 3,
-      "label": "สุพัตรา เปรมปรีดิ์, อารีย์ รัตนพล, และ ธนวัฒน์ ชัยมงคล. (2565). *การพัฒนาระบบการผลิตฟ้าทะลายโจรและขมิ้นชันตามมาตรฐาน GACP และเกษตรอินทรีย์ส่งออกในเขตจังหวัดนครปฐม*. วารสารการแพทย์แผนไทยและแพทย์ทางเลือก, 20(3), 340–355. — [Database: TCI Tier 1]",
-      "url": null
+      "label": "สำนักงานคณะกรรมการอาหารและยา (อย.), กองผลิตภัณฑ์สมุนไพร. (ม.ป.ป.). *ตำรายาสมุนไพร: มาตรฐานคุณภาพและข้อกำหนดผลิตภัณฑ์สมุนไพร*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://herbal.fda.moph.go.th/product/textbook-herb"
     },
     {
       "id": "4",
       "index": 4,
-      "label": "สถาบันส่งเสริมเกษตรอินทรีย์. (2565). *คู่มือการรับรองมาตรฐานเกษตรอินทรีย์สหภาพยุโรป (EU Organic) และสหรัฐอเมริกา (USDA Organic) สำหรับสมุนไพรไทย*. กระทรวงเกษตรและสหกรณ์, กรุงเทพฯ.",
-      "url": null
+      "label": "กรมการแพทย์แผนไทยและการแพทย์ทางเลือก. (2568). *ตำรับยาสมุนไพรไทย ฉบับเพิ่มเติม 2568 (THPP 2022 Supplement 2025)*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://thpp.dtam.moph.go.th/thpp_2022_supplement_2025/"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "สำนักงานคณะกรรมการอาหารและยา (อย.), กองผลิตภัณฑ์สมุนไพร. (ม.ป.ป.). *เอกสารมาตรฐานคุณภาพสมุนไพรฟ้าทะลายโจร (Andrographis paniculata)*. — — เข้าถึงเมื่อ 2026-08-08",
+      "url": "https://herbal.fda.moph.go.th/media.php?id=788282274377506816&name=Andrographis+paniculata.pdf"
     }
   ],
-  "reference_count": 4,
+  "reference_count": 5,
   "article_file": "crop-09-007.md",
   "source_file": "09-สมุนไพรและพืชเฉพาะถิ่น\\07-การผลิตสมุนไพรเกษตรอินทรีย์และการรับรองมาตรฐานส่งออก.md"
 }
