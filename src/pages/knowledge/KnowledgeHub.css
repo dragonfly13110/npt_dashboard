@@ -136,6 +136,11 @@
   background: #dbeafe;
 }
 
+.knowledge-hub-card.cultivation .knowledge-hub-card-icon {
+  color: #166534;
+  background: #dcfce7;
+}
+
 .knowledge-hub-card-body {
   min-width: 0;
 }

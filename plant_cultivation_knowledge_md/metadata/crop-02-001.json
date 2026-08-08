@@ -1,0 +1,47 @@
+{
+  "slug": "crop-02-001",
+  "title": "หลักการเพาะปลูกและสรีรวิทยาข้าวในพื้นที่จังหวัดนครปฐม",
+  "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
+  "source_year": 2026,
+  "updated_at": "2026-08-07",
+  "created_at": "2026-08-07",
+  "review_at": "2027-02-07",
+  "category": "ข้าวและพันธุ์ข้าวเกษตรศาสตร์",
+  "domain_code": "02",
+  "topic_id": "02-001",
+  "handle_id": "02-001",
+  "abstract": "การผลิตข้าวเชิงชีววิทยาสูงในจังหวัดนครปฐม โดยเฉพาะพันธุ์ **ข้าวไรซ์เบอร์รี่ (Riceberry)** และ **ข้าวสินเหล็ก (Sinlek)** ที่ได้รับการพัฒนาจากศูนย์วิทยาศาสตร์ข้าว มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน อาศัยความเข้าใจสรีรวิทยาของพืช C3 อย่างลึกซึ้ง การทำงานของยีนสังเคราะห์พิกเมนต์แอนโทไซยานิน Cyanidin-3-glucoside ($C_{21}H_{21}O_{11}^+$) ในเยื่อหุ้มเมล็ด (Pericarp) และยีน Ferritin (*OsFer1/OsFer2*) ร่วมกับตัวขนส่งธาตุเหล็ก (*OsNAS1/OsNAS2*, *OsVIT1/OsVIT2*) ควบคู่กับการบริหารค่าดัชนีพื้นที่ใบ (Leaf Area Index: LAI) ให้แตะระดับสูงสุด 5.2–6.5 ในระยะออกดอก ช่วยเพิ่มอัตราการสังเคราะห์แสงสุทธิ ($P_n$) สู่ระดับ $25-32\\ \\mu\\text{mol CO}_2/\\text{m}^2/\\text{s}$ ส่งผลให้ผลผลิตต่อไร่สูงขึ้น 15–22% พร้อม",
+  "source_type": "Nakhon Pathom key crop cultivation knowledge article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Vanavichit, A., Wongpornchai, S., & Traitangwong, A. (2018). *Riceberry: The Breeding and Health Benefits of Purple Rice*. Rice Science Center, Kasetsart University.",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "อภิชาติ วรรณวิจิตร และคณะ. (2563). *กลไกทางพันธุศาสตร์และการสะสมสาร anthocyanin ในข้าวไรซ์เบอร์รี่*. วารสารเทคโนโลยีชีวภาพเกษตร, 8(2), 45–59.",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "ประสิทธิ์ ใจไทย และ สมศักดิ์ ดำรงค์ศิลป์. (2562). *สรีรวิทยาการสังเคราะห์แสงและดัชนีพื้นที่ใบของข้าว C3 ในเขตชลประทานภาคกลาง*. วารสารพืชศาสตรเกษตร, 37(1), 88–102.",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Rice Science Center. (2020). *Biofortification of Iron and Zinc in Sinlek Rice*. Kasetsart University Kamphaeng Saen Campus.",
+      "url": null
+    }
+  ],
+  "reference_count": 4,
+  "article_file": "crop-02-001.md",
+  "source_file": "02-ข้าวและพันธุ์ข้าวเกษตรศาสตร์\\01-หลักการเพาะปลูกและสรีรวิทยาข้าว.md"
+}

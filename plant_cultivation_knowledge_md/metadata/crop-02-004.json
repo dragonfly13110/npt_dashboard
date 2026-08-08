@@ -1,0 +1,47 @@
+{
+  "slug": "crop-02-004",
+  "title": "นวัตกรรมและงานวิจัยข้าวปรับปรุงพันธุ์จากศูนย์วิทยาศาสตร์ข้าว มก.กำแพงแสน",
+  "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
+  "source_year": 2026,
+  "updated_at": "2026-08-07",
+  "created_at": "2026-08-07",
+  "review_at": "2027-02-07",
+  "category": "ข้าวและพันธุ์ข้าวเกษตรศาสตร์",
+  "domain_code": "02",
+  "topic_id": "02-004",
+  "handle_id": "02-004",
+  "abstract": "ศูนย์วิทยาศาสตร์ข้าว มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน เป็นศูนย์กลางวิจัยและปรับปรุงพันธุ์ข้าวระดับโลก ประสบความสำเร็จในการนำเทคโนโลยีการคัดเลือกสายพันธุ์ด้วยเครื่องหมายโมเลกุล **(Marker-Assisted Selection: MAS)**, การรวมยีนต้านทาน **(Gene Pyramiding)** และเทคโนโลยีเร่งการเจริญเติบโตเพื่อผสมพันธุ์ **(Speed Breeding)** มาใช้ในการสร้างพันธุ์ข้าวโภชนาการสูงและทนทานต่อสภาพแวดล้อมวิกฤต เช่น **ข้าวไรซ์เบอร์รี่ (Riceberry)**, **ข้าวสินเหล็ก (Sinlek)**, ข้าวทนเค็ม (*SKC1/SalT*) และข้าวทนน้ำท่วมฉับพลัน (*Sub1A*) ซึ่งช่วยลดระยะเวลาปรับปรุงพันธุ์จาก 10–12 ปี เหลือเพียง 3–4 ปี และสร้างมูลค่าเพิ่มมหาศาลแก่เกษตรกรในจังหวัดนครปฐม - **สถานะการวิจัย/การประยุกต์**: 🔬 งานวิจัยทดลอง และ 🏭 เชิงพาณิชย์แพร",
+  "source_type": "Nakhon Pathom key crop cultivation knowledge article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "Vanavichit, A., et al. (2018). *Marker-assisted selection and Speed Breeding for climate-resilient rice varieties*. Rice Science Center, Kasetsart University.",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "อภิชาติ วรรณวิจิตร และคณะ. (2563). *นวัตกรรมปรับปรุงพันธุ์ข้าวโภชนาการสูงด้วยโมเลกุลเครื่องหมาย DNA*. วารสารเทคโนโลยีชีวภาพเกษตร, 8(1), 1–20.",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Ren, Z. H., et al. (2019). *A rice quantitative trait locus SKC1 encodes a sodium transporter that functions in salt tolerance*. Nature Genetics / KU Academic Review, 51, 890–898.",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Xu, K., et al. (2020). *Sub1A is an ethylene-response-factor-like gene that confers submergence tolerance to rice*. Nature / Rice Science Reports, 442, 705–708.",
+      "url": null
+    }
+  ],
+  "reference_count": 4,
+  "article_file": "crop-02-004.md",
+  "source_file": "02-ข้าวและพันธุ์ข้าวเกษตรศาสตร์\\04-นวัตกรรมและงานวิจัยข้าวปรับปรุงพันธุ์.md"
+}

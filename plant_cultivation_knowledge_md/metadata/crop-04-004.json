@@ -1,0 +1,47 @@
+{
+  "slug": "crop-04-004",
+  "title": "งานวิจัย นวัตกรรมหลังการเก็บเกี่ยว และมาตรฐาน GI มะพร้าวน้ำหอม",
+  "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
+  "source_year": 2026,
+  "updated_at": "2026-08-08",
+  "created_at": "2026-08-07",
+  "review_at": "2027-02-08",
+  "category": "มะพร้าวน้ำหอม",
+  "domain_code": "04",
+  "topic_id": "04-004",
+  "handle_id": "04-004",
+  "abstract": "มะพร้าวน้ำหอมนครปฐมได้รับการขึ้นทะเบียนสิ่งบ่งชี้ทางภูมิศาสตร์ (GI) จากกรมทรัพย์สินทางปัญญา (ทะเบียนเลขที่ **สช 48100010**) โดยมีเกณฑ์มาตรฐาน GI ที่เข้มงวด ได้แก่ ปริมาณน้ำตาลทั้งหมด (TSS) อยู่ในช่วง **6.0 – 8.5 °Brix**, ระยะพัฒนาการเนื้อต้องเป็น **เนื้อชั้นครึ่ง (1.5-layer meat)** ความหนา 4.0–4.5 มม., ความเข้มข้นของสารระเหยความหอม 2-acetyl-1-pyrroline (2AP) **$> 0.15\\text{ ppm}$ ในน้ำ** และ **$> 0.25\\text{ ppm}$ ในเนื้อ** เทคโนโลยีการแปรรูปปอกเปลือกแบบเจียรทรงเพชร/พะเนียด (Diamond-cut / Paniya polished coconut) ร่วมกับการยับยั้งเอนไซม์ Polyphenol Oxidase (PPO) ด้วยสารละลายกรดอินทรีย์ Citric acid 1.5% + Ascorbic acid 1.0%, การบรรจุแบบสภาวะบรรยากาศดัดแปร (MAP) ห่อหุ้มด้วย PVC Shrink Film และก",
+  "source_type": "Nakhon Pathom key crop cultivation knowledge article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "กรมทรัพย์สินทางปัญญา. (2556). *ประกาศการขึ้นทะเบียนสิ่งบ่งชี้ทางภูมิศาสตร์: มะพร้าวน้ำหอมนครปฐม (ทะเบียนเลขที่ สช 48100010)*. กระทรวงพาณิชย์.",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "ภาควิชาพืชสวน คณะเกษตร กำแพงแสน. (2564). *การศึกษานวัตกรรมยับยั้งเอนไซม์ PPO และการยืดอายุการเก็บรักษามะพร้าวน้ำหอมเจียรทรงเพชรเพื่อการส่งออก*. มหาวิทยาลัยเกษตรศาสตร์.",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "นพดล ประเสริฐแท่น, และคณะ. (2564). ผลของกรดอินทรีย์ร่วมกับบรรจุภัณฑ์ MAP และระบบ Cold Chain ต่อการรักษาความหอม 2AP และคุณภาพมะพร้าวน้ำหอมส่งออก. *วารสารวิทยาศาสตร์เกษตร*, 52(3), 201–215. (TCI Tier 1).",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Rattanajamnean, K., et al. (2022). Quality control and non-sulfite enzymatic browning inhibition in Geographical Indication aromatic coconut (*Cocos nucifera* L. var. *aromatica*) for long-distance export. *Agriculture and Natural Resources*, 56(4), 410–425.",
+      "url": null
+    }
+  ],
+  "reference_count": 4,
+  "article_file": "crop-04-004.md",
+  "source_file": "04-มะพร้าวน้ำหอม\\04-งานวิจัยและมาตรฐาน GI.md"
+}

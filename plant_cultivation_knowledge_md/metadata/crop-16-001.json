@@ -1,0 +1,59 @@
+{
+  "slug": "crop-16-001",
+  "title": "หลักการเพาะปลูกและสรีรวิทยาข้าวโพดไร่และข้าวโพดข้าวเหนียว",
+  "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
+  "source_year": 2026,
+  "updated_at": "2026-08-08",
+  "created_at": "2026-08-08",
+  "review_at": "2027-02-08",
+  "category": "พืชไร่เศรษฐกิจและข้าวโพดนครปฐม",
+  "domain_code": "16",
+  "topic_id": "16-001",
+  "handle_id": "16-001",
+  "abstract": "ข้าวโพดเป็นพืชที่ตัดสินผลผลิตจากหลายช่วงต่อเนื่องกัน การดูเฉพาะวันเก็บเกี่ยวหรือความสูงต้นจึงไม่พอ ต้องติดตามตั้งแต่การงอก ความสม่ำเสมอของต้น การออกดอก การผสมเกสร การสะสมน้ำหนักเมล็ด และความชื้นก่อนเก็บเกี่ยว หลักคิดที่ใช้ได้กับแปลงนครปฐมมี 4 ข้อ - **เริ่มจากวัตถุประสงค์ผลผลิต**: ข้าวโพดเมล็ดแห้ง ข้าวโพดฝักสด ข้าวโพดข้าวเหนียว และข้าวโพดต้นสดพร้อมฝักมีเกณฑ์เก็บเกี่ยวต่างกัน - **รักษาความสม่ำเสมอของแปลง**: เมล็ดงอกไม่พร้อมกันหรือมีน้ำขังเป็นหย่อมจะทำให้วันออกไหมและวันเก็บเกี่ยวกระจาย - **ให้ความสำคัญช่วงออกไหมและผสมเกสร**: ความเครียดจากขาดน้ำ น้ำขัง หรือไนโตรเจนไม่พอในช่วงนี้อาจทำให้เมล็ดติดไม่เต็มฝัก - **บันทึกสภาพแปลงก่อนสรุปผล**: ตัวเลขผลผลิตต้องคู่กับพันธุ์ ฤดู ดิน น้ำ ระยะปลูก และวิธีเก็",
+  "source_type": "Nakhon Pathom key crop cultivation knowledge article",
+  "source_url": "https://npt-dashboard.netlify.app/public/npt-research/npt-04-001",
+  "pdf_url": "https://www.doa.go.th/th/wp-content/uploads/2025/05/AnnoDOA_Public353.pdf",
+  "source_urls": [
+    "https://npt-dashboard.netlify.app/public/npt-research/npt-04-001",
+    "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/265080",
+    "https://publication.npru.ac.th/handle/123456789/2114",
+    "https://www.doa.go.th/th/wp-content/uploads/2025/05/AnnoDOA_Public353.pdf",
+    "https://suwanfarm.agr.ku.ac.th"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "บทความ NPT: งานวิจัยพืชไร่ในจังหวัดนครปฐม",
+      "url": "https://npt-dashboard.netlify.app/public/npt-research/npt-04-001"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "การวิเคราะห์เสถียรภาพผลผลิตข้าวโพดไร่ลูกผสมก่อนการค้า",
+      "url": "https://li01.tci-thaijo.org/index.php/agkasetkaj/article/view/265080"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Yield Evaluation of Elite Waxy Corn Hybrids",
+      "url": "https://publication.npru.ac.th/handle/123456789/2114"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "ประกาศพันธุ์ข้าวโพดของกรมวิชาการเกษตร",
+      "url": "https://www.doa.go.th/th/wp-content/uploads/2025/05/AnnoDOA_Public353.pdf"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "ฐานปรับปรุงพันธุ์ข้าวโพดไร่สุวรรณ",
+      "url": "https://suwanfarm.agr.ku.ac.th"
+    }
+  ],
+  "reference_count": 5,
+  "article_file": "crop-16-001.md",
+  "source_file": "16-พืชไร่เศรษฐกิจและข้าวโพดนครปฐม\\01-หลักการเพาะปลูกและสรีรวิทยาข้าวโพดไร่และข้าวโพดข้าวเหนียว.md"
+}

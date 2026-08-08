@@ -66,6 +66,40 @@ const COLLECTION_CONFIGS = {
     searchPlaceholder: 'ค้นชื่อเรื่อง โดเมน หัวข้อย่อย หรือคำสำคัญ...',
     articleNote:
       'บทความนี้เป็นบทความปริทัศน์เชิงพื้นที่ ควรเปิดดูเงื่อนไขของผลการศึกษาและแหล่งอ้างอิงท้ายบทความก่อนนำไปใช้กับแปลงจริง',
+    statsLabels: {
+      article: 'บทความวิจัย',
+      category: 'หมวดการเกษตร',
+      references: 'รายการอ้างอิง',
+      linkedArticles: 'บทความมีลิงก์เว็บ',
+    },
+    catalogItemLabel: 'บทความวิจัย',
+  },
+  cultivation: {
+    basePath: '/public/plant-cultivation',
+    catalogUrl: '/data/plant-cultivation/catalog.json',
+    kicker: 'NAKHON PATHOM KEY CROP CULTIVATION',
+    title: 'หลักการเพาะปลูกพืชที่สำคัญ',
+    heroDescription:
+      'รวมองค์ความรู้การเพาะปลูกพืชเศรษฐกิจสำคัญในจังหวัดนครปฐม ตั้งแต่การวางระบบปลูก ดิน น้ำ ธาตุอาหาร ศัตรูพืช มาตรฐาน เทคโนโลยี ไปจนถึงเศรษฐศาสตร์การผลิต',
+    introEyebrow: 'คลังความรู้สำหรับใช้วางแผนแปลง',
+    introTitle: 'เลือกพืช แล้วอ่านตั้งแต่หลักการปลูกจนถึงการจัดการผลผลิต',
+    introDescription:
+      'บทความจากโฟลเดอร์หลักการเพาะปลูกพืชที่สำคัญ แบ่งเป็น 16 หมวดพืชและหัวข้อใช้งานจริง ค้นหาได้จากชื่อเรื่อง หมวดพืช คำสำคัญ และปีอัปเดต พร้อมเอกสารอ้างอิงกับ URL ที่มีอยู่ในต้นฉบับ',
+    scopeLabel: 'ขอบเขตคลังองค์ความรู้หลักการเพาะปลูกพืชที่สำคัญ',
+    categoryLabel: 'หมวดพืชและระบบการผลิต',
+    articleLabel: 'รายการองค์ความรู้การเพาะปลูก',
+    searchLabel: 'ค้นหาองค์ความรู้หลักการเพาะปลูกพืชที่สำคัญ',
+    searchPlaceholder:
+      'ค้นชื่อพืช หัวข้อการปลูก ดิน น้ำ โรค มาตรฐาน หรือคำสำคัญ...',
+    articleNote:
+      'เนื้อหานี้จัดรูปแบบจากคลังความรู้ต้นทาง ควรตรวจสอบฉลาก มาตรฐาน กฎหมาย และคำแนะนำของหน่วยงานที่รับผิดชอบก่อนนำไปใช้กับแปลงจริง โดยเฉพาะเรื่องสารเคมีและพืชควบคุม',
+    statsLabels: {
+      article: 'บทความองค์ความรู้',
+      category: 'หมวดพืช',
+      references: 'รายการอ้างอิง',
+      linkedArticles: 'บทความมี URL',
+    },
+    catalogItemLabel: 'บทความองค์ความรู้',
   },
 };
 
@@ -123,36 +157,42 @@ function Header({ catalog, config, catalogPage = false }) {
       <h1>{config.title}</h1>
       <p>
         {catalogPage
-          ? `ค้นหาและอ่านบทความวิจัย ${catalog.stats.total} เรื่อง พร้อมรายการอ้างอิงและลิงก์เว็บต้นทาง`
+          ? `ค้นหาและอ่าน${config.catalogItemLabel || 'บทความวิจัย'} ${catalog.stats.total} เรื่อง พร้อมรายการอ้างอิงและลิงก์เว็บต้นทาง`
           : config.heroDescription}
       </p>
     </section>
   );
 }
 
-function CatalogStats({ catalog }) {
+function CatalogStats({ catalog, config }) {
+  const labels = config.statsLabels || {
+    article: 'บทความวิจัย',
+    category: 'หมวดการเกษตร',
+    references: 'รายการอ้างอิง',
+    linkedArticles: 'บทความมีลิงก์เว็บ',
+  };
   return (
     <KnowledgeStats
       tone="research"
       items={[
         {
           value: catalog.stats.total,
-          label: 'บทความวิจัย',
+          label: labels.article,
           icon: <FileTextOutlined />,
         },
         {
           value: Object.keys(catalog.stats.categories).length,
-          label: 'หมวดการเกษตร',
+          label: labels.category,
           icon: <BookOutlined />,
         },
         {
           value: catalog.stats.references,
-          label: 'รายการอ้างอิง',
+          label: labels.references,
           icon: <HistoryOutlined />,
         },
         {
           value: catalog.stats.linked_articles,
-          label: 'บทความมีลิงก์เว็บ',
+          label: labels.linkedArticles,
           icon: <SafetyCertificateOutlined />,
         },
       ]}
@@ -206,7 +246,7 @@ function FrontierAgriResearchHub({ catalog, config }) {
     <main className="rice-page stou-page rice-hub frontier-agri-page">
       <PageNav />
       <Header catalog={catalog} config={config} />
-      <CatalogStats catalog={catalog} />
+      <CatalogStats catalog={catalog} config={config} />
 
       <section className="stou-intro" aria-label={config.scopeLabel}>
         <div>
@@ -289,7 +329,7 @@ function FrontierAgriResearchCatalog({ catalog, config }) {
     <main className="rice-page stou-page rice-catalog frontier-agri-page">
       <PageNav />
       <Header catalog={catalog} config={config} catalogPage />
-      <CatalogStats catalog={catalog} />
+      <CatalogStats catalog={catalog} config={config} />
 
       <KnowledgeSectionHeading
         kicker="ค้นหาและกรองได้"
@@ -421,6 +461,14 @@ function FrontierAgriResearchArticle({ catalog, config }) {
 
   const references = article.references || [];
   const linkedReferences = references.filter((reference) => reference.url);
+  const sourceLinks =
+    linkedReferences.length > 0
+      ? linkedReferences
+      : (article.source_urls || []).map((url, index) => ({
+          id: `url-${index + 1}`,
+          label: url,
+          url,
+        }));
 
   return (
     <main className="rice-page stou-page rice-article frontier-agri-page">
@@ -462,9 +510,9 @@ function FrontierAgriResearchArticle({ catalog, config }) {
           </div>
           <div className="stou-source-links">
             <strong>เว็บอ้างอิงในบทความ</strong>
-            {linkedReferences.length > 0 ? (
+            {sourceLinks.length > 0 ? (
               <ol className="frontier-source-list">
-                {linkedReferences.map((reference) => (
+                {sourceLinks.map((reference) => (
                   <li key={reference.id}>
                     <a href={reference.url} target="_blank" rel="noreferrer">
                       <LinkOutlined /> {reference.label || reference.url}

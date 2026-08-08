@@ -1,0 +1,45 @@
+{
+  "slug": "crop-16-005",
+  "title": "ข้าวโพดต้นสดพร้อมฝักเพื่ออาหารหยาบ",
+  "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
+  "source_year": 2026,
+  "updated_at": "2026-08-08",
+  "created_at": "2026-08-08",
+  "review_at": "2027-02-08",
+  "category": "พืชไร่เศรษฐกิจและข้าวโพดนครปฐม",
+  "domain_code": "16",
+  "topic_id": "16-005",
+  "handle_id": "16-005",
+  "abstract": "ข้าวโพดต้นสดพร้อมฝักจะมีประโยชน์เมื่อผลผลิตจากแปลงเชื่อมต่อกับระบบใช้อาหารของฟาร์มได้ทันเวลา จุดสำคัญจึงไม่ใช่ปลูกให้ได้ชีวมวลมากที่สุด แต่ต้องได้วัตถุดิบที่ **สะอาด ปลอดสารตกค้างตามระยะเว้น ใช้ได้ตรงระยะ และขนส่งถึงฟาร์มโดยไม่เสียคุณภาพ** บทความ NPT อ้างถึงโครงการของมหาวิทยาลัยเกษตรศาสตร์ที่ประเมินพันธุ์ข้าวโพดและเทคโนโลยีผลิตข้าวโพดต้นสดพร้อมฝัก โดยสรุปช่วงเก็บเกี่ยวราว 85 ถึง 90 วันในระยะน้ำนมถึงแป้ง ตัวเลขนี้เป็นกรอบจากโครงการที่ต้องตรวจต้นฉบับและสภาพแปลง ไม่ใช่วันตัดที่ใช้กับทุกพันธุ์",
+  "source_type": "Nakhon Pathom key crop cultivation knowledge article",
+  "source_url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430036000",
+  "pdf_url": null,
+  "source_urls": [
+    "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430036000",
+    "https://npt-dashboard.netlify.app/public/npt-research/npt-04-001",
+    "https://publication.npru.ac.th/handle/123456789/2114"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "โครงการประเมินพันธุ์ข้าวโพดและข้าวโพดต้นสดพร้อมฝัก มหาวิทยาลัยเกษตรศาสตร์",
+      "url": "https://research.ku.ac.th/forest/Project.aspx?BudgetYear=2024&ProjectNumber=2430036000"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "บทความ NPT: งานวิจัยพืชไร่ในจังหวัดนครปฐม",
+      "url": "https://npt-dashboard.netlify.app/public/npt-research/npt-04-001"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "Yield Evaluation of Elite Waxy Corn Hybrids",
+      "url": "https://publication.npru.ac.th/handle/123456789/2114"
+    }
+  ],
+  "reference_count": 3,
+  "article_file": "crop-16-005.md",
+  "source_file": "16-พืชไร่เศรษฐกิจและข้าวโพดนครปฐม\\05-ข้าวโพดต้นสดพร้อมฝักเพื่ออาหารหยาบ.md"
+}

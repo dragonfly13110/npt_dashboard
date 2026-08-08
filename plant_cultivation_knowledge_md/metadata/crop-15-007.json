@@ -1,0 +1,47 @@
+{
+  "slug": "crop-15-007",
+  "title": "07-การผลิตไผ่เศรษฐกิจตามมาตรฐานอินทรีย์และการรับรองส่งออก",
+  "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
+  "source_year": 2026,
+  "updated_at": "2026-08-08",
+  "created_at": "2026-08-08",
+  "review_at": "2027-02-08",
+  "category": "ไผ่เศรษฐกิจและพืชชีวมวล",
+  "domain_code": "15",
+  "topic_id": "15-007",
+  "handle_id": "15-007",
+  "abstract": "การยกระดับสวนไผ่เศรษฐกิจในจังหวัดนครปฐมเข้าสู่มาตรฐานการรับรองอินทรีย์และการรับรองป่าไม้ยั่งยืน เป็นกุญแจสำคัญในการเจาะตลาดส่งออกมูลค่าสูง มาตรฐานครอบคลุม 3 ด้านหลัก: (1) มาตรฐานหน่อไม้อินทรีย์ **Organic Thailand (มกษ. 9000-2564 / TAS 9000)** ห้ามใช้สารเคมีสังเคราะห์ทุกชนิด ควบคุมแนวกันชน (Buffer Zone $> 3.0\\,\\text{m}$) และระยะปรับเปลี่ยน $12 - 18\\,\\text{เดือน}$, (2) มาตรฐานการจัดการป่าไม้ยั่งยืน **FSC (Forest Stewardship Council) FM/CoC** สำหรับไม้ไผ่แปรรูป โดยจำกัดสัดส่วนตัดฟันประจำปี (Annual Allowable Cut: AAC) ไม่เกิน $30\\%$ ของชีวมวลลำแม่ในกอ, และ (3) มาตรฐานกักกันพืชตาม **พ.ร.บ.กักพืช** เพื่อออกใบรับรองสุขอนามัยพืช (Phytosanitary Certificate: PC) สำหรับส่งออกกิ่งชำและต้นพันธุ์เพาะเลี้ย",
+  "source_type": "Nakhon Pathom key crop cultivation knowledge article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "กรมวิชาการเกษตร. (2564). *มาตรฐานสินค้าเกษตร: เกษตรอินทรีย์ เล่ม 1 การผลิต การแปรรูป การแสดงฉลาก และการจำหน่ายผลิตผลและผลิตภัณฑ์เกษตรอินทรีย์ (มกษ. 9000-2564)*. กระทรวงเกษตรและสหกรณ์, กรุงเทพฯ.",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "Forest Stewardship Council (FSC). (2022). *FSC Principles and Criteria for Forest Stewardship (FSC-STD-01-001 V5-2)*. FSC International Center, Bonn, Germany.",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "สุวิทย์ ชัยบูรณ์ และคณะ. (2566). *การพัฒนาระบบการผลิตไผ่ตงหวานอินทรีย์และการแปรรูปหน่อไม้บรรจุถุงทนความร้อนเพื่อการส่งออกในจังหวัดนครปฐม*. วารสารเศรษฐศาสตร์เกษตร, 30(2), 145–160. — ฐานข้อมูล TCI กลุ่ม 1.",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "International Bamboo and Rattan Organization (INBAR). (2023). *Sustainability Standards and Certification Pathways for Bamboo Shoots and Timber Products*. INBAR Technical Report No. 48, Beijing.",
+      "url": null
+    }
+  ],
+  "reference_count": 4,
+  "article_file": "crop-15-007.md",
+  "source_file": "15-ไผ่เศรษฐกิจและพืชชีวมวล\\07-การผลิตไผ่เศรษฐกิจตามมาตรฐานอินทรีย์และการรับรองส่งออก.md"
+}

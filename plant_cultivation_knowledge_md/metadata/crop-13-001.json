@@ -1,0 +1,53 @@
+{
+  "slug": "crop-13-001",
+  "title": "หลักการเพาะปลูกผักสลัดในระบบไฮโดรโปนิกส์",
+  "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
+  "source_year": 2026,
+  "updated_at": "2026-08-08",
+  "created_at": "2026-08-07",
+  "review_at": "2027-02-08",
+  "category": "พืชผักสลัดและพืชแนวตั้งไฮโดรโปนิกส์",
+  "domain_code": "13",
+  "topic_id": "13-001",
+  "handle_id": "13-001",
+  "abstract": "ผักสลัด (*Lactuca sativa* L.) สายพันธุ์ Green Oak, Red Oak, Butterhead, Cos (Romaine) และ Frillice Iceberg เป็นพืชผักใบมูลค่าสูงที่มีระยะเวลาการเจริญเติบโตสั้น ($35 - 42\\text{ วัน}$) ซึ่งได้รับการเพาะปลูกอย่างหนาแน่นในพื้นที่เศรษฐกิจเกษตรอัจฉริยะ ได้แก่ อำเภอพุทธมณฑล (ตำบลศาลายา), อำเภอสามพราน และอำเภอกำแพงแสน จังหวัดนครปฐม การผลิตเชิงพาณิชย์ในพื้นที่ภาคกลางเผชิญความท้าทายจากอุณหภูมิอากาศสะสมสูง ($32 - 38^\\circ\\text{C}$) และความชื้นสัมพัทธ์ผันผวน การเปรียบเทียบเชิงวิศวกรรมเกษตรระหว่างระบบไร้ดิน 3 รูปแบบหลัก ได้แก่ ระบบ **Nutrient Film Technique (NFT)**, ระบบ **Deep Water Culture (DWC / DFT)** และระบบ **Aeroponics (การพ่นหมอกสารละลาย)** พบว่าการรักษาความเข้มข้นออกซิเจนละลายในสารละลาย ($DO > 6",
+  "source_type": "Nakhon Pathom key crop cultivation knowledge article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "ภาควิชาพืชสวน คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์. (2565). *การเปรียบเทียบสรีรวิทยาและผลผลิตของผักสลัด 5 สายพันธุ์ในระบบ NFT และ DWC ภายใต้สภาพอากาศร้อน*. วารสารพืชสวน, 17(2), 88–102.",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "ศูนย์วิจัยและพัฒนาการเกษตรนครปฐม (สวพ.5). (2564). *การจัดการอุณหภูมิสารละลายและออกซิเจนละลายเพื่อป้องกันอาการขอบใบไหม้ในผักสลัดไฮโดรโปนิกส์*. กรมวิชาการเกษตร.",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "วารสารวิทยาศาสตร์เกษตร (Agricultural Science Journal). (2563). *ผลของระดับออกซิเจนละลายในสารละลายธาตุอาหารต่อการเจริญเติบโตและการสะสมสารขมในผักสลัด*. 51(2), 180–195.",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "AVRDC - World Vegetable Center. (2564). *Heat-tolerant Lettuce Cultivars for Tropical Hydroponic Production Systems*. AVRDC Publication No. 21-1045, pp. 45–58.",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Thai Journal of Agricultural Science (TCI Tier 1). (2566). *Comparison of NFT, DWC, and Aeroponic Systems for Commercial Lettuce Production in Central Thailand*. TJAS, 56(3), 210–226.",
+      "url": null
+    }
+  ],
+  "reference_count": 5,
+  "article_file": "crop-13-001.md",
+  "source_file": "13-พืชผักสลัดและพืชแนวตั้งไฮโดรโปนิกส์\\01-หลักการเพาะปลูกผักสลัดในระบบไฮโดรโปนิกส์.md"
+}

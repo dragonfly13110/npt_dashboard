@@ -1,0 +1,47 @@
+{
+  "slug": "crop-06-002",
+  "title": "การจัดการธาตุอาหารและโภชนาการเพื่อคุณภาพเนื้อและสีผิวชมพู่ทับทิมจันท์",
+  "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
+  "source_year": 2026,
+  "updated_at": "2026-08-08",
+  "created_at": "2026-08-07",
+  "review_at": "2027-02-08",
+  "category": "ชมพู่ทับทิมจันท์",
+  "domain_code": "06",
+  "topic_id": "06-002",
+  "handle_id": "06-002",
+  "abstract": "การจัดการโภชนาการพืชเป็นหัวใจสำคัญในการสร้างคุณภาพเนื้อชมพู่ทับทิมจันท์ให้มีความแน่น กรอบ หวานฉ่ำ ไม่เกิดอาการเนื้อแก้ว (Translucent flesh) หรือแกนฟูไส้ฟู (Spongy core breakdown) และยับยั้งการแตกของเปลือกผล การฉีดพ่น **Calcium-Boron (Ca-B)** ทางใบ (CaO 15%, B 1.0% ความเข้มข้น 1,500 ppm) ร่วมกับ **Calcium Nitrate ($15-0-0$)** ทางดิน 500 g/ต้น ช่วยสร้าง Calcium Pectate เพิ่มความแข็งแรงของผนังเซลล์เนื้อผล ขณะที่โปรแกรม Fertigation ปุ๋ย N-$P_2O_5$-$K_2O$ ตามระยะพัฒนาการ ร่วมกับการใส่ **Potassium Sulfate ($0-0-50$)** 500 g/ต้น และการเพิ่มความเข้มแสงบริเวนทรงพุ่ม ช่วยกระตุ้นเอนไซม์ UDPG-flavonoid glucosyltransferase (UFGT) เร่งการสะสมรงควัตถุ **Cyanidin-3-glucoside (Anthocyanin 22.5–35.0 mg/100g F",
+  "source_type": "Nakhon Pathom key crop cultivation knowledge article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "ภาควิชาปฐพีวิทยา คณะเกษตร กำแพงแสน. (2565). *การจัดการโภชนาการและการใช้ปุ๋ยตามระยะการเจริญเติบโตของชมพู่ทับทิมจันท์*. มหาวิทยาลัยเกษตรศาสตร์.",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "สำนักวิจัยและพัฒนาการเกษตรเขตที่ 5. (2564). *การเพิ่มคุณภาพเนื้อ ความหวาน และสีผิวชมพู่ทับทิมจันท์ด้วยธาตุอาหารแคลเซียม โบรอน และโพแทสเซียม*. กรมวิชาการเกษตร.",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "สมชาย ชินวุฒิ, และคณะ. (2565). ผลของการฉีดพ่นแคลเซียม-โบรอนทางใบและโพแทสเซียมซัลเฟตต่อการสะสมสารแอนโทไซยานินและคุณภาพเนื้อชมพู่ทับทิมจันท์. *วารสารพืชศาสตรเกษตร*, 40(3), 210–225. (TCI Tier 1).",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Chinwutti, S., et al. (2023). Enhancement of Cyanidin-3-glucoside content, fruit firmness, and total soluble solids in seedless wax apple (*Syzygium samarangense*) using foliar calcium-boron and potassium fertigation. *Agriculture and Natural Resources*, 57(3), 310–324.",
+      "url": null
+    }
+  ],
+  "reference_count": 4,
+  "article_file": "crop-06-002.md",
+  "source_file": "06-ชมพู่ทับทิมจันท์\\02-การจัดการธาตุอาหารและคุณภาพเนื้อ.md"
+}

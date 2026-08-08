@@ -1,0 +1,52 @@
+{
+  "slug": "crop-16-004",
+  "title": "การจัดการวัชพืช โรค และศัตรูพืชพืชไร่",
+  "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
+  "source_year": 2026,
+  "updated_at": "2026-08-08",
+  "created_at": "2026-08-08",
+  "review_at": "2027-02-08",
+  "category": "พืชไร่เศรษฐกิจและข้าวโพดนครปฐม",
+  "domain_code": "16",
+  "topic_id": "16-004",
+  "handle_id": "16-004",
+  "abstract": "การจัดการศัตรูพืชที่ลดต้นทุนและความเสี่ยงควรเป็นระบบ **สำรวจ ระบุสาเหตุ เลือกวิธี และประเมินผล** ไม่เริ่มจากการฉีดสารทันที เพราะอาการใบเหลือง ใบไหม้ หรือต้นชะงักอาจเกิดจากน้ำขัง ขาดธาตุอาหาร หรือรากเสียได้ หลักปฏิบัติ 5 ข้อ 1. เดินสำรวจแปลงตามเส้นทางเดิมและบันทึกจุดพบ 2. แยกวัชพืช โรค แมลง และความเสียหายจากสภาพแวดล้อม 3. ตรวจระยะพืชและส่วนที่ถูกทำลายก่อนเลือกวิธีจัดการ 4. ใช้วิธีเขตกรรม กายภาพ ชีวภาพ และสารเคมีร่วมกันตามความเหมาะสม 5. ถ้าต้องใช้สาร ให้ยึดฉลากและข้อกำหนดล่าสุดของกรมวิชาการเกษตร",
+  "source_type": "Nakhon Pathom key crop cultivation knowledge article",
+  "source_url": "https://npt-dashboard.netlify.app/public/npt-research/npt-08-001",
+  "pdf_url": null,
+  "source_urls": [
+    "https://npt-dashboard.netlify.app/public/npt-research/npt-08-001",
+    "https://npt-dashboard.netlify.app/public/npt-research/npt-04-001",
+    "https://www.doa.go.th/",
+    "https://www.nakhonpathom.doae.go.th"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "บทความ NPT: งานวิจัยศัตรูพืชและอารักขาพืช",
+      "url": "https://npt-dashboard.netlify.app/public/npt-research/npt-08-001"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "บทความ NPT: งานวิจัยพืชไร่ในจังหวัดนครปฐม",
+      "url": "https://npt-dashboard.netlify.app/public/npt-research/npt-04-001"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "กรมวิชาการเกษตร",
+      "url": "https://www.doa.go.th/"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "สำนักงานเกษตรจังหวัดนครปฐม",
+      "url": "https://www.nakhonpathom.doae.go.th"
+    }
+  ],
+  "reference_count": 4,
+  "article_file": "crop-16-004.md",
+  "source_file": "16-พืชไร่เศรษฐกิจและข้าวโพดนครปฐม\\04-การจัดการวัชพืชโรคและศัตรูพืชพืชไร่.md"
+}

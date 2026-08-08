@@ -1,0 +1,47 @@
+{
+  "slug": "crop-06-006",
+  "title": "นวัตกรรมเกษตรแม่นยำ เทคโนโลยีโดรนการเกษตร และระบบร่องสวนอัจฉริยะในสวนชมพู่ทับทิมจันท์",
+  "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
+  "source_year": 2026,
+  "updated_at": "2026-08-08",
+  "created_at": "2026-08-08",
+  "review_at": "2027-02-08",
+  "category": "ชมพู่ทับทิมจันท์",
+  "domain_code": "06",
+  "topic_id": "06-006",
+  "handle_id": "06-006",
+  "abstract": "การนำนวัตกรรมเกษตรแม่นยำ (Precision Agriculture) และเทคโนโลยีอากาศยานไร้คนขับ (UAV/Agricultural Drones) มาปรับใช้ในสวนชมพู่ทับทิมจันท์ระบบยกร่อง ช่วยยกระดับประสิทธิภาพการจัดการแปลงและลดต้นทุนแรงงานอย่างก้าวกระโดด การถ่ายภาพ Multispectral เพื่อวิเคราะห์ดัชนีพืชพรรณ **NDVI (Normalized Difference Vegetation Index)** และ **NDRE (Normalized Difference Red Edge)** สามารถประเมินความคลอโรฟิลล์ ไนโตรเจน และดัชนีความเครียดน้ำ (Crop Water Stress Index: CWSI) ได้แม่นยำถึง 94.2% การใช้โดรนพ่นสารชีวภัณฑ์ (*Bacillus subtilis* BS, *Beauveria bassiana*, *Metarhizium*) ด้วยหัวพ่นไฟฟ้าสถิต (Electrostatic nozzles) ขนาดละอองสาร 100–150 $\\mu m$ มีความสามารถในการพ่นครอบคลุมพื้นที่ **15–20 ไร่/ชั่วโมง** (เทียบกับแร",
+  "source_type": "Nakhon Pathom key crop cultivation knowledge article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "ศูนย์วิชาการเกษตรอัจฉริยะ. (2566). *การประยุกต์ใช้อากาศยานไร้คนขับ (UAV) และภาพถ่าย Multispectral ในการบริหารจัดการสวนไม้ผลพาณิชย์*. มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตกำแพงแสน.",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "สำนักวิจัยและพัฒนาการเกษตรเขตที่ 5. (2565). *คู่มือการฉีดพ่นสารชีวภัณฑ์ด้วยโดรนการเกษตรในสวนผลไม้ยกร่อง*. กรมวิชาการเกษตร.",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "ธนกฤต ชัยชนะ, และคณะ. (2566). การประเมินประสิทธิภาพการพ่นสารชีวภัณฑ์ด้วยโดรนเกษตรและการติดตามสุขภาพทรงพุ่มชมพู่ทับทิมจันท์ด้วยดัชนี NDRE. *วารสารสมาคมวิศวกรรมเกษตรแห่งประเทศไทย*, 29(1), 34–48. (TCI Tier 1).",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Chaichana, T., et al. (2024). Precision agriculture applications in raised-bed wax apple (*Syzygium samarangense*) orchards: UAV multispectral imaging and autonomous biological agent spraying. *Agriculture and Natural Resources*, 58(1), 112–126.",
+      "url": null
+    }
+  ],
+  "reference_count": 4,
+  "article_file": "crop-06-006.md",
+  "source_file": "06-ชมพู่ทับทิมจันท์\\06-นวัตกรรมเกษตรแม่นยำและโดรนการเกษตรในสวนชมพู่.md"
+}

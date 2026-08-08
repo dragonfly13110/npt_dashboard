@@ -1,0 +1,66 @@
+{
+  "slug": "crop-16-003",
+  "title": "การจัดการดิน ปุ๋ย และน้ำพืชไร่ในชุดดินนครปฐม",
+  "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
+  "source_year": 2026,
+  "updated_at": "2026-08-08",
+  "created_at": "2026-08-08",
+  "review_at": "2027-02-08",
+  "category": "พืชไร่เศรษฐกิจและข้าวโพดนครปฐม",
+  "domain_code": "16",
+  "topic_id": "16-003",
+  "handle_id": "16-003",
+  "abstract": "คำแนะนำปุ๋ยที่ดีต้องตอบ 3 คำถามก่อนเสมอ 1. ดินมีธาตุอาหารและข้อจำกัดอะไร 2. พืชจะใช้น้ำได้ต่อเนื่องในช่วงสำคัญหรือไม่ 3. ผลผลิตที่ตั้งเป้าหมายขายเป็นอะไรและมีต้นทุนปุ๋ยได้เท่าไร บทความ NPT รายงานงานทดลองปุ๋ยไนโตรเจนชนิดปลดปล่อยช้าในอ้อยและมันสำปะหลังบนเงื่อนไขเฉพาะ โดยมีตัวเลขสูตร 40-0-0 อัตรา 50 กก./ไร่ในบทความทบทวน ตัวเลขนี้เป็น **ผลการทดลองที่ต้องตรวจเงื่อนไข** ไม่ใช่สูตรกลางสำหรับทุกแปลง",
+  "source_type": "Nakhon Pathom key crop cultivation knowledge article",
+  "source_url": "https://npt-dashboard.netlify.app/public/npt-research/npt-07-001",
+  "pdf_url": null,
+  "source_urls": [
+    "https://npt-dashboard.netlify.app/public/npt-research/npt-07-001",
+    "https://npt-dashboard.netlify.app/public/npt-research/npt-04-001",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/261072",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/247953",
+    "https://li02.tci-thaijo.org/index.php/JASM/article/view/261973",
+    "https://www.doa.go.th/"
+  ],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "บทความ NPT: งานวิจัยดิน ปุ๋ย และน้ำ",
+      "url": "https://npt-dashboard.netlify.app/public/npt-research/npt-07-001"
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "บทความ NPT: งานวิจัยพืชไร่ในจังหวัดนครปฐม",
+      "url": "https://npt-dashboard.netlify.app/public/npt-research/npt-04-001"
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "งานวิจัยไนโตรเจนในอ้อย",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/261072"
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "งานวิจัยไนโตรเจนในมันสำปะหลัง",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/247953"
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "งานวิจัยผงกากส่ากับมันสำปะหลัง",
+      "url": "https://li02.tci-thaijo.org/index.php/JASM/article/view/261973"
+    },
+    {
+      "id": "6",
+      "index": 6,
+      "label": "กรมวิชาการเกษตร",
+      "url": "https://www.doa.go.th/"
+    }
+  ],
+  "reference_count": 6,
+  "article_file": "crop-16-003.md",
+  "source_file": "16-พืชไร่เศรษฐกิจและข้าวโพดนครปฐม\\03-การจัดการดินปุ๋ยและน้ำพืชไร่ในชุดดินนครปฐม.md"
+}

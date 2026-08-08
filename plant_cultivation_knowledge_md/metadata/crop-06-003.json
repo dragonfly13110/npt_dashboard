@@ -1,0 +1,47 @@
+{
+  "slug": "crop-06-003",
+  "title": "การป้องกันกำจัดแมลงวันผลไม้ ศัตรูพืช โรคผลเน่า และนวัตกรรมห่อผลชมพู่ทับทิมจันท์",
+  "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
+  "source_year": 2026,
+  "updated_at": "2026-08-08",
+  "created_at": "2026-08-07",
+  "review_at": "2027-02-08",
+  "category": "ชมพู่ทับทิมจันท์",
+  "domain_code": "06",
+  "topic_id": "06-003",
+  "handle_id": "06-003",
+  "abstract": "ศัตรูพืชและโรคระบาดร้ายแรงในสวนชมพู่ทับทิมจันท์ ได้แก่ **แมลงวันผลไม้** (*Bactrocera dorsalis* Hendel), **มวนพริกไทย** (*Helopeltis* spp.), และ **โรคแอนแทรคโนสผลเน่า** (*Colletotrichum gloeosporioides* และ *Pestalotiopsis palmarum*) การป้องกันกำจัดที่มีประสิทธิภาพสูงเน้นระบบบริหารจัดการศัตรูพืชแบบผสมผสาน (IPM) โดยใช้เทคโนโลยีห่อผลด้วย **ถุงกระดาษขาว/ถุงสปันบอนด์ขาว** ในระยะผลเท่าไข่นกกระทา (ขนาดเส้นผ่าศูนย์กลาง 2.0–2.5 cm) ป้องกันแมลงวันผลไม้วางไข่ 100% ร่วมกับการฉีดพ่นชีวภัณฑ์ **Bacillus subtilis (BS)** ($\\ge 1 \\times 10^9$ CFU/g), **Beauveria bassiana** ($\\ge 1 \\times 10^8$ conidia/mL) และ **Metarhizium anisopliae** ($\\ge 1 \\times 10^8$ conidia/mL) ก่อนการห่อผล ช่วยลดอัตราการเกิดโรคผลเน่าห",
+  "source_type": "Nakhon Pathom key crop cultivation knowledge article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "ภาควิชาโรคพืช คณะเกษตร กำแพงแสน. (2565). *การควบคุมโรคแอนแทรคโนสและโรคผลเน่าหลังการเก็บเกี่ยวของชมพู่ทับทิมจันท์ด้วยสารชีวภัณฑ์แบคทีเรีย Bacillus subtilis*. มหาวิทยาลัยเกษตรศาสตร์.",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "ภาควิชากีฏวิทยา คณะเกษตร กำแพงแสน. (2564). *การจัดการแมลงวันผลไม้และมวนพริกไทยในสวนชมพู่พาณิชย์ตามระบบ IPM*. มหาวิทยาลัยเกษตรศาสตร์.",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "สำนักวิจัยพัฒนาการอารักขาพืช. (2565). *เทคโนโลยีการห่อผลชมพู่และการใช้ชีวภัณฑ์ป้องกันกำจัดศัตรูพืชตามมาตรฐาน GAP*. กรมวิชาการเกษตร.",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Vichitbandha, P., et al. (2023). Integrated pest management and postharvest decay control of seedless wax apple (*Syzygium samarangense*) using physical bagging and biological agents in Thailand. *Journal of Integrated Pest Management*, 41(2), 112–126. (TCI Tier 1).",
+      "url": null
+    }
+  ],
+  "reference_count": 4,
+  "article_file": "crop-06-003.md",
+  "source_file": "06-ชมพู่ทับทิมจันท์\\03-การป้องกันแมลงวันทองและโรคผลเน่า.md"
+}

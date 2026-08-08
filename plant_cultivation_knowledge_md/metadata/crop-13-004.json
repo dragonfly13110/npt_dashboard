@@ -1,0 +1,53 @@
+{
+  "slug": "crop-13-004",
+  "title": "การป้องกันโรครากเน่าและคุณภาพความปลอดภัย",
+  "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
+  "source_year": 2026,
+  "updated_at": "2026-08-08",
+  "created_at": "2026-08-07",
+  "review_at": "2027-02-08",
+  "category": "พืชผักสลัดและพืชแนวตั้งไฮโดรโปนิกส์",
+  "domain_code": "13",
+  "topic_id": "13-004",
+  "handle_id": "13-004",
+  "abstract": "ความต้านทานโรครากเน่าโคนเน่าทางปฐพีวิทยาและความปลอดภัยของผู้บริโภคเป็นเสาหลักสำคัญที่สุดในการผลิตผักสลัดและพืชแนวตั้งไฮโดรโปนิกส์เชิงพาณิชย์ โรคสำคัญ ได้แก่ โรครากเน่า *Pythium ultimum*, *Rhizoctonia solani* และโรคเน่าเละแบคทีเรีย *Erwinia carotovora* (*Pectobacterium carotovorum*) การจัดการบูรณาการผ่านระบบฆ่าเชื้อสารละลายด้วยรังสี UV-C ($254\\text{ nm}$) ร่วมกับก๊าซโอโซน ($O_3$) และการเสริมชีวภัณฑ์ปฏิปักษ์ *Bacillus subtilis* (BS) ความเข้มข้น $\\ge 1 \\times 10^9\\text{ CFU/mL}$ และ *Trichoderma harzianum* $\\ge 1 \\times 10^8\\text{ CFU/g}$ สามารถเข้าครอบครองทรงราก (Rhizosphere colonization) และยับยั้งสปอร์โรคพืชได้ $98.5\\%$ ด้านคุณภาพความปลอดภัย มาตรการ Flushing ปรับลด EC ก่อนเก็บเกี่ยว 3 วันช่ว",
+  "source_type": "Nakhon Pathom key crop cultivation knowledge article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "ภาควิชาโรคพืช คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์. (2564). *การประยุกต์ใช้ Bacillus subtilis และ Trichoderma harzianum ในการควบคุมโรครากเน่า Pythium ในผักไฮโดรโปนิกส์*. วารสารโรคพืชไทย, 39(1), 50–65.",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "ศูนย์วิจัยและพัฒนาการเกษตรนครปฐม (สวพ.5). (2564). *มาตรฐานความปลอดภัยด้านจุลินทรีย์และการจัดการสารไนเตรตตกค้างในผักสลัดไร้ดิน*. กรมวิชาการเกษตร.",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "วารสารวิทยาศาสตร์เกษตร. (2563). *ผลของรังสี UV-C และก๊าซโอโซนต่อการกำจัดสปอร์ Pythium aphanidermatum ในน้ำหมุนเวียนไฮโดรโปนิกส์*. 51(2), 196–210.",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Food Control (TCI Tier 1 / ISI). (2565). *Efficacy of Ozonated Water Washing and Pre-harvest Flushing on Nitrate Reduction and Microbial Safety of Hydroponic Lettuce*. Food Control, 134, 108720.",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "European Food Safety Authority (EFSA). (2564). *Opinion of the Scientific Panel on Contaminants in the Food Chain on a Request from the Commission Related to Nitrate in Vegetables*. EFSA Journal, 689, 1–79.",
+      "url": null
+    }
+  ],
+  "reference_count": 5,
+  "article_file": "crop-13-004.md",
+  "source_file": "13-พืชผักสลัดและพืชแนวตั้งไฮโดรโปนิกส์\\04-การป้องกันโรครากเน่าและคุณภาพความปลอดภัย.md"
+}

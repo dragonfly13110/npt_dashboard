@@ -42,15 +42,26 @@ const collectionConfig =
         sourceNote:
           'Imported from the Nakhon Pathom agricultural research review collection with source links preserved.',
       }
-    : {
-        source: 'Agricultural Research Knowledge Library',
-        sourceLabel: 'Frontier agricultural research from around the world',
-        catalogTitle: 'Global agricultural research articles',
-        author: 'Agricultural Research Knowledge Library',
-        sourceType: 'Frontier agricultural research article',
-        sourceNote:
-          'Imported from Thai Markdown research articles with source links preserved when present.',
-      };
+    : collection === 'plant-cultivation'
+      ? {
+          source: 'คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ จังหวัดนครปฐม',
+          sourceLabel:
+            'บทความองค์ความรู้การเพาะปลูกพืชเศรษฐกิจสำคัญในจังหวัดนครปฐม',
+          catalogTitle: 'Nakhon Pathom key crop cultivation knowledge',
+          author: 'คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ',
+          sourceType: 'Nakhon Pathom key crop cultivation knowledge article',
+          sourceNote:
+            'Imported from the local key crop cultivation knowledge library with source links preserved when present.',
+        }
+      : {
+          source: 'Agricultural Research Knowledge Library',
+          sourceLabel: 'Frontier agricultural research from around the world',
+          catalogTitle: 'Global agricultural research articles',
+          author: 'Agricultural Research Knowledge Library',
+          sourceType: 'Frontier agricultural research article',
+          sourceNote:
+            'Imported from Thai Markdown research articles with source links preserved when present.',
+        };
 
 function longPath(filePath) {
   const absolutePath = path.resolve(filePath);
@@ -176,16 +187,26 @@ function extractMetadata(
 ) {
   const titleLine = String(markdown).match(/^#\s+(.+)$/m)?.[1] || sourceFile;
   const title = cleanText(
-    titleLine.replace(/^\d+(?:-\d+)?\s*\|\s*[^:]+:\s*/i, '')
+    titleLine
+      .replace(/^\d{2}(?:-\d{3})?\s*\|\s*/i, '')
+      .replace(/^(?:เจาะลึก|คู่มือ|บทความปริทัศน์)\s*:\s*/i, '')
   );
   const header = String(markdown).split('\n').slice(0, 20).join('\n');
   const topicId = header.match(/\b\d{2}-\d{3}\b/)?.[0] || null;
   const dates = [...header.matchAll(/\b20\d{2}-\d{2}-\d{2}\b/g)].map(
     ([date]) => date
   );
-  const createdAt = dates[0] || null;
-  const updatedAt = dates[1] || createdAt;
-  const reviewAt = dates[2] || null;
+  const labeledDate = (pattern) =>
+    header.match(
+      new RegExp(`(?:${pattern})[^\\d]*(20\\d{2}-\\d{2}-\\d{2})`, 'i')
+    )?.[1] || null;
+  const createdAt = labeledDate('สร้าง|created(?:\\s+at)?') || dates[0] || null;
+  const updatedAt =
+    labeledDate('อัปเดต(?:ล่าสุด)?|updated(?:\\s+at)?') ||
+    (dates.length >= 3 ? dates[1] : createdAt);
+  const reviewAt =
+    labeledDate('รอบตรวจสอบถัดไป|ทบทวน|review(?:\\s+at)?') ||
+    (dates.length >= 3 ? dates[2] : null);
   const domainCode = categoryFolder.match(/^(\d{2})-/)?.[1] || '00';
   const category = categoryFolder.replace(/^\d{2}-/, '').trim();
   const fallbackId = `${domainCode}-${String(fallbackIndex).padStart(3, '0')}`;
@@ -195,7 +216,12 @@ function extractMetadata(
     .replace(/[^a-z0-9-]+/g, '-')}`;
   const references = extractReferences(markdown);
   const sourceUrls = [
-    ...new Set(references.map((reference) => reference.url).filter(Boolean)),
+    ...new Set(
+      [
+        ...references.map((reference) => reference.url),
+        ...extractUrls(markdown),
+      ].filter(Boolean)
+    ),
   ];
 
   return {

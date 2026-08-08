@@ -95,6 +95,15 @@ const knowledgeCollections = [
     Icon: DatabaseOutlined,
     tone: 'npt-research',
   },
+  {
+    to: '/public/plant-cultivation/catalog',
+    title: 'หลักการเพาะปลูกพืชที่สำคัญ',
+    description:
+      'คู่มือและบทความเชิงลึกสำหรับพืชเศรษฐกิจนครปฐม ตั้งแต่การปลูก ดิน น้ำ ธาตุอาหาร ศัตรูพืช มาตรฐาน เทคโนโลยี และการตลาด',
+    detail: '128 บทความ · 16 หมวดพืช · 534 รายการอ้างอิง',
+    Icon: ReadOutlined,
+    tone: 'cultivation',
+  },
 ];
 
 export default function KnowledgeHub() {

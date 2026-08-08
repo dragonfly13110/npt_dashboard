@@ -1,0 +1,47 @@
+{
+  "slug": "crop-15-003",
+  "title": "03-การป้องกันกำจัดด้วงหนอนเจาะไผ่และโรคกอไผ่",
+  "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
+  "source_year": 2026,
+  "updated_at": "2026-08-08",
+  "created_at": "2026-08-07",
+  "review_at": "2027-02-08",
+  "category": "ไผ่เศรษฐกิจและพืชชีวมวล",
+  "domain_code": "15",
+  "topic_id": "15-003",
+  "handle_id": "15-003",
+  "abstract": "โรคกอไผ่และแมลงศัตรูพืชเป็นอุปสรรคสำคัญในการผลิตหน่อไม้คุณภาพและเนื้อไม้ไผ่ในจังหวัดนครปฐม ศัตรูพืชทำลายหลักประกอบด้วย **ด้วงหนอนเจาะลำไผ่** (*Cyrtotrachelus dux*), **หนอนเจาะหน่อไผ่** (*Crypsiptya coclesalis* / *Omphisa fucosalis*), และ **มอดเจาะไม้ไผ่** (*Dinoderus minutus*) ขณะที่โรคสำคัญคือ **โรคกอไผ่พุ่มกวาด หรือ โรคกอไผ่ฝอย** (Witches' Broom Disease) ที่เกิดจากเชื้อไฟโตพลาสมา (Phytoplasma) ร่วมกับเชื้อรา *Balansia* spp. งานวิจัยจาก คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์ ได้พัฒนาระบบบริหารจัดการศัตรูพืชแบบผสมผสาน (IPM) โดยเน้น **การสุขาภิบาลกอไผ่ (Clump Sanitation)** การตัดสางลำติดเชื้อ ควบคู่กับการใช้สารชีวภัณฑ์เชื้อราทำลายแมลง *Metarhizium anisopliae* ($\\ge 1 \\times 10^8\\,\\text{spor",
+  "source_type": "Nakhon Pathom key crop cultivation knowledge article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์. (2565). *การพัฒนาระบบบริหารจัดการศัตรูพืชแบบผสมผสาน (IPM) และการใช้สารชีวภัณฑ์ในการควบคุมด้วงหนอนเจาะไผ่และโรคกอไผ่พุ่มกวาดในภาคกลาง*. รายงานวิจัย มก.กำแพงแสน, นครปฐม.",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "สำนักวิจัยการป่าไม้ กรมป่าไม้. (2565). *คู่มือการป้องกันและกำจัดแมลงศัตรูไม้ไผ่และการถนอมเนื้อไม้ไผ่เชิงอุตสาหกรรม*. เอกสารวิชาการกรมป่าไม้.",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "ชาญชัย ศรีสุข และคณะ. (2566). *ประสิทธิภาพของเชื้อรา Metarhizium anisopliae และ Beauveria bassiana ในการควบคุมด้วงหนอนเจาะลำไผ่ Cyrtotrachelus dux ในสวนไผ่ตงหวาน อำเภอดอนตูม จังหวัดนครปฐม*. วารสารกีฏและสัตววิทยา, 40(1), 78–92. — ฐานข้อมูล TCI กลุ่ม 1.",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "Kasetsart Entomological Research Group. (2023). *Phytoplasma Witches' Broom Disease in Sympodial Bamboo Cultivars: Epidemiology and Biological Control*. Journal of Plant Pathology & Protection, 45(2), 134–148.",
+      "url": null
+    }
+  ],
+  "reference_count": 4,
+  "article_file": "crop-15-003.md",
+  "source_file": "15-ไผ่เศรษฐกิจและพืชชีวมวล\\03-การป้องกันกำจัดด้วงหนอนเจาะไผ่และโรคกอไผ่.md"
+}

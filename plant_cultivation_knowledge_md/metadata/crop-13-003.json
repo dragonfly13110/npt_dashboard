@@ -1,0 +1,53 @@
+{
+  "slug": "crop-13-003",
+  "title": "นวัตกรรมเกษตรแนวตั้ง Vertical Farming และไฟ LED",
+  "author": "คลังความรู้หลักการเพาะปลูกพืชที่สำคัญ",
+  "source_year": 2026,
+  "updated_at": "2026-08-08",
+  "created_at": "2026-08-07",
+  "review_at": "2027-02-08",
+  "category": "พืชผักสลัดและพืชแนวตั้งไฮโดรโปนิกส์",
+  "domain_code": "13",
+  "topic_id": "13-003",
+  "handle_id": "13-003",
+  "abstract": "เกษตรแนวตั้งในร่ม (Indoor Vertical Farming / Plant Factory with Artificial Lighting - PFAL) เป็นนวัตกรรมขั้นสูงที่เข้ามายกระดับศักยภาพการผลิตผักสลัดและผักใบโภชนาการสูงในจังหวัดนครปฐม ระบบถูกออกแบบให้อยู่ในโครงสร้างซ้อนชั้น 6 – 10 ชั้น ภายใต้สภาพแวดล้อมปิดที่ควบคุมอุณหภูมิ ความชื้น แสงสังเคราะห์ และก๊าซคาร์บอนไดออกไซด์อย่างสมบูรณ์ การใช้โคมไฟ LED เกษตรเฉพาะทางความเข้มแสงสังเคราะห์แสง ($PPFD = 200 - 300\\text{ }\\mu\\text{mol/m}^2\\cdot\\text{s}$) ปริมาณแสงสะสมประจำวัน ($DLI = 14 - 18\\text{ mol/m}^2\\cdot\\text{day}$) ร่วมกับสเปกตรัมผสมอัตราส่วนแสงสีแดงต่อสีน้ำเงิน ($Red:Blue = 4:1$) เสริมด้วย Far-Red (730 nm) และการเติมก๊าซคาร์บอนไดออกไซด์ความเข้มข้น $800 - 1,200\\text{ ppm}$ สามารถเร่งอัตราการเจริญเ",
+  "source_type": "Nakhon Pathom key crop cultivation knowledge article",
+  "source_url": null,
+  "pdf_url": null,
+  "source_urls": [],
+  "references": [
+    {
+      "id": "1",
+      "index": 1,
+      "label": "ภาควิชาพืชสวน คณะเกษตร กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์. (2565). *ผลของสเปกตรัมแสง LED และความเข้มก๊าซ CO2 ต่อสรีรวิทยาการสังเคราะห์แสงและผลผลิตของผักสลัดในระบบ PFAL*. วารสารพืชสวน, 17(3), 112–128.",
+      "url": null
+    },
+    {
+      "id": "2",
+      "index": 2,
+      "label": "ศูนย์วิจัยและพัฒนาการเกษตรนครปฐม (สวพ.5). (2564). *การออกแบบสถาปัตยกรรมโรงงานผลิตพืชแนวตั้งและการจัดการพลังงานไฟฟ้าสำหรับผักโภชนาการสูง*. กรมวิชาการเกษตร.",
+      "url": null
+    },
+    {
+      "id": "3",
+      "index": 3,
+      "label": "วารสารวิทยาศาสตร์เกษตร. (2563). *การประยุกต์ใช้แสง Far-Red และ Blue Light เพื่อยกระดับสารพฤกษเคมีและความกรอบในผักสลัดคอส*. 51(3), 240–255.",
+      "url": null
+    },
+    {
+      "id": "4",
+      "index": 4,
+      "label": "International Journal of Agricultural Technology (TCI Tier 1). (2565). *Optimization of Light Spectrum and Daily Light Integral for Indoor Vertical Farming in Salaya, Nakhon Pathom*. IJAT, 18(4), 1420–1438.",
+      "url": null
+    },
+    {
+      "id": "5",
+      "index": 5,
+      "label": "Japan Plant Factory Association (JPFA). (2566). *Advanced Environment Control Protocols and Energy Efficiency in Commercial PFALs*. JPFA Technical Report No. 44, pp. 80–95.",
+      "url": null
+    }
+  ],
+  "reference_count": 5,
+  "article_file": "crop-13-003.md",
+  "source_file": "13-พืชผักสลัดและพืชแนวตั้งไฮโดรโปนิกส์\\03-นวัตกรรมเกษตรแนวตั้ง Vertical Farming และไฟ LED.md"
+}
